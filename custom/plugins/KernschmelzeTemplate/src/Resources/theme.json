@@ -1,0 +1,21 @@
+{
+  "name": "KernschmelzeTemplate",
+  "author": "Shopware AG",
+  "views": [
+     "@Storefront",
+     "@Plugins",
+     "@KernschmelzeTemplate"
+  ],
+  "style": [
+    "app/storefront/src/scss/overrides.scss",
+    "@Storefront",
+    "app/storefront/src/scss/base.scss"
+  ],
+  "script": [
+    "@Storefront",
+    "app/storefront/dist/storefront/js/kernschmelze-template.js"
+  ],
+  "asset": [
+    "app/storefront/src/assets"
+  ]
+}
