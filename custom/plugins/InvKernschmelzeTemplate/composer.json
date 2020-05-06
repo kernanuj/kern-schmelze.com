@@ -1,0 +1,24 @@
+{
+    "name": "inv/kernschmelze-template",
+    "description": "KERNschmelze Theme Template",
+    "version": "1.0.0",
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Nils Harder | inventivo.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "InvKernschmelzeTemplate\\": "src/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "InvKernschmelzeTemplate\\InvKernschmelzeTemplate",
+        "label": {
+            "de-DE": "Theme für KERNschmelze",
+            "en-GB": "Theme for KERNschmelze"
+        }
+    }
+}

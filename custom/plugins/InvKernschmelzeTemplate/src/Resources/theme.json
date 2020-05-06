@@ -1,10 +1,10 @@
 {
-  "name": "KernschmelzeTemplate",
-  "author": "Shopware AG",
+  "name": "InvKernschmelzeTemplate",
+  "author": "Nils Harder | inventivo.de",
   "views": [
      "@Storefront",
      "@Plugins",
-     "@KernschmelzeTemplate"
+     "@InvKernschmelzeTemplate"
   ],
   "style": [
     "app/storefront/src/scss/overrides.scss",
@@ -13,7 +13,7 @@
   ],
   "script": [
     "@Storefront",
-    "app/storefront/dist/storefront/js/kernschmelze-template.js"
+    "app/storefront/dist/storefront/js/inv-kernschmelze-template.js"
   ],
   "asset": [
     "app/storefront/src/assets"

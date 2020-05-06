@@ -1,0 +1,23 @@
+{
+    "KernschmelzeTemplate": {
+        "topbarBenefit1" : "Abstrakte Malerei",
+        "topbarBenefit2" : "Direktverkauf",
+        "topbarBenefit3" : "Kostenfreier Versand",
+        "topbarSupportText" : "Hilfe & Support:",
+        "topbarSupportLink" : "<a href=\"kontakt@kunstraum-galerie.de\">kontakt@kunstraum-galerie.de</a>",
+        "productDetailPriceLabel" : "Preis",
+        "productDetailTaxFreeShipping": "Endpreis, keine Ausweisung der Mehrwertsteuer gemäß § 19 UStG",
+        "productDetailTaxShipping": "Endpreis zzgl. Versandkosten, <br />keine Ausweisung der Mehrwertsteuer gemäß § 19 UStG",
+        "productDetailArtist": "Künstler",
+        "productDetailTitle": "Titel",
+        "productDetailImageNumber": "Bild-Nr.",
+        "productDetailTechnique": "Technik",
+        "productDetailProcessing": "Verarbeitung",
+        "productDetailCountry": "Land",
+        "productDetailYear": "Jahr",
+        "productDetailUsp1": "Werk mit Echtheitszertifikat",
+        "productDetailUsp2": "Versicherter Versand inklusive",
+        "footerVat": "Alle Preise sind Endpreise, keine Ausweisung der Mehrwertsteuer <br />gemäß § 19 USt, <a href=\"/Shop-Service/Versand-und-Zahlung/\">zzgl. Versandkosten</a> und ggf. Nachnahmegebühren, wenn nicht anders beschrieben.",
+        "footerCopyrightInfo": "kunstraum-galerie.de. Alle Rechte vorbehalten."
+    }
+}
