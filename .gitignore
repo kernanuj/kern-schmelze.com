@@ -3,7 +3,7 @@ custom/*
 !custom/static-plugins/
 
 # INV unignore project specific files
-!custom/plugins/KernschmelzeTemplate
+!custom/plugins/InvKernschmelzeTemplate
 
 /vendor/
 /bin/vendor/
