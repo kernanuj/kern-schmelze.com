@@ -1,0 +1,16 @@
+{% block sw_cms_element_image_config %}
+    <div class="sw-cms-el-config-two-cols-text-image">
+        <sw-field class="inv-two-cols-text-image-field"
+                  v-model="element.config.imageSrc.value"
+                  type="image"
+                  label="Image Source"
+                  placeholder="Select image">
+        </sw-field>
+        <sw-field class="sw-cms-el-config-two-cols-text-image__text"
+                  v-model="element.config.content.value"
+                  type="textarea"
+                  label="Text"
+                  placeholder="Lorem ipsum ...">
+        </sw-field>
+    </div>
+{% endblock %}
