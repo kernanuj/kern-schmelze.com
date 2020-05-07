@@ -2,24 +2,33 @@
 
 .header-top {
     display: block;
-    background: $kr-color-light-gray;
-    color: $black;
+    background: $ks-anthrazit;
+    color: $white;
     padding: 2px 0;
-    font-size: 12px;
-    line-height: 14px;
+    font-size: 11px;
+    line-height: 13px;
 
     .d-flex {
+        &.row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        > div.align-items-center {
+            align-content: flex-start;
+        }
+
         .d-flex {
-            text-transform: uppercase;
+            height: 100%;
 
             .icon {
                 width: 30px;
                 height: 30px;
                 margin: 0 5px;
-                color: $black;
+                color: $white;
             }
 
-            a, a:hover { color: $black; text-decoration: underline; text-transform: none;}
+            a, a:hover { color: $white; text-decoration: none; text-transform: none; }
         }
     }
 }
