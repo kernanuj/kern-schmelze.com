@@ -4,6 +4,7 @@ custom/*
 
 # INV unignore project specific files
 !custom/plugins/InvKernschmelzeTemplate
+!custom/plugins/InvAdvancedCmsElements
 
 /vendor/
 /bin/vendor/

@@ -172,7 +172,7 @@
         "technicalName": "inv-kernschmelze-template",
         "administration": {
             "path": "Resources\/app\/administration\/src",
-            "entryFilePath": null,
+            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
             "webpack": null
         },
         "storefront": {
@@ -218,6 +218,24 @@
             "path": "Resources\/app\/administration\/src",
             "entryFilePath": "Resources\/app\/administration\/src\/main.js",
             "webpack": "Resources\/app\/administration\/build\/webpack.config.js"
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
+        }
+    },
+    "InvAdvancedCmsElements": {
+        "basePath": "custom\/plugins\/InvAdvancedCmsElements\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-advanced-cms-elements",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
+            "webpack": null
         },
         "storefront": {
             "path": "Resources\/app\/storefront\/src",
