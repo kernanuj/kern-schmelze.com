@@ -1,22 +1,9 @@
 {
-    "KernschmelzeTemplate": {
-        "topbarBenefit1" : "Abstract painting",
-        "topbarBenefit2" : "Direct sales",
-        "topbarBenefit3" : "Free shipping",
-        "topbarSupportText" : "Support:",
-        "topbarSupportHotline" : "<a href=\"kontakt@kunstraum-galerie.de\">kontakt@kunstraum-galerie.de</a>",
-        "productDetailPriceLabel" : "Preis",
-        "productDetailTaxFreeShipping": "Final price, no indication of value added tax according to § 19 UStG",
-        "productDetailTaxShipping": "Final price excl. shipping, <br />no indication of value added tax according to § 19 UStG",
-        "productDetailArtist": "Artist",
-        "productDetailTitle": "Title",
-        "productDetailImageNumber": "Image No.",
-        "productDetailTechnique": "Technique",
-        "productDetailProcessing": "Processing",
-        "productDetailCountry": "Country",
-        "productDetailYear": "Year",
-        "productDetailUsp1": "With certificate of authenticity",
-        "productDetailUsp2": "Insured shipping included",
+    "InvKernschmelzeTemplate": {
+        "topbarBenefit1" : "Roast fresh on order",
+        "topbarBenefit2" : "Free shipping from 50 €",
+        "topbarBenefit3" : "Climate Neutral Shipping",
+        "topbarSupportLink" : "<a href=\"tel:+496022687200\">+49 (0)60 22 68 720 - 0 (Mon.-Fri. 08:00-18:00 Uhr)</a>",
         "footerVat": "All prices are final prices, no value added tax according to § 19 USt, <a href=\"/Shop-Service/Shipping-and-Payment/\">plus shipping costs</a> and cash on delivery charges, if not described otherwise.",
         "footerCopyrightInfo": "kunstraum-galerie.de. All rights reserved."
     }
