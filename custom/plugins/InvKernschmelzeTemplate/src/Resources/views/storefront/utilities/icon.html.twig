@@ -1,0 +1,18 @@
+{% sw_extends '@Storefront/storefront/utilities/icon.html.twig' %}
+
+{% block utilities_icon %}
+    {% set styles = [ size, color, rotation, flip, class ] %}
+
+    {% if pack is not defined %}
+        {% set pack = 'default' %}
+    {% endif %}
+
+    <span
+        class="icon icon-{{ name }}{% for entry in styles %}{% if entry != "" %} icon-{{ entry }}{% endif %}{% endfor %}">
+        {% if pack == 'additional' %}
+            {{ source('@InvKernschmelzeTemplate/../app/storefront/dist/assets/icon/additional/'~ name ~'.svg', ignore_missing = false) }}
+        {% else %}
+            {{ source('@Storefront/../app/storefront/dist/assets/icon/'~ pack ~'/'~ name ~'.svg', ignore_missing = true) }}
+        {% endif %}
+    </span>
+{% endblock %}
