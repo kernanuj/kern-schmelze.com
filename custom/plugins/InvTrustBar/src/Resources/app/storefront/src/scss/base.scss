@@ -1,0 +1,40 @@
+@import 'abstract/variables.scss';
+
+$inv-trust-bar-background-color: #000000 !default;
+$inv-trust-bar-text-color: #FFFFFF !default;
+$inv-trust-bar-icon-color: #FFFFFF !default;
+$inv-trust-bar-icon-width: 20px !default;
+$inv-trust-bar-icon-height: 20px !default;
+
+.header-top {
+    display: block;
+    background: $inv-trust-bar-background-color;
+    color: $inv-trust-bar-text-color;
+    padding: 2px 0;
+    font-size: 11px;
+    line-height: 13px;
+
+    .d-flex {
+        &.row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        > div.align-items-center {
+            align-content: flex-start;
+        }
+
+        .d-flex {
+            height: 100%;
+
+            .icon {
+                margin: 0 5px;
+                width: $inv-trust-bar-icon-width;
+                height: $inv-trust-bar-icon-height;
+                color: $inv-trust-bar-icon-color;
+            }
+
+            a, a:hover { color: $inv-trust-bar-text-color; text-decoration: none; text-transform: none; }
+        }
+    }
+}

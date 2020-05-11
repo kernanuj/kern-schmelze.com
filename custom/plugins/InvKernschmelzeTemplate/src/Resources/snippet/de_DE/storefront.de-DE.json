@@ -1,9 +1,5 @@
 {
     "InvKernschmelzeTemplate": {
-        "topbarBenefit1" : "Röstfrisch auf Bestellung",
-        "topbarBenefit2" : "Versandkostenfrei ab 50 €",
-        "topbarBenefit3" : "Klimaneutraler Versand",
-        "topbarSupportLink" : "<a href=\"tel:+496022687200\">+49 (0)60 22 68 720 - 0 (Mo.-Fr. 08:00-18:00 Uhr)</a>",
         "footerVat": "Alle Preise sind Endpreise, keine Ausweisung der Mehrwertsteuer <br />gemäß § 19 USt, <a href=\"/Shop-Service/Versand-und-Zahlung/\">zzgl. Versandkosten</a> und ggf. Nachnahmegebühren, wenn nicht anders beschrieben.",
         "footerCopyrightInfo": "kunstraum-galerie.de. Alle Rechte vorbehalten."
     }

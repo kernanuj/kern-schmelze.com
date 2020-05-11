@@ -243,5 +243,25 @@
             "webpack": null,
             "styleFiles": []
         }
+    },
+    "InvTrustBar": {
+        "basePath": "custom\/plugins\/InvTrustBar\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-trust-bar",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": [
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvTrustBar\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
+            ]
+        }
     }
 }

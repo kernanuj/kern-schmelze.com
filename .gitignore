@@ -4,9 +4,11 @@ custom/
 
 # INV unignore project specific files
 !custom/plugins/InvKernschmelzeTemplate
-!custom/plugins/InvKernschmelzeTemplate/**
-!custom/plugins/InvHeaderTopbarBenefits
+!custom/plugins/InvKernschmelzeTemplate/*
+!custom/plugins/InvTrustBar
+!custom/plugins/InvTrustBar/*
 !custom/plugins/InvAdvancedCmsElements
+!custom/plugins/InvAdvancedCmsElements/*
 
 /vendor/
 /bin/vendor/
