@@ -1,9 +1,11 @@
-custom/*
+custom/
 !custom/plugins/.gitkeep
 !custom/static-plugins/
 
 # INV unignore project specific files
 !custom/plugins/InvKernschmelzeTemplate
+!custom/plugins/InvKernschmelzeTemplate/**
+!custom/plugins/InvHeaderTopbarBenefits
 !custom/plugins/InvAdvancedCmsElements
 
 /vendor/
