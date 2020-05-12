@@ -40,10 +40,6 @@ class ThemeVariablesSubscriber implements EventSubscriberInterface
         $configTextColorField = $this->systemConfigService->get('InvTrustbar.config.textColor', $event->getSalesChannelId());
         $event->addVariable('inv-trust-bar-text-color', $configTextColorField);
 
-        /** @var string $configIconColorField */
-        $configIconColorField = $this->systemConfigService->get('InvTrustbar.config.iconColor', $event->getSalesChannelId());
-        $event->addVariable('inv-trust-bar-icon-color', $configIconColorField);
-
         /** @var string $configIconWidthField */
         $configIconWidthField = $this->systemConfigService->get('InvTrustbar.config.iconWidth', $event->getSalesChannelId());
         $event->addVariable('inv-trust-bar-icon-width', $configIconWidthField);

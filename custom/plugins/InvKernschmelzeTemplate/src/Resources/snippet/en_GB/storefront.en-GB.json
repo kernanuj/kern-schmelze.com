@@ -1,6 +1,8 @@
 {
     "InvKernschmelzeTemplate": {
-        "footerVat": "All prices are final prices, no value added tax according to § 19 USt, <a href=\"/Shop-Service/Shipping-and-Payment/\">plus shipping costs</a> and cash on delivery charges, if not described otherwise.",
-        "footerCopyrightInfo": "kunstraum-galerie.de. All rights reserved."
+        "searchLinkText": "Suche",
+        "accountLinkText": "Account",
+        "cartLinkText": "Warenkorb",
+        "allProductsLink": "All Products"
     }
 }

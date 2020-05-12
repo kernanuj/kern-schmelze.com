@@ -226,24 +226,6 @@
             "styleFiles": []
         }
     },
-    "InvAdvancedCmsElements": {
-        "basePath": "custom\/plugins\/InvAdvancedCmsElements\/src\/",
-        "views": [
-            "Resources\/views"
-        ],
-        "technicalName": "inv-advanced-cms-elements",
-        "administration": {
-            "path": "Resources\/app\/administration\/src",
-            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
-            "webpack": null
-        },
-        "storefront": {
-            "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": null,
-            "webpack": null,
-            "styleFiles": []
-        }
-    },
     "InvTrustBar": {
         "basePath": "custom\/plugins\/InvTrustBar\/src\/",
         "views": [
@@ -260,7 +242,29 @@
             "entryFilePath": null,
             "webpack": null,
             "styleFiles": [
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvTrustBar\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/variables.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvTrustBar\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
+            ]
+        }
+    },
+    "InvAdvancedCmsBlocks": {
+        "basePath": "custom\/plugins\/InvAdvancedCmsBlocks\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-advanced-cms-blocks",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": [
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/variables.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
             ]
         }
     }

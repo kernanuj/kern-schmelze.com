@@ -1,18 +1,12 @@
 @import 'abstract/variables.scss';
 
-$inv-trust-bar-background-color: #000000 !default;
-$inv-trust-bar-text-color: #FFFFFF !default;
-$inv-trust-bar-icon-color: #FFFFFF !default;
-$inv-trust-bar-icon-width: 20px !default;
-$inv-trust-bar-icon-height: 20px !default;
-
 .header-top {
     display: block;
     background: $inv-trust-bar-background-color;
     color: $inv-trust-bar-text-color;
-    padding: 2px 0;
-    font-size: 11px;
-    line-height: 13px;
+    padding: 5px 0;
+    font-size: 12px;
+    line-height: 19px;
 
     .d-flex {
         &.row {
@@ -27,7 +21,7 @@ $inv-trust-bar-icon-height: 20px !default;
         .d-flex {
             height: 100%;
 
-            .icon {
+            .icon, img {
                 margin: 0 5px;
                 width: $inv-trust-bar-icon-width;
                 height: $inv-trust-bar-icon-height;

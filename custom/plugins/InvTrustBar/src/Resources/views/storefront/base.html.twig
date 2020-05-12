@@ -9,14 +9,24 @@
                     <div class="align-items-center">
 
                         <div class="d-flex d-inline-flex align-items-center">
+                            {#
                             {% if InvTrustbarIcon1 %}
                                 {% if '.svg' in InvTrustbarIcon1 %}
-                                    {% sw_icon 'InvTrustbarIcon1' style { 'pack': 'custom', 'size': 's' } %}
+                                    {% sw_icon InvTrustbarIcon1 style { 'pack': 'custom', 'size': 's' } %}
                                 {% else %}
-                                    {% set media = searchMedia([InvTrustbarIcon1], context.context) %}
+                                    {% set media = searchMedia([InvTrustbarIcon2], context.context) %}
                                     {% set InvTrustbarIcon1Entity = media.get(InvTrustbarIcon1) %}
                                     <img src="{{ InvTrustbarIcon1Entity.url }}" class="icon" />
                                 {% endif %}
+                            {% else %}
+                                {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
+                            {%  endif %}
+                            #}
+                            {% if InvTrustbarIcon1 %}
+                                {% set media = searchMedia([InvTrustbarIcon1], context.context) %}
+                                {% set InvTrustbarIcon1Entity = media.get(InvTrustbarIcon1) %}
+
+                                <img src="{{ InvTrustbarIcon1Entity.url }}" class="icon" />
                             {% else %}
                                 {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
                             {%  endif %}
@@ -25,14 +35,11 @@
                         </div>
 
                         <div class="d-flex d-inline-flex align-items-center">
+
                             {% if InvTrustbarIcon2 %}
-                                {% if '.svg' in InvTrustbarIcon2 %}
-                                    {% sw_icon 'InvTrustbarIcon2' style { 'pack': 'custom', 'size': 's' } %}
-                                {% else %}
-                                    {% set media = searchMedia([InvTrustbarIcon2], context.context) %}
-                                    {% set InvTrustbarIcon1Entity = media.get(InvTrustbarIcon2) %}
-                                    <img src="{{ InvTrustbarIcon2Entity.url }}" class="icon" />
-                                {% endif %}
+                                {% set media = searchMedia([InvTrustbarIcon2], context.context) %}
+                                {% set InvTrustbarIcon1Entity = media.get(InvTrustbarIcon2) %}
+                                <img src="{{ InvTrustbarIcon2Entity.url }}" class="icon" />
                             {% else %}
                                 {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
                             {%  endif %}
@@ -42,20 +49,15 @@
 
                         <div class="d-flex d-inline-flex align-items-center">
                             {% if InvTrustbarIcon3 %}
-                                {% if '.svg' in InvTrustbarIcon3 %}
-                                    {% sw_icon 'InvTrustbarIcon3' style { 'pack': 'custom', 'size': 's' } %}
-                                {% else %}
-                                    {% set media = searchMedia([InvTrustbarIcon3], context.context) %}
-                                    {% set InvTrustbarIcon3Entity = media.get(InvTrustbarIcon3) %}
-                                    <img src="{{ InvTrustbarIcon3Entity.url }}" class="icon" />
-                                {% endif %}
+                                {% set media = searchMedia([InvTrustbarIcon3], context.context) %}
+                                {% set InvTrustbarIcon3Entity = media.get(InvTrustbarIcon3) %}
+                                <img src="{{ InvTrustbarIcon3Entity.url }}" class="icon" />
                             {% else %}
                                 {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
                             {%  endif %}
 
                             {{ InvTrustbarBenefit3 }}
                         </div>
-
                     </div>
 
                     <div class="d-flex align-items-center align-self-center">

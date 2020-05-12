@@ -11,8 +11,10 @@
         class="icon icon-{{ name }}{% for entry in styles %}{% if entry != "" %} icon-{{ entry }}{% endif %}{% endfor %}">
         {% if pack == 'additional' %}
             {{ source('@InvTrustBar/../app/storefront/dist/assets/icon/additional/'~ name ~'.svg', ignore_missing = false) }}
+        {#
         {% elseif pack == 'custom' %}
-            {{ source(~ name ~, ignore_missing = false) }}
+            {{ source(''~ name ~'', ignore_missing = true) }}
+        #}
         {% else %}
             {{ source('@Storefront/../app/storefront/dist/assets/icon/'~ pack ~'/'~ name ~'.svg', ignore_missing = true) }}
         {% endif %}

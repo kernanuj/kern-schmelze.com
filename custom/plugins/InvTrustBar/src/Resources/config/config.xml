@@ -14,8 +14,8 @@
     </card>
 
     <card>
-        <title>Define three main benefits of your store and a hotline, which can be a phone number or an e-mail address</title>
-        <title lang="de-DE">Definiere drei Hauptvorteile Deines Shops und eine Hotline, die eine Telefonnummer oder eine E-Mail-Adresse sein kann</title>
+        <title>Define the three main benefits of your store and a hotline, which can be a phone number or an e-mail address</title>
+        <title lang="de-DE">Definiere die drei Hauptvorteile Deines Shops und eine Hotline, die eine Telefonnummer oder eine E-Mail-Adresse sein kann</title>
 
         <input-field type="text">
             <name>benefit1</name>
@@ -55,8 +55,8 @@
     </card>
 
     <card>
-        <title>Icon-Images</title>
-        <title lang="de-DE">Icon-Bilder</title>
+        <title>Icon-Images (ideal are .svg oder transparent .png of 20 x 20px size)</title>
+        <title lang="de-DE">Icon-Bilder (ideal sind .svg oder transparente .png mit der Größe 20 x 20px)</title>
 
         <component name="sw-media-field">
             <name>icon1</name>
@@ -118,14 +118,6 @@
             <colorOutput>hex</colorOutput>
             <label>Text color</label>
             <label lang="de-DE">Textfarbe</label>
-            <defaultValue>#FFFFFF</defaultValue>
-        </component>
-
-        <component name="sw-colorpicker">
-            <name>IconColor</name>
-            <colorOutput>hex</colorOutput>
-            <label>Icon color (only for .svg)</label>
-            <label lang="de-DE">Icon-Farbe (nur für .svg)</label>
             <defaultValue>#FFFFFF</defaultValue>
         </component>
     </card>

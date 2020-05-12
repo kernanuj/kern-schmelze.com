@@ -1,0 +1,14 @@
+{
+    "sw-cms": {
+        "blocks": {
+            "textImage": {
+                "textImageBackgroundTwoColumn": {
+                    "label": "Zwei Spalten Text mit Bildhintergrund"
+                },
+                "imageTextRowSixColumns": {
+                    "label": "Sechs Spalten, Bild/Text-Karten"
+                }
+            }
+        }
+    }
+}

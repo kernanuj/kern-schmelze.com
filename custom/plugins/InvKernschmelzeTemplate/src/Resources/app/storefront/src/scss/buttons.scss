@@ -1,0 +1,16 @@
+@import 'abstract/variables.scss';
+
+.btn {
+    font-weight: 500;
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+}
+
+.btn-primary {
+    color: $white;
+    font-size: 20px;
+    line-height: 25px;
+    font-weight: 500;
+    padding: 10px 40px;
+}

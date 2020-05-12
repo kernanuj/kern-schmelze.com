@@ -10,7 +10,7 @@ Shopware.Service('cmsService').registerCmsElement({
     configComponent: 'sw-cms-el-config-two-cols-text-image',
     previewComponent: 'sw-cms-el-preview-two-cols-text-image',
     defaultConfig: {
-        content: {
+        imageContent: {
             source: 'static',
             value: `
                 <h2>Lorem Ipsum dolor sit amet</h2>

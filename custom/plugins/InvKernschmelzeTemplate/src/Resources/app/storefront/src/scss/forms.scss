@@ -1,0 +1,8 @@
+@import 'abstract/variables.scss';
+
+.form-control {
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-color: $ks-anthrazit;
+}

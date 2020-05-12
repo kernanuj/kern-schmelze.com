@@ -1,6 +1,8 @@
 {
     "InvKernschmelzeTemplate": {
-        "footerVat": "Alle Preise sind Endpreise, keine Ausweisung der Mehrwertsteuer <br />gemäß § 19 USt, <a href=\"/Shop-Service/Versand-und-Zahlung/\">zzgl. Versandkosten</a> und ggf. Nachnahmegebühren, wenn nicht anders beschrieben.",
-        "footerCopyrightInfo": "kunstraum-galerie.de. Alle Rechte vorbehalten."
+        "searchLinkText": "Suche",
+        "accountLinkText": "Account",
+        "cartLinkText": "Warenkorb",
+        "allProductsLink": "Alle Produkte"
     }
 }
