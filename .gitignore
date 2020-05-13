@@ -3,14 +3,8 @@ custom/*
 !custom/static-plugins/*
 
 # INV unignore project specific files
-!custom/plugins/InvKernschmelzeTemplate/
-!custom/plugins/InvKernschmelzeTemplate/*
-!custom/plugins/InvTrustBar/
-!custom/plugins/InvTrustBar/*
-!custom/plugins/InvAdvancedCmsElements/
-!custom/plugins/InvAdvancedCmsElements/*
-!custom/plugins/InvAdvancedCmsBlocks/
-!custom/plugins/InvAdvancedCmsBlocks/*
+
+!.gitkeep
 
 /vendor/
 /bin/vendor/
