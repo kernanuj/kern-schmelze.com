@@ -1,0 +1,34 @@
+@import 'abstract/variables.scss';
+
+.header-top {
+    display: block;
+    background: $inv-trust-bar-background-color;
+    color: $inv-trust-bar-text-color;
+    padding: 5px 0;
+    font-size: 12px;
+    line-height: 19px;
+
+    .d-flex {
+        &.row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        > div.align-items-center {
+            align-content: flex-start;
+        }
+
+        .d-flex {
+            height: 100%;
+
+            .icon, img {
+                margin: 0 5px;
+                width: $inv-trust-bar-icon-width;
+                height: $inv-trust-bar-icon-height;
+                color: $inv-trust-bar-icon-color;
+            }
+
+            a, a:hover { color: $inv-trust-bar-text-color; text-decoration: none; text-transform: none; }
+        }
+    }
+}

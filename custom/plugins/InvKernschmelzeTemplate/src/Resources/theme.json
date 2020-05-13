@@ -1,0 +1,21 @@
+{
+  "name": "InvKernschmelzeTemplate",
+  "author": "Nils Harder | inventivo.de",
+  "views": [
+     "@Storefront",
+     "@Plugins",
+     "@InvKernschmelzeTemplate"
+  ],
+  "style": [
+    "app/storefront/src/scss/overrides.scss",
+    "@Storefront",
+    "app/storefront/src/scss/base.scss"
+  ],
+  "script": [
+    "@Storefront",
+    "app/storefront/dist/storefront/js/inv-kernschmelze-template.js"
+  ],
+  "asset": [
+    "app/storefront/src/assets"
+  ]
+}

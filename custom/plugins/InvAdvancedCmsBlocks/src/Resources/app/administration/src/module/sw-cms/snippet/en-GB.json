@@ -1,0 +1,11 @@
+{
+    "sw-cms": {
+        "blocks": {
+            "textImage": {
+                "imageTextRowSixColumns": {
+                    "label": "Six columns, Image/Text Cards"
+                }
+            }
+        }
+    }
+}

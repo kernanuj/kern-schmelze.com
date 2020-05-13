@@ -1,0 +1,85 @@
+{% sw_extends "@Storefront/storefront/base.html.twig" %}
+
+{% block base_header %}
+    {% if InvTrustbarStatus == true %}
+
+        <div class="header-top d-none d-md-block">
+            <div class="container">
+                <div class="row d-flex top-row">
+                    <div class="align-items-center">
+
+                        <div class="d-flex d-inline-flex align-items-center">
+                            {#
+                            {% if InvTrustbarIcon1 %}
+                                {% if '.svg' in InvTrustbarIcon1 %}
+                                    {% sw_icon InvTrustbarIcon1 style { 'pack': 'custom', 'size': 's' } %}
+                                {% else %}
+                                    {% set media = searchMedia([InvTrustbarIcon2], context.context) %}
+                                    {% set InvTrustbarIcon1Entity = media.get(InvTrustbarIcon1) %}
+                                    <img src="{{ InvTrustbarIcon1Entity.url }}" class="icon" />
+                                {% endif %}
+                            {% else %}
+                                {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
+                            {%  endif %}
+                            #}
+                            {% if InvTrustbarIcon1 %}
+                                {% set media = searchMedia([InvTrustbarIcon1], context.context) %}
+                                {% set InvTrustbarIcon1Entity = media.get(InvTrustbarIcon1) %}
+
+                                <img src="{{ InvTrustbarIcon1Entity.url }}" class="icon" />
+                            {% else %}
+                                {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
+                            {%  endif %}
+
+                            {{ InvTrustbarBenefit1 }}
+                        </div>
+
+                        <div class="d-flex d-inline-flex align-items-center">
+
+                            {% if InvTrustbarIcon2 %}
+                                {% set media = searchMedia([InvTrustbarIcon2], context.context) %}
+                                {% set InvTrustbarIcon1Entity = media.get(InvTrustbarIcon2) %}
+                                <img src="{{ InvTrustbarIcon2Entity.url }}" class="icon" />
+                            {% else %}
+                                {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
+                            {%  endif %}
+
+                            {{ InvTrustbarBenefit2 }}
+                        </div>
+
+                        <div class="d-flex d-inline-flex align-items-center">
+                            {% if InvTrustbarIcon3 %}
+                                {% set media = searchMedia([InvTrustbarIcon3], context.context) %}
+                                {% set InvTrustbarIcon3Entity = media.get(InvTrustbarIcon3) %}
+                                <img src="{{ InvTrustbarIcon3Entity.url }}" class="icon" />
+                            {% else %}
+                                {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
+                            {%  endif %}
+
+                            {{ InvTrustbarBenefit3 }}
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center align-self-center">
+                        {% if InvTrustbarHotline  %}
+                            {% if InvTrustbarHotlineLink %}
+                                <a href="{{InvTrustbarHotlineLink}}">
+                            {% endif %}
+
+                                {{ InvTrustbarHotline }}
+
+                            {% if InvTrustbarHotlineLink %}
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+    {{ parent() }}
+
+{% endblock %}
+

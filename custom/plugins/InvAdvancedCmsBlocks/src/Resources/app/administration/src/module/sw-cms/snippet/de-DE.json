@@ -1,0 +1,11 @@
+{
+    "sw-cms": {
+        "blocks": {
+            "textImage": {
+                "textOnImageTwoColumns": {
+                    "label": "Zwei  Spalten Text auf Bild"
+                }
+            }
+        }
+    }
+}

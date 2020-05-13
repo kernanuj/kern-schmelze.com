@@ -1,0 +1,24 @@
+{
+  "name": "inv/advanced-cms-elements",
+  "version": "1.0.0",
+  "description": "Advanced CMS-Elements for Shopware 6",
+  "authors": [
+        {
+            "name": "Nils Harder | inventivo.de"
+        }
+  ],
+  "type": "shopware-platform-plugin",
+  "license": "proprietary",
+  "autoload": {
+    "psr-4": {
+      "InvAdvancedCmsElements\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "InvAdvancedCmsElements\\InvAdvancedCmsElements",
+    "label": {
+      "de-DE": "Erweiterte CMS-Elemente für Shopware 6",
+      "en-GB": "Advanced CMS-Elements for Shopware 6"
+    }
+  }
+}
