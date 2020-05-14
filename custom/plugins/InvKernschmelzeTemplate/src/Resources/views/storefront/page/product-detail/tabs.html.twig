@@ -1,0 +1,63 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/tabs.html.twig' %}
+
+{% block page_product_detail_tabs_navigation_description %}
+    {{ parent() }}
+    {% if page.product.translated.customFields.custom_product_data_ingredients %}
+        <li class="nav-item">
+            <a class="nav-link product-detail-tab-navigation-link"
+               id="ingredients-tab"
+               data-toggle="tab"
+               data-offcanvas-tabs="true"
+               href="#ingredients-tab-pane"
+               role="tab"
+               aria-controls="ingredients-tab-pane"
+               aria-selected="false">
+
+                {{ 'InvKernschmelzeTemplate.tabs.ingredients'|trans }}
+
+                <span class="product-detail-tab-navigation-icon">
+                    {% sw_icon 'arrow-medium-right' style {'pack':'solid'} %}
+                </span>
+            </a>
+        </li>
+    {% endif %}
+    {% if page.product.translated.customFields.custom_product_data_nutritionfacts %}
+        <li class="nav-item">
+            <a class="nav-link product-detail-tab-navigation-link"
+               id="nutritionfacts-tab"
+               data-toggle="tab"
+               data-offcanvas-tabs="true"
+               href="#nutritionfacts-tab-pane"
+               role="tab"
+               aria-controls="nutritionfacts-tab-pane"
+               aria-selected="false">
+
+                {{ 'InvKernschmelzeTemplate.tabs.nutritionfacts'|trans }}
+
+                <span class="product-detail-tab-navigation-icon">
+                    {% sw_icon 'arrow-medium-right' style {'pack':'solid'} %}
+                </span>
+            </a>
+        </li>
+    {% endif %}
+{% endblock %}
+
+{% block page_product_detail_tabs_content_description %}
+    {{ parent() }}
+    {% if page.product.translated.customFields.custom_product_data_ingredients %}
+        <div class="tab-pane fade show"
+             id="ingredients-tab-pane"
+             role="tabpanel"
+             aria-labelledby="ingredients-tab">
+            {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/page/product-detail/ingredients.html.twig' %}
+        </div>
+    {% endif %}
+    {% if page.product.translated.customFields.custom_product_data_nutritionfacts %}
+        <div class="tab-pane fade show"
+             id="nutritionfacts-tab-pane"
+             role="tabpanel"
+             aria-labelledby="nutritionfacts-tab">
+            {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/page/product-detail/nutritionfacts.html.twig' %}
+        </div>
+    {% endif %}
+{% endblock %}

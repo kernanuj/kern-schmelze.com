@@ -19,7 +19,12 @@
                         right: 20px;
                         font-size: 13px;
                         line-height: 15px;
-                        color: $black;
+                        color: $ks-anthrazit;
+                        font-weight: 600;
+
+                        &:hover {
+                            text-decoration: none;
+                        }
                     }
                 }
             }

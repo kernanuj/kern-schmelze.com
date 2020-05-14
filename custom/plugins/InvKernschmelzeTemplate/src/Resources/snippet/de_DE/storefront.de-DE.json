@@ -3,6 +3,10 @@
         "searchLinkText": "Suche",
         "accountLinkText": "Account",
         "cartLinkText": "Warenkorb",
-        "allProductsLink": "Alle Produkte"
+        "allProductsLink": "Alle Produkte",
+        "tabs": {
+            "ingredients": "Zutaten",
+            "nutritionfacts": "Nährwerte"
+        }
     }
 }
