@@ -4,6 +4,9 @@
             "textImage": {
                 "imageTextRowSixColumns": {
                     "label": "Six columns, Image/Text Cards"
+                },
+                "imageTextGalleryFourColumns": {
+                    "label": "Four Columns, Image/Text-Cards"
                 }
             }
         }

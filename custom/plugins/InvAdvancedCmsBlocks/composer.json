@@ -17,8 +17,8 @@
     "extra": {
         "shopware-plugin-class": "InvAdvancedCmsBlocks\\InvAdvancedCmsBlocks",
         "label": {
-            "de-DE": "Erweiterte CMS-Elemente für Shopware 6",
-            "en-GB": "Advanced CMS-Elements for Shopware 6"
+            "de-DE": "Erweiterte CMS-Blöcke für Shopware 6",
+            "en-GB": "Advanced CMS-Blocks for Shopware 6"
         }
     }
 }

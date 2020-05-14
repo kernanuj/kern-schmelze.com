@@ -4,6 +4,12 @@
             "textImage": {
                 "textOnImageTwoColumns": {
                     "label": "Zwei  Spalten Text auf Bild"
+                },
+                "imageTextGalleryFourColumns": {
+                    "label": "Vier Spalten, Bild/Text-Karten"
+                },
+                "imageTextGallerySixColumns": {
+                    "label": "Sechs Spalten, Bild/Text-Karten"
                 }
             }
         }

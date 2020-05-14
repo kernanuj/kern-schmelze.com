@@ -1,0 +1,24 @@
+.sw-cms-block-image-text-gallery-six-columns {
+    display: grid;
+    grid-template-columns:  1fr 1fr 1fr 1fr 1fr 1fr;
+    align-content: stretch;
+    align-items: start;
+    grid-gap: 40px;
+
+    .sw-cms-el-text {
+        padding: 20px;
+    }
+
+    .sw-cms-el-image.is--cover {
+        min-height: 200px;
+    }
+
+    .sw-cms-block-image-text-gallery-six-columns__first,
+    .sw-cms-block-image-text-gallery-six-columns__second,
+    .sw-cms-block-image-text-gallery-six-columns__third,
+    .sw-cms-block-image-text-gallery-six-columns__fourth,
+    .sw-cms-block-image-text-gallery-six-columns__fifth,
+    .sw-cms-block-image-text-gallery-six-columns__sixth {
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+    }
+}
