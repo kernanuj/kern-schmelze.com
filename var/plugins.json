@@ -264,7 +264,48 @@
             "webpack": null,
             "styleFiles": [
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/variables.scss",
-                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/base.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/text-on-image-two-columns.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/image-text-gallery-four-columns.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/image-text-gallery-six-columns.scss"
+            ]
+        }
+    },
+    "SendcloudShipping": {
+        "basePath": "custom\/plugins\/SendcloudShipping\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "sendcloud-shipping",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
+        }
+    },
+    "KlarnaPayment": {
+        "basePath": "custom\/plugins\/KlarnaPayment\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "klarna-payment",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": "Resources\/app\/storefront\/src\/main.js",
+            "webpack": null,
+            "styleFiles": [
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/KlarnaPayment\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
             ]
         }
     }
