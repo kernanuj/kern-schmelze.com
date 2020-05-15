@@ -33,6 +33,36 @@
     .product-detail-buy {
         padding: 30px;
         background: $ks-lightergray;
+
+        .product-detail-name {
+            font-size: 20px;
+            line-height: 22px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .product-detail-reviews {
+            border-bottom: 1px solid $ks-lightgray;
+            padding-bottom: 20px;
+
+            .product-review-rating {
+                margin-right: 5px;
+            }
+
+            .product-detail-reviews-link {
+                color: $ks-anthrazit;
+
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+        }
+
+        .product-detail-delivery-information {
+            border-top: 1px solid $ks-lightgray;
+            padding-top: 20px;
+            margin-top: 25px;
+        }
     }
 
     .h3 {
@@ -74,6 +104,10 @@
         }
 
     }
+}
+
+.icon-review {
+    color: $ks-review-star-color;
 }
 
 .card-tabs {

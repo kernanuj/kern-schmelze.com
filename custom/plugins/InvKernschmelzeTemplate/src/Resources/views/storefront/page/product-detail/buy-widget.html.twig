@@ -1,0 +1,55 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/buy-widget.html.twig' %}
+
+{% block page_product_detail_buy_container %}
+    <div class="product-detail-name">{{ page.product.translated.name }}</div>
+        {% if page.product.ratingAverage > 0 and shopware.config.detail.showReviews %}
+            <p class="product-detail-reviews">
+                {% sw_include '@Storefront/storefront/component/review/rating.html.twig' with {
+                    points: page.product.ratingAverage,
+                    style: 'text-primary'
+                } %}
+                <a data-toggle="tab"
+                   class="product-detail-reviews-link"
+                   data-offcanvas-tabs="true"
+                   data-remote-click="true"
+                   data-remote-click-options='{
+                                        "selector": "#review-tab",
+                                        "scrollToElement": true
+                                    }'
+                   href="#review-tab-pane"
+                   aria-controls="review-tab-pane">
+                    ({{ page.reviews.totalReviews}})
+                    {#
+                    {{ "detail.reviewLinkText"|trans({'%count%': page.reviews.totalReviews})|sw_sanitize }}
+                    #}
+                </a>
+            </p>
+        {% endif %}
+    {{ parent() }}
+{% endblock %}
+
+{% block page_product_detail_buy_form %}
+    {{ parent() }}
+    <div class="product-detail-delivery-information">
+        {% sw_include '@Storefront/storefront/component/delivery-information.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block page_product_detail_reviews %}
+    {#
+        Placed right after product title in buy container
+    #}
+{% endblock %}
+
+{% block page_product_detail_delivery_informations %}
+    {#
+        Placed at bottom  of buy container.
+    #}
+{% endblock %}
+
+
+{% block page_product_detail_ordernumber_container %}
+    {#
+        Completely removed.
+    #}
+{% endblock %}

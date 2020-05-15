@@ -1,0 +1,9 @@
+{{ page.product.translated.customFields.custom_product_data_benefits.0 }}
+
+{%  if page.product.translated.customFields.custom_product_data_benefits %}
+    <ul class="product-detail-benefits">
+        {% if page.product.translated.customFields.custom_product_data_benefits.0 %}
+            <li class="benefit benefit1">Vorteil 1</li>
+        {% endif %}
+    </ul>
+{% endif %}
