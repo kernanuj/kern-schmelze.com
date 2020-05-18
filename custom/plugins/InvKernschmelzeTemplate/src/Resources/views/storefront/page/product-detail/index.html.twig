@@ -29,3 +29,22 @@
         {% sw_include '@Storefront/storefront/page/product-detail/buy-widget.html.twig' %}
     </div>
 {% endblock %}
+
+{% block page_product_detail_tabs %}
+    <div class="row">
+        <div class="col-lg-8">
+            {% if page.product.translated.customFields.custom_product_data_story %}
+                <div class="custom-product-data-story">
+                    {{ page.product.translated.customFields.custom_product_data_story|raw }}
+                </div>
+            {% endif %}
+
+            {{ parent() }}
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+{% endblock %}
+
+
+

@@ -1,5 +1,6 @@
 @import 'abstract/variables.scss';
 
+// Product headline
 .product-detail-headline {
     margin-bottom: 1em;
 
@@ -15,12 +16,14 @@
     }
 }
 
+// Product media
 .gallery-slider-thumbnails-col {
     &.is-left {
 
     }
 }
 
+// Buy container
 .product-detail-buy {
     p.delivery-information {
         margin-bottom: 0;
@@ -71,38 +74,48 @@
         text-transform: uppercase;
         font-weight: normal;
     }
+}
 
-    .product-detail-usps {
-        .kr-custom-field {
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid $black;
-            font-size: 13px;
-            line-height: 16px;
+// Story
+.custom-product-data-story {
+    .row {
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        padding-top: 30px;
+        padding-bottom: 30px;
 
-            .kr-custom-field-title {
-                font-weight: bold;
+        .col-lg-6 {
+            padding-top: 30px;
+            padding-bottom: 30px;
+
+            h3 {
+                font-weight: 600;
+            }
+
+            p {
+                font-size: 1rem;
+                line-height: 1.4rem;
+            }
+
+            img {
+                display: block;
+                width: 100%;
+                height: auto;
             }
         }
+    }
+}
 
-        .kr-trust {
-            margin-bottom: 20px;
-            .icon {
-                width: 60px;
-                height: 60px;
-                display: block;
-                margin: 0 auto;
-                text-align: center;
-            }
-            span {
-                display: block;
-                font-size: 0.85em;
-                line-height: 1.2em;
-                font-weight: bold;
-                text-align: center;
-            }
-        }
+// Benefits
+ul.product-detail-benefits {
+    list-style: none;
+    margin: 0 0 20px 0;
+    padding: 0;
+    width: 100%;
 
+    li {
+        margin-right: 20px;
     }
 }
 
@@ -110,6 +123,7 @@
     color: $ks-review-star-color;
 }
 
+// Tabs
 .card-tabs {
     .nav-link {
         font-size: 20px;
@@ -129,6 +143,10 @@
     .tab-pane {
         font-size: 1rem;
         line-height: 1.4rem;
+
+        .h3 {
+            font-weight: 600;
+        }
     }
 
     table#nutritionfacts {
@@ -143,3 +161,27 @@
         }
     }
 }
+
+// Reviews
+.product-detail-review {
+    .product-detail-review-actions {
+        background: $ks-lightergray;
+        padding: 20px 0;
+        margin: 0;
+    }
+
+    .product-detail-review-main {
+        hr {
+            display: none;
+        }
+
+        .product-detail-review-item {
+            box-shadow: 0 0 4px 0 rgba(0, 0, 0, .2);
+            border: 0;
+            padding: 20px;
+        }
+    }
+
+
+}
+

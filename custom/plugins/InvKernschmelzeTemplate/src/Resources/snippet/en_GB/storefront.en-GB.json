@@ -4,6 +4,13 @@
         "accountLinkText": "Account",
         "cartLinkText": "Warenkorb",
         "allProductsLink": "All Products",
+        "benefits": {
+            "benefit1": "Benefit 1",
+            "benefit2": "Benefit 2",
+            "benefit3": "Benefit 3",
+            "benefit4": "Benefit 4",
+            "benefit5": "Benefit 5"
+        },
         "tabs": {
             "ingredients": "Ingredients",
             "nutritionfacts": "Nutrition facts"
