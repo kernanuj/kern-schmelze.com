@@ -13,7 +13,9 @@
         },
         "tabs": {
             "ingredients": "Ingredients",
-            "nutritionfacts": "Nutrition facts"
+            "nutritionfacts": "Nutrition facts",
+            "nutritionfactsLabel": "Average nutritional values per 100g",
+            "allergensLabel": "Allergens"
         }
     }
 }
