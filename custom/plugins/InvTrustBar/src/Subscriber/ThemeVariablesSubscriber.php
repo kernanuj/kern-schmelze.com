@@ -3,7 +3,6 @@
 
 namespace InvTrustBar\Subscriber;
 
-// ...
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

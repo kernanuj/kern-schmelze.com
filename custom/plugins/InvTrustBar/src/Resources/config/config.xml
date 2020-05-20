@@ -8,7 +8,7 @@
 
         <input-field type="bool">
             <name>status</name>
-            <label>Activ</label>
+            <label>Active</label>
             <label lang="de-DE">Aktiv</label>
         </input-field>
     </card>
