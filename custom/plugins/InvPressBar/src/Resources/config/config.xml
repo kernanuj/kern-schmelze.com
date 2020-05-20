@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Configuration</title>
+        <title lang="de-DE">Konfiguration</title>
+
+        <input-field type="bool">
+            <name>status</name>
+            <label>Active</label>
+            <label lang="de-DE">Aktiv</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Display position</title>
+        <title lang="de-DE">Anzeige-Position</title>
+
+        <input-field type="single-select">
+            <name>displayPosition</name>
+            <options>
+                <option>
+                    <id>position1</id>
+                    <name>Product detail page: Above cross selling products</name>
+                    <name lang="de-DE">Produkt-Detailseite: Über Cross Selling Produkten</name>
+                </option>
+                <option>
+                    <id>position2</id>
+                    <name>Product detail page: Below cross selling products</name>
+                    <name lang="de-DE">Produkt-Detailseite: Unter Cross Selling Produkten</name>
+                </option>
+            </options>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Headline</title>
+        <title lang="de-DE">Überschrift</title>
+
+        <input-field type="text">
+            <name>headline</name>
+            <label>Headline</label>
+            <label lang="de-DE">Überschrift</label>
+            <placeholder>Known from</placeholder>
+            <placeholder lang="de-DE">Bekannt aus</placeholder>
+            <helpText>Please fill in a headline for your press bar</helpText>
+            <helpText lang="de-DE">Bitte tragen Sie eine Überschrift für den Presse-Bar ein</helpText>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Press Logos (ideal are .svg oder transparent .png of 170 x 170px size)</title>
+        <title lang="de-DE">Presse Logos (ideal sind .svg oder transparente .png mit der Größe 170 x 170px)</title>
+
+        <component name="sw-media-field">
+            <name>logo1</name>
+            <label>Upload press logo 1</label>
+            <label lang="de-DE">Presse Logo 1 hochladen</label>
+            <helpText>Ideally this is .svg oder transparent .png of 170 x 170px size.</helpText>
+            <helpText lang="de-DE">Idealerweise ist dies eine .svg-Datei mit den Maßen 170 x 170px.</helpText>
+        </component>
+
+        <component name="sw-media-field">
+            <name>logo2</name>
+            <label>Upload press logo 2</label>
+            <label lang="de-DE">Presse Logo 2 hochladen</label>
+            <helpText>Ideally this is .svg oder transparent .png of 170 x 170px size.</helpText>
+            <helpText lang="de-DE">Idealerweise ist dies eine .svg-Datei mit den Maßen 170 x 170px.</helpText>
+        </component>
+
+        <component name="sw-media-field">
+            <name>logo3</name>
+            <label>Upload press logo 3</label>
+            <label lang="de-DE">Presse Logo 3 hochladen</label>
+            <helpText>Ideally this is .svg oder transparent .png of 170 x 170px size.</helpText>
+            <helpText lang="de-DE">Idealerweise ist dies eine .svg-Datei mit den Maßen 170 x 170px.</helpText>
+        </component>
+
+        <component name="sw-media-field">
+            <name>logo4</name>
+            <label>Upload press logo 4</label>
+            <label lang="de-DE">Presse Logo 4 hochladen</label>
+            <helpText>Ideally this is .svg oder transparent .png of 170 x 170px size.</helpText>
+            <helpText lang="de-DE">Idealerweise ist dies eine .svg-Datei mit den Maßen 170 x 170px.</helpText>
+        </component>
+
+        <component name="sw-media-field">
+            <name>logo5</name>
+            <label>Upload press logo 5</label>
+            <label lang="de-DE">Presse Logo 5 hochladen</label>
+            <helpText>Ideally this is .svg oder transparent .png of 170 x 170px size.</helpText>
+            <helpText lang="de-DE">Idealerweise ist dies eine .svg-Datei mit den Maßen 170 x 170px.</helpText>
+        </component>
+
+        <component name="sw-media-field">
+            <name>logo6</name>
+            <label>Upload press logo 6</label>
+            <label lang="de-DE">Presse Logo 6 hochladen</label>
+            <helpText>Ideally this is .svg oder transparent .png of 170 x 170px size.</helpText>
+            <helpText lang="de-DE">Idealerweise ist dies eine .svg-Datei mit den Maßen 170 x 170px.</helpText>
+        </component>
+    </card>
+</config>

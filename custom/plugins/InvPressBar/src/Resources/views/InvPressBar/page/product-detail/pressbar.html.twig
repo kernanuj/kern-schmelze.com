@@ -1,0 +1,75 @@
+{% block inv_pressbar %}
+    <div class="inv-pressbar">
+        {% if InvPressBarHeadline %}
+            <h2>{{  InvPressBarHeadline }}</h2>
+        {% endif %}
+
+        <div class="row">
+            {% if InvPressBarLogo1 %}
+                {% set media = searchMedia([InvPressBarLogo1], context.context) %}
+                {% set InvPressBarLogo1Entity = media.get(InvPressBarLogo1) %}
+
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ InvPressBarLogo1Entity.url }}" />
+                    </div>
+                </div>
+            {%  endif %}
+
+            {% if InvPressBarLogo2 %}
+                {% set media = searchMedia([InvPressBarLogo2], context.context) %}
+                {% set InvPressBarLogo2Entity = media.get(InvPressBarLogo2) %}
+
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ InvPressBarLogo2Entity.url }}" />
+                    </div>
+                </div>
+            {%  endif %}
+
+            {% if InvPressBarLogo3 %}
+                {% set media = searchMedia([InvPressBarLogo3], context.context) %}
+                {% set InvPressBarLogo3Entity = media.get(InvPressBarLogo3) %}
+
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ InvPressBarLogo3Entity.url }}" />
+                    </div>
+                </div>
+            {%  endif %}
+
+            {% if InvPressBarLogo4 %}
+                {% set media = searchMedia([InvPressBarLogo4], context.context) %}
+                {% set InvPressBarLogo4Entity = media.get(InvPressBarLogo4) %}
+
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ InvPressBarLogo4Entity.url }}" />
+                    </div>
+                </div>
+            {%  endif %}
+
+            {% if InvPressBarLogo5 %}
+                {% set media = searchMedia([InvPressBarLogo5], context.context) %}
+                {% set InvPressBarLogo5Entity = media.get(InvPressBarLogo5) %}
+
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ InvPressBarLogo5Entity.url }}" />
+                    </div>
+                </div>
+            {%  endif %}
+
+            {% if InvPressBarLogo6 %}
+                {% set media = searchMedia([InvPressBarLogo6], context.context) %}
+                {% set InvPressBarLogo6Entity = media.get(InvPressBarLogo6) %}
+
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ InvPressBarLogo6Entity.url }}" />
+                    </div>
+                </div>
+            {%  endif %}
+        </div>
+    </div>
+{% endblock %}

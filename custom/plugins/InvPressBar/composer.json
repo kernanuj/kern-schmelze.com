@@ -1,0 +1,30 @@
+{
+  "name": "inv/press-bar",
+  "version": "1.0.0",
+  "description": "Display up to 6 logos in a PR-Bar at various positions of your product detail page.",
+  "authors": [
+      {
+          "name": "Nils Harder | inventivo.de"
+      }
+  ],
+  "require": {
+        "shopware/core": "~6.1.0"
+  },
+  "type": "shopware-platform-plugin",
+  "license": "proprietary",
+  "autoload": {
+    "psr-4": {
+      "InvPressBar\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "InvPressBar\\InvPressBar",
+      "copyright": "(c) by Nils Harder | inventivo.de",
+      "label": {
+          "de-DE": "Presse Bar für Shopware 6",
+          "en-GB": "Press Bar for Shopware 6"
+      }
+  },
+    "minimum-stability": "RC",
+    "prefer-stable": true
+}
