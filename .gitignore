@@ -9,6 +9,8 @@ custom/plugins/*
 !custom/plugins/InvKernschmelzeTemplate/*
 !custom/plugins/InvTrustBar/
 !custom/plugins/InvTrustBar/*
+!custom/plugins/InvPressBar/
+!custom/plugins/InvPressBar/*
 !custom/plugins/InvAdvancedCmsElements/
 !custom/plugins/InvAdvancedCmsElements/*
 !custom/plugins/InvAdvancedCmsBlocks/

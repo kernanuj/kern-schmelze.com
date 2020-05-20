@@ -1,7 +1,14 @@
 {% sw_extends '@Storefront/storefront/page/product-detail/index.html.twig' %}
 
+{% block page_product_detail_headline %}
+{% endblock %}
+
 {% block page_product_detail_media %}
     <div class="col-lg-8 product-detail-media">
+        <div class="row product-detail-headline">
+            {% sw_include '@Storefront/storefront/page/product-detail/headline.html.twig' %}
+        </div>
+
         {% if page.product.media %}
             {% sw_include '@Storefront/storefront/element/cms-element-image-gallery.html.twig' with {
                 'mediaItems': mediaItems,
@@ -44,6 +51,9 @@
 
         <div class="clearfix"></div>
     </div>
+{% endblock %}
+
+{% block page_product_detail_cross_selling %}
 {% endblock %}
 
 

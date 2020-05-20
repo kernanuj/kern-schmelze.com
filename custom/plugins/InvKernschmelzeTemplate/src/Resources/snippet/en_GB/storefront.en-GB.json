@@ -13,9 +13,19 @@
         },
         "tabs": {
             "ingredients": "Ingredients",
-            "nutritionfacts": "Nutrition facts",
-            "nutritionfactsLabel": "Average nutritional values per 100g",
-            "allergensLabel": "Allergens"
+            "nutritionfacts": {
+                "title": "Nutrition facts",
+                "label": "Average nutritional values per 100g",
+                "allergensLabel": "Allergens",
+                "calorificValueKcal": "Calorific value kcal",
+                "calorificValueKj": "Calorific value kj",
+                "proteinG": "Protein (g)",
+                "carbohydratesG": "Carbohydrates (g)",
+                "sugarG": "of which sugar (g)",
+                "fatG": "Fat (g)",
+                "saturatedfattyAcidsG": "of which saturated fatty acids (g)",
+                "saltG": "Salt (g)"
+            }
         }
     }
 }

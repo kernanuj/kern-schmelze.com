@@ -21,7 +21,7 @@
             </a>
         </li>
     {% endif %}
-    {% if page.product.translated.customFields.custom_product_data_nutritionfacts %}
+    {% if page.product.translated.customFields.custom_product_data_allergens or page.product.translated.customFields.custom_product_data_calorific_value_kcal %}
         <li class="nav-item">
             <a class="nav-link product-detail-tab-navigation-link"
                id="nutritionfacts-tab"
@@ -32,7 +32,7 @@
                aria-controls="nutritionfacts-tab-pane"
                aria-selected="false">
 
-                {{ 'InvKernschmelzeTemplate.tabs.nutritionfacts'|trans }}
+                {{ 'InvKernschmelzeTemplate.tabs.nutritionfacts.title'|trans }}
 
                 <span class="product-detail-tab-navigation-icon">
                     {% sw_icon 'arrow-medium-right' style {'pack':'solid'} %}
@@ -52,7 +52,7 @@
             {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/page/product-detail/ingredients.html.twig' %}
         </div>
     {% endif %}
-    {% if page.product.translated.customFields.custom_product_data_nutritionfacts %}
+    {% if page.product.translated.customFields.custom_product_data_allergens or page.product.translated.customFields.custom_product_data_calorific_value_kcal %}
         <div class="tab-pane fade show"
              id="nutritionfacts-tab-pane"
              role="tabpanel"

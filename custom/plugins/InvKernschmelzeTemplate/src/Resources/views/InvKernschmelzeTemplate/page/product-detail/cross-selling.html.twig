@@ -1,0 +1,25 @@
+{% block page_product_detail_cross_selling_fullwidth %}
+    {% if InvPressBarStatus == 1 and InvPressBarDisplayPosition == 'position1' %}
+        <div class="container">
+            {% sw_include '@InvPressBar/InvPressBar/page/product-detail/pressbar.html.twig' %}
+        </div>
+    {% endif %}
+
+    <div class="product-detail-cross-selling">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    {% sw_include '@Storefront/storefront/page/product-detail/cross-selling/tabs.html.twig' with {
+                        crossSellings: page.crossSellings
+                    } only %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if InvPressbarStatus == true and InvPressBarDisplayPosition == 'position2' %}
+        <div class="container">
+            {% sw_include '@InvPressBar/InvPressBar/page/product-detail/pressbar.html.twig' %}
+        </div>
+    {% endif %}
+{% endblock %}

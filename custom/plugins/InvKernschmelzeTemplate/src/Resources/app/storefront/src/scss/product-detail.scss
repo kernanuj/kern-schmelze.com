@@ -1,12 +1,48 @@
 @import 'abstract/variables.scss';
 
+.product-detail {
+    h2 {
+        font-size: 28px;
+        line-height: 32px;
+        position: relative;
+        margin: 0 0 30px 0;
+        padding: 0 0 15px 0;
+
+        &:after {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            content: "";
+            height: 2px;
+            background-color: $ks-green;
+            width: 60px;
+        }
+    }
+}
+
+// Breadcrumbs
+.product-detail-content {
+    .product-breadcrumb {
+        margin-top: 0;
+
+        a {
+            font-size: 12px;
+
+            &.is-active {
+                font-weight: 400;
+            }
+        }
+
+        svg {
+            top: 1px;
+        }
+    }
+}
+
 // Product headline
 .product-detail-headline {
     margin-bottom: 1em;
-
-    h1 {
-        display: inline;
-    }
+    display: block;
 
     .col,
     .col-md-auto {
@@ -124,40 +160,45 @@ ul.product-detail-benefits {
 }
 
 // Tabs
-.card-tabs {
-    .nav-link {
-        font-size: 20px;
-        line-height: 22px;
-        text-transform: uppercase;
-        letter-spacing: .2px;
-        -moz-letter-spacing: .2px;
-        -webkit-letter-spacing: .6px;
-        margin-right: 15px;
-        font-weight: 500;
+.product-detail-tabs {
+    margin-top: 30px;
+    margin-bottom: 40px;
 
-        &.active {
-            color: $ks-green;
-        }
-    }
+    .card-tabs {
+        .nav-link {
+            font-size: 20px;
+            line-height: 22px;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            -moz-letter-spacing: .6px;
+            -webkit-letter-spacing: .6px;
+            margin-right: 15px;
+            font-weight: 500;
 
-    .tab-pane {
-        font-size: 1rem;
-        line-height: 1.4rem;
-
-        .h3 {
-            font-weight: 600;
-        }
-    }
-
-    table#nutritionfacts {
-        margin-bottom: 30px;
-
-        tr:nth-child(even) {
-            background: $ks-lightbrown;
+            &.active {
+                color: $ks-green;
+            }
         }
 
-        th, td {
-            padding: 5px 20px;
+        .tab-pane {
+            font-size: 1rem;
+            line-height: 1.4rem;
+
+            .h3 {
+                font-weight: 600;
+            }
+        }
+
+        table#nutritionfacts {
+            margin-bottom: 30px;
+
+            tr:nth-child(even) {
+                background: $ks-lightbrown;
+            }
+
+            th, td {
+                padding: 5px 20px;
+            }
         }
     }
 }
@@ -181,7 +222,81 @@ ul.product-detail-benefits {
             padding: 20px;
         }
     }
-
-
 }
 
+.inv-pressbar {
+    margin-bottom: 100px;
+
+    h2 {
+        font-size: 28px;
+        line-height: 32px;
+        position: relative;
+        margin: 0 0 30px 0;
+        padding: 0 0 15px 0;
+
+        &:after {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            content: "";
+            height: 2px;
+            background-color: $ks-green;
+            width: 60px;
+        }
+    }
+
+    .card {
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, .2);
+        border: 0;
+    }
+}
+
+// Cross Selling
+.product-detail-cross-selling {
+    background: $ks-lightergray;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    margin-bottom: 80px;
+
+    .card-tabs {
+        margin-top: 0;
+
+        .card-header {
+            padding: 0;
+        }
+
+        .nav-link {
+            color: $ks-anthrazit;
+            text-transform: none;
+            font-weight: 600;
+            font-size: 28px;
+            line-height: 32px;
+            position: relative;
+            margin: 0;
+            padding: 0 0 15px 0;
+            background: none;
+            border: 0;
+
+            &.active {
+                color: $ks-anthrazit;
+            }
+
+            &:after {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                content: "";
+                height: 2px;
+                background-color: $ks-green;
+                width: 60px;
+            }
+        }
+    }
+
+    .product-slider {
+        &.has-nav {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+}

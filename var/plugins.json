@@ -308,5 +308,26 @@
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/KlarnaPayment\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
             ]
         }
+    },
+    "InvPressBar": {
+        "basePath": "custom\/plugins\/InvPressBar\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-press-bar",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": [
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvPressBar\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/variables.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvPressBar\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
+            ]
+        }
     }
 }

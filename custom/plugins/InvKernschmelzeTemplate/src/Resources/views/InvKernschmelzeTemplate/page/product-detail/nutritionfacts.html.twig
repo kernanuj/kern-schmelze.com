@@ -1,81 +1,85 @@
 {% sw_extends '@Storefront/storefront/utilities/offcanvas.html.twig' %}
 
 {% block utilities_offcanvas_content %}
-    <div class="h3 product-detail-nutritionfacts-title">
-        {{ 'InvKernschmelzeTemplate.tabs.nutritionfacts'|trans }}
-    </div>
 
-    <div class="product-detail-nutritionfacts-text" itemprop="nutritionfacts">
-
+    <div class="product-detail-nutritionfacts-text row" itemprop="nutritionfacts">
         {% if page.product.translated.customFields.custom_product_data_calorific_value_kcal %}
-            <table id="nutritionfacts" cellpadding="0" cellspacing="0" border="0">
-                <tbody>
-                    <tr class="first odd">
-                        <th colspan="2">{{ 'InvKernschmelzeTemplate.tabs.nutritionfactsLabel'|trans }}</th>
-                    </tr>
-                    {% if page.product.translated.customFields.custom_product_data_calorific_value_kcal  %}
-                        <tr>
-                            <td>Brennwert kcal</td>
-                            <td class="last">{{ page.product.translated.customFields.custom_product_data_calorific_value_kcal  }}</td>
-                        </tr>
-                    {% endif %}
+            <div class="col-lg-6">
+                <div class="h3 product-detail-nutritionfacts-title">
+                    {{ 'InvKernschmelzeTemplate.tabs.nutritionfacts.title'|trans }}
+                </div>
 
-                    {% if page.product.translated.customFields.custom_product_data_calorific_value_kj  %}
-                        <tr>
-                            <td>Brennwert kj</td>
-                            <td class="last">{{ page.product.translated.customFields.custom_product_data_calorific_value_kj  }}</td>
+                <table id="nutritionfacts" cellpadding="0" cellspacing="0" border="0">
+                    <tbody>
+                        <tr class="first odd">
+                            <th colspan="2">{{ 'InvKernschmelzeTemplate.tabs.nutritionfacts.label'|trans }}</th>
                         </tr>
-                    {% endif %}
+                        {% if page.product.translated.customFields.custom_product_data_calorific_value_kcal  %}
+                            <tr>
+                                <td>{{ 'InvKernschmelzeTemplate.tabs.nutritionfacts.calorificValueKcal'|trans }}</td>
+                                <td class="last">{{ page.product.translated.customFields.custom_product_data_calorific_value_kcal  }}</td>
+                            </tr>
+                        {% endif %}
 
-                    {% if page.product.translated.customFields.custom_product_data_protein_g  %}
-                        <tr>
-                            <td>Eiweiß (g)</td>
-                            <td class="last">{{ page.product.translated.customFields.custom_product_data_protein_g  }}</td>
-                        </tr>
-                    {% endif %}
+                        {% if page.product.translated.customFields.custom_product_data_calorific_value_kj  %}
+                            <tr>
+                                <td>{{ 'InvKernschmelzeTemplate.tabs.nutritionfacts.calorificValueKj'|trans }}</td>
+                                <td class="last">{{ page.product.translated.customFields.custom_product_data_calorific_value_kj  }}</td>
+                            </tr>
+                        {% endif %}
 
-                    {% if page.product.translated.customFields.custom_product_data_carbohydrates_g  %}
-                        <tr>
-                            <td>Kohlenhydrate (g)</td>
-                            <td class="last">{{ page.product.translated.customFields.custom_product_data_carbohydrates_g  }}</td>
-                        </tr>
-                    {% endif %}
+                        {% if page.product.translated.customFields.custom_product_data_protein_g  %}
+                            <tr>
+                                <td>{{ 'InvKernschmelzeTemplate.tabs.nutritionfacts.proteinG'|trans }}</td>
+                                <td class="last">{{ page.product.translated.customFields.custom_product_data_protein_g  }}</td>
+                            </tr>
+                        {% endif %}
 
-                    {% if page.product.translated.customFields.custom_product_data_sugar_g  %}
-                        <tr>
-                            <td>davon Zucker (g)</td>
-                            <td class="last">{{ page.product.translated.customFields.custom_product_data_sugar_g  }}</td>
-                        </tr>
-                    {% endif %}
+                        {% if page.product.translated.customFields.custom_product_data_carbohydrates_g  %}
+                            <tr>
+                                <td>{{ 'InvKernschmelzeTemplate.tabs.nutritionfacts.carbohydratesG'|trans }}</td>
+                                <td class="last">{{ page.product.translated.customFields.custom_product_data_carbohydrates_g  }}</td>
+                            </tr>
+                        {% endif %}
 
-                    {% if page.product.translated.customFields.custom_product_data_fat_g  %}
-                        <tr>
-                            <td>Fett (g)</td>
-                            <td class="last">{{ page.product.translated.customFields.custom_product_data_fat_g  }}</td>
-                        </tr>
-                    {% endif %}
+                        {% if page.product.translated.customFields.custom_product_data_sugar_g  %}
+                            <tr>
+                                <td>{{ 'InvKernschmelzeTemplate.tabs.nutritionfacts.sugarG'|trans }}</td>
+                                <td class="last">{{ page.product.translated.customFields.custom_product_data_sugar_g  }}</td>
+                            </tr>
+                        {% endif %}
 
-                    {% if page.product.translated.customFields.custom_product_data_saturated_fatty_acids_g  %}
-                        <tr>
-                            <td>davon gesättigte Fettsäuren (g)</td>
-                            <td class="last">{{ page.product.translated.customFields.custom_product_data_saturated_fatty_acids_g  }}</td>
-                        </tr>
-                    {% endif %}
+                        {% if page.product.translated.customFields.custom_product_data_fat_g  %}
+                            <tr>
+                                <td>{{ 'InvKernschmelzeTemplate.tabs.nutritionfacts.fatG'|trans }}</td>
+                                <td class="last">{{ page.product.translated.customFields.custom_product_data_fat_g  }}</td>
+                            </tr>
+                        {% endif %}
 
-                    {% if page.product.translated.customFields.custom_product_data_salt_g  %}
-                        <tr>
-                            <td>Salz (g)</td>
-                            <td class="last">{{ page.product.translated.customFields.custom_product_data_salt_g  }}</td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
+                        {% if page.product.translated.customFields.custom_product_data_saturated_fatty_acids_g  %}
+                            <tr>
+                                <td>{{ 'InvKernschmelzeTemplate.tabs.nutritionfacts.saturatedfattyAcidsG'|trans }}</td>
+                                <td class="last">{{ page.product.translated.customFields.custom_product_data_saturated_fatty_acids_g  }}</td>
+                            </tr>
+                        {% endif %}
+
+                        {% if page.product.translated.customFields.custom_product_data_salt_g  %}
+                            <tr>
+                                <td>{{ 'InvKernschmelzeTemplate.tabs.nutritionfacts.saltG'|trans }}</td>
+                                <td class="last">{{ page.product.translated.customFields.custom_product_data_salt_g  }}</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
         {% endif %}
 
         {% if page.product.translated.customFields.custom_product_data_allergens %}
-            <h3>{{ 'InvKernschmelzeTemplate.tabs.allergensLabel'|trans }}</h3>
-            <div>
-                {{ page.product.translated.customFields.custom_product_data_allergens }}
+            <div class="col-lg-6">
+                <h3>{{ 'InvKernschmelzeTemplate.tabs.nutritionfacts.allergensLabel'|trans }}</h3>
+                <div>
+                    {{ page.product.translated.customFields.custom_product_data_allergens }}
+                </div>
             </div>
         {% endif %}
 

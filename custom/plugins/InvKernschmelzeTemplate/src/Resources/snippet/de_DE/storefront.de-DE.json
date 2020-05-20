@@ -13,9 +13,19 @@
         },
         "tabs": {
             "ingredients": "Zutaten",
-            "nutritionfacts": "Nährwerte",
-            "nutritionfactsLabel": "Durchschnittliche Nährwerte pro 100g",
-            "allergensLabel": "Allergene"
+            "nutritionfacts": {
+                "title": "Nährwerttabelle",
+                "label": "Durchschnittliche Nährwerte pro 100g",
+                "allergensLabel": "Allergene",
+                "calorificValueKcal": "Brennwert kcal",
+                "calorificValueKj": "Brennwert kj",
+                "proteinG": "Eiweiß (g)",
+                "carbohydratesG": "Kohlenhydrate (g)",
+                "sugarG": "davon Zucker (g)",
+                "fatG": "Fett (g)",
+                "saturatedfattyAcidsG": "davon gesättigte Fettsäuren (g)",
+                "saltG": "Salz (g)"
+            }
         }
     }
 }
