@@ -64,3 +64,4 @@ custom/plugins/*
 !/var/queue/.gitkeep
 !/var/test/.gitkeep
 !/var/plugins.json
+!.gitkeep
