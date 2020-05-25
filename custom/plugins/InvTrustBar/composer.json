@@ -4,11 +4,14 @@
   "description": "Display your shops's benefits in a trust bar at the top of each page.",
   "authors": [
         {
-            "name": "Nils Harder | inventivo.de"
+            "name": "Nils Harder | inventivo.de",
+            "homepage": "https://www.inventivo.de",
+            "email": "hallo@inventivo.de"
         }
   ],
   "require": {
-    "shopware/core": "~6.1.0"
+    "php": ">=7.2",
+    "shopware/core": ">=6.0.0"
   },
   "type": "shopware-platform-plugin",
   "license": "proprietary",
@@ -21,8 +24,12 @@
     "shopware-plugin-class": "InvTrustBar\\InvTrustBar",
     "copyright": "(c) by Nils Harder | inventivo.de",
     "label": {
-    "de-DE": "Trust Bar für Shopware 6",
-    "en-GB": "Trust Bar for Shopware 6"
+        "de-DE": "Trust Bar für Shopware 6",
+        "en-GB": "Trust Bar for Shopware 6"
+    },
+  "description": {
+      "de-DE": "Zeige die Vorteile Deines Shops in einem Trust Bar oben auf jeder Seite an.",
+      "en-GB": "Display your shops's benefits in a trust bar at the top of each page."
     }
   },
     "minimum-stability": "RC",

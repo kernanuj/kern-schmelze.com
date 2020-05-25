@@ -3,10 +3,11 @@
 
 namespace InvTrustBar\Subscriber;
 
-use Shopware\Core\System\SystemConfig\SystemConfigService;
+use Shopware\Storefront\Event\ThemeCompilerEnrichScssVariablesEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-
 use Shopware\Storefront\Event\StorefrontRenderEvent;
+
+use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class ThemeVariablesSubscriber implements EventSubscriberInterface
 {
@@ -32,69 +33,90 @@ class ThemeVariablesSubscriber implements EventSubscriberInterface
     public function onAddVariables(ThemeCompilerEnrichScssVariablesEvent $event)
     {
         /** @var string $configBackgroundColorField */
-        $configBackgroundColorField = $this->systemConfigService->get('InvTrustbar.config.backgroundColor', $event->getSalesChannelId());
-        $event->addVariable('inv-trust-bar-background-color', $configBackgroundColorField);
+        $configBackgroundColorField = $this->systemConfigService->get('InvTrustBar.config.backgroundColor', $event->getSalesChannelId());
+        if ($configBackgroundColorField) {
+            $event->addVariable('inv-trust-bar-background-color', $configBackgroundColorField);
+        }
 
         /** @var string $configTextColorField */
-        $configTextColorField = $this->systemConfigService->get('InvTrustbar.config.textColor', $event->getSalesChannelId());
-        $event->addVariable('inv-trust-bar-text-color', $configTextColorField);
+        $configTextColorField = $this->systemConfigService->get('InvTrustBar.config.textColor', $event->getSalesChannelId());
+        if ($configTextColorField) {
+            $event->addVariable('inv-trust-bar-text-color', $configTextColorField);
+        }
 
         /** @var string $configIconWidthField */
-        $configIconWidthField = $this->systemConfigService->get('InvTrustbar.config.iconWidth', $event->getSalesChannelId());
-        $event->addVariable('inv-trust-bar-icon-width', $configIconWidthField);
+        $configIconWidthField = $this->systemConfigService->get('InvTrustBar.config.iconWidth', $event->getSalesChannelId());
+        if ($configIconWidthField) {
+            $event->addVariable('inv-trust-bar-icon-width', $configIconWidthField);
+        }
 
         /** @var string $configIconHeightField */
-        $configIconHeightField = $this->systemConfigService->get('InvTrustbar.config.iconHeight', $event->getSalesChannelId());
-        $event->addVariable('inv-trust-bar-icon-height', $configIconHeightField);
+        $configIconHeightField = $this->systemConfigService->get('InvTrustBar.config.iconHeight', $event->getSalesChannelId());
+        if ($configIconHeightField) {
+            $event->addVariable('inv-trust-bar-icon-height', $configIconHeightField);
+        }
 
+        /** @var string $configFontSizeField */
+        $configFontSizeField = $this->systemConfigService->get('InvTrustBar.config.fontSize', $event->getSalesChannelId());
+        if ($configFontSizeField) {
+            $event->addVariable('inv-trust-bar-font-size', $configFontSizeField);
+        }
 
-        $configFields = $this->systemConfigService->get('InvTrustbar.config', $event->getSalesChannelId());
+        /** @var string $configLineHeightField */
+        $configLineHeightField = $this->systemConfigService->get('InvTrustBar.config.lineHeight', $event->getSalesChannelId());
+        if ($configLineHeightField) {
+            $event->addVariable('inv-trust-bar-line-height', $configLineHeightField);
+        }
+
+        /*$configFields = $this->systemConfigService->get('InvTrustBar.config', $event->getSalesChannelId());
 
         foreach($configFields as $key => $value) {
             // Convert `customVariableName` to `custom-variable-name`
             $variableName = str_replace('_', '-', (new CamelCaseToSnakeCaseNameConverter())->normalize($key));
 
-            $event->addVariable($variableName, $value);
-        }
+            if ($value) {
+                $event->addVariable($variableName, $value);
+            }
+        }*/
     }
 
     public function onStorefrontRender(StorefrontRenderEvent $event)
     {
-        /** @var bool $InvTrustbarStatus */
-        $InvTrustbarStatus = $this->systemConfigService->get('InvTrustBar.config.status');
-        $event->setParameter('InvTrustbarStatus', $InvTrustbarStatus);
+        /** @var bool $InvTrustBarStatus */
+        $InvTrustBarStatus = $this->systemConfigService->get('InvTrustBar.config.status');
+        $event->setParameter('InvTrustBarStatus', $InvTrustBarStatus);
 
-        /** @var string $InvTrustbarBenefit1 */
-        $InvTrustbarBenefit1 = $this->systemConfigService->get('InvTrustBar.config.benefit1');
-        $event->setParameter('InvTrustbarBenefit1', $InvTrustbarBenefit1);
+        /** @var string $InvTrustBarBenefit1 */
+        $InvTrustBarBenefit1 = $this->systemConfigService->get('InvTrustBar.config.benefit1');
+        $event->setParameter('InvTrustBarBenefit1', $InvTrustBarBenefit1);
 
-        /** @var string $InvTrustbarBenefit2 */
-        $InvTrustbarBenefit2 = $this->systemConfigService->get('InvTrustBar.config.benefit2');
-        $event->setParameter('InvTrustbarBenefit2', $InvTrustbarBenefit2);
+        /** @var string $InvTrustBarBenefit2 */
+        $InvTrustBarBenefit2 = $this->systemConfigService->get('InvTrustBar.config.benefit2');
+        $event->setParameter('InvTrustBarBenefit2', $InvTrustBarBenefit2);
 
-        /** @var string $InvTrustbarBenefit3 */
-        $InvTrustbarBenefit3 = $this->systemConfigService->get('InvTrustBar.config.benefit3');
-        $event->setParameter('InvTrustbarBenefit3', $InvTrustbarBenefit3);
+        /** @var string $InvTrustBarBenefit3 */
+        $InvTrustBarBenefit3 = $this->systemConfigService->get('InvTrustBar.config.benefit3');
+        $event->setParameter('InvTrustBarBenefit3', $InvTrustBarBenefit3);
 
-        /** @var string $InvTrustbarHotline */
-        $InvTrustbarHotline = $this->systemConfigService->get('InvTrustBar.config.hotline');
-        $event->setParameter('InvTrustbarHotline', $InvTrustbarHotline);
+        /** @var string $InvTrustBarHotline */
+        $InvTrustBarHotline = $this->systemConfigService->get('InvTrustBar.config.hotline');
+        $event->setParameter('InvTrustBarHotline', $InvTrustBarHotline);
 
-        /** @var string $InvTrustbarHotlineLink */
-        $InvTrustbarHotlineLink = $this->systemConfigService->get('InvTrustBar.config.hotlineLink');
-        $event->setParameter('InvTrustbarHotlineLink', $InvTrustbarHotlineLink);
+        /** @var string $InvTrustBarHotlineLink */
+        $InvTrustBarHotlineLink = $this->systemConfigService->get('InvTrustBar.config.hotlineLink');
+        $event->setParameter('InvTrustBarHotlineLink', $InvTrustBarHotlineLink);
 
-        /** @var string $InvTrustbarIcon1 */
-        $InvTrustbarIcon1 = $this->systemConfigService->get('InvTrustBar.config.icon1');
-        $event->setParameter('InvTrustbarIcon1', $InvTrustbarIcon1);
+        /** @var string $InvTrustBarIcon1 */
+        $InvTrustBarIcon1 = $this->systemConfigService->get('InvTrustBar.config.icon1');
+        $event->setParameter('InvTrustBarIcon1', $InvTrustBarIcon1);
 
-        /** @var string $InvTrustbarIcon2 */
-        $InvTrustbarIcon2 = $this->systemConfigService->get('InvTrustBar.config.icon2');
-        $event->setParameter('InvTrustbarIcon2', $InvTrustbarIcon2);
+        /** @var string $InvTrustBarIcon2 */
+        $InvTrustBarIcon2 = $this->systemConfigService->get('InvTrustBar.config.icon2');
+        $event->setParameter('InvTrustBarIcon2', $InvTrustBarIcon2);
 
-        /** @var string $InvTrustbarIcon3 */
-        $InvTrustbarIcon3 = $this->systemConfigService->get('InvTrustBar.config.icon3');
-        $event->setParameter('InvTrustbarIcon3', $InvTrustbarIcon3);
+        /** @var string $InvTrustBarIcon3 */
+        $InvTrustBarIcon3 = $this->systemConfigService->get('InvTrustBar.config.icon3');
+        $event->setParameter('InvTrustBarIcon3', $InvTrustBarIcon3);
 
     }
 }

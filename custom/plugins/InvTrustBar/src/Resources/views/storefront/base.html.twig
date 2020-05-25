@@ -1,74 +1,59 @@
 {% sw_extends "@Storefront/storefront/base.html.twig" %}
 
 {% block base_header %}
-    {% if InvTrustbarStatus == true %}
-
+    {% if shopware.config.InvTrustBar.config.status == true %}
         <div class="header-top d-none d-md-block">
             <div class="container">
                 <div class="row d-flex top-row">
                     <div class="align-items-center">
 
                         <div class="d-flex d-inline-flex align-items-center">
-                            {#
-                            {% if InvTrustbarIcon1 %}
-                                {% if '.svg' in InvTrustbarIcon1 %}
-                                    {% sw_icon InvTrustbarIcon1 style { 'pack': 'custom', 'size': 's' } %}
-                                {% else %}
-                                    {% set media = searchMedia([InvTrustbarIcon2], context.context) %}
-                                    {% set InvTrustbarIcon1Entity = media.get(InvTrustbarIcon1) %}
-                                    <img src="{{ InvTrustbarIcon1Entity.url }}" class="icon" />
-                                {% endif %}
-                            {% else %}
-                                {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
-                            {%  endif %}
-                            #}
-                            {% if InvTrustbarIcon1 %}
-                                {% set media = searchMedia([InvTrustbarIcon1], context.context) %}
-                                {% set InvTrustbarIcon1Entity = media.get(InvTrustbarIcon1) %}
+                            {% if shopware.config.InvTrustBar.config.icon1 %}
+                                {% set media = searchMedia([shopware.config.InvTrustBar.config.icon1], context.context) %}
+                                {% set icon1Entity = media.get(shopware.config.InvTrustBar.config.icon1) %}
 
-                                <img src="{{ InvTrustbarIcon1Entity.url }}" class="icon" />
+                                <img src="{{ icon1Entity.url }}" class="icon" />
                             {% else %}
                                 {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
                             {%  endif %}
 
-                            {{ InvTrustbarBenefit1 }}
+                            {{ shopware.config.InvTrustBar.config.benefit1 }}
                         </div>
 
                         <div class="d-flex d-inline-flex align-items-center">
-
-                            {% if InvTrustbarIcon2 %}
-                                {% set media = searchMedia([InvTrustbarIcon2], context.context) %}
-                                {% set InvTrustbarIcon1Entity = media.get(InvTrustbarIcon2) %}
-                                <img src="{{ InvTrustbarIcon2Entity.url }}" class="icon" />
+                            {% if shopware.config.InvTrustBar.config.icon2 %}
+                                {% set media = searchMedia([shopware.config.InvTrustBar.config.icon2], context.context) %}
+                                {% set icon2Entity = media.get(shopware.config.InvTrustBar.config.icon2) %}
+                                <img src="{{ icon2Entity.url }}" class="icon" />
                             {% else %}
                                 {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
                             {%  endif %}
 
-                            {{ InvTrustbarBenefit2 }}
+                            {{ shopware.config.InvTrustBar.config.benefit2 }}
                         </div>
 
                         <div class="d-flex d-inline-flex align-items-center">
-                            {% if InvTrustbarIcon3 %}
-                                {% set media = searchMedia([InvTrustbarIcon3], context.context) %}
-                                {% set InvTrustbarIcon3Entity = media.get(InvTrustbarIcon3) %}
-                                <img src="{{ InvTrustbarIcon3Entity.url }}" class="icon" />
+                            {% if shopware.config.InvTrustBar.config.icon3 %}
+                                {% set media = searchMedia([shopware.config.InvTrustBar.config.icon3], context.context) %}
+                                {% set icon3Entity = media.get(shopware.config.InvTrustBar.config.icon3) %}
+                                <img src="{{ icon3Entity.url }}" class="icon" />
                             {% else %}
                                 {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
                             {%  endif %}
 
-                            {{ InvTrustbarBenefit3 }}
+                            {{ shopware.config.InvTrustBar.config.benefit3 }}
                         </div>
                     </div>
 
                     <div class="d-flex align-items-center align-self-center">
-                        {% if InvTrustbarHotline  %}
-                            {% if InvTrustbarHotlineLink %}
-                                <a href="{{InvTrustbarHotlineLink}}">
+                        {% if shopware.config.InvTrustBar.config.hotline  %}
+                            {% if shopware.config.InvTrustBar.config.hotlineLink %}
+                                <a href="{{ shopware.config.InvTrustBar.config.hotlineLink }}">
                             {% endif %}
 
-                                {{ InvTrustbarHotline }}
+                                {{ shopware.config.InvTrustBar.config.hotline }}
 
-                            {% if InvTrustbarHotlineLink %}
+                            {% if shopware.config.InvTrustBar.config.hotlineLink %}
                                 </a>
                             {% endif %}
                         {% endif %}

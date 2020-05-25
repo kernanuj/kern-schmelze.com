@@ -5,8 +5,8 @@
     background: $inv-trust-bar-background-color;
     color: $inv-trust-bar-text-color;
     padding: 5px 0;
-    font-size: 12px;
-    line-height: 19px;
+    font-size: $inv-trust-bar-font-size;
+    line-height: $inv-trust-bar-line-height;
 
     .d-flex {
         &.row {
@@ -26,6 +26,12 @@
                 width: $inv-trust-bar-icon-width;
                 height: $inv-trust-bar-icon-height;
                 color: $inv-trust-bar-icon-color;
+            }
+
+            .icon {
+                > svg {
+                    top: 0;
+                }
             }
 
             a, a:hover { color: $inv-trust-bar-text-color; text-decoration: none; text-transform: none; }

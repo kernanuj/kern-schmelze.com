@@ -5,111 +5,198 @@
     <card>
         <title>Configuration</title>
         <title lang="de-DE">Konfiguration</title>
+        <title lang="es-ES">Configuración</title>
+        <title lang="fr-FR">Configuration</title>
+        <title lang="nl-NL">Configuratie</title>
 
         <input-field type="bool">
             <name>status</name>
             <label>Active</label>
             <label lang="de-DE">Aktiv</label>
+            <label lang="es-ES">Activado</label>
+            <label lang="fr-FR">Actif</label>
+            <label lang="nl-NL">Actief</label>
         </input-field>
     </card>
 
     <card>
         <title>Define the three main benefits of your store and a hotline, which can be a phone number or an e-mail address</title>
         <title lang="de-DE">Definiere die drei Hauptvorteile Deines Shops und eine Hotline, die eine Telefonnummer oder eine E-Mail-Adresse sein kann</title>
+        <title lang="es-ES">Defina las tres ventajas principales de tu tienda y una línea directa, que puede ser un número de teléfono o una dirección de correo electrónico</title>
+        <title lang="fr-FR">Définissez les trois principaux avantages de votre magasin et d'une hotline, qui peut être un numéro de téléphone ou une adresse électronique</title>
+        <title lang="nl-NL">Definieer de drie belangrijkste voordelen van uw winkel en een hotline, die een telefoonnummer of een e-mailadres kan zijn</title>
 
         <input-field type="text">
             <name>benefit1</name>
             <label>Benefit 1</label>
             <label lang="de-DE">Vorteil 1</label>
+            <label lang="es-ES">Ventaja 1</label>
+            <label lang="fr-FR">Avantage 1</label>
+            <label lang="nl-NL">Voordeel 1</label>
             <defaultValue>Large selection</defaultValue>
-            <defaultValue lang="de-DE">Große Auswahl</defaultValue>
         </input-field>
 
         <input-field type="text">
             <name>benefit2</name>
             <label>Benefit 2</label>
             <label lang="de-DE">Vorteil 2</label>
+            <label lang="es-ES">Ventaja 2</label>
+            <label lang="fr-FR">Avantage 2</label>
+            <label lang="nl-NL">Voordeel 2</label>
             <defaultValue>Top quality</defaultValue>
-            <defaultValue lang="de-DE">Top-Qualität</defaultValue>
         </input-field>
 
         <input-field type="text">
             <name>benefit3</name>
             <label>Benefit 3</label>
             <label lang="de-DE">Vorteil 3</label>
+            <label lang="es-ES">Ventaja 3</label>
+            <label lang="fr-FR">Avantage 3</label>
+            <label lang="nl-NL">Voordeel 3</label>
             <defaultValue>Climate Neutral Shipping</defaultValue>
-            <defaultValue lang="de-DE">Klimaneutraler Versand</defaultValue>
         </input-field>
 
         <input-field type="text">
             <name>hotline</name>
             <label>Hotline</label>
             <label lang="de-DE">Hotline</label>
+            <label lang="es-ES">Línea directa</label>
+            <label lang="fr-FR">Ligne directe</label>
+            <label lang="nl-NL">Directe lijn</label>
+            <defaultValue>0180 - 000000 (Mon.-Fri., 9:00 - 5:00 pm)</defaultValue>
         </input-field>
 
         <input-field type="text">
             <name>hotlineLink</name>
             <label>Hotline link</label>
             <label lang="de-DE">Hotline link</label>
+            <label lang="es-ES">Enlace Línea directa</label>
+            <label lang="fr-FR">Lien Ligne directe</label>
+            <label lang="nl-NL">Directe lijnverbinding</label>
         </input-field>
     </card>
 
     <card>
         <title>Icon-Images (ideal are .svg oder transparent .png of 20 x 20px size)</title>
         <title lang="de-DE">Icon-Bilder (ideal sind .svg oder transparente .png mit der Größe 20 x 20px)</title>
+        <title lang="es-ES">Imágenes de iconos (ideales son .svg o .png transparentes con un tamaño de 20 x 20px)</title>
+        <title lang="fr-FR">Images d'icônes (idéales en .svg ou en .png transparent de taille 20 x 20px)</title>
+        <title lang="nl-NL">Icoonbeelden (ideaal in .svg of transparant .png formaat 20 x 20px)</title>
 
         <component name="sw-media-field">
             <name>icon1</name>
             <label>Upload icon for benefit 1</label>
             <label lang="de-DE">Icon für Vorteil 1 hochladen</label>
-            <helpText>Ideally this is a .svg-file with the measures 30 x 30px.</helpText>
-            <helpText lang="de-DE">Idealerweise ist dies eine .svg-Datei mit den Maßen 30 x 30px.</helpText>
-            <defaultValue>./storefront/dist/assets/icon/additional/check.svg</defaultValue>
+            <label lang="es-ES">Subir icono para ventaja 1</label>
+            <label lang="fr-FR">Télécharger l'icône pour l'avantage 1</label>
+            <label lang="nl-NL">Download het pictogram voor Voordeel 1</label>
+            <helpText>Ideally this is a .svg-file with the measures 20 x 20px.</helpText>
+            <helpText lang="de-DE">Idealerweise ist dies eine .svg-Datei mit den Maßen 20 x 20px.</helpText>
+            <helpText lang="es-ES">Idealmente este es un archivo .svg con las dimensiones 20 x 20px.</helpText>
+            <helpText lang="fr-FR">Idéalement, il s'agit d'un fichier .svg de dimensions 20 x 20px.</helpText>
+            <helpText lang="nl-NL">Idealiter is het een .svg bestand met de afmetingen 20 x 20px.</helpText>
         </component>
 
         <component name="sw-media-field">
             <name>icon2</name>
             <label>Upload icon for benefit 2</label>
             <label lang="de-DE">Icon für Vorteil 2 hochladen</label>
-            <helpText>Ideally this is a .svg-file with the measures 30 x 30px.</helpText>
-            <helpText lang="de-DE">Idealerweise ist dies eine .svg-Datei mit den Maßen 30 x 30px.</helpText>
+            <label lang="es-ES">Subir icono para ventaja 2</label>
+            <label lang="fr-FR">Télécharger l'icône pour l'avantage 2</label>
+            <label lang="nl-NL">Download het pictogram voor Voordeel 2</label>
+            <helpText>Ideally this is a .svg-file with the measures 20 x 20px.</helpText>
+            <helpText lang="de-DE">Idealerweise ist dies eine .svg-Datei mit den Maßen 20 x 20px.</helpText>
+            <helpText lang="es-ES">Idealmente este es un archivo .svg con las dimensiones 20 x 20px.</helpText>
+            <helpText lang="fr-FR">Idéalement, il s'agit d'un fichier .svg de dimensions 20 x 20px.</helpText>
+            <helpText lang="nl-NL">Idealiter is het een .svg bestand met de afmetingen 20 x 20px.</helpText>
         </component>
 
         <component name="sw-media-field">
             <name>icon3</name>
             <label>Upload icon for benefit 3</label>
             <label lang="de-DE">Icon für Vorteil 3 hochladen</label>
-            <helpText>Ideally this is a .svg-file with the measures 30 x 30px.</helpText>
-            <helpText lang="de-DE">Idealerweise ist dies eine .svg-Datei mit den Maßen 30 x 30px.</helpText>
+            <label lang="es-ES">Subir icono para ventaja 3</label>
+            <label lang="fr-FR">Télécharger l'icône pour l'avantage 3</label>
+            <label lang="nl-NL">Download het pictogram voor Voordeel 3</label>
+            <helpText>Ideally this is a .svg-file with the measures 20 x 20px.</helpText>
+            <helpText lang="de-DE">Idealerweise ist dies eine .svg-Datei mit den Maßen 20 x 20px.</helpText>
+            <helpText lang="es-ES">Idealmente este es un archivo .svg con las dimensiones 20 x 20px.</helpText>
+            <helpText lang="fr-FR">Idéalement, il s'agit d'un fichier .svg de dimensions 20 x 20px.</helpText>
+            <helpText lang="nl-NL">Idealiter is het een .svg bestand met de afmetingen 20 x 20px.</helpText>
         </component>
     </card>
 
     <card>
-        <title>Icon-Size</title>
-        <title lang="de-DE">Icon Größe</title>
+        <title>Icon size (-> Compile theme if changed)</title>
+        <title lang="de-DE">Icon Größe (-> Theme kompilieren, wenn Werte geändert werden)</title>
+        <title lang="es-ES">Tamaño del icono (-> Compilar theme si se cambia los valores)</title>
+        <title lang="fr-FR">Taille des icônes (-> Compiler le thème si les valeurs sont modifiées)</title>
+        <title lang="nl-NL">Icoongrootte (-> Stel het thema samen als de waarden worden gewijzigd)</title>
 
         <input-field type="text">
-            <name>iconwidth</name>
+            <name>iconWidth</name>
             <label>Icon width (incl. px)</label>
             <label lang="de-DE">Icon-Breite (inkl. px angeben)</label>
+            <label lang="es-ES">Ancho del icono (especificar px incl.)</label>
+            <label lang="fr-FR">Largeur de l'icône (préciser px incl.)</label>
+            <label lang="nl-NL">Icoonbreedte (specificeer px incl.)</label>
+            <defaultValue>20px</defaultValue>
         </input-field>
 
         <input-field type="text">
-            <name>iconheight</name>
+            <name>iconHeight</name>
             <label>Icon width (incl. px)</label>
             <label lang="de-DE">Icon-Höhe (inkl. px angeben)</label>
+            <label lang="es-ES">Altura del icono (especificar px incl.)</label>
+            <label lang="fr-FR">Hauteur de l'icône (préciser px incl.)</label>
+            <label lang="nl-NL">Icoonhoogte (specificeer px incl.)</label>
+            <defaultValue>20px</defaultValue>
         </input-field>
     </card>
 
     <card>
-        <title>Colors</title>
-        <title lang="de-DE">Farben</title>
+        <title>Font size (-> Compile theme if changed)</title>
+        <title lang="de-DE">Text-Größe (-> Theme kompilieren, wenn Werte geändert werden)</title>
+        <title lang="es-ES">Tamaño del texto (-> Compilar theme si se cambia los valores)</title>
+        <title lang="fr-FR">Taille des icônes (-> Compiler le thème si les valeurs sont modifiées)</title>
+        <title lang="nl-NL">Icoongrootte (-> Stel het thema samen als de waarden worden gewijzigd)</title>
+
+        <input-field type="text">
+            <name>fontSize</name>
+            <label>Font size (incl. px)</label>
+            <label lang="de-DE">Schriftgröße (inkl. px angeben)</label>
+            <label lang="es-ES">Tamaño del texto (especificar px incl.)</label>
+            <label lang="fr-FR">Taille du texte (préciser px incl.)</label>
+            <label lang="nl-NL">Tekstgrootte (specificeer px incl.)</label>
+            <defaultValue>12px</defaultValue>
+        </input-field>
+
+        <input-field type="text">
+            <name>lineHeight</name>
+            <label>Line height (incl. px)</label>
+            <label lang="de-DE">Zeilenabstand (inkl. px angeben)</label>
+            <label lang="es-ES">Espaciado de las líneas (especificar px incl.)</label>
+            <label lang="fr-FR">Espacement des lignes (préciser px incl.)</label>
+            <label lang="nl-NL">Lijnafstand (opgeven px incl.)</label>
+            <defaultValue>19px</defaultValue>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Colors (-> Compile theme if changed)</title>
+        <title lang="de-DE">Farben (-> Theme kompilieren, wenn Werte geändert werden)</title>
+        <title lang="es-ES">Colores (-> Compilar theme si se cambia los valores)</title>
+        <title lang="fr-FR">Couleurs (-> Compiler le thème si les valeurs sont modifiées)</title>
+        <title lang="nl-NL">Kleuren (-> Thema compileren als waarden worden gewijzigd)</title>
 
         <component name="sw-colorpicker">
             <name>backgroundColor</name>
             <colorOutput>hex</colorOutput>
             <label>Background color</label>
             <label lang="de-DE">Hintergrundfarbe</label>
+            <label lang="es-ES">Color de fondo</label>
+            <label lang="fr-FR">Couleur de fond</label>
+            <label lang="nl-NL">Achtergrondkleur</label>
             <defaultValue>#000000</defaultValue>
         </component>
 
@@ -118,6 +205,9 @@
             <colorOutput>hex</colorOutput>
             <label>Text color</label>
             <label lang="de-DE">Textfarbe</label>
+            <label lang="es-ES">Color del texto</label>
+            <label lang="fr-FR">Couleur du texte</label>
+            <label lang="nl-NL">Tekstkleur</label>
             <defaultValue>#FFFFFF</defaultValue>
         </component>
     </card>
