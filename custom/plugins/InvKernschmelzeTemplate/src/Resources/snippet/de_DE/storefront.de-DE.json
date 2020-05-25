@@ -26,6 +26,11 @@
                 "saturatedfattyAcidsG": "davon gesättigte Fettsäuren (g)",
                 "saltG": "Salz (g)"
             }
+        },
+        "footer": {
+            "paymentMethodsHeadline": "Zahlung & Versand",
+            "freeShippingInfo": "Nach Deutschland, Belgien und in die Niederlande versenden wir ab einem Bestellwert von 50 Euro versandkostenfrei mit DHL (gilt nicht für B2B Kunden).",
+            "CopyrightInfo": "KERNenergie GmbH"
         }
     }
 }

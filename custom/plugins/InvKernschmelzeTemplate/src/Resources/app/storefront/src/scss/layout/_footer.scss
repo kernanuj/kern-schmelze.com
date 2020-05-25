@@ -1,0 +1,71 @@
+@import '../abstracts/variables.scss';
+
+.footer-main {
+    background: $ks-brown;
+    color: $white;
+
+    .footer-columns {
+        border-bottom: 0;
+
+        .footer-column-headline {
+            font-size: 20px;
+            line-height: 22px;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            -moz-letter-spacing: .6px;
+            -webkit-letter-spacing: .6px;
+            font-weight: 500;
+            color: $white;
+        }
+
+        a {
+            color: $white;
+            text-decoration: none;
+        }
+
+        .footer-contact-form,
+        .footer-contact-hotline {
+            margin-bottom: 0;
+
+            a {
+                color: $ks-green;
+                display: inline;
+                font-size: .875rem;
+                font-weight: 400;
+                line-height: 1.5;
+            }
+        }
+    }
+
+    .footer-bottom {
+        border-top: 1px solid $ks-gray;
+        padding-top: 20px;
+    }
+
+    .footer-copyright {
+        img {
+            margin-top: -2px;
+            width: 25px;
+
+            height: 17px;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .footer-main {
+        .footer-columns {
+            .footer-column-headline {
+                padding-left: 10px;
+                border-left: 1px solid $ks-gray;
+                padding-top: 0;
+                margin-top: 3rem;
+            }
+
+            .footer-column-content {
+                padding-left: 10px;
+                border-left: 1px solid $ks-gray;
+            }
+        }
+    }
+}

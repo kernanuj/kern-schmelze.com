@@ -1,13 +1,20 @@
-@import 'abstract/variables.scss';
+@import 'abstracts/variables.scss';
 
-@import url("https://use.typekit.net/dqp4mdo.css");
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
 
-@import 'headlines.scss';
-@import 'buttons.scss';
-@import 'forms.scss';
+@import 'base/reset';
+@import 'base/typography';
 
-@import 'header.scss';
-@import 'homepage.scss';
-@import 'product-list.scss';
-@import 'product-detail.scss';
-//@import 'footer.scss';
+@import 'layout/navigation';
+@import 'layout/header';
+@import 'layout/footer';
+@import 'layout/forms';
+
+@import 'components/buttons';
+@import 'components/headlines';
+
+@import 'pages/homepage';
+@import 'pages/product-list';
+@import 'pages/product-detail';
+

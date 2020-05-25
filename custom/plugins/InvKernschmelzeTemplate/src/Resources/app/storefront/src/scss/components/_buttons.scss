@@ -1,4 +1,4 @@
-@import 'abstract/variables.scss';
+@import '../abstracts/variables.scss';
 
 .btn {
     font-weight: 500;
@@ -13,6 +13,16 @@
     line-height: 25px;
     font-weight: 500;
     padding: 10px 40px;
+}
+
+.scroll-up-button {
+    .btn-primary {
+        padding: 5px 10px;
+
+        svg {
+            color: $white;
+        }
+    }
 }
 
 .btn-buy {
