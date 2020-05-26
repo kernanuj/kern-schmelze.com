@@ -12,7 +12,7 @@
                                 {% set media = searchMedia([shopware.config.InvTrustBar.config.icon1], context.context) %}
                                 {% set icon1Entity = media.get(shopware.config.InvTrustBar.config.icon1) %}
 
-                                <img src="{{ icon1Entity.url }}" class="icon" />
+                                <img src="{{ icon1Entity.url }}" class="icon" alt="{{ shopware.config.InvTrustBar.config.benefit1 }}" />
                             {% else %}
                                 {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
                             {%  endif %}
@@ -24,7 +24,8 @@
                             {% if shopware.config.InvTrustBar.config.icon2 %}
                                 {% set media = searchMedia([shopware.config.InvTrustBar.config.icon2], context.context) %}
                                 {% set icon2Entity = media.get(shopware.config.InvTrustBar.config.icon2) %}
-                                <img src="{{ icon2Entity.url }}" class="icon" />
+
+                                <img src="{{ icon2Entity.url }}" class="icon" alt="{{ shopware.config.InvTrustBar.config.benefit2 }}" />
                             {% else %}
                                 {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
                             {%  endif %}
@@ -36,7 +37,8 @@
                             {% if shopware.config.InvTrustBar.config.icon3 %}
                                 {% set media = searchMedia([shopware.config.InvTrustBar.config.icon3], context.context) %}
                                 {% set icon3Entity = media.get(shopware.config.InvTrustBar.config.icon3) %}
-                                <img src="{{ icon3Entity.url }}" class="icon" />
+
+                                <img src="{{ icon3Entity.url }}" class="icon" alt="{{ shopware.config.InvTrustBar.config.benefit3 }}" />
                             {% else %}
                                 {% sw_icon 'check' style { 'pack': 'additional', 'size': 's' } %}
                             {%  endif %}
