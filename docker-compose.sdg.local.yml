@@ -1,0 +1,57 @@
+#override defaults for dev
+version: "3.7"
+
+services:
+  app_server:
+    container_name: ks_core
+    build:
+      context: .dev/build/core
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+      - elasticsearch
+    ports:
+      - 80:8000
+      - 443:443
+      - 8000:8000
+      - 8005:8000
+    extra_hosts:
+      - "docker.vm:127.0.0.1"
+      - "kern-schmelze.localhost:127.0.0.1"
+    environment:
+      - PWD=/var/www/html
+    env_file:
+      - .env
+    volumes:
+      - "./:/var/www/html"
+
+  mysql:
+    container_name: ks_db
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=app
+      - MYSQL_PASSWORD=app
+      - MYSQL_DATABASE=kern_schmelze_1
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  adminer:
+    container_name: ks_adminer
+    image: adminer:latest
+    ports:
+      - 8081:8080
+    links:
+      - mysql
+
+  elasticsearch:
+    container_name: ks_elastic
+    image: elastic/elasticsearch:7.1.1
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+
+volumes:
+  mysql-data:
