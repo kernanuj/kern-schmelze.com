@@ -1,0 +1,29 @@
+{# @var productListing \Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult #}
+
+{% sw_extends '@Storefront/storefront/base.html.twig' %}
+
+{% block base_content %}
+    {{ parent() }}
+    <div class="row">
+        <div class="col-11">
+            <ul>
+                {% for product in productListing.elements %}
+                    <li>
+                        {{ product.name }}<br/>
+                            {{ product.id }} <br/>
+                        <a>
+                            <button class="sw-button">
+                                (+)
+                            </button>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-1">
+            Mixer
+        </div>
+    </div>
+{% endblock %}
+
+
