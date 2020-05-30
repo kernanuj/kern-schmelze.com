@@ -8,6 +8,14 @@
         <service id="InvMixerProduct\Controller\StoreFront\Mix\IndexController">
             <tag name="controller.service_arguments" />
             <argument type="service" id="Shopware\Core\Content\Product\SalesChannel\Listing\ProductListingLoader"/>
+            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
+            <argument type="service" id="session" />
+            <argument type="service" id="InvMixerProduct\Service\MixViewTransformer"/>
         </service>
+
+        <service id="InvMixerProduct\Service\MixViewTransformer" />
+
+        <service id="InvMixerProduct\Service\MixServiceInterface" alias="InvMixerProduct\Service\MixService" />
+        <service id="InvMixerProduct\Service\MixService" />
     </services>
 </container>

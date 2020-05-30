@@ -1,17 +1,18 @@
 {# @var productListing \Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult #}
+{# @var mixView \InvMixerProduct\DataObject\MixView #}
 
 {% sw_extends '@Storefront/storefront/base.html.twig' %}
 
 {% block base_content %}
     {{ parent() }}
     <div class="row">
-        <div class="col-11">
+        <div class="col-10">
             <ul>
                 {% for product in productListing.elements %}
                     <li>
                         {{ product.name }}<br/>
-                            {{ product.id }} <br/>
-                        <a>
+                        {{ product.id }} <br/>
+                        <a href="{{ path('invMixerProduct.storeFront.mix.session.add', {'product_id' : product.id, 'quantity' : 1 }) }}">
                             <button class="sw-button">
                                 (+)
                             </button>
@@ -20,8 +21,22 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="col-1">
-            Mixer
+        <div class="col-2">
+            <p>
+                Id: {{  mixView.mixId }}
+            </p>
+            <p>
+                Label: {{  mixView.mixLabel }}
+            </p>
+            <p>
+                Container Design: {{  mixView.mixContainer.design }}
+            </p>
+            <p>
+                Container MaxWeight: {{  mixView.mixContainer.maxContainerWeight }}
+            </p>
+            <p>
+                Total Price: {{ mixView.mixTotalPrice.value }}
+            </p>
         </div>
     </div>
 {% endblock %}
