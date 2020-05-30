@@ -2,6 +2,7 @@ custom/*
 custom/plugins/*
 !custom/plugins/.gitkeep
 !custom/static-plugins/*
+/schema
 
 # INV unignore project specific files
 !custom/plugins/
@@ -15,6 +16,8 @@ custom/plugins/*
 !custom/plugins/InvAdvancedCmsElements/*
 !custom/plugins/InvAdvancedCmsBlocks/
 !custom/plugins/InvAdvancedCmsBlocks/*
+!custom/plugins/InvMixerProduct/
+!custom/plugins/InvMixerProduct/*
 !.gitkeep
 
 /vendor/
