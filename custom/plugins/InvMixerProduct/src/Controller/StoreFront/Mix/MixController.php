@@ -3,8 +3,10 @@
 namespace InvMixerProduct\Controller\StoreFront\Mix;
 
 use InvMixerProduct\DataObject\MixView;
-use InvMixerProduct\Entity\Mix;
+use InvMixerProduct\Entity\MixEntity;
+use InvMixerProduct\Repository\MixEntityRepository;
 use InvMixerProduct\Service\MixViewTransformer;
+use Shopware\Core\Framework\Context;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Controller\StorefrontController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -18,9 +20,12 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 abstract class MixController extends StorefrontController
 {
 
+    public const SESSION_KEY_CURRENT_MIX = 'invMixerProduct_currentMix';
+
     /**
      * @param MixViewTransformer $mixViewTransformer
      * @param SalesChannelContext $salesChannelContext
+     * @param Context $context
      * @param SessionInterface $session
      * @return MixView
      */
@@ -44,15 +49,32 @@ abstract class MixController extends StorefrontController
     /**
      * @param SalesChannelContext $salesChannelContext
      * @param SessionInterface $session
-     * @return Mix
+     * @return MixEntity
      */
     protected function getOrInitiateCurrentMix(
         SalesChannelContext $salesChannelContext,
-        SessionInterface $session): Mix
-    {
+        SessionInterface $session
+    ): MixEntity {
 
-        $session->set('inv.mix', 123);
-        echo $session->get('inv.mix');
-        return new Mix();
+        $repository = $this->container->get(MixEntityRepository::class);
+
+        $currentMixId = $session->get(self::SESSION_KEY_CURRENT_MIX);
+
+        if (!$currentMixId) {
+            $entity = $repository->create();
+            $repository->save($entity, $salesChannelContext->getContext());
+            $session->set(self::SESSION_KEY_CURRENT_MIX, $entity->getId());
+        } else {
+            $entity = $repository->findOneById($currentMixId, $salesChannelContext->getContext());
+        }
+
+        if($salesChannelContext->getCustomer()){
+            if(!$entity->getCustomer()){
+                $entity->setCustomer($salesChannelContext->getCustomer());
+                $repository->save($entity, $salesChannelContext->getContext());
+            }
+        }
+
+        return $entity;
     }
 }

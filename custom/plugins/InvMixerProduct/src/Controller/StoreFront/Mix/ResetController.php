@@ -6,19 +6,32 @@ use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class AddController
+ * Class ResetController
  *
  * @package InvMixerProduct\Controller\StoreFront\Mix
  *
  * @RouteScope(scopes={"storefront"})
- * @Route("/mix/add", methods={"POST"}, name="invMixerProduct.storeFront.mix.session.add")
+ * @Route("/mix/reset", methods={"GET"}, name="invMixerProduct.storeFront.mix.session.reset")
  */
-class AddController extends MixController
+class ResetController extends MixController
 {
+    /**
+     * @var SessionInterface
+     */
+    private $session;
 
+    /**
+     * ResetController constructor.
+     * @param SessionInterface $session
+     */
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
 
     /**
      * @param SalesChannelContext $salesChannelContext
@@ -26,6 +39,8 @@ class AddController extends MixController
      */
     public function __invoke(SalesChannelContext $salesChannelContext)
     {
+        $this->session->remove(self::SESSION_KEY_CURRENT_MIX);
+
         return RedirectResponse::create(
             $this->generateUrl(
                 'invMixerProduct.storeFront.mix.index'

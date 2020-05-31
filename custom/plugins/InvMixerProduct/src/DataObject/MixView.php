@@ -5,9 +5,10 @@ namespace InvMixerProduct\DataObject;
 
 use InvMixerProduct\Value\Identifier;
 use InvMixerProduct\Value\Label;
-use InvMixerProduct\Value\MixContainer;
+use InvMixerProduct\Struct\ContainerDefinition;
 use InvMixerProduct\Value\Weight;
 use InvMixerProduct\Value\Price;
+use Shopware\Core\Checkout\Customer\CustomerEntity;
 
 class MixView {
 
@@ -32,9 +33,14 @@ class MixView {
     private $mixTotalWeight;
 
     /**
-     * @var MixContainer
+     * @var ContainerDefinition
      */
-    private $mixContainer;
+    private $containerDefinition;
+
+    /**
+     * @var CustomerEntity|null
+     */
+    private $customer;
 
     /**
      * MixView constructor.
@@ -42,20 +48,23 @@ class MixView {
      * @param Label $mixLabel
      * @param Price $mixTotalPrice
      * @param Weight $mixTotalWeight
-     * @param MixContainer $mixContainer
+     * @param ContainerDefinition $containerDefinition
+     * @param CustomerEntity|null $customer
      */
     public function __construct(
         Identifier $mixId,
         Label $mixLabel,
         Price $mixTotalPrice,
         Weight $mixTotalWeight,
-        MixContainer $mixContainer
+        ContainerDefinition $containerDefinition,
+        ?CustomerEntity $customer
     ) {
         $this->mixId = $mixId;
         $this->mixLabel = $mixLabel;
         $this->mixTotalPrice = $mixTotalPrice;
         $this->mixTotalWeight = $mixTotalWeight;
-        $this->mixContainer = $mixContainer;
+        $this->containerDefinition = $containerDefinition;
+        $this->customer = $customer;
     }
 
 
@@ -92,11 +101,19 @@ class MixView {
     }
 
     /**
-     * @return MixContainer
+     * @return ContainerDefinition
      */
-    public function getMixContainer(): MixContainer
+    public function getContainerDefinition(): ContainerDefinition
     {
-        return $this->mixContainer;
+        return $this->containerDefinition;
+    }
+
+    /**
+     * @return CustomerEntity|null
+     */
+    public function getCustomer(): ?CustomerEntity
+    {
+        return $this->customer;
     }
 
 

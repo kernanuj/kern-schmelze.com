@@ -13,9 +13,28 @@
             <argument type="service" id="InvMixerProduct\Service\MixViewTransformer"/>
         </service>
 
+        <service id="InvMixerProduct\Controller\StoreFront\Mix\ResetController">
+            <tag name="controller.service_arguments" />
+            <argument type="service" id="session" />
+        </service>
+
         <service id="InvMixerProduct\Service\MixViewTransformer" />
 
         <service id="InvMixerProduct\Service\MixServiceInterface" alias="InvMixerProduct\Service\MixService" />
         <service id="InvMixerProduct\Service\MixService" />
+
+        <service id="InvMixerProduct\EntityDefinition\MixEntityDefinition">
+            <tag name="shopware.entity.definition" entiy="inv_mixer_product__mix" />
+        </service>
+
+        <service id="InvMixerProduct\Repository\MixEntityRepository" public="true">
+            <argument type="service" id="inv_mixer_product__mix.repository" />
+        </service>
+
+        <service id="InvMixerProduct\DataAbstractionLayer\ContainerDefinitionFieldSerializer">
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry"/>
+            <argument type="service" id="validator" />
+            <tag name="shopware.field_serializer"/>
+        </service>
     </services>
 </container>

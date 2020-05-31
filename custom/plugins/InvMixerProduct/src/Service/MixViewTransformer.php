@@ -3,11 +3,11 @@
 namespace InvMixerProduct\Service;
 
 use InvMixerProduct\DataObject\MixView;
-use InvMixerProduct\Entity\Mix;
-use InvMixerProduct\Entity\Mix as Subject;
+use InvMixerProduct\Entity\MixEntity;
+use InvMixerProduct\Entity\MixEntity as Subject;
 use InvMixerProduct\Value\Identifier;
 use InvMixerProduct\Value\Label;
-use InvMixerProduct\Value\MixContainer;
+use InvMixerProduct\Struct\ContainerDefinition;
 use InvMixerProduct\Value\Weight;
 use \InvMixerProduct\Value\Price;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -26,15 +26,16 @@ class MixViewTransformer
      */
     public function transform(
         SalesChannelContext $salesChannelContext,
-        Mix $mix
+        MixEntity $mix
     ): MixView {
 
         return new MixView(
-            Identifier::fromString('333'),
+            Identifier::fromString($mix->getId()),
             Label::aEmpty(),
             Price::aZero(),
             Weight::aZeroGrams(),
-            MixContainer::aDefault()
+            $mix->getContainerDefinition(),
+            $mix->getCustomer()
         );
     }
 

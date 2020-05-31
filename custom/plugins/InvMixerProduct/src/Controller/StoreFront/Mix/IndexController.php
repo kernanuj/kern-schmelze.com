@@ -5,10 +5,10 @@ namespace InvMixerProduct\Controller\StoreFront\Mix;
 use InvMixerProduct\Service\MixServiceInterface;
 use InvMixerProduct\Service\MixViewTransformer;
 use Shopware\Core\Content\Product\SalesChannel\Listing\ProductListingLoader;
+use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Shopware\Storefront\Controller\StorefrontController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -66,9 +66,10 @@ class IndexController extends MixController
 
     /**
      * @param SalesChannelContext $salesChannelContext
+     * @param Context $context
      * @return Response
      */
-    public function __invoke(SalesChannelContext $salesChannelContext)
+    public function __invoke(SalesChannelContext $salesChannelContext, Context $context)
     {
 
         $mixView = $this->getOrInitiateCurrentMixAndReturnAsView(

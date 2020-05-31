@@ -3,23 +3,24 @@
 namespace InvMixerProduct\Value;
 
 use InvMixerProduct\Constants;
+use Shopware\Core\Framework\Struct;
 
 /**
  * Class Weight
  * @package InvMixerProduct\Value
  */
-class Weight
+class Weight extends Struct\Struct
 {
 
     /**
      * @var float
      */
-    private $value;
+    protected $value;
 
     /**
      * @var string
      */
-    private $unit;
+    protected $unit;
 
     /**
      * Weight constructor.
@@ -37,9 +38,30 @@ class Weight
      */
     public static function aZeroGrams()
     {
-        return new self (
-            0,
+        return self::xGrams(0);
+    }
+
+    /**
+     * @param int $grams
+     * @return $this
+     */
+    public static function xGrams(int $grams): self
+    {
+        return new self(
+            $grams,
             Constants::WEIGHT_UNIT_GRAMS
+        );
+    }
+
+    /**
+     * @param array $data
+     * @return static
+     */
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            $data['value'],
+            $data['unit']
         );
     }
 
@@ -50,17 +72,5 @@ class Weight
     {
         return $this->value . ' ' . $this->unit;
     }
-
-    /**
-     * @param int $grams
-     * @return $this
-     */
-    public static function xGrams(int $grams):self {
-        return new self(
-          $grams,
-          Constants::WEIGHT_UNIT_GRAMS
-        );
-    }
-
 
 }

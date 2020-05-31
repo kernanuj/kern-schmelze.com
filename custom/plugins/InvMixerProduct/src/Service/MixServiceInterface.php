@@ -2,7 +2,7 @@
 
 namespace InvMixerProduct\Service;
 
-use InvMixerProduct\Entity\Mix as Subject;
+use InvMixerProduct\Entity\MixEntity as Subject;
 use Shopware\Core\Content\Product\ProductEntity;
 
 /**
