@@ -4,6 +4,7 @@ namespace InvMixerProduct\Service;
 
 use InvMixerProduct\Entity\MixEntity as Subject;
 use InvMixerProduct\Exception\EntityNotFoundException;
+use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
@@ -21,6 +22,7 @@ interface MixServiceInterface
      * @return Subject
      *
      * @throws EntityNotFoundException
+     * @throws \Exception
      */
     public function addProduct(
         Subject $subject,
@@ -35,6 +37,7 @@ interface MixServiceInterface
      * @return Subject
      *
      * @throws EntityNotFoundException
+     * @throws \Exception
      */
     public function removeProduct(
         Subject $subject,
@@ -50,6 +53,7 @@ interface MixServiceInterface
      * @return Subject
      *
      * @throws EntityNotFoundException
+     * @throws \Exception
      */
     public function setProductQuantity(
         Subject $subject,
@@ -70,6 +74,42 @@ interface MixServiceInterface
         Subject $mixEntity,
         string $label,
         SalesChannelContext $context
+    ): Subject;
+
+    /**
+     * @param SalesChannelContext $context
+     * @return Subject
+     *
+     * @throws \Exception
+     */
+    public function create(
+        SalesChannelContext $context
+    ): Subject;
+
+    /**
+     * @param string $id
+     * @param SalesChannelContext $context
+     * @return Subject
+     *
+     * @throws \Exception
+     */
+    public function read(
+        string $id,
+        SalesChannelContext $context
+    ): Subject;
+
+    /**
+     * @param Subject $subject
+     * @param CustomerEntity $customerEntity
+     * @param SalesChannelContext $salesChannelContext
+     * @return Subject
+     *
+     * @throws \Exception
+     */
+    public function assignCustomer(
+        Subject $subject,
+        CustomerEntity $customerEntity,
+        SalesChannelContext $salesChannelContext
     ): Subject;
 
 }

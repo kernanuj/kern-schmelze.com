@@ -10,15 +10,15 @@ class Label
 {
 
     /**
-     * @var string
+     * @var string|null
      */
     private $value;
 
     /**
-     * Identifier constructor.
-     * @param string $value
+     * Label constructor.
+     * @param string|null $value
      */
-    private function __construct(string $value)
+    public function __construct(?string $value)
     {
         $this->value = $value;
     }
@@ -44,7 +44,7 @@ class Label
      */
     public function __toString()
     {
-        return $this->value;
+        return $this->value ?: '';
     }
 
 

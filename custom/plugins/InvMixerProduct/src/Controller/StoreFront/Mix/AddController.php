@@ -2,6 +2,7 @@
 
 namespace InvMixerProduct\Controller\StoreFront\Mix;
 
+use InvMixerProduct\Exception\EntityNotFoundException;
 use InvMixerProduct\Repository\ProductRepository;
 use InvMixerProduct\Service\MixServiceInterface;
 use Shopware\Core\Content\Product\ProductEntity;
@@ -63,7 +64,8 @@ class AddController extends MixController
      * @param Request $request
      * @param SalesChannelContext $salesChannelContext
      * @return RedirectResponse
-     * @throws \InvMixerProduct\Exception\EntityNotFoundException
+     *
+     * @throws EntityNotFoundException
      */
     public function __invoke(Request $request, SalesChannelContext $salesChannelContext)
     {
@@ -77,7 +79,8 @@ class AddController extends MixController
 
         $mix = $this->getOrInitiateCurrentMix(
             $salesChannelContext,
-            $this->session
+            $this->session,
+            $this->mixService
         );
 
         $this->mixService->addProduct(

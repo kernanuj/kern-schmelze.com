@@ -5,6 +5,7 @@ namespace InvMixerProduct\Service;
 use InvMixerProduct\Entity\MixEntity as Subject;
 use InvMixerProduct\Entity\MixItemEntity;
 use InvMixerProduct\Repository\MixEntityRepository;
+use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -107,14 +108,55 @@ class MixService implements MixServiceInterface
     /**
      * @param Subject $subject
      * @param SalesChannelContext $context
-     * @return $this
+     * @return Subject
      * @throws \Exception
      */
-    private function save(Subject $subject, SalesChannelContext $context): self
-    {
+    public function save(
+        Subject $subject,
+        SalesChannelContext $context
+    ): Subject {
         $this->mixRepository->save($subject, $context->getContext());
-        return $this;
+        return $subject;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function create(
+        SalesChannelContext $context
+    ): Subject {
+
+        $entity = $this->mixRepository->create();
+        return $this->save($entity, $context);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function read(
+        string $id,
+        SalesChannelContext $context
+    ): Subject {
+        return $this->mixRepository->findOneById(
+            $id,
+            $context->getContext()
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function assignCustomer(
+        Subject $subject,
+        CustomerEntity $customerEntity,
+        SalesChannelContext $salesChannelContext
+    ): Subject {
+
+        $subject->setCustomer($customerEntity);
+
+        return $this->save($subject, $salesChannelContext);
+    }
+
 
     /**
      * @inheritDoc
@@ -122,10 +164,10 @@ class MixService implements MixServiceInterface
     public function setLabel(
         Subject $subject,
         string $label,
-        SalesChannelContext $context
+        SalesChannelContext $salesChannelContext
     ): Subject {
         $subject->setLabel($label);
-        $this->save($subject, $context);
+        $this->save($subject, $salesChannelContext);
 
         return $subject;
     }

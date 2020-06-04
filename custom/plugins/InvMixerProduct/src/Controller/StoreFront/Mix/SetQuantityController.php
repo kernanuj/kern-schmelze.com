@@ -78,7 +78,8 @@ class SetQuantityController extends MixController
 
         $mix = $this->getOrInitiateCurrentMix(
             $salesChannelContext,
-            $this->session
+            $this->session,
+            $this->mixService
         );
 
         $this->mixService->setProductQuantity(

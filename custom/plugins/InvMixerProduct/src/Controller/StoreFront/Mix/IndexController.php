@@ -32,7 +32,7 @@ class IndexController extends MixController
     /**
      * @var MixServiceInterface
      */
-    private $mixSessionService;
+    private $mixService;
 
     /**
      * @var SessionInterface
@@ -58,7 +58,7 @@ class IndexController extends MixController
         MixViewTransformer $mixViewTransformer
     ) {
         $this->productListingLoader = $productListingLoader;
-        $this->mixSessionService = $mixSessionService;
+        $this->mixService = $mixSessionService;
         $this->session = $session;
         $this->mixViewTransformer = $mixViewTransformer;
     }
@@ -75,7 +75,8 @@ class IndexController extends MixController
         $mixView = $this->getOrInitiateCurrentMixAndReturnAsView(
             $this->mixViewTransformer,
             $salesChannelContext,
-            $this->session
+            $this->session,
+            $this->mixService
         );
 
         $productListing = $this->productListingLoader->load(
