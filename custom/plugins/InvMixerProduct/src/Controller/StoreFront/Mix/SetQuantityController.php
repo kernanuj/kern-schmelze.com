@@ -21,9 +21,9 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package InvMixerProduct\Controller\StoreFront\Mix
  *
  * @RouteScope(scopes={"storefront"})
- * @Route("/mix/add", methods={"POST"}, name="invMixerProduct.storeFront.mix.session.add")
+ * @Route("/mix/item/quantity/set", methods={"POST"}, name="invMixerProduct.storeFront.mix.session.item.quantity.set")
  */
-class AddController extends MixController
+class SetQuantityController extends MixController
 {
 
 
@@ -69,6 +69,7 @@ class AddController extends MixController
     {
 
         $productId = $request->get('product_id');
+        $quantity = (int)$request->get('quantity');
 
         $product = $this->productRepository->mustFindOneEligibleForMixById(
             $productId,
@@ -80,9 +81,10 @@ class AddController extends MixController
             $this->session
         );
 
-        $this->mixService->addProduct(
+        $this->mixService->setProductQuantity(
             $mix,
             $product,
+            $quantity,
             $salesChannelContext
         );
 

@@ -2,8 +2,10 @@
 
 namespace InvMixerProduct\Entity;
 
+use InvMixerProduct\Exception\EntityNotFoundException;
 use InvMixerProduct\Struct\ContainerDefinition;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
+use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
@@ -11,7 +13,8 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
  * Class MixEntity
  * @package InvMixerProduct\Entity
  */
-class MixEntity extends Entity {
+class MixEntity extends Entity
+{
 
     use EntityIdTrait;
 
@@ -34,6 +37,11 @@ class MixEntity extends Entity {
      * @var string
      */
     protected $customerId;
+
+    /**
+     * @var MixItemEntityCollection|null
+     */
+    protected $items;
 
     /**
      * @return string|null
@@ -105,6 +113,83 @@ class MixEntity extends Entity {
     {
         $this->customerId = $customerId;
         return $this;
+    }
+
+    /**
+     * @return MixItemEntityCollection|null
+     */
+    public function getItems(): ?MixItemEntityCollection
+    {
+        return $this->items;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasItems(): bool
+    {
+        if (null == $this->items) {
+            return false;
+        }
+
+        return $this->items->count() > 0;
+    }
+
+    /**
+     * @param MixItemEntity $mixItemEntity
+     * @return $this
+     */
+    public function addMixItem(MixItemEntity $mixItemEntity): self
+    {
+
+        if (null === $this->items) {
+            $this->items = new MixItemEntityCollection();
+        }
+
+        $this->items->add($mixItemEntity);
+
+        return $this;
+    }
+
+    /**
+     * @param ProductEntity $productEntity
+     * @return MixItemEntity
+     * @throws EntityNotFoundException
+     */
+    public function getItemOfProduct(ProductEntity $productEntity): MixItemEntity
+    {
+        if (null === $this->items) {
+            throw EntityNotFoundException::fromEntityAndIdentifier(
+                ProductEntity::class,
+                $productEntity->getId()
+            );
+        }
+
+        foreach ($this->items as $item){
+            if($item->getProduct()->getId() === $productEntity->getId()){
+                return $item;
+            }
+        }
+
+        throw EntityNotFoundException::fromEntityAndIdentifier(
+            ProductEntity::class,
+            $productEntity->getId()
+        );
+    }
+
+    /**
+     * @param ProductEntity $productEntity
+     * @return bool
+     */
+    public function hasItemOfProduct(ProductEntity $productEntity): bool
+    {
+        try{
+            $this->getItemOfProduct($productEntity);
+            return true;
+        }catch(EntityNotFoundException $e){
+            return false;
+        }
+
     }
 
 }

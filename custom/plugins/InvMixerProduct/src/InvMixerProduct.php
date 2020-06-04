@@ -5,6 +5,10 @@ namespace InvMixerProduct;
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Plugin;
 
+/**
+ * Class InvMixerProduct
+ * @package InvMixerProduct
+ */
 class InvMixerProduct extends Plugin
 {
 
@@ -22,5 +26,6 @@ class InvMixerProduct extends Plugin
         /** @var Connection $connection */
         $connection = $this->container->get(Connection::class);
         $connection->exec('DROP TABLE IF EXISTS inv_mixer_product__mix');
+        $connection->exec('DROP TABLE IF EXISTS inv_mixer_product__mix_item');
     }
 }

@@ -3,7 +3,9 @@
 namespace InvMixerProduct\Service;
 
 use InvMixerProduct\Entity\MixEntity as Subject;
+use InvMixerProduct\Exception\EntityNotFoundException;
 use Shopware\Core\Content\Product\ProductEntity;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 /**
  * Interface MixSessionServiceInterface
@@ -13,32 +15,61 @@ interface MixServiceInterface
 {
 
     /**
-     * @param Subject $mixEntity
+     * @param Subject $subject
      * @param ProductEntity $productEntity
+     * @param SalesChannelContext $context
      * @return Subject
+     *
+     * @throws EntityNotFoundException
      */
-    public function addProduct(Subject $mixEntity, ProductEntity $productEntity): Subject;
+    public function addProduct(
+        Subject $subject,
+        ProductEntity $productEntity,
+        SalesChannelContext $context
+    ): Subject;
 
     /**
-     * @param Subject $mixEntity
+     * @param Subject $subject
      * @param ProductEntity $productEntity
+     * @param SalesChannelContext $context
      * @return Subject
+     *
+     * @throws EntityNotFoundException
      */
-    public function removeProduct(Subject $mixEntity, ProductEntity $productEntity): Subject;
+    public function removeProduct(
+        Subject $subject,
+        ProductEntity $productEntity,
+        SalesChannelContext $context
+    ): Subject;
 
     /**
-     * @param Subject $mixEntity
+     * @param Subject $subject
      * @param ProductEntity $productEntity
      * @param int $quantity
+     * @param SalesChannelContext $context
      * @return Subject
+     *
+     * @throws EntityNotFoundException
      */
-    public function setProductQuantity(Subject $mixEntity, ProductEntity $productEntity, int $quantity): Subject;
+    public function setProductQuantity(
+        Subject $subject,
+        ProductEntity $productEntity,
+        int $quantity,
+        SalesChannelContext $context
+    ): Subject;
 
     /**
      * @param Subject $mixEntity
      * @param string $label
+     * @param SalesChannelContext $context
      * @return Subject
+     *
+     * @throws EntityNotFoundException
      */
-    public function setLabel(Subject $mixEntity, string $label): Subject;
+    public function setLabel(
+        Subject $mixEntity,
+        string $label,
+        SalesChannelContext $context
+    ): Subject;
 
 }

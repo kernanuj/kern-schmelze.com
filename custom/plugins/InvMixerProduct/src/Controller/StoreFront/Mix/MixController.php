@@ -75,6 +75,16 @@ abstract class MixController extends StorefrontController
             }
         }
 
+        if(!$salesChannelContext->getCustomer()){
+            if($entity->getCustomer()){
+                $session->remove(self::SESSION_KEY_CURRENT_MIX);
+                return $this->getOrInitiateCurrentMix(
+                    $salesChannelContext,
+                    $session
+                );
+            }
+        }
+
         return $entity;
     }
 }

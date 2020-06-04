@@ -35,7 +35,8 @@ class MixViewTransformer
             Price::aZero(),
             Weight::aZeroGrams(),
             $mix->getContainerDefinition(),
-            $mix->getCustomer()
+            $mix->getCustomer(),
+            $mix->getItems()
         );
     }
 

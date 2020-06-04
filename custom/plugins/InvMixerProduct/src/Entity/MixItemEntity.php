@@ -2,20 +2,114 @@
 
 namespace InvMixerProduct\Entity;
 
-use Shopware\Core\Checkout\Cart\LineItem\QuantityInformation;
 use Shopware\Core\Content\Product\ProductEntity;
+use Shopware\Core\Framework\DataAbstractionLayer\Entity;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
-class MixItemEntity {
+/**
+ * Class MixItemEntity
+ * @package InvMixerProduct\Entity
+ */
+class MixItemEntity extends Entity
+{
+    use EntityIdTrait;
+
+    /**
+     * @var MixEntity
+     */
+    protected $mix;
+
+    /**
+     * @var string
+     */
+    protected $mixId;
 
     /**
      * @var ProductEntity
      */
-    private $product;
+    protected $product;
+
+    /**
+     * @var string
+     */
+    protected $productId;
 
     /**
      * @var int
      */
-    private $quantity;
+    protected $quantity;
 
+    /**
+     * @return MixEntity
+     */
+    public function getMix(): MixEntity
+    {
+        return $this->mix;
+    }
 
+    /**
+     * @param MixEntity $mix
+     * @return MixItemEntity
+     */
+    public function setMix(MixEntity $mix): MixItemEntity
+    {
+        $this->mix = $mix;
+        $this->mixId = $mix->getId();
+
+        return $this;
+    }
+
+    /**
+     * @return ProductEntity
+     */
+    public function getProduct(): ProductEntity
+    {
+        return $this->product;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProductId(): string
+    {
+        return $this->productId;
+    }
+
+    /**
+     * @param ProductEntity $product
+     * @return MixItemEntity
+     */
+    public function setProduct(ProductEntity $product): MixItemEntity
+    {
+        $this->product = $product;
+        $this->productId = $product->getId();
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param int $quantity
+     * @return MixItemEntity
+     */
+    public function setQuantity(int $quantity): MixItemEntity
+    {
+        $this->quantity = $quantity;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMixId(): string
+    {
+        return $this->mixId;
+    }
 }
