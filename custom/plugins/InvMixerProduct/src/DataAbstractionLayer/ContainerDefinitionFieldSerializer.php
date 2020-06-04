@@ -8,7 +8,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\InvalidSerializerFieldException;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Field;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
-use Shopware\Core\Framework\DataAbstractionLayer\Field\PriceField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldSerializer\AbstractFieldSerializer;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldSerializer\JsonFieldSerializer;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\DataStack\KeyValuePair;
@@ -49,7 +48,7 @@ class ContainerDefinitionFieldSerializer extends AbstractFieldSerializer
         WriteParameterBag $parameters
     ): Generator {
         if (!$field instanceof ContainerDefinitionField) {
-            throw new InvalidSerializerFieldException(PriceField::class, $field);
+            throw new InvalidSerializerFieldException(ContainerDefinitionField::class, $field);
         }
 
         if ($field->is(Required::class)) {
