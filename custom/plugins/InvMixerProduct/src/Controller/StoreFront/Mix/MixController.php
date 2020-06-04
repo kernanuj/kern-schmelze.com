@@ -4,7 +4,6 @@ namespace InvMixerProduct\Controller\StoreFront\Mix;
 
 use InvMixerProduct\DataObject\MixView;
 use InvMixerProduct\Entity\MixEntity;
-use InvMixerProduct\Service\MixService;
 use InvMixerProduct\Service\MixServiceInterface;
 use InvMixerProduct\Service\MixViewTransformer;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -26,14 +25,16 @@ abstract class MixController extends StorefrontController
      * @param MixViewTransformer $mixViewTransformer
      * @param SalesChannelContext $salesChannelContext
      * @param SessionInterface $session
-     * @param MixService $mixService
+     * @param MixServiceInterface $mixService
      * @return MixView
+     *
+     * @throws \Exception
      */
     protected function getOrInitiateCurrentMixAndReturnAsView(
         MixViewTransformer $mixViewTransformer,
         SalesChannelContext $salesChannelContext,
         SessionInterface $session,
-        MixService $mixService
+        MixServiceInterface $mixService
     ): MixView {
 
         $mixEntity = $this->getOrInitiateCurrentMix(
@@ -54,6 +55,8 @@ abstract class MixController extends StorefrontController
      * @param MixServiceInterface $mixService
      *
      * @return MixEntity
+     *
+     * @throws \Exception
      */
     protected function getOrInitiateCurrentMix(
         SalesChannelContext $salesChannelContext,
