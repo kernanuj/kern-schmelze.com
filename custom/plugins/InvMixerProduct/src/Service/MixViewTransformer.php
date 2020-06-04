@@ -31,7 +31,7 @@ class MixViewTransformer
 
         return new MixView(
             Identifier::fromString($mix->getId()),
-            Label::aEmpty(),
+            Label::fromString($mix->getLabel()),
             Price::aZero(),
             Weight::aZeroGrams(),
             $mix->getContainerDefinition(),

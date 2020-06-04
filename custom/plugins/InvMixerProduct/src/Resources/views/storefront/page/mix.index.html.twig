@@ -36,10 +36,12 @@
                 </p>
             {% endif %}
             <p>
-            <form method="post">
+            <form method="post" action="{{ path('invMixerProduct.storeFront.mix.session.label.set') }}">
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('invMixerProduct.storeFront.mix.session.label.set') }}">
                 <label>
                     Label:
-                    <input type="text" value="{{ mixView.mixLabel }}" />
+                    <input type="text" name="label" value="{{ mixView.mixLabel }}" />
                 </label>
                 <button type="submit">set label</button>
             </form>

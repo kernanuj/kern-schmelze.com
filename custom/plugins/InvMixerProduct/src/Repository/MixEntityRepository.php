@@ -75,6 +75,7 @@ class MixEntityRepository
             'updated_at' => $entity->getUpdatedAt(),
             'containerDefinition' => $entity->getContainerDefinition(),
             'customerId' => $entity->getCustomer() ? $entity->getCustomer()->getId() : null,
+            'label' => $entity->getLabel(),
             'items' => !is_null($entity->getItems()) ?
                 array_map(
                     function (MixItemEntity $item) {

@@ -69,7 +69,7 @@ class MixService implements MixServiceInterface
         SalesChannelContext $context
     ): Subject {
 
-        if($quantity <= 0){
+        if ($quantity <= 0) {
             return $this->removeProduct(
                 $subject,
                 $productEntity,
@@ -83,6 +83,22 @@ class MixService implements MixServiceInterface
             $quantity
         );
 
+        $this->save($subject, $context);
+
+        return $subject;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function removeProduct(
+        Subject $subject,
+        ProductEntity $productEntity,
+        SalesChannelContext $context
+    ): Subject {
+
+        $item = $subject->getItemOfProduct($productEntity);
+        $subject->getItems()->remove($item->getId());
         $this->save($subject, $context);
 
         return $subject;
@@ -103,28 +119,15 @@ class MixService implements MixServiceInterface
     /**
      * @inheritDoc
      */
-    public function removeProduct(
-        Subject $subject,
-        ProductEntity $productEntity,
-        SalesChannelContext $context
-    ): Subject {
-
-        $item = $subject->getItemOfProduct($productEntity);
-        $subject->getItems()->remove($item->getId());
-        $this->save($subject, $context);
-
-        return $subject;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function setLabel(
         Subject $subject,
         string $label,
         SalesChannelContext $context
     ): Subject {
-        die(__METHOD__);
+        $subject->setLabel($label);
+        $this->save($subject, $context);
+
+        return $subject;
     }
 
 

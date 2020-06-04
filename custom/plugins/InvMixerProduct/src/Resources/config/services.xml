@@ -25,6 +25,12 @@
             <argument type="service" id="session"/>
             <argument type="service" id="InvMixerProduct\Service\MixViewTransformer"/>
         </service>
+        <service id="InvMixerProduct\Controller\StoreFront\Mix\SetLabelController">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="session"/>
+            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
+            <argument type="service" id="validator" />
+        </service>
 
         <service id="InvMixerProduct\Controller\StoreFront\Mix\ResetController">
             <tag name="controller.service_arguments"/>

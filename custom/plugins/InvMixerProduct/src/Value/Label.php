@@ -32,10 +32,10 @@ class Label
     }
 
     /**
-     * @param string $value
+     * @param string|null $value
      * @return static
      */
-    public static function fromString(string $value):self {
+    public static function fromString(?string $value):self {
         return new self($value);
     }
 

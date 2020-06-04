@@ -12,4 +12,6 @@ final class Constants {
     public const DESIGN_WHITE = 'white';
 
     public const WEIGHT_UNIT_GRAMS = 'g';
+
+    public const LABEL_REGEX_PATTERN = "/^[a-z0-9\.,\-öäü\(\):]{1,}$/i";
 }

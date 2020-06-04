@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package InvMixerProduct\Controller\StoreFront\Mix
  *
  * @RouteScope(scopes={"storefront"})
- * @Route("/mix/item/quantity/set", methods={"POST"}, name="invMixerProduct.storeFront.mix.session.item.quantity.set")
+ * @Route("/mix/item/quantity", methods={"POST"}, name="invMixerProduct.storeFront.mix.session.item.quantity.set")
  */
 class SetQuantityController extends MixController
 {
