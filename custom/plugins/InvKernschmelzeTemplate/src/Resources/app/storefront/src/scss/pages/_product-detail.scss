@@ -217,7 +217,8 @@ ul.product-detail-benefits {
         }
 
         .product-detail-review-item {
-            box-shadow: 0 0 4px 0 rgba(0, 0, 0, .2);
+            //box-shadow: 0 0 4px 0 rgba(0, 0, 0, .2);
+            box-shadow: 0 0 12px 0 rgba(0, 0, 0, .1);
             border: 0;
             padding: 20px;
         }
@@ -246,7 +247,8 @@ ul.product-detail-benefits {
     }
 
     .card {
-        box-shadow: 0 0 4px 0 rgba(0, 0, 0, .2);
+        //box-shadow: 0 0 4px 0 rgba(0, 0, 0, .2);
+        box-shadow: 0 0 12px 0 rgba(0, 0, 0, .1);
         border: 0;
     }
 }
