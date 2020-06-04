@@ -5,6 +5,7 @@ namespace InvMixerProduct\Service;
 use InvMixerProduct\Entity\MixEntity as Subject;
 use InvMixerProduct\Entity\MixItemEntity;
 use InvMixerProduct\Repository\MixEntityRepository;
+use InvMixerProduct\Struct\ContainerDefinition;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -155,6 +156,19 @@ class MixService implements MixServiceInterface
         $subject->setCustomer($customerEntity);
 
         return $this->save($subject, $salesChannelContext);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function applyContainerDefinition(
+        Subject $mixEntity,
+        ContainerDefinition $containerDefinition,
+        SalesChannelContext $context
+    ): Subject {
+        $mixEntity->setContainerDefinition($containerDefinition);
+        return $this->save($mixEntity, $context);
     }
 
 

@@ -35,6 +35,24 @@ class Design extends Struct
     }
 
     /**
+     * @param array $data
+     * @return static
+     */
+    public static function fromArray(array $data): self
+    {
+        return new self($data['identifier']);
+    }
+
+    /**
+     * @param string $data
+     * @return static
+     */
+    public static function fromString(string $data): self
+    {
+        return new self($data);
+    }
+
+    /**
      * @return string
      */
     public function __toString()
@@ -43,11 +61,20 @@ class Design extends Struct
     }
 
     /**
-     * @param array $data
-     * @return static
+     * @param Design $left
+     * @return bool
      */
-    public static function fromArray(array $data):self {
-        return new self($data['identifier']);
+    public function isEqualTo(Design $left): bool
+    {
+        return $this->getIdentifier() === $left->getIdentifier();
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdentifier(): string
+    {
+        return $this->identifier;
     }
 
 

@@ -4,6 +4,7 @@ namespace InvMixerProduct\Service;
 
 use InvMixerProduct\Entity\MixEntity as Subject;
 use InvMixerProduct\Exception\EntityNotFoundException;
+use InvMixerProduct\Struct\ContainerDefinition;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -59,6 +60,21 @@ interface MixServiceInterface
         Subject $subject,
         ProductEntity $productEntity,
         int $quantity,
+        SalesChannelContext $context
+    ): Subject;
+
+    /**
+     * @param Subject $mixEntity
+     * @param ContainerDefinition $containerDefinition
+     * @param SalesChannelContext $context
+     *
+     * @return Subject
+     *
+     * @throws \Exception
+     */
+    public function applyContainerDefinition(
+        Subject $mixEntity,
+        ContainerDefinition $containerDefinition,
         SalesChannelContext $context
     ): Subject;
 

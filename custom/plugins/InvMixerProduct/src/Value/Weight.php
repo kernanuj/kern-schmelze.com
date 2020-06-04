@@ -73,4 +73,29 @@ class Weight extends Struct\Struct
         return $this->value . ' ' . $this->unit;
     }
 
+    /**
+     * @param Weight $left
+     * @return bool
+     */
+    public function isEqualTo(Weight $left): bool
+    {
+        return $this->getValue() === $left->getValue() && $this->getUnit() === $left->getUnit();
+    }
+
+    /**
+     * @return float
+     */
+    public function getValue(): float
+    {
+        return $this->value;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnit(): string
+    {
+        return $this->unit;
+    }
+
 }

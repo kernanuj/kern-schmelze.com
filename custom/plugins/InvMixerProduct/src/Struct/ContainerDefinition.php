@@ -71,6 +71,24 @@ class ContainerDefinition extends Struct
     }
 
     /**
+     * @param Design $design
+     * @param Weight $weight
+     * @param int $maxNumberOfProducts
+     * @return static
+     */
+    public static function build(
+        Design $design,
+        Weight $weight,
+        int $maxNumberOfProducts
+    ): self {
+        return new self(
+            $design,
+            $weight,
+            $maxNumberOfProducts
+        );
+    }
+
+    /**
      * @return Design
      */
     public function getDesign(): Design

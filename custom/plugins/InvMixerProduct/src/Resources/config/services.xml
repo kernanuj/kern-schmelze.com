@@ -24,12 +24,25 @@
             <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
             <argument type="service" id="session"/>
             <argument type="service" id="InvMixerProduct\Service\MixViewTransformer"/>
+            <argument type="service" id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"/>
         </service>
         <service id="InvMixerProduct\Controller\StoreFront\Mix\SetLabelController">
             <tag name="controller.service_arguments"/>
             <argument type="service" id="session"/>
             <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
             <argument type="service" id="validator" />
+        </service>
+        <service id="InvMixerProduct\Controller\StoreFront\Mix\SetContainerDesignController">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="session"/>
+            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
+            <argument type="service" id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"/>
+        </service>
+        <service id="InvMixerProduct\Controller\StoreFront\Mix\SetContainerWeightController">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="session"/>
+            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
+            <argument type="service" id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"/>
         </service>
 
         <service id="InvMixerProduct\Controller\StoreFront\Mix\ResetController">
@@ -42,6 +55,10 @@
         <service id="InvMixerProduct\Service\MixServiceInterface" alias="InvMixerProduct\Service\MixService"/>
         <service id="InvMixerProduct\Service\MixService">
             <argument type="service" id="InvMixerProduct\Repository\MixEntityRepository"/>
+        </service>
+
+        <service id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface" alias="InvMixerProduct\Service\StaticMixContainerDefinitionProvider"/>
+        <service id="InvMixerProduct\Service\StaticMixContainerDefinitionProvider">
         </service>
 
         <service id="InvMixerProduct\EntityDefinition\MixEntityDefinition">

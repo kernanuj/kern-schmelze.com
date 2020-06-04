@@ -2,6 +2,7 @@
 
 namespace InvMixerProduct\Controller\StoreFront\Mix;
 
+use InvMixerProduct\Service\MixContainerDefinitionProviderInterface;
 use InvMixerProduct\Service\MixServiceInterface;
 use InvMixerProduct\Service\MixViewTransformer;
 use Shopware\Core\Content\Product\SalesChannel\Listing\ProductListingLoader;
@@ -45,22 +46,30 @@ class IndexController extends MixController
     private $mixViewTransformer;
 
     /**
+     * @var MixContainerDefinitionProviderInterface
+     */
+    private $mixContainerDefinitionProvider;
+
+    /**
      * IndexController constructor.
      * @param ProductListingLoader $productListingLoader
-     * @param MixServiceInterface $mixSessionService
+     * @param MixServiceInterface $mixService
      * @param SessionInterface $session
      * @param MixViewTransformer $mixViewTransformer
+     * @param MixContainerDefinitionProviderInterface $mixContainerDefinitionProvider
      */
     public function __construct(
         ProductListingLoader $productListingLoader,
-        MixServiceInterface $mixSessionService,
+        MixServiceInterface $mixService,
         SessionInterface $session,
-        MixViewTransformer $mixViewTransformer
+        MixViewTransformer $mixViewTransformer,
+        MixContainerDefinitionProviderInterface $mixContainerDefinitionProvider
     ) {
         $this->productListingLoader = $productListingLoader;
-        $this->mixService = $mixSessionService;
+        $this->mixService = $mixService;
         $this->session = $session;
         $this->mixViewTransformer = $mixViewTransformer;
+        $this->mixContainerDefinitionProvider = $mixContainerDefinitionProvider;
     }
 
 
@@ -68,6 +77,8 @@ class IndexController extends MixController
      * @param SalesChannelContext $salesChannelContext
      * @param Context $context
      * @return Response
+     *
+     * @throws \Exception
      */
     public function __invoke(SalesChannelContext $salesChannelContext, Context $context)
     {
@@ -87,6 +98,7 @@ class IndexController extends MixController
         return $this->renderStorefront(
             '@InvMixerProduct/storefront/page/mix.index.html.twig',
             [
+                'containerDefinitionCollection' => $this->mixContainerDefinitionProvider->getAvailableContainerCollection(),
                 'mixView' => $mixView,
                 'productListing' => $productListing
             ]
