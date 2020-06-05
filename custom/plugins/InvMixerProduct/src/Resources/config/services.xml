@@ -30,7 +30,7 @@
             <tag name="controller.service_arguments"/>
             <argument type="service" id="session"/>
             <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
-            <argument type="service" id="validator" />
+            <argument type="service" id="validator"/>
         </service>
         <service id="InvMixerProduct\Controller\StoreFront\Mix\SetContainerDesignController">
             <tag name="controller.service_arguments"/>
@@ -55,10 +55,16 @@
         <service id="InvMixerProduct\Service\MixServiceInterface" alias="InvMixerProduct\Service\MixService"/>
         <service id="InvMixerProduct\Service\MixService">
             <argument type="service" id="InvMixerProduct\Repository\MixEntityRepository"/>
+            <argument type="service" id="InvMixerProduct\Service\ProductAccessorInterface"/>
         </service>
 
-        <service id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface" alias="InvMixerProduct\Service\StaticMixContainerDefinitionProvider"/>
+        <service id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"
+                 alias="InvMixerProduct\Service\StaticMixContainerDefinitionProvider"/>
         <service id="InvMixerProduct\Service\StaticMixContainerDefinitionProvider">
+        </service>
+
+        <service id="InvMixerProduct\Service\ProductAccessorInterface" alias="InvMixerProduct\Service\ProductAccessor"/>
+        <service id="InvMixerProduct\Service\ProductAccessor">
         </service>
 
         <service id="InvMixerProduct\EntityDefinition\MixEntityDefinition">
