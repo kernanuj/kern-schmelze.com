@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="InvMixerProduct\Controller\StoreFront\Mix\AddController">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="InvMixerProduct\Repository\ProductRepository"/>
+            <argument type="service" id="session"/>
+            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
+        </service>
+        <service id="InvMixerProduct\Controller\StoreFront\Mix\SetQuantityController">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="InvMixerProduct\Repository\ProductRepository"/>
+            <argument type="service" id="session"/>
+            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
+        </service>
+        <service id="InvMixerProduct\Controller\StoreFront\Mix\IndexController">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="Shopware\Core\Content\Product\SalesChannel\Listing\ProductListingLoader"/>
+            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
+            <argument type="service" id="session"/>
+            <argument type="service" id="InvMixerProduct\Service\MixViewTransformer"/>
+            <argument type="service" id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"/>
+        </service>
+        <service id="InvMixerProduct\Controller\StoreFront\Mix\SetLabelController">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="session"/>
+            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
+            <argument type="service" id="validator" />
+        </service>
+        <service id="InvMixerProduct\Controller\StoreFront\Mix\SetContainerDesignController">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="session"/>
+            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
+            <argument type="service" id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"/>
+        </service>
+        <service id="InvMixerProduct\Controller\StoreFront\Mix\SetContainerWeightController">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="session"/>
+            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
+            <argument type="service" id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"/>
+        </service>
+
+        <service id="InvMixerProduct\Controller\StoreFront\Mix\ResetController">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="session"/>
+        </service>
+
+        <service id="InvMixerProduct\Service\MixViewTransformer"/>
+
+        <service id="InvMixerProduct\Service\MixServiceInterface" alias="InvMixerProduct\Service\MixService"/>
+        <service id="InvMixerProduct\Service\MixService">
+            <argument type="service" id="InvMixerProduct\Repository\MixEntityRepository"/>
+        </service>
+
+        <service id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface" alias="InvMixerProduct\Service\StaticMixContainerDefinitionProvider"/>
+        <service id="InvMixerProduct\Service\StaticMixContainerDefinitionProvider">
+        </service>
+
+        <service id="InvMixerProduct\EntityDefinition\MixEntityDefinition">
+            <tag name="shopware.entity.definition" entiy="inv_mixer_product__mix"/>
+        </service>
+
+        <service id="InvMixerProduct\Repository\MixEntityRepository" public="true">
+            <argument type="service" id="inv_mixer_product__mix.repository"/>
+            <argument type="service" id="inv_mixer_product__mix_item.repository"/>
+        </service>
+        <service id="InvMixerProduct\Repository\ProductRepository" public="true">
+            <argument type="service" id="product.repository"/>
+        </service>
+
+        <service id="InvMixerProduct\EntityDefinition\MixItemEntityDefinition">
+            <tag name="shopware.entity.definition" entiy="inv_mixer_product__mix_item"/>
+        </service>
+
+        <service id="InvMixerProduct\DataAbstractionLayer\ContainerDefinitionFieldSerializer">
+            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\DefinitionInstanceRegistry"/>
+            <argument type="service" id="validator"/>
+            <tag name="shopware.field_serializer"/>
+        </service>
+    </services>
+</container>
