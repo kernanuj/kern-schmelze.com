@@ -4,6 +4,7 @@ namespace InvMixerProduct\Value;
 
 use InvMixerProduct\Constants;
 use Shopware\Core\Framework\Struct;
+use function assert;
 
 /**
  * Class Weight
@@ -96,6 +97,43 @@ class Weight extends Struct\Struct
     public function getUnit(): string
     {
         return $this->unit;
+    }
+
+    /**
+     * @param Weight $left
+     * @return $this
+     */
+    public function add(Weight $left): self
+    {
+        assert($this->getUnit() === $left->getUnit());
+
+        return new self(
+            $this->value += $left->getValue(),
+            $this->unit
+        );
+    }
+
+    /**
+     * @param int $factor
+     * @return $this
+     */
+    public function multipliedBy(int $factor): self
+    {
+        return new self(
+            $this->value * $factor,
+            $this->unit
+        );
+    }
+
+    /**
+     * @param Weight $left
+     * @return bool
+     */
+    public function isGreaterThan(Weight $left): bool
+    {
+        assert($this->getUnit() === $left->getUnit());
+
+        return $this->getValue() > $left->getValue();
     }
 
 }

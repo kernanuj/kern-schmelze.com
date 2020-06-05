@@ -3,11 +3,14 @@
 namespace InvMixerProduct\Entity;
 
 use InvMixerProduct\Exception\EntityNotFoundException;
+use InvMixerProduct\Service\ProductAccessorInterface;
 use InvMixerProduct\Struct\ContainerDefinition;
+use InvMixerProduct\Value\Weight;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 /**
  * Class MixEntity
@@ -153,6 +156,20 @@ class MixEntity extends Entity
 
     /**
      * @param ProductEntity $productEntity
+     * @return bool
+     */
+    public function hasItemOfProduct(ProductEntity $productEntity): bool
+    {
+        try {
+            $this->getItemOfProduct($productEntity);
+            return true;
+        } catch (EntityNotFoundException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * @param ProductEntity $productEntity
      * @return MixItemEntity
      * @throws EntityNotFoundException
      */
@@ -165,8 +182,8 @@ class MixEntity extends Entity
             );
         }
 
-        foreach ($this->items as $item){
-            if($item->getProduct()->getId() === $productEntity->getId()){
+        foreach ($this->items as $item) {
+            if ($item->getProduct()->getId() === $productEntity->getId()) {
                 return $item;
             }
         }
@@ -178,18 +195,65 @@ class MixEntity extends Entity
     }
 
     /**
-     * @param ProductEntity $productEntity
-     * @return bool
+     * @return int
      */
-    public function hasItemOfProduct(ProductEntity $productEntity): bool
+    public function getTotalItemQuantity(): int
     {
-        try{
-            $this->getItemOfProduct($productEntity);
-            return true;
-        }catch(EntityNotFoundException $e){
-            return false;
+        if (null === $this->items) {
+            return 0;
         }
 
+        $quantity = 0;
+        foreach ($this->items as $item) {
+            $quantity += $item->getQuantity();
+        }
+
+        return $quantity;
+    }
+
+    /**
+     * @param ProductAccessorInterface $accessor
+     * @param SalesChannelContext $context
+     * @return Weight
+     */
+    public function getTotalWeight(
+        ProductAccessorInterface $accessor,
+        SalesChannelContext $context
+    ): Weight {
+        if (null === $this->items) {
+            return Weight::aZeroGrams();
+        }
+
+        $weight = Weight::aZeroGrams();
+
+        foreach ($this->items as $item) {
+            $weight->add(
+                $accessor->accessProductWeight(
+                    $item->getProduct(),
+                    $context
+                )->multipliedBy($item->getQuantity())
+            );
+        }
+
+        return $weight;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCountOfDifferentProducts(): int
+    {
+        if (null === $this->items) {
+            return 0;
+        }
+
+        $ids = [];
+
+        foreach ($this->items as $item) {
+            $ids[] = $item->getProduct()->getId();
+        }
+
+        return count(array_unique($ids));
     }
 
 }

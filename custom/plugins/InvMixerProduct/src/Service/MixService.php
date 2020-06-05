@@ -2,8 +2,13 @@
 
 namespace InvMixerProduct\Service;
 
+use Exception;
 use InvMixerProduct\Entity\MixEntity as Subject;
 use InvMixerProduct\Entity\MixItemEntity;
+use InvMixerProduct\Exception\ContainerWeightExceededException;
+use InvMixerProduct\Exception\NotEligibleProductException;
+use InvMixerProduct\Exception\NumberOfProductsExceededException;
+use InvMixerProduct\Exception\ProductStockExceededException;
 use InvMixerProduct\Repository\MixEntityRepository;
 use InvMixerProduct\Struct\ContainerDefinition;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
@@ -24,12 +29,19 @@ class MixService implements MixServiceInterface
     private $mixRepository;
 
     /**
+     * @var ProductAccessorInterface
+     */
+    private $productAccessor;
+
+    /**
      * MixService constructor.
      * @param MixEntityRepository $mixRepository
+     * @param ProductAccessorInterface $productAccessor
      */
-    public function __construct(MixEntityRepository $mixRepository)
+    public function __construct(MixEntityRepository $mixRepository, ProductAccessorInterface $productAccessor)
     {
         $this->mixRepository = $mixRepository;
+        $this->productAccessor = $productAccessor;
     }
 
     /**
@@ -40,6 +52,7 @@ class MixService implements MixServiceInterface
         ProductEntity $productEntity,
         SalesChannelContext $context
     ): Subject {
+
         if ($subject->hasItemOfProduct($productEntity)) {
             $this->setProductQuantity(
                 $subject,
@@ -48,6 +61,11 @@ class MixService implements MixServiceInterface
                 $context
             );
         } else {
+            $this->assertCanAddProduct(
+                $subject,
+                $productEntity,
+                $context
+            );
             $item = new MixItemEntity();
             $item->setId(Uuid::randomHex());
             $item->setProduct($productEntity);
@@ -55,6 +73,13 @@ class MixService implements MixServiceInterface
             $item->setQuantity(1);
 
             $subject->addMixItem($item);
+
+            $this->assertCanSetItemQuantity(
+                $subject,
+                $item,
+                1,
+                $context
+            );
 
             $this->save($subject, $context);
         }
@@ -80,6 +105,13 @@ class MixService implements MixServiceInterface
         }
 
         $item = $subject->getItemOfProduct($productEntity);
+
+        $this->assertCanSetItemQuantity(
+            $subject,
+            $item,
+            $quantity,
+            $context
+        );
 
         $item->setQuantity(
             $quantity
@@ -110,7 +142,7 @@ class MixService implements MixServiceInterface
      * @param Subject $subject
      * @param SalesChannelContext $context
      * @return Subject
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(
         Subject $subject,
@@ -118,6 +150,72 @@ class MixService implements MixServiceInterface
     ): Subject {
         $this->mixRepository->save($subject, $context->getContext());
         return $subject;
+    }
+
+    /**
+     * @param Subject $subject
+     * @param MixItemEntity $mixItem
+     * @param int $quantity
+     * @param SalesChannelContext $context
+     * @throws ContainerWeightExceededException
+     * @throws ProductStockExceededException
+     */
+    private function assertCanSetItemQuantity(
+        Subject $subject,
+        MixItemEntity $mixItem,
+        int $quantity,
+        SalesChannelContext $context
+    ): void {
+        $itemQuantityDifference = $quantity - $mixItem->getQuantity();
+
+        $itemWeight = $this->productAccessor->accessProductWeight($mixItem->getProduct(), $context);
+        $totalMixWeight = $subject->getTotalWeight(
+            $this->productAccessor,
+            $context
+        );
+
+        $maxAllowedWeight = $subject->getContainerDefinition()->getMaxContainerWeight();
+        $newWeight = $totalMixWeight->add($itemWeight->multipliedBy($itemQuantityDifference));
+        if ($newWeight->isGreaterThan($maxAllowedWeight)) {
+            throw ContainerWeightExceededException::fromContainerAndWeight(
+                $subject->getContainerDefinition(),
+                $newWeight
+            );
+        }
+
+        $availableStock = $this->productAccessor->accessProductAvailableStock($mixItem->getProduct(), $context);
+        if($availableStock < $quantity + $mixItem->getQuantity()){
+            throw ProductStockExceededException::fromProductAndRequestedStock(
+                $mixItem->getProduct(),
+                $availableStock,
+                $quantity+ $mixItem->getQuantity()
+            );
+        }
+    }
+
+    /**
+     * @param Subject $subject
+     * @param ProductEntity $productEntity
+     * @param SalesChannelContext $context
+     *
+     * @throws NotEligibleProductException
+     * @throws NumberOfProductsExceededException
+     */
+    private function assertCanAddProduct(
+        Subject $subject,
+        ProductEntity $productEntity,
+        SalesChannelContext $context
+    ): void {
+        if (true !== $this->productAccessor->isEligibleProduct($productEntity, $context)) {
+            throw NotEligibleProductException::fromProductEntity($productEntity);
+        }
+
+        if ($subject->getCountOfDifferentProducts() > $subject->getContainerDefinition()->getMaximumNumberOfProducts()) {
+            throw NumberOfProductsExceededException::fromCountAndContainerDefinition(
+                $subject->getContainerDefinition(),
+                $subject->getCountOfDifferentProducts() + 1
+            );
+        }
     }
 
     /**
@@ -158,19 +256,58 @@ class MixService implements MixServiceInterface
         return $this->save($subject, $salesChannelContext);
     }
 
-
     /**
      * @inheritDoc
      */
     public function applyContainerDefinition(
-        Subject $mixEntity,
+        Subject $subject,
         ContainerDefinition $containerDefinition,
         SalesChannelContext $context
     ): Subject {
-        $mixEntity->setContainerDefinition($containerDefinition);
-        return $this->save($mixEntity, $context);
+
+        $this->assertCanApplyContainerDefinition(
+            $subject,
+            $containerDefinition,
+            $context
+        );
+
+        $subject->setContainerDefinition($containerDefinition);
+        return $this->save($subject, $context);
     }
 
+    /**
+     * @param Subject $subject
+     * @param ContainerDefinition $containerDefinition
+     * @param SalesChannelContext $context
+     * @throws ContainerWeightExceededException
+     * @throws NumberOfProductsExceededException
+     */
+    private function assertCanApplyContainerDefinition(
+        Subject $subject,
+        ContainerDefinition $containerDefinition,
+        SalesChannelContext $context
+    ): void {
+
+
+        $currentWeight = $subject->getTotalWeight(
+            $this->productAccessor,
+            $context
+        );
+        if ($currentWeight->isGreaterThan($containerDefinition->getMaxContainerWeight())) {
+            throw ContainerWeightExceededException::fromContainerAndWeight(
+                $containerDefinition,
+                $currentWeight
+            );
+        }
+
+        $currentProductCount = $subject->getCountOfDifferentProducts();
+        if($currentProductCount > $containerDefinition->getMaximumNumberOfProducts()){
+            throw NumberOfProductsExceededException::fromCountAndContainerDefinition(
+                $containerDefinition,
+                $currentProductCount
+            );
+        }
+    }
 
     /**
      * @inheritDoc
@@ -185,6 +322,4 @@ class MixService implements MixServiceInterface
 
         return $subject;
     }
-
-
 }

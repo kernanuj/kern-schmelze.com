@@ -2,6 +2,7 @@
 
 namespace InvMixerProduct\Service;
 
+use Exception;
 use InvMixerProduct\Entity\MixEntity as Subject;
 use InvMixerProduct\Exception\EntityNotFoundException;
 use InvMixerProduct\Struct\ContainerDefinition;
@@ -23,7 +24,7 @@ interface MixServiceInterface
      * @return Subject
      *
      * @throws EntityNotFoundException
-     * @throws \Exception
+     * @throws Exception
      */
     public function addProduct(
         Subject $subject,
@@ -38,7 +39,7 @@ interface MixServiceInterface
      * @return Subject
      *
      * @throws EntityNotFoundException
-     * @throws \Exception
+     * @throws Exception
      */
     public function removeProduct(
         Subject $subject,
@@ -54,7 +55,7 @@ interface MixServiceInterface
      * @return Subject
      *
      * @throws EntityNotFoundException
-     * @throws \Exception
+     * @throws Exception
      */
     public function setProductQuantity(
         Subject $subject,
@@ -64,16 +65,16 @@ interface MixServiceInterface
     ): Subject;
 
     /**
-     * @param Subject $mixEntity
+     * @param Subject $subject
      * @param ContainerDefinition $containerDefinition
      * @param SalesChannelContext $context
      *
      * @return Subject
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function applyContainerDefinition(
-        Subject $mixEntity,
+        Subject $subject,
         ContainerDefinition $containerDefinition,
         SalesChannelContext $context
     ): Subject;
@@ -85,6 +86,7 @@ interface MixServiceInterface
      * @return Subject
      *
      * @throws EntityNotFoundException
+     * @throws Exception
      */
     public function setLabel(
         Subject $mixEntity,
@@ -96,7 +98,7 @@ interface MixServiceInterface
      * @param SalesChannelContext $context
      * @return Subject
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function create(
         SalesChannelContext $context
@@ -107,7 +109,7 @@ interface MixServiceInterface
      * @param SalesChannelContext $context
      * @return Subject
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function read(
         string $id,
@@ -120,7 +122,7 @@ interface MixServiceInterface
      * @param SalesChannelContext $salesChannelContext
      * @return Subject
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function assignCustomer(
         Subject $subject,
