@@ -1,0 +1,157 @@
+version: '2'
+
+vars:
+    WEBSPACE_ROOT_DIR:
+        /home/ksb2cde/kern-schmelze.com/kern-schmelze.com/
+
+    SOFTWARE_DIR:
+        kern-schmelze.com
+
+    #This is the directory initially created when git pull is executed.
+    SOFTWARE_BASE_DIR:
+        /home/ksb2cde/kern-schmelze.com/kern-schmelze.com/kern-schmelze.com/
+
+    SERVER_PUBLIC_DIR:
+        web
+
+    SHOPWARE_PUBLIC_DIR:
+        public
+
+    PERMANENT_SOURCES_DIR:
+        "{{.WEBSPACE_ROOT_DIR}}permanent_sources"
+
+    GITHUB_REPOSITORY_URL:
+        https://github.com/inventivo/kern-schmelze.com.git
+
+    BRANCH:
+        master
+
+    MAX_RELEASES_HISTORY:
+        5
+
+tasks:
+    default:
+        cmds:
+            - echo 'Duuude, please give me a task to execute!'
+        silent: true
+
+    deploy-production:
+        desc: Deploy to production server.
+        cmds:
+            - task: git-pull
+            - task: copy-permanent-sources
+            - task: build
+            - task: clean-up
+            - task: name-release
+            - task: create-symlink
+            - task: finish
+
+
+    git-pull:
+        desc: Pull project repository from github.
+        cmds:
+            #- cd {{.WEBSPACE_ROOT_DIR}}
+            - echo 'Executing in {{.WEBSPACE_ROOT_DIR}}.'
+            - git clone {{.GITHUB_REPOSITORY_URL}}
+            - echo 'Repository pulled.'
+            - echo '------------------------'
+        silent: true
+
+    copy-permanent-sources:
+        desc: Copy permanent sources from permanent_sources folder to the right places
+        cmds:
+            - cp {{.PERMANENT_SOURCES_DIR}}/.env {{.SOFTWARE_BASE_DIR}}
+            - echo "Copied .env to it's location."
+            - cp -r {{.PERMANENT_SOURCES_DIR}}/jwt/ "{{.SOFTWARE_BASE_DIR}}config/"
+            - echo "Copied /jwt to it's location."
+            - cp -r {{.PERMANENT_SOURCES_DIR}}/secrets/ "{{.SOFTWARE_BASE_DIR}}config/"
+            - echo "Copied /secrets to it's location."
+
+            # rsync not needed any more because /public/media dir of live release is a symlink to permanent_sources/media
+            #- RELEASE_DIR="$(ls -td release-* | head -1)"; rsync -a "{{.WEBSPACE_ROOT_DIR}}$RELEASE_DIR/{{.SHOPWARE_PUBLIC_DIR}}/media" {{.PERMANENT_SOURCES_DIR}}/media/
+            #- echo '/public/media synced with /permanent_sources/media.'
+            - rm -rf {{.SOFTWARE_BASE_DIR}}public/media
+            - echo '{{.SOFTWARE_BASE_DIR}}public/media deleted'
+            - ln -s {{.PERMANENT_SOURCES_DIR}}/media {{.SOFTWARE_BASE_DIR}}public;
+            - echo 'Symlink from {{.SOFTWARE_BASE_DIR}}media to {{.PERMANENT_SOURCES_DIR}}public/media created.'
+
+            #- cp -r {{.PERMANENT_SOURCES_DIR}}/media/ "{{.SOFTWARE_BASE_DIR}}public/"
+            #- echo "Copied /media to it's location."
+
+            # rsync not needed any more because /public/thumbnail dir of live release is a symlink to permanent_sources/thumbnail
+            #- RELEASE_DIR="$(ls -td release-* | head -1)"; rsync -a "{{.WEBSPACE_ROOT_DIR}}$RELEASE_DIR/{{.SHOPWARE_PUBLIC_DIR}}/thumbnail" {{.PERMANENT_SOURCES_DIR}}/thumbnail/
+            #- echo '/public/thumbnail synced with /permanent_sources/thumbnail.'
+            - rm -rf {{.SOFTWARE_BASE_DIR}}public/thumbnail
+            - echo '{{.SOFTWARE_BASE_DIR}}public/thumbnail deleted.'
+            - ln -s {{.PERMANENT_SOURCES_DIR}}/thumbnail {{.SOFTWARE_BASE_DIR}}public;
+            - echo 'Symlink from {{.SOFTWARE_BASE_DIR}}thumbnail to {{.PERMANENT_SOURCES_DIR}}public/thumbnail created.'
+
+            - cp {{.PERMANENT_SOURCES_DIR}}/.htaccess {{.SOFTWARE_BASE_DIR}}public
+            - echo '.htaccess copied from {{.PERMANENT_SOURCES_DIR}} to {{.SOFTWARE_BASE_DIR}}public'
+
+            #- cp -r {{.PERMANENT_SOURCES_DIR}}/thumbnail/ "{{.SOFTWARE_BASE_DIR}}public/"
+            #- echo "Copied /thumbnails to it's location."
+        silent: true
+
+    build:
+        desc: Building Project.
+        cmds:
+            - echo 'Executing in /home/ksb2cde/kern-schmelze.com/kern-schmelze.com/kern-schmelze.com'
+            #- cd {{.SOFTWARE_BASE_DIR}}; php bin/build.sh; echo 'build.sh executed.'
+            - cd {{.SOFTWARE_BASE_DIR}}; composer install; echo 'Composer install executed.'
+            - cd {{.SOFTWARE_BASE_DIR}}; bin/build-administration.sh; echo 'bin/build-administration.sh executed.'
+            - cd {{.SOFTWARE_BASE_DIR}}; bin/build-storefront.sh; echo 'bin/build-storefront.sh executed.'
+            #- cd {{.SOFTWARE_BASE_DIR}}; bin/console bundle:dump; echo 'plugins.json neu erstellen'
+            - cd {{.SOFTWARE_BASE_DIR}}; bin/console assets:install; echo 'Assets installed.'
+            - cd {{.SOFTWARE_BASE_DIR}}; bin/console plugin:refresh; echo 'Plugins refreshed.'
+            - cd {{.SOFTWARE_BASE_DIR}}; bin/console plugin:install *; echo 'All available plugins from custom/plugins installed.'
+            - cd {{.SOFTWARE_BASE_DIR}}; bin/console plugin:activate *; echo 'All plugins from custom/plugins activated.'
+            - cd {{.SOFTWARE_BASE_DIR}}; bin/console theme:refresh; echo 'Theme refreshed.'
+            - cd {{.SOFTWARE_BASE_DIR}}; bin/console theme:compile; echo 'Theme compiled.'
+            - cd {{.SOFTWARE_BASE_DIR}}; bin/console sitemap:generate; echo 'Sitemap generated.'
+            - cd {{.SOFTWARE_BASE_DIR}}; bin/console cache:clear; echo 'Cache cleared.'
+            - cd {{.SOFTWARE_BASE_DIR}}; bin/console cache:warmup; echo 'Cache warming up.'
+            - echo 'Build done.'
+            - echo '------------------------'
+        silent: true
+
+    clean-up:
+        desc: Removing connection to git repo deleting .git folder.
+        cmds:
+            - rm -rf {{.WEBSPACE_ROOT_DIR}}{{.SOFTWARE_DIR}}/.git
+            - echo 'Removed {{.WEBSPACE_ROOT_DIR}}{{.SOFTWARE_DIR}}/.git folder.'
+            - echo '------------------------'
+        silent: true
+
+    name-release:
+        desc: Renaming {{.SOFTWARE_DIR}} to release
+        cmds:
+            #- cd {{.WEBSPACE_ROOT_DIR}}
+            - echo 'Executing in {{.WEBSPACE_ROOT_DIR}}.'
+            #- cd {{.WEBSPACE_ROOT_DIR}}; DIR_COUNT="$(find -maxdepth 1 -type d -name 'release-*' | wc -l)"; mv {{.SOFTWARE_DIR}} "release-$(date '+%d-%m-%Y')-$DIR_COUNT"; echo 'Renamed {{.SOFTWARE_DIR}} to' "release-$(date '+%d-%m-%Y')-$DIR_COUNT"
+            - cd {{.WEBSPACE_ROOT_DIR}}; mv {{.SOFTWARE_DIR}} "release-$(date '+%d-%m-%Y-%H-%M-%S')"; echo 'Renamed {{.SOFTWARE_DIR}} to' "release-$(date '+%d-%m-%Y-%H-%M-%S')"
+            - echo '------------------------'
+        silent: true
+
+    create-symlink:
+        desc: Renaming old symlink for revert option and create new symlink to {{.WEBSPACE_ROOT_DIR}}{{.SHOPWARE_PUBLIC_DIR}}
+        cmds:
+            - rm -rf {{.WEBSPACE_ROOT_DIR}}{{.SERVER_PUBLIC_DIR}}_last_release
+            - echo 'Old Symlink web_last_release deleted.'
+            - mv {{.WEBSPACE_ROOT_DIR}}{{.SERVER_PUBLIC_DIR}} {{.WEBSPACE_ROOT_DIR}}{{.SERVER_PUBLIC_DIR}}_last_release
+            - echo 'Renamed {{.WEBSPACE_ROOT_DIR}}{{.SERVER_PUBLIC_DIR}} to {{.WEBSPACE_ROOT_DIR}}{{.SERVER_PUBLIC_DIR}}_last_release'
+            - RELEASE_DIR="$(ls -td release-* | head -1)"; ln -s "{{.WEBSPACE_ROOT_DIR}}$RELEASE_DIR/{{.SHOPWARE_PUBLIC_DIR}}" "{{.WEBSPACE_ROOT_DIR}}{{.SERVER_PUBLIC_DIR}}"; echo 'Symlink to latest release created:' "{{.WEBSPACE_ROOT_DIR}}$RELEASE_DIR/{{.SHOPWARE_PUBLIC_DIR}} {{.WEBSPACE_ROOT_DIR}}{{.SERVER_PUBLIC_DIR}}"
+            - echo 'Symlink to public/ folder created.'
+            - echo '------------------------'
+        silent: true
+
+    finish:
+        desc: Display finish message.
+        cmds:
+            - echo '-------------------------'
+            - echo 'All tasks finished.'
+        silent: true
+
+
+
+
