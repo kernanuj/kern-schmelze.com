@@ -18,6 +18,12 @@ custom/plugins/*
 !custom/plugins/InvAdvancedCmsBlocks/*
 !custom/plugins/InvMixerProduct/
 !custom/plugins/InvMixerProduct/*
+!custom/plugins/InvMixerBox/
+!custom/plugins/InvMixerBox/*
+!custom/plugins/InvExportInvoice/
+!custom/plugins/InvExportInvoice/*
+!custom/plugins/InvExportLabel/
+!custom/plugins/InvExportLabel/*
 !.gitkeep
 
 /vendor/
