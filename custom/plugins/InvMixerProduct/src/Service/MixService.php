@@ -337,8 +337,10 @@ class MixService implements MixServiceInterface
     /**
      * @inheritDoc
      */
-    public function addToCart(Subject $subject, SalesChannelContext $salesChannelContext): LineItem
-    {
+    public function convertToCartItem(
+        Subject $subject,
+        SalesChannelContext $salesChannelContext
+    ): LineItem {
         return $this->mixToCartItemConverter->toCartItem(
             $subject,
             $salesChannelContext

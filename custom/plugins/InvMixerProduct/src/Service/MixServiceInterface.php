@@ -137,7 +137,7 @@ interface MixServiceInterface
      *
      * @return LineItem
      */
-    public function addToCart(
+    public function convertToCartItem(
         Subject $subject,
         SalesChannelContext $salesChannelContext
     ): LineItem;

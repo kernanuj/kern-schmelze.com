@@ -4,6 +4,7 @@ namespace InvMixerProduct\Controller\StoreFront\Mix;
 
 use Exception;
 use InvMixerProduct\Service\MixServiceInterface;
+use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -32,18 +33,22 @@ class AddToCartController extends MixController
     private $mixService;
 
     /**
-     * AddController constructor.
+     * @var CartService
+     */
+    private $cartService;
+
+    /**
+     * AddToCartController constructor.
      * @param SessionInterface $session
      * @param MixServiceInterface $mixService
+     * @param CartService $cartService
      */
-    public function __construct(
-        SessionInterface $session,
-        MixServiceInterface $mixService
-    ) {
+    public function __construct(SessionInterface $session, MixServiceInterface $mixService, CartService $cartService)
+    {
         $this->session = $session;
         $this->mixService = $mixService;
+        $this->cartService = $cartService;
     }
-
 
     /**
      * @param SalesChannelContext $salesChannelContext
@@ -59,8 +64,17 @@ class AddToCartController extends MixController
             $this->mixService
         );
 
-        $this->mixService->addToCart(
+        $cartLineItem = $this->mixService->convertToCartItem(
             $mix,
+            $salesChannelContext
+        );
+
+        $this->cartService->add(
+            $this->cartService->getCart(
+                $salesChannelContext->getToken(),
+                $salesChannelContext
+            ),
+            $cartLineItem,
             $salesChannelContext
         );
 
