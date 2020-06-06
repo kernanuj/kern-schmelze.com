@@ -1,0 +1,30 @@
+{
+  "send-cloud": {
+    "basic": {
+      "label": "Sendcloud",
+      "description": ""
+    },
+    "welcome": {
+      "title": "The shipping software for e-commerce",
+      "mainText": "Join over 10.000+ online stores automating their shipping process.",
+      "buttonLabel": "Login or create your free Sendcloud account"
+    },
+    "dashboard": {
+      "mainText": "You're all set to start shipping more efficiently!",
+      "buttonLabel": "Go to Sendcloud",
+      "notification": {
+        "title": "Service point delivery is disabled!",
+        "message": "Enable service points in your Sendcloud settings > Integrations > {channel} to offer Service Point Delivery in your checkout."
+      }
+    },
+    "shipment": {
+      "trackingNumber": "Tracking number",
+      "servicePointDelivery": "Service Point Delivery",
+      "changeServicePoint": "Change a service point",
+      "selectServicePoint": "Select service point",
+      "emptyStatusMessage": "-",
+      "emptyTrackingNumberMessage": "-",
+      "emptyServicePointMessage": "-"
+    }
+  }
+}

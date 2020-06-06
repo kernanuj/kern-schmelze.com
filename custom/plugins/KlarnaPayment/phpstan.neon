@@ -1,0 +1,10 @@
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+    reportUnmatchedIgnoredErrors: true
+    inferPrivatePropertyTypeFromConstructor: true
+    checkMissingIterableValueType: false
+    ignoreErrors:
+        - '#does not accept object#'
+        - '#KlarnaPayment\\Core\\System\\SystemConfig\\SystemConfigService::__construct\(\) does not call parent constructor from Shopware\\Core\\System\\SystemConfig\\SystemConfigService.#'

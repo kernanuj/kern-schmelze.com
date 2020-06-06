@@ -1,0 +1,30 @@
+{
+  "send-cloud": {
+    "basic": {
+      "label": "Sendcloud",
+      "description": ""
+    },
+    "welcome": {
+      "title": "De verzendsoftware voor e-commerce",
+      "mainText": "Al meer dan 10.000 webshops automatiseren hun verzendproces. Join the revolution!",
+      "buttonLabel": "Login of creëer een gratis Sendcloud account"
+    },
+    "dashboard": {
+      "mainText": "Je bent helemaal klaar. Start direct met verzenden!",
+      "buttonLabel": "Ga naar Sendcloud",
+      "notification": {
+        "title": "Afhaalpuntlevering is uitgeschakeld!",
+        "message": "Activeer afhaalpunten in je Sendcloud instellingen bij > Integraties > {channel} om afhaalpunten in je checkout aan te bieden."
+      }
+    },
+    "shipment": {
+      "trackingNumber": "Tracking nummer",
+      "servicePointDelivery": "Afhaalpuntlevering",
+      "changeServicePoint": "Wijzig afhaalpunt",
+      "selectServicePoint": "Selecteer afhaalpunt",
+      "emptyStatusMessage": "-",
+      "emptyTrackingNumberMessage": "-",
+      "emptyServicePointMessage": "-"
+    }
+  }
+}

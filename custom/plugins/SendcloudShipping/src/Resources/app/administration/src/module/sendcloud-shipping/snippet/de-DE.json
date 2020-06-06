@@ -1,0 +1,30 @@
+{
+  "send-cloud": {
+    "basic": {
+      "label": "Sendcloud",
+      "description": ""
+    },
+    "welcome": {
+      "title": "Die Versandsoftware für den E-Commerce",
+      "mainText": "Bereits mehr als 10.000 Onlinehändler vertrauen auf Sendcloud. Join the revolution!",
+      "buttonLabel": "Einloggen oder kostenlosen Sendcloud Account erstellen"
+    },
+    "dashboard": {
+      "mainText": "Alles bereit! Jetzt kann's losgehen!",
+      "buttonLabel": "Gehe zu Sendcloud",
+      "notification": {
+        "title": "Die Service Point Zustellung ist deaktiviert!",
+        "message": "Bitte aktivieren Sie die Service Points in Sendcloud unter \"Einstellungen\" > \"Integrationen\" > {channel}, um die Versandmethode verwenden zu können."
+      }
+    },
+    "shipment": {
+      "trackingNumber": "Tracking number",
+      "servicePointDelivery": "Service Point Zustellung",
+      "changeServicePoint": "Service Point ändern",
+      "selectServicePoint": "Service Point auswählen",
+      "emptyStatusMessage": "-",
+      "emptyTrackingNumberMessage": "-",
+      "emptyServicePointMessage": "-"
+    }
+  }
+}

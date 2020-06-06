@@ -1,0 +1,47 @@
+{% sw_extends '@Storefront/storefront/page/checkout/confirm/index.html.twig' %}
+
+{% block page_checkout_confirm_errors %}
+    {# @var \KlarnaPayment\Components\Extension\ErrorMessageExtension errorMessage #}
+    {% set errorMessage = page.extensions[constant('KlarnaPayment\\Components\\Extension\\ErrorMessageExtension::EXTENSION_NAME')] %}
+
+    {% if errorMessage %}
+        {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with {
+            type: "danger",
+            content: errorMessage.message | trans
+        } %}
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}
+
+{% block page_checkout_confirm %}
+    {{ parent() }}
+
+    {# @var \KlarnaPayment\Components\Extension\TemplateData\CheckoutDataExtension klarnaCheckoutData #}
+    {% set klarnaCheckoutData = page.extensions[constant('KlarnaPayment\\Components\\Extension\\TemplateData\\CheckoutDataExtension::EXTENSION_NAME')] %}
+
+    {% if klarnaCheckoutData.klarnaType == constant('KlarnaPayment\\Components\\Extension\\TemplateData\\CheckoutDataExtension::TYPE_CHECKOUT') %}
+        {% sw_include '@Storefront/storefront/klarna/klarna-checkout.html.twig' %}
+    {% endif %}
+
+    {% if klarnaCheckoutData.klarnaType == constant('KlarnaPayment\\Components\\Extension\\TemplateData\\CheckoutDataExtension::TYPE_PAYMENTS') %}
+        {% sw_include '@Storefront/storefront/klarna/klarna-payments.html.twig' %}
+    {% endif %}
+{% endblock %}
+
+
+{% block page_checkout_confirm_form_submit %}
+    {# @var \KlarnaPayment\Components\Extension\TemplateData\CheckoutDataExtension klarnaCheckoutData #}
+    {% set klarnaCheckoutData = page.extensions[constant('KlarnaPayment\\Components\\Extension\\TemplateData\\CheckoutDataExtension::EXTENSION_NAME')] %}
+
+    {# @var \KlarnaPayment\Components\Extension\SessionDataExtension sessionData #}
+    {% set sessionData = page.cart.extensions[constant('KlarnaPayment\\Components\\Extension\\SessionDataExtension::EXTENSION_NAME')] %}
+
+    {% if klarnaCheckoutData.klarnaType == constant('KlarnaPayment\\Components\\Extension\\TemplateData\\CheckoutDataExtension::TYPE_PAYMENTS') and sessionData %}
+        <div id="klarnaConfirmFormSubmit" hidden="hidden">
+            {{ parent() }}
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

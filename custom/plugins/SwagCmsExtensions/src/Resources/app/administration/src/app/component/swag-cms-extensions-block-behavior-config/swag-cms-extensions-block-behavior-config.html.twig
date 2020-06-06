@@ -1,0 +1,13 @@
+{% block swag_cms_extensions_block_config %}
+    <div class="sw-cms-block-config swag-cms-extensions-block-behavior-config">
+
+        {% block swag_cms_extensions_block_config_show_quickview_field %}
+            <sw-switch-field v-model="quickview.active"
+                             :label="$tc('swag-cms-extensions.sw-cms.detail.quickview.showQuickviewLabel')"
+                             :helpText="$tc('swag-cms-extensions.sw-cms.detail.quickview.showQuickviewHelpText')"
+                             :disabled="!blockIsProductRelated"
+                             @change="quickviewActiveChanged">
+            </sw-switch-field>
+        {% endblock %}
+    </div>
+{% endblock %}

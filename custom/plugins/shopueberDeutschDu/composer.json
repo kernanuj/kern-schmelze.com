@@ -1,0 +1,43 @@
+{
+    "name": "shopueber/deutschdu",
+    "description": "Shopware 6 Sprachpaket: Deutsch in der persönlichen Du Anrede",
+    "version": "6.1.4",
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Shop-Uebersetzungen.de",
+            "homepage": "https://www.shop-uebersetzungen.de",
+            "email": "info@shop-uebersetzungen.de"
+        }
+    ],
+    "support": {
+        "email": "info@shop-uebersetzungen.de"
+    },
+    "autoload": {
+        "psr-4": {
+            "shopueberDeutschDu\\": "src/"
+        }
+    },
+    "require": {
+        "shopware/core": ">=6.0.0"
+    },
+    "minimum-stability": "RC",
+    "prefer-stable": true,
+    "extra": {
+        "shopware-plugin-class": "shopueberDeutschDu\\shopueberDeutschDu",
+        "copyright": "(c) Shop-Uebersetzungen",
+        "label": {
+            "de-DE": "Shopware 6 Sprachpaket: Deutsch DU",
+            "en-GB": "Shopware 6 language pack: German DU"
+        },
+        "description": {
+        "de-DE": "Shopware 6 Sprachpaket: Deutsch in der persönlichen Du Anrede",
+        "en-GB": "Shopware 6 language package: German with personal Du salutation"
+        },
+        "manufacturerLink": {
+            "de-DE": "https://www.shop-uebersetzungen.de",
+            "en-GB": "https://www.shop-uebersetzungen.de"
+        }
+    }
+}

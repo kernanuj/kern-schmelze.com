@@ -1,0 +1,17 @@
+{% block sw_order_detail_content_tabs_general %}
+    {% parent %}
+
+    <template v-for="transaction in klarnaTransactions">
+        {% block klarna_payment_payment_tab %}
+            <sw-tabs-item :route="{ name: 'klarna-payment-order-management.payment.detail', params: { transaction: transaction } }" :title="$tc('klarna-payment-order-management.order-tab.title')">
+                {{ $tc('klarna-payment-order-management.order-tab.title') }}
+            </sw-tabs-item>
+        {% endblock %}
+    </template>
+{% endblock %}
+
+{% block sw_order_detail_actions %}
+    <template v-if="isEditable">
+        {% parent %}
+    </template>
+{% endblock %}

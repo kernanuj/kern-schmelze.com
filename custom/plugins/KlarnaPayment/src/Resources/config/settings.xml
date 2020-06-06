@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/6.1/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>API Settings</title>
+        <title lang="de-DE">API-Konfiguration</title>
+
+        <input-field>
+            <name>apiUsername</name>
+            <label>API Username (production mode)</label>
+            <label lang="de-DE">API-Benutzername (Produktivmodus)</label>
+            <helpText>If you do not have API credentials yet, please contact vertrieb@klarna.com.</helpText>
+            <helpText lang="de-DE">Wenn Sie noch keine API-Zugangsdaten haben, wenden Sie sich bitte an vertrieb@klarna.com.</helpText>
+        </input-field>
+
+        <input-field>
+            <name>apiPassword</name>
+            <label>API Password (production mode)</label>
+            <label lang="de-DE">API-Kennwort (Produktivmodus)</label>
+            <helpText>If you do not have API credentials yet, please contact vertrieb@klarna.com.</helpText>
+            <helpText lang="de-DE">Wenn Sie noch keine API-Zugangsdaten haben, wenden Sie sich bitte an vertrieb@klarna.com.</helpText>
+        </input-field>
+
+        <input-field type="bool">
+            <name>testMode</name>
+            <label>Activate the api test mode</label>
+            <label lang="de-DE">Aktiviert den API-Testmodus</label>
+            <helpText>Uses the Klarna playground merchant interface.</helpText>
+            <helpText lang="de-DE">Verwendet die Klarna Playground-Umgebung in der Händleroberfläche</helpText>
+        </input-field>
+
+        <input-field>
+            <name>testApiUsername</name>
+            <label>API Username (test mode)</label>
+            <label lang="de-DE">API-Benutzername (Testmodus)</label>
+            <helpText>If you do not have API credentials yet, please contact vertrieb@klarna.com.</helpText>
+            <helpText lang="de-DE">Wenn Sie noch keine API-Zugangsdaten haben, wenden Sie sich bitte an vertrieb@klarna.com.</helpText>
+        </input-field>
+
+        <input-field>
+            <name>testApiPassword</name>
+            <label>API Password (test mode)</label>
+            <label lang="de-DE">API-Kennwort (Testmodus)</label>
+            <helpText>If you do not have API credentials yet, please contact vertrieb@klarna.com.</helpText>
+            <helpText lang="de-DE">Wenn Sie noch keine API-Zugangsdaten haben, wenden Sie sich bitte an vertrieb@klarna.com.</helpText>
+        </input-field>
+
+        <input-field type="bool">
+            <name>debugMode</name>
+            <label>Activate debug mode</label>
+            <label lang="de-DE">Aktiviert den Debug-Modus</label>
+            <helpText>Logs all requests and responses to the plugin log.</helpText>
+            <helpText lang="de-DE">Protokolliert alle Anfragen und Antworten auf das Plugin-Log.</helpText>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Basic Settings</title>
+        <title lang="de-DE">Grundeinstellungen</title>
+
+        <input-field type="bool">
+            <name>isOnsiteMessagingActive</name>
+            <label>Activate Klarna On-Site Messaging</label>
+            <label lang="de-DE">Klarna On-Site Messaging aktivieren</label>
+        </input-field>
+
+        <input-field type="textarea">
+            <name>onsiteMessagingScript</name>
+            <label>Script for Klarna On-Site Messaging</label>
+            <label lang="de-DE">Skript für Klarna On-Site Messaging</label>
+        </input-field>
+
+        <input-field type="textarea">
+            <name>onsiteMessagingSnippet</name>
+            <label>Snippet for Klarna On-Site Messaging</label>
+            <label lang="de-DE">Snippet für Klarna On-Site Messaging</label>
+            <helpText>If you need "data-purchase_amount" inside the snippet use "{{productPrice}}" as placeholder</helpText>
+            <helpText lang="de-DE">Falls "data-purchase_amount" innerhalb des Snippets benötigt wird, bitte "{{productPrice}}" als Platzhalter verwenden</helpText>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Payment Behaviour</title>
+        <title lang="de-DE">Zahlungsverhalten</title>
+
+        <input-field type="single-select">
+            <name>automaticCapture</name>
+            <label>Automatic Capture</label>
+            <label lang="de-DE">Automatischer Capture</label>
+            <helpText>Depending on the selection, the pending amount is captured automatically when the order has reached the configured status. If deactivated is selected, no automatic capture is performed.</helpText>
+            <helpText lang="de-DE">Je nach Auswahl wird der ausstehende Betrag automatisch eingezogen, wenn der Auftrag oder eine Lieferung den entsprechend konfigurierten Status erreicht hat. Wenn deaktiviert gewählt ist, wird kein automatischer Capture durchgeführt.</helpText>
+            <options>
+                <option>
+                    <id>orderStatus</id>
+                    <name>Order Status</name>
+                    <name lang="de-DE">Bestellungsstatus</name>
+                </option>
+                <option>
+                    <id>deliveryStatus</id>
+                    <name>Delivery Status</name>
+                    <name lang="de-DE">Lieferungsstatus</name>
+                </option>
+                <option>
+                    <id>deactivated</id>
+                    <name>Deactivated</name>
+                    <name lang="de-DE">Deaktiviert</name>
+                </option>
+            </options>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>captureOrderStatus</name>
+            <label>Order status for the automatic capture</label>
+            <label lang="de-DE">Auftragsstatus für das automatische Capture</label>
+            <helpText>The selected order status is used for the automatic capture.</helpText>
+            <helpText lang="de-DE">Der gewählte Auftragsstatus wird für das automatische Capture verwendet.</helpText>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>captureDeliveryStatus</name>
+            <label>Delivery status for the automatic capture</label>
+            <label lang="de-DE">Lieferstatus für das automatische Capture</label>
+            <helpText>The selected delivery status is used for the automatic capture.</helpText>
+            <helpText lang="de-DE">Der gewählte Lieferstatus wird für das automatische Capture verwendet.</helpText>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>automaticRefund</name>
+            <label>Automatic refund</label>
+            <label lang="de-DE">Automatisches Refund</label>
+            <helpText>Depending on the selection, the captured amount is automatically refunded if the order has reached the corresponding configured status. If deactivated is selected, no automatic refund is carried out.</helpText>
+            <helpText lang="de-DE">Je nach Auswahl wird der ausstehende Betrag automatisch zurückgezahlt, wenn der Auftrag oder eine Lieferung den entsprechend konfigurierten Status erreicht hat. Wenn deaktiviert gewählt ist, wird kein automatischer Refund durchgeführt.</helpText>
+            <options>
+                <option>
+                    <id>orderStatus</id>
+                    <name>Order Status</name>
+                    <name lang="de-DE">Bestellungsstatus</name>
+                </option>
+                <option>
+                    <id>deliveryStatus</id>
+                    <name>Delivery Status</name>
+                    <name lang="de-DE">Lieferungsstatus</name>
+                </option>
+                <option>
+                    <id>deactivated</id>
+                    <name>Deactivated</name>
+                    <name lang="de-DE">Deaktiviert</name>
+                </option>
+            </options>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>refundOrderStatus</name>
+            <label>Order status for the automatic refund</label>
+            <label lang="de-DE">Auftragsstatus für das automatische Refund</label>
+            <helpText>The selected order status is used for the automatic refund.</helpText>
+            <helpText lang="de-DE">Der gewählte Auftragsstatus wird für das automatische Refund verwendet.</helpText>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>refundDeliveryStatus</name>
+            <label>Delivery status for the automatic refund</label>
+            <label lang="de-DE">Lieferstatus für das automatische Refund</label>
+            <helpText>The selected delivery status is used for the automatic refund.</helpText>
+            <helpText lang="de-DE">Der gewählte Lieferstatus wird für das automatische Refund verwendet.</helpText>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Klarna Payments Settings</title>
+        <title lang="de-DE">Klarna Payments Einstellungen</title>
+
+        <input-field type="multi-select">
+            <name>allowedKlarnaPaymentsCodes</name>
+            <label>Klarna Payments Options</label>
+            <label lang="de-DE">Klarna Payments Optionen</label>
+            <helpText>Please select the Klarna Payments options that you want to offer your customers.</helpText>
+            <helpText lang="de-DE">Bitte wählen Sie die Klarna Payments Optionen, die Sie Ihren Kunden anbieten möchten.</helpText>
+            <defaultValue>["pay_now","pay_later","pay_over_time"]</defaultValue>
+            <options>
+                <option>
+                    <id>pay_now</id>
+                    <name>Pay Now</name>
+                    <name lang="de-DE">Sofort bezahlen</name>
+                </option>
+                <option>
+                    <id>pay_later</id>
+                    <name>Pay Later</name>
+                    <name lang="de-DE">Pay Later</name>
+                </option>
+                <option>
+                    <id>pay_over_time</id>
+                    <name>Financing</name>
+                    <name lang="de-DE">Ratenkauf</name>
+                </option>
+            </options>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Payment Settings</title>
+        <title lang="de-DE">Zahlungseinstellungen</title>
+
+        <input-field type="bool">
+            <name>isInitialized</name>
+            <label>Is initialized</label>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>klarnaType</name>
+            <label>Klarna Product</label>
+            <label lang="de-DE">Klarna Produkt</label>
+            <helpText>Indicates if Klarna Payments is active. Can only be changed via the installation wizard.</helpText>
+            <helpText lang="de-DE">Gibt an ob Klarna Payments aktiv ist. Kann nur über den Installations-Wizard geändert werden.</helpText>
+            <options>
+                <option>
+                    <id>deactivated</id>
+                    <name>Deactivated</name>
+                    <name lang="de-DE">Deaktiviert</name>
+                </option>
+                <option>
+                    <id>payments</id>
+                    <name>Klarna Payments</name>
+                    <name lang="de-DE">Klarna Payments</name>
+                </option>
+                <option>
+                    <id>checkout</id>
+                    <name>Klarna Checkout</name>
+                    <name lang="de-DE">Klarna Checkout</name>
+                </option>
+            </options>
+        </input-field>
+
+        <input-field type="bool">
+            <name>kpSendExtraMerchantData</name>
+            <label>Send Extra Merchant Data</label>
+            <label lang="de-DE">Senden von Extra Merchant Data</label>
+            <helpText>Allows plugins to add extra merchant data to the session creation and order placement.</helpText>
+            <helpText lang="de-DE">Ermöglicht es Plugins, zusätzliche Händlerdaten zur Sitzungserstellung und Auftragserteilung hinzuzufügen.</helpText>
+        </input-field>
+
+        <input-field type="bool">
+            <name>kpDisplayFooterBadge</name>
+            <label>Should the Klarna badge be displayed in the footer?</label>
+            <label lang="de-DE">Soll das Klarna Badge im Footer angezeigt werden?</label>
+        </input-field>
+    </card>
+</config>

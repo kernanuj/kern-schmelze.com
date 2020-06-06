@@ -1,0 +1,66 @@
+{
+    "name": "klarna/payment",
+    "description": "Klarna Checkout and Klarna Payments for Shopware 6",
+    "version": "1.0.4",
+    "type": "shopware-platform-plugin",
+    "license": "MIT",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Klarna Bank AB (publ)",
+            "homepage": "https://www.klarna.com/"
+        },
+        {
+            "name": "Kellerkinder Pluginwerk GmbH",
+            "email": "hallo@pluginwerk.de",
+            "homepage": "https://www.pluginwerk.de",
+            "role": "Contributor"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "shopware/core": "^6.1",
+        "shopware/storefront": "^6.1",
+        "shopware/administration":"^6.1"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "1.8.0",
+        "k10r/codestyle": "^1.0",
+        "phpstan/phpstan": "^0.11",
+        "phpstan/phpstan-phpunit": "^0.11",
+        "phpunit/phpunit": "^8.1"
+    },
+    "extra": {
+        "shopware-plugin-class": "KlarnaPayment\\KlarnaPayment",
+        "copyright": "(c) Klarna Bank AB (publ)",
+        "label": {
+            "de-DE": "Klarna Checkout und Klarna Payments",
+            "en-GB": "Klarna Checkout and Klarna Payments"
+        },
+        "description": {
+            "de-DE": "Klarna Zahlungsarten für Shopware 6",
+            "en-GB": "Klarna payment integration for Shopware 6 "
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "KlarnaPayment\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "KlarnaPayment\\Test\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "7.2.9"
+        }
+    },
+    "scripts": {
+        "phpcs": ["vendor/bin/php-cs-fixer fix"]
+    }
+}

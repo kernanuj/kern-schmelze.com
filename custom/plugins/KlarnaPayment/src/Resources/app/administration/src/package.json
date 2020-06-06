@@ -1,0 +1,8 @@
+{
+    "name": "klarnapayment",
+    "version": "1.0.0",
+    "description": "Administration for Klarna Payment",
+    "main": "index.js",
+    "author": "composer.json",
+    "license": "MIT"
+}

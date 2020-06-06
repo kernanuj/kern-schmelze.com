@@ -1,0 +1,36 @@
+{
+    "swag-cms-extensions": {
+        "sw-cms": {
+            "detail": {
+                "quickview": {
+                    "showQuickviewLabel": "Quickview verwenden",
+                    "showQuickviewHelpText": "Beim Klick auf produktbezogene Blöcke wird die Quickview statt der Detailseite angezeigt.",
+                    "sidebarHeaderBlockBehaviorSettings": "Quickview"
+                },
+                "scrollNavigation": {
+                    "title": "Scroll-Navigation",
+                    "anchorSwitch": "Setze Navigationspunkt",
+                    "anchorTitle": "Name des Navigationspunktes",
+                    "anchorTitleHelpText": "Die Navigationspunkte werden in der Storefront als navigierbare Liste der vorhandenen Sektionen ausgegeben.",
+                    "duplicateDisplayNameMessage": "Dieser Navigationspunkt ist bereits vorhanden: \"{currentName}\".",
+                    "invalidDisplayNameLengthMessage": "Mindestens einer deiner aktiven Navigationspunkte hat keinen Namen. | Der Name dieses Navigationspunktes überschreitet die Maximallänge von 255 Zeichen: \"{truncatedName}\""
+                }
+            },
+            "sidebar": {
+                "emptyAnchorName": "(Kein Name gesetzt)"
+            },
+            "section": {
+                "actions": {
+                    "viewports": {
+                        "tooltipPrefix": "Navigationspunkt:",
+                        "emptyAnchorName": "(Kein Name gesetzt)"
+                    },
+                    "pageForm": {
+                        "labelPrefix": "Navigationspunkt",
+                        "emptyAnchorName": "(Kein Name gesetzt)"
+                    }
+                }
+            }
+        }
+    }
+}

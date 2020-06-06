@@ -1,0 +1,23 @@
+{
+  "KlarnaPayment": {
+    "errorMessages": {
+      "genericError": "Es ist ein Fehler aufgetreten.",
+      "paymentDeclined": "Klarna hat die Zahlung abgelehnt, bitte wählen Sie eine andere Zahlungsart.",
+      "addressChangeDeclined": "Klarna hat die Änderung der Adresse nicht genehmigt.",
+      "lineItemChangeDeclined": "Klarna hat die Änderung des Warenkorbs nicht genehmigt."
+    },
+    "klarnaPayments": {
+      "cardTitle": "Klarna."
+    },
+    "wizard": {
+      "allSalesChannel": "Alle Verkaufskanäle"
+    },
+    "cookie": {
+      "klarna": "Klarna",
+      "metrix": "Online Metrix"
+    }
+  },
+  "error": {
+    "VIOLATION::KLARNA_INVALID_CART_HASH": "Die Zahlung wurde abgelehnt, bitte versuchen Sie es erneut."
+  }
+}

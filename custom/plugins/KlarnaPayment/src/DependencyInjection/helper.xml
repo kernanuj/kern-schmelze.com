@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="KlarnaPayment\Components\Helper\StateHelper\Capture\CaptureStateHelper">
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\CreateCapture\CreateCaptureRequestHydrator"/>
+            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
+            <argument type="service" id="KlarnaPayment\Components\Helper\StateHelper\StateData\StateDataHelper"/>
+            <argument type="service" id="KlarnaPayment\Components\Logger"/>
+            <argument type="service" id="KlarnaPayment\Components\Client\Client"/>
+        </service>
+
+        <service id="KlarnaPayment\Components\Helper\StateHelper\Refund\RefundStateHelper">
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\CreateRefund\CreateRefundRequestHydrator"/>
+            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
+            <argument type="service" id="KlarnaPayment\Components\Helper\StateHelper\StateData\StateDataHelper"/>
+            <argument type="service" id="KlarnaPayment\Components\Logger"/>
+            <argument type="service" id="KlarnaPayment\Components\Client\Client"/>
+        </service>
+
+        <service id="KlarnaPayment\Components\Helper\StateHelper\StateData\StateDataHelper">
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\GetOrder\GetOrderRequestHydrator"/>
+            <argument type="service" id="KlarnaPayment\Components\Client\Client"/>
+        </service>
+
+        <service id="KlarnaPayment\Components\Helper\PaymentHelper\PaymentHelper">
+            <argument type="service" id="sales_channel.repository" />
+            <argument type="service" id="language.repository" />
+        </service>
+
+        <service id="KlarnaPayment\Components\Helper\RequestHasher" />
+
+        <service id="KlarnaPayment\Components\Helper\OrderFetcher">
+            <argument type="service" id="order.repository"/>
+            <argument type="service" id="KlarnaPayment\Components\Helper\PaymentHelper\PaymentHelper"/>
+        </service>
+    </services>
+</container>

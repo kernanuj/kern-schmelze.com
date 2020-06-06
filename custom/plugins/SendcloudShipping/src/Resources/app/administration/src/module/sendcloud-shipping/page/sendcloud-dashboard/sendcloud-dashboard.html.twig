@@ -1,0 +1,15 @@
+{% block sendcloud_dashboard %}
+    <sendcloud-container>
+        <sw-loader v-if="isLoading"/>
+        <sendcloud-notification v-if="!isServicePointEnabled"
+                                :sendcloud-notification-title="$tc('send-cloud.dashboard.notification.title')"
+                                :sendcloud-notification-message="$tc('send-cloud.dashboard.notification.message', 1, {channel: salesChannel})"
+        />
+
+        <sendcloud-content-window>
+            <sendcloud-logo sendcloud-logo-url="/bundles/sendcloudshipping/administration/img/sendcloud_with_name.svg"/>
+            <sendcloud-main-text :sendcloud-main-text="$tc('send-cloud.dashboard.mainText')"/>
+            <sendcloud-button :sendcloud-button-label="$tc('send-cloud.dashboard.buttonLabel')" :on-click="goToSendCloud"/>
+        </sendcloud-content-window>
+    </sendcloud-container>
+{% endblock %}

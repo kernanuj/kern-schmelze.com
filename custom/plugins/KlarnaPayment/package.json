@@ -1,0 +1,21 @@
+{
+    "name": "k10r-eslint-platform",
+    "version": "1.0.0",
+    "private": true,
+    "description": "K10r eslint config",
+    "keywords": [
+        "k10r",
+        "eslint"
+    ],
+    "license": "MIT",
+    "scripts": {
+        "lint": "./node_modules/.bin/eslint --config .eslintrc.js ./src/ ",
+        "lint-fix": "./node_modules/.bin/eslint --fix --config .eslintrc.js ./src/"
+    },
+    "devDependencies": {
+        "autoprefixer": "9.6.1",
+        "babel-eslint": "10.0.2",
+        "eslint": "5.16.0",
+        "eslint-loader": "2.2.1"
+    }
+}

@@ -1,0 +1,2 @@
+
+(this.webpackJsonp = this.webpackJsonp || []).push([["shopueber-deutschdu"], { GE09: function (e, n, t) { "use strict"; t.r(n); t("IYTb") }, IYTb: function (e, n) { !1 === Shopware.Locale.getByName("de-DE") && Shopware.Locale.register("de-DE", {}) } }, [["GE09", "runtime"]]]);

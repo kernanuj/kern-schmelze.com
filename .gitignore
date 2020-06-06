@@ -1,5 +1,8 @@
 custom/*
-custom/plugins/*
+
+# Uncomment again, when shopware store plugins can be required via composer
+#custom/plugins/*
+
 !custom/plugins/.gitkeep
 !custom/static-plugins/*
 /schema
