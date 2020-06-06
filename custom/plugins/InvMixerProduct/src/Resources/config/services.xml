@@ -45,6 +45,12 @@
             <argument type="service" id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"/>
         </service>
 
+        <service id="InvMixerProduct\Controller\StoreFront\Mix\AddToCartController">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="session"/>
+            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
+        </service>
+
         <service id="InvMixerProduct\Controller\StoreFront\Mix\ResetController">
             <tag name="controller.service_arguments"/>
             <argument type="service" id="session"/>
@@ -56,6 +62,7 @@
         <service id="InvMixerProduct\Service\MixService">
             <argument type="service" id="InvMixerProduct\Repository\MixEntityRepository"/>
             <argument type="service" id="InvMixerProduct\Service\ProductAccessorInterface"/>
+            <argument type="service" id="InvMixerProduct\Service\MixToCartItemConverterInterface"/>
         </service>
 
         <service id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"
@@ -65,6 +72,13 @@
 
         <service id="InvMixerProduct\Service\ProductAccessorInterface" alias="InvMixerProduct\Service\ProductAccessor"/>
         <service id="InvMixerProduct\Service\ProductAccessor">
+        </service>
+
+        <service id="InvMixerProduct\Service\MixToCartItemConverterInterface"
+                 alias="InvMixerProduct\Service\DummyMixToCartItemConverter"/>
+        <service id="InvMixerProduct\Service\DummyMixToCartItemConverter">
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+            <argument type="service" id="Shopware\Core\Content\Product\Cart\ProductLineItemFactory"/>
         </service>
 
         <service id="InvMixerProduct\EntityDefinition\MixEntityDefinition">

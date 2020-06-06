@@ -2,32 +2,24 @@
 
 namespace InvMixerProduct\Controller\StoreFront\Mix;
 
-use InvMixerProduct\Exception\EntityNotFoundException;
-use InvMixerProduct\Repository\ProductRepository;
+use Exception;
 use InvMixerProduct\Service\MixServiceInterface;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class AddController
+ * Class AddToCartController
  *
  * @package InvMixerProduct\Controller\StoreFront\Mix
  *
  * @RouteScope(scopes={"storefront"})
- * @Route("/mix/add", methods={"POST"}, name="invMixerProduct.storeFront.mix.session.add")
+ * @Route("/mix/to-cart", methods={"POST"}, name="invMixerProduct.storeFront.mix.session.addToCart")
  */
-class AddController extends MixController
+class AddToCartController extends MixController
 {
-
-
-    /**
-     * @var ProductRepository
-     */
-    private $productRepository;
 
     /**
      * @var SessionInterface
@@ -41,38 +33,25 @@ class AddController extends MixController
 
     /**
      * AddController constructor.
-     * @param ProductRepository $productRepository
      * @param SessionInterface $session
      * @param MixServiceInterface $mixService
      */
     public function __construct(
-        ProductRepository $productRepository,
         SessionInterface $session,
         MixServiceInterface $mixService
     ) {
-        $this->productRepository = $productRepository;
         $this->session = $session;
         $this->mixService = $mixService;
     }
 
 
     /**
-     * @param Request $request
      * @param SalesChannelContext $salesChannelContext
      * @return RedirectResponse
-     *
-     * @throws EntityNotFoundException
-     * @throws \Exception
+     * @throws Exception
      */
-    public function __invoke(Request $request, SalesChannelContext $salesChannelContext)
+    public function __invoke(SalesChannelContext $salesChannelContext)
     {
-
-        $productId = $request->get('product_id');
-
-        $product = $this->productRepository->mustFindOneEligibleForMixById(
-            $productId,
-            $salesChannelContext->getContext()
-        );
 
         $mix = $this->getOrInitiateCurrentMix(
             $salesChannelContext,
@@ -80,18 +59,22 @@ class AddController extends MixController
             $this->mixService
         );
 
-        $this->mixService->addProduct(
+        $this->mixService->addToCart(
             $mix,
-            $product,
             $salesChannelContext
         );
 
-        return RedirectResponse::create(
-            $this->generateUrl(
-                'invMixerProduct.storeFront.mix.index'
-            ),
-            301
+        $this->session->remove(
+            self::SESSION_KEY_CURRENT_MIX
         );
 
+        $this->addFlash(
+            'success',
+            'product has been added to cart'
+        );
+
+        return $this->redirectToRoute(
+            'frontend.checkout.cart.page'
+        );
     }
 }
