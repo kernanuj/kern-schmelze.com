@@ -8,8 +8,8 @@ custom/plugins/*
 !custom/plugins/
 !custom/plugins/InvKernschmelzeTemplate/
 !custom/plugins/InvKernschmelzeTemplate/*
-!custom/plugins/InvTrustBar/
-!custom/plugins/InvTrustBar/*
+#!custom/plugins/InvTrustBar/ //Now loaded from Shopware store
+#!custom/plugins/InvTrustBar/* //Now loaded from Shopware store
 !custom/plugins/InvPressBar/
 !custom/plugins/InvPressBar/*
 !custom/plugins/InvAdvancedCmsElements/

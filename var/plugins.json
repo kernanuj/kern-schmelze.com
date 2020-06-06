@@ -147,12 +147,12 @@
             "styleFiles": []
         }
     },
-    "shopueberDeutschDu": {
-        "basePath": "custom\/plugins\/shopueberDeutschDu\/src\/",
+    "InvTrustBar": {
+        "basePath": "custom\/plugins\/InvTrustBar\/src\/",
         "views": [
             "Resources\/views"
         ],
-        "technicalName": "shopueber-deutsch-du",
+        "technicalName": "inv-trust-bar",
         "administration": {
             "path": "Resources\/app\/administration\/src",
             "entryFilePath": null,
@@ -162,7 +162,10 @@
             "path": "Resources\/app\/storefront\/src",
             "entryFilePath": null,
             "webpack": null,
-            "styleFiles": []
+            "styleFiles": [
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvTrustBar\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/variables.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvTrustBar\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
+            ]
         }
     },
     "SwagPayPal": {
@@ -243,27 +246,6 @@
             "entryFilePath": null,
             "webpack": null,
             "styleFiles": []
-        }
-    },
-    "InvTrustBar": {
-        "basePath": "custom\/plugins\/InvTrustBar\/src\/",
-        "views": [
-            "Resources\/views"
-        ],
-        "technicalName": "inv-trust-bar",
-        "administration": {
-            "path": "Resources\/app\/administration\/src",
-            "entryFilePath": null,
-            "webpack": null
-        },
-        "storefront": {
-            "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": null,
-            "webpack": null,
-            "styleFiles": [
-                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvTrustBar\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/variables.scss",
-                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvTrustBar\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
-            ]
         }
     },
     "InvAdvancedCmsBlocks": {
@@ -367,6 +349,24 @@
             "styleFiles": [
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/MolliePayments\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
             ]
+        }
+    },
+    "shopueberDeutschDu": {
+        "basePath": "custom\/plugins\/shopueberDeutschDu\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "shopueber-deutsch-du",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
         }
     }
 }
