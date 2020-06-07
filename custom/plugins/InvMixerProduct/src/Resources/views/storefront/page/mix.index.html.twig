@@ -32,7 +32,8 @@
                 {% for availableContainerDesign in containerDefinitionCollection.availableDesigns %}
                     <li>
                         <p>Design: {{ availableContainerDesign }}</p>
-                        <form method="post" action="{{ path('invMixerProduct.storeFront.mix.session.container.design.set') }}">
+                        <form method="post"
+                              action="{{ path('invMixerProduct.storeFront.mix.session.container.design.set') }}">
                             <input type="hidden" name="design" value="{{ availableContainerDesign }}">
                             <input type="hidden" name="_csrf_token"
                                    value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.design.set') }}">
@@ -43,7 +44,8 @@
                 {% for availableContainerWeight in containerDefinitionCollection.availableMaxWeights %}
                     <li>
                         <p>Weight: {{ availableContainerWeight }}</p>
-                        <form method="post" action="{{ path('invMixerProduct.storeFront.mix.session.container.weight.set') }}">
+                        <form method="post"
+                              action="{{ path('invMixerProduct.storeFront.mix.session.container.weight.set') }}">
                             <input type="hidden" name="weight" value="{{ availableContainerWeight }}">
                             <input type="hidden" name="_csrf_token"
                                    value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.weight.set') }}">
@@ -125,6 +127,16 @@
                         Reset
                     </button>
                 </a>
+            </p>
+            <p>
+            <form method="post"
+                  action="{{ path('invMixerProduct.storeFront.mix.session.addToCart') }}">
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('invMixerProduct.storeFront.mix.session.addToCart') }}">
+                <button type="submit" class="sw-button">
+                    Add to cart
+                </button>
+            </form>
             </p>
         </div>
     </div>

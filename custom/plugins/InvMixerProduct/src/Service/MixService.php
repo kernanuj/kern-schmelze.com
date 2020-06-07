@@ -11,6 +11,7 @@ use InvMixerProduct\Exception\NumberOfProductsExceededException;
 use InvMixerProduct\Exception\ProductStockExceededException;
 use InvMixerProduct\Repository\MixEntityRepository;
 use InvMixerProduct\Struct\ContainerDefinition;
+use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -34,14 +35,24 @@ class MixService implements MixServiceInterface
     private $productAccessor;
 
     /**
+     * @var MixToCartItemConverterInterface
+     */
+    private $mixToCartItemConverter;
+
+    /**
      * MixService constructor.
      * @param MixEntityRepository $mixRepository
      * @param ProductAccessorInterface $productAccessor
+     * @param MixToCartItemConverterInterface $mixToCartItemConverter
      */
-    public function __construct(MixEntityRepository $mixRepository, ProductAccessorInterface $productAccessor)
-    {
+    public function __construct(
+        MixEntityRepository $mixRepository,
+        ProductAccessorInterface $productAccessor,
+        MixToCartItemConverterInterface $mixToCartItemConverter
+    ) {
         $this->mixRepository = $mixRepository;
         $this->productAccessor = $productAccessor;
+        $this->mixToCartItemConverter = $mixToCartItemConverter;
     }
 
     /**
@@ -184,11 +195,11 @@ class MixService implements MixServiceInterface
         }
 
         $availableStock = $this->productAccessor->accessProductAvailableStock($mixItem->getProduct(), $context);
-        if($availableStock < $quantity + $mixItem->getQuantity()){
+        if ($availableStock < $quantity + $mixItem->getQuantity()) {
             throw ProductStockExceededException::fromProductAndRequestedStock(
                 $mixItem->getProduct(),
                 $availableStock,
-                $quantity+ $mixItem->getQuantity()
+                $quantity + $mixItem->getQuantity()
             );
         }
     }
@@ -301,7 +312,7 @@ class MixService implements MixServiceInterface
         }
 
         $currentProductCount = $subject->getCountOfDifferentProducts();
-        if($currentProductCount > $containerDefinition->getMaximumNumberOfProducts()){
+        if ($currentProductCount > $containerDefinition->getMaximumNumberOfProducts()) {
             throw NumberOfProductsExceededException::fromCountAndContainerDefinition(
                 $containerDefinition,
                 $currentProductCount
@@ -322,4 +333,19 @@ class MixService implements MixServiceInterface
 
         return $subject;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function convertToCartItem(
+        Subject $subject,
+        SalesChannelContext $salesChannelContext
+    ): LineItem {
+        return $this->mixToCartItemConverter->toCartItem(
+            $subject,
+            $salesChannelContext
+        );
+    }
+
+
 }
