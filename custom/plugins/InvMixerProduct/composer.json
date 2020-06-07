@@ -1,18 +1,27 @@
 {
-  "name": "swag/plugin-skeleton",
-  "description": "Skeleton plugin",
-  "type": "shopware-platform-plugin",
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "InvMixerProduct\\": "src/"
+    "name": "inv/mixer-product",
+    "version": "0.0.1",
+    "description": "Product Mixer for Shopware 6",
+    "authors": [
+        {
+            "name": "Nils Harder | inventivo.de"
+        },
+        {
+            "name": "Sebastian Drewer-Gutland"
+        }
+    ],
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "InvMixerProduct\\": "src/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "InvMixerProduct\\InvMixerProduct",
+        "label": {
+            "de-DE": "Inventivo Produkt-Mixer",
+            "en-GB": "Inventivo Product-Mixer"
+        }
     }
-  },
-  "extra": {
-    "shopware-plugin-class": "InvMixerProduct\\InvMixerProduct",
-    "label": {
-      "de-DE": "Skeleton plugin",
-      "en-GB": "Skeleton plugin"
-    }
-  }
 }

@@ -6,6 +6,7 @@ use Exception;
 use InvMixerProduct\Entity\MixEntity as Subject;
 use InvMixerProduct\Exception\EntityNotFoundException;
 use InvMixerProduct\Struct\ContainerDefinition;
+use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -129,5 +130,16 @@ interface MixServiceInterface
         CustomerEntity $customerEntity,
         SalesChannelContext $salesChannelContext
     ): Subject;
+
+    /**
+     * @param Subject $subject
+     * @param SalesChannelContext $salesChannelContext
+     *
+     * @return LineItem
+     */
+    public function convertToCartItem(
+        Subject $subject,
+        SalesChannelContext $salesChannelContext
+    ): LineItem;
 
 }
