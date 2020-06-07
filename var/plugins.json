@@ -147,24 +147,6 @@
             "styleFiles": []
         }
     },
-    "InvMixerProduct": {
-        "basePath": "custom\/plugins\/InvMixerProduct\/src\/",
-        "views": [
-            "Resources\/views"
-        ],
-        "technicalName": "inv-mixer-product",
-        "administration": {
-            "path": "Resources\/app\/administration\/src",
-            "entryFilePath": null,
-            "webpack": null
-        },
-        "storefront": {
-            "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": null,
-            "webpack": null,
-            "styleFiles": []
-        }
-    },
     "SwagPayPal": {
         "basePath": "custom\/plugins\/SwagPayPal\/src\/",
         "views": [
@@ -385,6 +367,24 @@
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvTrustBar\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/variables.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvTrustBar\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
             ]
+        }
+    },
+    "InvMixerProduct": {
+        "basePath": "custom\/plugins\/InvMixerProduct\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-mixer-product",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
         }
     }
 }
