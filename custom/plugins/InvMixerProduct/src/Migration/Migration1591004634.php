@@ -40,7 +40,7 @@ CREATE TABLE `inv_mixer_product__mix_item` (
                                                `product_version_id` BINARY(16) NOT NULL,
                                                `created_at` DATETIME(3) NOT NULL,
                                                `updated_at` DATETIME(3) NULL,
-                                               PRIMARY KEY (`mix_id`),
+                                               PRIMARY KEY (`id`),
                                                KEY `fk.inv_mixer_product__mix_item.mix_id` (`mix_id`),
                                                KEY `fk.inv_mixer_product__mix_item.product_id` (`product_id`,`product_version_id`),
                                                CONSTRAINT `fk.inv_mixer_product__mix_item.mix_id` FOREIGN KEY (`mix_id`) REFERENCES `inv_mixer_product__mix` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
