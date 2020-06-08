@@ -25,8 +25,13 @@ class Migration1591004634 extends MigrationStep
      */
     public function update(Connection $connection): void
     {
+
+        $connection->exec(
+            'DROP TABLE IF EXISTS `inv_mixer_product__mix_item`;'
+        );
+
         $sql = <<<SQL
-DROP TABLE IF EXISTS `inv_mixer_product__mix_item`;
+
 CREATE TABLE `inv_mixer_product__mix_item` (
                                                `id` binary(16) NOT null,
                                                `mix_id` BINARY(16) NOT NULL,
@@ -35,15 +40,15 @@ CREATE TABLE `inv_mixer_product__mix_item` (
                                                `product_version_id` BINARY(16) NOT NULL,
                                                `created_at` DATETIME(3) NOT NULL,
                                                `updated_at` DATETIME(3) NULL,
-                                               PRIMARY KEY (`mix_id`,`product_id`,`product_version_id`),
+                                               PRIMARY KEY (`mix_id`),
                                                KEY `fk.inv_mixer_product__mix_item.mix_id` (`mix_id`),
                                                KEY `fk.inv_mixer_product__mix_item.product_id` (`product_id`,`product_version_id`),
                                                CONSTRAINT `fk.inv_mixer_product__mix_item.mix_id` FOREIGN KEY (`mix_id`) REFERENCES `inv_mixer_product__mix` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-                                               CONSTRAINT `fk.inv_mixer_product__mix_item.product_id` FOREIGN KEY (`product_id`,`product_version_id`) REFERENCES `product` (`id`,`version_id`) ON DELETE SET NULL ON UPDATE CASCADE
+                                               CONSTRAINT `fk.inv_mixer_product__mix_item.product_id` FOREIGN KEY (`product_id`,`product_version_id`) REFERENCES `product` (`id`,`version_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 SQL;
 
-        $connection->executeUpdate($sql);
+        $connection->exec($sql);
 
     }
 
