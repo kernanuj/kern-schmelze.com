@@ -10,6 +10,8 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Shopware\Storefront\Page\GenericPageLoaderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -51,36 +53,44 @@ class IndexController extends MixController
     private $mixContainerDefinitionProvider;
 
     /**
+     * @var GenericPageLoaderInterface
+     */
+    private $pageLoader;
+
+    /**
      * IndexController constructor.
      * @param ProductListingLoader $productListingLoader
      * @param MixServiceInterface $mixService
      * @param SessionInterface $session
      * @param MixViewTransformer $mixViewTransformer
      * @param MixContainerDefinitionProviderInterface $mixContainerDefinitionProvider
+     * @param GenericPageLoaderInterface $pageLoader
      */
     public function __construct(
         ProductListingLoader $productListingLoader,
         MixServiceInterface $mixService,
         SessionInterface $session,
         MixViewTransformer $mixViewTransformer,
-        MixContainerDefinitionProviderInterface $mixContainerDefinitionProvider
+        MixContainerDefinitionProviderInterface $mixContainerDefinitionProvider,
+        GenericPageLoaderInterface $pageLoader
     ) {
         $this->productListingLoader = $productListingLoader;
         $this->mixService = $mixService;
         $this->session = $session;
         $this->mixViewTransformer = $mixViewTransformer;
         $this->mixContainerDefinitionProvider = $mixContainerDefinitionProvider;
+        $this->pageLoader = $pageLoader;
     }
 
 
     /**
+     * @param Request $request
      * @param SalesChannelContext $salesChannelContext
      * @param Context $context
      * @return Response
-     *
      * @throws \Exception
      */
-    public function __invoke(SalesChannelContext $salesChannelContext, Context $context)
+    public function __invoke(Request $request, SalesChannelContext $salesChannelContext, Context $context)
     {
 
         $mixView = $this->getOrInitiateCurrentMixAndReturnAsView(
@@ -98,6 +108,7 @@ class IndexController extends MixController
         return $this->renderStorefront(
             '@InvMixerProduct/storefront/page/mix.index.html.twig',
             [
+                'page' => $this->pageLoader->load($request, $salesChannelContext),
                 'containerDefinitionCollection' => $this->mixContainerDefinitionProvider->getAvailableContainerCollection(),
                 'mixView' => $mixView,
                 'productListing' => $productListing
