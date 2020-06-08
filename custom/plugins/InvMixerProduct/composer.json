@@ -24,7 +24,7 @@
         "shopware-plugin-class": "InvMixerProduct\\InvMixerProduct",
         "copyright": "(c) by Nils Harder | inventivo.de",
         "label": {
-            "de-DE": "Produkt-Mixer für Shopware 6.",
+            "de-DE": "Produkt-Mixer für Shopware 6",
             "en-GB": "Product mixer for shopware 6"
         },
         "description": {
