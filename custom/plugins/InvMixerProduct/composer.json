@@ -4,12 +4,15 @@
     "description": "Product Mixer for Shopware 6",
     "authors": [
         {
-            "name": "Nils Harder | inventivo.de"
-        },
-        {
-            "name": "Sebastian Drewer-Gutland"
+            "name": "Nils Harder | inventivo.de",
+            "homepage": "https://www.inventivo.de",
+            "email": "hallo@inventivo.de"
         }
     ],
+    "require": {
+        "php": ">=7.2",
+        "shopware/core": ">=6.0.0"
+    },
     "type": "shopware-platform-plugin",
     "license": "proprietary",
     "autoload": {
@@ -19,9 +22,16 @@
     },
     "extra": {
         "shopware-plugin-class": "InvMixerProduct\\InvMixerProduct",
+        "copyright": "(c) by Nils Harder | inventivo.de",
         "label": {
-            "de-DE": "Inventivo Produkt-Mixer",
-            "en-GB": "Inventivo Product-Mixer"
+            "de-DE": "Produkt-Mixer für Shopware 6.",
+            "en-GB": "Product mixer for shopware 6"
+        },
+        "description": {
+            "de-DE": "Produkt-Mixer für Shopware 6. Lass Deine Kunden eigene Mixe zusammenstellen und benennen.",
+            "en-GB": "Product mixer for shopware 6. let your customers create and name their own mixes"
         }
-    }
+    },
+    "minimum-stability": "RC",
+    "prefer-stable": true
 }
