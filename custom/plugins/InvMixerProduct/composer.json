@@ -29,7 +29,7 @@
         },
         "description": {
             "de-DE": "Produkt-Mixer für Shopware 6. Lass Deine Kunden eigene Mixe zusammenstellen und benennen.",
-            "en-GB": "Product mixer for shopware 6. let your customers create and name their own mixes"
+            "en-GB": "Product mixer for shopware 6. Let your customers create and name their own mixes."
         }
     },
     "minimum-stability": "RC",
