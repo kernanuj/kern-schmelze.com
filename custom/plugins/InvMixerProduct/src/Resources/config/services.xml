@@ -25,6 +25,7 @@
             <argument type="service" id="session"/>
             <argument type="service" id="InvMixerProduct\Service\MixViewTransformer"/>
             <argument type="service" id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"/>
+            <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader" />
         </service>
         <service id="InvMixerProduct\Controller\StoreFront\Mix\SetLabelController">
             <tag name="controller.service_arguments"/>
