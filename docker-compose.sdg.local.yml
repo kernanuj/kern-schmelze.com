@@ -15,6 +15,8 @@ services:
       - 443:443
       - 8000:8000
       - 8005:8000
+      - 8998:8998
+      - 9999:9999
     extra_hosts:
       - "docker.vm:127.0.0.1"
       - "kern-schmelze.localhost:127.0.0.1"
