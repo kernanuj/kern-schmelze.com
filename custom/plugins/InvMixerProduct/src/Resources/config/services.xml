@@ -23,6 +23,12 @@
             <argument type="service" id="Shopware\Core\Content\Product\SalesChannel\Listing\ProductListingLoader"/>
             <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
             <argument type="service" id="session"/>
+            <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader" />
+        </service>
+        <service id="InvMixerProduct\Controller\StoreFront\Mix\StateController">
+            <tag name="controller.service_arguments"/>
+            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
+            <argument type="service" id="session"/>
             <argument type="service" id="InvMixerProduct\Service\MixViewTransformer"/>
             <argument type="service" id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"/>
             <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader" />
