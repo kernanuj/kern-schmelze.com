@@ -2,9 +2,7 @@
 
 namespace InvMixerProduct\Controller\StoreFront\Mix;
 
-use InvMixerProduct\Service\MixContainerDefinitionProviderInterface;
 use InvMixerProduct\Service\MixServiceInterface;
-use InvMixerProduct\Service\MixViewTransformer;
 use Shopware\Core\Content\Product\SalesChannel\Listing\ProductListingLoader;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -43,16 +41,6 @@ class IndexController extends MixController
     private $session;
 
     /**
-     * @var MixViewTransformer
-     */
-    private $mixViewTransformer;
-
-    /**
-     * @var MixContainerDefinitionProviderInterface
-     */
-    private $mixContainerDefinitionProvider;
-
-    /**
      * @var GenericPageLoaderInterface
      */
     private $pageLoader;
@@ -62,23 +50,17 @@ class IndexController extends MixController
      * @param ProductListingLoader $productListingLoader
      * @param MixServiceInterface $mixService
      * @param SessionInterface $session
-     * @param MixViewTransformer $mixViewTransformer
-     * @param MixContainerDefinitionProviderInterface $mixContainerDefinitionProvider
      * @param GenericPageLoaderInterface $pageLoader
      */
     public function __construct(
         ProductListingLoader $productListingLoader,
         MixServiceInterface $mixService,
         SessionInterface $session,
-        MixViewTransformer $mixViewTransformer,
-        MixContainerDefinitionProviderInterface $mixContainerDefinitionProvider,
         GenericPageLoaderInterface $pageLoader
     ) {
         $this->productListingLoader = $productListingLoader;
         $this->mixService = $mixService;
         $this->session = $session;
-        $this->mixViewTransformer = $mixViewTransformer;
-        $this->mixContainerDefinitionProvider = $mixContainerDefinitionProvider;
         $this->pageLoader = $pageLoader;
     }
 
@@ -93,13 +75,6 @@ class IndexController extends MixController
     public function __invoke(Request $request, SalesChannelContext $salesChannelContext, Context $context)
     {
 
-        $mixView = $this->getOrInitiateCurrentMixAndReturnAsView(
-            $this->mixViewTransformer,
-            $salesChannelContext,
-            $this->session,
-            $this->mixService
-        );
-
         $productListing = $this->productListingLoader->load(
             new Criteria(),
             $salesChannelContext
@@ -109,9 +84,7 @@ class IndexController extends MixController
             '@InvMixerProduct/storefront/page/mix.index.html.twig',
             [
                 'page' => $this->pageLoader->load($request, $salesChannelContext),
-                'containerDefinitionCollection' => $this->mixContainerDefinitionProvider->getAvailableContainerCollection(),
-                'mixView' => $mixView,
-                'productListing' => $productListing
+                'productListing' => $productListing,
             ]
         );
     }

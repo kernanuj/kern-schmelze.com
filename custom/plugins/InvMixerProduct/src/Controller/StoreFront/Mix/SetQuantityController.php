@@ -4,14 +4,10 @@ namespace InvMixerProduct\Controller\StoreFront\Mix;
 
 use InvMixerProduct\Repository\ProductRepository;
 use InvMixerProduct\Service\MixServiceInterface;
-use Shopware\Core\Content\Product\ProductEntity;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -82,18 +78,24 @@ class SetQuantityController extends MixController
             $this->mixService
         );
 
-        $this->mixService->setProductQuantity(
-            $mix,
-            $product,
-            $quantity,
-            $salesChannelContext
-        );
+        try {
+            $this->mixService->setProductQuantity(
+                $mix,
+                $product,
+                $quantity,
+                $salesChannelContext
+            );
+        } catch (\Throwable $e) {
+            $this->addFlash(
+                'alert',
+                $e->getMessage()
+            );
+        }
 
-        return RedirectResponse::create(
-            $this->generateUrl(
-                'invMixerProduct.storeFront.mix.index'
-            ),
-            301
+        return $this->redirectToRoute(
+            'invMixerProduct.storeFront.mix.state',
+            [],
+            302
         );
 
     }

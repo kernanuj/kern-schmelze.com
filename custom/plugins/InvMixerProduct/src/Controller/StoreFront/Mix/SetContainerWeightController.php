@@ -5,7 +5,6 @@ namespace InvMixerProduct\Controller\StoreFront\Mix;
 use InvMixerProduct\Exception\EntityNotFoundException;
 use InvMixerProduct\Service\MixContainerDefinitionProviderInterface;
 use InvMixerProduct\Service\MixServiceInterface;
-use InvMixerProduct\Value\Design;
 use InvMixerProduct\Value\Weight;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -80,17 +79,23 @@ class SetContainerWeightController extends MixController
             $mix->getContainerDefinition()->getDesign()
         );
 
-        $this->mixService->applyContainerDefinition(
-            $mix,
-            $containerDefinition,
-            $salesChannelContext
-        );
+        try {
+            $this->mixService->applyContainerDefinition(
+                $mix,
+                $containerDefinition,
+                $salesChannelContext
+            );
+        } catch (\Throwable $e) {
+            $this->addFlash(
+                'alert',
+                $e->getMessage()
+            );
+        }
 
-        return RedirectResponse::create(
-            $this->generateUrl(
-                'invMixerProduct.storeFront.mix.index'
-            ),
-            301
+        return $this->redirectToRoute(
+            'invMixerProduct.storeFront.mix.state',
+            [],
+            302
         );
 
     }

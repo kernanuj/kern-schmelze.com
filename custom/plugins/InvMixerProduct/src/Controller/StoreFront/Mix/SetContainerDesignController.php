@@ -79,18 +79,23 @@ class SetContainerDesignController extends MixController
             $mix->getContainerDefinition()->getMaxContainerWeight(),
             Design::fromString($request->get('design'))
         );
+        try {
+            $this->mixService->applyContainerDefinition(
+                $mix,
+                $containerDefinition,
+                $salesChannelContext
+            );
+        } catch (\Throwable $e) {
+            $this->addFlash(
+                'alert',
+                $e->getMessage()
+            );
+        }
 
-        $this->mixService->applyContainerDefinition(
-            $mix,
-            $containerDefinition,
-            $salesChannelContext
-        );
-
-        return RedirectResponse::create(
-            $this->generateUrl(
-                'invMixerProduct.storeFront.mix.index'
-            ),
-            301
+        return $this->redirectToRoute(
+            'invMixerProduct.storeFront.mix.state',
+            [],
+            302
         );
 
     }

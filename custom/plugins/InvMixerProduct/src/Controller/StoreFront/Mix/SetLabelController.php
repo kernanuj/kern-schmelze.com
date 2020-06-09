@@ -91,11 +91,10 @@ class SetLabelController extends MixController
                 (string)$validationErrors
             );
 
-            return RedirectResponse::create(
-                $this->generateUrl(
-                    'invMixerProduct.storeFront.mix.index'
-                ),
-                301
+            return $this->redirectToRoute(
+                'invMixerProduct.storeFront.mix.state',
+                [],
+                302
             );
         }
 
@@ -105,17 +104,22 @@ class SetLabelController extends MixController
             $this->mixService
         );
 
-        $this->mixService->setLabel(
-            $mix,
-            $label,
-            $salesChannelContext
-        );
-
-        return RedirectResponse::create(
-            $this->generateUrl(
-                'invMixerProduct.storeFront.mix.index'
-            ),
-            301
+        try {
+            $this->mixService->setLabel(
+                $mix,
+                $label,
+                $salesChannelContext
+            );
+        } catch (\Throwable $e) {
+            $this->addFlash(
+                'alert',
+                $e->getMessage()
+            );
+        }
+        return $this->redirectToRoute(
+            'invMixerProduct.storeFront.mix.state',
+            [],
+            302
         );
 
     }
