@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package InvMixerProduct\Controller\StoreFront\Mix
  *
  * @RouteScope(scopes={"storefront"})
- * @Route("/mix/reset", methods={"GET"}, name="invMixerProduct.storeFront.mix.session.reset")
+ * @Route("/mix/reset", methods={"GET", "POST"}, name="invMixerProduct.storeFront.mix.session.reset")
  */
 class ResetController extends MixController
 {
@@ -41,11 +41,10 @@ class ResetController extends MixController
     {
         $this->session->remove(self::SESSION_KEY_CURRENT_MIX);
 
-        return RedirectResponse::create(
-            $this->generateUrl(
-                'invMixerProduct.storeFront.mix.index'
-            ),
-            301
+        return $this->redirectToRoute(
+            'invMixerProduct.storeFront.mix.state',
+            [],
+            302
         );
 
     }

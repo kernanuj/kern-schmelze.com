@@ -80,17 +80,23 @@ class AddController extends MixController
             $this->mixService
         );
 
-        $this->mixService->addProduct(
-            $mix,
-            $product,
-            $salesChannelContext
-        );
+        try {
+            $this->mixService->addProduct(
+                $mix,
+                $product,
+                $salesChannelContext
+            );
+        } catch (\Throwable $e) {
+            $this->addFlash(
+                'alert',
+                $e->getMessage()
+            );
+        }
 
-        return RedirectResponse::create(
-            $this->generateUrl(
-                'invMixerProduct.storeFront.mix.index'
-            ),
-            301
+        return $this->redirectToRoute(
+            'invMixerProduct.storeFront.mix.state',
+            [],
+            302
         );
 
     }
