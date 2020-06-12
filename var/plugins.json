@@ -382,7 +382,7 @@
         },
         "storefront": {
             "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": null,
+            "entryFilePath": "Resources\/app\/storefront\/src\/main.js",
             "webpack": null,
             "styleFiles": []
         }
