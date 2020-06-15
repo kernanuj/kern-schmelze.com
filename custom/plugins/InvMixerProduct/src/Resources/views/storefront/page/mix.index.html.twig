@@ -5,7 +5,13 @@
 
 {% block base_content %}
     {{ parent() }}
+
     <div class="row">
+        <div class="col-lg-12">
+            <h1>{{ "InvMixerProduct.page.title"|trans}}</h1>
+        </div>
+    </div>
+    <div class="row product-mixer-list">
         <div class="col-8">
             <div class="row">
                 {% block inv_product_mixer_product_list %}
