@@ -1,2 +1,17 @@
 @import 'abstract/variables.scss';
 
+.product-mixer-list {
+    .col-lg-4 {
+        margin-bottom: 30px;
+
+        .product-box {
+            .product-info {
+                .product-price-info {
+                    .product-price-unit {
+                        height: auto;
+                    }
+                }
+            }
+        }
+    }
+}
