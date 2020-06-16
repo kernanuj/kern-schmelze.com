@@ -2,6 +2,17 @@
     "InvMixerProduct": {
         "page":{
             "title": "Product Mixer"
+        },
+        "sidebar":{
+            "description": "Mix, try out and refine your very own <br />personal nut mix",
+            "titles": {
+                "main": "Your Nut Mix",
+                "size": "Size",
+                "design": "Design"
+            }
+        },
+        "buttons":{
+            "add": "Add to mix"
         }
     }
 }

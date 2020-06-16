@@ -9,7 +9,28 @@
             } %}
         {% endfor %}
     </div>
-    <ul>
+    <hr />
+    <span class="title">{{ "InvMixerProduct.sidebar.titles.size"|trans}}</span>
+    <ul class="mixer-product-sizes">
+        {% for availableContainerWeight in containerDefinitionCollection.availableMaxWeights %}
+            <li>
+
+                <p>{{ availableContainerWeight }}</p>
+                <form method="post"
+                      action="{{ path('invMixerProduct.storeFront.mix.session.container.weight.set') }}"
+                      data-inv-mixer-mix-state-action="true"
+                >
+                    <input type="hidden" name="weight" value="{{ availableContainerWeight }}">
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.weight.set') }}">
+                    <button type="submit">set: {{ availableContainerWeight }}</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <hr />
+    <span class="title">{{ "InvMixerProduct.sidebar.titles.design"|trans}}</span>
+    <ul class="mixer-product-designs">
         {% for availableContainerDesign in containerDefinitionCollection.availableDesigns %}
             <li>
                 <p>Design: {{ availableContainerDesign }}</p>
@@ -21,20 +42,6 @@
                     <input type="hidden" name="_csrf_token"
                            value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.design.set') }}">
                     <button type="submit">set: {{ availableContainerDesign }}</button>
-                </form>
-            </li>
-        {% endfor %}
-        {% for availableContainerWeight in containerDefinitionCollection.availableMaxWeights %}
-            <li>
-                <p>Weight: {{ availableContainerWeight }}</p>
-                <form method="post"
-                      action="{{ path('invMixerProduct.storeFront.mix.session.container.weight.set') }}"
-                      data-inv-mixer-mix-state-action="true"
-                >
-                    <input type="hidden" name="weight" value="{{ availableContainerWeight }}">
-                    <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.weight.set') }}">
-                    <button type="submit">set: {{ availableContainerWeight }}</button>
                 </form>
             </li>
         {% endfor %}
@@ -67,7 +74,7 @@
     <p>
         Total Price: {{ mixView.mixTotalPrice.value }}
     </p>
-    <ul>
+    <ul class="mixer-product-items">
         {% for mixItem in mixView.items %}
             <li>
 

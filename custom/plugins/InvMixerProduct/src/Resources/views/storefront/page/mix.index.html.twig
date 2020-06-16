@@ -6,13 +6,10 @@
 {% block base_content %}
     {{ parent() }}
 
-    <div class="row">
-        <div class="col-lg-12">
-            <h1>{{ "InvMixerProduct.page.title"|trans}}</h1>
-        </div>
-    </div>
-    <div class="row product-mixer-list">
+    <div class="row mixer-product-list">
         <div class="col-8">
+            <h1>{{ "InvMixerProduct.page.title"|trans}}</h1>
+
             <div class="row">
                 {% block inv_product_mixer_product_list %}
                     {% for product in productListing.elements %}
@@ -82,20 +79,25 @@
                                             {% endblock %}
 
                                             {% block inv_product_mixer_product_action %}
-                                                <div class="product-action">
-                                                    <form method="post"
-                                                          action="{{ path('invMixerProduct.storeFront.mix.session.add') }}"
-                                                          class="inv-mixer-product-listing-product"
-                                                          data-inv-mixer-product-listing-product-id="{{ product.id }}"
-                                                          data-inv-mixer-product-listing-action="true">
-                                                        <input type="hidden" name="product_id" value="{{ product.id }}">
-                                                        <input type="hidden" name="quantity" value="1">
-                                                        <input type="hidden" name="_csrf_token"
-                                                               value="{{ csrf_token('invMixerProduct.storeFront.mix.session.add') }}">
-                                                        <button class="button sw-button" type="submit">
-                                                            (+)
-                                                        </button>
-                                                    </form>
+                                                <div class="row product-action">
+                                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                                        <form method="post"
+                                                              action="{{ path('invMixerProduct.storeFront.mix.session.add') }}"
+                                                              class="inv-mixer-product-listing-product"
+                                                              data-inv-mixer-product-listing-product-id="{{ product.id }}"
+                                                              data-inv-mixer-product-listing-action="true">
+                                                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                                                            <input type="hidden" name="quantity" value="1">
+                                                            <input type="hidden" name="_csrf_token"
+                                                                   value="{{ csrf_token('invMixerProduct.storeFront.mix.session.add') }}">
+                                                            <button class="btn button btn-block btn-buy" type="submit">
+                                                                {{ "InvMixerProduct.buttons.add"|trans}}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                       <img src="{{ asset('storefront/img/mixer-product-product-info.svg', '@InvMixerProduct') }}" alt="Info" />
+                                                    </div>
                                                 </div>
                                             {% endblock %}
                                         </div>
@@ -114,9 +116,14 @@
             {% set mixPluginOptions = {
                 urlMixState: path('invMixerProduct.storeFront.mix.state')
             } %}
+            <div class="inner">
+                <h2>{{ "InvMixerProduct.sidebar.titles.main"|trans}}</h2>
+                <p class="description">{{ "InvMixerProduct.sidebar.description"|trans|raw}}</p>
 
-            <div data-inv-mixer-product-mix="true"
-                 data-inv-mixer-product-mix-options='{{ mixPluginOptions|json_encode }}'></div>
+                <div data-inv-mixer-product-mix="true"
+                     data-inv-mixer-product-mix-options='{{ mixPluginOptions|json_encode }}'></div>
+            </div>
+
         </div>
     </div>
 {% endblock %}

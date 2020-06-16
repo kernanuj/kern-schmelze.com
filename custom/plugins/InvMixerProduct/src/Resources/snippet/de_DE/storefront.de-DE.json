@@ -2,6 +2,17 @@
     "InvMixerProduct": {
         "page":{
             "title": "Produkt Mixer"
+        },
+        "sidebar":{
+            "description": "Mixe, probiere aus und veredle Deinen ganz <br />persönlichen Nuss-Mix",
+            "titles": {
+                "main": "Dein Nuss-Mix",
+                "size": "Größe der Dose",
+                "design": "Design der Dose"
+            }
+        },
+        "buttons":{
+            "add": "hinzufügen"
         }
     }
 }
