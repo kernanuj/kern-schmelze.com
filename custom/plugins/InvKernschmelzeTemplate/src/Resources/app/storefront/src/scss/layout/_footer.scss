@@ -1,7 +1,7 @@
 @import '../abstracts/variables.scss';
 
 .footer-main {
-    background: $ks-brown;
+    background: $ks-lightbrown;
     color: $white;
 
     .footer-columns {
@@ -38,7 +38,7 @@
     }
 
     .footer-bottom {
-        border-top: 1px solid $ks-gray;
+        border-top: 1px solid $white;
         padding-top: 20px;
     }
 
@@ -57,14 +57,14 @@
         .footer-columns {
             .footer-column-headline {
                 padding-left: 10px;
-                border-left: 1px solid $ks-gray;
+                border-left: 1px solid $white;
                 padding-top: 0;
                 margin-top: 3rem;
             }
 
             .footer-column-content {
                 padding-left: 10px;
-                border-left: 1px solid $ks-gray;
+                border-left: 1px solid $white;
             }
         }
     }
