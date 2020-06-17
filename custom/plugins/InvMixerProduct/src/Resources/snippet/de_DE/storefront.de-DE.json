@@ -12,7 +12,8 @@
             }
         },
         "buttons":{
-            "add": "hinzufügen"
+            "add": "hinzufügen",
+            "remove": "entfernen"
         }
     }
 }

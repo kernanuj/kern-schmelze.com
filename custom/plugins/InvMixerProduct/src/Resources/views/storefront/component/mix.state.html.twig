@@ -1,141 +1,254 @@
 {# @var mixView \InvMixerProduct\DataObject\MixView #}
 {# @var containerDefinitionCollection \InvMixerProduct\Struct\ContainerDefinitionCollection #}
-<div>
-    <div class="flashbags">
-        {% for type, messages in app.flashes %}
-            {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with {
-                type: type,
-                list: messages
-            } %}
-        {% endfor %}
-    </div>
-    <hr />
-    <span class="title">{{ "InvMixerProduct.sidebar.titles.size"|trans}}</span>
-    <ul class="mixer-product-sizes">
-        {% for availableContainerWeight in containerDefinitionCollection.availableMaxWeights %}
-            <li>
 
-                <p>{{ availableContainerWeight }}</p>
-                <form method="post"
-                      action="{{ path('invMixerProduct.storeFront.mix.session.container.weight.set') }}"
-                      data-inv-mixer-mix-state-action="true"
-                >
-                    <input type="hidden" name="weight" value="{{ availableContainerWeight }}">
-                    <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.weight.set') }}">
-                    <button type="submit">set: {{ availableContainerWeight }}</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
-    <hr />
-    <span class="title">{{ "InvMixerProduct.sidebar.titles.design"|trans}}</span>
-    <ul class="mixer-product-designs">
-        {% for availableContainerDesign in containerDefinitionCollection.availableDesigns %}
-            <li>
-                <p>Design: {{ availableContainerDesign }}</p>
-                <form method="post"
-                      action="{{ path('invMixerProduct.storeFront.mix.session.container.design.set') }}"
-                      data-inv-mixer-mix-state-action="true"
-                >
-                    <input type="hidden" name="design" value="{{ availableContainerDesign }}">
-                    <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.design.set') }}">
-                    <button type="submit">set: {{ availableContainerDesign }}</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
-    <p>
-        Id: {{ mixView.mixId }}
-    </p>
-    {% if(mixView.customer) %}
+{% block inv_product_mixer_sidebar %}
+    <div>
+        {% block inv_product_mixer_sidebar_messages %}
+            <div class="flashbags">
+                {% for type, messages in app.flashes %}
+                    {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with {
+                        type: type,
+                        list: messages
+                    } %}
+                {% endfor %}
+            </div>
+        {% endblock %}
+
+        {% block inv_product_mixer_sidebar_mixer_product_sizes %}
+            {% block inv_product_mixer_sidebar_mixer_product_sizes_title %}
+                <hr />
+                <span class="title">{{ "InvMixerProduct.sidebar.titles.size"|trans}}</span>
+            {% endblock %}
+
+            {% block inv_product_mixer_sidebar_mixer_product_sizes_items %}
+                <ul class="mixer-product-sizes">
+                    {% for availableContainerWeight in containerDefinitionCollection.availableMaxWeights %}
+                        <li>
+
+                            <p>{{ availableContainerWeight }}</p>
+                            <form method="post"
+                                  action="{{ path('invMixerProduct.storeFront.mix.session.container.weight.set') }}"
+                                  data-inv-mixer-mix-state-action="true"
+                            >
+                                <input type="hidden" name="weight" value="{{ availableContainerWeight }}">
+                                <input type="hidden" name="_csrf_token"
+                                       value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.weight.set') }}">
+                                <button type="submit">set: {{ availableContainerWeight }}</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endblock %}
+        {% endblock %}
+
+        {% block inv_product_mixer_sidebar_mixer_product_options %}
+            {% block inv_product_mixer_sidebar_mixer_product_options_title %}
+                <hr />
+                <span class="title">{{ "InvMixerProduct.sidebar.titles.design"|trans}}</span>
+            {% endblock %}
+
+            {% block inv_product_mixer_sidebar_mixer_product_options_items %}
+                <ul class="mixer-product-designs">
+                    {% for availableContainerDesign in containerDefinitionCollection.availableDesigns %}
+                        <li>
+                            <p>Design: {{ availableContainerDesign }}</p>
+                            <form method="post"
+                                  action="{{ path('invMixerProduct.storeFront.mix.session.container.design.set') }}"
+                                  data-inv-mixer-mix-state-action="true"
+                            >
+                                <input type="hidden" name="design" value="{{ availableContainerDesign }}">
+                                <input type="hidden" name="_csrf_token"
+                                       value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.design.set') }}">
+                                <button type="submit">set: {{ availableContainerDesign }}</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endblock %}
+        {% endblock %}
+
+
         <p>
-            Customer: {{ mixView.customer.email }}
+            Id: {{ mixView.mixId }}
         </p>
-    {% endif %}
-    <form method="post" action="{{ path('invMixerProduct.storeFront.mix.session.label.set') }}"
-          data-inv-mixer-mix-state-action="true"
-    >
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('invMixerProduct.storeFront.mix.session.label.set') }}">
-        <label>
-            Label:
-            <input type="text" name="label" value="{{ mixView.mixLabel }}"/>
-        </label>
-        <button type="submit">set label</button>
-    </form>
-    <p>
-        Container Design: {{ mixView.containerDefinition.design }}
-    </p>
-    <p>
-        Container MaxWeight: {{ mixView.containerDefinition.maxContainerWeight }}
-    </p>
-    <p>
-        Total Price: {{ mixView.mixTotalPrice.value }}
-    </p>
-    <ul class="mixer-product-items">
-        {% for mixItem in mixView.items %}
-            <li>
+        {% if(mixView.customer) %}
+            <p>
+                Customer: {{ mixView.customer.email }}
+            </p>
+        {% endif %}
 
-                <p>MixId: {{ mixItem.mix.id }}</p>
-                <p>MixItemId: {{ mixItem.id }}</p>
-                <p>Quantity: {{ mixItem.quantity }}</p>
-                <p>Product Name: {{ mixItem.product.name }}</p>
-                <p>Product Id: {{ mixItem.product.id }}</p>
-                <p>Price: {{ mixItem.product.price.first.gross }}</p>
-                <form method="post"
-                      action="{{ path('invMixerProduct.storeFront.mix.session.item.quantity.set') }}"
-                      data-inv-mixer-mix-state-action="true"
-                >
-                    {% set newQuantity = mixItem.quantity  + 1 %}
-                    <input type="hidden" name="product_id" value="{{ mixItem.product.id }}">
-                    <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('invMixerProduct.storeFront.mix.session.item.quantity.set') }}">
-                    <input type="hidden" name="quantity" value="{{ newQuantity }}">
-                    <button type="submit">+</button>
-                </form>
-                <form method="post"
-                      action="{{ path('invMixerProduct.storeFront.mix.session.item.quantity.set') }}"
-                      data-inv-mixer-mix-state-action="true"
-                >
-                    {% set newQuantity = mixItem.quantity  - 1 %}
-                    <input type="hidden" name="product_id" value="{{ mixItem.product.id }}">
-                    <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('invMixerProduct.storeFront.mix.session.item.quantity.set') }}">
-                    <input type="hidden" name="quantity" value="{{ newQuantity }}">
-                    <button type="submit">-</button>
-                </form>
-                <form method="post"
-                      action="{{ path('invMixerProduct.storeFront.mix.session.item.quantity.set') }}"
-                      data-inv-mixer-mix-state-action="true"
-                >
-                    <input type="hidden" name="product_id" value="{{ mixItem.product.id }}">
-                    <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('invMixerProduct.storeFront.mix.session.item.quantity.set') }}">
-                    <input type="hidden" name="quantity" value="0">
-                    <button type="submit">X</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
-    <p>
-        <form method="get" action="{{ path('invMixerProduct.storeFront.mix.session.reset') }}" data-inv-mixer-mix-state-action="true">
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('invMixerProduct.storeFront.mix.session.reset') }}">
-            <button type="submit" class="sw-button button-reset">
-                Reset
+        {% block inv_product_mixer_sidebar_mixer_product_items %}
+            <hr />
+
+            <div class="mixer-product-items">
+                {% for mixItem in mixView.items %}
+                    {% set name = mixItem.product.translated.name %}
+                    {% set id = mixItem.product.id %}
+
+                    {# Todo: Get mixItem.product.cover #}
+                    {% set coverId = mixItem.product.coverId %}
+                    {% set mediaCollection = searchMedia([coverId], context.context) %}
+                    {% set mixItemCover = mediaCollection.get(coverId) %}
+
+                    {% set mixItemPrice = mixItem.product.price.first.gross|currency %}
+                    {% set mixItemQuantity = mixItem.quantity %}
+                    {% set mixItemWeight = mixItem.product.weight * mixItem.product.referenceUnit %}
+
+                    {# Todo: Get mixItem.product.unit #}
+                    {% set mixItemUnit = "g" %}
+
+                    {% block inv_product_mixer_sidebar_mixer_product_item %}
+                        <div class="row mixer-product-item-wrapper">
+                            {% block inv_product_mixer_sidebar_mixer_product_item_image %}
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    <div class="mixer-product-item-image-wrapper">
+                                        {% if mixItemCover.url %}
+                                            {% set attributes = {
+                                                'class': 'product-image',
+                                                'alt': (cover.translated.alt ?: name),
+                                                'title': (cover.translated.title ?: name)
+                                            } %}
+
+                                            {% sw_thumbnails 'product-image-thumbnails' with {
+                                                media: cover,
+                                                sizes: {
+                                                    'xs': '501px',
+                                                    'sm': '315px',
+                                                    'md': '427px',
+                                                    'lg': '333px',
+                                                    'xl': '284px'
+                                                }
+                                            } %}
+                                        {% else %}
+                                            <div class="mixer-product-item-image-placeholder">
+                                                {% sw_icon 'placeholder' style {
+                                                    'size': 's'
+                                                } %}
+                                            </div>
+                                        {% endif %}
+
+                                        {#
+                                        {{ product.coverId }}
+                                        {{ dump() }}
+                                        #}
+                                    </div>
+                                </div>
+                            {% endblock %}
+
+                            {% block inv_product_mixer_sidebar_mixer_product_item_data %}
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                    <span class="mix-item-product-name">{{ name }}</span>
+                                    <span class="mix-item-product-quantity">{{ mixItemQuantity}} x {{ mixItemWeight }} {{ mixItemUnit }}</span>
+                                </div>
+                            {% endblock %}
+
+                            {% block inv_product_mixer_sidebar_mixer_product_item_price %}
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    <span class="mix-item-product-price">{{ mixItemPrice }}{{ "general.star"|trans|sw_sanitize }}</span>
+                                </div>
+                            {% endblock %}
+
+                            {% block inv_product_mixer_sidebar_mixer_product_item_actions %}
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                    <div class="mix-item-product-actions">
+                                        <form method="post"
+                                              action="{{ path('invMixerProduct.storeFront.mix.session.item.quantity.set') }}"
+                                              data-inv-mixer-mix-state-action="true"
+                                        >
+                                            {% set newQuantity = mixItem.quantity  + 1 %}
+                                            <input type="hidden" name="product_id" value="{{ mixItem.product.id }}">
+                                            <input type="hidden" name="_csrf_token"
+                                                   value="{{ csrf_token('invMixerProduct.storeFront.mix.session.item.quantity.set') }}">
+                                            <input type="hidden" name="quantity" value="{{ newQuantity }}">
+
+                                            {# Todo: Add click function to submit form #}
+                                            <input type="image" src="{{ asset('storefront/img/button-close.svg', '@InvMixerProduct') }}" alt="{{ "InvMixerProduct.buttons.remove"|trans}}" />
+
+                                        </form>
+                                        <form method="post"
+                                              action="{{ path('invMixerProduct.storeFront.mix.session.item.quantity.set') }}"
+                                              data-inv-mixer-mix-state-action="true"
+                                        >
+                                            {% set newQuantity = mixItem.quantity  - 1 %}
+                                            <input type="hidden" name="product_id" value="{{ mixItem.product.id }}">
+                                            <input type="hidden" name="_csrf_token"
+                                                   value="{{ csrf_token('invMixerProduct.storeFront.mix.session.item.quantity.set') }}">
+                                            <input type="hidden" name="quantity" value="{{ newQuantity }}">
+                                            <button type="submit">-</button>
+                                        </form>
+                                        <form method="post"
+                                              action="{{ path('invMixerProduct.storeFront.mix.session.item.quantity.set') }}"
+                                              data-inv-mixer-mix-state-action="true"
+                                        >
+                                            <input type="hidden" name="product_id" value="{{ mixItem.product.id }}">
+                                            <input type="hidden" name="_csrf_token"
+                                                   value="{{ csrf_token('invMixerProduct.storeFront.mix.session.item.quantity.set') }}">
+                                            <input type="hidden" name="quantity" value="0">
+                                            <button type="submit">X</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+
+
+                    <p>MixId: {{ mixItem.mix.id }}</p>
+                    <p>MixItemId: {{ mixItem.id }}</p>
+                    <p>Quantity: {{ mixItem.quantity }}</p>
+                    <p>Product Name: {{ mixItem.product.name }}</p>
+                    <p>Product Id: {{ mixItem.product.id }}</p>
+                    <p>Price: {{ mixItem.product.price.first.gross }}</p>
+
+                    <p>Cover-ID: {{ coverId }}</p>
+                    <p>Mix-Item-Cover-Url: {{ mixItemCover.url }}</p>
+
+
+
+                {% endfor %}
+            </div>
+        {% endblock %}
+
+
+        <form method="post" action="{{ path('invMixerProduct.storeFront.mix.session.label.set') }}"
+              data-inv-mixer-mix-state-action="true"
+        >
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('invMixerProduct.storeFront.mix.session.label.set') }}">
+            <label>
+                Label:
+                <input type="text" name="label" value="{{ mixView.mixLabel }}"/>
+            </label>
+            <button type="submit">set label</button>
+        </form>
+        <p>
+            Container Design: {{ mixView.containerDefinition.design }}
+        </p>
+        <p>
+            Container MaxWeight: {{ mixView.containerDefinition.maxContainerWeight }}
+        </p>
+        <p>
+            Total Price: {{ mixView.mixTotalPrice.value }}
+        </p>
+
+        <p>
+            <form method="get" action="{{ path('invMixerProduct.storeFront.mix.session.reset') }}" data-inv-mixer-mix-state-action="true">
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('invMixerProduct.storeFront.mix.session.reset') }}">
+                <button type="submit" class="sw-button button-reset">
+                    Reset
+                </button>
+            </form>
+        </p>
+        <p>
+        <form method="post"
+              action="{{ path('invMixerProduct.storeFront.mix.session.addToCart') }}">
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('invMixerProduct.storeFront.mix.session.addToCart') }}">
+            <button type="submit" class="sw-button">
+                Add to cart
             </button>
         </form>
-    </p>
-    <p>
-    <form method="post"
-          action="{{ path('invMixerProduct.storeFront.mix.session.addToCart') }}">
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('invMixerProduct.storeFront.mix.session.addToCart') }}">
-        <button type="submit" class="sw-button">
-            Add to cart
-        </button>
-    </form>
-    </p>
-</div>
+        </p>
+    </div>
+{% endblock %}
