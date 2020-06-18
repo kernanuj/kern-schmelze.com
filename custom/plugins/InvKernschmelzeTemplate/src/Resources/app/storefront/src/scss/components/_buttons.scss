@@ -5,12 +5,16 @@
     border-radius: 0;
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
+    text-transform: uppercase;
+    -webkit-letter-spacing: .8px;
+    -moz-letter-spacing: .8px;
+    letter-spacing: .8px;
 }
 
 .btn-primary {
     color: $white;
-    font-size: 20px;
-    line-height: 25px;
+    font-size: 16px;
+    line-height: 18px;
     font-weight: 500;
     padding: 10px 40px;
 }
@@ -26,7 +30,7 @@
 }
 
 .btn-buy {
-    font-size: 20px;
-    line-height: 25px;
     padding: 10px 0;
+    font-size: 14px;
+    line-height: 16px;
 }

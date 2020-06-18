@@ -8,8 +8,8 @@
         border-bottom: 0;
 
         .footer-column-headline {
-            font-size: 20px;
-            line-height: 22px;
+            font-size: 18px;
+            line-height: 20px;
             text-transform: uppercase;
             letter-spacing: .6px;
             -moz-letter-spacing: .6px;
@@ -40,6 +40,13 @@
     .footer-bottom {
         border-top: 1px solid $white;
         padding-top: 20px;
+
+        .footer-vat {
+            a {
+                color: $white;
+                text-decoration: underline;
+            }
+        }
     }
 
     .footer-copyright {

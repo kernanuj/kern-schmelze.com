@@ -1,0 +1,12 @@
+.main-navigation {
+    .nav {
+        a.main-navigation-link {
+            .main-navigation-link-text {
+                letter-spacing: .8px;
+                -moz-letter-spacing: .8px;
+                -webkit-letter-spacing: .8px;
+                text-transform: uppercase;
+            }
+        }
+    }
+}

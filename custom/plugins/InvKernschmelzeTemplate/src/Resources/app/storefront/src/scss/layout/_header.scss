@@ -1,5 +1,12 @@
 @import '../abstracts/variables.scss';
 
+.header-top {
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    -moz-letter-spacing: .8px;
+    -webkit-letter-spacing: .8px;
+}
+
 .header-logo-col,
 .header-minimal-logo {
     padding-bottom: 0;

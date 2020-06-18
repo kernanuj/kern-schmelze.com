@@ -2,12 +2,16 @@
 
 h1, h2, h3, h4 {
     color: $ks-anthrazit;
-    font-weight: 600;
+    font-weight: 500;
+    text-transform: uppercase;
+    -webkit-letter-spacing: .8px;
+    -moz-letter-spacing: .8px;
+    letter-spacing: .8px;
 }
 
 h1 {
-    font-size: 28px;
-    line-height: 32px;
+    font-size: 22px;
+    line-height: 24px;
     position: relative;
     margin: 0 0 30px 0;
     padding: 0 0 15px 0;
@@ -25,4 +29,6 @@ h1 {
 
 .h2, .h3 {
     display: block;
+    font-size: 22px;
+    line-height: 24px;
 }

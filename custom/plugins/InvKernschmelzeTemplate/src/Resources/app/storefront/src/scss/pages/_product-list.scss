@@ -4,6 +4,19 @@
     height: 300px;
 }
 
+.product-name {
+    text-transform: uppercase;
+    -webkit-letter-spacing: .8px;
+    -moz-letter-spacing: .8px;
+    letter-spacing: .8px;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.product-price {
+    font-weight: 500;
+}
+
 .product-box {
     box-shadow: 0 0 12px 0 rgba(0, 0, 0, .1);
     border: 0;
