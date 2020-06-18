@@ -3,17 +3,25 @@
         "page":{
             "title": "Product Mixer"
         },
-        "sidebar":{
-            "description": "Mix, try out and refine your very own <br />personal nut mix",
+        "sidebar": {
+            "description": "Mix, try out and refine your very own <br />personal chocolate mix.",
             "titles": {
-                "main": "Your Nut Mix",
+                "main": "Your Chocolate Mix",
                 "size": "Size",
-                "design": "Design"
+                "design": "Design",
+                "label": "Name your mix"
             }
         },
-        "buttons":{
+        "buttons": {
             "add": "Add to mix",
-            "remove": "Remove"
+            "remove": "Remove",
+            "addToCart": "Add to cart"
+        },
+        "placeholders": {
+            "mixLabel": "My Mix"
+        },
+        "information": {
+            "deliveryTime": "Expected delivery in 3-8 working days"
         }
     }
 }

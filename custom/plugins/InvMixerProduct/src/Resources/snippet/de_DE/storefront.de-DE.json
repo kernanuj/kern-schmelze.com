@@ -3,17 +3,25 @@
         "page":{
             "title": "Produkt Mixer"
         },
-        "sidebar":{
-            "description": "Mixe, probiere aus und veredle Deinen ganz <br />persönlichen Nuss-Mix",
+        "sidebar": {
+            "description": "Mixe, probiere aus und veredle Deinen ganz <br />persönlichen Schokoladen-Mix.",
             "titles": {
-                "main": "Dein Nuss-Mix",
+                "main": "Dein Schoko-Mix",
                 "size": "Größe der Dose",
-                "design": "Design der Dose"
+                "design": "Design der Dose",
+                "label": "Wie soll Dein Mix heißen?"
             }
         },
-        "buttons":{
+        "buttons": {
             "add": "hinzufügen",
-            "remove": "entfernen"
+            "remove": "entfernen",
+            "addToCart": "In den Warenkorb"
+        },
+        "placeholders": {
+            "mixLabel": "Mein Mix"
+        },
+        "information": {
+            "deliveryTime": "Voraussichtliche Lieferung in 3-8 Werktagen"
         }
     }
 }
