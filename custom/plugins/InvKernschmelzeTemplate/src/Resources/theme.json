@@ -9,7 +9,6 @@
   "style": [
     "app/storefront/src/scss/overrides.scss",
     "@Storefront",
-    "@Plugins",
     "app/storefront/src/scss/base.scss"
   ],
   "script": [
