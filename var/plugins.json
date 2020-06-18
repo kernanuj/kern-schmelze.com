@@ -384,7 +384,12 @@
             "path": "Resources\/app\/storefront\/src",
             "entryFilePath": "Resources\/app\/storefront\/src\/main.js",
             "webpack": null,
-            "styleFiles": []
+            "styleFiles": [
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/variables.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/base.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/layout\/_sidebar.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/pages\/_mixer-product-list.scss"
+            ]
         }
     }
 }
