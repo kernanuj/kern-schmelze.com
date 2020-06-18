@@ -1,0 +1,206 @@
+.mixer-product-list {
+    .col-lg-4 {
+        margin-bottom: 30px;
+
+        .inner {
+            background: $inv-mixer-product-sidebar-background-color;
+            padding: 30px;
+
+            h2 {
+                font-size: 22px;
+                line-height: 24px;
+            }
+
+            .description {
+                font-weight: 500;
+            }
+
+            .title {
+                text-transform: uppercase;
+                font-size: 11px;
+                line-height: 13px;
+                letter-spacing: .8px;
+                -moz-letter-spacing: .8px;
+                -webkit-letter-spacing: .8px;
+                font-weight: 500;
+                display: block;
+                margin: 0 0 5px 0;
+            }
+
+            ul.mixer-product-sizes,
+            ul.mixer-product-designs {
+                list-style: none;
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: flex-start;
+                margin: 0;
+                padding: 0;
+
+                li {
+                    margin: 0 10px 10px 0;
+                    padding: 30px 10px;
+                    background: $white;
+                    border: 1px solid $inv-mixer-product-sidebar-options-list-border-color;
+                    text-align: center;
+                    font-weight: 500;
+                    min-width: 94px;
+
+                    &:hover,
+                    &.active {
+                        border-color: $black;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .mixer-product-items {
+                .mixer-product-item-wrapper {
+                    background: $white;
+                    margin: 0 0 10px 0;
+                    padding: 10px 0;
+                    justify-items: center;
+                    box-shadow: 0 0 12px 0 rgba(0, 0, 0, .1);
+
+                    .col-lg-2 {
+                        padding: 0;
+
+                        .mixer-product-item-image-wrapper {
+                            img {
+                                width: 100%;
+                                max-width: 80px;
+                                height: auto;
+                                display: block;
+                            }
+
+                            .mixer-product-item-image-placeholder {
+                                max-height: 80px;
+                                overflow: hidden;
+                            }
+                        }
+                    }
+
+                    .col-lg-1 {
+                        padding: 0;
+                    }
+
+                    .mix-item-product-name {
+                        margin: 0;
+                        padding: 0;
+                        height: auto;
+                        font-weight: 500;
+                        display: block;
+                    }
+
+                    .mix-item-product-actions {
+                        button {
+                            width: 15px;
+                            height: 15px;
+                            border: 0;
+                            background: none;
+                            text-align: center;
+                            margin: 0 0 3px 0;
+                            padding: 0;
+
+                            &:hover {
+                                cursor: pointer;
+                            }
+
+                            &:focus {
+                                outline: none
+                            }
+
+                            img {
+                                width: 15px;
+                                height: 15px;
+                                display: block;
+                                border: 0;
+                            }
+
+                            &.close {
+                                margin: 0;
+
+                                img {
+                                    width: 12px;
+                                    height: 12px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .mixer-product-label {
+                input[type="text"] {
+                    border: 1px solid $inv-mixer-product-sidebar-input-text-border-color;
+                    padding: 10px;
+                    width: 100%;
+                    -webkit-border-radius: 0;
+                    -moz-border-radius: 0;
+                    border-radius: 0;
+                    color: $inv-mixer-product-sidebar-label-input-text-color;
+                    font-size: 14px;
+                    line-height: 16px;
+
+                    &:focus {
+                        outline: none
+                    }
+                }
+            }
+
+            .mixer-product-price-info {
+                margin-bottom: 15px;
+
+                span {
+                    &.mixer-product-total {
+                        font-size: 26px;
+                        line-height: 28px;
+                        font-weight: 500;
+                    }
+
+                    &.mixer-product-baseprice {
+                        font-size: 14px;
+                        line-height: 21px;
+                    }
+
+                    .mixer-product-tax-link {
+                        display: block;
+                        font-size: 12px;
+                        line-height: 14px;
+                        margin: 5px 0 0 0;
+                    }
+                }
+            }
+
+            .mixer-product-actions {
+                .col-lg-4 {
+                    padding-right: 5px;
+                }
+
+                .col-lg-8 {
+                    padding-left: 5px;
+                }
+
+                input[type="number"] {
+                    border: 1px solid $inv-mixer-product-sidebar-input-text-border-color;
+                    padding: 15px 0;
+                    -webkit-border-radius: 0;
+                    -moz-border-radius: 0;
+                    border-radius: 0;
+                    font-size: 16px;
+                    line-height: 18px;
+                    width: 100%;
+                    text-align: center;
+
+                    &:focus {
+                        outline: none
+                    }
+                }
+
+                button {
+                    padding: 15px 0;
+                    border: 1px solid $inv-mixer-product-button-add-border-color;
+                }
+            }
+        }
+    }
+}
