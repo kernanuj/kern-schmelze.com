@@ -1,7 +1,7 @@
-@import 'abstracts/variables.scss';
+@import 'abstract/variables.scss';
 
-@import 'abstracts/variables';
-@import 'abstracts/mixins';
+@import 'abstract/variables';
+@import 'abstract/mixins';
 
 @import 'base/reset';
 @import 'base/typography';
@@ -17,4 +17,3 @@
 @import 'pages/homepage';
 @import 'pages/product-list';
 @import 'pages/product-detail';
-
