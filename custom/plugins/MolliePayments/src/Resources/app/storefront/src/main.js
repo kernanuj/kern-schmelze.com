@@ -1,3 +1,5 @@
+import 'regenerator-runtime';
+
 // Import all necessary Storefront plugins and scss files
 import MollieCreditCardComponents
     from './mollie-payments/plugins/creditcard-components.plugin';

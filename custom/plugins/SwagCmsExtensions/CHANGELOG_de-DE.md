@@ -1,3 +1,6 @@
+# 1.3.1
+- PT-11655 - Anker-Position eines Navigationspunktes angepasst
+
 # 1.3.0
 - PT-11604 - 6.2-Kompatibilität
 - PT-11604 - Psalm-Integration hinzugefügt

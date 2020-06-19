@@ -4,14 +4,19 @@
 namespace Kiener\MolliePayments\Helper;
 
 use Exception;
+use Kiener\MolliePayments\Config\PaymentStatusConfigurator;
 use Kiener\MolliePayments\Service\LoggerService;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Types\PaymentStatus;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionDefinition;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
+use Shopware\Core\System\StateMachine\Aggregation\StateMachineTransition\StateMachineTransitionActions;
+use Shopware\Core\System\StateMachine\StateMachineRegistry;
+use Shopware\Core\System\StateMachine\Transition;
 
 class PaymentStatusHelper
 {
@@ -21,19 +26,25 @@ class PaymentStatusHelper
     /** @var OrderTransactionStateHandler */
     protected $orderTransactionStateHandler;
 
+    /** @var StateMachineRegistry */
+    protected $stateMachineRegistry;
+
     /**
      * PaymentStatusHelper constructor.
      *
      * @param LoggerService                $logger
      * @param OrderTransactionStateHandler $orderTransactionStateHandler
+     * @param StateMachineRegistry         $stateMachineRegistry
      */
     public function __construct(
         LoggerService $logger,
-        OrderTransactionStateHandler $orderTransactionStateHandler
+        OrderTransactionStateHandler $orderTransactionStateHandler,
+        StateMachineRegistry $stateMachineRegistry
     )
     {
         $this->logger = $logger;
         $this->orderTransactionStateHandler = $orderTransactionStateHandler;
+        $this->stateMachineRegistry = $stateMachineRegistry;
     }
 
     /**
@@ -167,7 +178,7 @@ class PaymentStatusHelper
             $authorizedNumber > 0
             && $authorizedNumber === $paymentsTotal
         ) {
-            return PaymentStatus::STATUS_OPEN;
+            return PaymentStatus::STATUS_AUTHORIZED;
         }
 
         /**

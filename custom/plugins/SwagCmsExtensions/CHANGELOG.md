@@ -1,3 +1,6 @@
+# 1.3.1
+- PT-11655 - Re-adjusted anchor position of a navigation point
+
 # 1.3.0
 - PT-11604 - 6.2 Compatibility
 - PT-11604 - Added Psalm integration

@@ -1,6 +1,6 @@
 {
   "name": "inv/trust-bar",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Fast conversion boost for Shopware 6! Display the 3 main advantages of your store and a support hotline at the top of the screen. Convince your customers of your offer now!",
   "authors": [
         {
@@ -24,8 +24,8 @@
     "shopware-plugin-class": "InvTrustBar\\InvTrustBar",
     "copyright": "(c) by Nils Harder | inventivo.de",
     "label": {
-        "de-DE": "Conversion Header PRO - Trust Bar für Shopware 6",
-        "en-GB": "Conversion Header PRO - Trust Bar for Shopware 6"
+        "de-DE": "Conversion Header Bar PRO - Trust Bar für Shopware 6",
+        "en-GB": "Conversion Header Bar PRO - Trust Bar for Shopware 6"
     },
   "description": {
       "de-DE": "Schneller Conversion Boost für Shopware 6! Die 3 Hauptvorteile Deines Shops und eine Support-Hotline am oberen Bildschirmrand anzeigen. Jetzt Deine Kunden von Deinem Angebot überzeugen!",
