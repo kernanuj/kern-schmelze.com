@@ -1,5 +1,3 @@
-@import '../abstracts/variables';
-
 .is-act-home {
     .breadcrumb {
         display: none;
@@ -10,9 +8,7 @@
             padding: 0;
 
             .cms-block-container {
-
                 .cms-element-text {
-
                     .all-categories-link {
                         position: absolute;
                         top: 10px;
@@ -27,6 +23,93 @@
                         }
                     }
                 }
+            }
+        }
+    }
+
+    .cms-section {
+        margin: 30px 0;
+
+        &.home-teaser {
+            .cms-element-text {
+                text-align: center;
+
+                p {
+                    color: $ks-anthrazit;
+                    font-size: 16px;
+                    line-height: 24px;
+                }
+            }
+        }
+
+        &.banner-schoko-konfigurator {
+            text-align: center;
+
+            .cms-element-text {
+                justify-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+
+            a {
+                display: block;
+                text-decoration: none;
+                text-align: center;
+                width: 100%;
+                max-width: 500px;
+                padding: 30px 50px;
+                background: $white;
+
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+        }
+
+        &.home-benefits {
+            text-align: center;
+
+            .cms-element-image {
+                min-height: 0;
+                justify-items: center;
+                justify-content: center;
+                text-align: center;
+
+                img {
+                    text-align: center;
+                    display: block;
+                    width: 110px;
+                    height: 110px;
+                    margin: 0 auto;
+                }
+            }
+
+            .cms-element-text {
+                justify-items: center;
+                justify-content: center;
+                text-align: center;
+                font-size: 16px;
+                line-height: 22px;
+                text-transform: uppercase;
+                -webkit-letter-spacing: .8px;
+                -moz-letter-spacing: .8px;
+                letter-spacing: .8px;
+            }
+        }
+
+        &.home-video {
+            text-align: center;
+
+            .cms-element-text {
+                justify-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+
+            h2 {
+                color: $white;
+                font-size: 36px;
+                line-height: 40px;
             }
         }
     }
