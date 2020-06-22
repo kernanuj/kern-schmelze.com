@@ -28,7 +28,7 @@
     }
 
     .cms-section {
-        margin: 30px 0;
+        margin: 40px 0;
 
         &.home-teaser {
             .cms-element-text {
@@ -100,16 +100,266 @@
         &.home-video {
             text-align: center;
 
+            .col-md-6 {
+                &:nth-child(1) {
+                    padding-right: 0;
+                }
+
+                &:nth-child(2) {
+                    padding-left: 0;
+                }
+            }
+
             .cms-element-text {
                 justify-items: center;
                 justify-content: center;
                 text-align: center;
+                background: $ks-purple;
             }
 
             h2 {
                 color: $white;
                 font-size: 36px;
                 line-height: 40px;
+            }
+        }
+
+        //&.home-categories,
+        &.banner-two-columns {
+            .h2 {
+                text-align: center;
+            }
+
+            .col-lg-6 {
+                &.cms-block {
+                    overflow: hidden;
+                    float: left;
+                    min-height: 371px;
+                    display: flex;
+                    justify-items: center;
+                    justify-content: center;
+                    text-align: center;
+                    flex-direction: column;
+
+                    &:hover {
+                        -moz-opacity: .8;
+                        -webkit-opacity: .8;
+                        opacity: .8;
+                    }
+
+                    .cms-block-container {
+                        display: flex;
+                        justify-items: center;
+                        justify-content: center;
+                        text-align: center;
+                        align-self: center !important;
+                        flex: 1;
+                        flex-direction: column;
+                        width: 100%;
+                        padding: 0 !important;
+
+                        .cms-block-container-row {
+                            flex: 1;
+                            flex-direction: column;
+                            width: 100%;
+
+                            .col-12 {
+                                flex: 1;
+                                flex-direction: column;
+                                width: 100%;
+                                padding: 0;
+                                display: flex;
+
+                                .cms-element-text {
+                                    font-size: 16px;
+                                    line-height: 22px;
+                                    text-transform: uppercase;
+                                    -webkit-letter-spacing: .8px;
+                                    -moz-letter-spacing: .8px;
+                                    letter-spacing: .8px;
+                                    padding: 0;
+                                    flex: 1;
+                                    flex-direction: column;
+                                    width: 100%;
+
+                                    .cms-element-alignment {
+                                        flex: 1;
+                                        flex-direction: column;
+                                        width: 100%;
+                                        display: flex;
+
+                                        a {
+                                            color: $white;
+                                            text-align: center;
+                                            font-size: 36px;
+                                            line-height: 40px;
+                                            text-transform: uppercase;
+                                            font-weight: 500;
+                                            display: flex;
+                                            justify-items: center;
+                                            justify-content: center;
+                                            text-align: center;
+                                            flex: 1;
+                                            flex-direction: column;
+
+                                            &:hover {
+                                                text-decoration: none;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &.home-magazin {
+            .h2 {
+                text-align: center;
+            }
+
+            .cms-block-text-on-image {
+                overflow: hidden;
+                min-height: 134px;
+                display: flex;
+                justify-items: center;
+                justify-content: center;
+                text-align: center;
+                flex-direction: column;
+
+                &:hover {
+                    -moz-opacity: .8;
+                    -webkit-opacity: .8;
+                    opacity: .8;
+                }
+
+                .cms-block-container {
+                    display: flex;
+                    justify-items: center;
+                    justify-content: center;
+                    text-align: center;
+                    align-self: center !important;
+                    flex: 1;
+                    flex-direction: column;
+                    width: 100%;
+                    padding: 0 !important;
+
+                    .cms-block-container-row {
+                        flex: 1;
+                        flex-direction: column;
+                        width: 100%;
+
+                        .col-12 {
+                            flex: 1;
+                            flex-direction: column;
+                            width: 100%;
+                            padding: 0;
+                            display: flex;
+
+                            .cms-element-text {
+                                font-size: 16px;
+                                line-height: 22px;
+                                text-transform: uppercase;
+                                -webkit-letter-spacing: .8px;
+                                -moz-letter-spacing: .8px;
+                                letter-spacing: .8px;
+                                padding: 0;
+                                flex: 1;
+                                flex-direction: column;
+                                width: 100%;
+
+                                .cms-element-alignment {
+                                    flex: 1;
+                                    flex-direction: column;
+                                    width: 100%;
+                                    display: flex;
+
+                                    a {
+                                        color: $white;
+                                        text-align: center;
+                                        font-size: 36px;
+                                        line-height: 40px;
+                                        text-transform: none;
+                                        font-weight: 500;
+                                        display: flex;
+                                        justify-items: center;
+                                        justify-content: center;
+                                        text-align: center;
+                                        flex: 1;
+                                        flex-direction: column;
+
+                                        &:hover {
+                                            text-decoration: none;
+                                        }
+
+                                        span {
+                                            display: block;
+                                            font-size: 20px; line-height: 24px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .cms-block-image-text-cover {
+                .col-md-6 {
+                    &:nth-child(1) {
+                        padding-right: 0;
+                    }
+
+                    &:nth-child(2) {
+                        padding-left: 0;
+                        background: $ks-rose;
+                    }
+
+                    .cms-element-text {
+                        color: $white;
+                        text-align: center;
+
+                        .cms-element-alignment {
+                            margin: 0 auto;
+                            text-align: center;
+                        }
+
+                        .h3 {
+                            color: $white;
+                            text-transform: none;
+                            font-size: 16px;
+                            line-height: 18px;
+                            display: block;
+                            margin: 0 0 10px 0;
+                        }
+
+                        h2 {
+                            color: $white;
+                            text-transform: none;
+                            margin: 0 0 10px 0;
+                        }
+
+                        h3 {
+                            color: $white;
+                            text-transform: none;
+                        }
+
+                        .btn {
+                            &.btn-primary {
+                                background: $white;
+                                color: $ks-lightbrown;
+                                border: 0;
+
+                                &:hover {
+                                    background: $ks-lightbrown;
+                                    color: $white;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
