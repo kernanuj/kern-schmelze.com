@@ -101,6 +101,8 @@
             text-align: center;
 
             .col-md-6 {
+                margin-bottom: 0;
+
                 &:nth-child(1) {
                     padding-right: 0;
                 }
@@ -115,6 +117,7 @@
                 justify-content: center;
                 text-align: center;
                 background: $ks-purple;
+                padding: 30px 0;
             }
 
             h2 {
@@ -308,6 +311,8 @@
 
             .cms-block-image-text-cover {
                 .col-md-6 {
+                    margin-bottom: 0;
+
                     &:nth-child(1) {
                         padding-right: 0;
                     }
@@ -365,3 +370,7 @@
     }
 }
 
+
+@media (max-width: 767.98px) {
+
+}
