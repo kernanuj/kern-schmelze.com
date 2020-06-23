@@ -5,11 +5,12 @@
         "cartLinkText": "Warenkorb",
         "allProductsLink": "Alle Produkte",
         "benefits": {
-            "benefit1": "Vorteil 1",
-            "benefit2": "Vorteil 2",
-            "benefit3": "Vorteil 3",
-            "benefit4": "Vorteil 4",
-            "benefit5": "Vorteil 5"
+            "benefit1": "Liebevolle Handarbeit",
+            "benefit2": "Feinste Belgische Schokolade",
+            "benefit3": "Röstfrische KERNenergie Nüsse",
+            "benefit4": "Hochwertige Trockenfrüchte",
+            "benefit5": "Aus eigener Chocolaterie",
+            "benefit6": "Ohne Palmöl"
         },
         "tabs": {
             "ingredients": "Zutaten",

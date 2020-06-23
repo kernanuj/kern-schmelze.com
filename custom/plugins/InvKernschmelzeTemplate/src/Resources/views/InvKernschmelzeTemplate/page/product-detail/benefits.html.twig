@@ -19,5 +19,11 @@
         {% if page.product.translated.customFields.custom_product_data_benefits.4 %}
             <li class="benefit benefit5">{{ 'InvKernschmelzeTemplate.benefits.benefit5'|trans }}</li>
         {% endif %}
+
+        {% if page.product.translated.customFields.custom_product_data_benefits.5 %}
+            <li class="benefit benefit6">{{ 'InvKernschmelzeTemplate.benefits.benefit6'|trans }}</li>
+        {% endif %}
     </ul>
+
+    {{ dump(InvKernschmelzeTemplate.benefits) }}
 {% endif %}
