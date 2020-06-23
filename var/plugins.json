@@ -147,24 +147,6 @@
             "styleFiles": []
         }
     },
-    "SwagPayPal": {
-        "basePath": "custom\/plugins\/SwagPayPal\/src\/",
-        "views": [
-            "Resources\/views"
-        ],
-        "technicalName": "swag-pay-pal",
-        "administration": {
-            "path": "Resources\/app\/administration\/src",
-            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
-            "webpack": null
-        },
-        "storefront": {
-            "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": "Resources\/app\/storefront\/src\/main.js",
-            "webpack": null,
-            "styleFiles": []
-        }
-    },
     "InvKernschmelzeTemplate": {
         "basePath": "custom\/plugins\/InvKernschmelzeTemplate\/src\/",
         "views": [
@@ -185,6 +167,87 @@
                 "@Storefront",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvKernschmelzeTemplate\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
             ]
+        }
+    },
+    "InvAdvancedCmsBlocks": {
+        "basePath": "custom\/plugins\/InvAdvancedCmsBlocks\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-advanced-cms-blocks",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": [
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/_variables.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/base.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/_text-on-image-two-columns.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/_image-text-gallery-four-columns.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/_image-text-gallery-six-columns.scss"
+            ]
+        }
+    },
+    "InvPressBar": {
+        "basePath": "custom\/plugins\/InvPressBar\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-press-bar",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": [
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvPressBar\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/_variables.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvPressBar\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
+            ]
+        }
+    },
+    "SendcloudShipping": {
+        "basePath": "custom\/plugins\/SendcloudShipping\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "sendcloud-shipping",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
+        }
+    },
+    "SwagSocialShopping": {
+        "basePath": "custom\/plugins\/SwagSocialShopping\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "swag-social-shopping",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
+            "webpack": "Resources\/app\/administration\/build\/webpack.config.js"
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
         }
     },
     "SwagCmsExtensions": {
@@ -209,57 +272,15 @@
             ]
         }
     },
-    "SwagSocialShopping": {
-        "basePath": "custom\/plugins\/SwagSocialShopping\/src\/",
+    "shopueberDeutschDu": {
+        "basePath": "custom\/plugins\/shopueberDeutschDu\/src\/",
         "views": [
             "Resources\/views"
         ],
-        "technicalName": "swag-social-shopping",
+        "technicalName": "shopueber-deutsch-du",
         "administration": {
             "path": "Resources\/app\/administration\/src",
-            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
-            "webpack": "Resources\/app\/administration\/build\/webpack.config.js"
-        },
-        "storefront": {
-            "path": "Resources\/app\/storefront\/src",
             "entryFilePath": null,
-            "webpack": null,
-            "styleFiles": []
-        }
-    },
-    "InvAdvancedCmsBlocks": {
-        "basePath": "custom\/plugins\/InvAdvancedCmsBlocks\/src\/",
-        "views": [
-            "Resources\/views"
-        ],
-        "technicalName": "inv-advanced-cms-blocks",
-        "administration": {
-            "path": "Resources\/app\/administration\/src",
-            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
-            "webpack": null
-        },
-        "storefront": {
-            "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": null,
-            "webpack": null,
-            "styleFiles": [
-                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/variables.scss",
-                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/base.scss",
-                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/text-on-image-two-columns.scss",
-                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/image-text-gallery-four-columns.scss",
-                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvAdvancedCmsBlocks\/src\/Resources\/app\/storefront\/src\/scss\/image-text-gallery-six-columns.scss"
-            ]
-        }
-    },
-    "SendcloudShipping": {
-        "basePath": "custom\/plugins\/SendcloudShipping\/src\/",
-        "views": [
-            "Resources\/views"
-        ],
-        "technicalName": "sendcloud-shipping",
-        "administration": {
-            "path": "Resources\/app\/administration\/src",
-            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
             "webpack": null
         },
         "storefront": {
@@ -267,47 +288,6 @@
             "entryFilePath": null,
             "webpack": null,
             "styleFiles": []
-        }
-    },
-    "KlarnaPayment": {
-        "basePath": "custom\/plugins\/KlarnaPayment\/src\/",
-        "views": [
-            "Resources\/views"
-        ],
-        "technicalName": "klarna-payment",
-        "administration": {
-            "path": "Resources\/app\/administration\/src",
-            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
-            "webpack": null
-        },
-        "storefront": {
-            "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": "Resources\/app\/storefront\/src\/main.js",
-            "webpack": null,
-            "styleFiles": [
-                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/KlarnaPayment\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
-            ]
-        }
-    },
-    "InvPressBar": {
-        "basePath": "custom\/plugins\/InvPressBar\/src\/",
-        "views": [
-            "Resources\/views"
-        ],
-        "technicalName": "inv-press-bar",
-        "administration": {
-            "path": "Resources\/app\/administration\/src",
-            "entryFilePath": null,
-            "webpack": null
-        },
-        "storefront": {
-            "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": null,
-            "webpack": null,
-            "styleFiles": [
-                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvPressBar\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/variables.scss",
-                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvPressBar\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
-            ]
         }
     },
     "MolliePayments": {
@@ -330,24 +310,6 @@
             ]
         }
     },
-    "shopueberDeutschDu": {
-        "basePath": "custom\/plugins\/shopueberDeutschDu\/src\/",
-        "views": [
-            "Resources\/views"
-        ],
-        "technicalName": "shopueber-deutsch-du",
-        "administration": {
-            "path": "Resources\/app\/administration\/src",
-            "entryFilePath": null,
-            "webpack": null
-        },
-        "storefront": {
-            "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": null,
-            "webpack": null,
-            "styleFiles": []
-        }
-    },
     "InvTrustBar": {
         "basePath": "custom\/plugins\/InvTrustBar\/src\/",
         "views": [
@@ -364,7 +326,7 @@
             "entryFilePath": null,
             "webpack": null,
             "styleFiles": [
-                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvTrustBar\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/variables.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvTrustBar\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/_variables.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvTrustBar\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
             ]
         }
@@ -385,7 +347,7 @@
             "entryFilePath": "Resources\/app\/storefront\/src\/main.js",
             "webpack": null,
             "styleFiles": [
-                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/variables.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/_variables.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/base.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/layout\/_sidebar.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/pages\/_mixer-product-list.scss"

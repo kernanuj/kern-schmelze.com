@@ -195,13 +195,16 @@ class CheckoutSubscriber implements EventSubscriberInterface
     private function isShippingAddressChanged(?Request $request, CustomerEntity $customer): bool
     {
         $selectAddress = $request ? $request->get('selectAddress') : null;
-        $type = !empty($selectAddress['type']) ? $selectAddress['type'] : null;
+        $selectAddressType = !empty($selectAddress['type']) ? $selectAddress['type'] : null;
+        $route = $request ? $request->get('_route') : null;
+        $type = $request ? $request->get('type') : null;
+
         $addresses = $customer->getAddresses();
         $addressesCount = $addresses ? $addresses->count() : 0;
 
-        return ($type === 'shipping' ||
-                ($type === 'billing' && ($customer->getAddresses() !== null && $addressesCount === 1))) ||
-            (($request->get('_route') === 'frontend.account.address.set-default-address' && $request->get('type') === 'shipping'));
+        return ($selectAddressType === 'shipping' ||
+                ($selectAddressType === 'billing' && ($customer->getAddresses() !== null && $addressesCount === 1))) ||
+            (($route === 'frontend.account.address.set-default-address' && $type === 'shipping'));
     }
 
     /**

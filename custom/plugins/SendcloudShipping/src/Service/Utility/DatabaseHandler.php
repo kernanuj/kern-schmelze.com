@@ -4,6 +4,7 @@ namespace Sendcloud\Shipping\Service\Utility;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Sendcloud\Shipping\Migration\Migration1572012839CreateConfigsTable;
 use Sendcloud\Shipping\Migration\Migration1572012863CreateProcessesTable;
 use Sendcloud\Shipping\Migration\Migration1572012872CreateQueuesTable;
@@ -44,6 +45,16 @@ class DatabaseHandler
         $this->removeTable(Migration1572012863CreateProcessesTable::PROCESSES_TABLE);
         $this->removeTable(Migration1573059308CreateShipmentsTable::SHIPMENTS_TABLE);
         $this->removeTable(Migration1574260096CreateServicePointsTable::SERVICE_POINTS_TABLE);
+    }
+
+    /**
+     * @throws DBALException
+     * @throws InvalidArgumentException
+     */
+    public function removeIntegrationConnectConnectTask(): void
+    {
+        $taskType = 'IntegrationConnectTask';
+        $this->connection->delete(Migration1572012872CreateQueuesTable::QUEUES_TABLE, ['type' => $taskType]);
     }
 
     /**

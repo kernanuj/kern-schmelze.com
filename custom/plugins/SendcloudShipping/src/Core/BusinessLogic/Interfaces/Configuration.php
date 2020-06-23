@@ -77,6 +77,13 @@ interface Configuration extends BaseConfiguration
     public function getWebHookEndpoint($addToken = false);
 
     /**
+     * Gets web hook token from configuration.
+     *
+     * @return string
+     */
+    public function getWebHookToken();
+
+    /**
      * Checks if webhook token is valid.
      *
      * @param string $token

@@ -2,6 +2,8 @@
 
 namespace Sendcloud\Shipping\Core\Infrastructure;
 
+use InvalidArgumentException;
+
 /**
  * Class ServiceRegister
  * @package Sendcloud\Shipping\Core\Infrastructure
@@ -59,7 +61,7 @@ class ServiceRegister
      * @param string $type
      *
      * @return mixed
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function getService($type)
     {
@@ -85,12 +87,8 @@ class ServiceRegister
      */
     private function register($type, $delegate)
     {
-        if (!empty($this->services[$type])) {
-            throw new \InvalidArgumentException("$type is already defined.");
-        }
-
         if (!is_callable($delegate)) {
-            throw new \InvalidArgumentException("$type delegate is not callable.");
+            throw new InvalidArgumentException("$type delegate is not callable.");
         }
 
         $this->services[$type] = $delegate;
@@ -102,12 +100,12 @@ class ServiceRegister
      * @param string $type
      *
      * @return mixed
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function get($type)
     {
         if (empty($this->services[$type])) {
-            throw new \InvalidArgumentException("$type is not defined.");
+            throw new InvalidArgumentException("$type is not defined.");
         }
 
         return call_user_func($this->services[$type]);

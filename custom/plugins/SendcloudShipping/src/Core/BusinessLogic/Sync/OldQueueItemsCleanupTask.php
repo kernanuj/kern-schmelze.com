@@ -51,7 +51,7 @@ class OldQueueItemsCleanupTask extends BaseSyncTask
             $deletedCount = $this->getQueueStorageService()->deleteOldItemsBy(
                 $timeBefore,
                 array( 'status' => $status),
-                array("InitialSyncTask", "IntegrationConnectTask"),
+                array(InitialSyncTask::getClassName()),
                 $deleteBatchSize
             );
             $this->reportAlive();

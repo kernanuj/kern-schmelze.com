@@ -2,6 +2,7 @@
 
 namespace Sendcloud\Shipping\Service\Infrastructure;
 
+use Exception;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Exposed\Runnable;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\AsyncProcessStarter;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\HttpClient;
@@ -78,7 +79,7 @@ class AsyncProcessStarterService implements AsyncProcessStarter
     {
         try {
             $this->processRepository->saveGuidAndRunner($guid, serialize($runner));
-        } catch (\Exception $e) {
+        } catch ( Exception $e) {
             Logger::logError('Failed to save process: ' . $e->getMessage(), 'Integration');
             throw new ProcessStarterSaveException($e->getMessage());
         }
@@ -94,8 +95,8 @@ class AsyncProcessStarterService implements AsyncProcessStarter
     public function startRunnerAsynchronously(string $guid): void
     {
         try {
-            $this->httpClient->requestAsync('POST', $this->formatAsyncProcessStartUrl($guid));
-        } catch (\Exception $e) {
+            $this->httpClient->requestAsync('GET', $this->formatAsyncProcessStartUrl($guid));
+        } catch ( Exception $e) {
             Logger::logError('Failed to send async request: ' . $e->getMessage(), 'Integration');
             throw new HttpRequestException($e->getMessage());
         }

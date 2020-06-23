@@ -2,10 +2,11 @@
 
 namespace Sendcloud\Shipping\Core\BusinessLogic\Webhook;
 
+use Exception;
 use Sendcloud\Shipping\Core\BusinessLogic\DTO\WebhookDTO;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\Configuration;
+use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\Configuration as BaseConfiguration;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\ConnectService;
-use Sendcloud\Shipping\Core\BusinessLogic\Sync\IntegrationConnectTask;
 use Sendcloud\Shipping\Core\BusinessLogic\Sync\ParcelUpdateTask;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\TaskQueueStorage;
 use Sendcloud\Shipping\Core\Infrastructure\Logger\Logger;
@@ -33,11 +34,13 @@ class WebhookEventHandler
      * @param WebhookDTO $webhookDTO SendCloud webhook DTO.
      *
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      * @see https://docs.sendcloud.sc/api/v2/shipping/#webhooks
      */
     public function handle(WebhookDTO $webhookDTO)
     {
+        $this->getConfiguration()->setContext($webhookDTO->getContext());
+
         Logger::logDebug($webhookDTO->getRawBody(), 'Integration');
 
         $body = $webhookDTO->getBody();
@@ -74,7 +77,6 @@ class WebhookEventHandler
             }
 
             $webhookParcel = $this->getWebhookHelper()->parseParcelPayload($webhookDTO->getBody());
-            $this->getConfiguration()->setContext($webhookDTO->getContext());
 
             /** @var Queue $queue */
             $queue = ServiceRegister::getService(Queue::CLASS_NAME);
@@ -90,7 +92,7 @@ class WebhookEventHandler
                 $webhookDTO->getContext()
             );
 
-        } catch (\Exception $e) {
+        } catch ( Exception $e) {
             Logger::logError($e->getMessage(), 'Integration');
             return false;
         }
@@ -113,10 +115,9 @@ class WebhookEventHandler
             }
 
             $webhookIntegration = $this->getWebhookHelper()->parseIntegrationPayload($webhookDTO->getBody());
-            $this->getConfiguration()->setContext($webhookDTO->getContext());
             $this->getConfiguration()->setServicePointEnabled($webhookIntegration->isServicePointsEnabled());
             $this->getConfiguration()->setCarriers($webhookIntegration->getCarriers());
-        } catch (\Exception $e) {
+        } catch ( Exception $e) {
             Logger::logError($e->getMessage(), 'Integration');
             return false;
         }
@@ -133,19 +134,25 @@ class WebhookEventHandler
      */
     protected function handleIntegrationDelete(WebhookDTO $webhookDTO)
     {
-        $queueStorage = ServiceRegister::getService(TaskQueueStorage::CLASS_NAME);
+        // TODO: Webhook request should be checked here instead of webhook token, but Sendcloud does not set
+        // TODO: `Sendcloud-Signature` header for delete webhook request. Once Sendcloud fix this bug we should switch
+        // TODO: to request validation based on `Sendcloud-Signature` header (uncomment following block and remove token validation)
+//        if (!$this->getWebhookHelper()->isValid($webhookDTO->getHash(), $webhookDTO->getRawBody())) {
+//            return false;
+//        }
 
-        $this->getConfiguration()->setContext($webhookDTO->getContext());
-
-        if ($this->getConfiguration()->isWebHookTokenValid($webhookDTO->getToken())) {
-            $this->getConfiguration()->resetAuthorizationCredentials();
-            $this->getConfiguration()->setServicePointEnabled(false);
-            $this->getConfiguration()->setCarriers();
-
-            return $queueStorage->deleteByType('InitialSyncTask', $webhookDTO->getContext());
+        if ($this->getConfiguration()->getWebhookToken() !== $webhookDTO->getToken()) {
+            return false;
         }
 
-        return false;
+        $this->getConfiguration()->resetAuthorizationCredentials();
+        $this->getConfiguration()->setServicePointEnabled(false);
+        $this->getConfiguration()->setCarriers();
+
+        /** @var TaskQueueStorage $queueStorage */
+        $queueStorage = ServiceRegister::getService(TaskQueueStorage::CLASS_NAME);
+        return $queueStorage->deleteByType('InitialSyncTask', $webhookDTO->getContext());
+
     }
 
     /**
@@ -159,24 +166,17 @@ class WebhookEventHandler
     protected function handleIntegrationCredentials(WebhookDTO $webhookDTO)
     {
         try {
+            /** @var ConnectService $connectService */
             $connectService = ServiceRegister::getService(ConnectService::CLASS_NAME);
             $credentials = $this->getWebhookHelper()->parseIntegrationCredentials($webhookDTO->getBody());
             $success = $connectService->isCallbackValid($credentials, $webhookDTO->getToken());
 
             if ($success) {
-                /** @var Queue $queue */
-                $queue = ServiceRegister::getService(Queue::CLASS_NAME);
-
-                $queue->enqueue(
-                    $this->getConfiguration()->getQueueName(),
-                    new IntegrationConnectTask($credentials),
-                    $webhookDTO->getContext()
-                );
+                $connectService->initializeConnection($credentials);
             }
 
-        } catch (\Exception $e) {
+        } catch ( Exception $e) {
             Logger::logError($e->getMessage(), 'Integration');
-            $this->getConfiguration()->setContext($webhookDTO->getContext());
             $this->getConfiguration()->resetAuthorizationCredentials();
             $success = false;
         }
@@ -192,7 +192,7 @@ class WebhookEventHandler
     protected function getConfiguration()
     {
         if (!$this->configuration) {
-            $this->configuration = ServiceRegister::getService(Configuration::CLASS_NAME);
+            $this->configuration = ServiceRegister::getService(BaseConfiguration::CLASS_NAME);
         }
 
         return $this->configuration;

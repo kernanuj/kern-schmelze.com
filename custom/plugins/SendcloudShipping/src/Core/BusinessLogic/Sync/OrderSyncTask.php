@@ -5,6 +5,7 @@ namespace Sendcloud\Shipping\Core\BusinessLogic\Sync;
 use Sendcloud\Shipping\Core\BusinessLogic\DTO\ShipmentDTO;
 use Sendcloud\Shipping\Core\BusinessLogic\DTO\ShipmentResponseDTO;
 use Sendcloud\Shipping\Core\BusinessLogic\Entity\Order;
+use Sendcloud\Shipping\Core\BusinessLogic\Exceptions\OrdersGetException;
 use Sendcloud\Shipping\Core\Infrastructure\Logger\Logger;
 use Sendcloud\Shipping\Core\Infrastructure\Utility\Exceptions\HttpBatchSizeTooBigException;
 use Sendcloud\Shipping\Core\Infrastructure\Utility\Exceptions\HttpUnhandledException;
@@ -16,7 +17,7 @@ use Sendcloud\Shipping\Core\Infrastructure\Utility\Exceptions\HttpUnhandledExcep
 class OrderSyncTask extends BaseSyncTask
 {
     const INITIAL_PROGRESS_PERCENT = 5;
-    
+
     /**
      * @var array
      */
@@ -56,7 +57,7 @@ class OrderSyncTask extends BaseSyncTask
     {
         $this->stateData = unserialize($serialized);
     }
-    
+
     /**
      * Runs task logic
      */
@@ -68,6 +69,13 @@ class OrderSyncTask extends BaseSyncTask
         while (count($this->stateData['allOrdersIdsForSync']) > 0) {
             $batchIds = $this->getBatchOrdersIds();
             $ordersPerBatch = $this->getBatchOrdersFromSourceSystem($batchIds);
+
+            $batchIdCount = count($batchIds);
+            $providedOrdersCount = count($ordersPerBatch);
+            if ($batchIdCount > $providedOrdersCount) {
+                Logger::logWarning("Requested [$batchIds] orders from integration; retrieved [$providedOrdersCount].");
+            }
+
             $this->reportAlive();
             $orderDTOs = $this->makeOrderDTOs($ordersPerBatch);
             try {
@@ -118,7 +126,7 @@ class OrderSyncTask extends BaseSyncTask
      * @param array $batchIDs Order IDs for current batch
      *
      * @return array
-     * @throws \Sendcloud\Shipping\Core\BusinessLogic\Exceptions\OrdersGetException
+     * @throws OrdersGetException
      */
     private function getBatchOrdersFromSourceSystem($batchIDs)
     {

@@ -2,6 +2,7 @@
 
 namespace Sendcloud\Shipping\Core\Infrastructure\TaskExecution;
 
+use Exception;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Exposed\Runnable;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\Configuration;
 use Sendcloud\Shipping\Core\Infrastructure\Logger\Logger;
@@ -84,19 +85,18 @@ class QueueItemStarter implements Runnable
             $this->getConfigService()->setContext($queueItem->getContext());
             $this->getQueueService()->start($queueItem);
             $this->getQueueService()->finish($queueItem);
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             if (QueueItem::IN_PROGRESS === $queueItem->getStatus()) {
                 $this->getQueueService()->fail($queueItem, $ex->getMessage());
             }
 
             $context = array(
                 'TaskId' => $this->getQueueItemId(),
-                'ExceptionMessage' => $ex->getMessage()
+                'ExceptionMessage' => $ex->getMessage(),
+                'ExceptionTrace' => $ex->getTraceAsString(),
             );
-            Logger::logError('Fail to start task execution.', 'Core', $context);
 
-            $context['ExceptionTrace'] = $ex->getTraceAsString();
-            Logger::logDebug('Fail to start task execution.', 'Core', $context);
+            Logger::logError("Fail to start task execution: {$ex->getMessage()}", 'Core', $context);
         }
     }
 
@@ -119,15 +119,14 @@ class QueueItemStarter implements Runnable
 
         try {
             $queueItem = $this->getQueueService()->find($this->queueItemId);
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $context = array(
                 'TaskId' => $this->getQueueItemId(),
-                'ExceptionMessage' => $ex->getMessage()
+                'ExceptionMessage' => $ex->getMessage(),
+                'ExceptionTrace' => $ex->getTraceAsString(),
             );
-            Logger::logError('Fail to start task execution.', 'Core', $context);
 
-            $context['ExceptionTrace'] = $ex->getTraceAsString();
-            Logger::logDebug('Fail to start task execution.', 'Core', $context);
+            Logger::logError("Fail to start task execution: {$ex->getMessage()}", 'Core', $context);
         }
 
         return $queueItem;

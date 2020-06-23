@@ -4,6 +4,7 @@ namespace Sendcloud\Shipping;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Sendcloud\Shipping\Entity\Config\ConfigEntityRepository;
 use Sendcloud\Shipping\Service\Utility\DatabaseHandler;
 use Sendcloud\Shipping\Service\Utility\ShippingMethodHandler;
@@ -12,6 +13,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaI
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
+use Shopware\Core\Framework\Plugin\Context\UpdateContext;
 
 /**
  * Class SendcloudShipping
@@ -47,6 +49,20 @@ class SendcloudShipping extends Plugin
     }
 
     /**
+     * @param UpdateContext $updateContext
+     *
+     * @throws DBALException
+     * @throws InvalidArgumentException
+     */
+    public function update(UpdateContext $updateContext): void
+    {
+        parent::update($updateContext);
+        if (version_compare($updateContext->getCurrentPluginVersion(), '1.1.6', 'lt')) {
+            $this->removeIntegrationConnectTask();
+        }
+    }
+
+    /**
      * Removes all sendcloud database tables
      *
      * @throws DBALException
@@ -57,6 +73,18 @@ class SendcloudShipping extends Plugin
         $connection = $this->container->get(Connection::class);
         $databaseHandler = new DatabaseHandler($connection);
         $databaseHandler->removeSendCloudTables();
+    }
+
+    /**
+     * @throws DBALException
+     * @throws InvalidArgumentException
+     */
+    private function removeIntegrationConnectTask(): void
+    {
+        /** @var Connection $connection */
+        $connection = $this->container->get(Connection::class);
+        $databaseHandler = new DatabaseHandler($connection);
+        $databaseHandler->removeIntegrationConnectConnectTask();
     }
 
     /**
