@@ -5,6 +5,40 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="InvExportLabel\Command\ExportCommand">
+            <call method="setCreator">
+                <argument type="service" id="InvExportLabel\Service\LabelCreator"/>
+            </call>
+            <call method="setConfigurationProvider">
+                <argument type="service" id="InvExportLabel\Service\ConfigurationProvider"/>
+            </call>
+            <tag name="console.command"/>
+        </service>
 
+        <service id="InvExportLabel\Service\LabelCreator">
+            <argument type="service" id="InvExportLabel\Service\OrderSourceProvider"/>
+            <argument type="service" id="InvExportLabel\Service\Renderer\RendererRegistry"/>
+        </service>
+
+        <service id="InvExportLabel\Service\SourceProviderInterface"
+                 alias="InvExportLabel\Service\OrderSourceProvider"/>
+        <service id="InvExportLabel\Service\OrderSourceProvider">
+
+        </service>
+
+        <service id="InvExportLabel\Service\Renderer\MixerProductRenderer">
+            <argument type="service" id="Shopware\Core\Checkout\Document\Twig\DocumentTemplateRenderer"/>
+
+        </service>
+        <service id="InvExportLabel\Service\Renderer\RendererRegistry">
+            <call method="addRenderer">
+                <argument type="string">inv_mixer_product</argument>
+                <argument type="service" id="InvExportLabel\Service\Renderer\MixerProductRenderer"/>
+            </call>
+        </service>
+        <service id="InvExportLabel\Service\ConfigurationProvider">
+            <argument type="string">%kernel.project_dir%/var/InvExportLabel</argument>
+
+        </service>
     </services>
 </container>
