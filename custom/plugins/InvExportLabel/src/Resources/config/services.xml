@@ -38,7 +38,7 @@
         </service>
         <service id="InvExportLabel\Service\ConfigurationProvider">
             <argument type="string">%kernel.project_dir%/var/InvExportLabel</argument>
-
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
         </service>
     </services>
 </container>

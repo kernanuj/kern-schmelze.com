@@ -46,7 +46,7 @@
             {{ item.mixName }}
         </p>
         <p class="best-before">
-            Mindestens haltbar bis: 21.07.2021
+            Mindestens haltbar bis: {{ item.bestBeforeDate | date("d.m.Y") }}
         </p>
         <p>
             Zutaten: {{ item.ingredients }}

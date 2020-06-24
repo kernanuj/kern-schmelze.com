@@ -24,6 +24,11 @@ class MixerProductSourceItem implements SourceItemInterface
     private $ingredients = '';
 
     /**
+     * @var \DateTime
+     */
+    private $bestBeforeDate;
+
+    /**
      * @return string
      */
     public function getMixName(): string
@@ -59,5 +64,21 @@ class MixerProductSourceItem implements SourceItemInterface
         return $this;
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getBestBeforeDate(): \DateTime
+    {
+        return $this->bestBeforeDate;
+    }
 
+    /**
+     * @param \DateTime $bestBeforeDate
+     * @return MixerProductSourceItem
+     */
+    public function setBestBeforeDate(\DateTime $bestBeforeDate): MixerProductSourceItem
+    {
+        $this->bestBeforeDate = $bestBeforeDate;
+        return $this;
+    }
 }

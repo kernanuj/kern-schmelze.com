@@ -11,6 +11,9 @@ final class Constants
 
     public const LABEL_TYPE_MIXER_PRODUCT = 'inv_mixer_product';
 
+    public const SYSTEM_CONFIG_MIXER_PRODUCT_FILTER_ORDER_STATE = 'InvExportLabel.config.mixerProductFilterOrderState';
+    public const SYSTEM_CONFIG_MIXER_PRODUCT_BEST_BEFORE_MONTHS = 'InvExportLabel.config.mixerProductBestBeforeMonths';
+
     /**
      * @param string $type
      * @return bool

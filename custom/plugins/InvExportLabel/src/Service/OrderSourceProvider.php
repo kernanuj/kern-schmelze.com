@@ -22,17 +22,23 @@ class  OrderSourceProvider implements SourceProviderInterface
             (new MixerProductSourceItem())
                 ->setMixName('Schokolade für meinen besten Freund mit den beste
 Wünschen und alle, alles gute für die Zukunft :) :) :)')
-            ->setIngredients('Zutaten: Dunkle Schokolade (80%) (Kakaomasse, Zucker,
+                ->setIngredients('Zutaten: Dunkle Schokolade (80%) (Kakaomasse, Zucker,
 Magerkakaopulver, Emulgator: Sojalecithin, natürliches
 Vanillearoma), Nussmischung Australian Gold (20%)
 (Haselnüsse blanchiert, Mandeln blanchiert, Cashews,
 Pekannüsse, Macadamias, Erdnussöl)')
+                ->setBestBeforeDate(
+                    $configuration->getBestBeforeDate()
+                )
 
         );
 
         $collection->addItem(
             (new MixerProductSourceItem())
                 ->setMixName(uniqid())
+                ->setBestBeforeDate(
+                    $configuration->getBestBeforeDate()
+                )
         );
 
         return $collection;

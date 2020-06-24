@@ -41,6 +41,11 @@ class ExportRequestConfiguration
     private $recipientEmailBody;
 
     /**
+     * @var \DateTime
+     */
+    private $bestBeforeDate;
+
+    /**
      * @return string
      */
     public function getType(): string
@@ -157,4 +162,21 @@ class ExportRequestConfiguration
         return $this;
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getBestBeforeDate(): \DateTime
+    {
+        return $this->bestBeforeDate;
+    }
+
+    /**
+     * @param \DateTime $bestBeforeDate
+     * @return ExportRequestConfiguration
+     */
+    public function setBestBeforeDate(\DateTime $bestBeforeDate): ExportRequestConfiguration
+    {
+        $this->bestBeforeDate = $bestBeforeDate;
+        return $this;
+    }
 }
