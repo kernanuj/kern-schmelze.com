@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+    <card>
+        <title> (Mixer Product) </title>
+        <title lang="de-DE">Produktmixer</title>
+        <input-field type="int">
+            <name>mixerProductBestBeforeMonths</name>
+            <label>Best Before Months Add</label>
+            <label lang="de-DE">MHD (+ in Monaten)</label>
+            <placeholder>5</placeholder>
+        </input-field>
+
+        <input-field type="multi-select">
+            <name>mixerProductFilterOrderState</name>
+            <options>
+                <option>
+                    <id>cancelled</id>
+                    <name>cancelled</name>
+                    <name lang="de-DE">cancelled</name>
+                </option>
+                <option>
+                    <id>shipped</id>
+                    <name>shipped</name>
+                    <name lang="de-DE">shipped</name>
+                </option>
+                <option>
+                    <id>open</id>
+                    <name>open</name>
+                    <name lang="de-DE">open</name>
+                </option>
+                <option>
+                    <id>in_progress</id>
+                    <name>in_progress</name>
+                    <name lang="de-DE">in_progress</name>
+                </option>
+                <option>
+                    <id>paid</id>
+                    <name>paid</name>
+                    <name lang="de-DE">paid</name>
+                </option>
+                <option>
+                    <id>paid_partially</id>
+                    <name>paid_partially</name>
+                    <name lang="de-DE">paid_partially</name>
+                </option>
+            </options>
+            <defaultValue>paid</defaultValue>
+            <label>Order state filter</label>
+            <label lang="de-DE">Order-Status</label>
+        </input-field>
+
+        <input-field>
+            <name>mixerProductEmailRecipients</name>
+            <label>E-Mail Recipients</label>
+            <label lang="de-DE">E-Mail Empfänger</label>
+            <placeholder>hallo@inventivo.de</placeholder>
+        </input-field>
+
+        <input-field type="textarea">
+            <name>mixerProductEmailBody</name>
+            <label> E-Mail Body</label>
+            <label lang="de-DE">E-Mail Text</label>
+            <placeholder>Ein text</placeholder>
+        </input-field>
+    </card>
+</config>

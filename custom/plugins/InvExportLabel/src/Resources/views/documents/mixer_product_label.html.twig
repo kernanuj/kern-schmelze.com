@@ -1,0 +1,67 @@
+{# @var sourceCollection \InvExportLabel\Value\SourceCollection #}
+<html>
+
+<head>
+    <style>
+        body {
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 15cm;
+            height:auto;
+        }
+
+        @page {
+            page-break-after: always;
+            margin: 0;
+        }
+
+        p {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            font-size: 10pt;
+        }
+
+        .break {
+            page-break-after: always;
+        }
+
+        .mix-name {
+            font-size: 12pt;
+            font-weight: bold;
+        }
+        .address {
+            font-size:8pt;
+        }
+    </style>
+</head>
+<body>
+{# @var item \InvExportLabel\Value\SourceItemType\MixerProductSourceItem #}
+{% for item in sourceCollection.items %}
+    <div class="container">
+        <p class="mix-name">
+            {{ item.mixName }}
+        </p>
+        <p class="best-before">
+            Mindestens haltbar bis: {{ item.bestBeforeDate | date("d.m.Y") }}
+        </p>
+        <p>
+            Zutaten: {{ item.ingredients }}
+        </p>
+        <p class="disclaimer">
+            Kann Spuren enthalten von anderen Nüssen, Ei,
+            glutenhaltigem Getreide, Sesam, Sulfit.
+            Vor Wärme schützen und trocken lagern.
+        </p>
+        <p class="address">
+            KERNenergie GmbH · Grundtalring 23 · D-63868 Großwallstadt <br/>
+            www.kern-energie.com www.kern-schmelze.com
+        </p>
+    </div>
+    <div class="break"></div>
+{% endfor %}
+</body>
+</html>

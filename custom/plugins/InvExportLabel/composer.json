@@ -1,0 +1,37 @@
+{
+    "name": "inv/export-label",
+    "version": "0.0.1",
+    "description": "Label Export for Shopware 6",
+    "authors": [
+        {
+            "name": "Nils Harder | inventivo.de",
+            "homepage": "https://www.inventivo.de",
+            "email": "hallo@inventivo.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "InvExportLabel\\": "src/"
+        }
+    },
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "require": {
+        "php": ">=7.2",
+        "shopware/core": ">=6.0.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "InvExportLabel\\InvExportLabel",
+        "copyright": "(c) by Nils Harder | inventivo.de",
+        "label": {
+            "de-DE": "Label Exporter für Shopware 6",
+            "en-GB": "Label Exporter for shopware 6"
+        },
+        "description": {
+            "de-DE": "Label Exporter für Shopware 6.",
+            "en-GB": "Label Exporter for shopware 6."
+        }
+    },
+    "minimum-stability": "RC",
+    "prefer-stable": true
+}
