@@ -14,6 +14,8 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
  *
  * Interface MixToCartItemConverterInterface
  * @package InvMixerProduct\Service
+ * @deprecated
+ * @see ContainerMixToCartItemConverter
  */
 class DummyMixToCartItemConverter implements MixToCartItemConverterInterface
 {
