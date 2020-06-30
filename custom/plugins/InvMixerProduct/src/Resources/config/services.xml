@@ -89,9 +89,16 @@
         </service>
 
         <service id="InvMixerProduct\Service\MixToCartItemConverterInterface"
-                 alias="InvMixerProduct\Service\DummyMixToCartItemConverter"/>
+                 alias="InvMixerProduct\Service\ContainerMixToCartItemConverter"/>
+
         <service id="InvMixerProduct\Service\DummyMixToCartItemConverter">
             <argument type="service" id="Shopware\Core\Content\Product\Cart\ProductLineItemFactory"/>
+        </service>
+
+        <service id="InvMixerProduct\Service\ContainerMixToCartItemConverter">
+            <argument type="service" id="Shopware\Core\Content\Product\Cart\ProductLineItemFactory"/>
+            <argument type="service" id="InvMixerProduct\Repository\ProductRepository"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\Price\QuantityPriceCalculator"/>
         </service>
 
         <service id="InvMixerProduct\EntityDefinition\MixEntityDefinition">

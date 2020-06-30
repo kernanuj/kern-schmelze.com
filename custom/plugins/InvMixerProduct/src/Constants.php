@@ -8,6 +8,8 @@ namespace InvMixerProduct;
  */
 final class Constants {
 
+    public const PLUGIN_PREFIX_SNAKE_CASE = 'inv_mixer_product_';
+    public const KEY_MIX_LABEL_CART_ITEM = self::PLUGIN_PREFIX_SNAKE_CASE.'_mix_label';
     public const DESIGN_BLACK = 'black';
     public const DESIGN_WHITE = 'white';
 

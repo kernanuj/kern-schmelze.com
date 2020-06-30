@@ -8,6 +8,7 @@ use InvMixerProduct\Exception\EntityNotFoundException;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 
 /**
  * Class ProductRepository
@@ -54,6 +55,29 @@ class ProductRepository
 
         return $found;
     }
+
+    /**
+     * @param string $productNumber
+     * @param Context $context
+     * @return SubjectEntity
+     * @throws EntityNotFoundException
+     */
+    public function findOneByProductNumber(string $productNumber, Context $context): SubjectEntity {
+        $found = $this->dalEntityRepository->search(
+            (new Criteria())->addFilter(new EqualsFilter('productNumber', $productNumber)),
+            $context
+        )->first();
+
+        if (!$found || !$found instanceof SubjectEntity) {
+            throw EntityNotFoundException::fromEntityAndIdentifier(
+                SubjectEntity::class,
+                $productNumber
+            );
+        }
+
+        return $found;
+    }
+
     /**
      * @param string $id
      * @param Context $context

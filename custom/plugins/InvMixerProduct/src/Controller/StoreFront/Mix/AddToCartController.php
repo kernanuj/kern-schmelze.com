@@ -57,7 +57,6 @@ class AddToCartController extends MixController
      */
     public function __invoke(SalesChannelContext $salesChannelContext)
     {
-
         $mix = $this->getOrInitiateCurrentMix(
             $salesChannelContext,
             $this->session,
@@ -69,14 +68,19 @@ class AddToCartController extends MixController
             $salesChannelContext
         );
 
+
+        $cart = $this->cartService->getCart(
+            $salesChannelContext->getToken(),
+            $salesChannelContext
+        );
+
         $this->cartService->add(
-            $this->cartService->getCart(
-                $salesChannelContext->getToken(),
-                $salesChannelContext
-            ),
+            $cart,
             $cartLineItem,
             $salesChannelContext
         );
+
+        $this->cartService->recalculate($cart, $salesChannelContext);
 
         $this->session->remove(
             self::SESSION_KEY_CURRENT_MIX
