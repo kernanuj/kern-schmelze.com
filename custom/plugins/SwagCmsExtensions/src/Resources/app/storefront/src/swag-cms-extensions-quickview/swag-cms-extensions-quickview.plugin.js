@@ -179,16 +179,17 @@ export default class SwagCmsExtensionsQuickview extends Plugin {
      * _registerProducts searches all product boxes in the section this instance
      * is responsible for and adds them to the internal cache (this._products).
      *
-     * @returns {void}
+     * @returns {Boolean}
      */
     _registerProducts() {
         const boxes = this._getProductBoxes(this.el.parentNode);
 
-        if (boxes === null) {
-            return;
+        if (!boxes) {
+            return boxes;
         }
 
         boxes.forEach(box => this._registerProduct(this._getProductBoxDataset(box).productId));
+        return true;
     }
 
     /**
@@ -220,16 +221,17 @@ export default class SwagCmsExtensionsQuickview extends Plugin {
     }
 
     /**
-     * @returns {void}
+     * @returns {Boolean}
      */
     _registerProductBoxListeners() {
         const boxes = this._getProductBoxes(this.el.parentNode);
 
-        if (boxes === null) {
-            return;
+        if (!boxes) {
+            return boxes;
         }
 
         boxes.forEach(this._registerLinkClickListeners.bind(this));
+        return true;
     }
 
     /**
@@ -252,18 +254,18 @@ export default class SwagCmsExtensionsQuickview extends Plugin {
     /**
      * @param {HTMLElement|EventTarget} parent
      *
-     * @returns {array|null}
+     * @returns {array|Boolean}
      */
     _getProductBoxes(parent) {
-        try {
-            const boxes = DomAccess.querySelectorAll(parent, this.options.productBoxSelector);
+        const boxes = DomAccess.querySelectorAll(parent, this.options.productBoxSelector, false);
 
-            return [...boxes].filter(
-                box => this._getProductBoxDataset(box).sectionId === this.options.sectionId
-            );
-        } catch (e) {
-            return null;
+        if (!boxes) {
+            return boxes;
         }
+
+        return [...boxes].filter(
+            box => this._getProductBoxDataset(box).sectionId === this.options.sectionId
+        );
     }
 
     /**
@@ -385,13 +387,6 @@ export default class SwagCmsExtensionsQuickview extends Plugin {
      * @returns {void}
      */
     _fetchVariantQuickview(listingProductId, data, callback) {
-        const product = this._products.get(listingProductId);
-        const variant = product.variants.get(this._joinValues(JSON.parse(data.options)));
-
-        if (variant && variant.loaded) {
-            callback(variant.quickview);
-            return;
-        }
         const variantRoute = window.router[this.options.quickviewControllerVariantRoute];
 
         this._client.get(
@@ -424,7 +419,7 @@ export default class SwagCmsExtensionsQuickview extends Plugin {
         const product = this._products.get(productId);
         const variant = new ProductStruct(
             variantId,
-            true,
+            false,
             quickview
         );
 

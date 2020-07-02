@@ -13,7 +13,26 @@
                     "anchorTitle": "Navigation point name",
                     "anchorTitleHelpText": "The navigation points are displayed in the storefront as a navigatable list of available sections.",
                     "duplicateDisplayNameMessage": "This navigation point already exists: \"{currentName}\".",
-                    "invalidDisplayNameLengthMessage": "At least one of your active navigation points has no name. | The name of this navigation point exceeds the maximum length of 255 characters: \"{truncatedName}\""
+                    "invalidDisplayNameLengthMessage": "At least one of your active navigation points has no name. | The name of this navigation point exceeds the maximum length of 255 characters: \"{truncatedName}\"",
+                    "pageSettings": {
+                        "title": "Scroll navigation",
+                        "description": "To use animated scrolling, make sure you have activated the necessary navigation points and assigned names.",
+                        "advancedSettingsLabel": "Advanced settings",
+                        "activeLabel": "Animated scrolling",
+                        "activeHelpText": "Animated scrolling makes navigation between navigation points more fluid. Values between 500ms and 1000ms are recommended for a smooth scrolling experience.",
+                        "durationLabel": "Duration",
+                        "durationSuffix": "ms",
+                        "easingLabel": "Scroll behaviour",
+                        "easingDegreeLabel": "Degree of trajectory",
+                        "easingDegreeHelpText": "The degree indicates the magnitude of the acceleration or deceleration. The lower the degree, the smoother the scrolling. A value between 2 and 5 is recommended for intuitive scrolling. This value does not affect bouncy or linear scrolling.",
+                        "bouncyLabel": "Bouncy scrolling",
+                        "easing": {
+                            "linear": "Constant (Linear)",
+                            "in": "Accelerating (Ease In)",
+                            "out": "Decelerating (Ease Out)",
+                            "inOut": "Accelerating & Decelerating (Ease InOut)"
+                        }
+                    }
                 }
             },
             "sidebar": {

@@ -48,9 +48,12 @@ class SalesChannelCmsPageLoaderScrollNavigationDecoratorTest extends TestCase
             ->onlyMethods(['addAssociation'])
             ->getMock();
 
-        $criteria->expects(static::once())
+        $criteria->expects(static::atMost(2))
             ->method('addAssociation')
-            ->with(SalesChannelCmsPageLoaderScrollNavigationDecorator::SCROLL_NAVIGATION_ASSOCIATION_PATH);
+            ->withConsecutive(
+                [SalesChannelCmsPageLoaderScrollNavigationDecorator::SCROLL_NAVIGATION_PAGE_SETTINGS_PATH],
+                [SalesChannelCmsPageLoaderScrollNavigationDecorator::SCROLL_NAVIGATION_ASSOCIATION_PATH]
+            );
 
         $this->decorator->load(
             new Request(),

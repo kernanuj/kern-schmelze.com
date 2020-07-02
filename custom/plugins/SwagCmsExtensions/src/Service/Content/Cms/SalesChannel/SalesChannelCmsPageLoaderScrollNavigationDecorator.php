@@ -12,11 +12,13 @@ use Shopware\Core\Content\Cms\SalesChannel\SalesChannelCmsPageLoaderInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Swag\CmsExtensions\Extension\CmsPageEntityExtension;
 use Swag\CmsExtensions\Extension\CmsSectionEntityExtension;
 use Symfony\Component\HttpFoundation\Request;
 
 class SalesChannelCmsPageLoaderScrollNavigationDecorator implements SalesChannelCmsPageLoaderInterface
 {
+    public const SCROLL_NAVIGATION_PAGE_SETTINGS_PATH = CmsPageEntityExtension::SCROLL_NAVIGATION_PAGE_SETTINGS_PROPERTY_NAME;
     public const SCROLL_NAVIGATION_ASSOCIATION_PATH = 'sections.' . CmsSectionEntityExtension::SCROLL_NAVIGATION_ASSOCIATION_PROPERTY_NAME;
 
     /**
@@ -38,15 +40,17 @@ class SalesChannelCmsPageLoaderScrollNavigationDecorator implements SalesChannel
     ): EntitySearchResult {
         return $this->inner->load(
             $request,
-            $this->addScrollNavigationAssociation($criteria),
+            $this->addScrollNavigationAssociations($criteria),
             $context,
             $config,
             $resolverContext
         );
     }
 
-    protected function addScrollNavigationAssociation(Criteria $criteria): Criteria
+    protected function addScrollNavigationAssociations(Criteria $criteria): Criteria
     {
-        return $criteria->addAssociation(self::SCROLL_NAVIGATION_ASSOCIATION_PATH);
+        return $criteria
+            ->addAssociation(self::SCROLL_NAVIGATION_PAGE_SETTINGS_PATH)
+            ->addAssociation(self::SCROLL_NAVIGATION_ASSOCIATION_PATH);
     }
 }

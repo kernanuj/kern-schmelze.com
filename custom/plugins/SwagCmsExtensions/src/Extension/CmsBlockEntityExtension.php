@@ -17,17 +17,11 @@ class CmsBlockEntityExtension implements EntityExtensionInterface
 {
     public const QUICKVIEW_ASSOCIATION_PROPERTY_NAME = 'swagCmsExtensionsQuickview';
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDefinitionClass(): string
     {
         return CmsBlockDefinition::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function extendFields(FieldCollection $collection): void
     {
         $collection->add(

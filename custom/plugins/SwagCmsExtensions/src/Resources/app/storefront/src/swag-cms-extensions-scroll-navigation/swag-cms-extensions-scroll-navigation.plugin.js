@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import Plugin from 'src/plugin-system/plugin.class';
 import DomAccess from 'src/helper/dom-access.helper';
+import ScrollHelper from './swag-cms-extensions-scroll-navigation-advanced-scrolling.helper';
 
 export default class SwagCmsExtensionsScrollNavigation extends Plugin {
     /**
@@ -72,7 +73,14 @@ export default class SwagCmsExtensionsScrollNavigation extends Plugin {
          */
         observerOptions: {
             rootMargin: '-20% 0% -60% 0%'
-        }
+        },
+
+        /**
+         * Current page entity, necessary to apply the smooth scrolling configuration
+         *
+         * @type {Object}
+         */
+        pageSettings: {}
     };
 
     /**
@@ -86,7 +94,27 @@ export default class SwagCmsExtensionsScrollNavigation extends Plugin {
         this.anchoredSections = anchoredSections;
         this.navigationList = DomAccess.querySelector(this.sidebar, this.options.navigationListSelector);
 
+        this.enableSmoothScrolling(this.navigationList);
         this.registerObserver(anchoredSections);
+    }
+
+    /**
+     * Iterates through the provided navigationList entries and enabled smooth scrolling for them
+     *
+     * @param {Element} navigationList
+     * @returns {void}
+     */
+    enableSmoothScrolling(navigationList) {
+        this.scrollHelper = new ScrollHelper(
+            this.options.pageSettings.easing,
+            this.options.pageSettings.easingDegree,
+            this.options.pageSettings.bouncy
+        );
+
+        const links = DomAccess.querySelectorAll(navigationList, this.options.entrySelector);
+        links.forEach((entry) => {
+            entry.addEventListener('click', this.onClickScrollSmoothly.bind(this));
+        });
     }
 
     /**
@@ -112,6 +140,45 @@ export default class SwagCmsExtensionsScrollNavigation extends Plugin {
     }
 
     /**
+     * Click EventHandler of the navigation list, which enables and performs smooth scrolling
+     *
+     * @param {Event} event
+     * @returns {Boolean}
+     */
+    onClickScrollSmoothly(event) {
+        event.preventDefault();
+        const target = event.target;
+        const entryClass = this.options.entrySelector.substring(1);
+
+        // Depending on the click position, the event target may differ between the bullet or its entry
+        if (![target, target.parentNode].some(element => element.classList.contains(entryClass))) {
+            return false;
+        }
+
+        const hash = (target.hash !== undefined ? target.hash : target.parentNode.hash);
+        this.performSmoothScrolling(hash);
+
+        return true;
+    }
+
+    /**
+     * Performs the actual smooth scrolling process to an element associated to a specific hash
+     *
+     * @param {String} hash
+     * @returns {void}
+     */
+    performSmoothScrolling(hash) {
+        const target = DomAccess.querySelector(document, hash);
+
+        this.scrollHelper.scrollIntoView(target, this.options.pageSettings.duration).then((promiseIteration) => {
+            // Only set the location hash, if this promise is returned by the newest scrolling process
+            if (promiseIteration === ScrollHelper.currentIteration) {
+                window.location.hash = hash;
+            }
+        });
+    }
+
+    /**
      * Callback which will be fired when an element starts or stops intersecting with the root element of the observer.
      *
      * @param {Array} sections
@@ -132,7 +199,7 @@ export default class SwagCmsExtensionsScrollNavigation extends Plugin {
      * Removes the active class from all navigation entries and sets the provided target as the active navigation
      * entry.
      *
-     * @param {DomNode} target
+     * @param {Element} target
      * @returns {Boolean}
      */
     setActiveNavigationItem(target) {
@@ -164,7 +231,7 @@ export default class SwagCmsExtensionsScrollNavigation extends Plugin {
     /**
      * Sets up the up and down navigation buttons for mobile viewport
      *
-     * @param {DomNode} target
+     * @param {Element} target
      * @returns {Boolean}
      */
     setUpDownNavigation(target) {
@@ -185,32 +252,13 @@ export default class SwagCmsExtensionsScrollNavigation extends Plugin {
         const arrowUpButton = DomAccess.querySelector(this.sidebar, this.options.mobileUpButtonSelector);
         const arrowDownButton = DomAccess.querySelector(this.sidebar, this.options.mobileDownButtonSelector);
 
-        const currentUrl = window.location.origin + window.location.pathname;
+        const hashUp = `#${this.getPreviousSectionId(activeIndex)}`;
+        const hashDown = `#${this.getNextSectionId(activeIndex)}`;
 
-        this.arrowUpButtonHref = `${currentUrl}#${this.getPreviousSectionId(activeIndex)}`;
-        this.arrowDownButtonHref = `${currentUrl}#${this.getNextSectionId(activeIndex)}`;
-        arrowUpButton.onclick = this.onArrowUpClick.bind(this);
-        arrowDownButton.onclick = this.onArrowDownClick.bind(this);
+        arrowUpButton.addEventListener('click', this.performSmoothScrolling.bind(this, hashUp));
+        arrowDownButton.addEventListener('click', this.performSmoothScrolling.bind(this, hashDown));
 
         return true;
-    }
-
-    /**
-     * OnClick Event handler to navigator to the prior navigation point
-     *
-     * @returns {void}
-     */
-    onArrowUpClick() {
-        window.location.href = this.arrowUpButtonHref;
-    }
-
-    /**
-     * OnClick Event handler to navigator to the next navigation point
-     *
-     * @returns {void}
-     */
-    onArrowDownClick() {
-        window.location.href = this.arrowDownButtonHref;
     }
 
     /**

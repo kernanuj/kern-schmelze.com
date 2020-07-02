@@ -66,3 +66,28 @@
 
     {% parent %}
 {% endblock %}
+
+{% block sw_cms_sidebar_page_settings_content %}
+    {% parent %}
+
+    {% block sw_cms_sidebar_page_settings_content_scroll_navigation %}
+        <sw-sidebar-collapse :expandOnLoading="true">
+
+            {% block sw_cms_sidebar_page_settings_content_scroll_navigation_header %}
+                <template #header>
+                    <span>
+                        {{ $tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.pageSettings.title') }}
+                    </span>
+                </template>
+            {% endblock %}
+
+            {% block sw_cms_sidebar_page_settings_content_scroll_navigation_header_content %}
+                <template #content>
+                    <swag-cms-extensions-page-scroll-behavior-config
+                        v-model="page">
+                    </swag-cms-extensions-page-scroll-behavior-config>
+                </template>
+            {% endblock %}
+        </sw-sidebar-collapse>
+    {% endblock %}
+{% endblock %}

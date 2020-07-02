@@ -15,17 +15,11 @@ use Swag\CmsExtensions\ScrollNavigation\Aggregate\ScrollNavigationTranslation\Sc
 
 class LanguageExtension implements EntityExtensionInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getDefinitionClass(): string
     {
         return LanguageDefinition::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function extendFields(FieldCollection $collection): void
     {
         $collection->add(

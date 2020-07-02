@@ -18,9 +18,17 @@
             <tag name="shopware.entity.definition" entity="swag_cms_extensions_scroll_navigation_translation" />
         </service>
 
+        <service id="Swag\CmsExtensions\ScrollNavigation\Aggregate\ScrollNavigationPageSettings\ScrollNavigationPageSettingsDefinition">
+            <tag name="shopware.entity.definition" entity="swag_cms_extensions_scroll_navigation_page_settings" />
+        </service>
+
         <!-- Extensions -->
         <service id="Swag\CmsExtensions\Extension\CmsBlockEntityExtension">
             <tag name="shopware.entity.extension" />
+        </service>
+
+        <service id="Swag\CmsExtensions\Extension\CmsPageEntityExtension">
+            <tag name="shopware.entity.extension"/>
         </service>
 
         <service id="Swag\CmsExtensions\Extension\CmsSectionEntityExtension">

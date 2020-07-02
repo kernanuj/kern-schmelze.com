@@ -13,7 +13,9 @@ Component.override('sw-cms-detail', {
         loadPageCriteria() {
             const criteria = this.$super('loadPageCriteria');
 
-            criteria.getAssociation('sections')
+            criteria
+                .addAssociation('swagCmsExtensionsScrollNavigationPageSettings')
+                .getAssociation('sections')
                 .addAssociation('swagCmsExtensionsScrollNavigation')
                 .getAssociation('blocks')
                 .addAssociation('swagCmsExtensionsQuickview');

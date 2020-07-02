@@ -7,29 +7,29 @@
 
 namespace Swag\CmsExtensions\Extension;
 
-use Shopware\Core\Content\Cms\Aggregate\CmsSection\CmsSectionDefinition;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityExtensionInterface;
+use Shopware\Core\Content\Cms\CmsPageDefinition;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityExtension;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\OneToOneAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
-use Swag\CmsExtensions\ScrollNavigation\ScrollNavigationDefinition;
+use Swag\CmsExtensions\ScrollNavigation\Aggregate\ScrollNavigationPageSettings\ScrollNavigationPageSettingsDefinition;
 
-class CmsSectionEntityExtension implements EntityExtensionInterface
+class CmsPageEntityExtension extends EntityExtension
 {
-    public const SCROLL_NAVIGATION_ASSOCIATION_PROPERTY_NAME = 'swagCmsExtensionsScrollNavigation';
+    public const SCROLL_NAVIGATION_PAGE_SETTINGS_PROPERTY_NAME = 'swagCmsExtensionsScrollNavigationPageSettings';
 
     public function getDefinitionClass(): string
     {
-        return CmsSectionDefinition::class;
+        return CmsPageDefinition::class;
     }
 
     public function extendFields(FieldCollection $collection): void
     {
         $collection->add(
             new OneToOneAssociationField(
-                self::SCROLL_NAVIGATION_ASSOCIATION_PROPERTY_NAME,
+                self::SCROLL_NAVIGATION_PAGE_SETTINGS_PROPERTY_NAME,
                 'id',
                 'id',
-                ScrollNavigationDefinition::class,
+                ScrollNavigationPageSettingsDefinition::class,
                 false
             )
         );

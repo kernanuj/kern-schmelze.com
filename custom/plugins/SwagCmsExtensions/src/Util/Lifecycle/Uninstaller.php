@@ -10,6 +10,7 @@ namespace Swag\CmsExtensions\Util\Lifecycle;
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Swag\CmsExtensions\Quickview\QuickviewDefinition;
+use Swag\CmsExtensions\ScrollNavigation\Aggregate\ScrollNavigationPageSettings\ScrollNavigationPageSettingsDefinition;
 use Swag\CmsExtensions\ScrollNavigation\Aggregate\ScrollNavigationTranslation\ScrollNavigationTranslationDefinition;
 use Swag\CmsExtensions\ScrollNavigation\ScrollNavigationDefinition;
 
@@ -37,8 +38,15 @@ class Uninstaller
             return;
         }
 
-        $this->connection->executeUpdate(sprintf('DROP TABLE IF EXISTS `%s`', QuickviewDefinition::ENTITY_NAME));
-        $this->connection->executeUpdate(sprintf('DROP TABLE IF EXISTS `%s`', ScrollNavigationTranslationDefinition::ENTITY_NAME));
-        $this->connection->executeUpdate(sprintf('DROP TABLE IF EXISTS `%s`', ScrollNavigationDefinition::ENTITY_NAME));
+        $classNames = [
+            QuickviewDefinition::ENTITY_NAME,
+            ScrollNavigationPageSettingsDefinition::ENTITY_NAME,
+            ScrollNavigationTranslationDefinition::ENTITY_NAME,
+            ScrollNavigationDefinition::ENTITY_NAME,
+        ];
+
+        foreach ($classNames as $className) {
+            $this->connection->executeUpdate(sprintf('DROP TABLE IF EXISTS `%s`', $className));
+        }
     }
 }

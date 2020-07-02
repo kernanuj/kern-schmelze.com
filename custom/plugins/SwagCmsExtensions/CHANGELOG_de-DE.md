@@ -1,3 +1,8 @@
+# 1.4.0
+- PT-11317 - Variantenwechsel in der QuickView korrigiert
+- PT-11462 - Automatisierte e2e Tests hinzugefügt
+- PT-11711 - Animiertes Scrollen implementiert
+
 # 1.3.1
 - PT-11655 - Anker-Position eines Navigationspunktes angepasst
 

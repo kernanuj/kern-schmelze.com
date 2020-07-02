@@ -1,3 +1,8 @@
+# 1.4.0
+- PT-11317 - Fix switching variants in QuickView
+- PT-11462 - Add automated e2e testing
+- PT-11711 - Implements animated scrolling
+
 # 1.3.1
 - PT-11655 - Re-adjusted anchor position of a navigation point
 
@@ -7,7 +12,7 @@
 
 # 1.2.0
 - PT-11314 - Hide options and "Add to Cart" button for Customize Products in QuickView
-- PT-11432 - Implement scroll navigation
+- PT-11432 - Implements scroll navigation
 - PT-11447 - Quickview Images are not cut off anymore, if they are too big
 
 # 1.1.2

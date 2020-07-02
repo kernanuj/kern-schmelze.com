@@ -45,7 +45,6 @@ Component.register('swag-cms-extensions-section-scroll-behavior-config', {
              * This will be executed, when the user activates the scroll navigation for the first
              * time and is necessary to prepare the extension to be saved later on.
              */
-
             setReactive(
                 this.section.extensions,
                 'swagCmsExtensionsScrollNavigation',

@@ -13,8 +13,12 @@
 
     {% block swag_cms_extensions_scroll_navigation_sidebar %}
         {% if anchoredSections|length > 0 %}
+            {% set pageSettingsExtension = constant('Swag\\CmsExtensions\\Extension\\CmsPageEntityExtension::SCROLL_NAVIGATION_PAGE_SETTINGS_PROPERTY_NAME') %}
+            {% set options = { pageSettings: page.cmsPage.extensions[pageSettingsExtension] } %}
+
             <div class="scroll-navigation-sidebar"
                  data-swag-cms-extensions-scroll-navigation="true"
+                 data-swag-cms-extensions-scroll-navigation-options="{{ options|json_encode }}"
                  data-swag-cms-extensions-scroll-navigation-toggle-menu="true">
 
                 {% block swag_cms_extensions_scroll_navigation_sidebar_mobile_menu %}
@@ -74,7 +78,7 @@
 
                             {% block swag_cms_extensions_scroll_navigation_sidebar_list_entry %}
                                 <a class="scroll-navigation-sidebar-entry"
-                                   href="#{{ anchor|lower|e('url') }}">
+                                   href="#{{ anchor|lower|slugify }}">
 
                                     {% block swag_cms_extensions_scroll_navigation_sidebar_list_entry_line %}
                                         <div class="scroll-navigation-sidebar-entry-line"></div>
@@ -104,11 +108,11 @@
 
 {% block page_content_section %}
     {% set scrollNavigation = section.extensions.swagCmsExtensionsScrollNavigation %}
-    {% set anchorUrl = scrollNavigation.translated.displayName|lower|e('url') %}
+    {% set anchor = scrollNavigation.translated.displayName|lower|slugify %}
 
     {% if scrollNavigation.active %}
         <div class="swag-cms-extensions-scroll-navigation-wrapper">
-            <div class="scroll-navigation-anchor" id="{{ anchorUrl }}"></div>
+            <div class="scroll-navigation-anchor" id="{{ anchor }}"></div>
             {{ parent() }}
         </div>
     {% else %}
