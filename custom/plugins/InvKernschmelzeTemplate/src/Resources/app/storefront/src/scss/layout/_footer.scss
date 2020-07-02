@@ -1,6 +1,6 @@
 .footer-main {
-    background: $ks-lightbrown;
-    color: $white;
+    background: $ks-lightgray;
+    color: $ks-anthrazit;
     border-top: 0;
 
     .footer-columns {
@@ -14,11 +14,11 @@
             -moz-letter-spacing: .6px;
             -webkit-letter-spacing: .6px;
             font-weight: 500;
-            color: $white;
+            color: $ks-anthrazit;
         }
 
         a {
-            color: $white;
+            color: $ks-anthrazit;
             text-decoration: none;
         }
 
@@ -27,10 +27,10 @@
             margin-bottom: 0;
 
             a {
-                color: $ks-green;
+                color: $ks-anthrazit;
                 display: inline;
                 font-size: .875rem;
-                font-weight: 400;
+                font-weight: 500;
                 line-height: 1.5;
             }
         }
@@ -42,7 +42,7 @@
 
         .footer-vat {
             a {
-                color: $white;
+                color: $ks-anthrazit;
                 text-decoration: underline;
             }
         }
