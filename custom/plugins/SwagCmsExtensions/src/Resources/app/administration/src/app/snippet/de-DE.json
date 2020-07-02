@@ -1,0 +1,55 @@
+{
+    "swag-cms-extensions": {
+        "sw-cms": {
+            "detail": {
+                "quickview": {
+                    "showQuickviewLabel": "Quickview verwenden",
+                    "showQuickviewHelpText": "Beim Klick auf produktbezogene Blöcke wird die Quickview statt der Detailseite angezeigt.",
+                    "sidebarHeaderBlockBehaviorSettings": "Quickview"
+                },
+                "scrollNavigation": {
+                    "title": "Scroll-Navigation",
+                    "anchorSwitch": "Setze Navigationspunkt",
+                    "anchorTitle": "Name des Navigationspunktes",
+                    "anchorTitleHelpText": "Die Navigationspunkte werden in der Storefront als navigierbare Liste der vorhandenen Sektionen ausgegeben.",
+                    "duplicateDisplayNameMessage": "Dieser Navigationspunkt ist bereits vorhanden: \"{currentName}\".",
+                    "invalidDisplayNameLengthMessage": "Mindestens einer deiner aktiven Navigationspunkte hat keinen Namen. | Der Name dieses Navigationspunktes überschreitet die Maximallänge von 255 Zeichen: \"{truncatedName}\"",
+                    "pageSettings": {
+                        "title": "Scroll-Navigation",
+                        "description": "Um animiertes Scrollen nutzen zu können, stelle sicher, dass du die dafür notwendigen Navigationspunkte aktiviert und Namen vergeben hast.",
+                        "advancedSettingsLabel": "Erweiterte Einstellungen",
+                        "activeLabel": "Animiertes Scrollen",
+                        "activeHelpText": "Animiertes Scrollen macht die Navigation zwischen Navigationspunkten flüssiger. Für einen reibungslosen Bildlauf werden Werte zwischen 500ms und 1000ms empfohlen.",
+                        "durationLabel": "Dauer",
+                        "durationSuffix": "ms",
+                        "easingLabel": "Scrollverhalten",
+                        "easingDegreeLabel": "Grad der Verlaufskurve",
+                        "easingDegreeHelpText": "Der Grad gibt die Stärke der Beschleunigung bzw. Verlangsamung an. Umso niedriger, desto gleichmäßiger der Scroll-Verlauf. Für ein intuitives Scrolling wird ein Wert zwischen 2 und 5 empfohlen. Dieser Wert wirkt sich nicht auf elastisches und lineares Scrollen aus.",
+                        "bouncyLabel": "Elastisches Scrolling",
+                        "easing": {
+                            "linear": "Konstant (Linear)",
+                            "in": "Beschleunigen (Ease In)",
+                            "out": "Verlangsamen (Ease Out)",
+                            "inOut": "Beschleunigen & Verlangsamen (Ease InOut)"
+                        }
+                    }
+                }
+            },
+            "sidebar": {
+                "emptyAnchorName": "(Kein Name gesetzt)"
+            },
+            "section": {
+                "actions": {
+                    "viewports": {
+                        "tooltipPrefix": "Navigationspunkt:",
+                        "emptyAnchorName": "(Kein Name gesetzt)"
+                    },
+                    "pageForm": {
+                        "labelPrefix": "Navigationspunkt",
+                        "emptyAnchorName": "(Kein Name gesetzt)"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "sendcloud/shipping",
+  "description": "Sendcloud Shopware 6 integration",
+  "version": "v1.1.6",
+  "license": "proprietary",
+  "type": "shopware-platform-plugin",
+  "authors": [
+    {
+      "name": "Sendcloud"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "shopware/core": ">=6.1.0",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-openssl": "*"
+  },
+  "extra": {
+    "shopware-plugin-class": "Sendcloud\\Shipping\\SendcloudShipping",
+    "label": {
+      "de-DE": "Sendcloud",
+      "en-GB": "Sendcloud"
+    },
+    "description": {
+      "de-DE": "Die Versandsoftware für den E-Commerce",
+      "en-GB": "The shipping software for e-commerce"
+    },
+    "link": "https://www.sendcloud.com/",
+    "plugin-icon": "sendcloud.png"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sendcloud\\Shipping\\": "src/"
+    }
+  }
+}

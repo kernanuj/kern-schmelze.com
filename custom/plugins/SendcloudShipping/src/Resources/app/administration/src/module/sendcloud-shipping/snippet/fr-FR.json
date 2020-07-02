@@ -1,0 +1,30 @@
+{
+  "send-cloud": {
+    "basic": {
+      "label": "Sendcloud",
+      "description": ""
+    },
+    "welcome": {
+      "title": "La solution d'envoi de colis pour les sites e-commerce",
+      "mainText": "Rejoignez plus de 10.000 e-commerçants ayant fait le choix d'automatiser leur processus d'expédition.",
+      "buttonLabel": "Connectez-vous ou créez votre compte Sendcloud gratuitement"
+    },
+    "dashboard": {
+      "mainText": "Tout est prêt pour une expédition plus efficace de vos colis!",
+      "buttonLabel": "Aller sur Sendcloud",
+      "notification": {
+        "title": "La livraison en point relais est désactivée!",
+        "message": "Veuillez activer la livraison en points relais dans le panel Sendcloud sous \"Réglages -> Boutiques connectées -> {channel} \" afin d’utiliser la méthode d’expédition \"Livraison en points relais\"."
+      }
+    },
+    "shipment": {
+      "trackingNumber": "Numéro de suivi du colis reçu",
+      "servicePointDelivery": "Livraison en Point Relais",
+      "changeServicePoint": "Modifier le Point Relais",
+      "selectServicePoint": "Selectionnez un Point Relais",
+      "emptyStatusMessage": "-",
+      "emptyTrackingNumberMessage": "-",
+      "emptyServicePointMessage": "-"
+    }
+  }
+}

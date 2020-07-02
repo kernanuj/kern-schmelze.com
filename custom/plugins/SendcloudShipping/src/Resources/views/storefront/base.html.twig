@@ -1,0 +1,137 @@
+{% sw_extends '@Storefront/storefront/base.html.twig' %}
+
+{% block base_script_hmr_mode %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://embed.sendcloud.sc/spp/1.0.0/api.min.js"></script>
+    <script>
+        (function() {
+            document.addEventListener("DOMContentLoaded", function() {
+                let shippingMethodsForm = document.confirmShippingForm;
+                if (shippingMethodsForm) {
+                    let servicePointDeliveryId = document.querySelector('#servicePointDeliveryId');
+                    let servicePointInfoElement = document.querySelector('#servicePointInfo');
+                    let radioButtons = shippingMethodsForm.shippingMethodId;
+                    let selectServicePointButton = document.querySelector('#selectServicePointButton');
+                    let servicePointEndpointUrl = document.querySelector('#servicePointEndpointUrl');
+                    let apiKey = document.querySelector('#sendcloudApiKey');
+                    let carriers = document.querySelector('#sendcloudCarriers');
+                    let zip = document.querySelector('#sendcloudZip');
+                    let countryCode = document.querySelector('#sendcloudCountry');
+                    let customerNumber = document.querySelector('#sendcloudCustomerNumber');
+                    for (let i = 0; i < radioButtons.length; i++) {
+                        radioButtons[i].addEventListener('change', onRadioButtonChange);
+                    }
+
+                    if (selectServicePointButton) {
+                        selectServicePointButton.addEventListener('click', openServicePointPicker);
+                    }
+
+                    onFormLoaded();
+
+                    function onFormLoaded() {
+                        for (let i = 0; i < radioButtons.length; i++) {
+                            if (radioButtons[i].checked && servicePointDeliveryId && radioButtons[i].value === servicePointDeliveryId.value) {
+                                if (selectServicePointButton) {
+                                    selectServicePointButton.style.display = 'block';
+                                }
+
+                                onShippingMethodsLoad();
+                            } else {
+                                if (selectServicePointButton) {
+                                    servicePointInfoElement.style.display = 'none';
+                                }
+                            }
+                        }
+                    }
+
+                    function onRadioButtonChange(event) {
+                        if (servicePointDeliveryId && servicePointDeliveryId.value === event.target.value && selectServicePointButton) {
+                            selectServicePointButton.style.display = 'block';
+                            onShippingMethodsLoad();
+                        } else {
+                            enableSaveButton();
+                            if (selectServicePointButton) {
+                                selectServicePointButton.style.display = 'none';
+                                servicePointInfoElement.style.display = 'none';
+                            }
+                        }
+                    }
+                    
+                    function onShippingMethodsLoad() {
+                        fetch(servicePointEndpointUrl.value + '?customerNumber=' + customerNumber.value)
+                            .then(function(response) {return response.json()})
+                            .then(function(servicePointInfoResponse){
+                                if(servicePointInfoResponse.servicePointInfo.name) {
+                                    enableSaveButton();
+                                    showServicePointInfo(servicePointInfoResponse.servicePointInfo)
+                                } else {
+                                    disableSaveButton();
+                                }
+                            });
+                    }
+
+                    function disableSaveButton() {
+                        modifySaveButton('none');
+                    }
+
+                    function enableSaveButton() {
+                        modifySaveButton('');
+                    }
+
+                    function modifySaveButton(display) {
+                        let saveButton = shippingMethodsForm.querySelector('button[type="submit"]');
+                        if (saveButton) {
+                            saveButton.style.display = display;
+                        }
+                    }
+
+                    function showServicePointInfo(servicePointInfo) {
+                        if (servicePointInfoElement) {
+                            servicePointInfoElement.style.display = 'block';
+                            document.querySelector('#servicePointName').innerText = servicePointInfo.name;
+                            document.querySelector('#servicePointStreet').innerText = servicePointInfo.street;
+                            document.querySelector('#servicePointZipAndCity').innerText = servicePointInfo.postal_code + ' ' + servicePointInfo.city;
+                            document.querySelector('#servicePointCountry').innerText = servicePointInfo.country;
+                        }
+                    }
+
+                    function openServicePointPicker() {
+                        let config = {
+                            'apiKey': apiKey ? apiKey.value : null,
+                            'country': countryCode ? countryCode.value : 'NL',
+                            'postalCode': zip ? zip.value : '',
+                            'language': 'en',
+                            'carriers': carriers ? carriers.value : '',
+                            'weight': '2'
+                        };
+
+                        sendcloud.servicePoints.open(
+                            config,
+                            function (servicePointObject) {
+                                console.log(servicePointObject);
+                                fetch(servicePointEndpointUrl.value + '/save?customerNumber=' + customerNumber.value, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(servicePointObject)
+                                })
+                                    .then(function(response) {return response.json()})
+                                    .then(function(){
+                                        enableSaveButton();
+                                        showServicePointInfo(servicePointObject)
+                                    });
+                            },
+                            function (errors) {
+                                errors.forEach(function (error) {
+                                    console.log('Failure callback, reason: ' + error);
+                                });
+                            }
+                        );
+                    }
+                }
+            });
+        })();
+    </script>
+{% endblock %}

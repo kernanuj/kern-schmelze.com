@@ -1,0 +1,30 @@
+{
+  "send-cloud": {
+    "basic": {
+      "label": "Sendcloud",
+      "description": ""
+    },
+    "welcome": {
+      "title": "La plataforma de envíos para eCommerce",
+      "mainText": "Únete a las +10.000 tiendas online que automatizan su proceso de envíos",
+      "buttonLabel": "Entra en tu cuenta Sendcloud o crea una gratis ahora"
+    },
+    "dashboard": {
+      "mainText": "¡Todo listo para empezar a enviar más eficientemente!",
+      "buttonLabel": "Ir a Sendcloud",
+      "notification": {
+        "title": "Puntos de servicio de recogida esta desactivado!",
+        "message": "Establece los puntos de servicio en la configuración de Sendcloud > Integraciones > {channel} carrito para ofrecer Puntos de Servicio de Entrega en tu checkout."
+      }
+    },
+    "shipment": {
+      "trackingNumber": "Número de seguimiento",
+      "servicePointDelivery": "Punto de servicio de entrega",
+      "changeServicePoint": "Cambiar punto de servicio",
+      "selectServicePoint": "Selecciona un punto de servicio",
+      "emptyStatusMessage": "-",
+      "emptyTrackingNumberMessage": "-",
+      "emptyServicePointMessage": "-"
+    }
+  }
+}

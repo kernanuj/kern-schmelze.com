@@ -1,0 +1,8 @@
+@import "~scss/variables";
+
+.sw-cms-page-form__section-anchor {
+    &-icon,
+    &-label {
+        color: $color-module-purple-900;
+    }
+}
