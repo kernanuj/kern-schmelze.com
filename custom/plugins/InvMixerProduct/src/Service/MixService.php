@@ -169,6 +169,7 @@ class MixService implements MixServiceInterface
      * @param int $quantity
      * @param SalesChannelContext $context
      * @throws ContainerWeightExceededException
+     * @throws NumberOfProductsExceededException
      * @throws ProductStockExceededException
      */
     private function assertCanSetItemQuantity(
@@ -185,7 +186,7 @@ class MixService implements MixServiceInterface
             $context
         );
 
-        $maxAllowedWeight = $subject->getContainerDefinition()->getMaxContainerWeight();
+        $maxAllowedWeight = $subject->getContainerDefinition()->getFillDelimiter()->getWeight();
         $newWeight = $totalMixWeight->add($itemWeight->multipliedBy($itemQuantityDifference));
         if ($newWeight->isGreaterThan($maxAllowedWeight)) {
             throw ContainerWeightExceededException::fromContainerAndWeight(
@@ -193,6 +194,17 @@ class MixService implements MixServiceInterface
                 $newWeight
             );
         }
+
+        $maxAllowedProducts = $subject->getContainerDefinition()->getFillDelimiter()->getAmount()->getValue();
+        $currentProducts = $subject->getTotalItemQuantity();
+
+        if ($currentProducts + $itemQuantityDifference > $maxAllowedProducts) {
+            throw NumberOfProductsExceededException::fromCountAndContainerDefinition(
+                $subject->getContainerDefinition(),
+                $currentProducts + $itemQuantityDifference
+            );
+        }
+
 
         $availableStock = $this->productAccessor->accessProductAvailableStock($mixItem->getProduct(), $context);
         if ($availableStock < $quantity + $mixItem->getQuantity()) {
@@ -221,7 +233,7 @@ class MixService implements MixServiceInterface
             throw NotEligibleProductException::fromProductEntity($productEntity);
         }
 
-        if ($subject->getCountOfDifferentProducts() > $subject->getContainerDefinition()->getMaximumNumberOfProducts()) {
+        if ($subject->getCountOfDifferentProducts() > $subject->getContainerDefinition()->getFillDelimiter()->getAmount()->getValue()) {
             throw NumberOfProductsExceededException::fromCountAndContainerDefinition(
                 $subject->getContainerDefinition(),
                 $subject->getCountOfDifferentProducts() + 1
@@ -304,7 +316,7 @@ class MixService implements MixServiceInterface
             $this->productAccessor,
             $context
         );
-        if ($currentWeight->isGreaterThan($containerDefinition->getMaxContainerWeight())) {
+        if ($currentWeight->isGreaterThan($containerDefinition->getFillDelimiter()->getWeight())) {
             throw ContainerWeightExceededException::fromContainerAndWeight(
                 $containerDefinition,
                 $currentWeight
@@ -312,7 +324,7 @@ class MixService implements MixServiceInterface
         }
 
         $currentProductCount = $subject->getCountOfDifferentProducts();
-        if ($currentProductCount > $containerDefinition->getMaximumNumberOfProducts()) {
+        if ($currentProductCount > $containerDefinition->getFillDelimiter()->getAmount()->getValue()) {
             throw NumberOfProductsExceededException::fromCountAndContainerDefinition(
                 $containerDefinition,
                 $currentProductCount
@@ -339,10 +351,12 @@ class MixService implements MixServiceInterface
      */
     public function convertToCartItem(
         Subject $subject,
+        int $quantity,
         SalesChannelContext $salesChannelContext
     ): LineItem {
         return $this->mixToCartItemConverter->toCartItem(
             $subject,
+            $quantity,
             $salesChannelContext
         );
     }

@@ -36,12 +36,11 @@ class DummyMixToCartItemConverter implements MixToCartItemConverterInterface
     }
 
     /**
-     * @param Subject $subject
-     * @param SalesChannelContext $salesChannelContext
-     * @return LineItem
+     * @inheritDoc
      */
     public function toCartItem(
         Subject $subject,
+        int $quantity,
         SalesChannelContext $salesChannelContext
     ): LineItem {
 

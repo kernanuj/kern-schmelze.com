@@ -75,9 +75,10 @@ class SetContainerDesignController extends MixController
             $this->mixService
         );
 
-        $containerDefinition = $containerDefinitionCollection->oneOfWeightAndDesign(
-            $mix->getContainerDefinition()->getMaxContainerWeight(),
-            Design::fromString($request->get('design'))
+        $containerDefinition = $containerDefinitionCollection->oneOfWeightDesignAndBaseProduct(
+            $mix->getContainerDefinition()->getFillDelimiter()->getWeight(),
+            Design::fromString($request->get('design')),
+            $mix->getContainerDefinition()->getBaseProduct()
         );
         try {
             $this->mixService->applyContainerDefinition(

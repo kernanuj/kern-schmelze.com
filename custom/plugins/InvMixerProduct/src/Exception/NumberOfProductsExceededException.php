@@ -23,7 +23,7 @@ class NumberOfProductsExceededException extends \Exception
         return new self(
             sprintf(
                 'The maximum number of products %d is exceeded with %d',
-                $containerDefinition->getMaximumNumberOfProducts(),
+                $containerDefinition->getFillDelimiter()->getAmount()->getValue(),
                 $newCount
             )
         );

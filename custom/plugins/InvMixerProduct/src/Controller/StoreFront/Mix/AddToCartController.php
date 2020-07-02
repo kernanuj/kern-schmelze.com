@@ -8,6 +8,7 @@ use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -51,11 +52,12 @@ class AddToCartController extends MixController
     }
 
     /**
+     * @param Request $request
      * @param SalesChannelContext $salesChannelContext
      * @return RedirectResponse
      * @throws Exception
      */
-    public function __invoke(SalesChannelContext $salesChannelContext)
+    public function __invoke(Request $request, SalesChannelContext $salesChannelContext)
     {
         $mix = $this->getOrInitiateCurrentMix(
             $salesChannelContext,
@@ -63,8 +65,11 @@ class AddToCartController extends MixController
             $this->mixService
         );
 
+        $quantity = (int)$request->get('quantity', 1);
+
         $cartLineItem = $this->mixService->convertToCartItem(
             $mix,
+            $quantity,
             $salesChannelContext
         );
 

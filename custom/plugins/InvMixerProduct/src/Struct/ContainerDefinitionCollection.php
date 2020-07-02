@@ -3,6 +3,7 @@
 namespace InvMixerProduct\Struct;
 
 use InvMixerProduct\Exception\EntityNotFoundException;
+use InvMixerProduct\Value\BaseProduct;
 use InvMixerProduct\Value\Design;
 use InvMixerProduct\Value\Weight;
 
@@ -96,10 +97,24 @@ class ContainerDefinitionCollection implements \Iterator
         $weights = [];
 
         foreach ($this->items as $item) {
-            $weights[] = $item->getMaxContainerWeight();
+            $weights[] = $item->getFillDelimiter()->getWeight();
         }
 
         return array_unique($weights);
+    }
+
+    /**
+     * @return BaseProduct[]
+     */
+    public function getAvailableBaseProducts(): array
+    {
+        $items = [];
+
+        foreach ($this->items as $item) {
+            $items[$item->getBaseProduct()->getIdentifier()] = $item->getBaseProduct();
+        }
+
+        return $items;
     }
 
     /**
@@ -115,7 +130,7 @@ class ContainerDefinitionCollection implements \Iterator
     ): ContainerDefinition {
 
         foreach ($this->items as $item) {
-            if ($item->getMaxContainerWeight()->isEqualTo($weight) && $item->getDesign()->isEqualTo($design)) {
+            if ($item->getFillDelimiter()->getWeight()->isEqualTo($weight) && $item->getDesign()->isEqualTo($design)) {
                 return $item;
             }
         }
@@ -123,6 +138,31 @@ class ContainerDefinitionCollection implements \Iterator
         throw EntityNotFoundException::fromEntityAndIdentifier(
             ContainerDefinition::class,
             $weight . $design
+        );
+    }
+
+    /**
+     * @param Weight $weight
+     * @param Design $design
+     * @param BaseProduct $baseProduct
+     * @return ContainerDefinition
+     * @throws EntityNotFoundException
+     */
+    public function oneOfWeightDesignAndBaseProduct(
+        Weight $weight,
+        Design $design,
+        BaseProduct $baseProduct
+    ): ContainerDefinition {
+
+        foreach ($this->items as $item) {
+            if ($item->getFillDelimiter()->getWeight()->isEqualTo($weight) && $item->getDesign()->isEqualTo($design) && $item->getBaseProduct()->isEqualTo($baseProduct)) {
+                return $item;
+            }
+        }
+
+        throw EntityNotFoundException::fromEntityAndIdentifier(
+            ContainerDefinition::class,
+            $weight . $design. $baseProduct
         );
     }
 
