@@ -1,3 +1,6 @@
+# 1.1.1
+- PT-11683 - Exportieren von Produkten ohne Hersteller korrigiert
+
 # 1.1.0
 - PT-11188 - Implementierung eines Tabs für die Integration der Verkaufskanäle
 - PT-11603 - Kompatibilität für Shopware 6.2 hinzugefügt

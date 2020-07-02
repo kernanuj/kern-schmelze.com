@@ -1,3 +1,6 @@
+# 1.1.1
+- PT-11683 - Fix export of products without manufacturer
+
 # 1.1.0
 - PT-11188 - Implemented integration tab into Sales Channel configuration
 - PT-11603 - Added compatibility for Shopware 6.2
