@@ -20,6 +20,11 @@
             "InvMixerProduct\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "InvMixerProduct\\Test\\": "tests/"
+        }
+    },
     "extra": {
         "shopware-plugin-class": "InvMixerProduct\\InvMixerProduct",
         "copyright": "(c) by Nils Harder | inventivo.de",
