@@ -1,1 +1,0 @@
-import './sendcloud-fonts.scss';
