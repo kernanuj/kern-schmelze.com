@@ -2,8 +2,9 @@
 
 namespace InvMixerProduct\Struct;
 
+use InvMixerProduct\Value\BaseProduct;
 use InvMixerProduct\Value\Design;
-use InvMixerProduct\Value\Weight;
+use InvMixerProduct\Value\FillDelimiter;
 use Shopware\Core\Framework\Struct\Struct;
 
 /**
@@ -19,43 +20,28 @@ class ContainerDefinition extends Struct
     protected $design;
 
     /**
-     * @var Weight
+     * @var BaseProduct
      */
-    protected $maxContainerWeight;
+    protected $baseProduct;
 
     /**
-     * @var int
+     * @var FillDelimiter
      */
-    protected $maximumNumberOfProducts;
+    protected $fillDelimiter;
 
     /**
      * ContainerDefinition constructor.
      * @param Design $design
-     * @param Weight $maxContainerWeight
-     * @param int $maximumNumberOfProducts
+     * @param BaseProduct $baseProduct
+     * @param FillDelimiter $fillDelimiter
      */
-    private function __construct(
-        Design $design,
-        Weight $maxContainerWeight,
-        int $maximumNumberOfProducts
-    ) {
-        $this->design = $design;
-        $this->maxContainerWeight = $maxContainerWeight;
-        $this->maximumNumberOfProducts = $maximumNumberOfProducts;
-    }
-
-
-    /**
-     * @return static
-     */
-    public static function aDefault(): self
+    public function __construct(Design $design, BaseProduct $baseProduct, FillDelimiter $fillDelimiter)
     {
-        return new self(
-            Design::aDefault(),
-            Weight::xGrams(200),
-            10
-        );
+        $this->design = $design;
+        $this->baseProduct = $baseProduct;
+        $this->fillDelimiter = $fillDelimiter;
     }
+
 
     /**
      * @param array $data
@@ -65,27 +51,43 @@ class ContainerDefinition extends Struct
     {
         return new self(
             Design::fromArray($data['design']),
-            Weight::fromArray($data['maxContainerWeight']),
-            $data['maximumNumberOfProducts']
+            BaseProduct::fromArray($data['baseProduct']),
+            FillDelimiter::fromArray($data['fillDelimiter'])
         );
     }
 
     /**
      * @param Design $design
-     * @param Weight $weight
-     * @param int $maxNumberOfProducts
+     * @param BaseProduct $baseProduct
+     * @param FillDelimiter $fillDelimiter
      * @return static
      */
     public static function build(
         Design $design,
-        Weight $weight,
-        int $maxNumberOfProducts
+        BaseProduct $baseProduct,
+        FillDelimiter $fillDelimiter
     ): self {
         return new self(
             $design,
-            $weight,
-            $maxNumberOfProducts
+            $baseProduct,
+            $fillDelimiter
         );
+    }
+
+    /**
+     * @return BaseProduct
+     */
+    public function getBaseProduct(): BaseProduct
+    {
+        return $this->baseProduct;
+    }
+
+    /**
+     * @return FillDelimiter
+     */
+    public function getFillDelimiter(): FillDelimiter
+    {
+        return $this->fillDelimiter;
     }
 
     /**
@@ -96,28 +98,12 @@ class ContainerDefinition extends Struct
         return $this->design;
     }
 
-    /**
-     * @return Weight
-     */
-    public function getMaxContainerWeight(): Weight
-    {
-        return $this->maxContainerWeight;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMaximumNumberOfProducts(): int
-    {
-        return $this->maximumNumberOfProducts;
-    }
-
     public function jsonSerialize(): array
     {
         $data = [];
         $data['design'] = $this->design->jsonSerialize();
-        $data['maxContainerWeight'] = $this->maxContainerWeight->jsonSerialize();
-        $data['maximumNumberOfProducts'] = $this->maximumNumberOfProducts;
+        $data['baseProduct'] = $this->baseProduct->jsonSerialize();
+        $data['fillDelimiter'] = $this->fillDelimiter->jsonSerialize();
 
 
         return $data;

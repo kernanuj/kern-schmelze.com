@@ -15,12 +15,13 @@ interface MixToCartItemConverterInterface
 
     /**
      * @param Subject $subject
+     * @param int $quantity
      * @param SalesChannelContext $salesChannelContext
-     *
      * @return LineItem
      */
     public function toCartItem(
         Subject $subject,
+        int $quantity,
         SalesChannelContext $salesChannelContext
     ): LineItem;
 

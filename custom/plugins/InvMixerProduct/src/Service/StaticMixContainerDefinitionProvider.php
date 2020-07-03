@@ -3,10 +3,9 @@
 namespace InvMixerProduct\Service;
 
 
+use InvMixerProduct\Constants;
 use InvMixerProduct\Struct\ContainerDefinition;
 use InvMixerProduct\Struct\ContainerDefinitionCollection;
-use InvMixerProduct\Value\Design;
-use InvMixerProduct\Value\Weight;
 
 /**
  *
@@ -28,27 +27,20 @@ class StaticMixContainerDefinitionProvider implements MixContainerDefinitionProv
 
         $collection = new ContainerDefinitionCollection();
 
-        $collection
-            ->addItem(ContainerDefinition::build(
-                    Design::fromString('black'),
-                    Weight::xGrams(200),
-                    10
-            ))
-            ->addItem(ContainerDefinition::build(
-                    Design::fromString('white'),
-                    Weight::xGrams(200),
-                    10
-            ))
-            ->addItem(ContainerDefinition::build(
-                    Design::fromString('black'),
-                    Weight::xGrams(500),
-                    10
-            ))
-            ->addItem(ContainerDefinition::build(
-                    Design::fromString('white'),
-                    Weight::xGrams(500),
-                    10
-            ));
+
+        foreach (Constants::allKSPackageBaseProducts() as $baseProduct) {
+            foreach (Constants::allKSPackageDesigns() as $design) {
+                foreach (Constants::allFillDelimiter() as $fillDelimiter) {
+                    $collection->addItem(
+                        ContainerDefinition::build(
+                            $design,
+                            $baseProduct,
+                            $fillDelimiter
+                        )
+                    );
+                }
+            }
+        }
 
         return $collection;
     }

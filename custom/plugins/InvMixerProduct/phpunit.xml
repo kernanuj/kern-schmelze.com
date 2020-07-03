@@ -2,15 +2,14 @@
 
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/7.1/phpunit.xsd"
-         bootstrap="../../../vendor/shopware/core/TestBootstrap.php"
+         bootstrap="../../../src/TestBootstrap.php"
          cacheResult="false">
 
     <php>
         <ini name="error_reporting" value="-1"/>
-        <server name="KERNEL_CLASS" value="Shopware\Development\Kernel"/>
         <env name="APP_ENV" value="test"/>
         <env name="APP_DEBUG" value="1"/>
-        <env name="APP_SECRET" value="s$cretf0rt3st"/>
+        <env name="APP_SECRET" value="def00000a0b3d0a29aeb958916d355066479568567b8df8bd47f173e8eb08a329efae600cbc979ebe3d6db7570cb9fc735cd06476cf21673a6b9cdab93ffa218eb14c5e8"/>
         <env name="SHELL_VERBOSITY" value="-1"/>
         <env name="DATABASE_URL" value="mysql://app:app@mysql:3306/kern_schmelze_1_test" />
     </php>
@@ -19,8 +18,13 @@
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
         </testsuite>
+        <testsuite name="Integration">
+            <directory>tests/Integration</directory>
+        </testsuite>
+        <testsuite name="Acceptance">
+            <directory>tests/Acceptance</directory>
+        </testsuite>
     </testsuites>
-
     <filter>
         <whitelist>
             <directory suffix=".php">./</directory>

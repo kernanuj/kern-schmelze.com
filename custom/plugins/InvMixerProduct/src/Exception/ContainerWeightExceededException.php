@@ -26,7 +26,7 @@ class ContainerWeightExceededException extends Exception
             sprintf(
                 'The weight %s would exceed the maximum allowed weight of %s.',
                 $weight,
-                $containerDefinition->getMaxContainerWeight()
+                $containerDefinition->getFillDelimiter()->getWeight()
             )
         );
     }

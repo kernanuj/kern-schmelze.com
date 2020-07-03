@@ -57,13 +57,11 @@ class ContainerMixToCartItemConverter implements MixToCartItemConverterInterface
 
 
     /**
-     * @param Subject $subject
-     * @param SalesChannelContext $salesChannelContext
-     * @return LineItem
-     * @throws \InvMixerProduct\Exception\EntityNotFoundException
+     * @inheritDoc
      */
     public function toCartItem(
         Subject $subject,
+        int $quantity,
         SalesChannelContext $salesChannelContext
     ): LineItem {
 
@@ -74,7 +72,7 @@ class ContainerMixToCartItemConverter implements MixToCartItemConverterInterface
         );
 
         $lineItem = null;
-        $lineItem = new LineItem($subject->getId(), LineItem::PRODUCT_LINE_ITEM_TYPE, $containerProduct->getId(), 1);
+        $lineItem = new LineItem($subject->getId(), LineItem::PRODUCT_LINE_ITEM_TYPE, $containerProduct->getId(), $quantity);
         $lineItem->setRemovable(true);
         $lineItem->setStackable(true);
         $lineItem->setPayloadValue(Constants::KEY_MIX_LABEL_CART_ITEM, $subject->getLabel());
@@ -84,11 +82,11 @@ class ContainerMixToCartItemConverter implements MixToCartItemConverterInterface
                 $item->getId(),
                 LineItem::PRODUCT_LINE_ITEM_TYPE,
                 $item->getProductId(),
-                $item->getQuantity()
+                $item->getQuantity() *$quantity
             );
 
 
-            if(true) {
+            if(false) {
                 /**
                  * @todo: without this section the prices would not be calculated.
                  * is it necessary though?

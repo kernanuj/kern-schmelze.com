@@ -6,12 +6,13 @@ use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
 
-class UsedClassesAvailableTest extends TestCase
+class ContainerTest extends TestCase
 {
     use IntegrationTestBehaviour;
 
     public function testClassesAreInstantiable(): void
     {
+
         $namespace = str_replace('\Test', '', __NAMESPACE__);
 
         foreach ($this->getPluginClasses() as $class) {
@@ -29,7 +30,7 @@ class UsedClassesAvailableTest extends TestCase
     private function getPluginClasses(): Finder
     {
         $finder = new Finder();
-        $finder->in(realpath(__DIR__ . '/../'));
+        $finder->in(realpath(__DIR__ . '/../../'));
         $finder->exclude('Test');
         return $finder->files()->name('*.php');
     }

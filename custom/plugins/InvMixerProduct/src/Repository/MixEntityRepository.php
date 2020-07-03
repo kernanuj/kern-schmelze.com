@@ -6,12 +6,14 @@ namespace InvMixerProduct\Repository;
 use InvMixerProduct\Entity\MixEntity as SubjectEntity;
 use InvMixerProduct\Entity\MixItemEntity;
 use InvMixerProduct\Exception\EntityNotFoundException;
+use InvMixerProduct\Service\ConfigurationInterface;
 use InvMixerProduct\Struct\ContainerDefinition;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 /**
  * Class MixEntityRepository
@@ -31,18 +33,25 @@ class MixEntityRepository
     private $mixItemRepository;
 
     /**
+     * @var ConfigurationInterface
+     */
+    private $configuration;
+
+    /**
      * MixEntityRepository constructor.
      * @param EntityRepositoryInterface $dalEntityRepository
      * @param EntityRepositoryInterface $mixItemRepository
+     * @param ConfigurationInterface $configurationInterface
      */
     public function __construct(
         EntityRepositoryInterface $dalEntityRepository,
-        EntityRepositoryInterface $mixItemRepository
+        EntityRepositoryInterface $mixItemRepository,
+        ConfigurationInterface $configurationInterface
     ) {
         $this->dalEntityRepository = $dalEntityRepository;
         $this->mixItemRepository = $mixItemRepository;
+        $this->configuration = $configurationInterface;
     }
-
 
     /**
      * @return SubjectEntity
@@ -50,7 +59,9 @@ class MixEntityRepository
     public function create(): SubjectEntity
     {
         $entity = new SubjectEntity();
-        $entity->setContainerDefinition(ContainerDefinition::aDefault());
+        $entity->setContainerDefinition(
+            $this->configuration->getDefaultContainerDefinition()
+        );
         $entity->setId(Uuid::randomHex());
 
         return $entity;
