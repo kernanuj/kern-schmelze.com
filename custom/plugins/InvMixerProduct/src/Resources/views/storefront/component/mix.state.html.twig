@@ -130,7 +130,7 @@
                     {% set mixItemWeight = mixViewItem.referencedMixItem.product.weight * mixViewItem.referencedMixItem.product.referenceUnit %}
 
                     {# Todo: Make mixItem.product.unit available #}
-                    {% set mixItemUnit = "g" %}
+                    {% set mixItemUnit = mixViewItem.unitEntity.shortCode %}
 
                     {% block inv_product_mixer_sidebar_mixer_product_item %}
                         <div class="row mixer-product-item-wrapper">

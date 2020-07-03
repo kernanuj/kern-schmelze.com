@@ -3,8 +3,8 @@
 namespace InvMixerProduct\Repository;
 
 
-use Shopware\Core\Content\Product\ProductEntity as SubjectEntity;
 use InvMixerProduct\Exception\EntityNotFoundException;
+use Shopware\Core\Content\Product\ProductEntity as SubjectEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -62,9 +62,15 @@ class ProductRepository
      * @return SubjectEntity
      * @throws EntityNotFoundException
      */
-    public function findOneByProductNumber(string $productNumber, Context $context): SubjectEntity {
+    public function findOneByProductNumber(string $productNumber, Context $context): SubjectEntity
+    {
         $found = $this->dalEntityRepository->search(
-            (new Criteria())->addFilter(new EqualsFilter('productNumber', $productNumber)),
+            (new Criteria())
+                ->addFilter(new EqualsFilter('productNumber', $productNumber))
+                ->addAssociation('prices')
+                ->addAssociation('unit')
+                ->addAssociation('cover')
+            ,
             $context
         )->first();
 
@@ -89,7 +95,10 @@ class ProductRepository
         $found = $this->dalEntityRepository->search(
             (new Criteria(
                 [$id]
-            )),
+            ))
+                ->addAssociation('prices')
+                ->addAssociation('unit')
+                ->addAssociation('cover'),
             $context
         )->first();
 
@@ -106,14 +115,15 @@ class ProductRepository
     }
 
     /**
-     * @todo add further checks if a product is actually a product that can be used for a mix; ie. by checking attributes or categories
-     *
      * @param SubjectEntity $productEntity
      * @param Context $context
      *
      * @return $this
+     * @todo add further checks if a product is actually a product that can be used for a mix; ie. by checking attributes or categories
+     *
      */
-    public function assertIsProductEligibleForMix(SubjectEntity $productEntity, Context $context) :self {
+    public function assertIsProductEligibleForMix(SubjectEntity $productEntity, Context $context): self
+    {
 
         return $this;
     }
