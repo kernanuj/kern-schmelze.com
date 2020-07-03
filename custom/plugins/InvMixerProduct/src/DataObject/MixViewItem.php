@@ -4,6 +4,7 @@
 namespace InvMixerProduct\DataObject;
 
 use InvMixerProduct\Entity\MixItemEntity;
+use Shopware\Core\Content\Media\MediaEntity;
 use Shopware\Core\System\Unit\UnitEntity;
 
 class MixViewItem
@@ -55,5 +56,13 @@ class MixViewItem
     public function getUnitEntity(): UnitEntity
     {
         return $this->referencedMixItem->getProduct()->getUnit();
+    }
+
+    /**
+     * @return MediaEntity|null
+     */
+    public function getCover(): MediaEntity
+    {
+        return $this->referencedMixItem->getProduct()->getCover()->getMedia();
     }
 }

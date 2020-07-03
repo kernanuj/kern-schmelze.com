@@ -111,7 +111,7 @@
         {% block inv_product_mixer_sidebar_mixer_product_items %}
             <hr/>
 
-            {% if mixView.items is empty %}
+            {% if mixView.itemCollection.items is empty %}
                 {{ "InvMixerProduct.placeholders.noItems"|trans }}
             {% endif %}
 
@@ -120,10 +120,7 @@
                     {% set name = mixViewItem.referencedMixItem.product.translated.name %}
                     {% set id = mixViewItem.referencedMixItem.product.id %}
 
-                    {# Todo: Make mixItem.product.cover available #}
-                    {% set coverId = mixViewItem.referencedMixItem.product.coverId %}
-                    {% set mediaCollection = searchMedia([coverId], context.context) %}
-                    {% set mixItemCover = mediaCollection.get(coverId) %}
+                    {% set mixItemCover = mixViewItem.cover %}
 
                     {% set mixItemPrice = mixViewItem.referencedMixItem.product.price.first.gross|currency %}
                     {% set mixItemQuantity = mixViewItem.quantity %}
@@ -144,7 +141,7 @@
                                             } %}
 
                                             {% sw_thumbnails 'product-image-thumbnails' with {
-                                                media: cover,
+                                                media: mixItemCover,
                                                 sizes: {
                                                     'xs': '501px',
                                                     'sm': '315px',
