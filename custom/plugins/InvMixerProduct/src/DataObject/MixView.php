@@ -3,8 +3,6 @@
 
 namespace InvMixerProduct\DataObject;
 
-use InvMixerProduct\Entity\MixItemEntity;
-use InvMixerProduct\Entity\MixItemEntityCollection;
 use InvMixerProduct\Value\Identifier;
 use InvMixerProduct\Value\Label;
 use InvMixerProduct\Struct\ContainerDefinition;
@@ -45,9 +43,9 @@ class MixView {
     private $customer;
 
     /**
-     * @var MixItemEntityCollection|null
+     * @var MixViewItemCollection
      */
-    private $items;
+    private $itemCollection;
 
     /**
      * MixView constructor.
@@ -57,7 +55,7 @@ class MixView {
      * @param Weight $mixTotalWeight
      * @param ContainerDefinition $containerDefinition
      * @param CustomerEntity|null $customer
-     * @param MixItemEntityCollection|null $items
+     * @param MixViewItemCollection $itemCollection
      */
     public function __construct(
         Identifier $mixId,
@@ -66,7 +64,7 @@ class MixView {
         Weight $mixTotalWeight,
         ContainerDefinition $containerDefinition,
         ?CustomerEntity $customer,
-        ?MixItemEntityCollection $items
+        MixViewItemCollection $itemCollection
     ) {
         $this->mixId = $mixId;
         $this->mixLabel = $mixLabel;
@@ -74,7 +72,7 @@ class MixView {
         $this->mixTotalWeight = $mixTotalWeight;
         $this->containerDefinition = $containerDefinition;
         $this->customer = $customer;
-        $this->items = $items;
+        $this->itemCollection = $itemCollection;
     }
 
     /**
@@ -126,10 +124,12 @@ class MixView {
     }
 
     /**
-     * @return MixItemEntityCollection|MixItemEntity[]|null
+     * @return MixViewItemCollection
      */
-    public function getItems(): ?MixItemEntityCollection
+    public function getItemCollection(): MixViewItemCollection
     {
-        return $this->items;
+        return $this->itemCollection;
     }
+
+
 }
