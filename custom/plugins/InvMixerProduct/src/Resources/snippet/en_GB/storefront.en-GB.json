@@ -9,6 +9,7 @@
                 "main": "Your Chocolate Mix",
                 "size": "Size",
                 "design": "Design",
+                "base": "Chocolate variety",
                 "label": "Name your mix"
             }
         },
@@ -18,7 +19,8 @@
             "addToCart": "Add to cart"
         },
         "placeholders": {
-            "mixLabel": "My Mix"
+            "mixLabel": "My Mix",
+            "noItems": "Noch ist Dein Mix leer. Füge jetzt Zutaten hinzu!"
         },
         "information": {
             "deliveryTime": "Expected delivery in 3-8 working days"

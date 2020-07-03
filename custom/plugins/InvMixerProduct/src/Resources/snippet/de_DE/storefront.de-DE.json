@@ -9,6 +9,7 @@
                 "main": "Dein Schoko-Mix",
                 "size": "Größe der Dose",
                 "design": "Design der Dose",
+                "base": "Schokoladensorte",
                 "label": "Wie soll Dein Mix heißen?"
             }
         },
@@ -18,7 +19,8 @@
             "addToCart": "In den Warenkorb"
         },
         "placeholders": {
-            "mixLabel": "Mein Mix"
+            "mixLabel": "Mein Mix",
+            "noItems": "Noch ist Dein Mix leer. Füge jetzt Zutaten hinzu!"
         },
         "information": {
             "deliveryTime": "Voraussichtliche Lieferung in 3-8 Werktagen"

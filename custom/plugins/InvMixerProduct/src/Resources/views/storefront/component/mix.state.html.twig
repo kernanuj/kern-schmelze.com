@@ -14,13 +14,13 @@
             </div>
         {% endblock %}
 
-        {% block inv_product_mixer_sidebar_mixer_product_sizes %}
-            {% block inv_product_mixer_sidebar_mixer_product_sizes_title %}
+        {% block inv_product_mixer_sidebar_mixer_product_size %}
+            {% block inv_product_mixer_sidebar_mixer_product_size_title %}
                 <hr/>
                 <span class="title">{{ "InvMixerProduct.sidebar.titles.size"|trans }}</span>
             {% endblock %}
 
-            {% block inv_product_mixer_sidebar_mixer_product_sizes_items %}
+            {% block inv_product_mixer_sidebar_mixer_product_size_items %}
                 <ul class="mixer-product-sizes">
                     {% for availableContainerWeight in containerDefinitionCollection.availableMaxWeights %}
                         {% if mixView.containerDefinition.fillDelimiter.weight == availableContainerWeight %}
@@ -46,13 +46,13 @@
             {% endblock %}
         {% endblock %}
 
-        {% block inv_product_mixer_sidebar_mixer_product_options %}
-            {% block inv_product_mixer_sidebar_mixer_product_options_title %}
+        {% block inv_product_mixer_sidebar_mixer_product_design %}
+            {% block inv_product_mixer_sidebar_mixer_product_design_title %}
                 <hr/>
                 <span class="title">{{ "InvMixerProduct.sidebar.titles.design"|trans }}</span>
             {% endblock %}
 
-            {% block inv_product_mixer_sidebar_mixer_product_options_items %}
+            {% block inv_product_mixer_sidebar_mixer_product_design_items %}
                 <ul class="mixer-product-designs">
                     {% for availableContainerDesign in containerDefinitionCollection.availableDesigns %}
                         {% if mixView.containerDefinition.design == availableContainerDesign %}
@@ -77,8 +77,13 @@
                 </ul>
             {% endblock %}
 
-            {% block inv_product_mixer_sidebar_mixer_product_baseProduct_items %}
-                <ul class="mixer-product-designs">
+            {% block inv_product_mixer_sidebar_mixer_product_base %}
+                {% block inv_product_mixer_sidebar_mixer_product_base_title %}
+                    <hr/>
+                    <span class="title">{{ "InvMixerProduct.sidebar.titles.base"|trans }}</span>
+                {% endblock %}
+
+                <ul class="mixer-product-base-product">
                     {% for availableContainerBaseProduct in containerDefinitionCollection.availableBaseProducts %}
                         {% if mixView.containerDefinition.baseProduct.identifier == availableContainerBaseProduct.identifier %}
                             {% set class = "active" %}
@@ -105,6 +110,10 @@
 
         {% block inv_product_mixer_sidebar_mixer_product_items %}
             <hr/>
+
+            {% if mixView.items is empty %}
+                {{ "InvMixerProduct.placeholders.noItems"|trans }}
+            {% endif %}
 
             <div class="mixer-product-items">
                 {% for mixItem in mixView.items %}
