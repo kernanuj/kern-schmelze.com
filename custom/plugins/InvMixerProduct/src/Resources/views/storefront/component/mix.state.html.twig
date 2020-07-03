@@ -129,7 +129,6 @@
                     {% set mixItemQuantity = mixViewItem.quantity %}
                     {% set mixItemWeight = mixViewItem.referencedMixItem.product.weight * mixViewItem.referencedMixItem.product.referenceUnit %}
 
-                    {# Todo: Make mixItem.product.unit available #}
                     {% set mixItemUnit = mixViewItem.unitEntity.shortCode %}
 
                     {% block inv_product_mixer_sidebar_mixer_product_item %}
