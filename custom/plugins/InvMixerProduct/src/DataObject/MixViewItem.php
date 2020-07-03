@@ -4,8 +4,10 @@
 namespace InvMixerProduct\DataObject;
 
 use InvMixerProduct\Entity\MixItemEntity;
-use InvMixerProduct\Value\Weight;
+use InvMixerProduct\Value\Price;
 use Shopware\Core\Content\Media\MediaEntity;
+use Shopware\Core\Content\Product\SalesChannel\SalesChannelProductEntity;
+use Shopware\Core\Framework\DataAbstractionLayer\Pricing\CalculatedListingPrice;
 use Shopware\Core\System\Unit\UnitEntity;
 
 class MixViewItem
@@ -17,14 +19,20 @@ class MixViewItem
      */
     private $referencedMixItem;
 
+    /**
+     * @var SalesChannelProductEntity
+     */
+    private $salesChannelProduct;
 
     /**
      * MixViewItem constructor.
      * @param MixItemEntity $referencedMixItem
+     * @param SalesChannelProductEntity $salesChannelProduct
      */
-    public function __construct(MixItemEntity $referencedMixItem)
+    public function __construct(MixItemEntity $referencedMixItem, SalesChannelProductEntity $salesChannelProduct)
     {
         $this->referencedMixItem = $referencedMixItem;
+        $this->salesChannelProduct = $salesChannelProduct;
     }
 
     /**
@@ -65,6 +73,22 @@ class MixViewItem
     public function getCover(): MediaEntity
     {
         return $this->referencedMixItem->getProduct()->getCover()->getMedia();
+    }
+
+    /**
+     * @return Price
+     */
+    public function listingPrice(): Price
+    {
+        return Price::fromFloat($this->getCalculatedListingPrice()->getFrom()->getTotalPrice());
+    }
+
+    /**
+     * @return CalculatedListingPrice
+     */
+    public function getCalculatedListingPrice(): CalculatedListingPrice
+    {
+        return $this->salesChannelProduct->getCalculatedListingPrice();
     }
 
 }

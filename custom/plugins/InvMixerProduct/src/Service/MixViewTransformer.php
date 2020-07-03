@@ -8,10 +8,13 @@ use InvMixerProduct\DataObject\MixViewItemCollection;
 use InvMixerProduct\Entity\MixEntity;
 use InvMixerProduct\Entity\MixEntity as Subject;
 use InvMixerProduct\Entity\MixItemEntity;
+use InvMixerProduct\Exception\EntityNotFoundException;
+use InvMixerProduct\Repository\SalesChannelProductRepository;
 use InvMixerProduct\Value\Identifier;
 use InvMixerProduct\Value\Label;
 use InvMixerProduct\Value\Price;
 use InvMixerProduct\Value\Weight;
+use Shopware\Core\Content\Product\SalesChannel\SalesChannelProductEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 /**
@@ -28,18 +31,29 @@ class MixViewTransformer
     private $productAccessor;
 
     /**
+     * @var SalesChannelProductRepository
+     */
+    private $salesChannelProductRepository;
+
+    /**
      * MixViewTransformer constructor.
      * @param ProductAccessorInterface $productAccessor
+     * @param SalesChannelProductRepository $salesChannelProductRepository
      */
-    public function __construct(ProductAccessorInterface $productAccessor)
-    {
+    public function __construct(
+        ProductAccessorInterface $productAccessor,
+        SalesChannelProductRepository $salesChannelProductRepository
+    ) {
         $this->productAccessor = $productAccessor;
+        $this->salesChannelProductRepository = $salesChannelProductRepository;
     }
+
 
     /**
      * @param SalesChannelContext $salesChannelContext
      * @param Subject $mix
      * @return MixView
+     * @throws EntityNotFoundException
      */
     public function transform(
         SalesChannelContext $salesChannelContext,
@@ -51,7 +65,10 @@ class MixViewTransformer
         return new MixView(
             Identifier::fromString($mix->getId()),
             Label::fromString($mix->getLabel()),
-            Price::aZero(),
+            $this->getTotalPrice(
+                $salesChannelContext,
+                $itemCollection
+            ),
             $this->getTotalWeight(
                 $salesChannelContext,
                 $mix
@@ -66,6 +83,7 @@ class MixViewTransformer
      * @param SalesChannelContext $salesChannelContext
      * @param Subject $mix
      * @return MixViewItemCollection
+     * @throws EntityNotFoundException
      */
     private function buildItemCollection(
         SalesChannelContext $salesChannelContext,
@@ -86,13 +104,38 @@ class MixViewTransformer
      * @param SalesChannelContext $salesChannelContext
      * @param MixItemEntity $itemEntity
      * @return MixViewItem
+     * @throws EntityNotFoundException
      */
     private function buildMixViewItem(
         SalesChannelContext $salesChannelContext,
         MixItemEntity $itemEntity
     ): MixViewItem {
 
-        return new MixViewItem($itemEntity);
+        return new MixViewItem(
+            $itemEntity,
+            $this->getSalesChannelProduct(
+                $salesChannelContext,
+                $itemEntity
+            )
+        );
+    }
+
+    /**
+     * @param SalesChannelContext $salesChannelContext
+     * @param MixItemEntity $mixItemEntity
+     * @return SalesChannelProductEntity
+     * @throws EntityNotFoundException
+     */
+    private function getSalesChannelProduct(
+        SalesChannelContext $salesChannelContext,
+        MixItemEntity $mixItemEntity
+    ): SalesChannelProductEntity {
+
+        return $this->salesChannelProductRepository->findOneById(
+            $mixItemEntity->getProduct()->getId(),
+            $salesChannelContext
+        );
+
     }
 
     /**
@@ -114,6 +157,25 @@ class MixViewTransformer
         }
 
         return $weight;
+    }
+
+    /**
+     * @param SalesChannelContext $salesChannelContext
+     * @param MixViewItemCollection $mixViewItemCollection
+     * @return Price
+     */
+    private function getTotalPrice(SalesChannelContext $salesChannelContext, MixViewItemCollection $mixViewItemCollection): Price
+    {
+        $price = Price::aZero();
+
+        foreach($mixViewItemCollection->getItems() as $item){
+            $price = $price->add(
+                $item->listingPrice()->multipliedBy($item->getQuantity())
+            );
+        }
+
+        return $price;
+
     }
 
 }

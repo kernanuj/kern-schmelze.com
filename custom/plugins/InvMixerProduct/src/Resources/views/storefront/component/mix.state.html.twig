@@ -122,7 +122,7 @@
 
                     {% set mixItemCover = mixViewItem.cover %}
 
-                    {% set mixItemPrice = mixViewItem.referencedMixItem.product.price.first.gross|currency %}
+                    {% set mixItemPrice = mixViewItem.listingPrice.value|currency %}
                     {% set mixItemQuantity = mixViewItem.quantity %}
                     {% set mixItemWeight = mixViewItem.referencedMixItem.product.weight * mixViewItem.referencedMixItem.product.referenceUnit %}
 
@@ -267,7 +267,6 @@
         {% endblock %}
 
         {% block inv_product_mixer_sidebar_price_info %}
-            {# Todo: Calculate and fill with value: mixView.mixTotalPrice.value #}
             {% if mixView.mixTotalPrice.value == 0 %}
                 {% set mixerProductTotalPrice = 8.49 %}
             {% else %}

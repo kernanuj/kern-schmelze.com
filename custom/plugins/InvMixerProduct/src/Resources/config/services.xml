@@ -78,6 +78,7 @@
 
         <service id="InvMixerProduct\Service\MixViewTransformer">
             <argument type="service" id="InvMixerProduct\Service\ProductAccessor"/>
+            <argument type="service" id="InvMixerProduct\Repository\SalesChannelProductRepository"/>
         </service>
 
         <service id="InvMixerProduct\Service\MixServiceInterface" alias="InvMixerProduct\Service\MixService"/>
@@ -121,6 +122,9 @@
         <service id="InvMixerProduct\Repository\ProductRepository" public="true">
             <argument type="service" id="product.repository"/>
         </service>
+        <service id="InvMixerProduct\Repository\SalesChannelProductRepository" public="true">
+            <argument type="service" id="sales_channel.product.repository"/>
+        </service>
 
         <service id="InvMixerProduct\EntityDefinition\MixItemEntityDefinition">
             <tag name="shopware.entity.definition" entiy="inv_mixer_product__mix_item"/>
@@ -131,6 +135,7 @@
             <argument type="service" id="validator"/>
             <tag name="shopware.field_serializer"/>
         </service>
+
 
         <service id="InvMixerProduct\Service\StaticConfiguration">
         </service>
