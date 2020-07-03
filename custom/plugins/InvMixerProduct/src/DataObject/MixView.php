@@ -3,14 +3,15 @@
 
 namespace InvMixerProduct\DataObject;
 
+use InvMixerProduct\Struct\ContainerDefinition;
 use InvMixerProduct\Value\Identifier;
 use InvMixerProduct\Value\Label;
-use InvMixerProduct\Struct\ContainerDefinition;
-use InvMixerProduct\Value\Weight;
 use InvMixerProduct\Value\Price;
+use InvMixerProduct\Value\Weight;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 
-class MixView {
+class MixView
+{
 
     /**
      * @var Identifier
@@ -130,6 +131,5 @@ class MixView {
     {
         return $this->itemCollection;
     }
-
 
 }

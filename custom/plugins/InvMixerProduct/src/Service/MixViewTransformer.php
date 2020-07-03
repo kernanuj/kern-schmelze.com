@@ -21,6 +21,21 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 class MixViewTransformer
 {
 
+
+    /**
+     * @var ProductAccessorInterface
+     */
+    private $productAccessor;
+
+    /**
+     * MixViewTransformer constructor.
+     * @param ProductAccessorInterface $productAccessor
+     */
+    public function __construct(ProductAccessorInterface $productAccessor)
+    {
+        $this->productAccessor = $productAccessor;
+    }
+
     /**
      * @param SalesChannelContext $salesChannelContext
      * @param Subject $mix
@@ -37,7 +52,10 @@ class MixViewTransformer
             Identifier::fromString($mix->getId()),
             Label::fromString($mix->getLabel()),
             Price::aZero(),
-            Weight::aZeroGrams(),
+            $this->getTotalWeight(
+                $salesChannelContext,
+                $mix
+            ),
             $mix->getContainerDefinition(),
             $mix->getCustomer(),
             $itemCollection
@@ -75,6 +93,27 @@ class MixViewTransformer
     ): MixViewItem {
 
         return new MixViewItem($itemEntity);
+    }
+
+    /**
+     * @param SalesChannelContext $salesChannelContext
+     * @param Subject $mixEntity
+     * @return Weight
+     */
+    private function getTotalWeight(SalesChannelContext $salesChannelContext, MixEntity $mixEntity): Weight
+    {
+        $weight = Weight::aZeroGrams();
+
+        foreach ($mixEntity->getItems() as $item) {
+            $weight->add(
+                $this->productAccessor->accessProductWeight(
+                    $item->getProduct(),
+                    $salesChannelContext
+                )->multipliedBy($item->getQuantity())
+            );
+        }
+
+        return $weight;
     }
 
 }

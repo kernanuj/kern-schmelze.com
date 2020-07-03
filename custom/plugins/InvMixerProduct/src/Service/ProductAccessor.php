@@ -45,9 +45,8 @@ class ProductAccessor implements ProductAccessorInterface
         SalesChannelContext $context
     ): Weight {
 
-        return Weight::xGrams(50);//@todo: remove when product weight is set in data
         return Weight::xGrams(
-            (int)$subject->getWeight()
+            (int)($subject->getWeight() * $subject->getReferenceUnit())
         );
     }
 

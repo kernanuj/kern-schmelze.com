@@ -4,6 +4,7 @@
 namespace InvMixerProduct\DataObject;
 
 use InvMixerProduct\Entity\MixItemEntity;
+use InvMixerProduct\Value\Weight;
 use Shopware\Core\Content\Media\MediaEntity;
 use Shopware\Core\System\Unit\UnitEntity;
 
@@ -65,4 +66,5 @@ class MixViewItem
     {
         return $this->referencedMixItem->getProduct()->getCover()->getMedia();
     }
+
 }

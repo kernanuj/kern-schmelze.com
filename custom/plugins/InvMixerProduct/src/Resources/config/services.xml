@@ -76,7 +76,9 @@
             <argument type="service" id="session"/>
         </service>
 
-        <service id="InvMixerProduct\Service\MixViewTransformer"/>
+        <service id="InvMixerProduct\Service\MixViewTransformer">
+            <argument type="service" id="InvMixerProduct\Service\ProductAccessor"/>
+        </service>
 
         <service id="InvMixerProduct\Service\MixServiceInterface" alias="InvMixerProduct\Service\MixService"/>
         <service id="InvMixerProduct\Service\MixService">
