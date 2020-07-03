@@ -77,23 +77,25 @@
                                                 </div>
                                             {% endblock %}
 
-                                            {% block inv_product_mixer_product_info_description %}
-                                                <div class="product-description">
-                                                    {{ product.translated.description|striptags|raw }}
-                                                </div>
-                                            {% endblock %}
+                                            {# Do not display product description
+                                                {% block inv_product_mixer_product_info_description %}
+                                                    <div class="product-description">
+                                                        {{ product.translated.description|striptags|raw }}
+                                                    </div>
+                                                {% endblock %}
+                                            #}
 
                                             {% block inv_product_mixer_product_box_price %}
                                                 <div class="product-price-info">
                                                     {% block inv_product_mixer_product_info_price_unit %}
-                                                        {% sw_include '@Storefront/storefront/component/product/card/price-unit.html.twig' %}
+                                                        {% sw_include '@InvMixerProduct/InvMixerProduct/component/product/card/price-unit.html.twig' %}
                                                     {% endblock %}
                                                 </div>
                                             {% endblock %}
 
                                             {% block inv_product_mixer_product_action %}
                                                 <div class="row product-action">
-                                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                         <form method="post"
                                                               action="{{ path('invMixerProduct.storeFront.mix.session.add') }}"
                                                               class="inv-mixer-product-listing-product"
@@ -108,9 +110,11 @@
                                                             </button>
                                                         </form>
                                                     </div>
+                                                    {# Do not display product info
                                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                                        <img src="{{ asset('storefront/img/mixer-product-product-info.svg', '@InvMixerProduct') }}" alt="Info" />
                                                     </div>
+                                                    #}
                                                 </div>
                                             {% endblock %}
                                         </div>
