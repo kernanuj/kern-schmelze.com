@@ -92,10 +92,12 @@ class MixViewTransformer
 
         $collection = new MixViewItemCollection();
 
-        foreach ($mix->getItems() as $item) {
-            $collection->addItem(
-                $this->buildMixViewItem($salesChannelContext, $item)
-            );
+        if ($mix->hasItems()) {
+            foreach ($mix->getItems() as $item) {
+                $collection->addItem(
+                    $this->buildMixViewItem($salesChannelContext, $item)
+                );
+            }
         }
         return $collection;
     }
@@ -140,35 +142,16 @@ class MixViewTransformer
 
     /**
      * @param SalesChannelContext $salesChannelContext
-     * @param Subject $mixEntity
-     * @return Weight
-     */
-    private function getTotalWeight(SalesChannelContext $salesChannelContext, MixEntity $mixEntity): Weight
-    {
-        $weight = Weight::aZeroGrams();
-
-        foreach ($mixEntity->getItems() as $item) {
-            $weight->add(
-                $this->productAccessor->accessProductWeight(
-                    $item->getProduct(),
-                    $salesChannelContext
-                )->multipliedBy($item->getQuantity())
-            );
-        }
-
-        return $weight;
-    }
-
-    /**
-     * @param SalesChannelContext $salesChannelContext
      * @param MixViewItemCollection $mixViewItemCollection
      * @return Price
      */
-    private function getTotalPrice(SalesChannelContext $salesChannelContext, MixViewItemCollection $mixViewItemCollection): Price
-    {
+    private function getTotalPrice(
+        SalesChannelContext $salesChannelContext,
+        MixViewItemCollection $mixViewItemCollection
+    ): Price {
         $price = Price::aZero();
 
-        foreach($mixViewItemCollection->getItems() as $item){
+        foreach ($mixViewItemCollection->getItems() as $item) {
             $price = $price->add(
                 $item->listingPrice()->multipliedBy($item->getQuantity())
             );
@@ -176,6 +159,28 @@ class MixViewTransformer
 
         return $price;
 
+    }
+
+    /**
+     * @param SalesChannelContext $salesChannelContext
+     * @param Subject $mixEntity
+     * @return Weight
+     */
+    private function getTotalWeight(SalesChannelContext $salesChannelContext, MixEntity $mixEntity): Weight
+    {
+        $weight = Weight::aZeroGrams();
+
+        if ($mixEntity->hasItems()) {
+            foreach ($mixEntity->getItems() as $item) {
+                $weight->add(
+                    $this->productAccessor->accessProductWeight(
+                        $item->getProduct(),
+                        $salesChannelContext
+                    )->multipliedBy($item->getQuantity())
+                );
+            }
+        }
+        return $weight;
     }
 
 }
