@@ -1,4 +1,5 @@
 custom/*
+phpunit.inv.xml
 
 # Uncomment again, when shopware store plugins can be required via composer
 #custom/plugins/*

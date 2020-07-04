@@ -1,11 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace InvMixerProduct\Test\Acceptance;
+namespace InvTest\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\Framework\Test\TestCaseBase\KernelLifecycleManager;
-use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Class AcceptanceTestCase
@@ -18,16 +17,18 @@ abstract class AcceptanceTestCase extends TestCase
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\DomCrawler\Crawler|null
+     * @return Response
      */
-    public function doRequest(Request $request): Crawler
+    public function doRequest(Request $request): Response
     {
 
         $browser = $this->createBrowser();
-        return $browser->request(
+        $browser->request(
             $request->getMethod(),
             $request->getFullUrl()
         );
+
+        return Response::fromRequest($browser);
 
 
     }
