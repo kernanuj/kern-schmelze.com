@@ -257,10 +257,8 @@
                         <input type="hidden" name="_csrf_token"
                                value="{{ csrf_token('invMixerProduct.storeFront.mix.session.label.set') }}">
                         <input type="text" name="label" value="{{ mixView.mixLabel }}"
-                               placeholder="{{ "InvMixerProduct.placeholders.mixLabel"|trans }}"/>
-
-                        {# Todo: Use onChange event and remove button #}
-                        <button type="submit">set label</button>
+                               placeholder="{{ "InvMixerProduct.placeholders.mixLabel"|trans }}" onchange="this.form.getElementsByTagName('button').item(0).click()"/>
+                        <button type="submit" style="display:none">set label</button>
                     </form>
                 </div>
             {% endblock %}
