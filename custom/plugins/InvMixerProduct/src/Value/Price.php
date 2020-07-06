@@ -33,6 +33,34 @@ class Price
     }
 
     /**
+     * @param float $value
+     * @return static
+     */
+    public static function fromFloat(float $value): self
+    {
+        return new self($value);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string)$this->value;
+    }
+
+    /**
+     * @param Price $left
+     * @return $this
+     */
+    public function add(Price $left): self
+    {
+        return new self(
+            $this->value + $left->getValue()
+        );
+    }
+
+    /**
      * @return float
      */
     public function getValue(): float
@@ -41,11 +69,14 @@ class Price
     }
 
     /**
-     * @return string
+     * @param int $factor
+     * @return $this
      */
-    public function __toString()
+    public function multipliedBy(int $factor): self
     {
-     return (string)$this->value;
+        return new self(
+            $this->value * $factor
+        );
     }
 
 }

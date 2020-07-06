@@ -2,44 +2,43 @@
 
 namespace InvMixerProduct\Repository;
 
-
 use InvMixerProduct\Exception\EntityNotFoundException;
-use Shopware\Core\Content\Product\ProductEntity as SubjectEntity;
-use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Content\Product\SalesChannel\SalesChannelProductEntity as SubjectEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\System\SalesChannel\Entity\SalesChannelRepository;
+use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 /**
- * Class ProductRepository
+ * Class SalesChannelProductRepository
  * @package InvMixerProduct\Repository
  */
-class ProductRepository
+class SalesChannelProductRepository
 {
 
     /**
-     * @var EntityRepositoryInterface
+     * @var SalesChannelRepository
      */
-    private $dalEntityRepository;
+    private $salesChannelRepository;
 
     /**
-     * MixEntityRepository constructor.
-     * @param EntityRepositoryInterface $dalEntityRepository
+     * ProductRepository constructor.
+     * @param SalesChannelRepository $salesChannelRepository
      */
-    public function __construct(EntityRepositoryInterface $dalEntityRepository)
+    public function __construct(SalesChannelRepository $salesChannelRepository)
     {
-        $this->dalEntityRepository = $dalEntityRepository;
+        $this->salesChannelRepository = $salesChannelRepository;
     }
 
     /**
      * @param string $id
-     * @param Context $context
+     * @param SalesChannelContext $context
      * @return SubjectEntity
      * @throws EntityNotFoundException
      */
-    public function findOneById(string $id, Context $context): SubjectEntity
+    public function findOneById(string $id, SalesChannelContext $context): SubjectEntity
     {
-        $found = $this->dalEntityRepository->search(
+        $found = $this->salesChannelRepository->search(
             (new Criteria(
                 [$id]
             )),
@@ -58,13 +57,13 @@ class ProductRepository
 
     /**
      * @param string $productNumber
-     * @param Context $context
+     * @param SalesChannelContext $context
      * @return SubjectEntity
      * @throws EntityNotFoundException
      */
-    public function findOneByProductNumber(string $productNumber, Context $context): SubjectEntity
+    public function findOneByProductNumber(string $productNumber, SalesChannelContext $context): SubjectEntity
     {
-        $found = $this->dalEntityRepository->search(
+        $found = $this->salesChannelRepository->search(
             (new Criteria())
                 ->addFilter(new EqualsFilter('productNumber', $productNumber))
                 ->addAssociation('prices')
@@ -86,13 +85,13 @@ class ProductRepository
 
     /**
      * @param string $id
-     * @param Context $context
+     * @param SalesChannelContext $context
      * @return SubjectEntity
      * @throws EntityNotFoundException
      */
-    public function mustFindOneEligibleForMixById(string $id, Context $context): SubjectEntity
+    public function mustFindOneEligibleForMixById(string $id, SalesChannelContext $context): SubjectEntity
     {
-        $found = $this->dalEntityRepository->search(
+        $found = $this->salesChannelRepository->search(
             (new Criteria(
                 [$id]
             ))
@@ -109,23 +108,7 @@ class ProductRepository
             );
         }
 
-        $this->assertIsProductEligibleForMix($found, $context);
-
         return $found;
-    }
-
-    /**
-     * @param SubjectEntity $productEntity
-     * @param Context $context
-     *
-     * @return $this
-     * @todo add further checks if a product is actually a product that can be used for a mix; ie. by checking attributes or categories
-     *
-     */
-    public function assertIsProductEligibleForMix(SubjectEntity $productEntity, Context $context): self
-    {
-
-        return $this;
     }
 
 }

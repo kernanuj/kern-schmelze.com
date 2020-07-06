@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace InvMixerProduct\Test\Library;
+namespace InvTest\Library;
 
 class Settings
 {

@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace InvMixerProduct\Test\Acceptance;
+namespace InvTest\Acceptance;
 
 /**
  * Class Request
- * @package InvMixerProduct\Test\Acceptance
+ * @package InvTest\Acceptance
  */
 class Request
 {

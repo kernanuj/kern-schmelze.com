@@ -2,6 +2,7 @@
 
 namespace InvMixerProduct\Entity;
 
+use InvMixerProduct\Value\Weight;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
@@ -68,14 +69,6 @@ class MixItemEntity extends Entity
     }
 
     /**
-     * @return string
-     */
-    public function getProductId(): string
-    {
-        return $this->productId;
-    }
-
-    /**
      * @param ProductEntity $product
      * @return MixItemEntity
      */
@@ -85,6 +78,14 @@ class MixItemEntity extends Entity
         $this->productId = $product->getId();
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProductId(): string
+    {
+        return $this->productId;
     }
 
     /**

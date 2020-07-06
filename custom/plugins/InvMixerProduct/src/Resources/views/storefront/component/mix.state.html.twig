@@ -111,26 +111,22 @@
         {% block inv_product_mixer_sidebar_mixer_product_items %}
             <hr/>
 
-            {% if mixView.items is empty %}
+            {% if mixView.itemCollection.items is empty %}
                 {{ "InvMixerProduct.placeholders.noItems"|trans }}
             {% endif %}
 
             <div class="mixer-product-items">
-                {% for mixItem in mixView.items %}
-                    {% set name = mixItem.product.translated.name %}
-                    {% set id = mixItem.product.id %}
+                {% for mixViewItem in mixView.itemCollection.items %}
+                    {% set name = mixViewItem.referencedMixItem.product.translated.name %}
+                    {% set id = mixViewItem.referencedMixItem.product.id %}
 
-                    {# Todo: Make mixItem.product.cover available #}
-                    {% set coverId = mixItem.product.coverId %}
-                    {% set mediaCollection = searchMedia([coverId], context.context) %}
-                    {% set mixItemCover = mediaCollection.get(coverId) %}
+                    {% set mixItemCover = mixViewItem.cover %}
 
-                    {% set mixItemPrice = mixItem.product.price.first.gross|currency %}
-                    {% set mixItemQuantity = mixItem.quantity %}
-                    {% set mixItemWeight = mixItem.product.weight * mixItem.product.referenceUnit %}
+                    {% set mixItemPrice = mixViewItem.listingPrice.value|currency %}
+                    {% set mixItemQuantity = mixViewItem.quantity %}
+                    {% set mixItemWeight = mixViewItem.referencedMixItem.product.weight * mixViewItem.referencedMixItem.product.referenceUnit %}
 
-                    {# Todo: Make mixItem.product.unit available #}
-                    {% set mixItemUnit = "g" %}
+                    {% set mixItemUnit = mixViewItem.unitEntity.shortCode %}
 
                     {% block inv_product_mixer_sidebar_mixer_product_item %}
                         <div class="row mixer-product-item-wrapper">
@@ -145,7 +141,7 @@
                                             } %}
 
                                             {% sw_thumbnails 'product-image-thumbnails' with {
-                                                media: cover,
+                                                media: mixItemCover,
                                                 sizes: {
                                                     'xs': '501px',
                                                     'sm': '315px',
@@ -192,8 +188,8 @@
                                               action="{{ path('invMixerProduct.storeFront.mix.session.item.quantity.set') }}"
                                               data-inv-mixer-mix-state-action="true"
                                         >
-                                            {% set newQuantity = mixItem.quantity  + 1 %}
-                                            <input type="hidden" name="product_id" value="{{ mixItem.product.id }}">
+                                            {% set newQuantity = mixViewItem.quantity  + 1 %}
+                                            <input type="hidden" name="product_id" value="{{ mixViewItem.productId }}">
                                             <input type="hidden" name="_csrf_token"
                                                    value="{{ csrf_token('invMixerProduct.storeFront.mix.session.item.quantity.set') }}">
                                             <input type="hidden" name="quantity" value="{{ newQuantity }}">
@@ -205,8 +201,8 @@
                                               action="{{ path('invMixerProduct.storeFront.mix.session.item.quantity.set') }}"
                                               data-inv-mixer-mix-state-action="true"
                                         >
-                                            {% set newQuantity = mixItem.quantity  - 1 %}
-                                            <input type="hidden" name="product_id" value="{{ mixItem.product.id }}">
+                                            {% set newQuantity = mixViewItem.quantity  - 1 %}
+                                            <input type="hidden" name="product_id" value="{{ mixViewItem.productId }}">
                                             <input type="hidden" name="_csrf_token"
                                                    value="{{ csrf_token('invMixerProduct.storeFront.mix.session.item.quantity.set') }}">
                                             <input type="hidden" name="quantity" value="{{ newQuantity }}">
@@ -218,7 +214,7 @@
                                               action="{{ path('invMixerProduct.storeFront.mix.session.item.quantity.set') }}"
                                               data-inv-mixer-mix-state-action="true"
                                         >
-                                            <input type="hidden" name="product_id" value="{{ mixItem.product.id }}">
+                                            <input type="hidden" name="product_id" value="{{ mixViewItem.productId }}">
                                             <input type="hidden" name="_csrf_token"
                                                    value="{{ csrf_token('invMixerProduct.storeFront.mix.session.item.quantity.set') }}">
                                             <input type="hidden" name="quantity" value="0">
@@ -261,17 +257,14 @@
                         <input type="hidden" name="_csrf_token"
                                value="{{ csrf_token('invMixerProduct.storeFront.mix.session.label.set') }}">
                         <input type="text" name="label" value="{{ mixView.mixLabel }}"
-                               placeholder="{{ "InvMixerProduct.placeholders.mixLabel"|trans }}"/>
-
-                        {# Todo: Use onChange event and remove button #}
-                        <button type="submit">set label</button>
+                               placeholder="{{ "InvMixerProduct.placeholders.mixLabel"|trans }}" onchange="this.form.getElementsByTagName('button').item(0).click()"/>
+                        <button type="submit" style="display:none">set label</button>
                     </form>
                 </div>
             {% endblock %}
         {% endblock %}
 
         {% block inv_product_mixer_sidebar_price_info %}
-            {# Todo: Calculate and fill with value: mixView.mixTotalPrice.value #}
             {% if mixView.mixTotalPrice.value == 0 %}
                 {% set mixerProductTotalPrice = 8.49 %}
             {% else %}
@@ -369,7 +362,10 @@
         Container Design: {{ mixView.containerDefinition.design }}
     </p>
     <p>
-        Container MaxWeight: {{ mixView.containerDefinition.maxContainerWeight }}
+        TotalWeight: {{  mixView.mixTotalWeight }}
+    </p>
+    <p>
+        Container MaxWeight: {{ mixView.containerDefinition.fillDelimiter.weight }}
     </p>
     <p>
         Mix Label: {{ mixView.mixLabel }}

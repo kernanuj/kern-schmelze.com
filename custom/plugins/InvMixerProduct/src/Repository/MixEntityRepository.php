@@ -169,7 +169,10 @@ class MixEntityRepository
             ))
                 ->addAssociation('items')
                 ->addAssociation('items.mix')
-                ->addAssociation('items.product'),
+                ->addAssociation('items.product')
+                ->addAssociation('items.product.prices')
+                ->addAssociation('items.product.unit')
+                ->addAssociation('items.product.cover'),
             $context
         )->first();
 

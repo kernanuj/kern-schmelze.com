@@ -32,7 +32,7 @@ final class Constants
     /**
      *
      */
-    public const LABEL_REGEX_PATTERN = "/^[a-z0-9\.,\-öäü\(\):]{1,}$/i";
+    public const LABEL_REGEX_PATTERN = "/^[a-z0-9\.,\-öäü\(\):\s]{1,}$/i";
 
     /**
      * @return Design[]

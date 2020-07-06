@@ -30,6 +30,11 @@
             "Shopware\\Production\\": "src\/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "InvTest\\": "tests"
+        }
+    },
     "repositories": [
         {
             "type": "path",
