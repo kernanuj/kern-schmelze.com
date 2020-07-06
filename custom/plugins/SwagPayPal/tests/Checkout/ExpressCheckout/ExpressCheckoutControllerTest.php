@@ -8,6 +8,7 @@
 namespace Swag\PayPal\Test\Checkout\ExpressCheckout;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Customer\SalesChannel\AccountRegistrationService;
@@ -19,7 +20,8 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
+use Shopware\Core\Framework\Test\TestCaseBase\BasicTestDataBehaviour;
+use Shopware\Core\Framework\Test\TestCaseBase\DatabaseTransactionBehaviour;
 use Shopware\Core\System\Currency\CurrencyEntity;
 use Shopware\Core\System\SalesChannel\Context\SalesChannelContextFactory;
 use Shopware\Core\System\SalesChannel\SalesChannel\SalesChannelContextSwitcher;
@@ -32,6 +34,7 @@ use Swag\PayPal\Payment\Builder\CartPaymentBuilder;
 use Swag\PayPal\Payment\PayPalPaymentHandler;
 use Swag\PayPal\Setting\SwagPayPalSettingStruct;
 use Swag\PayPal\Test\Helper\ServicesTrait;
+use Swag\PayPal\Test\Mock\LoggerMock;
 use Swag\PayPal\Test\Mock\PayPal\Client\_fixtures\CreateResponseFixture;
 use Swag\PayPal\Test\Mock\PayPal\Client\_fixtures\GetSaleResponseFixture;
 use Swag\PayPal\Test\Mock\Setting\Service\SettingsServiceMock;
@@ -39,10 +42,12 @@ use Swag\PayPal\Util\LocaleCodeProvider;
 use Swag\PayPal\Util\PaymentMethodUtil;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function json_decode;
 
 class ExpressCheckoutControllerTest extends TestCase
 {
-    use IntegrationTestBehaviour;
+    use BasicTestDataBehaviour;
+    use DatabaseTransactionBehaviour;
     use ServicesTrait;
 
     public const TEST_PAYMENT_ID_WITHOUT_STATE = 'testPaymentIdWithoutState';
@@ -73,7 +78,7 @@ class ExpressCheckoutControllerTest extends TestCase
         $content = $response->getContent();
         static::assertNotFalse($content);
 
-        $token = \json_decode($content, true)['token'];
+        $token = json_decode($content, true)['token'];
 
         static::assertSame(Response::HTTP_OK, $response->getStatusCode());
         static::assertSame(CreateResponseFixture::CREATE_PAYMENT_APPROVAL_TOKEN, $token);
@@ -115,7 +120,7 @@ class ExpressCheckoutControllerTest extends TestCase
         static::assertNotNull($countryState);
         static::assertSame('New York', $countryState->getName());
 
-        $cartToken = \json_decode($content, true)['cart_token'];
+        $cartToken = json_decode($content, true)['cart_token'];
         /** @var ExpressCheckoutData|null $ecsCartExtension */
         $ecsCartExtension = $cartService->getCart($cartToken, $salesChannelContext)
             ->getExtension(ExpressCheckoutController::PAYPAL_EXPRESS_CHECKOUT_CART_EXTENSION_ID);
@@ -174,7 +179,7 @@ class ExpressCheckoutControllerTest extends TestCase
         /** @var SalesChannelEntity|null $salesChannel */
         $salesChannel = $salesChannelRepo->search(new Criteria(), $context)->first();
         if ($salesChannel === null) {
-            throw new \RuntimeException('No SalesChannelFound');
+            throw new RuntimeException('No SalesChannelFound');
         }
 
         $salesChannelRepo->update([
@@ -268,7 +273,8 @@ class ExpressCheckoutControllerTest extends TestCase
             $cartPaymentBuilder,
             $cartService,
             $paymentResource,
-            $route
+            $route,
+            new LoggerMock()
         );
     }
 

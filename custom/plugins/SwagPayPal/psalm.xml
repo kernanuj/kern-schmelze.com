@@ -55,20 +55,49 @@
 
         <DeprecatedMethod>
             <errorLevel type="info">
-                <directory name="tests"/>
+                <referencedMethod name="Shopware\Core\Framework\Test\TestCaseBase\AssertArraySubsetBehaviour::silentAssertArraySubset"/>
+                <!-- <deprecated> tag:v2.0.0 - Remove with 2.0.0 -->
+                <referencedMethod name="Swag\PayPal\Checkout\SPBCheckout\SPBMarksData::isUseAlternativePaymentMethods"/>
+                <!-- <deprecated> tag:v2.0.0 - Remove with 2.0.0 -->
+                <referencedMethod name="Swag\PayPal\Checkout\ExpressCheckout\ExpressCheckoutButtonData::getAddLineItemUrl"/>
+                <!-- <deprecated> tag:v2.0.0 - Remove with 2.0.0 -->
+                <referencedMethod name="Swag\PayPal\Checkout\SPBCheckout\SPBCheckoutButtonData::getErrorParameter"/>
             </errorLevel>
         </DeprecatedMethod>
 
-        <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
+        <DeprecatedConstant>
+            <errorLevel type="info">
+                <!-- <deprecated> tag:v2.0.0 - Remove with 2.0.0 -->
+                <file name="src/Checkout/SPBCheckout/SPBCheckoutButtonData.php"/>
+                <!-- <deprecated> tag:v2.0.0 - Remove with 2.0.0 -->
+                <file name="tests/Checkout/SPBCheckout/SPBCheckoutSubscriberTest.php"/>
+            </errorLevel>
+        </DeprecatedConstant>
 
+        <DeprecatedProperty>
+            <errorLevel type="info">
+                <!-- <deprecated> tag:v2.0.0 - Remove with 2.0.0 -->
+                <referencedProperty name="Swag\PayPal\Checkout\Plus\PlusPaymentFinalizeController::$logger"/>
+                <!-- <deprecated> tag:v2.0.0 - Remove with 2.0.0 -->
+                <referencedProperty name="Swag\PayPal\Checkout\ExpressCheckout\ExpressCheckoutController::$logger"/>
+            </errorLevel>
+        </DeprecatedProperty>
+
+        <UnresolvableInclude>
+            <errorLevel type="info">
+                <file name="tests/TestBootstrap.php"/>
+            </errorLevel>
+        </UnresolvableInclude>
+
+        <PossiblyNullReference>
+            <errorLevel type="info">
+                <!-- Psalm does not recognize the markTestSkipped method call as terminating -->
+                <file name="tests/Checkout/ExpressCheckout/ExpressCheckoutSubscriberTest.php"/>
+            </errorLevel>
+        </PossiblyNullReference>
+
+        <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
         <PropertyNotSetInConstructor errorLevel="info"/>
         <MissingConstructor errorLevel="info"/>
-
-        <UnresolvableInclude errorLevel="info"/>
-
-        <!-- level 4 issues - points to possible deficiencies in logic, higher false-positives -->
-        <TypeCoercion errorLevel="info"/>
-        <PossiblyNullArgument errorLevel="info"/>
-
     </issueHandlers>
 </psalm>

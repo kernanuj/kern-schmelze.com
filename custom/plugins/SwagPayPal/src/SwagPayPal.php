@@ -19,9 +19,12 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Swag\PayPal\Util\Lifecycle\ActivateDeactivate;
 use Swag\PayPal\Util\Lifecycle\InstallUninstall;
 use Swag\PayPal\Util\Lifecycle\Update;
+use Swag\PayPal\Webhook\WebhookService;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use function get_class;
 
 class SwagPayPal extends Plugin
 {
@@ -76,6 +79,10 @@ class SwagPayPal extends Plugin
         $ruleRepository = $this->container->get('rule.repository');
         /** @var EntityRepositoryInterface $countryRepository */
         $countryRepository = $this->container->get('country.repository');
+        /** @var PluginIdProvider $pluginIdProvider */
+        $pluginIdProvider = $this->container->get(PluginIdProvider::class);
+        /** @var SystemConfigService $systemConfigService */
+        $systemConfigService = $this->container->get(SystemConfigService::class);
 
         (new InstallUninstall(
             $systemConfigRepository,
@@ -83,9 +90,9 @@ class SwagPayPal extends Plugin
             $salesChannelRepository,
             $ruleRepository,
             $countryRepository,
-            $this->container->get(PluginIdProvider::class),
-            $this->container->get(SystemConfigService::class),
-            \get_class($this)
+            $pluginIdProvider,
+            $systemConfigService,
+            get_class($this)
         ))->install($installContext->getContext());
 
         parent::install($installContext);
@@ -111,6 +118,10 @@ class SwagPayPal extends Plugin
         $countryRepository = $this->container->get('country.repository');
         /** @var EntityRepositoryInterface $ruleRepository */
         $ruleRepository = $this->container->get('rule.repository');
+        /** @var PluginIdProvider $pluginIdProvider */
+        $pluginIdProvider = $this->container->get(PluginIdProvider::class);
+        /** @var SystemConfigService $systemConfigService */
+        $systemConfigService = $this->container->get(SystemConfigService::class);
 
         (new InstallUninstall(
             $systemConfigRepository,
@@ -118,9 +129,9 @@ class SwagPayPal extends Plugin
             $salesChannelRepository,
             $ruleRepository,
             $countryRepository,
-            $this->container->get(PluginIdProvider::class),
-            $this->container->get(SystemConfigService::class),
-            \get_class($this)
+            $pluginIdProvider,
+            $systemConfigService,
+            get_class($this)
         ))->uninstall($context);
 
         parent::uninstall($uninstallContext);
@@ -128,7 +139,18 @@ class SwagPayPal extends Plugin
 
     public function update(UpdateContext $updateContext): void
     {
-        (new Update($this->container->get(SystemConfigService::class)))->update($updateContext);
+        /** @var SystemConfigService $systemConfigService */
+        $systemConfigService = $this->container->get(SystemConfigService::class);
+
+        $webhookService = null;
+        try {
+            /** @var WebhookService|null $webhookService */
+            $webhookService = $this->container->get(WebhookService::class);
+        } catch (ServiceNotFoundException $e) {
+            // Plugin is not activated
+        }
+
+        (new Update($systemConfigService, $webhookService))->update($updateContext);
         parent::update($updateContext);
     }
 

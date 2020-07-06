@@ -20,7 +20,7 @@ use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
+use Shopware\Core\Framework\Test\TestCaseBase\DatabaseTransactionBehaviour;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SalesChannel\Context\SalesChannelContextFactory;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -49,11 +49,13 @@ use Swag\PayPal\Test\Mock\Repositories\PaymentMethodRepoMock;
 use Swag\PayPal\Test\Mock\Repositories\SalesChannelRepoMock;
 use Swag\PayPal\Test\Mock\Setting\Service\SettingsServiceMock;
 use Swag\PayPal\Util\PaymentMethodUtil;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\RouterInterface;
 
 class ExpressCheckoutSubscriberTest extends TestCase
 {
-    use IntegrationTestBehaviour;
+    use DatabaseTransactionBehaviour;
     use ServicesTrait;
 
     public function testGetSubscribedEvents(): void
@@ -396,6 +398,7 @@ class ExpressCheckoutSubscriberTest extends TestCase
 
         /** @var CartService $cartService */
         $cartService = $this->getContainer()->get(CartService::class);
+        /** @var RouterInterface $router */
         $router = $this->getContainer()->get('router');
 
         return new ExpressCheckoutSubscriber(
@@ -523,8 +526,17 @@ class ExpressCheckoutSubscriberTest extends TestCase
 
         $request = new Request([], [], ['productId' => $product->getId()]);
 
-        /** @var QuickviewPageletLoader $quickViewLoader */
-        $quickViewLoader = $this->getContainer()->get(QuickviewPageletLoader::class);
+        $quickViewLoader = null;
+        try {
+            /** @var QuickviewPageletLoader $quickViewLoader */
+            $quickViewLoader = $this->getContainer()->get(QuickviewPageletLoader::class);
+        } catch (ServiceNotFoundException $e) {
+        }
+
+        if ($quickViewLoader === null) {
+            static::markTestSkipped('SwagCmsExtensions plugin is not installed');
+        }
+
         /** @var QuickviewPagelet $pagelet */
         $pagelet = $quickViewLoader->load($request, $salesChannelContext);
 

@@ -12,6 +12,7 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 use Swag\PayPal\PayPal\Api\Common\PayPalStruct;
 use Swag\PayPal\PayPal\Api\OAuthCredentials;
 use Swag\PayPal\PayPal\Api\Payment\Payer\ExecutePayerInfo;
@@ -39,6 +40,12 @@ use Swag\PayPal\Test\Payment\PayPalPaymentHandlerTest;
 use Swag\PayPal\Test\PayPal\Resource\PaymentResourceTest;
 use Swag\PayPal\Test\PayPal\Resource\WebhookResourceTest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use function json_decode;
+use function json_encode;
+use function mb_strpos;
+use function mb_substr;
+use function print_r;
+use function strncmp;
 
 class GuzzleClientMock extends Client
 {
@@ -63,7 +70,7 @@ class GuzzleClientMock extends Client
 
     /**
      * @throws ClientException
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function post(string $uri, array $options = []): ResponseInterface
     {
@@ -75,7 +82,7 @@ class GuzzleClientMock extends Client
      */
     public function patch(string $uri, array $options = []): ResponseInterface
     {
-        return new Response(200, [], $this->handlePatchRequests($uri, $options['json'] ?? null));
+        return new Response(200, [], $this->handlePatchRequests($uri, $options['json']));
     }
 
     public function getData(): array
@@ -89,42 +96,42 @@ class GuzzleClientMock extends Client
     private function handleGetRequests(string $resourceUri): string
     {
         $response = [];
-        if (\strncmp($resourceUri, RequestUri::WEBHOOK_RESOURCE, 22) === 0) {
+        if ( strncmp($resourceUri, RequestUri::WEBHOOK_RESOURCE, 22) === 0) {
             $response = $this->handleWebhookGetRequests($resourceUri);
         }
 
-        if (\strncmp($resourceUri, RequestUri::PAYMENT_RESOURCE, 16) === 0) {
+        if ( strncmp($resourceUri, RequestUri::PAYMENT_RESOURCE, 16) === 0) {
             $response = $this->handlePaymentGetRequests($resourceUri);
-            if (\mb_strpos($resourceUri, ExpressCheckoutControllerTest::TEST_PAYMENT_ID_WITHOUT_STATE) !== false) {
+            if ( mb_strpos($resourceUri, ExpressCheckoutControllerTest::TEST_PAYMENT_ID_WITHOUT_STATE) !== false) {
                 $response['payer']['payer_info']['shipping_address']['state'] = null;
             }
 
-            if (\mb_strpos($resourceUri, ExpressCheckoutControllerTest::TEST_PAYMENT_ID_WITH_COUNTRY_WITHOUT_STATES) !== false) {
+            if ( mb_strpos($resourceUri, ExpressCheckoutControllerTest::TEST_PAYMENT_ID_WITH_COUNTRY_WITHOUT_STATES) !== false) {
                 $response['payer']['payer_info']['shipping_address']['country_code'] = 'NL';
             }
 
-            if (\mb_strpos($resourceUri, ExpressCheckoutControllerTest::TEST_PAYMENT_ID_WITH_STATE_NOT_FOUND) !== false) {
+            if ( mb_strpos($resourceUri, ExpressCheckoutControllerTest::TEST_PAYMENT_ID_WITH_STATE_NOT_FOUND) !== false) {
                 $response['payer']['payer_info']['shipping_address']['state'] = 'XY';
             }
         }
 
-        if (\strncmp($resourceUri, RequestUri::AUTHORIZATION_RESOURCE, 22) === 0) {
+        if ( strncmp($resourceUri, RequestUri::AUTHORIZATION_RESOURCE, 22) === 0) {
             $response = GetAuthorizeResponseFixture::get();
         }
 
-        if (\strncmp($resourceUri, RequestUri::CAPTURE_RESOURCE, 16) === 0) {
+        if ( strncmp($resourceUri, RequestUri::CAPTURE_RESOURCE, 16) === 0) {
             $response = CaptureAuthorizationResponseFixture::get();
         }
 
-        if (\strncmp($resourceUri, RequestUri::ORDERS_RESOURCE, 15) === 0) {
+        if ( strncmp($resourceUri, RequestUri::ORDERS_RESOURCE, 15) === 0) {
             $response = GetOrderResponseFixture::get();
         }
 
-        if (\strncmp($resourceUri, RequestUri::SALE_RESOURCE, 13) === 0) {
+        if ( strncmp($resourceUri, RequestUri::SALE_RESOURCE, 13) === 0) {
             $response = GetSaleResponseFixture::get();
         }
 
-        if (\strncmp($resourceUri, 'customer/partners/', 18) === 0) {
+        if ( strncmp($resourceUri, 'customer/partners/', 18) === 0) {
             $response = [
                 'client_id' => ConstantsForTesting::VALID_CLIENT_ID,
                 'client_secret' => ConstantsForTesting::VALID_CLIENT_SECRET,
@@ -136,19 +143,19 @@ class GuzzleClientMock extends Client
 
     private function handlePaymentGetRequests(string $resourceUri): array
     {
-        if (\mb_strpos($resourceUri, PaymentResourceTest::ORDER_PAYMENT_ID) !== false) {
+        if ( mb_strpos($resourceUri, PaymentResourceTest::ORDER_PAYMENT_ID) !== false) {
             return GetOrderResponseFixture::get();
         }
 
-        if (\mb_strpos($resourceUri, PaymentResourceTest::CAPTURED_ORDER_PAYMENT_ID) !== false) {
+        if ( mb_strpos($resourceUri, PaymentResourceTest::CAPTURED_ORDER_PAYMENT_ID) !== false) {
             return GetCapturedOrderResponseFixture::get();
         }
 
-        if (\mb_strpos($resourceUri, PaymentResourceTest::AUTHORIZE_PAYMENT_ID) !== false) {
+        if ( mb_strpos($resourceUri, PaymentResourceTest::AUTHORIZE_PAYMENT_ID) !== false) {
             return GetAuthorizeResponseFixture::get();
         }
 
-        if (\mb_strpos($resourceUri, PaymentResourceTest::SALE_WITH_REFUND_PAYMENT_ID) !== false) {
+        if ( mb_strpos($resourceUri, PaymentResourceTest::SALE_WITH_REFUND_PAYMENT_ID) !== false) {
             return GetSaleWithRefundResponseFixture::get();
         }
 
@@ -160,11 +167,11 @@ class GuzzleClientMock extends Client
      */
     private function handleWebhookGetRequests(string $resourceUri): array
     {
-        if (\mb_strpos($resourceUri, WebhookResourceTest::THROW_EXCEPTION_WITH_RESPONSE) !== false) {
+        if ( mb_strpos($resourceUri, WebhookResourceTest::THROW_EXCEPTION_WITH_RESPONSE) !== false) {
             throw $this->createClientExceptionWithResponse();
         }
 
-        if (\mb_strpos($resourceUri, WebhookResourceTest::THROW_EXCEPTION_INVALID_ID) !== false) {
+        if ( mb_strpos($resourceUri, WebhookResourceTest::THROW_EXCEPTION_INVALID_ID) !== false) {
             throw $this->createClientExceptionWithInvalidId();
         }
 
@@ -173,7 +180,7 @@ class GuzzleClientMock extends Client
 
     /**
      * @throws ClientException
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function handlePostRequests(string $resourceUri, ?PayPalStruct $data): string
     {
@@ -196,19 +203,19 @@ class GuzzleClientMock extends Client
             $response = CreateTokenResponseFixture::get();
         }
 
-        if (\strncmp($resourceUri, RequestUri::PAYMENT_RESOURCE, 16) === 0) {
+        if ( strncmp($resourceUri, RequestUri::PAYMENT_RESOURCE, 16) === 0) {
             $dataJson = $this->ensureValidJson($data);
-            $dataArray = \json_decode($dataJson, true);
-            if (isset($dataArray['transactions'][0]['invoice_number']) && $dataArray['transactions'][0]['invoice_number'] === PayPalPaymentHandlerTest::PAYPAL_RESOURCE_THROWS_EXCEPTION) {
-                throw new \RuntimeException('A PayPal test error occurred.');
+            $dataArray = json_decode($dataJson, true);
+            if (isset($dataArray['transactions'][0]['invoice_number']) && $dataArray['transactions'][0]['invoice_number'] === ConstantsForTesting::PAYPAL_RESOURCE_THROWS_EXCEPTION) {
+                throw new RuntimeException('A PayPal test error occurred.');
             }
 
-            if (\mb_substr($resourceUri, -8) === '/execute') {
-                if (($data instanceof ExecutePayerInfo) && $data->getPayerId() === PayPalPaymentHandlerTest::PAYPAL_RESOURCE_THROWS_EXCEPTION) {
-                    throw new \RuntimeException('A PayPal test error occurred.');
+            if ( mb_substr($resourceUri, -8) === '/execute') {
+                if (($data instanceof ExecutePayerInfo) && $data->getPayerId() === ConstantsForTesting::PAYPAL_RESOURCE_THROWS_EXCEPTION) {
+                    throw new RuntimeException('A PayPal test error occurred.');
                 }
                 if ($data === null) {
-                    throw new \RuntimeException('Execute requests needs valid ExecutePayerInfo struct');
+                    throw new RuntimeException('Execute requests needs valid ExecutePayerInfo struct');
                 }
                 $response = $this->handlePaymentExecuteRequests($data);
             } else {
@@ -216,34 +223,34 @@ class GuzzleClientMock extends Client
             }
         }
 
-        if (\mb_substr($resourceUri, -22) === RequestUri::WEBHOOK_RESOURCE) {
+        if ( mb_substr($resourceUri, -22) === RequestUri::WEBHOOK_RESOURCE) {
             if ($data === null) {
-                throw new \RuntimeException('Create webhook request needs valid Webhook struct');
+                throw new RuntimeException('Create webhook request needs valid Webhook struct');
             }
             $response = $this->handleWebhookCreateRequests($data);
         }
 
-        if (\strncmp($resourceUri, RequestUri::SALE_RESOURCE, 13) === 0 && \mb_substr($resourceUri, -7) === '/refund') {
+        if ( strncmp($resourceUri, RequestUri::SALE_RESOURCE, 13) === 0 && mb_substr($resourceUri, -7) === '/refund') {
             $response = RefundSaleResponseFixture::get();
         }
 
-        if (\strncmp($resourceUri, RequestUri::CAPTURE_RESOURCE, 16) === 0 && \mb_substr($resourceUri, -7) === '/refund') {
+        if ( strncmp($resourceUri, RequestUri::CAPTURE_RESOURCE, 16) === 0 && mb_substr($resourceUri, -7) === '/refund') {
             $response = RefundCaptureResponseFixture::get();
         }
 
-        if (\strncmp($resourceUri, RequestUri::AUTHORIZATION_RESOURCE, 22) === 0 && \mb_substr($resourceUri, -8) === '/capture') {
+        if ( strncmp($resourceUri, RequestUri::AUTHORIZATION_RESOURCE, 22) === 0 && mb_substr($resourceUri, -8) === '/capture') {
             $response = CaptureAuthorizationResponseFixture::get();
         }
 
-        if (\strncmp($resourceUri, RequestUri::AUTHORIZATION_RESOURCE, 22) === 0 && \mb_substr($resourceUri, -5) === '/void') {
+        if ( strncmp($resourceUri, RequestUri::AUTHORIZATION_RESOURCE, 22) === 0 && mb_substr($resourceUri, -5) === '/void') {
             $response = VoidAuthorizationResponseFixture::get();
         }
 
-        if (\strncmp($resourceUri, RequestUri::ORDERS_RESOURCE, 15) === 0 && \mb_substr($resourceUri, -8) === '/capture') {
+        if ( strncmp($resourceUri, RequestUri::ORDERS_RESOURCE, 15) === 0 && mb_substr($resourceUri, -8) === '/capture') {
             $response = CaptureOrdersResponseFixture::get();
         }
 
-        if (\strncmp($resourceUri, RequestUri::ORDERS_RESOURCE, 15) === 0 && \mb_substr($resourceUri, -8) === '/do-void') {
+        if ( strncmp($resourceUri, RequestUri::ORDERS_RESOURCE, 15) === 0 && mb_substr($resourceUri, -8) === '/do-void') {
             $response = VoidOrderResponseFixture::get();
         }
 
@@ -281,12 +288,12 @@ class GuzzleClientMock extends Client
      */
     private function handleWebhookCreateRequests(PayPalStruct $data): array
     {
-        $createWebhookJson = \json_encode($data);
-        if ($createWebhookJson && \mb_strpos($createWebhookJson, WebhookResourceTest::TEST_URL) !== false) {
+        $createWebhookJson = json_encode($data);
+        if ($createWebhookJson && mb_strpos($createWebhookJson, WebhookResourceTest::TEST_URL) !== false) {
             throw $this->createClientExceptionWithResponse();
         }
 
-        if ($createWebhookJson && \mb_strpos($createWebhookJson, WebhookResourceTest::TEST_URL_ALREADY_EXISTS) !== false) {
+        if ($createWebhookJson && mb_strpos($createWebhookJson, WebhookResourceTest::TEST_URL_ALREADY_EXISTS) !== false) {
             throw $this->createClientExceptionWebhookAlreadyExists();
         }
 
@@ -299,11 +306,11 @@ class GuzzleClientMock extends Client
     private function handlePatchRequests(string $resourceUri, array $data): string
     {
         $response = [];
-        if (\mb_strpos($resourceUri, WebhookResourceTest::THROW_EXCEPTION_INVALID_ID) !== false) {
+        if ( mb_strpos($resourceUri, WebhookResourceTest::THROW_EXCEPTION_INVALID_ID) !== false) {
             throw $this->createClientExceptionWithInvalidId();
         }
 
-        if (\mb_strpos($resourceUri, self::TEST_WEBHOOK_ID) !== false) {
+        if ( mb_strpos($resourceUri, self::TEST_WEBHOOK_ID) !== false) {
             throw $this->createClientExceptionWithResponse();
         }
 
@@ -323,21 +330,21 @@ class GuzzleClientMock extends Client
 
     private function createClientExceptionWithResponse(int $errorCode = SymfonyResponse::HTTP_BAD_REQUEST): ClientException
     {
-        $jsonString = (string) \json_encode(['name' => 'TEST', 'message' => self::GENERAL_CLIENT_EXCEPTION_MESSAGE]);
+        $jsonString = (string) json_encode(['name' => 'TEST', 'message' => self::GENERAL_CLIENT_EXCEPTION_MESSAGE]);
 
         return $this->createClientExceptionFromResponseString($jsonString, $errorCode);
     }
 
     private function createClientExceptionWithInvalidId(): ClientException
     {
-        $jsonString = (string) \json_encode(['name' => 'INVALID_RESOURCE_ID', 'message' => self::GENERAL_CLIENT_EXCEPTION_MESSAGE]);
+        $jsonString = (string) json_encode(['name' => 'INVALID_RESOURCE_ID', 'message' => self::GENERAL_CLIENT_EXCEPTION_MESSAGE]);
 
         return $this->createClientExceptionFromResponseString($jsonString);
     }
 
     private function createClientExceptionWebhookAlreadyExists(): ClientException
     {
-        $jsonString = (string) \json_encode(['name' => 'WEBHOOK_URL_ALREADY_EXISTS', 'message' => self::GENERAL_CLIENT_EXCEPTION_MESSAGE]);
+        $jsonString = (string) json_encode(['name' => 'WEBHOOK_URL_ALREADY_EXISTS', 'message' => self::GENERAL_CLIENT_EXCEPTION_MESSAGE]);
 
         return $this->createClientExceptionFromResponseString($jsonString);
     }
@@ -354,13 +361,13 @@ class GuzzleClientMock extends Client
     /**
      * @param array|PayPalStruct|null $data
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function ensureValidJson($data): string
     {
-        $encodedData = \json_encode($data);
+        $encodedData = json_encode($data);
         if ($encodedData === false) {
-            throw new \RuntimeException(\print_r($data, true) . ' could not be converted to valid JSON');
+            throw new RuntimeException( print_r($data, true) . ' could not be converted to valid JSON');
         }
 
         return $encodedData;

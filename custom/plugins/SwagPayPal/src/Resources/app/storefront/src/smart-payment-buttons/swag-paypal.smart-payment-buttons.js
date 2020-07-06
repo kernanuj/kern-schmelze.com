@@ -1,7 +1,8 @@
 /* eslint-disable import/no-unresolved */
 
-import StoreApiClient from 'src/service/store-api-client.service';
 import DomAccess from 'src/helper/dom-access.helper';
+import FormSerializeUtil from 'src/utility/form/form-serialize.util';
+import StoreApiClient from 'src/service/store-api-client.service';
 import SwagPaypalAbstractButtons from '../swag-paypal.abstract-buttons';
 
 export default class SwagPayPalSmartPaymentButtons extends SwagPaypalAbstractButtons {
@@ -67,16 +68,55 @@ export default class SwagPayPalSmartPaymentButtons extends SwagPaypalAbstractBut
          *
          * @type string
          */
-        checkoutConfirmUrl: ''
+        checkoutConfirmUrl: '',
+
+        /**
+         * Is set, if the plugin is used on the order edit page
+         *
+         * @type string|null
+         */
+        orderId: null,
+
+        /**
+         * URL to the checkout confirm page
+         *
+         * @type string|null
+         */
+        accountOrderEditUrl: '',
+
+        /**
+         * Selector of the selected payment method
+         *
+         * @type string
+         */
+        checkedPaymentMethodSelector: 'input.payment-method-input[checked=checked]',
+
+        /**
+         * Selector of the order confirm form
+         *
+         * @type string
+         */
+        confirmOrderFormSelector: '#confirmOrderForm',
+
+        /**
+         * Selector of the submit button of the order confirm form
+         *
+         * @type string
+         */
+        confirmOrderButtonSelector: 'button[type="submit"]',
+
+        /**
+         * URL for adding flash error message
+         *
+         * @type string
+         */
+        addErrorUrl: ''
     };
 
     init() {
         this.paypal = null;
         this._client = new StoreApiClient();
-        this.errorParameter = DomAccess.getDataAttribute(
-            this.el,
-            'swag-pay-pal-smart-payment-buttons-error-parameter'
-        );
+
         this.createButton();
     }
 
@@ -88,26 +128,9 @@ export default class SwagPayPalSmartPaymentButtons extends SwagPaypalAbstractBut
     }
 
     renderButton() {
-        const toggleButtons = () => {
-            const checked = DomAccess.querySelector(document, 'input.payment-method-input[checked=checked]');
+        this.confirmOrderForm = DomAccess.querySelector(document, this.options.confirmOrderFormSelector);
 
-            if (checked.value === this.options.paymentMethodId) {
-                DomAccess.querySelector(document, '#confirmFormSubmit').style.display = 'none';
-                this.el.style.display = 'block';
-            } else {
-                DomAccess.querySelector(document, '#confirmFormSubmit').style.display = 'block';
-                this.el.style.display = 'none';
-            }
-        };
-
-        toggleButtons();
-
-        const targetNode = DomAccess.querySelector(document, '.confirm-payment');
-        const config = { attributes: false, childList: true, subtree: false };
-        const observer = new MutationObserver(() => {
-            toggleButtons();
-        });
-        observer.observe(targetNode, config);
+        DomAccess.querySelector(this.confirmOrderForm, this.options.confirmOrderButtonSelector).classList.add('d-none');
 
         return this.paypal.Buttons(this.getButtonConfig()).render(this.el);
     }
@@ -142,14 +165,17 @@ export default class SwagPayPalSmartPaymentButtons extends SwagPaypalAbstractBut
      * @return {Promise}
      */
     createOrder() {
-        const csrfToken = {
-            _csrf_token: DomAccess.getDataAttribute(this.el, 'swag-pay-pal-smart-payment-buttons-create-payment-token')
-        };
+        const formData = FormSerializeUtil.serialize(this.confirmOrderForm);
+
+        const orderId = this.options.orderId;
+        if (orderId !== null) {
+            formData.set('orderId', orderId);
+        }
 
         return new Promise(resolve => {
             this._client.post(
                 this.options.createPaymentUrl,
-                JSON.stringify(csrfToken),
+                formData,
                 responseText => {
                     const response = JSON.parse(responseText);
                     resolve(response.token);
@@ -160,15 +186,20 @@ export default class SwagPayPalSmartPaymentButtons extends SwagPaypalAbstractBut
 
     onApprove(data, actions) {
         const params = new URLSearchParams();
+        let url = this.options.checkoutConfirmUrl;
         params.append('paypalPayerId', data.payerID);
         params.append('paypalPaymentId', data.paymentID);
 
-        const redirectUrl = `${this.options.checkoutConfirmUrl}?${params.toString()}`;
+        if (this.options.accountOrderEditUrl !== null) {
+            url = this.options.accountOrderEditUrl;
+        }
+
+        const redirectUrl = `${url}?${params.toString()}`;
 
         actions.redirect(redirectUrl);
     }
 
     onError() {
-        window.location.replace(`${this.options.checkoutConfirmUrl}?${this.errorParameter}=1`);
+        this.createError();
     }
 }

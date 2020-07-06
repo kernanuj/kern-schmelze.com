@@ -30,6 +30,9 @@ use Swag\PayPal\Setting\Service\SettingsService;
 use Swag\PayPal\Setting\SwagPayPalSettingStruct;
 use Swag\PayPal\Setting\SwagPayPalSettingStructValidator;
 use Swag\PayPal\Util\PaymentMethodUtil;
+use function array_map;
+use function mb_strlen;
+use function mb_substr;
 
 class InstallUninstall
 {
@@ -127,7 +130,7 @@ class InstallUninstall
             ->addFilter(new ContainsFilter('configurationKey', SettingsService::SYSTEM_CONFIG_DOMAIN));
         $idSearchResult = $this->systemConfigRepository->searchIds($criteria, $context);
 
-        $ids = \array_map(static function ($id) {
+        $ids = array_map(static function ($id) {
             return ['id' => $id];
         }, $idSearchResult->getIds());
 
@@ -146,6 +149,7 @@ class InstallUninstall
             'handlerIdentifier' => PayPalPaymentHandler::class,
             'name' => 'PayPal',
             'position' => -100,
+            'afterOrderEnabled' => true,
             'pluginId' => $pluginId,
             'description' => 'Payment via PayPal - easy, fast and secure.',
             'translations' => [
@@ -315,7 +319,7 @@ class InstallUninstall
 
         $structData = [];
         foreach ($keyValuePairs as $key => $value) {
-            $identifier = (string) \mb_substr($key, \mb_strlen(SettingsService::SYSTEM_CONFIG_DOMAIN));
+            $identifier = (string) mb_substr($key, mb_strlen(SettingsService::SYSTEM_CONFIG_DOMAIN));
             if ($identifier === '') {
                 continue;
             }

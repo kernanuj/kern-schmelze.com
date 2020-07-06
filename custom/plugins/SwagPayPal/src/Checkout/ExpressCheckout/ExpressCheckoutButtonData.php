@@ -82,6 +82,8 @@ class ExpressCheckoutButtonData extends Struct
     protected $createNewCartUrl;
 
     /**
+     * @deprecated tag:v2.0.0 - PayPal uses the core add to cart button
+     *
      * @var string
      */
     protected $addLineItemUrl;
@@ -95,6 +97,11 @@ class ExpressCheckoutButtonData extends Struct
      * @var string
      */
     protected $checkoutConfirmUrl;
+
+    /**
+     * @var string
+     */
+    protected $addErrorUrl;
 
     public function getProductDetailEnabled(): bool
     {
@@ -166,6 +173,9 @@ class ExpressCheckoutButtonData extends Struct
         return $this->createNewCartUrl;
     }
 
+    /**
+     * @deprecated tag:v2.0.0 - PayPal uses the core add to cart button
+     */
     public function getAddLineItemUrl(): string
     {
         return $this->addLineItemUrl;
@@ -179,5 +189,10 @@ class ExpressCheckoutButtonData extends Struct
     public function getCheckoutConfirmUrl(): string
     {
         return $this->checkoutConfirmUrl;
+    }
+
+    public function getAddErrorUrl(): string
+    {
+        return $this->addErrorUrl;
     }
 }

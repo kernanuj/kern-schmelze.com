@@ -13,6 +13,8 @@ use Shopware\Core\Checkout\Customer\Exception\AddressNotFoundException;
 use Swag\PayPal\PayPal\Api\Patch;
 use Swag\PayPal\PayPal\Api\Payment\Payer\PayerInfo;
 use Swag\PayPal\PayPal\Api\Payment\Payer\PayerInfo\BillingAddress;
+use function json_decode;
+use function json_encode;
 
 class PayerInfoPatchBuilder
 {
@@ -32,7 +34,7 @@ class PayerInfoPatchBuilder
         $payerInfo->setLastName($customerBillingAddress->getLastName());
         $payerInfo->setBillingAddress($this->createBillingAddress($customerBillingAddress));
 
-        $payerInfoArray = \json_decode((string) \json_encode($payerInfo), true);
+        $payerInfoArray = json_decode((string) json_encode($payerInfo), true);
 
         $payerInfoPatch = new Patch();
         $payerInfoPatch->assign([
@@ -50,8 +52,9 @@ class PayerInfoPatchBuilder
 
         $billingAddress->setLine1($customerBillingAddress->getStreet());
 
-        if ($customerBillingAddress->getAdditionalAddressLine1() !== null) {
-            $billingAddress->setLine2($customerBillingAddress->getAdditionalAddressLine1());
+        $additionalAddressLine1 = $customerBillingAddress->getAdditionalAddressLine1();
+        if ($additionalAddressLine1 !== null) {
+            $billingAddress->setLine2($additionalAddressLine1);
         }
 
         $billingAddress->setCity($customerBillingAddress->getCity());
@@ -71,8 +74,9 @@ class PayerInfoPatchBuilder
             $billingAddress->setState($state->getShortCode());
         }
 
-        if ($customerBillingAddress->getPhoneNumber() !== null) {
-            $billingAddress->setPhone($customerBillingAddress->getPhoneNumber());
+        $phoneNumber = $customerBillingAddress->getPhoneNumber();
+        if ($phoneNumber !== null) {
+            $billingAddress->setPhone($phoneNumber);
         }
 
         return $billingAddress;

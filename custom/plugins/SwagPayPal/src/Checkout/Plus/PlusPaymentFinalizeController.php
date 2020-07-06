@@ -7,6 +7,7 @@
 
 namespace Swag\PayPal\Checkout\Plus;
 
+use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Cart\PaymentHandler\AsynchronousPaymentHandlerInterface;
@@ -26,6 +27,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
+use function sprintf;
 
 class PlusPaymentFinalizeController extends AbstractController
 {
@@ -39,17 +42,38 @@ class PlusPaymentFinalizeController extends AbstractController
      */
     private $paymentHandler;
 
+    /**
+     * @var RouterInterface
+     */
+    private $router;
+
+    /**
+     * @deprecated tag:v2.0.0 - Remove with deprecated method "finalizeTransactionDeprecated"
+     *
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(
         EntityRepositoryInterface $orderTransactionRepo,
-        AsynchronousPaymentHandlerInterface $paymentHandler
+        AsynchronousPaymentHandlerInterface $paymentHandler,
+        RouterInterface $router,
+        LoggerInterface $logger
     ) {
         $this->orderTransactionRepo = $orderTransactionRepo;
         $this->paymentHandler = $paymentHandler;
+        $this->router = $router;
+        $this->logger = $logger;
     }
 
     /**
      * @RouteScope(scopes={"storefront"})
-     * @Route("/paypal/plus/payment/finalize-transaction", name="paypal.plus.payment.finalize.transaction", methods={"GET"}, defaults={"auth_required"=false})
+     * @Route(
+     *     "/paypal/plus/payment/finalize-transaction",
+     *     name="payment.paypal.plus.finalize.transaction",
+     *     methods={"GET"},
+     *     defaults={"auth_required"=false}
+     * )
      *
      * @throws InvalidTransactionException
      * @throws CustomerCanceledAsyncPaymentException
@@ -65,14 +89,14 @@ class PlusPaymentFinalizeController extends AbstractController
                 MultiFilter::CONNECTION_AND,
                 [
                     new EqualsFilter(
-                        \sprintf('customFields.%s', SwagPayPal::ORDER_TRANSACTION_CUSTOM_FIELDS_PAYPAL_TOKEN),
+                        sprintf('customFields.%s', SwagPayPal::ORDER_TRANSACTION_CUSTOM_FIELDS_PAYPAL_TOKEN),
                         $token
                     ),
                     new NotFilter(
                         NotFilter::CONNECTION_AND,
                         [
                             new EqualsFilter(
-                                \sprintf('customFields.%s', SwagPayPal::ORDER_TRANSACTION_CUSTOM_FIELDS_PAYPAL_TOKEN),
+                                sprintf('customFields.%s', SwagPayPal::ORDER_TRANSACTION_CUSTOM_FIELDS_PAYPAL_TOKEN),
                                 null
                             ),
                         ]
@@ -97,22 +121,50 @@ class PlusPaymentFinalizeController extends AbstractController
         $paymentTransactionStruct = new AsyncPaymentTransactionStruct($orderTransaction, $order, '');
 
         $orderId = $order->getId();
-        $finishUrl = $this->generateUrl('frontend.checkout.finish.page', [
+        $changedPayment = $request->query->getBoolean('changedPayment');
+        $finishUrl = $this->router->generate('frontend.checkout.finish.page', [
             'orderId' => $orderId,
             PayPalPaymentHandler::PAYPAL_PLUS_CHECKOUT_ID => true,
+            'changedPayment' => $changedPayment,
         ]);
 
         try {
             $this->paymentHandler->finalize($paymentTransactionStruct, $request, $salesChannelContext);
         } catch (PaymentProcessException $paymentProcessException) {
-            $finishUrl = $this->generateUrl('frontend.checkout.finish.page', [
+            $finishUrl = $this->router->generate('frontend.checkout.finish.page', [
                 'orderId' => $orderId,
                 PayPalPaymentHandler::PAYPAL_PLUS_CHECKOUT_ID => true,
-                'changedPayment' => false,
+                'changedPayment' => $changedPayment,
                 'paymentFailed' => true,
             ]);
         }
 
         return new RedirectResponse($finishUrl);
+    }
+
+    /**
+     * @deprecated tag:v2.0.0 - Will be removed. Use PlusPaymentFinalizeController::finalizeTransaction instead
+     * @RouteScope(scopes={"storefront"})
+     * @Route(
+     *     "/paypal/plus/payment/finalize-transaction-deprecated",
+     *     name="paypal.plus.payment.finalize.transaction",
+     *     methods={"GET"},
+     *     defaults={"auth_required"=false}
+     * )
+     *
+     * @throws InvalidTransactionException
+     * @throws CustomerCanceledAsyncPaymentException
+     */
+    public function finalizeTransactionDeprecated(
+        Request $request,
+        SalesChannelContext $salesChannelContext
+    ): RedirectResponse {
+        $this->logger->error(
+            sprintf(
+                'Route "paypal.plus.payment.finalize.transaction" is deprecated. Use "payment.paypal.plus.finalize.transaction" instead'
+            )
+        );
+
+        return $this->finalizeTransaction($request, $salesChannelContext);
     }
 }

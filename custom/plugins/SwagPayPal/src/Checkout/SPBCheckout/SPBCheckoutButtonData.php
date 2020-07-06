@@ -34,6 +34,16 @@ class SPBCheckoutButtonData extends Struct
     /**
      * @var string
      */
+    protected $buttonColor;
+
+    /**
+     * @var string
+     */
+    protected $buttonShape;
+
+    /**
+     * @var string
+     */
     protected $paymentMethodId;
 
     /**
@@ -50,6 +60,28 @@ class SPBCheckoutButtonData extends Struct
      * @var string
      */
     protected $checkoutConfirmUrl;
+
+    /**
+     * @var string
+     */
+    protected $addErrorUrl;
+
+    /**
+     * @var string
+     *
+     * @deprecated tag:v2.0.0 - Will be removed without replacement
+     */
+    protected $errorParameter = SPBCheckoutSubscriber::PAYPAL_SMART_PAYMENT_BUTTONS_ERROR_PARAMETER;
+
+    /**
+     * @var string|null
+     */
+    protected $orderId;
+
+    /**
+     * @var string|null
+     */
+    protected $accountOrderEditUrl;
 
     public function getClientId(): string
     {
@@ -71,6 +103,16 @@ class SPBCheckoutButtonData extends Struct
         return $this->intent;
     }
 
+    public function getButtonColor(): string
+    {
+        return $this->buttonColor;
+    }
+
+    public function getButtonShape(): string
+    {
+        return $this->buttonShape;
+    }
+
     public function getPaymentMethodId(): string
     {
         return $this->paymentMethodId;
@@ -89,5 +131,38 @@ class SPBCheckoutButtonData extends Struct
     public function getCheckoutConfirmUrl(): string
     {
         return $this->checkoutConfirmUrl;
+    }
+
+    public function getAddErrorUrl(): string
+    {
+        return $this->addErrorUrl;
+    }
+
+    /**
+     * @deprecated tag:v2.0.0 - Will be removed without replacement
+     */
+    public function getErrorParameter(): string
+    {
+        return $this->errorParameter;
+    }
+
+    public function getOrderId(): ?string
+    {
+        return $this->orderId;
+    }
+
+    public function setOrderId(?string $orderId): void
+    {
+        $this->orderId = $orderId;
+    }
+
+    public function getAccountOrderEditUrl(): ?string
+    {
+        return $this->accountOrderEditUrl;
+    }
+
+    public function setAccountOrderEditUrl(?string $accountOrderEditUrl): void
+    {
+        $this->accountOrderEditUrl = $accountOrderEditUrl;
     }
 }

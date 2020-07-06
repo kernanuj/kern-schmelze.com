@@ -10,9 +10,9 @@ namespace Swag\PayPal\Test\Webhook;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\Entity;
+use Shopware\Core\Framework\Struct\ArrayStruct;
 use Shopware\Core\Framework\Test\TestCaseBase\AssertArraySubsetBehaviour;
-use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
+use Shopware\Core\Framework\Test\TestCaseBase\DatabaseTransactionBehaviour;
 use Shopware\Core\System\SystemConfig\SystemConfigDefinition;
 use Swag\PayPal\Test\Helper\ServicesTrait;
 use Swag\PayPal\Test\Mock\DIContainerMock;
@@ -25,12 +25,13 @@ use Swag\PayPal\Webhook\WebhookService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use function json_decode;
 
 class WebhookControllerTest extends TestCase
 {
     use AssertArraySubsetBehaviour;
+    use DatabaseTransactionBehaviour;
     use ServicesTrait;
-    use IntegrationTestBehaviour;
 
     public const THROW_WEBHOOK_EXCEPTION = 'executeWebhookThrowsWebhookException';
     public const THROW_GENERAL_EXCEPTION = 'executeWebhookThrowsGeneralException';
@@ -42,7 +43,7 @@ class WebhookControllerTest extends TestCase
         $content = $jsonResponse->getContent();
         static::assertNotFalse($content);
 
-        $result = \json_decode($content, true);
+        $result = json_decode($content, true);
 
         $this->silentAssertArraySubset(['result' => WebhookService::WEBHOOK_CREATED], $result);
     }
@@ -59,7 +60,7 @@ class WebhookControllerTest extends TestCase
     public function testExecuteWebhookThrowsWebhookException(): void
     {
         $context = Context::createDefaultContext();
-        $context->addExtension(self::THROW_WEBHOOK_EXCEPTION, new Entity());
+        $context->addExtension(self::THROW_WEBHOOK_EXCEPTION, new ArrayStruct());
         $request = $this->createRequestWithWebhookData();
 
         $this->expectException(BadRequestHttpException::class);
@@ -70,7 +71,7 @@ class WebhookControllerTest extends TestCase
     public function testExecuteWebhookThrowsGeneralException(): void
     {
         $context = Context::createDefaultContext();
-        $context->addExtension(self::THROW_GENERAL_EXCEPTION, new Entity());
+        $context->addExtension(self::THROW_GENERAL_EXCEPTION, new ArrayStruct());
         $request = $this->createRequestWithWebhookData();
 
         $this->expectException(BadRequestHttpException::class);
@@ -81,7 +82,7 @@ class WebhookControllerTest extends TestCase
     public function testExecuteWebhookEmptyToken(): void
     {
         $context = Context::createDefaultContext();
-        $context->addExtension(self::EMPTY_TOKEN, new Entity());
+        $context->addExtension(self::EMPTY_TOKEN, new ArrayStruct());
         $request = $this->createRequestWithWebhookData();
 
         $this->expectException(BadRequestHttpException::class);

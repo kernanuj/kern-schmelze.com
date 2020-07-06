@@ -13,6 +13,7 @@ use Swag\PayPal\Setting\SwagPayPalSettingStruct;
 use Swag\PayPal\Util\LocaleCodeProvider;
 use Swag\PayPal\Util\PaymentMethodUtil;
 use Symfony\Component\Routing\RouterInterface;
+use function str_replace;
 
 class SPBCheckoutDataService
 {
@@ -43,22 +44,37 @@ class SPBCheckoutDataService
 
     public function getCheckoutData(
         SalesChannelContext $context,
-        SwagPayPalSettingStruct $settings
+        SwagPayPalSettingStruct $settings,
+        ?string $orderId = null
     ): SPBCheckoutButtonData {
         $paymentMethodId = $this->paymentMethodUtil->getPayPalPaymentMethodId($context->getContext());
 
-        return (new SPBCheckoutButtonData())->assign([
+        $spbCheckoutButtonData = (new SPBCheckoutButtonData())->assign([
             'clientId' => $settings->getSandbox() ? $settings->getClientIdSandbox() : $settings->getClientId(),
             'languageIso' => $this->getButtonLanguage($settings, $context),
             'currency' => $context->getCurrency()->getIsoCode(),
             'intent' => $settings->getIntent(),
+            'buttonShape' => $settings->getSpbButtonShape(),
+            'buttonColor' => $settings->getSpbButtonColor(),
             'paymentMethodId' => $paymentMethodId,
             'useAlternativePaymentMethods' => $settings->getSpbAlternativePaymentMethodsEnabled(),
             'createPaymentUrl' => $this->router->generate('sales-channel-api.action.paypal.spb.create_payment', ['version' => 2]),
             'checkoutConfirmUrl' => $this->router->generate('frontend.checkout.confirm.page', [], RouterInterface::ABSOLUTE_URL),
-            'buttonShape' => $settings->getSpbButtonShape(),
-            'buttonColor' => $settings->getSpbButtonColor(),
+            'addErrorUrl' => $this->router->generate('payment.paypal.add_error'),
         ]);
+
+        if ($orderId !== null) {
+            $spbCheckoutButtonData->setOrderId($orderId);
+            $spbCheckoutButtonData->setAccountOrderEditUrl(
+                $this->router->generate(
+                    'frontend.account.edit-order.page',
+                    ['orderId' => $orderId],
+                    RouterInterface::ABSOLUTE_URL
+                )
+            );
+        }
+
+        return $spbCheckoutButtonData;
     }
 
     private function getButtonLanguage(SwagPayPalSettingStruct $settings, SalesChannelContext $context): string
@@ -67,7 +83,7 @@ class SPBCheckoutDataService
             return $settingsLocale;
         }
 
-        return \str_replace(
+        return str_replace(
             '-',
             '_',
             $this->localeCodeProvider->getLocaleCodeFromContext($context->getContext())
