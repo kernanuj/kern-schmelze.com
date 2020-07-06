@@ -147,9 +147,61 @@ ul.product-detail-benefits {
     margin: 0 0 20px 0;
     padding: 0;
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 
     li {
         margin-right: 20px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 14px;
+        color: $ks-green;
+
+        span {
+            width: 40px;
+            height: 40px;
+            display: block;
+            width: 100%;
+            background-size: 40px 40px;
+            margin: 0 0 5px 0;
+        }
+
+        &.benefit1 {
+            span {
+                background: url(../assets/images/icon-liebevolle-handarbeit.svg) no-repeat center;
+            }
+        }
+
+        &.benefit2 {
+            span {
+                background: url(../assets/images/icon-feinste-belgische-schokolade.svg) no-repeat center;
+            }
+        }
+
+        &.benefit3 {
+            span {
+                background: url(../assets/images/icon-roestfrische-nuesse.svg) no-repeat center;
+            }
+        }
+
+        &.benefit4 {
+            span {
+                background: url(../assets/images/icon-hochwertige-trockenfruechte.svg) no-repeat center;
+            }
+        }
+
+        &.benefit5 {
+            span {
+                background: url(../assets/images/icon-aus-eigener-chocolaterie.svg) no-repeat center;
+            }
+        }
+
+        &.benefit6 {
+            span {
+                background: url(../assets/images/icon-ohne-palmoel.svg) no-repeat center;
+            }
+        }
     }
 }
 
