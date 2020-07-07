@@ -47,16 +47,16 @@
             margin-bottom: 90px;
             text-align: center;
             overflow: hidden;
-            -webkit-transform: translateZ(-999px) scale(1.2);
-            transform: translateZ(-999px) scale(1.2);
+            -webkit-transform: translateZ(-999px) scale(1);
+            transform: translateZ(-999px) scale(1);
 
             .bg-image {
                 background-attachment: fixed;
                 background-position: center;
                 background-size: 100% auto !important;
                 background-repeat: no-repeat;
-                -webkit-transform: translateZ(999px) scale(1.1);
-                transform: translateZ(999px) scale(1.1);
+                -webkit-transform: translateZ(999px) scale(1);
+                transform: translateZ(999px) scale(1);
             }
 
             .cms-element-text {
