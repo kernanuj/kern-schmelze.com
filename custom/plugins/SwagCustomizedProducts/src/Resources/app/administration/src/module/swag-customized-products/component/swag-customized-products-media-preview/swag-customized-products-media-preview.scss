@@ -1,0 +1,9 @@
+@import "~scss/variables";
+
+.swag-customized-products-media-preview {
+    .swag-customized-products-media-preview-row {
+        display: flex;
+        border: 1px solid $color-steam-cloud;
+        border-radius: $border-radius-default;
+    }
+}

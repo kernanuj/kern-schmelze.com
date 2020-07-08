@@ -1,0 +1,69 @@
+{% sw_extends '@Storefront/storefront/page/checkout/checkout-aside-item.html.twig' %}
+
+{% set lineItemTemplateType = constant('Swag\\CustomizedProducts\\Core\\Checkout\\CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_TEMPLATE_LINE_ITEM_TYPE') %}
+{% set lineItemOptionType = constant('Swag\\CustomizedProducts\\Core\\Checkout\\CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_OPTION_LINE_ITEM_TYPE') %}
+{% set lineItemOptionValueType = constant('Swag\\CustomizedProducts\\Core\\Checkout\\CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_OPTION_VALUE_LINE_ITEM_TYPE') %}
+{% set isCustomizedProduct = lineItem.type == lineItemTemplateType %}
+{% set cover, label, referencedId = null, null, null %}
+
+{% block page_checkout_aside_item_children %}
+    {% set isChildOfCustomizedProduct = isCustomizedProduct or (lineItem.type == lineItemOptionType) %}
+
+    {{ parent() }}
+{% endblock %}
+
+{% block page_checkout_aside_item_container %}
+    {# Main Product handles everything - Normal LineItem procedure will be skipped for children #}
+    {% if isCustomizedProduct %}
+        {% set isNested = false %}
+        {% set configurationItems = [] %}
+
+        {% for child in lineItem.children %}
+            {% if child.type == 'product' %}
+                {% set label = child.label %}
+                {% set referencedId = child.referencedId %}
+
+                {% if child.cover.url %}
+                    {% set cover = child.cover %}
+                {% endif %}
+            {% else %}
+                {% set configurationItems = configurationItems|merge([child]) %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% if not isChildOfCustomizedProduct %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block page_checkout_aside_item_image_inner %}
+    {% if cover %}
+        {% sw_include '@Storefront/storefront/page/checkout/_include/thumbnail-aside.html.twig' with {
+            'cover': cover
+        } %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block page_checkout_aside_item_title %}
+    {% if isCustomizedProduct and label %}
+        <div class="checkout-aside-item-title">
+            {{ label|u.truncate(60) }}
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block page_checkout_aside_item_data %}
+    {{ parent() }}
+
+    {% if isCustomizedProduct %}
+        {% sw_include '@Storefront/storefront/component/checkout/_include/cart-configuration.html.twig' with {
+            'items': configurationItems,
+            'productId': referencedId
+        } %}
+    {% endif %}
+{% endblock %}

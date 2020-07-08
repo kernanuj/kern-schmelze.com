@@ -1,0 +1,25 @@
+{% block page_checkout_item_info_image_link_inner_default %}
+    <a href="{{ seoUrl('frontend.detail.page', {'productId': referencedId}) }}"
+       class="cart-item-img-link"
+       title="{{ label }}"
+       {% if controllerAction is same as('confirmPage') %}
+            data-toggle="modal"
+            data-modal-class="quickview-modal"
+            data-url="{{ path('widgets.quickview.minimal', { 'productId': referencedId }) }}"
+       {% endif %}>
+
+        {% block page_checkout_item_info_image_element %}
+            {% sw_thumbnails 'cart-item-img-thumbnails' with {
+                media: cover,
+                sizes: {
+                    'default': '100px'
+                },
+                attributes: {
+                    'class': 'img-fluid cart-item-img',
+                    'alt': (cover.translated.alt ?: ''),
+                    'title': (cover.translated.title ?: '')
+                }
+            } %}
+        {% endblock %}
+    </a>
+{% endblock %}

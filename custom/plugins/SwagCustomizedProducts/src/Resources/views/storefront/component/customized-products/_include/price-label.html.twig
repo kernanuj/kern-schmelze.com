@@ -1,0 +1,28 @@
+{% if value.relativeSurcharge %}
+    {% set productPrice = page.product.calculatedPrices.first.unitPrice %}
+    {% if productPrice is null %}
+        {% set productPrice = page.product.calculatedPrice.unitPrice %}
+    {% endif %}
+
+    {% if context.getTaxState() != 'gross' %}
+        {% set productPrice = productPrice - page.product.calculatedTaxes.first.tax %}
+    {% endif %}
+
+    {% set valueSurcharge = (value.percentageSurcharge/100) * productPrice %}
+{% else %}
+    {% set valueSurcharge = value.getCalculatedPrice().totalPrice %}
+{% endif %}
+
+{% if valueSurcharge is not null and valueSurcharge != 0 %}
+    {% set valueSurchargeInfo = valueSurcharge|currency %}
+
+    {% if brackets %}
+        {% set valueSurchargeInfo = '(+' ~ valueSurchargeInfo ~ ')' %}
+    {% endif %}
+{% endif %}
+
+{% if valueSurchargeInfo is not null %}
+    <div class="swag-customized-products-option__price-tag">
+        {{ valueSurchargeInfo }}{{ "general.star"|trans|sw_sanitize }}{{ "general.star"|trans|sw_sanitize }}
+    </div>
+{% endif %}

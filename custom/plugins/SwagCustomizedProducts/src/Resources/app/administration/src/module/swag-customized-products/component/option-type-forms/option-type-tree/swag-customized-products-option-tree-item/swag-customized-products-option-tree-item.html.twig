@@ -1,0 +1,69 @@
+{% block swag_customized_products_option_tree_item %}
+    <div class="swag-customized-products-option-tree__element"
+         :class="{ 'is--active': isActive }"
+         @click="onSetActiveItem(item)">
+
+        {% block swag_customized_products_option_tree_item_icon %}
+            <sw-icon v-if="isRootElement"
+                     class="swag-customized-products-option-tree__element-icon"
+                     name="multicolor-folder-tree-open"
+                     multicolor
+                     small>
+            </sw-icon>
+
+            <sw-icon v-else
+                     class="swag-customized-products-option-tree__element-icon"
+                     name="small-default-circle-small"
+                     size="18">
+            </sw-icon>
+        {% endblock %}
+
+        {% block swag_customized_products_option_tree_item_inline_edit %}
+            <sw-confirm-field
+                v-if="isEditing"
+                v-model="item.displayName"
+                class="swag-customized-products-option-tree_edit-item"
+                :preventEmptySubmit="true"
+                :placeholder="placeholder(item, 'displayName', $tc('swag-customized-products-option-tree-item.general.placeholderElementName'))"
+                ref="confirmField"
+                @input="onFinishNameEdit"
+                @blur="onBlurTreeItemInput(item)"
+                @submit-cancel="onBlurTreeItemInput(item)">
+            </sw-confirm-field>
+        {% endblock %}
+
+        {% block swag_customized_products_option_tree_item_label %}
+            <span v-else
+                  class="swag-customized-products-option-tree__element-name">
+                <template v-if="item.translated">
+                    {{ item.translated.displayName }}
+                </template>
+
+                <template v-else>
+                    {{ item.displayName }}
+                </template>
+            </span>
+        {% endblock %}
+
+        {% block swag_customized_products_option_tree_item_context_actions %}
+            <sw-button-process
+                v-if="isRootElement"
+                class="swag-customized-products-option-tree__element-context-button"
+                :processSuccess="isCreating"
+                :disabled="isCreating"
+                variant="ghost"
+                size="small"
+                @click.stop="onClickCreateNewElement">
+                {{ $tc('swag-customized-products-option-tree-item.actions.buttonCreateSubElement') }}
+            </sw-button-process>
+
+            <sw-context-button v-else class="swag-customized-products-option-tree__element-context-button">
+                    {% block swag_customized_products_option_tree_item_context_actions_sub_element %}
+                        <sw-context-menu-item variant="danger" @click="onDeleteItem(item)">
+                            {{ $tc('global.default.delete') }}
+                        </sw-context-menu-item>
+                    {% endblock %}
+            </sw-context-button>
+        {% endblock %}
+    </div>
+{% endblock %}

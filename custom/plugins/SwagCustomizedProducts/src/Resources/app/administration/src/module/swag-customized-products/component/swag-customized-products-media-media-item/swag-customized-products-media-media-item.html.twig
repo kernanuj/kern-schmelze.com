@@ -1,0 +1,9 @@
+{% block sw_media_media_item_context_menu %}
+    <template #context-menu="{ item, startInlineEdit }">
+        <sw-context-menu-item
+            icon="default-action-cloud-download"
+            @click.prevent="onDownload(item.url)">
+                {{ $tc('sw-media.sidebar.actions.download') }}
+        </sw-context-menu-item>
+    </template>
+{% endblock %}

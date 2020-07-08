@@ -1,0 +1,13 @@
+{% block page_checkout_aside_item_image_inner_default %}
+    {% sw_thumbnails 'cart-item-img-thumbnails' with {
+        media: cover,
+        sizes: {
+            'default': '100px'
+        },
+        attributes: {
+            'class': 'img-fluid cart-item-img',
+            'alt': (cover.translated.alt ?: ''),
+            'title': (cover.translated.title ?: '')
+        }
+    } %}
+{% endblock %}

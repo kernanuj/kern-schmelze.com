@@ -1,0 +1,15 @@
+<div class="swag-customized-products-media-preview sw-field">
+    <div class="sw-field__label">
+        {{ label }}
+    </div>
+
+    <template v-for="media in resolvedMediaItems">
+        <swag-customized-products-media-media-item
+            :item="media"
+            :key="media.id"
+            :selected="false"
+            :showSelectionIndicator="false"
+            :isList="true">
+        </swag-customized-products-media-media-item>
+    </template>
+</div>

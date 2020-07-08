@@ -1,0 +1,40 @@
+{% block swag_customized_products_option_type_header %}
+    <div class="swag-customized-products-option-type-header">
+
+        {% block swag_customized_products_option_type_header_form_group %}
+            <sw-container class="swag-customized-products-option-type-header__form_group"
+                          columns="1fr 1fr"
+                          align="center"
+                          gap="32px">
+
+                {% block swag_customized_products_option_type_header_field_display_name %}
+                    <sw-text-field v-model="option.displayName"
+                                   class="swag-customized-products-option-type-header__field_display_name"
+                                   :label="$tc('swag-customized-products.optionDetailModal.optionType.nameLabel')"
+                                   :placeholder="$tc('swag-customized-products.detail.tabGeneral.placeholderDisplayName')"
+                                   :error="optionDisplayNameError"
+                                   required>
+                    </sw-text-field>
+                {% endblock %}
+
+                {% block swag_customized_products_option_type_header_field_required %}
+                    <sw-checkbox-field v-if="showRequired"
+                                       v-model="option.required"
+                                       v-tooltip="requiredTooltip"
+                                       class="swag-customized-products-option-type-header__field_required"
+                                       :disabled="option.templateExclusionConditions.length > 0"
+                                       :label="$tc('swag-customized-products.optionDetailModal.optionType.requiredLabel')">
+                    </sw-checkbox-field>
+                {% endblock %}
+            </sw-container>
+        {% endblock %}
+
+        {% block swag_customized_products_option_type_header_field_description %}
+            <sw-text-editor v-model="option.description"
+                            class="swag-customized-products-option-type-header__field_description"
+                            :label="$tc('swag-customized-products.optionDetailModal.optionType.descriptionLabel')"
+                            :placeholder="$tc('swag-customized-products.optionDetailModal.optionType.placeholderDescription')">
+            </sw-text-editor>
+        {% endblock %}
+    </div>
+{% endblock %}

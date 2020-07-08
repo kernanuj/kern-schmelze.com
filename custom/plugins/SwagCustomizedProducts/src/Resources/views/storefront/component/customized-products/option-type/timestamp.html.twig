@@ -1,0 +1,11 @@
+{% block swag_customized_products_option_type_template_timestamp %}
+    {% set pickerProperties = '{
+        "locale": "' ~ app.request.locale ~ '",
+        "noCalendar": true,
+        "enableTime": true,
+        "minDate": "' ~ props.minDate ~ '",
+        "maxDate": "' ~ props.maxDate ~ '"
+    }' %}
+
+    {% sw_include customizedProductsOptionTemplatePrefix ~ 'datepicker/component.html.twig'%}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% block swag_customized_products_option_type_template_select_dropdown %}
+    <select id="swag-customized-products-option-id-{{ option.id }}"
+            class="form-control swag-customized-products-form-control"
+            name="{{ constant('Swag\\CustomizedProducts\\Storefront\\Controller\\CustomizedProductsCartController::CUSTOMIZED_PRODUCTS_TEMPLATE_REQUEST_PARAMETER') }}[options][{{ option.id }}][value]"
+            {{ option.required ? 'required' : '' }}>
+
+        {% block swag_customized_products_option_type_template_select_dropdown_options %}
+            {% block swag_customized_products_option_type_template_select_dropdown_options_no_selection %}
+                <option value="">
+                    {% if props.placeholder is not null %}
+                        {{ props.placeholder }}
+                    {% else %}
+                        {{ "customizedProducts.optionTypes.selectNoValueText"|trans }}
+                    {% endif %}
+                </option>
+            {% endblock %}
+
+            {% for optionValue in optionValues %}
+
+                {% block swag_customized_products_option_type_template_select_dropdown_option %}
+                    {% if not optionValue.isRoot %}
+
+                        {% block swag_customized_products_option_type_template_select_single_option_content %}
+                            <option value="{{ optionValue.id }}">
+                                {{ optionValue.displayName }}
+
+                                {% sw_include '@SwagCustomizedProducts/storefront/component/customized-products/_include/price-label.html.twig' with {
+                                    value: optionValue,
+                                    brackets: true
+                                } %}
+                            </option>
+                        {% endblock %}
+                    {% endif %}
+                {% endblock %}
+            {% endfor %}
+        {% endblock %}
+    </select>
+{% endblock %}

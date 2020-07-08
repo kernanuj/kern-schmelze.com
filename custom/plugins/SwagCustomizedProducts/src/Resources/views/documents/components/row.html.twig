@@ -1,0 +1,57 @@
+{% block document_line_item_table_rows %}
+    {% set customProductIds = [] %}
+    {% set customProducts = [] %}
+    {% set options = [] %}
+    {% set optionValues = [] %}
+
+    {% set lineItemPage = lineItems %}
+
+    {# @var lineItem \Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity #}
+    {% for lineItem in lineItemPage %}
+        {# find out all custom product ids #}
+        {% if lineItem.type == 'customized-products' %}
+            {% set customProductIds = customProductIds|merge([lineItem.id]) %}
+            {# collect all options which will be rendered nested#}
+        {% elseif lineItem.type == 'customized-products-option' %}
+            {% set options = options|merge([lineItem]) %}
+        {% elseif lineItem.type == 'option-values' %}
+            {% set optionValues = optionValues|merge([lineItem]) %}
+        {% endif %}
+    {% endfor %}
+
+    {# @var lineItem \Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity #}
+    {% for lineItem in lineItemPage %}
+        {# collect all custom product items #}
+        {% if lineItem.type == 'product' and lineItem.parentId in customProductIds %}
+            {% set customProducts = customProducts|merge([lineItem]) %}
+        {% endif %}
+
+        {% if lineItem.type == 'customized-products' %}
+            {% for product in customProducts %}
+                {% if product.parentId == lineItem.id %}
+                    {% sw_include '@Framework/documents/components/product.html.twig' with { lineItem: product } %}
+                {% endif %}
+            {% endfor %}
+
+            {% for option in options %}
+                {% if option.parentId == lineItem.id %}
+                    {% sw_include '@Framework/documents/components/customized_products_option.html.twig' with { lineItem: option } %}
+
+                    {% for optionValue in optionValues %}
+                        {% if optionValue.parentId == option.id %}
+                            {% sw_include '@Framework/documents/components/customized_products_option_value.html.twig' with { lineItem: optionValue } %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        {% elseif lineItem.type == 'option-values' %}
+            {# rendered in customized_products_option_value.html.twig #}
+        {% elseif lineItem.type == 'customized-products-option' %}
+            {# rendered in customized_products_option.html.twig #}
+        {% elseif lineItem.type == 'product' and lineItem.parentId in customProductIds %}
+            {# rendered in documents/product.html.twig #}
+        {% else %}
+            {% sw_include '@Framework/documents/components/original_line_item.html.twig' with { lineItem: lineItem } %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}

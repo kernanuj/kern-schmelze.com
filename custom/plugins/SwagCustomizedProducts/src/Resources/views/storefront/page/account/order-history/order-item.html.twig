@@ -1,0 +1,38 @@
+{% sw_extends '@Storefront/storefront/page/account/order-history/order-item.html.twig' %}
+
+{% set lineItemTemplateType = constant('Swag\\CustomizedProducts\\Core\\Checkout\\CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_TEMPLATE_LINE_ITEM_TYPE') %}
+
+{% block page_account_order_item_overview %}
+    {% set containsCustomProducts = false %}
+
+    {% for lineItem in order.lineItems %}
+        {% if lineItem.type == lineItemTemplateType %}
+            {% set containsCustomProducts = true %}
+        {% endif %}
+    {% endfor %}
+
+    {{ parent() }}
+{% endblock %}
+
+{% block page_account_order_item_context_menu_reorder_form_action %}
+    {% if containsCustomProducts %}
+        {{ path('frontend.checkout.customized-products.reorder', { 'orderId': order.id }) }}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block page_account_order_item_context_menu_reorder_form_csrf %}
+    {% if containsCustomProducts %}
+        {{ sw_csrf('frontend.checkout.customized-products.reorder') }}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{# Todo:PT-11621 Implement change of payment #}
+{% block page_account_order_item_context_menu_content_change_payment_button %}
+    {% if not containsCustomProducts %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

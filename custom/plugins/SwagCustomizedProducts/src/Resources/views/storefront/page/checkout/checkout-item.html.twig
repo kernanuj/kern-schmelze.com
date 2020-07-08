@@ -1,0 +1,86 @@
+{% sw_extends '@Storefront/storefront/page/checkout/checkout-item.html.twig' %}
+
+{% set lineItemTemplateType = constant('Swag\\CustomizedProducts\\Core\\Checkout\\CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_TEMPLATE_LINE_ITEM_TYPE') %}
+{% set lineItemOptionType = constant('Swag\\CustomizedProducts\\Core\\Checkout\\CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_OPTION_LINE_ITEM_TYPE') %}
+{% set isCustomizedProduct = lineItem.type == lineItemTemplateType %}
+{% set cover, label, mainLineItem = null, null, null %}
+
+{% block page_checkout_item_children %}
+    {% set isChildOfCustomizedProduct = isCustomizedProduct or (lineItem.type == lineItemOptionType) %}
+
+    {{ parent() }}
+{% endblock %}
+
+{% block page_checkout_item_container %}
+    {# Main Product handles everything - Normal LineItem procedure will be skipped for children #}
+    {% if isCustomizedProduct %}
+        {% set isNested = false %}
+        {% set configurationItems = [] %}
+
+        {% for child in lineItem.children %}
+            {% if child.type == 'product' %}
+                {% set label = child.label %}
+                {% set mainLineItem = child %}
+
+                {% if child.cover.url %}
+                    {% set cover = child.cover %}
+                {% endif %}
+            {% else %}
+                {% set configurationItems = configurationItems|merge([child]) %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% if not isChildOfCustomizedProduct %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block page_checkout_item_info_image_link %}
+    {% if cover %}
+        {% sw_include '@Storefront/storefront/page/checkout/_include/thumbnail.html.twig' with {
+            'cover': cover,
+            'referencedId': mainLineItem.referencedId,
+            'label': label
+        } %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block page_checkout_item_info_label %}
+    {% if isCustomizedProduct %}
+        <a href="{{ seoUrl('frontend.detail.page', {'productId': mainLineItem.referencedId}) }}"
+           class="cart-item-label"
+           title="{{ lineItem.label }}"
+            {% if controllerAction is same as('confirmPage') %}
+                data-toggle="modal"
+                data-modal-class="quickview-modal"
+                data-url="{{ path('widgets.quickview.minimal',{ 'productId': mainLineItem.referencedId }) }}"
+            {% endif %}>
+            {{ label|u.truncate(60) }}
+        </a>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block page_checkout_item_info_ordernumber %}
+    {% if mainLineItem.payload.productNumber %}
+        <div class="cart-item-ordernumber">
+            {{ "checkout.cartItemInfoId"|trans|sw_sanitize }} {{ mainLineItem.payload.productNumber }}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block page_checkout_item_delivery_date %}
+    {{ parent() }}
+
+    {% if isCustomizedProduct %}
+        {% sw_include '@Storefront/storefront/component/checkout/_include/cart-configuration.html.twig' with {
+            'items': configurationItems,
+            'productId': mainLineItem.referencedId,
+            'isMainCart': true
+        } %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,90 @@
+{% block swag_customized_products_option_type_template_select_input_list %}
+    {% block swag_customized_products_option_type_template_select_input_list_radio_no_selection %}
+        {% if not props.isMultiSelect and not option.required %}
+            <div class="custom-control custom-radio forms-boolean swag-customized-products__boolean">
+
+                {% block swag_customized_products_option_type_template_select_input_list_radio_no_selection_input %}
+                    <input type="radio"
+                           id="swag-customized-products-option-id-{{ option.id }}"
+                           name="{{ constant('Swag\\CustomizedProducts\\Storefront\\Controller\\CustomizedProductsCartController::CUSTOMIZED_PRODUCTS_TEMPLATE_REQUEST_PARAMETER') }}[options][{{ option.id }}][value]"
+                           class="form-control swag-customized-products-form-control custom-control-input"
+                           value=""
+                           checked>
+                {% endblock %}
+                {% block swag_customized_products_option_type_template_select_input_list_radio_no_selection_label %}
+                    <label class="custom-control-label forms-boolean-label swag-customized-products-option-type-select-checkboxes-label"
+                           for="swag-customized-products-option-id-{{ option.id }}">
+
+                        {% block swag_customized_products_option_type_template_select_input_list_radio_no_selection_content %}
+                            <div class="swag-customized-products-option-type-select-checkboxes-label-property">
+                            </div>
+                        {% endblock %}
+
+                        <span class="swag-customized-products-option-type-select-checkboxes-label-property">
+                            {% if props.placeholder is not null %}
+                                {{ props.placeholder }}
+                            {% else %}
+                                {{ "customizedProducts.optionTypes.selectNoValueText"|trans }}
+                            {% endif %}
+                        </span>
+                    </label>
+                {% endblock %}
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% for optionValue in optionValues %}
+        {% if not optionValue.isRoot %}
+            {% set inputType = props.isMultiSelect ? 'checkbox' : 'radio' %}
+                <div class="custom-control custom-{{ inputType }} forms-boolean swag-customized-products__boolean">
+
+                    {% if inputType == 'radio' %}
+
+                        {% block swag_customized_products_option_type_template_select_input_list_radio_options_input %}
+                            <input type="{{ inputType }}"
+                                   id="swag-customized-products-option-id-{{ optionValue.id }}"
+                                   name="{{ constant('Swag\\CustomizedProducts\\Storefront\\Controller\\CustomizedProductsCartController::CUSTOMIZED_PRODUCTS_TEMPLATE_REQUEST_PARAMETER') }}[options][{{ option.id }}][value]"
+                                   value="{{ optionValue.id }}"
+                                   class="form-control swag-customized-products-form-control custom-control-input"
+                                   {{ option.required and not props.isMultiSelect ? 'required' : '' }}>
+                        {% endblock %}
+                    {% else %}
+
+                        {% block swag_customized_products_option_type_template_select_input_list_checkbox_options_input %}
+                            <input type="{{ inputType }}"
+                                   id="swag-customized-products-option-id-{{ optionValue.id }}"
+                                   name="{{ constant('Swag\\CustomizedProducts\\Storefront\\Controller\\CustomizedProductsCartController::CUSTOMIZED_PRODUCTS_TEMPLATE_REQUEST_PARAMETER') }}[options][{{ option.id }}][values][{{ optionValue.id }}][value]"
+                                   value="{{ optionValue.id }}"
+                                   class="form-control swag-customized-products-form-control custom-control-input"
+                                   {{ option.required and props.isMultiSelect ? "data-swag-customized-products-is-required=#{option.id}" : '' }}
+                                   {{ option.required ? 'required' : '' }}>
+                        {% endblock %}
+                    {% endif %}
+
+                    {% block swag_customized_products_option_type_template_select_input_list_radio_options_label %}
+                        <label class="custom-control-label forms-boolean-label swag-customized-products-option-type-select-checkboxes-label"
+                               for="swag-customized-products-option-id-{{ optionValue.id }}">
+
+                            <div></div>
+
+                            {% block swag_customized_products_option_type_template_select_input_list_radio_options_label_text %}
+                                <span class="swag-customized-products-option-type-select-checkboxes-label-property">
+                                    {{ optionValue.displayName }}
+                                </span>
+                            {% endblock %}
+
+                            {% block swag_customized_products_option_type_template_select_input_list_radio_options_price_tag %}
+                                <div class="swag-customized-products-option-type-select-checkboxes-label-surcharge-info">
+                                    <span>
+                                        {% sw_include '@SwagCustomizedProducts/storefront/component/customized-products/_include/price-label.html.twig' with {
+                                            value: optionValue
+                                        } %}
+                                    </span>
+                                </div>
+                            {% endblock %}
+                        </label>
+                    {% endblock %}
+                </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

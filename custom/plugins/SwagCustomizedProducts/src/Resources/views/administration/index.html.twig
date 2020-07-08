@@ -1,0 +1,13 @@
+{% sw_extends 'administration/index.html.twig' %}
+
+{% block administration_stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('bundles/swagcustomizedproducts/administration/css/swag-customized-products.css') }}">
+{% endblock %}
+
+{% block administration_scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('bundles/swagcustomizedproducts/administration/js/swag-customized-products.js') }}"></script>
+{% endblock %}

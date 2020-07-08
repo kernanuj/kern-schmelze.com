@@ -1,0 +1,28 @@
+$placeholder-color: #fff;
+
+.swag-customized-products-condition-tree-node {
+    padding:32px 32px 0;
+
+    .sw-condition-type-select {
+        .sw-block-field input::-moz-placeholder {
+            color: $placeholder-color;
+        }
+
+        .sw-block-field input::-webkit-input-placeholder{
+            color: $placeholder-color;
+        }
+
+        .sw-block-field input::placeholder {
+            color: $placeholder-color;
+        }
+
+        .sw-entity-single-select__selection-text,
+        .sw-entity-single-select__selection-text.is--placeholder {
+            color: $placeholder-color;
+        }
+    }
+
+    .swag-customized-products-condition-tree-node__operator-select {
+        width: 186px;
+    }
+}

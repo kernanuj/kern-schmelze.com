@@ -1,0 +1,29 @@
+.swag-customized-products__type-htmleditor {
+    .note-editor {
+        border-color: $border-color;
+    }
+    .note-toolbar {
+        border-bottom: 1px solid $border-color;
+        padding: 5px $spacer-sm;
+    }
+
+    .note-btn-group {
+        margin: 0;
+    }
+
+    .note-btn {
+        background: transparent;
+        font-weight: 500;
+        border: 1px solid transparent;
+        padding: 0 $spacer-sm;
+        color: $sw-text-color;
+
+        &:hover {
+            border-color: $border-color;
+        }
+    }
+
+    .note-resizebar {
+        display: none;
+    }
+}

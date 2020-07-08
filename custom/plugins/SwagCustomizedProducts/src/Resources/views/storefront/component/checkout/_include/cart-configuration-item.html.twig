@@ -1,0 +1,78 @@
+{% block component_cart_customized_products_configuration_item %}
+    <div class="swag-customized-products-cart__item">
+
+        {# Iterate over the selection items to get the price tag for the selection #}
+        {% set selectionPriceTag = '' %}
+        {% for selection in selectionItems %}
+            {% if selection.type != 'select' and selection.type != 'colorselect' and selection.type != 'imageselect' %}
+                {% set selectionPriceTag = selection.tag %}
+            {% endif %}
+        {% endfor %}
+
+        {% block component_cart_customized_products_configuration_item_title %}
+            <div class="swag-customized-products-cart__item-title">
+                {% apply spaceless %}
+
+                    {% block component_cart_customized_products_configuration_title_label %}
+                        <span class="swag-customized-products-cart__name">
+                            {{ item.label }}
+                        </span>
+                    {% endblock %}
+
+                    {% block component_cart_customized_products_configuration_title_price_tag %}
+
+                        {% if labelPriceTag %}
+                            <span class="swag-customized-products-cart__price-tag">
+                                {{ labelPriceTag }}
+                            </span>
+                        {% elseif selectionPriceTag != '' %}
+                            <span class="swag-customized-products-cart__price-tag">
+                                {{ selectionPriceTag }}
+                            </span>
+                        {% endif %}
+                    {% endblock %}
+                {% endapply %}
+            </div>
+        {% endblock %}
+
+        {% block component_cart_customized_products_configuration_selection %}
+            <div class="swag-customized-products-cart__item-content">
+
+                {% block component_cart_customized_products_configuration_selection_list %}
+                    <ul class="swag-customized-products-cart__list">
+                        {% for selection in selectionItems %}
+
+                            {% block component_cart_customized_products_configuration_list_item %}
+                                <li class="swag-customized-products-cart__list-bullet">
+                                    {% apply spaceless %}
+
+                                        {% block component_cart_customized_products_configuration_list_item_label %}
+                                            {% set text = selection.label %}
+                                            {% if selection.type == 'htmleditor' %}
+                                                {% set text = text|sw_sanitize(null, true) %}
+                                            {% endif %}
+
+                                            {% sw_include '@Storefront/storefront/component/ellipsis/ellipsis.html.twig' with {
+                                                'text': text,
+                                                'truncateChars': 100,
+                                                'truncateNewlines': 4
+                                            } %}
+                                        {% endblock %}
+
+                                        {% block component_cart_customized_products_configuration_list_item_price_tag %}
+                                            {% if selection.tag and selectionPriceTag == '' %}
+                                                <span class="swag-customized-products-cart__price-tag">
+                                                    {{ selection.tag }}
+                                                </span>
+                                            {% endif %}
+                                        {% endblock %}
+                                    {% endapply %}
+                                </li>
+                            {% endblock %}
+                        {% endfor %}
+                    </ul>
+                {% endblock %}
+            </div>
+        {% endblock %}
+    </div>
+{% endblock %}

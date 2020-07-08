@@ -1,0 +1,19 @@
+<div class="cart-item-img">
+    {% block component_cart_product_image_inner_default %}
+        <a href="{{ seoUrl('frontend.detail.page', { 'productId': referencedId }) }}"
+           class="cart-item-img-link"
+           title="{{ label }}">
+            {% sw_thumbnails 'cart-item-img-thumbnails' with {
+                media: cover,
+                sizes: {
+                    'default': '100px'
+                },
+                attributes: {
+                    'class': 'img-fluid cart-item-img-source',
+                    'alt': label,
+                    'title': label
+                }
+            } %}
+        </a>
+    {% endblock %}
+</div>

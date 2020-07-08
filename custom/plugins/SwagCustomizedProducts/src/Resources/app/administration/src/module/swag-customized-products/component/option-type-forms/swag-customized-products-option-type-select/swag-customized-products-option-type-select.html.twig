@@ -1,0 +1,16 @@
+{% block swag_customized_products_option_type_base_tree %}
+    {% parent %}
+{% endblock %}
+
+{% block swag_customized_products_option_type_base_tree_content_root_component %}
+    <sw-checkbox-field
+        :value="option.typeProperties.isDropDown"
+        class="swag-customized-products-option-type-select-is-drop-down__checkbox-field"
+        :label="$tc('swag-customized-products.optionDetailModal.optionType.select.isDropDownLabel')"
+        :disabled="option.typeProperties.isMultiSelect"
+        @change="changeIsDropDown">
+    </sw-checkbox-field>
+{% endblock %}
+
+{% block swag_customized_products_option_type_base_tree_content_component %}
+{% endblock %}

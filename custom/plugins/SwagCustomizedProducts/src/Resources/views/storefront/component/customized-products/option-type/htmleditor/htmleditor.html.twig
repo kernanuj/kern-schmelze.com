@@ -1,0 +1,17 @@
+{% block swag_customized_products_option_type_template_htmleditor %}
+    <div class="input-group">
+
+        {% block swag_customized_products_option_type_template_htmleditor_input_component %}
+            <textarea
+                id="swag-customized-products-option-id-{{ option.id }}"
+                name="{{ constant('Swag\\CustomizedProducts\\Storefront\\Controller\\CustomizedProductsCartController::CUSTOMIZED_PRODUCTS_TEMPLATE_REQUEST_PARAMETER') }}[options][{{ option.id }}][value]"
+                class="form-control swag-customized-products-form-control swag-customized-products-options-html-editor"
+                autocomplete="off"
+                placeholder="{{ props.placeholder }}"
+                data-swag-customized-products-html-editor="true"
+                data-swag-customized-products-html-editor-options="{{ editorProperties }}"
+                {{ option.required ? 'required' : '' }}
+            ></textarea>
+        {% endblock %}
+    </div>
+{% endblock %}

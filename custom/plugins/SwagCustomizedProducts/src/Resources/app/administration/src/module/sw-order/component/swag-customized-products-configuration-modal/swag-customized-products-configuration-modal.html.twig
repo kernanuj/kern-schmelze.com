@@ -1,0 +1,32 @@
+{% block swag_customized_product_configuration_modal %}
+    <sw-modal class="swag-customized-products-configuration-modal"
+              :title="$tc('swag-customized-products-configuration-modal.title')"
+              @modal-close="onCloseModal">
+
+        {% block swag_customized_product_configuration_modal_renderer %}
+            <template v-if="!isLoading">
+                <swag-customized-products-dynamic-form-field-renderer
+                    v-for="option in options"
+                    :product="currentProduct"
+                    :option="option"
+                    :currency="currency"
+                    :key="option.id">
+                </swag-customized-products-dynamic-form-field-renderer>
+            </template>
+        {% endblock %}
+
+        {% block swag_customized_product_configuration_modal_loader %}
+            <template v-else>
+                <sw-loader></sw-loader>
+            </template>
+        {% endblock %}
+
+        {% block swag_customized_product_configuration_modal_footer %}
+            <template #modal-footer>
+                <sw-button size="small" @click="onCloseModal">
+                    {{ $tc('global.default.cancel') }}
+                </sw-button>
+            </template>
+        {% endblock %}
+    </sw-modal>
+{% endblock %}

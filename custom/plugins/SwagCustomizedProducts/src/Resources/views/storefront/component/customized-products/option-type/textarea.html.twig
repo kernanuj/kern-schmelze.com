@@ -1,0 +1,13 @@
+{% block swag_customized_products_option_type_template_textarea %}
+    {% apply spaceless %}
+        <textarea
+            id="swag-customized-products-option-id-{{ option.id }}"
+            name="{{ constant('Swag\\CustomizedProducts\\Storefront\\Controller\\CustomizedProductsCartController::CUSTOMIZED_PRODUCTS_TEMPLATE_REQUEST_PARAMETER') }}[options][{{ option.id }}][value]"
+            class="form-control swag-customized-products-form-control"
+            placeholder="{{ props.placeholder }}"
+            minlength="{{ props.minLength }}"
+            maxlength="{{ props.maxLength }}"
+            {{ option.required ? 'required' : '' }}>
+        </textarea>
+    {% endapply %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{
+    "customizedProducts": {
+        "stepByStep": {
+            "navigation": {
+                "btnPrev": "Zurück",
+                "btnNext": "Weiter",
+                "btnConfigureProduct": "Produkt konfigurieren",
+                "btnChangeConfiguration": "Konfiguration ändern",
+                "btnFinish": "Abschließen",
+                "required": "Pflichtfeld"
+            }
+        },
+        "addToCart": {
+            "success": "Custom Product hinzugefügt.",
+            "error": {
+                "invalidExtensionType": "Invalider Dateityp festgestellt.",
+                "maxFileSizeExceeded": "Maximale Dateigröße überschritten.",
+                "maxFileCountExceeded": "Maximale Dateianzahl überschritten.",
+                "priceCalculation": "Beim Berechnen des Custom-Product-Preises ist ein Fehler aufgetreten.",
+                "notAvailable": "Ein oder mehrere Custom Products sind mit dieser Konfiguration nicht mehr verfügbar.",
+                "default": "Beim Hinzufügen des Custom Products zum Warenkorb ist ein Fehler aufgetreten."
+            }
+        },
+        "exclusionViolations": {
+            "excludeItem": "Die aktuelle Kombination aus %1 und den folgenden Option(en) ist nicht zulässig: %2",
+            "headline": "Bitte Konflikte lösen"
+        },
+        "checkoutItem": {
+            "valueLabel": "Wert:"
+        },
+        "optionTypes": {
+            "selectNoValueText": "Keine Auswahl",
+            "upload": {
+                "dropzoneHeadlineText": "Ziehe die Dateien hier hinein",
+                "dropzoneRestrictionsText": "(Max. %maxCount% Datei(en), max. %maxFileSize% MB pro Datei)",
+                "dropzoneBrowseButton": "Dateien auswählen"
+            }
+        },
+        "priceLabelNotice": "**Aufgrund von Neuberechnungen im Warenkorb sind abweichende Endpreise möglich.",
+        "optionRequired": "(Pflichtfeld)",
+        "cart": {
+            "configurationTitle": "{0} Keine Konfiguration - <a href=\"%path%\">Jetzt konfigurieren!</a>|]0,Inf[ Konfiguration"
+        },
+        "priceTagFilter": {
+            "oneTimeSurchargeSuffix": "einmalig",
+            "perItemSuffix": "pro Stück"
+        }
+    }
+}

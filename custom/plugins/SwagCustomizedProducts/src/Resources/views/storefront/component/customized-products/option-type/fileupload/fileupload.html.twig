@@ -1,0 +1,85 @@
+{% block swag_customized_products_option_type_template_fileupload %}
+    <div class="customized-products-upload"
+         data-swag-customized-products-file-upload="true"
+         data-swag-customized-products-file-upload-options="{{ uploadProperties }}">
+
+        {% block swag_customized_products_option_type_template_fileupload_dropzone %}
+            <div id="customized-products-dropzone-{{ optionId }}"
+                 class="customized-products-upload-dropzone">
+
+                {% block swag_customized_products_option_type_template_fileupload_dropzone_container %}
+                    <div class="container">
+                        <div class="customized-products-upload-dropzone-row row">
+
+                            {% block swag_customized_products_option_type_template_fileupload_dropzone_container_cols %}
+                                {% block swag_customized_products_option_type_template_fileupload_dropzone_content %}
+                                    <div class="customized-products-upload-dropzone-col col">
+
+                                        {% block swag_customized_products_option_type_template_fileupload_dropzone_icon %}
+                                            <div class="customized-products-upload-dropzone-icon">
+
+                                                {% block swag_customized_products_option_type_template_fileupload_dropzone_icon_content %}
+                                                    {% sw_icon 'cloud-upload' style { 'size': 'xs' } %}
+                                                {% endblock %}
+                                            </div>
+                                        {% endblock %}
+
+                                        {% block swag_customized_products_option_type_template_fileupload_dropzone_text %}
+                                            <div class="customized-products-upload-dropzone-text">
+
+                                                {% block swag_customized_products_option_type_template_fileupload_dropzone_text_headline %}
+                                                    <span class="customized-products-upload-dropzone-text-headline">
+                                                        {{ 'customizedProducts.optionTypes.upload.dropzoneHeadlineText'|trans }}
+                                                    </span>
+                                                {% endblock %}
+
+                                                {% block swag_customized_products_option_type_template_fileupload_dropzone_restrictions %}
+                                                    <span class="customized-products-upload-dropzone-text-restrictions small">
+                                                        {{ 'customizedProducts.optionTypes.upload.dropzoneRestrictionsText'|trans({
+                                                            '%maxCount%': option.typeProperties.maxCount,
+                                                            '%maxFileSize%': option.typeProperties.maxFileSize
+                                                        }) }}
+                                                    </span>
+                                                {% endblock %}
+                                            </div>
+                                        {% endblock %}
+                                    </div>
+                                {% endblock %}
+
+                                {% block swag_customized_products_option_type_template_fileupload_dropzone_browse %}
+                                    <div class="customized-products-upload-dropzone-button col-4">
+
+                                        {% block swag_customized_products_option_type_template_fileupload_dropzone_browse_button %}
+                                            <button id="customized-products-browse-{{ optionId }}"
+                                                    class="btn btn-outline-secondary btn-sm">
+                                                {{ 'customizedProducts.optionTypes.upload.dropzoneBrowseButton'|trans }}
+                                            </button>
+                                        {% endblock %}
+                                    </div>
+                                {% endblock %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                {% endblock %}
+
+                {% block swag_customized_products_option_type_template_fileupload_dropzone_input %}
+                    <input id="customized-products-dropzone-input-{{ optionId }}"
+                           class="form-control swag-customized-products-option-type-template-fileupload"
+                           type="file"
+                           accept="{{ inputAccept }}"
+                           hidden
+                        {% if inputMultiple %}multiple{% endif %}
+                        {% if inputRequired %}required="required"{% endif %}>
+                {% endblock %}
+            </div>
+        {% endblock %}
+
+        {% block swag_customized_products_option_type_template_fileupload_files %}
+            <div class="customized-products-upload-files">
+                {% sw_include customizedProductsOptionTemplatePrefix ~ 'fileupload/template-file.html.twig' %}
+            </div>
+        {% endblock %}
+
+        {% sw_include customizedProductsOptionTemplatePrefix ~ 'fileupload/template-icons.html.twig' %}
+    </div>
+{% endblock %}

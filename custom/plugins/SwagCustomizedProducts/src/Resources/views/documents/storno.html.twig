@@ -1,0 +1,11 @@
+{% sw_extends '@Framework/documents/storno.html.twig' %}
+
+{% block document_head %}
+    {{ parent() }}
+
+    {% sw_include '@Framework/documents/components/nested.css.twig' %}
+{% endblock %}
+
+{% block document_line_item_table_iterator %}
+    {% sw_include '@Framework/documents/components/row.html.twig' %}
+{% endblock %}

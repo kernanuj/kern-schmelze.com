@@ -1,0 +1,176 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <imports>
+        <import resource="services/checkout.xml"/>
+        <import resource="services/entities.xml"/>
+        <import resource="services/types.xml"/>
+        <import resource="services/util.xml"/>
+    </imports>
+
+    <services>
+        <!-- EventSubscribers -->
+        <service id="Swag\CustomizedProducts\Template\Aggregate\TemplateOption\TemplateOptionValidator">
+            <argument type="service" id="validator"/>
+            <argument type="service" id="Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\OptionTypeCollection"/>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Core\Checkout\Cart\Event\LineItemAddedSubscriber">
+            <argument type="service" id="sales_channel.product.repository"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Core\Content\Product\ProductWrittenSubscriber">
+            <argument type="service" id="product.repository"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Storefront\Page\Product\ProductPageSubscriber">
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="Swag\CustomizedProducts\Template\SalesChannel\Price\PriceService"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Storefront\Page\Account\Order\AccountOrderPageLoadedEventSubscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <!-- Translations -->
+        <service id="Swag\CustomizedProducts\Resources\app\storefront\snippet\de_DE\SnippetFile_de_DE">
+            <tag name="shopware.snippet.file"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Resources\app\storefront\snippet\en_GB\SnippetFile_en_GB">
+            <tag name="shopware.snippet.file"/>
+        </service>
+
+        <!-- Services -->
+        <service id="Swag\CustomizedProducts\Template\Aggregate\TemplateOption\TemplateOptionService">
+            <argument type="service" id="Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\OptionTypeCollection"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Template\SalesChannel\Price\PriceService">
+            <argument type="service" id="Shopware\Core\Checkout\Cart\Price\QuantityPriceCalculator"/>
+        </service>
+
+        <!-- Controllers -->
+        <service id="Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Api\TemplateOptionController" public="true">
+            <argument type="service" id="Swag\CustomizedProducts\Template\Aggregate\TemplateOption\TemplateOptionService"/>
+
+            <call method="setContainer">
+                <argument id="service_container" type="service"/>
+            </call>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Template\Api\TemplateController" public="true">
+            <argument type="service" id="messenger.bus.shopware"/>
+
+            <call method="setContainer">
+                <argument id="service_container" type="service"/>
+            </call>
+        </service>
+
+        <!-- Twig -->
+        <service id="Swag\CustomizedProducts\Storefront\Framework\Twig\Extension\CustomizedProductsPriceTagTwigFilter">
+            <argument type="service" id="Shopware\Core\Framework\Adapter\Twig\Filter\CurrencyFilter"/>
+            <argument type="service" id="translator"/>
+            <tag name="twig.extension"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Storefront\Framework\Twig\Extension\CustomizedProductsLoadValidMimeTypes">
+            <argument type="service" id="Swag\CustomizedProducts\Storefront\Framework\Media\Validator\ImageMediaUploadValidator"/>
+            <argument type="service" id="Swag\CustomizedProducts\Storefront\Framework\Media\Validator\FileMediaUploadValidator"/>
+            <tag name="twig.extension"/>
+        </service>
+
+        <!-- Extensions -->
+        <service id="Swag\CustomizedProducts\Extension\CurrencyExtension">
+            <tag name="shopware.entity.extension"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Extension\LanguageExtension">
+            <tag name="shopware.entity.extension"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Extension\MediaExtension">
+            <tag name="shopware.entity.extension"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Extension\ProductExtension">
+            <tag name="shopware.entity.extension"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Extension\RuleExtension">
+            <tag name="shopware.entity.extension"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Extension\TaxExtension">
+            <tag name="shopware.entity.extension"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Core\Content\Product\SalesChannel\SalesChannelProductSubscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Core\Checkout\Cart\CustomizedProductsCartService">
+            <argument type="service" id="swag_customized_products_template_option.repository"/>
+            <argument type="service" id="Swag\CustomizedProducts\Util\Logger"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Core\Checkout\Cart\Route\AddCustomizedProductsToCartRoute" public="true">
+            <argument type="service" id="Swag\CustomizedProducts\Core\Checkout\Cart\CustomizedProductsCartService"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Core\Checkout\Cart\Route\ReOrderCustomizedProductsRoute" public="true">
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+            <argument type="service" id="order.repository"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Storefront\Controller\CustomizedProductsCartController" public="true">
+            <argument type="service" id="Swag\CustomizedProducts\Core\Checkout\Cart\Route\AddCustomizedProductsToCartRoute"/>
+            <argument type="service" id="Swag\CustomizedProducts\Core\Checkout\Cart\Route\ReOrderCustomizedProductsRoute"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Storefront\Upload\UploadCustomizedProductsMediaRoute" public="true">
+            <argument type="service" id="swag_customized_products_template_option.repository"/>
+            <argument type="service" id="Shopware\Storefront\Framework\Media\StorefrontMediaUploader"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Storefront\Controller\CustomizedProductsUploadController" public="true">
+            <argument type="service" id="Swag\CustomizedProducts\Storefront\Upload\UploadCustomizedProductsMediaRoute"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Storefront\Framework\Media\Validator\ImageMediaUploadValidator">
+            <tag name="storefront.media.upload.validator"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Storefront\Framework\Media\Validator\FileMediaUploadValidator">
+            <tag name="storefront.media.upload.validator"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Template\Message\GenerateDecisionTreeHandler">
+            <argument type="service" id="Swag\CustomizedProducts\Template\TemplateDecisionTreeGenerator"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Template\TemplateDecisionTreeGenerator">
+            <argument type="service" id="swag_customized_products_template.repository"/>
+            <argument type="service" id="swag_customized_products_template_exclusion.repository"/>
+        </service>
+
+
+        <!-- Commands -->
+        <service id="Swag\CustomizedProducts\Template\Commands\GenerateDecisionTreeCommand">
+            <argument type="service" id="swag_customized_products_template.repository"/>
+            <argument type="service" id="messenger.bus.shopware"/>
+            <argument type="service" id="Swag\CustomizedProducts\Template\TemplateDecisionTreeGenerator"/>
+            <tag name="console.command"/>
+        </service>
+    </services>
+</container>

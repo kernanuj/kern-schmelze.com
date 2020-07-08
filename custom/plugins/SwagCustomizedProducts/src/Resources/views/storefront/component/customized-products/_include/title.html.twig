@@ -1,0 +1,60 @@
+{% block swag_customized_products_option_type_template_label %}
+    <div class="card-title swag-customized-products__title-link-container">
+        <a href="#collapseCustomizedProductsConfigurationOption-{{ option.id }}"
+           class="swag-customized-products__title-link"
+           role="button"
+           data-toggle="collapse"
+           aria-controls="collapseCustomizedProductsConfigurationOption-{{ option.id }}"
+           aria-expanded="false">
+            <div class="container">
+
+                {% block swag_customized_products_option_type_template_label_container %}
+                    <div class="swag-customized-products__link-container row">
+
+                        {% block swag_customized_products_option_type_template_label_content %}
+                            <div class="swag-customized-products__link col-10 p-0">
+
+                                {% block swag_customized_products_option_type_template_label_content_text %}
+                                    <label class="form-label swag-customized-products-option__title">
+                                        {{ option.translated.displayName }}
+
+                                        {% sw_include '@SwagCustomizedProducts/storefront/component/customized-products/_include/price-label.html.twig' with {
+                                            value: option,
+                                            brackets: true
+                                        } %}
+                                    </label>
+                                {% endblock %}
+
+                                {% if option.required %}
+
+                                    {% block swag_customized_products_option_type_template_label_content_required_addition %}
+                                        <span class="swag-customized-products-option--required">
+                                            {{ 'customizedProducts.optionRequired'|trans }}
+                                        </span>
+                                    {% endblock %}
+                                {% endif %}
+                            </div>
+                        {% endblock %}
+
+                        {% block swag_customized_products_option_type_template_label_toggle_icon %}
+                            <div class="swag-customized-products__title-link-toggle-icon col-2 p-0">
+
+                                {% block swag_customized_products_option_type_template_label_toggle_icon_plus %}
+                                    <div class="toggle-icon-plus">
+                                        {% sw_icon 'plus' style { 'size': 'xs' } %}
+                                    </div>
+                                {% endblock %}
+
+                                {% block swag_customized_products_option_type_template_label_toggle_icon_minus %}
+                                    <div class="toggle-icon-minus">
+                                        {% sw_icon 'minus' style { 'size': 'xs' } %}
+                                    </div>
+                                {% endblock %}
+                            </div>
+                        {% endblock %}
+                    </div>
+                {% endblock %}
+            </div>
+        </a>
+    </div>
+{% endblock %}

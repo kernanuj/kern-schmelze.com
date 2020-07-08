@@ -1,0 +1,19 @@
+{% block swag_customized_products_option_type_base %}
+    {% parent %}
+{% endblock %}
+
+{% block swag_customized_products_option_type_base_header %}
+    <swag-customized-products-option-type-header :option="option"
+                                                 :showRequired="false">
+    </swag-customized-products-option-type-header>
+{% endblock %}
+
+{% block swag_customized_products_option_type_base_content %}
+    <div class="swag-customized-products-option-grid">
+        <sw-text-field v-model="option.itemNumber"
+                       :placeholder="$tc('swag-customized-products.optionDetailModal.optionType.placeholderItemNumber')"
+                       :label="$tc('swag-customized-products.optionDetailModal.optionType.itemNumberLabel')"
+                       :helpText="$tc('swag-customized-products.optionDetailModal.optionType.itemNumberHelpText')">
+        </sw-text-field>
+    </div>
+{% endblock %}

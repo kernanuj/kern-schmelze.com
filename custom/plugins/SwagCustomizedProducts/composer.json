@@ -1,0 +1,42 @@
+{
+    "name": "swag/customized-products",
+    "description": "Custom Products for Shopware 6",
+    "version": "2.1.0",
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "shopware AG"
+        }
+    ],
+    "require": {
+        "shopware/core": "6.2.0-RC1 || ~6.2.0",
+        "shopware/storefront": "~6.2.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "Swag\\CustomizedProducts\\SwagCustomizedProducts",
+        "copyright": "(c) by shopware AG",
+        "label": {
+            "de-DE": "Custom Products",
+            "en-GB": "Custom Products"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Swag\\CustomizedProducts\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Swag\\CustomizedProducts\\Test\\": "tests/"
+        }
+    },
+    "suggest": {
+        "shopware/administration": "Require '*'. Allows you to to set up the plugin easily",
+        "shopware/storefront": "Require '*'. Enables special features like configuring Custom Products on the product detail page."
+    },
+    "conflict": {
+        "shopware/storefront": "<6,>=7",
+        "shopware/administration": "<6,>=7"
+    }
+}

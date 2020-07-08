@@ -1,0 +1,160 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/buy-widget-form.html.twig' %}
+
+{% block page_product_detail_buy_container %}
+    {% set customizedProductsOptionTemplatePrefix = '@SwagCustomizedProducts/storefront/component/customized-products/option-type/' %}
+
+    {% if customizedProductsTemplate and customizedProductsTemplate.active and customizedProductsTemplate.options|length %}
+
+        {# Define variable to check for step-by-step wizard mode #}
+        {% set isStepByStep = customizedProductsTemplate.stepByStep %}
+        {% set isExclusions = customizedProductsTemplate.decisionTree|length > 0 %}
+
+        <div class="swag-customized-products{% if isStepByStep %} is--step-by-step{% endif %}"
+             data-swag-customized-products-form-validator="true"
+             {% if isExclusions %}
+                 data-swag-exclusion-list-validation="true"
+                 data-swag-exclusion-list-validation-options="{{ customizedProductsTemplate.decisionTree | json_encode }}"
+                 data-swag-exclusion-translation-excludeitem="{{ 'customizedProducts.exclusionViolations.excludeItem' | trans }}"
+                 data-swag-exclusion-translation-headline="{{ 'customizedProducts.exclusionViolations.headline' | trans }}"
+             {% endif %}
+             {% if isStepByStep %}
+                 data-swag-customized-product-step-by-step="true"
+                 data-swag-customized-product-step-by-step-translation-btnPrev="{{ 'customizedProducts.stepByStep.navigation.btnPrev' | trans }}"
+                 data-swag-customized-product-step-by-step-translation-btnNext="{{ 'customizedProducts.stepByStep.navigation.btnNext' | trans }}"
+                 data-swag-customized-product-step-by-step-translation-btnFinish="{{ 'customizedProducts.stepByStep.navigation.btnFinish' | trans }}"
+                 data-swag-customized-product-step-by-step-translation-required="{{ 'customizedProducts.stepByStep.navigation.required' | trans }}"
+             {% endif %}
+        >
+            <div class="card swag-customized-products__card">
+                {% if isStepByStep %}
+                    <div class="swag-customized-products__navigation-holder"></div>
+                {% endif %}
+
+                <div class="swag-customized-products__scrollable">
+
+                    {% block swag_customized_products_introdcution %}
+                        <div class="swag-customized-products__item">
+                            <div class="swag-customized-products__introduction">
+                                {% block swag_customized_products_title %}
+                                    <div class="swag-customized-products__title h4 col12">
+                                        {{ customizedProductsTemplate.translated.displayName }}
+                                    </div>
+                                {% endblock %}
+
+                                <input type="hidden"
+                                       name="{{ constant('Swag\\CustomizedProducts\\Storefront\\Controller\\CustomizedProductsCartController::CUSTOMIZED_PRODUCTS_TEMPLATE_REQUEST_PARAMETER') }}[id]"
+                                       value="{{ customizedProductsTemplate.id }}">
+
+                                {% block swag_customized_products_description %}
+
+                                    {% block swag_customized_products_description_image %}
+                                        {% if customizedProductsTemplate.media %}
+                                            <div class="swag-customized-products__image">
+                                                <img src="{{ customizedProductsTemplate.media|sw_encode_media_url }}"
+                                                     class="swag-customized-products__image img-fluid"
+                                                     alt="{{ customizedProductsTemplate.translated.displayName }}"/>
+                                            </div>
+                                        {% endif %}
+                                    {% endblock %}
+
+                                    {% block swag_customized_products_description_text %}
+                                        {% if customizedProductsTemplate.description %}
+                                            <div class="swag-customized-products__description">
+                                                {{ customizedProductsTemplate.description|raw }}
+                                            </div>
+                                        {% endif %}
+                                    {% endblock %}
+                                {% endblock %}
+
+                                {% block swag_customized_products_step_by_step_start_wizard %}
+                                    {% if isStepByStep %}
+                                        <button class="btn btn-primary swag-customized-products-start-wizard"
+                                                data-swag-customized-product-step-by-step-configure="true">
+                                            {{ 'customizedProducts.stepByStep.navigation.btnConfigureProduct' | trans }}
+                                        </button>
+                                    {% endif %}
+                                {% endblock %}
+                            </div>
+                        </div>
+                    {% endblock %}
+
+                    {% for option in customizedProductsTemplate.options %}
+                        {# @var \Swag\CustomizedProducts\Template\Aggregate\TemplateOption\TemplateOptionEntity option #}
+                        {% set props = option.typeProperties %}
+                        {% set optionTemplateParent = customizedProductsOptionTemplatePrefix ~ 'option.html.twig' %}
+                        {% set fileName = customizedProductsOptionTemplatePrefix ~ option.type %}
+                        {% set optionTemplate = fileName ~ '.html.twig' %}
+
+                        {% block swag_customized_products_option_type_template %}
+                            {% if optionTemplate is not same as(null) %}
+                                {% sw_include optionTemplateParent ignore missing with {
+                                    'template': customizedProductsTemplate,
+                                    'option': option,
+                                    'optionTemplate': optionTemplate,
+                                    'isStepByStep': customizedProductsTemplate.stepByStep
+                                } %}
+                            {% endif %}
+                        {% endblock %}
+                    {% endfor %}
+
+                    {% block swag_customized_products_step_by_step_finish_page %}
+                        {% if isStepByStep %}
+                            <div class="swag-customized-products__item">
+                                <div class="swag-customized-products__finish">
+
+                                    {% block swag_customized_products_step_by_step_finish_title %}
+                                        <div class="swag-customized-products__title h4 col12">
+                                            {{ customizedProductsTemplate.translated.displayName }}
+                                        </div>
+                                    {% endblock %}
+
+                                    {% block swag_customized_products_step_by_step_finish_configure_product %}
+                                        <button class="btn btn-outline-primary swag-customized-products-start-wizard"
+                                                data-swag-customized-product-step-by-step-configure="true">
+                                            {{ 'customizedProducts.stepByStep.navigation.btnChangeConfiguration' | trans }}
+                                        </button>
+                                    {% endblock %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endblock %}
+                </div>
+
+                {% block swag_customized_products_step_by_step_pager %}
+                    {% if isStepByStep %}
+                        <div class="swag-customized-products__pager-holder"></div>
+                    {% endif %}
+                {% endblock %}
+            </div>
+
+            {# Violation list holder #}
+            <div class="swag-customized-products__violation-list-holder">
+                <template>{% sw_include '@Storefront/storefront/utilities/alert.html.twig' with {
+                    type: "danger",
+                    content: '%2',
+                    heading: '%1'
+                } %}</template>
+            </div>
+        </div>
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}
+
+{% block page_product_detail_buy_form_action %}
+    {% apply spaceless %}
+        {% if customizedProductsTemplate and customizedProductsTemplate.active %}
+            {{ path('frontend.checkout.customized-products.add') }}
+        {% else %}
+            {{ parent() }}
+        {% endif %}
+    {% endapply %}
+{% endblock %}
+
+{% block page_product_detail_buy_form_inner_csrf %}
+    {% if customizedProductsTemplate and customizedProductsTemplate.active %}
+        {{ sw_csrf('frontend.checkout.customized-products.add') }}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

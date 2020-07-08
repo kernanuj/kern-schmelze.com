@@ -1,0 +1,125 @@
+{% block swag_customized_products_option_type_surcharges %}
+    <div class="swag-customized-products-option-type-surcharges">
+
+        {% block swag_customized_products_option_type_surcharges_field_relative %}
+            <sw-switch-field
+                v-model="value.relativeSurcharge"
+                v-tooltip="relativeTooltip"
+                class="swag-customized-products-option-type-surcharges-switch"
+                :label="$tc('swag-customized-products.optionDetailModal.optionType.surcharges.relativeLabel')">
+            </sw-switch-field>
+        {% endblock %}
+
+        {% block swag_customized_products_option_type_surcharges_tax %}
+            <div class="swag-customized-products-option-grid">
+                <sw-entity-single-select
+                    v-model="value.taxId"
+                    :popoverConfig="{active: true, resizeWidth: true, style: { zIndex: 1000 }}"
+                    :label="$tc('swag-customized-products.optionDetailModal.optionType.surcharges.taxLabel')"
+                    :placeholder="$tc('swag-customized-products.optionDetailModal.optionType.surcharges.taxPlaceholder')"
+                    entity="tax">
+                </sw-entity-single-select>
+            </div>
+        {% endblock %}
+
+        {% block swag_customized_products_option_type_surcharges_surcharges %}
+            <div class="swag-customized-products-option-type-surcharges__fields">
+
+                {% block swag_customized_products_option_type_surcharges_content %}
+                    {% block swag_customized_products_option_type_surcharges_content_simple %}
+                        {% block swag_customized_products_option_type_surcharges_content_simple_relative %}
+                            <template v-if="value.relativeSurcharge">
+
+                                {% block swag_customized_products_option_type_surcharges_content_simple_relative_content %}
+                                    <div class="swag-customized-products-option-grid">
+
+                                        {% block swag_customized_products_option_type_surcharges_content_simple_relative_content_number_field %}
+                                            <sw-number-field
+                                                v-model="value.percentageSurcharge"
+                                                class="swag-customized-products-option-type-surcharges__field_relative_value"
+                                                :label="$tc('swag-customized-products.optionDetailModal.optionType.surcharges.relativeLabel')"
+                                                :placeholder="$tc('swag-customized-products.optionDetailModal.optionType.surcharges.relativeLabel')">
+                                                <template #suffix>
+                                                    <span>&#037;</span>
+                                                </template>
+                                            </sw-number-field>
+                                        {% endblock %}
+                                    </div>
+                                {% endblock %}
+                            </template>
+                        {% endblock %}
+
+                        {% block swag_customized_products_option_type_surcharges_content_simple_absolute %}
+                            <template v-else>
+
+                                {% block swag_customized_products_option_type_surcharges_content_simple_absolute_price_field %}
+                                    <sw-price-field
+                                        :taxRate="{ id: value.taxId }"
+                                        :price="value.price"
+                                        :currency="systemDefaultCurrency"
+                                        :disabled="!value.taxId">
+                                    </sw-price-field>
+                                {% endblock %}
+                            </template>
+                        {% endblock %}
+
+                        {% block swag_customized_products_option_type_surcharges_field_advanced %}
+                            <sw-switch-field
+                                v-model="value.advancedSurcharge"
+                                v-tooltip="advancedTooltip"
+                                class="swag-customized-products-option-type-surcharges-switch"
+                                :disabled="!value.taxId && !value.relativeSurcharge"
+                                :label="$tc('swag-customized-products.optionDetailModal.optionType.surcharges.advancedLabel')">
+                            </sw-switch-field>
+                        {% endblock %}
+                    {% endblock %}
+
+                    {% block swag_customized_products_option_type_surcharges_content_advanced %}
+                        <swag-customized-products-option-type-advanced-surcharges
+                            v-if="(value.taxId || value.relativeSurcharge) && value.advancedSurcharge"
+                            :taxId="value.taxId"
+                            :prices="value.prices"
+                            :relativeSurcharge="value.relativeSurcharge"
+                            :currencies="currencies"
+                            @prices-add="$emit('prices-add', $event)"
+                            @prices-remove="$emit('prices-remove', $event)">
+                        </swag-customized-products-option-type-advanced-surcharges>
+                    {% endblock %}
+                {% endblock %}
+            </div>
+        {% endblock %}
+
+        {% block swag_customized_products_option_type_surcharges_field_once_per_order %}
+            <sw-container columns="repeat(auto-fit, minmax(250px, 1fr)" gap="0 30px">
+                <sw-checkbox-field
+                    v-model="value.oneTimeSurcharge"
+                    class="swag-customized-products-option-type-surcharges__field-oncePerOrder"
+                    :label="$tc('swag-customized-products.optionDetailModal.optionType.surcharges.oncePerOrderLabel')">
+                </sw-checkbox-field>
+
+                {% block swag_customized_products_option_type_surcharges_currencies_link %}
+                    <a v-if="value.taxId && !value.relativeSurcharge && !value.advancedSurcharge"
+                       class="swag-customized-products-option-currency-depending-prices-link"
+                       @click.prevent="displayMaintainCurrenciesModal = true" >
+                        {{ $tc('sw-product.detailBase.linkMaintainCurrencyPrices') }} <sw-icon name="default-arrow-simple-right" small></sw-icon>
+                    </a>
+                {% endblock %}
+
+                {# Prevents the checkbox from checking if clicked in right fraction #}
+                <div v-if="value.relativeSurcharge"></div>
+            </sw-container>
+        {% endblock %}
+
+        {% block swag_customized_products_option_maintain_currencies_modal %}
+            <sw-maintain-currencies-modal
+                v-if="displayMaintainCurrenciesModal"
+                :taxRate="{ id: value.taxId }"
+                :defaultPrice="defaultPrice"
+                :currencies="currencies"
+                :prices="value.price"
+                :hideListPrices="true"
+                @modal-close="onMaintainCurrenciesClose">
+            </sw-maintain-currencies-modal>
+        {% endblock %}
+    </div>
+{% endblock %}

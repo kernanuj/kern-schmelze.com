@@ -1,0 +1,9 @@
+.swag-customized-products-option-type__checkbox-wrapper {
+  @include border-radius();
+  border: 1px solid $sw-border-color;
+  padding: $spacer-md;
+
+    &:hover {
+        border-color: $sw-color-brand-primary;
+    }
+}

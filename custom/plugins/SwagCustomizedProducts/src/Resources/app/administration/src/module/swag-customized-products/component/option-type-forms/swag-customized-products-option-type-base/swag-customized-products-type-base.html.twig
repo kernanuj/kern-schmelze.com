@@ -1,0 +1,23 @@
+{% block swag_customized_products_option_type_base %}
+    <div class="swag-customized-products-option-type-base swag-customized-products-option-type-no-tree">
+
+        {% block swag_customized_products_option_type_base_header %}
+            <swag-customized-products-option-type-header :option="option">
+            </swag-customized-products-option-type-header>
+        {% endblock %}
+
+        {% block swag_customized_products_option_type_base_content %}
+            <p>Overwrite this content</p>
+        {% endblock %}
+
+        {% block swag_customized_products_option_type_base_surcharges %}
+            <swag-customized-products-option-type-surcharges
+                :value="option"
+                :versionContext="versionContext"
+                @prices-add="addPriceRule"
+                @prices-remove="removePriceRule"
+                @price-add="addPrice">
+            </swag-customized-products-option-type-surcharges>
+        {% endblock %}
+    </div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% block swag_customized_products_option_type_base %}
+    {% parent %}
+{% endblock %}
+
+{% block swag_customized_products_option_type_base_content %}
+    {% block swag_customized_products_option_type_fileupload_content %}
+        <div class="swag-customized-products-option-type-fileupload__content">
+
+            {% block swag_customized_products_option_type_fileupload_field_item_number %}
+                <sw-text-field v-model="option.itemNumber"
+                               class="swag-customized-products-option-type-fileupload__field_item_number"
+                               :label="$tc('swag-customized-products.optionDetailModal.optionType.itemNumberLabel')"
+                               :helpText="$tc('swag-customized-products.optionDetailModal.optionType.itemNumberHelpText')">
+                </sw-text-field>
+            {% endblock %}
+
+            {% block swag_customized_products_option_type_fileupload_limit_group %}
+                <sw-container class="swag-customized-products-option-type-fileupload__limit-group"
+                              columns="repeat(auto-fit, minmax(150px, 160px))"
+                              gap="0px 30px">
+
+                    {% block swag_customized_products_option_type_fileupload_field_max_count %}
+                        <sw-number-field v-model="option.typeProperties.maxCount"
+                                         class="swag-customized-products-option-type-fileupload__field_max_count"
+                                         :label="$tc('swag-customized-products.optionDetailModal.optionType.imageupload.maxCountLabel')"
+                                         :step="1"
+                                         :min="1"
+                                         numberType="int"
+                                         required>
+                        </sw-number-field>
+                    {% endblock %}
+
+                    {% block swag_customized_products_option_type_fileupload_field_max_file_size %}
+                        <sw-number-field v-model="option.typeProperties.maxFileSize"
+                                         class="swag-customized-products-option-type-fileupload__field_max_file_size"
+                                         :label="$tc('swag-customized-products.optionDetailModal.optionType.imageupload.maxFileSizeLabel')"
+                                         :min="1"
+                                         numberType="int"
+                                         required>
+                            <template #suffix>
+                                <span>MB</span>
+                            </template>
+                        </sw-number-field>
+                    {% endblock %}
+                </sw-container>
+            {% endblock %}
+        </div>
+    {% endblock %}
+{% endblock %}

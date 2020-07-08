@@ -1,0 +1,80 @@
+{% sw_extends '@Storefront/storefront/component/checkout/offcanvas-item.html.twig' %}
+
+{% set lineItemTemplateType = constant('Swag\\CustomizedProducts\\Core\\Checkout\\CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_TEMPLATE_LINE_ITEM_TYPE') %}
+{% set lineItemOptionType = constant('Swag\\CustomizedProducts\\Core\\Checkout\\CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_OPTION_LINE_ITEM_TYPE') %}
+{% set lineItemOptionValueType = constant('Swag\\CustomizedProducts\\Core\\Checkout\\CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_OPTION_VALUE_LINE_ITEM_TYPE') %}
+{% set isCustomizedProduct = lineItem.type == lineItemTemplateType %}
+{% set cover = null %}
+
+{% block component_offcanvas_cart_item_children %}
+    {% set isChildOfCustomizedProduct = isCustomizedProduct or (lineItem.type == lineItemOptionType) %}
+
+    {{ parent() }}
+{% endblock %}
+
+{% block component_offcanvas_cart_item_container %}
+    {# Main Product handles everything - Normal LineItem procedure will be skipped for children #}
+    {% if isCustomizedProduct %}
+        {% set isNested = false %}
+        {% set configurationItems = [] %}
+
+        {% for child in lineItem.children %}
+            {% if child.type == 'product' %}
+                {% set label = child.label %}
+                {% set referencedId = child.referencedId %}
+
+                {% if child.cover.url %}
+                    {% set cover = child.cover %}
+                {% endif %}
+            {% else %}
+                {% set configurationItems = configurationItems|merge([child]) %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% if not isChildOfCustomizedProduct %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block component_offcanvas_product_label %}
+    {# Generate proper product headlines for custom products like it's a product #}
+    {% if isCustomizedProduct %}
+        {% set type = 'product' %}
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}
+
+{% block component_offcanvas_product_image_inner %}
+    {% if cover %}
+        {% sw_include '@Storefront/storefront/component/checkout/_include/thumbnail.html.twig' with {
+            'cover': cover,
+            'referencedId': referencedId,
+            'label': label
+        } %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block component_offcanvas_product_remove %}
+    {{ parent() }}
+
+    {% if isCustomizedProduct %}
+        {% sw_include '@Storefront/storefront/component/checkout/_include/cart-configuration.html.twig' with {
+            'items': configurationItems,
+            'productId': referencedId
+        } %}
+    {% endif %}
+{% endblock %}
+
+{% block component_offcanvas_product_quantity_form %}
+    {{ parent() }}
+
+    {% if isCustomizedProduct or lineItem.type == lineItemOptionType or lineItem.type == lineItemOptionValueType %}
+        <div class="cart-item-quantity">
+            {{ lineItem.quantity }}
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,57 @@
+@import "~scss/variables";
+
+.swag-customized-products-configuration-modal {
+    &__label {
+        margin: 0 2px 6px;
+
+        &-colorselect {
+            height: auto;
+        }
+
+        &--clickable:hover {
+            cursor: pointer;
+        }
+    }
+
+    &__color-preview {
+        display: inline-block;
+        width: .75rem;
+        height: .75rem;
+        border-radius: 50%;
+        margin: 2px 4px 2px 0;
+        padding: 0;
+        vertical-align: sub;
+    }
+
+    &__image-label-icon {
+        margin: 0 0 2px 8px;
+    }
+
+    &__image-content {
+        max-height: 80vh;
+        max-width: 90vw;
+    }
+
+    &__tagged-field > .sw-block-field__block {
+        padding: 6px 2px 0;
+        background-color: $color-gray-100;
+    }
+
+    .sw-modal__body {
+        min-height: 175px;
+    }
+
+    .sw-label .sw-label__caption {
+        vertical-align: sub;
+    }
+
+    .sw-field--switch.sw-field--default {
+        margin-top: 0;
+    }
+}
+
+.swag-customized-products-configuration__image-modal {
+    .swag-customized-products-configuration__image-wrapper {
+        text-align: center;
+    }
+}

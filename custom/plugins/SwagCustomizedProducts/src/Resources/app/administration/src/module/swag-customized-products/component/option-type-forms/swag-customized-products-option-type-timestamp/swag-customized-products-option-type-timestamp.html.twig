@@ -1,0 +1,49 @@
+{% block swag_customized_products_option_type_base %}
+    {% parent %}
+{% endblock %}
+
+{% block swag_customized_products_option_type_base_content %}
+    {% block swag_customized_products_option_type_timestamp_field_group %}
+        <sw-container class="swag-customized-products-option-type-textarea__field_group"
+                      columns="repeat(auto-fit, minmax(250px, 1fr))"
+                      gap="0px 30px">
+
+            {% block swag_customized_products_option_type_timestamp_field_group_content %}
+                {% block swag_customized_products_option_type_textarea_field_item_number %}
+                    <sw-text-field v-model="option.itemNumber"
+                                   :placeholder="$tc('swag-customized-products.optionDetailModal.optionType.placeholderItemNumber')"
+                                   :label="$tc('swag-customized-products.optionDetailModal.optionType.itemNumberLabel')"
+                                   :helpText="$tc('swag-customized-products.optionDetailModal.optionType.itemNumberHelpText')">
+                    </sw-text-field>
+                {% endblock %}
+
+                {% block swag_customized_products_option_type_timestamp_field_group_placeholder %}
+                    <sw-text-field
+                        v-model="option.typeProperties.placeholder"
+                        class="swag-customized-products-option-type-textarea__field_placeholder"
+                        :label="$tc('swag-customized-products.optionDetailModal.optionType.placeholderLabel')"
+                        :placeholder="$tc('swag-customized-products.optionDetailModal.optionType.placeholderPlaceholder')">
+                    </sw-text-field>
+                {% endblock %}
+
+                {% block swag_customized_products_option_type_timestamp_field_group_min_date %}
+                    <sw-datepicker
+                        v-model="option.typeProperties.startTime"
+                        :label="$tc('swag-customized-products.optionDetailModal.optionType.datetime.minDate')"
+                        dateType="time"
+                        size="default">
+                    </sw-datepicker>
+                {% endblock %}
+
+                {% block swag_customized_products_option_type_timestamp_field_group_max_date %}
+                    <sw-datepicker
+                        v-model="option.typeProperties.endTime"
+                        :label="$tc('swag-customized-products.optionDetailModal.optionType.datetime.maxDate')"
+                        dateType="time"
+                        size="default">
+                    </sw-datepicker>
+                {% endblock %}
+            {% endblock %}
+        </sw-container>
+    {% endblock %}
+{% endblock %}

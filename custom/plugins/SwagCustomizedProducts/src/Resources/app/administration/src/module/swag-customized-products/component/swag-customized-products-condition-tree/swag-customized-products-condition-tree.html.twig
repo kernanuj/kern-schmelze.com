@@ -1,0 +1,39 @@
+{% block swag_customized_products_condition_tree %}
+    <div>
+        <sw-alert variant="info">
+            {{ $tc('swag-customized-products-condition-tree.helpText') }}
+        </sw-alert>
+
+        <p class="swag_customized_products_condition_tree__label">
+            {{ $tc('swag-customized-products-condition-tree.label') }}
+        </p>
+
+        <div class="swag-customized-products-condition-tree">
+
+            {% block swag_customized_products_condition_tree_nodes %}
+                <template v-for="(condition, index) in conditions">
+                    <swag-customized-products-condition-tree-node
+                        :templateId="templateId"
+                        :context="context"
+                        :condition="condition"
+                        :index="index"
+                        :optionCriteria="optionCriteria"
+                        @delete-condition="deleteCondition">
+                    </swag-customized-products-condition-tree-node>
+                </template>
+            {% endblock %}
+
+            {% block swag_customized_products_condition_tree_actions %}
+                {% block swag_customized_products_condition_tree_actions_add %}
+                    <sw-button
+                        class="swag-customized-products-condition-tree__actions-add"
+                        variant="ghost"
+                        size="small"
+                        @click="addConditions(1)">
+                        {{ $tc('global.default.add') }}
+                    </sw-button>
+                {% endblock %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
