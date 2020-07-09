@@ -265,11 +265,7 @@
         {% endblock %}
 
         {% block inv_product_mixer_sidebar_price_info %}
-            {% if mixView.mixTotalPrice.value == 0 %}
-                {% set mixerProductTotalPrice = 8.49 %}
-            {% else %}
-                {% set mixerProductTotalPrice = mixView.mixTotalPrice.value %}
-            {% endif %}
+            {% set mixerProductTotalPrice = mixView.mixTotalPrice.value %}
 
             {# Todo: Calculate and fill with value: mixView.mixTotalWeight.value #}
             {% if mixView.mixTotalWeight.value == 0 %}
