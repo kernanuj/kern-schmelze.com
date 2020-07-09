@@ -21,24 +21,24 @@ Component.register('klarna-order-items', {
         orderItems() {
             const data = [];
 
-            this.klarnaOrder.order_lines.forEach((order_item) => {
+            this.klarnaOrder.order_lines.forEach((orderItem) => {
                 const price = this.$options.filters.klarna_currency(
-                    order_item.total_amount,
+                    orderItem.total_amount,
                     this.klarnaOrder.currency,
                     this.klarnaOrder.decimal_precision
                 );
 
                 let disabled = false;
-                let quantity = order_item.quantity;
+                let quantity = orderItem.quantity;
 
-                if (this.mode === 'refund' && order_item.captured_quantity > 0) {
-                    quantity = order_item.captured_quantity;
+                if (this.mode === 'refund' && orderItem.captured_quantity > 0) {
+                    quantity = orderItem.captured_quantity;
                 }
 
                 if (this.mode === 'capture') {
-                    quantity -= order_item.captured_quantity;
+                    quantity -= orderItem.captured_quantity;
                 } else if (this.mode === 'refund') {
-                    quantity -= order_item.refunded_quantity;
+                    quantity -= orderItem.refunded_quantity;
                 }
 
                 if (quantity <= 0) {
@@ -46,13 +46,13 @@ Component.register('klarna-order-items', {
                 }
 
                 data.push({
-                    id: order_item.reference,
-                    reference: order_item.reference,
-                    product: order_item.name,
+                    id: orderItem.reference,
+                    reference: orderItem.reference,
+                    product: orderItem.name,
                     amount: quantity,
                     disabled: disabled,
                     price: price,
-                    orderItem: order_item
+                    orderItem: orderItem
                 });
             });
 

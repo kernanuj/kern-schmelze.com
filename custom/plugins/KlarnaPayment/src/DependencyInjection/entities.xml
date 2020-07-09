@@ -4,8 +4,14 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="KlarnaPayment\Components\DataAbstractionLayer\Entity\Log\KlarnaPaymentLogDefinition">
-            <tag name="shopware.entity.definition" entity="klarna_payment_log"/>
+        <service id="KlarnaPayment\Components\DataAbstractionLayer\Entity\RequestLog\RequestLogDefinition">
+            <!-- TODO: Remove entity attribute for >= 6.2 before 6.4 -->
+            <tag name="shopware.entity.definition" entity="klarna_payment_request_log"/>
+        </service>
+
+        <service id="KlarnaPayment\Components\DataAbstractionLayer\Entity\ButtonKey\ButtonKeyDefinition">
+            <!-- TODO: Remove entity attribute for >= 6.2 before 6.4 -->
+            <tag name="shopware.entity.definition" entity="klarna_payment_button_key"/>
         </service>
     </services>
 </container>

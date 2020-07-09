@@ -39,9 +39,11 @@ Component.register('klarna-refund-button', {
         buttonEnabled() {
             if (this.remainingAmount <= 0) {
                 return false;
-            } if (this.klarnaOrder.order_status === 'CANCELLED') {
+            }
+            if (this.klarnaOrder.order_status === 'CANCELLED') {
                 return false;
-            } if (this.klarnaOrder.captured_amount <= 0) {
+            }
+            if (this.klarnaOrder.captured_amount <= 0) {
                 return false;
             }
 
@@ -99,9 +101,9 @@ Component.register('klarna-refund-button', {
             const orderLines = [];
 
             this.selection.forEach((selection) => {
-                this.klarnaOrder.order_lines.forEach((order_item) => {
-                    if (order_item.reference === selection.reference && selection.selected && selection.quantity > 0) {
-                        const copy = { ...order_item };
+                this.klarnaOrder.order_lines.forEach((orderItem) => {
+                    if (orderItem.reference === selection.reference && selection.selected && selection.quantity > 0) {
+                        const copy = { ...orderItem };
 
                         copy.quantity = selection.quantity;
                         copy.total_amount = copy.unit_price * copy.quantity;
@@ -177,27 +179,27 @@ Component.register('klarna-refund-button', {
         },
 
         onChangeDescription(description) {
-            const max_chars = 255;
+            const maxChars = 255;
 
-            if (description.length >= max_chars) {
-                description = description.substr(0, max_chars);
+            if (description.length >= maxChars) {
+                this.description = description.substr(0, maxChars);
+            } else {
+                this.description = description;
             }
-
-            this.description = description;
         },
 
         _populateSelectionProperty() {
-            this.klarnaOrder.order_lines.forEach((order_item) => {
-                let quantity = order_item.quantity;
+            this.klarnaOrder.order_lines.forEach((orderItem) => {
+                let quantity = orderItem.quantity;
 
-                if (order_item.captured_quantity > 0) {
-                    quantity = order_item.captured_quantity;
+                if (orderItem.captured_quantity > 0) {
+                    quantity = orderItem.captured_quantity;
                 }
 
                 this.selection.push({
-                    quantity: quantity - order_item.refunded_quantity,
-                    reference: order_item.reference,
-                    unit_price: order_item.unit_price,
+                    quantity: quantity - orderItem.refunded_quantity,
+                    reference: orderItem.reference,
+                    unit_price: orderItem.unit_price,
                     selected: false
                 });
             });

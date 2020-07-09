@@ -10,6 +10,13 @@
             <argument type="service" id="KlarnaPayment\Core\System\SystemConfig\SystemConfigService.inner"/>
             <argument type="service" id="payment_method.repository"/>
             <argument type="service" id="sales_channel.repository"/>
+            <argument type="service" id="sales_channel_payment_method.repository" />
+        </service>
+
+        <service id="KlarnaPayment\Core\System\NumberRange\ValueGenerator\NumberRangeValueGenerator"
+                 decorates="Shopware\Core\System\NumberRange\ValueGenerator\NumberRangeValueGeneratorInterface"
+                 public="false">
+            <argument type="service" id="KlarnaPayment\Core\System\NumberRange\ValueGenerator\NumberRangeValueGenerator.inner"/>
         </service>
     </services>
 </container>

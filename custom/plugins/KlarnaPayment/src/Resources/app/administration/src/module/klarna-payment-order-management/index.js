@@ -37,7 +37,10 @@ Module.register('klarna-payment-order-management', {
                 component: 'klarna-payment-tab',
                 name: 'klarna-payment-order-management.payment.detail',
                 isChildren: true,
-                path: '/sw/order/klarna/detail/:id'
+                meta: {
+                    parentPath: 'sw.order.index'
+                },
+                path: '/sw/order/detail/:id/klarna/:transaction'
             });
         }
 

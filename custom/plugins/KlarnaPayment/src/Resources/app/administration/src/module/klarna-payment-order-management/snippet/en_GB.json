@@ -29,6 +29,7 @@
             }
         },
         "tooltips": {
+            "transactionCancelled": "The transaction was cancelled.",
             "captureImpossible": "A capture can only be performed if the risk assessment was successful and authorized amount is available.",
             "refundImpossible": "A refund can only be made if an amount has been captured.",
             "extendAuthorizationImpossible": "The authorization has already expired or was captured and can therefore not be renewed.",

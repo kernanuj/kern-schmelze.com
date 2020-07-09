@@ -1,6 +1,7 @@
 import template from './sw-order-detail.html.twig';
+import './sw-order-detail.scss';
 
-const { Component } = Shopware;
+const { Component, Context } = Shopware;
 const { Criteria } = Shopware.Data;
 
 Component.override('sw-order-detail', {
@@ -14,16 +15,10 @@ Component.override('sw-order-detail', {
 
     computed: {
         isEditable() {
-            return this.klarnaTransactions.length === 0 || this.$route.name !== 'klarna-payment-order-management.payment.detail';
-        },
+            const route = 'klarna-payment-order-management.payment.detail';
 
-        showTabs() {
-            return true;
+            return this.klarnaTransactions.length === 0 || this.$route.name !== route;
         }
-    },
-
-    created() {
-        this.$router.push({ name: 'sw.order.detail', params: { id: this.orderId } });
     },
 
     watch: {
@@ -48,15 +43,14 @@ Component.override('sw-order-detail', {
 
             const orderCriteria = new Criteria(1, 1);
             orderCriteria.addAssociation('transactions');
+            orderCriteria.addAssociation('transactions.stateMachineState');
 
-            return orderRepository.get(this.$route.params.id, Shopware.Context.api, orderCriteria).then((order) => {
+            return orderRepository.get(this.$route.params.id, Context.api, orderCriteria).then((order) => {
                 this.loadKlarnaTransactions(order);
             });
         },
 
         loadKlarnaTransactions(order) {
-            const me = order;
-
             order.transactions.forEach((orderTransaction) => {
                 if (!orderTransaction.customFields) {
                     return;
@@ -67,9 +61,8 @@ Component.override('sw-order-detail', {
                 }
 
                 this.klarnaTransactions.push({
-                    orderTransactionId: orderTransaction.id,
-                    klarna_order_id: orderTransaction.customFields.klarna_order_id,
-                    salesChannel: me.salesChannelId
+                    transaction: orderTransaction.id,
+                    cancelled: orderTransaction.stateMachineState.technicalName === 'cancelled'
                 });
             });
         }

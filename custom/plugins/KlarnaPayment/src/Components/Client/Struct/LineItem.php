@@ -21,6 +21,9 @@ class LineItem extends Struct
     protected $type = self::TYPE_PHYSICAL;
 
     /** @var string */
+    protected $productId = '';
+
+    /** @var string */
     protected $reference = '';
 
     /** @var string */
@@ -68,6 +71,11 @@ class LineItem extends Struct
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function getProductId(): string
+    {
+        return $this->productId;
     }
 
     public function getReference(): string

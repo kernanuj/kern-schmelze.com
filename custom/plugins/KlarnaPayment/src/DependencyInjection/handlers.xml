@@ -14,8 +14,19 @@
             <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\UpdateAddress\UpdateAddressRequestHydrator" />
             <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\UpdateOrder\UpdateOrderRequestHydrator" />
             <argument type="service" id="KlarnaPayment\Components\Helper\OrderFetcher" />
+            <argument type="service" id="request_stack" />
 
             <tag name="shopware.payment.method.async"/>
+        </service>
+
+        <service id="KlarnaPayment\Components\PaymentHandler\KlarnaInstantShoppingPaymentHandler">
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\CreateOrder\CreateOrderRequestHydrator" />
+            <argument type="service" id="order_transaction.repository" />
+            <argument type="service" id="KlarnaPayment\Components\Client\Client" />
+            <argument type="service" id="translator" />
+            <argument type="service" id="request_stack" />
+
+            <tag name="shopware.payment.method.sync"/>
         </service>
     </services>
 </container>

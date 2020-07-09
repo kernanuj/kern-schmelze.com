@@ -63,7 +63,7 @@ class Client implements ClientInterface
         $configuration = $this->configReader->read($request->getSalesChannel());
 
         if ($configuration->get('debugMode')) {
-            $this->logRequest($request);
+            $this->logRequest($request, $configuration);
         }
 
         $curl = curl_init();
@@ -197,7 +197,13 @@ class Client implements ClientInterface
 
     private function getEndpoint(RequestInterface $request, Configuration $configuration): string
     {
-        if ($configuration->get('testMode')) {
+        $testMode = $configuration->get('testMode', true);
+
+        if ($request instanceof TestRequest) {
+            $testMode = $request->getTestMode();
+        }
+
+        if ($testMode) {
             $baseUrl = 'https://api.playground.klarna.com';
         } else {
             $baseUrl = 'https://api.klarna.com';
@@ -231,7 +237,7 @@ class Client implements ClientInterface
         $this->retryCounter = 0;
     }
 
-    private function logRequest(RequestInterface $request): void
+    private function logRequest(RequestInterface $request, Configuration $configuration): void
     {
         $data = json_encode($request, JSON_PRESERVE_ZERO_FRACTION);
 
@@ -243,7 +249,7 @@ class Client implements ClientInterface
 
         $payload = [
             'method'         => $request->getMethod(),
-            'endpoint'       => $request->getEndpoint(),
+            'endpoint'       => $this->getEndpoint($request, $configuration),
             'request'        => $data,
             'idempotencyKey' => $this->getIdempotencyKey(),
         ];
@@ -275,7 +281,7 @@ class Client implements ClientInterface
 
         $orderId = $this->getOrderId($request, $response);
 
-        if (!$orderId) {
+        if (empty($orderId)) {
             return;
         }
 
@@ -303,29 +309,22 @@ class Client implements ClientInterface
         return in_array($httpStatus, $allowedStatus, true);
     }
 
-    private function getOrderId(RequestInterface $request, ResponseInterface $response): ?string
+    private function getOrderId(RequestInterface $request, ResponseInterface $response): string
     {
-        $orderId = null;
-        $data    = $response->jsonSerialize();
+        $data = $response->jsonSerialize();
 
-        if (array_key_exists('order_id', $data)) {
-            if (!empty($data['order_id'])) {
-                $orderId = $data['order_id'];
-            }
+        if (array_key_exists('order_id', $data) && !empty($data['order_id'])) {
+            return $data['order_id'];
         }
 
-        if (!$orderId && array_key_exists('klarna_order_id', $data)) {
-            if (!empty($data['klarna_order_id'])) {
-                $orderId = $data['klarna_order_id'];
-            }
+        if (array_key_exists('klarna_order_id', $data) && !empty($data['klarna_order_id'])) {
+            return $data['klarna_order_id'];
         }
 
-        if (!$orderId) {
-            if (method_exists($request, 'getOrderId')) {
-                $orderId = $request->getOrderId();
-            }
+        if (method_exists($request, 'getOrderId')) {
+            return $request->getOrderId();
         }
 
-        return $orderId;
+        return '';
     }
 }

@@ -29,6 +29,7 @@
             }
         },
         "tooltips": {
+            "transactionCancelled": "Die Transaktion wurde abgebrochen.",
             "captureImpossible": "Eine Erfassung kann nur durchgeführt werden, wenn die Risikoprüfung erfolgreich war und ein autorisierter Betrag verfügbar ist.",
             "refundImpossible": "Eine Rückerstattung kann nur durchgeführt werden, wenn ein Betrag vorher erfasst wurde.",
             "extendAuthorizationImpossible": "Die Autorisierung ist bereits abgelaufen oder erfasst und kann deshalb nicht verlängert werden.",

@@ -25,6 +25,12 @@ class SessionDataExtension extends Struct
     /** @var string */
     protected $cartHash = '';
 
+    /** @var string */
+    protected $klarnaCartHash = '';
+
+    /** @var string */
+    protected $klarnaCartToken = '';
+
     /** @var array */
     protected $customerData = [];
 
@@ -51,6 +57,16 @@ class SessionDataExtension extends Struct
     public function getCartHash(): string
     {
         return $this->cartHash;
+    }
+
+    public function getKlarnaCartHash(): string
+    {
+        return $this->klarnaCartHash;
+    }
+
+    public function getKlarnaCartToken(): string
+    {
+        return $this->klarnaCartToken;
     }
 
     public function getCustomerData(): array

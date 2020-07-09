@@ -19,6 +19,14 @@
             <argument type="service" id="KlarnaPayment\Components\Client\Client"/>
         </service>
 
+        <service id="KlarnaPayment\Components\Helper\StateHelper\Cancel\CancelStateHelper">
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\CancelPayment\CancelPaymentRequestHydrator"/>
+            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
+            <argument type="service" id="KlarnaPayment\Components\Helper\StateHelper\StateData\StateDataHelper"/>
+            <argument type="service" id="KlarnaPayment\Components\Logger"/>
+            <argument type="service" id="KlarnaPayment\Components\Client\Client"/>
+        </service>
+
         <service id="KlarnaPayment\Components\Helper\StateHelper\StateData\StateDataHelper">
             <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\GetOrder\GetOrderRequestHydrator"/>
             <argument type="service" id="KlarnaPayment\Components\Client\Client"/>
@@ -33,7 +41,38 @@
 
         <service id="KlarnaPayment\Components\Helper\OrderFetcher">
             <argument type="service" id="order.repository"/>
-            <argument type="service" id="KlarnaPayment\Components\Helper\PaymentHelper\PaymentHelper"/>
+        </service>
+
+        <service id="KlarnaPayment\Components\Helper\SeoUrlHelper\SeoUrlHelper">
+            <argument type="service" id="sales_channel_domain.repository" />
+            <argument type="service" id="Shopware\Core\System\SalesChannel\Context\SalesChannelContextFactory" />
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="Shopware\Core\Content\Seo\SeoUrlPlaceholderHandlerInterface" />
+        </service>
+
+        <service id="KlarnaPayment\Components\Factory\MerchantDataFactory">
+            <argument type="service" id="KlarnaPayment\Components\ConfigReader\ConfigReader"/>
+            <argument type="service" id="event_dispatcher"/>
+        </service>
+
+        <service id="KlarnaPayment\Components\Helper\CurrencyHelper\CurrencyHelper">
+            <argument type="service" id="currency.repository" />
+        </service>
+
+        <service id="KlarnaPayment\Components\Helper\MerchantUrlHelper\MerchantUrlHelper">
+            <argument type="service" id="KlarnaPayment\Components\Helper\SeoUrlHelper\SeoUrlHelper" />
+            <argument type="service" id="KlarnaPayment\Components\ConfigReader\ConfigReader" />
+            <argument type="service" id="sales_channel_domain.repository" />
+        </service>
+
+        <service id="KlarnaPayment\Components\Helper\LocaleHelper\LocaleHelper"/>
+
+        <service id="KlarnaPayment\Components\Helper\ShippingMethodHelper\ShippingMethodHelper">
+            <argument type="service" id="sales_channel.shipping_method.repository"/>
+        </service>
+
+        <service id="KlarnaPayment\Components\Helper\SalesChannelHelper\SalesChannelHelper">
+            <argument type="service" id="sales_channel.repository"/>
         </service>
     </services>
 </container>

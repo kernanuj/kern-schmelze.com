@@ -18,10 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class RuleInstaller implements InstallerInterface
 {
-    private const RULE_ID      = 'f3f95e9b4f7b446799aa22feae0c61aa';
-    private const CONDITION_ID = '5bc599736527422894964260585b3c21';
-
-    private const VALID_COUNTRIES = [
+    public const VALID_COUNTRIES = [
         'AT',
         'CH',
         'DE',
@@ -32,6 +29,9 @@ class RuleInstaller implements InstallerInterface
         'SE',
         'GB',
     ];
+
+    private const RULE_ID      = 'f3f95e9b4f7b446799aa22feae0c61aa';
+    private const CONDITION_ID = '5bc599736527422894964260585b3c21';
 
     /** @var EntityRepositoryInterface */
     private $ruleRepository;

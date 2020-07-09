@@ -12,21 +12,25 @@ use KlarnaPayment\Components\Client\Hydrator\Struct\Address\AddressStructHydrato
 use KlarnaPayment\Components\Client\Hydrator\Struct\Customer\CustomerStructHydratorInterface;
 use KlarnaPayment\Components\Client\Response\GenericResponse;
 use KlarnaPayment\Components\Client\Struct\Attachment;
-use KlarnaPayment\Components\ConfigReader\ConfigReaderInterface;
-use KlarnaPayment\Components\Event\SetExtraMerchantDataEvent;
 use KlarnaPayment\Components\Extension\ErrorMessageExtension;
 use KlarnaPayment\Components\Extension\SessionDataExtension;
+use KlarnaPayment\Components\Factory\MerchantDataFactoryInterface;
+use KlarnaPayment\Components\Helper\OrderFetcherInterface;
 use KlarnaPayment\Components\Helper\PaymentHelper\PaymentHelperInterface;
-use KlarnaPayment\Components\Struct\ExtraMerchantData;
 use KlarnaPayment\Installer\PaymentMethodInstaller;
+use LogicException;
 use Shopware\Core\Checkout\Cart\Cart;
-use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
+use Shopware\Core\Checkout\Cart\Order\OrderConverter;
+use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\Struct\Struct;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
-use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPage;
+use Shopware\Storefront\Page\Account\Order\AccountEditOrderPageLoadedEvent;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
+use Shopware\Storefront\Page\Page;
+use Shopware\Storefront\Page\PageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class SessionEventListener implements EventSubscriberInterface
 {
@@ -45,17 +49,17 @@ class SessionEventListener implements EventSubscriberInterface
     /** @var ClientInterface */
     private $client;
 
-    /** @var CartService */
-    private $cartService;
-
     /** @var CartHasherInterface */
     private $cartHasher;
 
-    /** @var EventDispatcherInterface */
-    private $eventDispatcher;
+    /** @var MerchantDataFactoryInterface */
+    private $merchantDataFactory;
 
-    /** @var ConfigReaderInterface */
-    private $configReader;
+    /** @var OrderConverter */
+    private $orderConverter;
+
+    /** @var OrderFetcherInterface */
+    private $orderFetcher;
 
     public function __construct(
         PaymentHelperInterface $paymentHelper,
@@ -63,30 +67,31 @@ class SessionEventListener implements EventSubscriberInterface
         AddressStructHydratorInterface $addressHydrator,
         CustomerStructHydratorInterface $customerHydrator,
         ClientInterface $client,
-        CartService $cartService,
         CartHasherInterface $cartHasher,
-        EventDispatcherInterface $eventDispatcher,
-        ConfigReaderInterface $configReader
+        MerchantDataFactoryInterface $merchantDataFactory,
+        OrderConverter $orderConverter,
+        OrderFetcherInterface $orderFetcher
     ) {
-        $this->paymentHelper    = $paymentHelper;
-        $this->requestHydrator  = $requestHydrator;
-        $this->addressHydrator  = $addressHydrator;
-        $this->customerHydrator = $customerHydrator;
-        $this->client           = $client;
-        $this->cartService      = $cartService;
-        $this->cartHasher       = $cartHasher;
-        $this->eventDispatcher  = $eventDispatcher;
-        $this->configReader     = $configReader;
+        $this->paymentHelper       = $paymentHelper;
+        $this->requestHydrator     = $requestHydrator;
+        $this->addressHydrator     = $addressHydrator;
+        $this->customerHydrator    = $customerHydrator;
+        $this->client              = $client;
+        $this->cartHasher          = $cartHasher;
+        $this->merchantDataFactory = $merchantDataFactory;
+        $this->orderConverter      = $orderConverter;
+        $this->orderFetcher        = $orderFetcher;
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            CheckoutConfirmPageLoadedEvent::class => 'startKlarnaCheckoutSession',
+            CheckoutConfirmPageLoadedEvent::class  => 'startKlarnaSession',
+            AccountEditOrderPageLoadedEvent::class => 'startKlarnaSession',
         ];
     }
 
-    public function startKlarnaCheckoutSession(CheckoutConfirmPageLoadedEvent $event): void
+    public function startKlarnaSession(PageLoadedEvent $event): void
     {
         $context = $event->getSalesChannelContext();
 
@@ -94,7 +99,14 @@ class SessionEventListener implements EventSubscriberInterface
             return;
         }
 
-        $cart = $event->getPage()->getCart();
+        if ($event instanceof CheckoutConfirmPageLoadedEvent) {
+            $cart = $event->getPage()->getCart();
+        } elseif ($event instanceof AccountEditOrderPageLoadedEvent) {
+            /** @phpstan-ignore-next-line */
+            $cart = $this->convertCartFromOrder($event->getPage()->getOrder(), $event->getContext());
+        } else {
+            return;
+        }
 
         $response = $this->createKlarnaSession($cart, $context);
 
@@ -103,22 +115,31 @@ class SessionEventListener implements EventSubscriberInterface
                 $this->createErrorMessageExtension($event);
             }
 
-            $this->removeSessionDataExtension($cart, $context);
-            $this->removeAllKlarnaPaymentMethods($event);
+            $this->removeAllKlarnaPaymentMethods($event->getPage());
 
             return;
         }
 
-        $this->createSessionDataExtension($response, $cart, $context);
-        $this->removeDisabledKlarnaPaymentMethods($cart, $event);
-        $this->filterPayNowMethods($cart, $event->getPage());
+        $this->createSessionDataExtension($response, $event->getPage(), $cart, $context);
+
+        $this->removeDisabledKlarnaPaymentMethods($event->getPage());
+        $this->filterPayNowMethods($event->getPage());
     }
 
-    private function filterPayNowMethods(Cart $cart, CheckoutConfirmPage $page): void
+    private function filterPayNowMethods(Struct $page): void
     {
-        /** @var SessionDataExtension $sessionExtension */
-        $sessionExtension = $cart->getExtension(SessionDataExtension::EXTENSION_NAME);
-        foreach ($sessionExtension->getPaymentMethodCategories() as $paymentCategory) {
+        if (!($page instanceof Page)) {
+            return;
+        }
+
+        /** @var null|SessionDataExtension $sessionData */
+        $sessionData = $page->getExtension(SessionDataExtension::EXTENSION_NAME);
+
+        if (null === $sessionData) {
+            return;
+        }
+
+        foreach ($sessionData->getPaymentMethodCategories() as $paymentCategory) {
             if ($paymentCategory['identifier'] === PaymentMethodInstaller::KLARNA_PAYMENTS_PAY_NOW_CODE) {
                 $this->removeSeparatePayNowKlarnaPaymentMethods($page);
 
@@ -129,15 +150,19 @@ class SessionEventListener implements EventSubscriberInterface
         $this->removeCombinedKlarnaPaymentPayNowMethod($page);
     }
 
-    private function createErrorMessageExtension(CheckoutConfirmPageLoadedEvent $event): void
+    private function createErrorMessageExtension(PageLoadedEvent $event): void
     {
         $errorMessageExtension = new ErrorMessageExtension(ErrorMessageExtension::GENERIC_ERROR);
 
         $event->getPage()->addExtension(ErrorMessageExtension::EXTENSION_NAME, $errorMessageExtension);
     }
 
-    private function createSessionDataExtension(GenericResponse $response, Cart $cart, SalesChannelContext $context): void
+    private function createSessionDataExtension(GenericResponse $response, Struct $page, Cart $cart, SalesChannelContext $context): void
     {
+        if (!($page instanceof Page)) {
+            return;
+        }
+
         $sessionData = new SessionDataExtension();
         $sessionData->assign([
             'sessionId'                     => $response->getResponse()['session_id'],
@@ -148,7 +173,7 @@ class SessionEventListener implements EventSubscriberInterface
         ]);
 
         if ($this->paymentHelper->isKlarnaPaymentsSelected($context)) {
-            $extraMerchantData = $this->getExtraMerchantData($sessionData, $cart, $context);
+            $extraMerchantData = $this->merchantDataFactory->getExtraMerchantData($sessionData, $cart, $context);
 
             if (!empty($extraMerchantData->getAttachment())) {
                 $attachment = new Attachment();
@@ -170,35 +195,34 @@ class SessionEventListener implements EventSubscriberInterface
             ]);
         }
 
-        $cart->addExtension(SessionDataExtension::EXTENSION_NAME, $sessionData);
-
-        $this->cartService->recalculate($cart, $context);
+        $page->addExtension(SessionDataExtension::EXTENSION_NAME, $sessionData);
     }
 
-    private function removeSessionDataExtension(Cart $cart, SalesChannelContext $context): void
+    private function removeDisabledKlarnaPaymentMethods(Struct $page): void
     {
-        if (!$cart->hasExtension(SessionDataExtension::EXTENSION_NAME)) {
+        if (!($page instanceof Page)) {
             return;
         }
 
-        $cart->removeExtension(SessionDataExtension::EXTENSION_NAME);
+        /** @var null|SessionDataExtension $sessionData */
+        $sessionData = $page->getExtension(SessionDataExtension::EXTENSION_NAME);
 
-        $this->cartService->recalculate($cart, $context);
-    }
-
-    private function removeDisabledKlarnaPaymentMethods(Cart $cart, CheckoutConfirmPageLoadedEvent $event): void
-    {
-        /** @var SessionDataExtension $sessionData */
-        $sessionData = $cart->getExtension(SessionDataExtension::EXTENSION_NAME);
+        if (null === $sessionData) {
+            return;
+        }
 
         if (empty($sessionData->getPaymentMethodCategories())) {
             return;
         }
 
+        if (!method_exists($page, 'setPaymentMethods') || !method_exists($page, 'getPaymentMethods')) {
+            return;
+        }
+
         $availablePaymentMethods = array_column($sessionData->getPaymentMethodCategories(), 'identifier');
 
-        $event->getPage()->setPaymentMethods(
-            $event->getPage()->getPaymentMethods()->filter(
+        $page->setPaymentMethods(
+            $page->getPaymentMethods()->filter(
                 static function (PaymentMethodEntity $paymentMethod) use ($availablePaymentMethods) {
                     if (!array_key_exists($paymentMethod->getId(), PaymentMethodInstaller::KLARNA_PAYMENTS_CODES)) {
                         return true;
@@ -210,8 +234,12 @@ class SessionEventListener implements EventSubscriberInterface
         );
     }
 
-    private function removeSeparatePayNowKlarnaPaymentMethods(CheckoutConfirmPage $page): void
+    private function removeSeparatePayNowKlarnaPaymentMethods(Page $page): void
     {
+        if (!method_exists($page, 'setPaymentMethods') || !method_exists($page, 'getPaymentMethods')) {
+            return;
+        }
+
         $page->setPaymentMethods(
             $page->getPaymentMethods()->filter(
                 static function (PaymentMethodEntity $paymentMethod) {
@@ -225,8 +253,12 @@ class SessionEventListener implements EventSubscriberInterface
         );
     }
 
-    private function removeCombinedKlarnaPaymentPayNowMethod(CheckoutConfirmPage $page): void
+    private function removeCombinedKlarnaPaymentPayNowMethod(Page $page): void
     {
+        if (!method_exists($page, 'setPaymentMethods') || !method_exists($page, 'getPaymentMethods')) {
+            return;
+        }
+
         $page->setPaymentMethods(
             $page->getPaymentMethods()->filter(
                 static function (PaymentMethodEntity $paymentMethod) {
@@ -240,10 +272,14 @@ class SessionEventListener implements EventSubscriberInterface
         );
     }
 
-    private function removeAllKlarnaPaymentMethods(CheckoutConfirmPageLoadedEvent $event): void
+    private function removeAllKlarnaPaymentMethods(Struct $page): void
     {
-        $event->getPage()->setPaymentMethods(
-            $event->getPage()->getPaymentMethods()->filter(
+        if (!($page instanceof Page) || !method_exists($page, 'setPaymentMethods') || !method_exists($page, 'getPaymentMethods')) {
+            return;
+        }
+
+        $page->setPaymentMethods(
+            $page->getPaymentMethods()->filter(
                 static function (PaymentMethodEntity $paymentMethod) {
                     if (array_key_exists($paymentMethod->getId(), PaymentMethodInstaller::KLARNA_PAYMENTS_CODES)) {
                         return false;
@@ -271,20 +307,14 @@ class SessionEventListener implements EventSubscriberInterface
         return PaymentMethodInstaller::KLARNA_PAYMENTS_CODES[$context->getPaymentMethod()->getId()];
     }
 
-    private function getExtraMerchantData(
-        SessionDataExtension $sessionData,
-        Cart $cart,
-        SalesChannelContext $context
-    ): ExtraMerchantData {
-        $config = $this->configReader->read($context->getSalesChannel()->getId());
-        $data   = new ExtraMerchantData();
+    private function convertCartFromOrder(OrderEntity $orderEntity, Context $context): Cart
+    {
+        $order = $this->orderFetcher->getOrderFromOrder($orderEntity->getId(), $context);
 
-        if ($config->get('kpSendExtraMerchantData')) {
-            $this->eventDispatcher->dispatch(
-                new SetExtraMerchantDataEvent($data, $sessionData, $cart, $context)
-            );
+        if (null === $order) {
+            throw new LogicException('could not find order via id');
         }
 
-        return $data;
+        return $this->orderConverter->convertToCart($order, $context);
     }
 }

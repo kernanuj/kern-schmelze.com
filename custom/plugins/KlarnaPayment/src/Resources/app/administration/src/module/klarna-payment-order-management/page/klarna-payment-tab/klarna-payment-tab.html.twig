@@ -4,7 +4,7 @@
             <sw-card class="klarna-payment-details" :title="$tc('klarna-payment-order-management.order-details.title')">
                 <sw-container columns="1fr 1fr" class="klarna-payment-detail--transaction-details mobile--ready" gap="0px 32px">
                     <sw-container gap="5px">
-                        <sw-text-field :disabled="true" :label="$tc('klarna-payment-order-management.order-details.orderNumber')" :value="klarnaOrder.order_number"></sw-text-field>
+                        <sw-text-field :disabled="true" :label="$tc('klarna-payment-order-management.order-details.klarnaReference')" :value="klarnaOrder.reference"></sw-text-field>
 
                         <sw-text-field :disabled="true" :label="$tc('klarna-payment-order-management.order-details.orderAmount')" :value="klarnaOrder.order_amount | klarna_currency(klarnaOrder.currency, klarnaOrder.decimal_precision)"></sw-text-field>
 
@@ -16,8 +16,6 @@
                     </sw-container>
 
                     <sw-container gap="5px">
-                        <sw-text-field :disabled="true" :label="$tc('klarna-payment-order-management.order-details.klarnaReference')" :value="klarnaOrder.reference"></sw-text-field>
-
                         <sw-text-field :disabled="true" :label="$tc('klarna-payment-order-management.order-details.klarnaOrderId')" :value="klarnaOrder.order_id"></sw-text-field>
 
                         <sw-text-field :disabled="true" :label="$tc('klarna-payment-order-management.order-details.klarnaStatus')" :value="klarnaOrder.order_status"></sw-text-field>

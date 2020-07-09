@@ -1,3 +1,10 @@
+# 1.2.0
+- Added compatibility with Shopware 6.2
+
+# 1.1.0
+- Implementation of Klarna instant shopping
+- Add support for net prices (starting from Shopware 6.2.0)
+
 # 1.0.4
 - Fix checkout confirmation button for non-Klarna payment methods
 

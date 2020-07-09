@@ -7,20 +7,26 @@ import ElementLoadingIndicatorUtil from 'src/utility/loading-indicator/element-l
 import DomAccess from 'src/helper/dom-access.helper';
 
 export default class KlarnaPayments extends Plugin {
+    /**
+     * default plugin options
+     *
+     * @type {*}
+     */
+    static options = {
+        url: 'https://x.klarnacdn.net/kp/lib/v1/api.js',
+        clientToken: '',
+        paymentCategory: '',
+        customerData: ''
+    };
+
     init() {
-        this._showElement('klarnaConfirmFormSubmit');
-
-        const configuration = document.getElementById('klarna-configuration');
-
-        if (!configuration) {
+        if (!this.el) {
             return;
         }
 
-        this.clientToken = configuration.getAttribute('data-client-token');
-        this.paymentCategory = configuration.getAttribute('data-klarna-code');
-        this.customerData = JSON.parse(configuration.getAttribute('data-customer-data'));
+        this._showElement('klarnaConfirmFormSubmit');
 
-        if (this.paymentCategory) {
+        if (this.options.paymentCategory) {
             this._disableSubmitButton();
         }
 
@@ -28,11 +34,9 @@ export default class KlarnaPayments extends Plugin {
     }
 
     _createScript() {
-        const url = 'https://x.klarnacdn.net/kp/lib/v1/api.js';
-
         const script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = url;
+        script.src = this.options.url;
 
         script.addEventListener('load', this._handleScriptLoaded.bind(this), false);
 
@@ -42,7 +46,7 @@ export default class KlarnaPayments extends Plugin {
     _handleScriptLoaded() {
         try {
             Klarna.Payments.init({
-                client_token: this.clientToken
+                client_token: this.options.clientToken
             });
         } catch (e) {
             this._hideElement('klarnaPaymentsContainer');
@@ -55,7 +59,7 @@ export default class KlarnaPayments extends Plugin {
 
         const me = this;
 
-        if (this.paymentCategory) {
+        if (this.options.paymentCategory) {
             const klarnaPayment = DomAccess.querySelector(document, '.klarna-payment');
             ElementLoadingIndicatorUtil.create(klarnaPayment);
 
@@ -67,7 +71,7 @@ export default class KlarnaPayments extends Plugin {
             try {
                 Klarna.Payments.load({
                     container: '#klarnaPaymentsContainer',
-                    payment_method_category: this.paymentCategory
+                    payment_method_category: this.options.paymentCategory
                 }, (result) => {
                     if (!result.show_form) {
                         me._hideElement('klarnaPaymentsContainer');
@@ -205,7 +209,7 @@ export default class KlarnaPayments extends Plugin {
     }
 
     _handleOrderSubmit(event) {
-        if (!this.paymentCategory) {
+        if (!this.options.paymentCategory) {
             return;
         }
 
@@ -227,9 +231,9 @@ export default class KlarnaPayments extends Plugin {
             Klarna.Payments.authorize(
                 {
                     auto_finalize: true,
-                    payment_method_category: this.paymentCategory
+                    payment_method_category: this.options.paymentCategory
                 },
-                me.customerData,
+                me.options.customerData,
                 (result) => {
                     if (!result.show_form) {
                         me._hideElement('klarnaPaymentsContainer');

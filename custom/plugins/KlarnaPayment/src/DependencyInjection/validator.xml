@@ -10,5 +10,12 @@
             <argument type="service" id="KlarnaPayment\Components\ConfigReader\ConfigReader"/>
             <argument type="service" id="state_machine_state.repository"/>
         </service>
+
+        <service id="KlarnaPayment\Components\Validator\PaymentMethodValidator"
+            decorates="Shopware\Core\Checkout\Payment\Cart\PaymentMethodValidator">
+            <argument type="service" id="KlarnaPayment\Components\Validator\PaymentMethodValidator.inner"/>
+            <argument type="service" id="KlarnaPayment\Components\ConfigReader\ConfigReader"/>
+            <tag name="shopware.cart.validator"/>
+        </service>
     </services>
 </container>

@@ -1,7 +1,7 @@
 import template from './klarna-payment-settings.html.twig';
 import './klarna-payment-settings.scss';
 
-const { Component, Mixin } = Shopware;
+const { Component, Mixin, Context } = Shopware;
 const { Criteria } = Shopware.Data;
 
 Component.register('klarna-payment-settings', {
@@ -25,7 +25,8 @@ Component.register('klarna-payment-settings', {
             isSaveSuccessful: false,
             config: {},
             paymentMethods: [],
-            externalCheckoutPaymentMethods: []
+            externalCheckoutPaymentMethods: [],
+            configDomain: 'KlarnaPayment.settings.'
         };
     },
 
@@ -49,7 +50,7 @@ Component.register('klarna-payment-settings', {
         createdComponent() {
             const me = this;
 
-            this.paymentMethodRepository.search(new Criteria(), Shopware.Context.api).then((searchResult) => {
+            this.paymentMethodRepository.search(new Criteria(), Context.api).then((searchResult) => {
                 searchResult.forEach(((paymentMethod) => {
                     me.paymentMethods.push({
                         value: paymentMethod.id,
@@ -67,15 +68,19 @@ Component.register('klarna-payment-settings', {
         },
 
         getConfigValue(field) {
+            if (this.$refs.systemConfig === undefined) {
+                return null;
+            }
+
             const defaultConfig = this.$refs.systemConfig.actualConfigData.null;
             const salesChannelId = this.$refs.systemConfig.currentSalesChannelId;
 
             if (salesChannelId === null) {
-                return this.config[`KlarnaPayment.settings.${field}`];
+                return this.config[this.configDomain + field];
             }
 
-            return this.config[`KlarnaPayment.settings.${field}`]
-                || defaultConfig[`KlarnaPayment.settings.${field}`];
+            return this.config[this.configDomain + field]
+                || defaultConfig[this.configDomain + field];
         },
 
         onTest() {
@@ -128,8 +133,23 @@ Component.register('klarna-payment-settings', {
                 });
 
                 this.isSaveSuccessful = true;
+
+                if (this.getConfigValue('instantShoppingEnabled')) {
+                    const params = {
+                        salesChannel: this.$refs.systemConfig.currentSalesChannelId
+                    };
+
+                    this.KlarnaPaymentConfigurationService.createButtonKeys(params)
+                        .catch((error) => {
+                            this.createNotificationError({
+                                title: this.$tc('klarna-payment-configuration.settingsForm.messages.titleError'),
+                                message: this.$t(error.response.data.message, error.response.data.data),
+                                autoClose: false
+                            });
+                        });
+                }
             }).catch(() => {
-                this.createNotificationSuccess({
+                this.createNotificationError({
                     title: this.$tc('klarna-payment-configuration.settingsForm.messages.titleError'),
                     message: this.$tc('klarna-payment-configuration.settingsForm.messages.messageSaveError')
                 });
@@ -168,12 +188,8 @@ Component.register('klarna-payment-settings', {
             return element;
         },
 
-        disableField(element, config) {
-            if (element.name === 'KlarnaPayment.settings.klarnaType') {
-                return true;
-            }
-
-            return false;
+        disableField(element) {
+            return element.name === `${this.configDomain}klarnaType`;
         },
 
         onWizard() {
@@ -184,46 +200,57 @@ Component.register('klarna-payment-settings', {
          * TODO: Depending on the klarnaType (checkout or payments) fields could be filtered via their name
          */
         displayField(element, config) {
-            if (element.name === 'KlarnaPayment.settings.isInitialized') {
+            if (element.name === `${this.configDomain}isInitialized`) {
                 return false;
             }
 
-            if (element.name === 'KlarnaPayment.settings.onsiteMessagingScript') {
-                return config['KlarnaPayment.settings.isOnsiteMessagingActive'] === true;
+            if (element.name === `${this.configDomain}onsiteMessagingScript`) {
+                return config[`${this.configDomain}isOnsiteMessagingActive`] === true;
             }
-            if (element.name === 'KlarnaPayment.settings.onsiteMessagingSnippet') {
-                return config['KlarnaPayment.settings.isOnsiteMessagingActive'] === true;
-            }
-
-            if (element.name === 'KlarnaPayment.settings.captureOrderStatus') {
-                return config['KlarnaPayment.settings.automaticCapture'] === 'orderStatus';
-            }
-            if (element.name === 'KlarnaPayment.settings.captureDeliveryStatus') {
-                return config['KlarnaPayment.settings.automaticCapture'] === 'deliveryStatus';
+            if (element.name === `${this.configDomain}onsiteMessagingSnippet`) {
+                return config[`${this.configDomain}isOnsiteMessagingActive`] === true;
             }
 
-            if (element.name === 'KlarnaPayment.settings.refundOrderStatus') {
-                return config['KlarnaPayment.settings.automaticRefund'] === 'orderStatus';
+            if (element.name === `${this.configDomain}captureOrderStatus`) {
+                return config[`${this.configDomain}automaticCapture`] === 'orderStatus';
             }
-            if (element.name === 'KlarnaPayment.settings.refundDeliveryStatus') {
-                return config['KlarnaPayment.settings.automaticRefund'] === 'deliveryStatus';
-            }
-
-            if (element.name === 'KlarnaPayment.settings.newsletterCheckboxLabel') {
-                return config['KlarnaPayment.settings.enableNewsletterCheckbox'];
-            }
-            if (element.name === 'KlarnaPayment.settings.accountCheckboxLabel') {
-                return config['KlarnaPayment.settings.enableAccountCheckbox'];
+            if (element.name === `${this.configDomain}captureDeliveryStatus`) {
+                return config[`${this.configDomain}automaticCapture`] === 'deliveryStatus';
             }
 
-            if (element.name === 'KlarnaPayment.settings.kcoFooterBadgeStyle') {
-                return config['KlarnaPayment.settings.kcoDisplayFooterBadge'];
+            if (element.name === `${this.configDomain}refundOrderStatus`) {
+                return config[`${this.configDomain}automaticRefund`] === 'orderStatus';
             }
-            if (element.name === 'KlarnaPayment.settings.kcoFooterBadgeCountryCode') {
-                return config['KlarnaPayment.settings.kcoDisplayFooterBadge'];
+            if (element.name === `${this.configDomain}refundDeliveryStatus`) {
+                return config[`${this.configDomain}automaticRefund`] === 'deliveryStatus';
             }
-            if (element.name === 'KlarnaPayment.settings.kcoFooterBadgeWidth') {
-                return config['KlarnaPayment.settings.kcoDisplayFooterBadge'];
+
+            if (element.name === `${this.configDomain}newsletterCheckboxLabel`) {
+                return config[`${this.configDomain}enableNewsletterCheckbox`];
+            }
+            if (element.name === `${this.configDomain}accountCheckboxLabel`) {
+                return config[`${this.configDomain}enableAccountCheckbox`];
+            }
+
+            if (element.name === `${this.configDomain}kcoFooterBadgeStyle`) {
+                return config[`${this.configDomain}kcoDisplayFooterBadge`];
+            }
+            if (element.name === `${this.configDomain}kcoFooterBadgeCountryCode`) {
+                return config[`${this.configDomain}kcoDisplayFooterBadge`];
+            }
+            if (element.name === `${this.configDomain}kcoFooterBadgeWidth`) {
+                return config[`${this.configDomain}kcoDisplayFooterBadge`];
+            }
+
+            if (element.name === `${this.configDomain}instantShoppingVariation`) {
+                return config[`${this.configDomain}instantShoppingEnabled`];
+            }
+            if (element.name === `${this.configDomain}instantShoppingType`) {
+                return config[`${this.configDomain}instantShoppingEnabled`];
+            }
+            if (element.name === `${this.configDomain}termsCategory`) {
+                // TODO: also display if kco is activated
+                return config[`${this.configDomain}instantShoppingEnabled`];
             }
 
             return true;
@@ -232,12 +259,7 @@ Component.register('klarna-payment-settings', {
         getOrderStatusCriteria() {
             const criteria = new Criteria(1, 100);
 
-            criteria.addFilter(
-                Criteria.equals(
-                    'stateMachine.technicalName',
-                    'order.state'
-                )
-            );
+            criteria.addFilter(Criteria.equals('stateMachine.technicalName', 'order.state'));
 
             return criteria;
         },
@@ -245,12 +267,16 @@ Component.register('klarna-payment-settings', {
         getDeliveryStatusCriteria() {
             const criteria = new Criteria(1, 100);
 
-            criteria.addFilter(
-                Criteria.equals(
-                    'stateMachine.technicalName',
-                    'order_delivery.state'
-                )
-            );
+            criteria.addFilter(Criteria.equals('stateMachine.technicalName', 'order_delivery.state'));
+
+            return criteria;
+        },
+
+        getTermsCriteria() {
+            const criteria = new Criteria(1, 100);
+
+            criteria.addFilter(Criteria.equals('visible', 1));
+            criteria.addFilter(Criteria.equals('active', 1));
 
             return criteria;
         }

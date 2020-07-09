@@ -13,7 +13,7 @@ use KlarnaPayment\Components\Client\Hydrator\Request\GetOrder\GetOrderRequestHyd
 use KlarnaPayment\Components\Client\Hydrator\Request\ReleaseRemainingAuthorization\ReleaseRemainingAuthorizationHydratorInterface;
 use KlarnaPayment\Components\Client\Hydrator\Response\GetOrder\GetOrderResponseHydratorInterface;
 use KlarnaPayment\Components\Client\Response\GetOrderResponse;
-use KlarnaPayment\Components\DataAbstractionLayer\Entity\Log\KlarnaPaymentLogEntity;
+use KlarnaPayment\Components\DataAbstractionLayer\Entity\RequestLog\RequestLogEntity;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
 use Shopware\Core\Framework\Context;
@@ -37,7 +37,7 @@ class OrderController extends AbstractController
     private $client;
 
     /** @var EntityRepositoryInterface */
-    private $klarnaLogRepository;
+    private $requestLogRepository;
 
     /** @var GetOrderRequestHydratorInterface */
     private $getOrderRequestHydrator;
@@ -68,7 +68,7 @@ class OrderController extends AbstractController
 
     public function __construct(
         Client $client,
-        EntityRepositoryInterface $klarnaLogRepository,
+        EntityRepositoryInterface $requestLogRepository,
         GetOrderRequestHydratorInterface $getOrderRequestHydrator,
         GetOrderResponseHydratorInterface $getOrderResponseHydrator,
         CreateCaptureRequestHydratorInterface $captureRequestHydrator,
@@ -80,7 +80,7 @@ class OrderController extends AbstractController
         LoggerInterface $logger
     ) {
         $this->client                         = $client;
-        $this->klarnaLogRepository            = $klarnaLogRepository;
+        $this->requestLogRepository           = $requestLogRepository;
         $this->captureRequestHydrator         = $captureRequestHydrator;
         $this->refundRequestHydrator          = $refundRequestHydrator;
         $this->getOrderRequestHydrator        = $getOrderRequestHydrator;
@@ -122,7 +122,13 @@ class OrderController extends AbstractController
 
         try {
             if ($dataBag->get('complete')) {
-                $this->stateHandler->pay($dataBag->get('orderTransactionId'), $context);
+                if (method_exists($this->stateHandler, 'process') && method_exists($this->stateHandler, 'paid')) {
+                    // If the previous state is "paid_partially", "paid" is currently not allowed as direct transition, see https://github.com/shopwareLabs/SwagPayPal/blob/b63efb9/src/Util/PaymentStatusUtil.php#L79
+                    $this->stateHandler->process($dataBag->get('orderTransactionId'), $context);
+                    $this->stateHandler->paid($dataBag->get('orderTransactionId'), $context);
+                } else {
+                    $this->stateHandler->pay($dataBag->get('orderTransactionId'), $context);
+                }
             } else {
                 $this->stateHandler->payPartially($dataBag->get('orderTransactionId'), $context);
             }
@@ -227,11 +233,11 @@ class OrderController extends AbstractController
         $criteria->addFilter((new EqualsFilter('klarnaOrderId', $klarnaOrderId)));
         $criteria->addSorting(new FieldSorting('createdAt', FieldSorting::DESCENDING));
 
-        $repositoryResult = $this->klarnaLogRepository->search($criteria, $context);
+        $repositoryResult = $this->requestLogRepository->search($criteria, $context);
 
         $history = [];
 
-        /** @var KlarnaPaymentLogEntity $element */
+        /** @var RequestLogEntity $element */
         foreach ($repositoryResult->getElements() as $element) {
             if (null === $element->getCreatedAt()) {
                 continue;

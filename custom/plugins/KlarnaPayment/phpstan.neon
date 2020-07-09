@@ -1,10 +1,17 @@
 includes:
-    - vendor/phpstan/phpstan-phpunit/extension.neon
+  - vendor/phpstan/phpstan-phpunit/extension.neon
+  - vendor/phpstan/phpstan-phpunit/rules.neon
 
 parameters:
-    reportUnmatchedIgnoredErrors: true
+    level: 8
+    paths:
+        - src
+        - tests
+    reportUnmatchedIgnoredErrors: false
     inferPrivatePropertyTypeFromConstructor: true
     checkMissingIterableValueType: false
     ignoreErrors:
         - '#does not accept object#'
-        - '#KlarnaPayment\\Core\\System\\SystemConfig\\SystemConfigService::__construct\(\) does not call parent constructor from Shopware\\Core\\System\\SystemConfig\\SystemConfigService.#'
+        - '#Configuration(.*)has(.*)typehint specified#'
+        - '#SystemConfigService(.*)has(.*)typehint specified#'
+        - '#Class .*AccountEditOrderPageLoadedEvent not found#'

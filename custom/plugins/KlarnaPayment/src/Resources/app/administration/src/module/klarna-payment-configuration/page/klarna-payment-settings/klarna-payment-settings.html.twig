@@ -54,7 +54,6 @@
                         inherit
                         @config-changed="onConfigChange"
                         domain="KlarnaPayment.settings">
-
                         <template #card-element="{ element, config }">
                             <div v-show="displayField(element, config)">
                                 <sw-container v-if="element.name.endsWith('allowedKlarnaPaymentsCodes')">
@@ -62,17 +61,17 @@
                                         <ul>
                                             <li>
                                                 <h3>{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title') }}</h3>
-                                                <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.png" title="{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title') }}" alt="{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title') }}"/>
+                                                <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.png" :title="$tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title')" :alt="$tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title')"/>
                                                 <p>{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.description') }}</p>
                                             </li>
                                             <li>
                                                 <h3>{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.sliceIt.title') }}</h3>
-                                                <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.png" title="{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title') }}" alt="{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title') }}"/>
+                                                <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.png" :title="$tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title')" :alt="$tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title')"/>
                                                 <p>{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.sliceIt.description') }}</p>
                                             </li>
                                             <li>
                                                 <h3>{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.payNow.title') }}</h3>
-                                                <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.png" title="{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title') }}" alt="{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title') }}"/>
+                                                <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.png" :title="$tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title')" :alt="$tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title')"/>
                                                 <p>{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.payNow.description') }}</p>
                                                 <p><sw-icon name="default-badge-info" small color="#3498db"></sw-icon> {{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.payNow.additional') }}</p>
                                             </li>
@@ -116,6 +115,19 @@
                                 </sw-form-field-renderer>
 
                                 <sw-form-field-renderer
+                                        :config="{
+                                        componentName: 'sw-entity-single-select',
+                                        label: getInlineSnippet(element.config.label),
+                                        helpText: getInlineSnippet(element.config.helpText),
+                                        entity: 'category',
+                                        criteria: getTermsCriteria(),
+                                    }"
+                                        v-model="config[element.name]"
+                                        v-else-if="element.name.endsWith('termsCategory')">
+                                </sw-form-field-renderer>
+
+
+                                <sw-form-field-renderer
                                     :config="{
                                         componentName: 'sw-multi-select',
                                         label: getInlineSnippet(element.config.label),
@@ -142,7 +154,7 @@
                                 <sw-form-field-renderer
                                     v-bind="getBind(element, config)"
                                     v-model="config[element.name]"
-                                    :disabled="disableField(element, config)"
+                                    :disabled="disableField(element)"
                                     v-else>
                                 </sw-form-field-renderer>
 

@@ -1,13 +1,15 @@
 import template from './klarna-payment-tab.html.twig';
 import './klarna-payment-tab.scss';
 
-const { Component, Mixin } = Shopware;
+const { Component, Mixin, Context } = Shopware;
+const { Criteria } = Shopware.Data;
 
 Component.register('klarna-payment-tab', {
     template,
 
     data() {
         return {
+            identifier: '',
             initialized: false,
             isLoading: true,
             isSubComponentLoading: false,
@@ -28,11 +30,20 @@ Component.register('klarna-payment-tab', {
         this.destroyedComponent();
     },
 
+    watch: {
+        '$route'() {
+            this.loadData();
+        }
+    },
+
     mixins: [
         Mixin.getByName('notification')
     ],
 
-    inject: ['KlarnaPaymentOrderService'],
+    inject: [
+        'KlarnaPaymentOrderService',
+        'repositoryFactory'
+    ],
 
     methods: {
         createdComponent() {
@@ -55,31 +66,49 @@ Component.register('klarna-payment-tab', {
         },
 
         loadData() {
-            const klarnaOrderId = this.$route.params.transaction.klarna_order_id;
-            const salesChannel = this.$route.params.transaction.salesChannel;
-            const orderTransactionId = this.$route.params.transaction.orderTransactionId;
+            const me = this;
 
-            this.isLoading = true;
-            this.hasError = false;
+            me.isLoading = true;
+            me.hasError = false;
 
-            this.KlarnaPaymentOrderService.fetchOrderData(klarnaOrderId, salesChannel).then((response) => {
-                this.hasError = false;
-                this.initialized = true;
+            const repository = this.repositoryFactory.create('order_transaction');
 
-                this.klarnaOrder = response.order;
-                this.klarnaOrder.salesChannel = salesChannel;
-                this.klarnaOrder.orderTransactionId = orderTransactionId;
+            const criteria = new Criteria(1, 1);
+            criteria.addAssociation('order');
 
-                this.klarnaHistory = response.transactionHistory;
+            return repository.get(this.$route.params.transaction, Context.api, criteria).then((transaction) => {
+                const klarnaOrderId = transaction.customFields.klarna_order_id;
+                const salesChannel = transaction.order.salesChannelId;
+
+                me.$emit('identifier-change', transaction.order.orderNumber);
+
+                me.KlarnaPaymentOrderService.fetchOrderData(klarnaOrderId, salesChannel).then((response) => {
+                    me.hasError = false;
+                    me.initialized = true;
+
+                    me.klarnaOrder = response.order;
+                    me.klarnaOrder.salesChannel = salesChannel;
+                    me.klarnaOrder.orderTransactionId = this.$route.params.transaction;
+
+                    me.klarnaHistory = response.transactionHistory;
+                }).catch(() => {
+                    me.createNotificationError({
+                        title: me.$tc('klarna-payment-order-management.messages.loadErrorTitle'),
+                        message: me.$tc('klarna-payment-order-management.messages.loadErrorMessage')
+                    });
+
+                    me.hasError = true;
+                }).finally(() => {
+                    me.isLoading = false;
+                });
             }).catch(() => {
-                this.createNotificationError({
-                    title: this.$tc('klarna-payment-order-management.messages.loadErrorTitle'),
-                    message: this.$tc('klarna-payment-order-management.messages.loadErrorMessage')
+                me.createNotificationError({
+                    title: me.$tc('klarna-payment-order-management.messages.loadErrorTitle'),
+                    message: me.$tc('klarna-payment-order-management.messages.loadErrorMessage')
                 });
 
-                this.hasError = true;
-            }).finally(() => {
-                this.isLoading = false;
+                me.hasError = true;
+                me.isLoading = false;
             });
         },
 

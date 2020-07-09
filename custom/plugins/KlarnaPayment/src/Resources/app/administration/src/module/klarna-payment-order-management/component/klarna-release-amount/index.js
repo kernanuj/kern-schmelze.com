@@ -48,7 +48,10 @@ Component.register('klarna-release-amount', {
             this.isDisabled = true;
             this.isLoading = true;
 
-            this.KlarnaPaymentOrderService.releaseRemainingAuthorization(this.klarnaOrder.order_id, this.klarnaOrder.salesChannel).then(() => {
+            this.KlarnaPaymentOrderService.releaseRemainingAuthorization(
+                this.klarnaOrder.order_id,
+                this.klarnaOrder.salesChannel
+            ).then(() => {
                 this.createNotificationSuccess({
                     title: this.$tc('klarna-payment-order-management.release.messages.successTitle'),
                     message: this.$tc('klarna-payment-order-management.release.messages.successMessage')

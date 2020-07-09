@@ -4,44 +4,59 @@ declare(strict_types=1);
 
 namespace KlarnaPayment\Components\Client\Hydrator\Request\UpdateOrder;
 
-use KlarnaPayment\Components\Client\Hydrator\Struct\Delivery\OrderDeliveryStructHydratorInterface;
-use KlarnaPayment\Components\Client\Hydrator\Struct\LineItem\OrderLineItemStructHydratorInterface;
+use KlarnaPayment\Components\Client\Hydrator\Struct\Delivery\DeliveryStructHydratorInterface;
+use KlarnaPayment\Components\Client\Hydrator\Struct\LineItem\LineItemStructHydratorInterface;
 use KlarnaPayment\Components\Client\Request\UpdateOrderRequest;
+use KlarnaPayment\Components\Helper\OrderFetcherInterface;
 use LogicException;
-use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
-use Shopware\Core\Checkout\Order\Aggregate\OrderDelivery\OrderDeliveryCollection;
-use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemCollection;
-use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
+use Shopware\Core\Checkout\Cart\Cart;
+use Shopware\Core\Checkout\Cart\Order\OrderConverter;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\System\Currency\CurrencyEntity;
 
 class UpdateOrderRequestHydrator implements UpdateOrderRequestHydratorInterface
 {
-    /** @var OrderLineItemStructHydratorInterface */
+    /** @var OrderConverter */
+    private $orderConverter;
+
+    /** @var OrderFetcherInterface */
+    private $orderFetcher;
+
+    /** @var LineItemStructHydratorInterface */
     private $lineItemHydrator;
 
-    /** @var OrderDeliveryStructHydratorInterface */
+    /** @var DeliveryStructHydratorInterface */
     private $deliveryHydrator;
 
-    public function __construct(OrderLineItemStructHydratorInterface $lineItemHydrator, OrderDeliveryStructHydratorInterface $deliveryHydrator)
-    {
+    public function __construct(
+        OrderConverter $orderConverter,
+        OrderFetcherInterface $orderFetcher,
+        LineItemStructHydratorInterface $lineItemHydrator,
+        DeliveryStructHydratorInterface $deliveryHydrator
+    ) {
+        $this->orderConverter   = $orderConverter;
+        $this->orderFetcher     = $orderFetcher;
         $this->lineItemHydrator = $lineItemHydrator;
         $this->deliveryHydrator = $deliveryHydrator;
     }
 
     public function hydrate(OrderEntity $orderEntity, Context $context): UpdateOrderRequest
     {
-        if (null === $orderEntity->getLineItems() || null === $orderEntity->getDeliveries() || null === $orderEntity->getCurrency()) {
+        if (null === $orderEntity->getCurrency()) {
+            throw new LogicException('could not find order currency');
+        }
+
+        $order = $this->orderFetcher->getOrderFromOrder($orderEntity->getId(), $context);
+
+        if (null === $order) {
             throw new LogicException('could not find order via id');
         }
 
-        $lineItems = $this->hydrateOrderLines(
-            $orderEntity->getLineItems(),
-            $orderEntity->getDeliveries(),
-            $orderEntity->getCurrency(),
-            $context
-        );
+        $cart = $this->orderConverter->convertToCart($order, $context);
+
+        $lineItems = $this->hydrateOrderLines($cart, $orderEntity->getCurrency(), $context);
 
         $request = new UpdateOrderRequest();
         $request->assign([
@@ -55,20 +70,19 @@ class UpdateOrderRequestHydrator implements UpdateOrderRequestHydratorInterface
         return $request;
     }
 
-    private function hydrateOrderLines(OrderLineItemCollection $lineItems, OrderDeliveryCollection $deliveries, CurrencyEntity $currency, Context $context): array
+    private function hydrateOrderLines(Cart $cart, CurrencyEntity $currency, Context $context): array
     {
         $orderLines = [];
 
-        foreach ($lineItems as $item) {
-            foreach ($this->lineItemHydrator->hydrate($item, $currency, $context) as $orderLine) {
-                $orderLines[] = $orderLine;
-            }
+        $lineItems  = $cart->getLineItems();
+        $deliveries = $cart->getDeliveries();
+
+        foreach ($this->lineItemHydrator->hydrate($lineItems, $currency, $context) as $orderLine) {
+            $orderLines[] = $orderLine;
         }
 
-        foreach ($deliveries as $delivery) {
-            foreach ($this->deliveryHydrator->hydrate($delivery, $currency) as $orderLine) {
-                $orderLines[] = $orderLine;
-            }
+        foreach ($this->deliveryHydrator->hydrate($deliveries, $currency, $context) as $orderLine) {
+            $orderLines[] = $orderLine;
         }
 
         return array_filter($orderLines);
@@ -76,11 +90,19 @@ class UpdateOrderRequestHydrator implements UpdateOrderRequestHydratorInterface
 
     private function getKlarnaOrderId(OrderEntity $orderEntity): string
     {
-        /** @var OrderTransactionEntity[] $transactions */
-        $transactions = $orderEntity->getTransactions();
+        if (null === $orderEntity->getTransactions()) {
+            throw new LogicException('could not locate the klarna_order_id field in any order transaction');
+        }
 
-        // TODO: Only one transaction per order is supported, this could change in the future.
-        foreach ($transactions as $transaction) {
+        foreach ($orderEntity->getTransactions() as $transaction) {
+            if (null === $transaction->getStateMachineState()) {
+                continue;
+            }
+
+            if ($transaction->getStateMachineState()->getTechnicalName() === OrderTransactionStates::STATE_CANCELLED) {
+                continue;
+            }
+
             if (empty($transaction->getCustomFields()['klarna_order_id'])) {
                 continue;
             }
@@ -89,16 +111,5 @@ class UpdateOrderRequestHydrator implements UpdateOrderRequestHydratorInterface
         }
 
         throw new LogicException('could not locate the klarna_order_id field in any order transaction');
-    }
-
-    private function getTotalTaxAmount(CalculatedTaxCollection $taxes): float
-    {
-        $totalTaxAmount = 0;
-
-        foreach ($taxes as $tax) {
-            $totalTaxAmount += $tax->getTax();
-        }
-
-        return $totalTaxAmount;
     }
 }

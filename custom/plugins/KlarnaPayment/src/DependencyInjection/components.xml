@@ -11,7 +11,7 @@
         <service id="KlarnaPayment\Components\Client\Client">
             <argument type="service" id="KlarnaPayment\Components\ConfigReader\ConfigReader" />
             <argument type="service" id="Shopware\Core\Framework\Plugin\PluginService" />
-            <argument type="service" id="klarna_payment_log.repository" />
+            <argument type="service" id="klarna_payment_request_log.repository" />
             <argument type="service" id="KlarnaPayment\Components\Logger" />
             <argument>%kernel.shopware_version%</argument>
         </service>
@@ -24,8 +24,101 @@
 
         <service id="KlarnaPayment\Components\CartHasher\CartHasher" />
 
+        <service id="KlarnaPayment\Components\CartHasher\InstantShoppingCartHasher" parent="KlarnaPayment\Components\CartHasher\CartHasher" />
+
         <service id="KlarnaPayment\Components\CookieProvider\CookieProvider" decorates="Shopware\Storefront\Framework\Cookie\CookieProviderInterface">
             <argument type="service" id="KlarnaPayment\Components\CookieProvider\CookieProvider.inner" />
+        </service>
+
+        <service id="KlarnaPayment\Components\ButtonKeyHandler\ButtonKeyHandler">
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\CreateButtonKey\CreateButtonKeyRequestHydrator" />
+            <argument type="service" id="klarna_payment_button_key.repository" />
+            <argument type="service" id="sales_channel_domain.repository" />
+            <argument type="service" id="KlarnaPayment\Components\Client\Client" />
+            <argument type="service" id="KlarnaPayment\Components\Logger" />
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+        </service>
+
+        <service id="KlarnaPayment\Components\InstantShopping\DataProvider\LoadDataProvider">
+            <argument type="service" id="KlarnaPayment\Components\ConfigReader\ConfigReader" />
+            <argument type="service" id="KlarnaPayment\Components\ButtonKeyHandler\ButtonKeyHandler" />
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="KlarnaPayment\Components\Extension\Hydrator\InstantShopping\DataExtensionHydrator" />
+            <argument type="service" id="KlarnaPayment\Components\Logger" />
+            <argument type="service" id="KlarnaPayment\Components\Helper\LocaleHelper\LocaleHelper" />
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+            <argument type="service" id="KlarnaPayment\Components\Helper\SalesChannelHelper\SalesChannelHelper" />
+        </service>
+
+        <service id="KlarnaPayment\Components\InstantShopping\MerchantDataProvider\MerchantDataProvider">
+            <argument type="service" id="KlarnaPayment\Components\Factory\MerchantDataFactory"/>
+        </service>
+
+        <service id="KlarnaPayment\Components\Extension\Hydrator\InstantShopping\DataExtensionHydrator">
+            <argument type="service" id="KlarnaPayment\Components\Helper\SeoUrlHelper\SeoUrlHelper" />
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Struct\LineItem\LineItemStructHydrator" />
+            <argument type="service" id="KlarnaPayment\Components\ConfigReader\ConfigReader" />
+        </service>
+
+        <service id="KlarnaPayment\Components\InstantShopping\DataProvider\UpdateDataProvider">
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+            <argument type="service" id="KlarnaPayment\Components\CartHasher\InstantShoppingCartHasher"/>
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\CartHandler\CartHandler"/>
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\ContextHandler\ContextHandler"/>
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\CustomerHandler\CustomerHandler"/>
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\OrderHandler\OrderHandler"/>
+            <argument type="service" id="router.default"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="Shopware\Core\Content\Product\Cart\ProductLineItemFactory"/>
+            <argument type="service" id="KlarnaPayment\Components\Logger" />
+        </service>
+
+        <service id="KlarnaPayment\Components\InstantShopping\DataProvider\UpdateCallbackProvider">
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+        </service>
+
+        <service id="KlarnaPayment\Components\InstantShopping\DataProvider\PlaceOrderCallbackProvider">
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\CartHandler\CartHandler"/>
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\CustomerHandler\CustomerHandler"/>
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\OrderHandler\OrderHandler"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+            <argument type="service" id="router.default"/>
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\ContextHandler\ContextHandler"/>
+            <argument type="service" id="KlarnaPayment\Components\CartHasher\InstantShoppingCartHasher"/>
+            <argument type="service" id="Shopware\Core\System\SalesChannel\Context\SalesChannelContextPersister"/>
+            <argument type="service" id="KlarnaPayment\Components\Helper\CurrencyHelper\CurrencyHelper"/>
+            <argument type="service" id="customer_address.repository" />
+            <argument type="service" id="event_dispatcher"/>
+        </service>
+
+        <service id="KlarnaPayment\Components\InstantShopping\CartHandler\CartHandler">
+            <argument type="service" id="product.repository" />
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService" />
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\CustomerHandler\CustomerHandler"/>
+        </service>
+
+        <service id="KlarnaPayment\Components\InstantShopping\CustomerHandler\CustomerHandler">
+            <argument type="service" id="country.repository" />
+            <argument type="service" id="salutation.repository" />
+            <argument type="service" id="customer.repository" />
+            <argument type="service" id="customer_address.repository"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+            <argument type="service" id="Shopware\Core\Checkout\Customer\SalesChannel\AccountRegistrationService" />
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\ContextHandler\ContextHandler" />
+            <argument type="service" id="KlarnaPayment\Components\Helper\CurrencyHelper\CurrencyHelper" />
+            <argument type="service" id="Doctrine\DBAL\Connection" />
+        </service>
+
+        <service id="KlarnaPayment\Components\InstantShopping\OrderHandler\OrderHandler">
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService" />
+            <argument type="service" id="order.repository" />
+            <argument type="service" id="router.default" />
+            <argument type="service" id="Shopware\Core\Checkout\Payment\PaymentService" />
+        </service>
+
+        <service id="KlarnaPayment\Components\InstantShopping\ContextHandler\ContextHandler">
+            <argument type="service" id="Shopware\Core\System\SalesChannel\Context\SalesChannelContextFactory"/>
         </service>
     </services>
 </container>

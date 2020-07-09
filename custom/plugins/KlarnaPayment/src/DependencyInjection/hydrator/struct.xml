@@ -11,7 +11,6 @@
 
         <!-- DeliveryStruct -->
         <service id="KlarnaPayment\Components\Client\Hydrator\Struct\Delivery\DeliveryStructHydrator"/>
-        <service id="KlarnaPayment\Components\Client\Hydrator\Struct\Delivery\OrderDeliveryStructHydrator"/>
 
         <!-- CustomerStruct -->
         <service id="KlarnaPayment\Components\Client\Hydrator\Struct\Customer\CustomerStructHydrator"/>
@@ -26,8 +25,11 @@
             <argument type="service" id="product.repository"/>
         </service>
 
-        <service id="KlarnaPayment\Components\Client\Hydrator\Struct\LineItem\OrderLineItemStructHydrator">
-            <argument type="service" id="product.repository"/>
+        <!-- InstantShopping ShippingOption -->
+        <service id="KlarnaPayment\Components\Client\Hydrator\Struct\ShippingOptions\ShippingOptionsStructHydrator">
+            <argument type="service" id="sales_channel.shipping_method.repository"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\ContextHandler\ContextHandler"/>
         </service>
     </services>
 </container>

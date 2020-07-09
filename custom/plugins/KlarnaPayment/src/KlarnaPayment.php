@@ -89,6 +89,7 @@ class KlarnaPayment extends Plugin
 
         /** @var Connection $connection */
         $connection = $this->container->get(Connection::class);
-        $connection->exec('DROP TABLE IF EXISTS klarna_payment_log');
+        $connection->exec('DROP TABLE IF EXISTS klarna_payment_request_log');
+        $connection->exec('DROP TABLE IF EXISTS klarna_payment_button_key');
     }
 }

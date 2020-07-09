@@ -10,12 +10,15 @@ use KlarnaPayment\Components\Client\Request\CreateSessionRequest;
 use KlarnaPayment\Components\Client\Struct\Options;
 use KlarnaPayment\Components\Helper\PaymentHelper\PaymentHelperInterface;
 use Shopware\Core\Checkout\Cart\Cart;
+use Shopware\Core\Checkout\Cart\Delivery\Struct\DeliveryCollection;
+use Shopware\Core\Checkout\Cart\LineItem\LineItemCollection;
 use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\System\Country\CountryEntity;
+use Shopware\Core\System\Currency\CurrencyEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class CreateSessionRequestHydrator implements CreateSessionRequestHydratorInterface
@@ -49,17 +52,27 @@ class CreateSessionRequestHydrator implements CreateSessionRequestHydratorInterf
         $precision      = $context->getCurrency()->getDecimalPrecision();
         $totalTaxAmount = $this->getTotalTaxAmount($cart->getPrice()->getCalculatedTaxes());
 
+        $options = new Options();
+        $options->assign([
+            'disable_confirmation_modals' => true,
+        ]);
+
         $request = new CreateSessionRequest();
         $request->assign([
             'purchaseCountry'  => $this->paymentHelper->getShippingCountry($context)->getIso(),
             'purchaseCurrency' => $context->getCurrency()->getIsoCode(),
             'locale'           => $this->paymentHelper->getSalesChannelLocale($context)->getCode(),
-            'options'          => new Options(),
+            'options'          => $options,
             'precision'        => $precision,
             'orderAmount'      => $cart->getPrice()->getTotalPrice(),
             'orderTaxAmount'   => $totalTaxAmount,
-            'orderLines'       => $this->hydrateOrderLines($cart, $context),
-            'salesChannel'     => $context->getSalesChannel()->getId(),
+            'orderLines'       => $this->hydrateOrderLines(
+                $cart->getLineItems(),
+                $cart->getDeliveries(),
+                $context->getCurrency(),
+                $context->getContext()
+            ),
+            'salesChannel' => $context->getSalesChannel()->getId(),
         ]);
 
         if (null !== $context->getCustomer()) {
@@ -87,15 +100,15 @@ class CreateSessionRequestHydrator implements CreateSessionRequestHydratorInterf
         return $totalTaxAmount;
     }
 
-    private function hydrateOrderLines(Cart $cart, SalesChannelContext $context): array
+    private function hydrateOrderLines(LineItemCollection $lineItems, DeliveryCollection $deliveries, CurrencyEntity $currency, Context $context): array
     {
         $orderLines = [];
 
-        foreach ($this->lineItemHydrator->hydrate($cart->getLineItems(), $context) as $orderLine) {
+        foreach ($this->lineItemHydrator->hydrate($lineItems, $currency, $context) as $orderLine) {
             $orderLines[] = $orderLine;
         }
 
-        foreach ($this->deliveryHydrator->hydrate($cart->getDeliveries(), $context) as $orderLine) {
+        foreach ($this->deliveryHydrator->hydrate($deliveries, $currency, $context) as $orderLine) {
             $orderLines[] = $orderLine;
         }
 

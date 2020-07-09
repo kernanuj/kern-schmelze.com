@@ -12,6 +12,7 @@ use KlarnaPayment\Components\Helper\RequestHasherInterface;
 use KlarnaPayment\Core\Framework\ContextScope;
 use Shopware\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressDefinition;
 use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemDefinition;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
 use Shopware\Core\Checkout\Order\OrderDefinition;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Defaults;
@@ -97,7 +98,27 @@ class OrderChangeEventListener implements EventSubscriberInterface
 
     private function isKlarnaOrder(OrderEntity $orderEntity): bool
     {
-        return $orderEntity->getCustomFields() !== null && !empty($orderEntity->getCustomFields()['klarna_order_id']);
+        if (null === $orderEntity->getTransactions()) {
+            return false;
+        }
+
+        foreach ($orderEntity->getTransactions() as $transaction) {
+            if (null === $transaction->getStateMachineState()) {
+                continue;
+            }
+
+            if ($transaction->getStateMachineState()->getTechnicalName() === OrderTransactionStates::STATE_CANCELLED) {
+                continue;
+            }
+
+            if (empty($transaction->getCustomFields()['klarna_order_id'])) {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     private function validateLineItems(OrderEntity $orderEntity, PostWriteValidationEvent $event): void
@@ -179,16 +200,22 @@ class OrderChangeEventListener implements EventSubscriberInterface
                 continue;
             }
 
+            $primaryKeys = $command->getPrimaryKey();
+
+            if (!array_key_exists('id', $primaryKeys) || empty($primaryKeys['id'])) {
+                continue;
+            }
+
             if ($command->getDefinition()->getClass() === OrderAddressDefinition::class) {
-                return $this->orderFetcher->getOrderFromOrderAddress($command->getPrimaryKey()['id'], $event->getContext());
+                return $this->orderFetcher->getOrderFromOrderAddress($primaryKeys['id'], $event->getContext());
             }
 
             if ($command->getDefinition()->getClass() === OrderLineItemDefinition::class) {
-                return $this->orderFetcher->getOrderFromLineItem($command->getPrimaryKey()['id'], $event->getContext());
+                return $this->orderFetcher->getOrderFromOrderLineItem($primaryKeys['id'], $event->getContext());
             }
 
             if ($command->getDefinition()->getClass() === OrderDefinition::class) {
-                return $this->orderFetcher->getOrderFromOrder($command->getPrimaryKey()['id'], $event->getContext());
+                return $this->orderFetcher->getOrderFromOrder($primaryKeys['id'], $event->getContext());
             }
         }
 
