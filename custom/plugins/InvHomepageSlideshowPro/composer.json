@@ -1,0 +1,46 @@
+{
+    "name": "inv/homepage-slideshow-pro",
+    "version": "1.0.0",
+    "description": "Display shop actions & information in a slideshow on the homepage of your shop. Use up to 5 slides with 2 pictures and a text each. Improve your shopping experience now!",
+    "authors": [
+        {
+            "name": "Nils Harder | inventivo.de",
+            "homepage": "https://www.inventivo.de",
+            "email": "hallo@inventivo.de",
+            "role": "Manufacturer"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "shopware/core": ">=6.0.0"
+    },
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+          "InvHomepageSlideshowPro\\": "src/"
+        }
+     },
+        "extra": {
+        "shopware-plugin-class": "InvHomepageSlideshowPro\\InvHomepageSlideshowPro",
+            "copyright": "(c) by Nils Harder | inventivo.de",
+            "manufacturerLink": {
+                "de-DE": "https://www.inventivo.de",
+                "en-GB": "https://www.inventivo.de"
+            },
+            "supportLink": {
+                "de-DE": "https://www.inventivo.de/kontakt",
+                "en-GB": "https://www.inventivo.de/kontakt"
+            },
+        "label": {
+          "de-DE": "Homepage Slideshow PRO für Shopware 6",
+          "en-GB": "Homepage Slideshow PRO for Shopware 6"
+        },
+        "description": {
+            "de-DE": "Shop-Aktionen & Infos in einer Slideshow auf der Homepage Deines Shops darstellen. Verwende bis zu 5 Slides mit jeweils 2 Bildern und einem Text. Jetzt Einkaufserlebnis verbessern!",
+            "en-GB": "Display shop actions & information in a slideshow on the homepage of your shop. Use up to 5 slides with 2 pictures and a text each. Improve your shopping experience now!"
+        }
+    },
+    "minimum-stability": "RC",
+    "prefer-stable": true
+}

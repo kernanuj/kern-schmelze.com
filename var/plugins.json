@@ -147,6 +147,29 @@
             "styleFiles": []
         }
     },
+    "InvHomepageSlideshowPro": {
+        "basePath": "custom\/plugins\/InvHomepageSlideshowPro\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-homepage-slideshow-pro",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": "Resources\/app\/storefront\/src\/main.js",
+            "webpack": null,
+            "styleFiles": [
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvHomepageSlideshowPro\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/_variables.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvHomepageSlideshowPro\/src\/Resources\/app\/storefront\/src\/scss\/base.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvHomepageSlideshowPro\/src\/Resources\/app\/storefront\/src\/scss\/components\/_slider-theme.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvHomepageSlideshowPro\/src\/Resources\/app\/storefront\/src\/scss\/components\/_slider.scss"
+            ]
+        }
+    },
     "InvKernschmelzeTemplate": {
         "basePath": "custom\/plugins\/InvKernschmelzeTemplate\/src\/",
         "views": [
