@@ -10,7 +10,7 @@
 // "\2022" outputs ascii character "•"
 
 $slick-font-path: "../../../bundles/invhomepageslideshowpro/fonts/" !default;
-$slick-font-family: "Inter", sans-serif !default;
+$slick-font-family: arial, helvetica, sans-serif !default;
 $slick-loader-path: "./" !default;
 $slick-arrow-color: black !default;
 $slick-dot-color: black !default;
@@ -70,7 +70,8 @@ $slick-opacity-not-active: 0.25 !default;
     line-height: 0px;
     font-size: 0px;
     cursor: pointer;
-    background: transparent;
+    //background: transparent;
+    background-size: 13px 24px;
     color: transparent;
     top: 50%;
     -webkit-transform: translate(0, -50%);
@@ -82,7 +83,7 @@ $slick-opacity-not-active: 0.25 !default;
     z-index: 10;
     &:hover, &:focus {
         outline: none;
-        background: transparent;
+        //background: transparent;
         color: transparent;
         &:before {
             opacity: $slick-opacity-on-hover;
@@ -104,30 +105,42 @@ $slick-opacity-not-active: 0.25 !default;
 
 .slick-prev {
     left: 15%;
+    background: url(../../../bundles/invhomepageslideshowpro/images/arrow-left.svg) no-repeat;
     [dir="rtl"] & {
         left: auto;
         right: 15%;
     }
-    &:before {
-        content: $slick-prev-character;
+    /*&:before {
+        display: block;
+        width: 13px;
+        height: 24px;
+        background: url(../../../bundles/invhomepageslideshowpro/images/arrow-left.svg) no-repeat;
+        background-size: 13px 24px;
+        //content: $slick-prev-character;
         [dir="rtl"] & {
-            content: $slick-next-character;
+            //content: $slick-next-character;
         }
-    }
+    }*/
 }
 
 .slick-next {
     right: 15%;
+    background: url(../../../bundles/invhomepageslideshowpro/images/arrow-right.svg) no-repeat;
     [dir="rtl"] & {
         left: 15%;
         right: auto;
     }
-    &:before {
-        content: $slick-next-character;
+    /*&:before {
+        display: block;
+        width: 13px;
+        height: 24px;
+        background: url(../../../bundles/invhomepageslideshowpro/images/arrow-right.svg) no-repeat;
+        background-size: 13px 24px;
+        //content: $slick-next-character;
         [dir="rtl"] & {
-            content: $slick-prev-character;
+            //content: $slick-prev-character;
         }
-    }
+    }*/
 }
 
 /* Dots */

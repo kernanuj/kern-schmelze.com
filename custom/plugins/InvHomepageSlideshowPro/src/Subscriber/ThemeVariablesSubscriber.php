@@ -10,8 +10,8 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 class ThemeVariablesSubscriber implements EventSubscriberInterface
 {
     /**
-    * @var SystemConfigService
-    */
+     * @var SystemConfigService
+     */
     protected $systemConfigService;
 
     // add the `SystemConfigService` to your constructor
@@ -30,18 +30,6 @@ class ThemeVariablesSubscriber implements EventSubscriberInterface
 
     public function onAddVariables(ThemeCompilerEnrichScssVariablesEvent $event)
     {
-        /** @var string $configBackgroundColorField */
-        $configBackgroundColorField = $this->systemConfigService->get('InvHomepageSlideshowPro.config.arrowColor', $event->getSalesChannelId());
-        if ($configBackgroundColorField) {
-            $event->addVariable('inv-homepage-slideshow-pro-arrow-color', $configBackgroundColorField);
-        }
-
-        /** @var string $configTextColorField */
-        $configTextColorField = $this->systemConfigService->get('InvHomepageSlideshowPro.config.textColor', $event->getSalesChannelId());
-        if ($configTextColorField) {
-            $event->addVariable('inv-homepage-slideshow-pro-text-color', $configTextColorField);
-        }
-
         /** @var string $configMinHeight */
         $configMinHeight = $this->systemConfigService->get('InvHomepageSlideshowPro.config.minHeight', $event->getSalesChannelId());
         if ($configMinHeight) {

@@ -249,7 +249,7 @@
         </component>
     </card>
 
-    <card>
+    <!--<card>
         <title>Colors (compile theme if changed)</title>
         <title lang="de-DE">Farben (Theme kompilieren, wenn Werte geändert werden)</title>
         <title lang="es-ES">Colores (compilar theme si se cambia los valores)</title>
@@ -277,7 +277,7 @@
             <label lang="nl-NL">Tekstkleur</label>
             <defaultValue>#000000</defaultValue>
         </component>
-    </card>
+    </card>-->
 
     <card>
         <title>Dimensions</title>
@@ -296,5 +296,4 @@
             <defaultValue>500px</defaultValue>
         </input-field>
     </card>
-
 </config>
