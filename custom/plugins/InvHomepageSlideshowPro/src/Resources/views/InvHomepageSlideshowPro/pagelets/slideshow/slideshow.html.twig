@@ -1,4 +1,4 @@
-{% if shopware.config.InvHomepageSlideshowPro.config.status == true and InvHomepageSlideshowProImage1 %}
+{% if shopware.config.InvHomepageSlideshowPro.config.status == true and InvHomepageSlideshowProImage1 and activeRoute == "frontend.home.page" %}
     <section class="center slider">
         {%  if InvHomepageSlideshowProImage1 %}
             {% set media = searchMedia([InvHomepageSlideshowProImage1], context.context) %}
