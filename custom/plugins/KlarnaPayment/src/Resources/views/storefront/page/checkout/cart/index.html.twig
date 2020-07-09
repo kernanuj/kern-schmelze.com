@@ -1,0 +1,7 @@
+{% sw_extends '@Storefront/storefront/page/checkout/cart/index.html.twig' %}
+
+{% block page_checkout_cart_action_proceed %}
+    {% sw_include '@Storefront/storefront/klarna/instant-shopping.html.twig' %}
+
+    {{ parent() }}
+{% endblock %}
