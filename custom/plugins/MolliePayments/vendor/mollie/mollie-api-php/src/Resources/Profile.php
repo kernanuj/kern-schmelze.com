@@ -5,7 +5,6 @@ namespace Mollie\Api\Resources;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\ProfileStatus;
-use stdClass;
 
 class Profile extends BaseResource
 {
@@ -59,7 +58,7 @@ class Profile extends BaseResource
     public $status;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $review;
 
@@ -72,7 +71,7 @@ class Profile extends BaseResource
     public $createdAt;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $_links;
 

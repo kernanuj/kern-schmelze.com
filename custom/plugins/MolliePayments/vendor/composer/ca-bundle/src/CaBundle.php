@@ -11,7 +11,6 @@
 
 namespace Composer\CaBundle;
 
-use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Process\PhpProcess;
 
@@ -268,7 +267,7 @@ EOT;
         try {
             $process = new PhpProcess($script);
             $process->mustRun();
-        } catch ( Exception $e) {
+        } catch (\Exception $e) {
             // In the case of any exceptions just accept it is not possible to
             // determine the safety of openssl_x509_parse and bail out.
             return self::$useOpensslParse = false;

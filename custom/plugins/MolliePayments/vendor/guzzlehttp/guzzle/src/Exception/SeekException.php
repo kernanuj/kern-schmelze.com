@@ -2,12 +2,11 @@
 namespace GuzzleHttp\Exception;
 
 use Psr\Http\Message\StreamInterface;
-use RuntimeException;
 
 /**
  * Exception thrown when a seek fails on a stream.
  */
-class SeekException extends RuntimeException implements GuzzleException
+class SeekException extends \RuntimeException implements GuzzleException
 {
     private $stream;
 

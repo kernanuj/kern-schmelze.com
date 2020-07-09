@@ -20,7 +20,6 @@ use Kiener\MolliePayments\Handler\Method\PayPalPayment;
 use Kiener\MolliePayments\Handler\Method\PaySafeCardPayment;
 use Kiener\MolliePayments\Handler\Method\Przelewy24Payment;
 use Kiener\MolliePayments\Handler\Method\SofortPayment;
-use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
@@ -158,7 +157,7 @@ class PaymentMethodService
      * @param MollieApiClient $apiClient
      * @param Context         $context
      *
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function activatePaymentMethods(MollieApiClient $apiClient, Context $context): void
     {

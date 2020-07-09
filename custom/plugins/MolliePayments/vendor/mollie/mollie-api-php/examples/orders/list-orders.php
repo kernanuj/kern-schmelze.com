@@ -3,7 +3,6 @@
  * List orders using the Mollie API.
  */
 
-use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\OrderCollection;
 
 try {
@@ -24,7 +23,7 @@ try {
     $previousOrders = $latestOrders->next();
     printOrders($previousOrders);
     echo '</ul>';
-} catch ( ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
 

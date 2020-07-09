@@ -2,8 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-use stdClass;
-
 class Method extends BaseResource
 {
     /**
@@ -24,7 +22,7 @@ class Method extends BaseResource
      * An object containing value and currency. It represents the minimum payment amount required to use this
      * payment method.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $minimumAmount;
 
@@ -32,14 +30,14 @@ class Method extends BaseResource
      * An object containing value and currency. It represents the maximum payment amount allowed when using this
      * payment method.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $maximumAmount;
 
     /**
      * The $image->size1x and $image->size2x to display the payment method logo.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $image;
 
@@ -60,7 +58,7 @@ class Method extends BaseResource
     public $pricing;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $_links;
 

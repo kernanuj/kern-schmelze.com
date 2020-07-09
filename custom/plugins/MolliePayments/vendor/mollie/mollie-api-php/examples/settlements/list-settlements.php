@@ -3,8 +3,6 @@
  * Using OAuth access token to list settlements of an account.
  */
 
-use Mollie\Api\Exceptions\ApiException;
-
 try {
     /*
      * Initialize the Mollie API library with your OAuth access token.
@@ -50,6 +48,6 @@ try {
         echo '</li>';
     }
     echo '</ul>';
-} catch ( ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

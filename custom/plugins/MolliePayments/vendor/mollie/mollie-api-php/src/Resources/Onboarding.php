@@ -3,7 +3,6 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Types\OnboardingStatus;
-use stdClass;
 
 class Onboarding extends BaseResource
 {
@@ -41,7 +40,7 @@ class Onboarding extends BaseResource
     public $canReceiveSettlements;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $_links;
 

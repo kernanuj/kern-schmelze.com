@@ -2,12 +2,9 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
-use stdClass;
 
 class OrderRefundEndpoint extends CollectionEndpointAbstract
 {
@@ -27,7 +24,7 @@ class OrderRefundEndpoint extends CollectionEndpointAbstract
      * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param stdClass $_links
+     * @param \stdClass $_links
      *
      * @return RefundCollection
      */
@@ -45,7 +42,7 @@ class OrderRefundEndpoint extends CollectionEndpointAbstract
      * @param array $filters
      *
      * @return Refund
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createFor(Order $order, array $data, array $filters = [])
     {
@@ -60,8 +57,8 @@ class OrderRefundEndpoint extends CollectionEndpointAbstract
      * @param array $data
      * @param array $filters
      *
-     * @return BaseResource|Refund
-     * @throws ApiException
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Refund
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createForId($orderId, array $data, array $filters = [])
     {

@@ -5,7 +5,6 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Permission;
 use Mollie\Api\Resources\PermissionCollection;
-use stdClass;
 
 class PermissionEndpoint extends CollectionEndpointAbstract
 {
@@ -27,7 +26,7 @@ class PermissionEndpoint extends CollectionEndpointAbstract
      * endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param stdClass $_links
+     * @param \stdClass $_links
      *
      * @return PermissionCollection
      */

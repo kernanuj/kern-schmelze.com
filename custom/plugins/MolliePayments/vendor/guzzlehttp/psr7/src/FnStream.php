@@ -1,8 +1,6 @@
 <?php
 namespace GuzzleHttp\Psr7;
 
-use BadMethodCallException;
-use LogicException;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -36,11 +34,11 @@ class FnStream implements StreamInterface
 
     /**
      * Lazily determine which methods are not implemented.
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      */
     public function __get($name)
     {
-        throw new BadMethodCallException(str_replace('_fn_', '', $name)
+        throw new \BadMethodCallException(str_replace('_fn_', '', $name)
             . '() is not implemented in the FnStream');
     }
 
@@ -56,11 +54,11 @@ class FnStream implements StreamInterface
 
     /**
      * An unserialize would allow the __destruct to run when the unserialized value goes out of scope.
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function __wakeup()
     {
-        throw new LogicException('FnStream should never be unserialized');
+        throw new \LogicException('FnStream should never be unserialized');
     }
 
     /**

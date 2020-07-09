@@ -3,8 +3,6 @@
  * Refund some items for an order using the Mollie API.
  */
 
-use Mollie\Api\Exceptions\ApiException;
-
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
@@ -30,6 +28,6 @@ try {
 
     echo 'Refund ' . $refund->id . ' was created for part of your order ' . $order->id;
     echo 'You will receive ' . $refund->amount->currency . $refund->amount->value;
-} catch ( ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

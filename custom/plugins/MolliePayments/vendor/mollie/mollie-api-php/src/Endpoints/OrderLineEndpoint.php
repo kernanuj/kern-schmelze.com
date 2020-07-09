@@ -7,7 +7,6 @@ use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderLine;
 use Mollie\Api\Resources\OrderLineCollection;
 use Mollie\Api\Resources\ResourceFactory;
-use stdClass;
 
 class OrderLineEndpoint extends CollectionEndpointAbstract
 {
@@ -34,7 +33,7 @@ class OrderLineEndpoint extends CollectionEndpointAbstract
      * endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param stdClass $_links
+     * @param \stdClass $_links
      *
      * @return OrderLineCollection
      */

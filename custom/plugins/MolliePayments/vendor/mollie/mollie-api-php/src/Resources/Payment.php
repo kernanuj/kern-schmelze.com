@@ -6,7 +6,6 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
-use stdClass;
 
 class Payment extends BaseResource
 {
@@ -33,14 +32,14 @@ class Payment extends BaseResource
     /**
      * Amount object containing the value and currency
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $amount;
 
     /**
      * The amount that has been settled containing the value and currency
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $settlementAmount;
 
@@ -48,7 +47,7 @@ class Payment extends BaseResource
      * The amount of the payment that has been refunded to the consumer, in EURO with
      * 2 decimals. This field will be null if the payment can not be refunded.
      *
-     * @var stdClass|null
+     * @var \stdClass|null
      */
     public $amountRefunded;
 
@@ -60,7 +59,7 @@ class Payment extends BaseResource
      * This is possible to reimburse the costs for a return shipment to your customer
      * for example.
      *
-     * @var stdClass|null
+     * @var \stdClass|null
      */
     public $amountRemaining;
 
@@ -198,7 +197,7 @@ class Payment extends BaseResource
      * During creation of the payment you can set custom metadata that is stored with
      * the payment, and given back whenever you retrieve that payment.
      *
-     * @var stdClass|mixed|null
+     * @var \stdClass|mixed|null
      */
     public $metadata;
 
@@ -206,7 +205,7 @@ class Payment extends BaseResource
      * Details of a successfully paid payment are set here. For example, the iDEAL
      * payment method will set $details->consumerName and $details->consumerAccount.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $details;
 
@@ -218,12 +217,12 @@ class Payment extends BaseResource
     public $restrictPaymentMethodsToCountry;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $_links;
 
     /**
-     * @var stdClass[]
+     * @var \stdClass[]
      */
     public $_embedded;
 
@@ -238,7 +237,7 @@ class Payment extends BaseResource
      * The total amount that is already captured for this payment. Only available
      * when this payment supports captures.
      *
-     * @var stdClass|null
+     * @var \stdClass|null
      */
     public $amountCaptured;
 
@@ -246,7 +245,7 @@ class Payment extends BaseResource
      * The application fee, if the payment was created with one. Contains amount
      * (the value and currency) and description.
      *
-     * @var stdClass|null
+     * @var \stdClass|null
      */
     public $applicationFeeAmount;
 
@@ -656,11 +655,11 @@ class Payment extends BaseResource
     {
         return array_merge($this->getPresetOptions(), $options);
     }
-
+    
     /**
      * The total amount that is already captured for this payment. Only available
      * when this payment supports captures.
-     *
+     * 
      * @return float
      */
     public function getAmountCaptured()
@@ -689,7 +688,7 @@ class Payment extends BaseResource
     /**
      * The total amount that is already captured for this payment. Only available
      * when this payment supports captures.
-     *
+     * 
      * @return float
      */
     public function getApplicationFeeAmount()

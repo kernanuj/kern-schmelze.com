@@ -3,8 +3,6 @@
  * Cancel an order using the Mollie API.
  */
 
-use Mollie\Api\Exceptions\ApiException;
-
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
@@ -23,6 +21,6 @@ try {
     } else {
         echo "Unable to cancel your order " . $order->id . ".";
     }
-} catch ( ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

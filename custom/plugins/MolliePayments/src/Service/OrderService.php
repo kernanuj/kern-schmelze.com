@@ -2,7 +2,6 @@
 
 namespace Kiener\MolliePayments\Service;
 
-use Exception;
 use Mollie\Api\Types\OrderLineType;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
@@ -86,7 +85,7 @@ class OrderService
 
             /** @var OrderEntity $order */
             $order = $this->orderRepository->search($criteria, $context)->first();
-        } catch ( Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->error($e->getMessage(), [$e]);
         }
 

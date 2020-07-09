@@ -2,10 +2,8 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\SubscriptionStatus;
-use stdClass;
 
 class Subscription extends BaseResource
 {
@@ -44,7 +42,7 @@ class Subscription extends BaseResource
     public $status;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $amount;
 
@@ -95,18 +93,18 @@ class Subscription extends BaseResource
     /**
      * Contains an optional 'webhookUrl'.
      *
-     * @var stdClass|null
+     * @var \stdClass|null
      */
     public $webhookUrl;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $_links;
 
     /**
      * @return BaseResource|Subscription
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update()
     {

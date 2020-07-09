@@ -2,12 +2,10 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\ResourceFactory;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
-use stdClass;
 
 class SubscriptionEndpoint extends CollectionEndpointAbstract
 {
@@ -27,7 +25,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param stdClass $_links
+     * @param \stdClass $_links
      *
      * @return SubscriptionCollection
      */
@@ -87,7 +85,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      *
      * @param array $data
      * @return null
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function cancelFor(Customer $customer, $subscriptionId, array $data = [])
     {
@@ -104,7 +102,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return SubscriptionCollection
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function page($from = null, $limit = null, array $parameters = [])
     {

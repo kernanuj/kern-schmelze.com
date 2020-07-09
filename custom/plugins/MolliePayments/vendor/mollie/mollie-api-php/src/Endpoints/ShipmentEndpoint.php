@@ -2,13 +2,9 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\BaseCollection;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\Shipment;
 use Mollie\Api\Resources\ShipmentCollection;
-use stdClass;
 
 class ShipmentEndpoint extends CollectionEndpointAbstract
 {
@@ -34,7 +30,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param stdClass $_links
+     * @param \stdClass $_links
      *
      * @return ShipmentCollection
      */
@@ -52,7 +48,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @param array $filters
      *
      * @return Shipment
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createFor(Order $order, array $options = [], array $filters = [])
     {
@@ -68,7 +64,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @param array $filters
      *
      * @return Shipment
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createForId($orderId, array $options = [], array $filters = [])
     {
@@ -85,7 +81,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return Shipment
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function getFor(Order $order, $shipmentId, array $parameters = [])
     {
@@ -99,8 +95,8 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @param string $shipmentId
      * @param array $parameters
      *
-     * @return BaseResource|Shipment
-     * @throws ApiException
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Shipment
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function getForId($orderId, $shipmentId, array $parameters = [])
     {
@@ -116,7 +112,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return ShipmentCollection
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function listFor(Order $order, array $parameters = [])
     {
@@ -129,8 +125,8 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @param string $orderId
      * @param array $parameters
      *
-     * @return BaseCollection|ShipmentCollection
-     * @throws ApiException
+     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\ShipmentCollection
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function listForId($orderId, array $parameters = [])
     {

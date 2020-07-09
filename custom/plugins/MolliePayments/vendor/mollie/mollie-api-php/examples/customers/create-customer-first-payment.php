@@ -3,9 +3,6 @@
  * How to create a first payment to allow recurring payments later.
  */
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Types\SequenceType;
-
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
@@ -49,7 +46,7 @@ try {
         ],
 
         // Flag this payment as a first payment to allow recurring payments later.
-        "sequenceType" => SequenceType::SEQUENCETYPE_FIRST,
+        "sequenceType" => \Mollie\Api\Types\SequenceType::SEQUENCETYPE_FIRST,
     ]);
 
     /*
@@ -65,6 +62,6 @@ try {
      * used for recurring payments and subscriptions.
      */
     header("Location: " . $payment->getCheckoutUrl(), true, 303);
-} catch ( ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

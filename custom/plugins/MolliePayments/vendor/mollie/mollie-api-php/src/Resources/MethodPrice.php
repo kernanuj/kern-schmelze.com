@@ -2,8 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-use stdClass;
-
 class MethodPrice extends BaseResource
 {
     /**
@@ -17,7 +15,7 @@ class MethodPrice extends BaseResource
     /**
      * The fixed price per transaction. This excludes the variable amount.
      *
-     * @var stdClass An amount object consisting of `value` and `currency`
+     * @var \stdClass An amount object consisting of `value` and `currency`
      */
     public $fixed;
 

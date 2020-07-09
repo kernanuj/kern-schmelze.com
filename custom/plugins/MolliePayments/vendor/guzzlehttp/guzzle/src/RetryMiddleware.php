@@ -6,7 +6,6 @@ use GuzzleHttp\Promise\RejectedPromise;
 use GuzzleHttp\Psr7;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use function GuzzleHttp\Promise\rejection_for;
 
 /**
  * Middleware that retries requests based on the boolean result of
@@ -111,7 +110,7 @@ class RetryMiddleware
                 null,
                 $reason
             )) {
-                return rejection_for($reason);
+                return \GuzzleHttp\Promise\rejection_for($reason);
             }
             return $this->doRetry($req, $options);
         };

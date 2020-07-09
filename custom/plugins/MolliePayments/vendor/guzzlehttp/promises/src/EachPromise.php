@@ -1,10 +1,6 @@
 <?php
 namespace GuzzleHttp\Promise;
 
-use Exception;
-use Iterator;
-use Throwable;
-
 /**
  * Represents a promise that iterates over many promises and invokes
  * side-effect functions in the process.
@@ -13,7 +9,7 @@ class EachPromise implements PromisorInterface
 {
     private $pending = [];
 
-    /** @var Iterator */
+    /** @var \Iterator */
     private $iterable;
 
     /** @var callable|int */
@@ -79,9 +75,9 @@ class EachPromise implements PromisorInterface
             $this->createPromise();
             $this->iterable->rewind();
             $this->refillPending();
-        } catch ( Throwable $e) {
+        } catch (\Throwable $e) {
             $this->aggregate->reject($e);
-        } catch ( Exception $e) {
+        } catch (\Exception $e) {
             $this->aggregate->reject($e);
         }
 
@@ -191,11 +187,11 @@ class EachPromise implements PromisorInterface
             $this->iterable->next();
             $this->mutex = false;
             return true;
-        } catch ( Throwable $e) {
+        } catch (\Throwable $e) {
             $this->aggregate->reject($e);
             $this->mutex = false;
             return false;
-        } catch ( Exception $e) {
+        } catch (\Exception $e) {
             $this->aggregate->reject($e);
             $this->mutex = false;
             return false;

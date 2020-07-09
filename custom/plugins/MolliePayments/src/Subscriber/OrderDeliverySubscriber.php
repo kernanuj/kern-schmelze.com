@@ -2,7 +2,6 @@
 
 namespace Kiener\MolliePayments\Subscriber;
 
-use Exception;
 use Kiener\MolliePayments\Service\DeliveryService;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
@@ -129,7 +128,7 @@ class OrderDeliverySubscriber implements EventSubscriberInterface
                         $customFields[self::PARAM_MOLLIE_PAYMENTS][self::PARAM_ORDER_ID],
                         $parameters ?? []
                     );
-                } catch ( Exception $e) {
+                } catch (\Exception $e) {
                     //
                 }
 

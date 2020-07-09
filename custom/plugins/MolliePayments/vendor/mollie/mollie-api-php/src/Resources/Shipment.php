@@ -2,9 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
-use stdClass;
 
 class Shipment extends BaseResource
 {
@@ -46,13 +44,13 @@ class Shipment extends BaseResource
 
     /**
      * An object containing tracking details for the shipment, if available.
-     * @var stdClass|null
+     * @var \stdClass|null
      */
     public $tracking;
 
     /**
      * An object with several URL objects relevant to the customer. Every URL object will contain an href and a type field.
-     * @var stdClass
+     * @var \stdClass
      */
     public $_links;
 
@@ -107,7 +105,7 @@ class Shipment extends BaseResource
      * Get the Order object for this shipment
      *
      * @return Order
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function order()
     {
@@ -118,7 +116,7 @@ class Shipment extends BaseResource
      * Save changes made to this shipment.
      *
      * @return BaseResource|Shipment
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update()
     {

@@ -2,12 +2,10 @@
 
 namespace Mollie\Api;
 
-use Composer\CaBundle\CaBundle;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\RequestOptions;
 use Mollie\Api\Endpoints\ChargebackEndpoint;
 use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
@@ -36,7 +34,6 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-use stdClass;
 
 class MollieApiClient
 {
@@ -276,8 +273,8 @@ class MollieApiClient
         $this->httpClient = $httpClient ?
             $httpClient :
             new Client([
-                RequestOptions::VERIFY => CaBundle::getBundledCaBundlePath(),
-                RequestOptions::TIMEOUT => self::TIMEOUT,
+                \GuzzleHttp\RequestOptions::VERIFY => \Composer\CaBundle\CaBundle::getBundledCaBundlePath(),
+                \GuzzleHttp\RequestOptions::TIMEOUT => self::TIMEOUT,
             ]);
 
         $compatibilityChecker = new CompatibilityChecker();
@@ -404,7 +401,7 @@ class MollieApiClient
      * @param string $apiMethod
      * @param string|null|resource|StreamInterface $httpBody
      *
-     * @return stdClass
+     * @return \stdClass
      * @throws ApiException
      *
      * @codeCoverageIgnore
@@ -426,7 +423,7 @@ class MollieApiClient
      * @param string $url
      * @param string|null|resource|StreamInterface $httpBody
      *
-     * @return stdClass|null
+     * @return \stdClass|null
      * @throws ApiException
      *
      * @codeCoverageIgnore
@@ -472,7 +469,7 @@ class MollieApiClient
      * Parse the PSR-7 Response body
      *
      * @param ResponseInterface $response
-     * @return stdClass|null
+     * @return \stdClass|null   
      * @throws ApiException
      */
     private function parseResponseBody(ResponseInterface $response)

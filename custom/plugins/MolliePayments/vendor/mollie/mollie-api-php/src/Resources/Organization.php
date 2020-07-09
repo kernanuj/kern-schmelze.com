@@ -2,8 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-use stdClass;
-
 class Organization extends BaseResource
 {
     /**
@@ -37,7 +35,7 @@ class Organization extends BaseResource
     /**
      * The address of the organization.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $address;
 
@@ -58,7 +56,7 @@ class Organization extends BaseResource
     public $vatNumber;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $_links;
 }

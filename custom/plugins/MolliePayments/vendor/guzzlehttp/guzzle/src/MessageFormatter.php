@@ -1,7 +1,6 @@
 <?php
 namespace GuzzleHttp;
 
-use Exception;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -60,14 +59,14 @@ class MessageFormatter
      *
      * @param RequestInterface  $request  Request that was sent
      * @param ResponseInterface $response Response that was received
-     * @param Exception        $error    Exception that was received
+     * @param \Exception        $error    Exception that was received
      *
      * @return string
      */
     public function format(
         RequestInterface $request,
         ResponseInterface $response = null,
-        Exception $error = null
+        \Exception $error = null
     ) {
         $cache = [];
 

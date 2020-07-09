@@ -5,7 +5,6 @@ use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\TooManyRedirectsException;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7;
-use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
@@ -58,7 +57,7 @@ class RedirectMiddleware
         if ($options['allow_redirects'] === true) {
             $options['allow_redirects'] = self::$defaultSettings;
         } elseif (!is_array($options['allow_redirects'])) {
-            throw new InvalidArgumentException('allow_redirects must be true, false, or array');
+            throw new \InvalidArgumentException('allow_redirects must be true, false, or array');
         } else {
             // Merge the default settings with the provided settings
             $options['allow_redirects'] += self::$defaultSettings;

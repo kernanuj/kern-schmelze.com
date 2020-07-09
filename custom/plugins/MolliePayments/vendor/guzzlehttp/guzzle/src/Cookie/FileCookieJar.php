@@ -1,8 +1,6 @@
 <?php
 namespace GuzzleHttp\Cookie;
 
-use RuntimeException;
-
 /**
  * Persists non-session cookies using a JSON formatted file
  */
@@ -21,7 +19,7 @@ class FileCookieJar extends CookieJar
      * @param bool $storeSessionCookies Set to true to store session cookies
      *                                  in the cookie jar.
      *
-     * @throws RuntimeException if the file cannot be found or created
+     * @throws \RuntimeException if the file cannot be found or created
      */
     public function __construct($cookieFile, $storeSessionCookies = false)
     {
@@ -46,7 +44,7 @@ class FileCookieJar extends CookieJar
      * Saves the cookies to a file.
      *
      * @param string $filename File to save
-     * @throws RuntimeException if the file cannot be found or created
+     * @throws \RuntimeException if the file cannot be found or created
      */
     public function save($filename)
     {
@@ -60,7 +58,7 @@ class FileCookieJar extends CookieJar
 
         $jsonStr = \GuzzleHttp\json_encode($json);
         if (false === file_put_contents($filename, $jsonStr, LOCK_EX)) {
-            throw new RuntimeException("Unable to save file {$filename}");
+            throw new \RuntimeException("Unable to save file {$filename}");
         }
     }
 
@@ -70,13 +68,13 @@ class FileCookieJar extends CookieJar
      * Old cookies are kept unless overwritten by newly loaded ones.
      *
      * @param string $filename Cookie file to load.
-     * @throws RuntimeException if the file cannot be loaded.
+     * @throws \RuntimeException if the file cannot be loaded.
      */
     public function load($filename)
     {
         $json = file_get_contents($filename);
         if (false === $json) {
-            throw new RuntimeException("Unable to load file {$filename}");
+            throw new \RuntimeException("Unable to load file {$filename}");
         } elseif ($json === '') {
             return;
         }
@@ -87,7 +85,7 @@ class FileCookieJar extends CookieJar
                 $this->setCookie(new SetCookie($cookie));
             }
         } elseif (strlen($data)) {
-            throw new RuntimeException("Invalid cookie file: {$filename}");
+            throw new \RuntimeException("Invalid cookie file: {$filename}");
         }
     }
 }

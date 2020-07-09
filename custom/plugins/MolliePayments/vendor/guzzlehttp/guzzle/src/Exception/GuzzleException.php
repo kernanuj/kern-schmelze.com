@@ -10,7 +10,7 @@ if (interface_exists(Throwable::class)) {
 } else {
     /**
      * @method string getMessage()
-     * @method Throwable|null getPrevious()
+     * @method \Throwable|null getPrevious()
      * @method mixed getCode()
      * @method string getFile()
      * @method int getLine()

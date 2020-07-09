@@ -2,8 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-use stdClass;
-
 class Issuer extends BaseResource
 {
     /**
@@ -31,7 +29,7 @@ class Issuer extends BaseResource
     /**
      * Object containing a size1x or size2x image
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $image;
 }

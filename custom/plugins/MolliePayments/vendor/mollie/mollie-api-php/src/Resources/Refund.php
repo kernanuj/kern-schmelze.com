@@ -2,10 +2,8 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\RefundStatus;
-use stdClass;
 
 class Refund extends BaseResource
 {
@@ -24,7 +22,7 @@ class Refund extends BaseResource
     /**
      * The $amount that was refunded.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $amount;
 
@@ -69,7 +67,7 @@ class Refund extends BaseResource
     /**
      * The settlement amount
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $settlementAmount;
 
@@ -81,7 +79,7 @@ class Refund extends BaseResource
     public $status;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $_links;
 
@@ -130,7 +128,7 @@ class Refund extends BaseResource
      * Returns null if successful.
      *
      * @return null
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function cancel()
     {

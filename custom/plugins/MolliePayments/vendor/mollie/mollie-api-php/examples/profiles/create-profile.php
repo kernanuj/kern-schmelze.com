@@ -2,9 +2,6 @@
 /*
  * Create a profile via the Mollie API.
  */
-
-use Mollie\Api\Exceptions\ApiException;
-
 try
 {
     /*
@@ -27,7 +24,7 @@ try
     ]);
     echo "<p>Profile created: " . htmlspecialchars($profile->name) . "</p>";
 }
-catch ( ApiException $e)
+catch (\Mollie\Api\Exceptions\ApiException $e)
 {
     echo "<p>API call failed: " . htmlspecialchars($e->getMessage()) . "</p>";
 }

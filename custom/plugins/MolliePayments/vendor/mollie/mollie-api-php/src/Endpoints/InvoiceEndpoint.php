@@ -3,11 +3,8 @@
 namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\BaseCollection;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Resources\InvoiceCollection;
-use stdClass;
 
 class InvoiceEndpoint extends CollectionEndpointAbstract
 {
@@ -16,7 +13,7 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
     /**
      * Get the object that is used by this API. Every API uses one type of object.
      *
-     * @return BaseResource
+     * @return \Mollie\Api\Resources\BaseResource
      */
     protected function getResourceObject()
     {
@@ -27,9 +24,9 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
      * Get the collection object that is used by this API. Every API uses one type of collection object.
      *
      * @param int $count
-     * @param stdClass $_links
+     * @param \stdClass $_links
      *
-     * @return BaseCollection
+     * @return \Mollie\Api\Resources\BaseCollection
      */
     protected function getResourceCollectionObject($count, $_links)
     {
@@ -72,7 +69,7 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
      *
      * @param array|null $parameters
      *
-     * @return BaseCollection
+     * @return \Mollie\Api\Resources\BaseCollection
      */
     public function all(array $parameters = [])
     {

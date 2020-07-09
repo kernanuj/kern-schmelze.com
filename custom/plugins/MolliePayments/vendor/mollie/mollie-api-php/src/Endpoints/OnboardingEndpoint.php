@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Endpoints;
 
-use BadMethodCallException;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Onboarding;
@@ -14,7 +13,7 @@ class OnboardingEndpoint extends EndpointAbstract
 
     protected function getResourceCollectionObject($count, $links)
     {
-        throw new BadMethodCallException('not implemented');
+        throw new \BadMethodCallException('not implemented');
     }
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.

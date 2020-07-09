@@ -2,12 +2,9 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\Payment;
-use stdClass;
 
 class PaymentCaptureEndpoint extends CollectionEndpointAbstract
 {
@@ -27,9 +24,9 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
      * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param stdClass $_links
+     * @param \stdClass $_links
      *
-     * @return CaptureCollection
+     * @return \Mollie\Api\Resources\CaptureCollection
      */
     protected function getResourceCollectionObject($count, $_links)
     {
@@ -42,7 +39,7 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return Capture
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function getFor(Payment $payment, $captureId, array $parameters = [])
     {
@@ -54,8 +51,8 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
      * @param string $captureId
      * @param array $parameters
      *
-     * @return BaseResource|Capture
-     * @throws ApiException
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Capture
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function getForId($paymentId, $captureId, array $parameters = [])
     {

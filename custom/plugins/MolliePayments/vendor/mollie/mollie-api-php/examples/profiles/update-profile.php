@@ -2,9 +2,6 @@
 /*
  * Updating an existing profile via the Mollie API.
  */
-
-use Mollie\Api\Exceptions\ApiException;
-
 try
 {
     /*
@@ -30,7 +27,7 @@ try
     $profile->update();
     echo "<p>Profile updated: " . htmlspecialchars($profile->name) . "</p>";
 }
-catch ( ApiException $e)
+catch (\Mollie\Api\Exceptions\ApiException $e)
 {
     echo "<p>API call failed: " . htmlspecialchars($e->getMessage()) . "</p>";
 }

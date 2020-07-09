@@ -2,13 +2,10 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ResourceFactory;
-use stdClass;
 
 class ProfileMethodEndpoint extends CollectionEndpointAbstract
 {
@@ -28,7 +25,7 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
      * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param stdClass $_links
+     * @param \stdClass $_links
      *
      * @return MethodCollection()
      */
@@ -43,8 +40,8 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
      * @param $profileId
      * @param $methodId
      * @param array $data
-     * @return BaseResource
-     * @throws ApiException
+     * @return \Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createForId($profileId, $methodId, array $data = [])
     {
@@ -68,7 +65,7 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
      * @param string $methodId
      * @param array $data
      * @return Method
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createFor($profile, $methodId, array $data = [])
     {
@@ -80,8 +77,8 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
      *
      * @param $methodId
      * @param array $data
-     * @return BaseResource
-     * @throws ApiException
+     * @return \Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createForCurrentProfile($methodId, array $data = [])
     {
@@ -94,8 +91,8 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
      * @param $profileId
      * @param $methodId
      * @param array $data
-     * @return BaseResource
-     * @throws ApiException
+     * @return \Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function deleteForId($profileId, $methodId, array $data = [])
     {
@@ -110,8 +107,8 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
      * @param $profile
      * @param $methodId
      * @param array $data
-     * @return BaseResource
-     * @throws ApiException
+     * @return \Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function deleteFor($profile, $methodId, array $data = [])
     {
@@ -123,8 +120,8 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
      *
      * @param $methodId
      * @param array $data
-     * @return BaseResource
-     * @throws ApiException
+     * @return \Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function deleteForCurrentProfile($methodId, array $data)
     {

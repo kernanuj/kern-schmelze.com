@@ -2,11 +2,9 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\Payment;
-use stdClass;
 
 class PaymentChargebackEndpoint extends CollectionEndpointAbstract
 {
@@ -26,7 +24,7 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
      * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param stdClass $_links
+     * @param \stdClass $_links
      *
      * @return ChargebackCollection
      */
@@ -41,7 +39,7 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return Chargeback
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function getFor(Payment $payment, $chargebackId, array $parameters = [])
     {
@@ -54,7 +52,7 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return Chargeback
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function getForId($paymentId, $chargebackId, array $parameters = [])
     {
