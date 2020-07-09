@@ -159,10 +159,10 @@
 
     <card>
         <title>Slide 4</title>
-        <title lang="de-DE">Slide 1</title>
-        <title lang="es-ES">Slide 1</title>
-        <title lang="fr-FR">Slide 1</title>
-        <title lang="nl-NL">Slide 1</title>
+        <title lang="de-DE">Slide 4</title>
+        <title lang="es-ES">Slide 4</title>
+        <title lang="fr-FR">Slide 4</title>
+        <title lang="nl-NL">Slide 4</title>
 
         <input-field type="textarea">
             <name>slide4</name>
@@ -205,10 +205,10 @@
 
     <card>
         <title>Slide 5</title>
-        <title lang="de-DE">Slide 1</title>
-        <title lang="es-ES">Slide 1</title>
-        <title lang="fr-FR">Slide 1</title>
-        <title lang="nl-NL">Slide 1</title>
+        <title lang="de-DE">Slide 5</title>
+        <title lang="es-ES">Slide 5</title>
+        <title lang="fr-FR">Slide 5</title>
+        <title lang="nl-NL">Slide 5</title>
 
         <input-field type="textarea">
             <name>slide5</name>
