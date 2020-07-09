@@ -20,8 +20,6 @@ use Swag\CustomizedProducts\Template\Aggregate\TemplateExclusionOperator\Templat
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\Checkbox;
 use Swag\CustomizedProducts\Template\TemplateDefinition;
 use Swag\CustomizedProducts\Test\Helper\ServicesTrait;
-use function mb_strtolower;
-use function random_int;
 
 class TemplateExclusionVersioningTest extends TestCase
 {
@@ -61,7 +59,6 @@ class TemplateExclusionVersioningTest extends TestCase
 
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context,
             [
                 'options' => [
@@ -70,7 +67,7 @@ class TemplateExclusionVersioningTest extends TestCase
                         'type' => 'checkbox',
                         'typeProperties' => [],
                         'displayName' => 'Example Option',
-                        'position' => random_int(1, 10),
+                        'position' => \random_int(1, 10),
                     ],
                 ],
             ]
@@ -108,7 +105,7 @@ class TemplateExclusionVersioningTest extends TestCase
         static::assertArrayHasKey('count', $res);
         static::assertSame(1, (int) $res['count']);
         static::assertNotSame(Defaults::LIVE_VERSION, $res['version_id']);
-        static::assertSame($versionId, mb_strtolower($res['version_id']));
+        static::assertSame($versionId, \mb_strtolower($res['version_id']));
 
         $res = $connection->fetchAssoc(
             'SELECT HEX(`version_id`) AS `version_id`, COUNT(`version_id`) AS `count` FROM `swag_customized_products_template_exclusion_condition`;'
@@ -119,7 +116,7 @@ class TemplateExclusionVersioningTest extends TestCase
         static::assertArrayHasKey('count', $res);
         static::assertSame(1, (int) $res['count']);
         static::assertNotSame(Defaults::LIVE_VERSION, $res['version_id']);
-        static::assertSame($versionId, mb_strtolower($res['version_id']));
+        static::assertSame($versionId, \mb_strtolower($res['version_id']));
 
         // After merging the template all sub entities including extensions and conditons should merge too
         $this->templateRepository->merge($versionId, $versionContext);
@@ -132,7 +129,7 @@ class TemplateExclusionVersioningTest extends TestCase
         static::assertArrayHasKey('version_id', $res);
         static::assertArrayHasKey('count', $res);
         static::assertSame(1, (int) $res['count']);
-        static::assertSame(Defaults::LIVE_VERSION, mb_strtolower($res['version_id']));
+        static::assertSame(Defaults::LIVE_VERSION, \mb_strtolower($res['version_id']));
 
         $res = $connection->fetchAssoc(
             'SELECT HEX(`version_id`) AS `version_id`, COUNT(`version_id`) AS `count` FROM `swag_customized_products_template_exclusion_condition`;'
@@ -142,7 +139,7 @@ class TemplateExclusionVersioningTest extends TestCase
         static::assertArrayHasKey('version_id', $res);
         static::assertArrayHasKey('count', $res);
         static::assertSame(1, (int) $res['count']);
-        static::assertSame(Defaults::LIVE_VERSION, mb_strtolower($res['version_id']));
+        static::assertSame(Defaults::LIVE_VERSION, \mb_strtolower($res['version_id']));
     }
 
     public function testConditionCanReferenceNoneMergedVersion(): void
@@ -152,7 +149,6 @@ class TemplateExclusionVersioningTest extends TestCase
         $context = Context::createDefaultContext();
         $this->createTemplate(
             $templateID,
-            $this->templateRepository,
             $context
         );
 

@@ -18,7 +18,6 @@ use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\Tax\TaxDefinition;
 use Swag\CustomizedProducts\Core\Content\Product\ProductWrittenSubscriber;
 use Swag\CustomizedProducts\Test\Helper\ServicesTrait;
-use function random_int;
 
 class ProductWrittenSubscriberTest extends TestCase
 {
@@ -34,11 +33,8 @@ class ProductWrittenSubscriberTest extends TestCase
         $templateId = Uuid::randomHex();
         $templateData = $this->getTemplateData($templateId, $productId, $taxId);
 
-        /** @var EntityRepositoryInterface $templateRepo */
-        $templateRepo = $this->getContainer()->get('swag_customized_products_template.repository');
         $this->createTemplate(
             $templateId,
-            $templateRepo,
             $context,
             $templateData
         );
@@ -49,7 +45,7 @@ class ProductWrittenSubscriberTest extends TestCase
         $productRepository->create([
             [
                 'id' => $variantId,
-                'stock' => random_int(1, 5),
+                'stock' => \random_int(1, 5),
                 'taxId' => $taxId,
                 'parentId' => $productId,
                 'price' => [
@@ -112,7 +108,7 @@ class ProductWrittenSubscriberTest extends TestCase
         $productRepository->create([
             [
                 'id' => $productId,
-                'stock' => random_int(1, 5),
+                'stock' => \random_int(1, 5),
                 'taxId' => $taxId,
                 'price' => [
                     'net' => [

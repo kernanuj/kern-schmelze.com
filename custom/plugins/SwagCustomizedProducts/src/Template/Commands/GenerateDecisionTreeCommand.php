@@ -21,10 +21,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\MessageBusInterface;
-use UnexpectedValueException;
-use function is_string;
-use function mb_strtolower;
-use function sprintf;
 
 class GenerateDecisionTreeCommand extends Command
 {
@@ -86,17 +82,17 @@ class GenerateDecisionTreeCommand extends Command
         $templateId = $input->getArgument('templateId');
         $this->io = new ShopwareStyle($input, $output);
 
-        if (! is_string($templateId)) {
-            throw new UnexpectedValueException('The given template id is not a string.');
+        if (!\is_string($templateId)) {
+            throw new \UnexpectedValueException('The given template id is not a string.');
         }
 
-        $templateId = mb_strtolower($templateId);
+        $templateId = \mb_strtolower($templateId);
         if (!Uuid::isValid($templateId)) {
-            throw new UnexpectedValueException('The given template id is not a valid uuid.');
+            throw new \UnexpectedValueException('The given template id is not a valid uuid.');
         }
 
         if (!$this->templateExists($templateId, $context)) {
-            throw new UnexpectedValueException( sprintf('No Template could be found for the given id "%s".', $templateId));
+            throw new \UnexpectedValueException(\sprintf('No Template could be found for the given id "%s".', $templateId));
         }
 
         if (!$input->getOption('async')) {

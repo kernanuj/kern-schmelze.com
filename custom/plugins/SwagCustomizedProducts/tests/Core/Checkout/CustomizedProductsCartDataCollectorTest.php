@@ -170,7 +170,6 @@ class CustomizedProductsCartDataCollectorTest extends TestCase
         $templateId = Uuid::randomHex();
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context->getContext()
         );
 
@@ -254,7 +253,6 @@ class CustomizedProductsCartDataCollectorTest extends TestCase
         $templateId = Uuid::randomHex();
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context->getContext(),
             [
                 'active' => true,
@@ -355,7 +353,6 @@ class CustomizedProductsCartDataCollectorTest extends TestCase
         $templateId = Uuid::randomHex();
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context->getContext(),
             [
                 'active' => true,
@@ -489,7 +486,6 @@ class CustomizedProductsCartDataCollectorTest extends TestCase
         $requiredOptionId = Uuid::randomHex();
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context->getContext(),
             [
                 'active' => true,
@@ -618,7 +614,6 @@ class CustomizedProductsCartDataCollectorTest extends TestCase
         $requiredOptionId = Uuid::randomHex();
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context->getContext(),
             [
                 'active' => true,

@@ -29,11 +29,7 @@ class AccountOrderPageLoadedEventSubscriber implements EventSubscriberInterface
      */
     public function nestOrderLineItems(PageLoadedEvent $event): void
     {
-        if ($event instanceof AccountOverviewPageLoadedEvent) {
-            $orderCollection = new OrderCollection([$event->getPage()->getNewestOrder()]);
-        } else {
-            $orderCollection = $event->getPage()->getOrders()->getEntities();
-        }
+        $orderCollection = $this->getOrderCollection($event);
 
         foreach ($orderCollection as $orderEntity) {
             $orderLineItemCollection = $orderEntity->getLineItems();
@@ -55,5 +51,26 @@ class AccountOrderPageLoadedEventSubscriber implements EventSubscriberInterface
 
             $orderEntity->setLineItems($nestedLineItems);
         }
+    }
+
+    /**
+     * @param AccountOrderPageLoadedEvent|AccountOverviewPageLoadedEvent $event
+     */
+    private function getOrderCollection(PageLoadedEvent $event): OrderCollection
+    {
+        if ($event instanceof AccountOrderPageLoadedEvent) {
+            /** @var OrderCollection $orderCollection */
+            $orderCollection = $event->getPage()->getOrders()->getEntities();
+
+            return $orderCollection;
+        }
+
+        $newestOrder = $event->getPage()->getNewestOrder();
+
+        if ($newestOrder === null) {
+            return new OrderCollection();
+        }
+
+        return new OrderCollection([$newestOrder]);
     }
 }

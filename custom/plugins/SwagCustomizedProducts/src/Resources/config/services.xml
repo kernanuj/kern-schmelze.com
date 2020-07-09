@@ -40,6 +40,11 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
+        <service id="Swag\CustomizedProducts\Core\Content\MailTemplate\Service\Event\OrderConfirmationSubscriber">
+            <argument type="service" id="mail_template.repository"/>
+            <tag name="kernel.event_listener"/>
+        </service>
+
         <!-- Translations -->
         <service id="Swag\CustomizedProducts\Resources\app\storefront\snippet\de_DE\SnippetFile_de_DE">
             <tag name="shopware.snippet.file"/>
@@ -57,6 +62,12 @@
         <service id="Swag\CustomizedProducts\Template\SalesChannel\Price\PriceService">
             <argument type="service" id="Shopware\Core\Checkout\Cart\Price\QuantityPriceCalculator"/>
         </service>
+
+        <service id="Swag\CustomizedProducts\Core\Checkout\Promotion\Cart\Discount\ScopePackager\CartScopeDiscountPackagerDecorator"
+            decorates="Shopware\Core\Checkout\Promotion\Cart\Discount\ScopePackager\CartScopeDiscountPackager">
+            <argument type="service" id="Swag\CustomizedProducts\Core\Checkout\Promotion\Cart\Discount\ScopePackager\CartScopeDiscountPackagerDecorator.inner"/>
+        </service>
+
 
         <!-- Controllers -->
         <service id="Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Api\TemplateOptionController" public="true">
@@ -130,6 +141,16 @@
         <service id="Swag\CustomizedProducts\Core\Checkout\Cart\Route\ReOrderCustomizedProductsRoute" public="true">
             <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
             <argument type="service" id="order.repository"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Storefront\Page\Product\PriceDetail\Route\PriceDetailRoute" public="true">
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService" />
+            <argument type="service" id="Swag\CustomizedProducts\Core\Checkout\Cart\Route\AddCustomizedProductsToCartRoute"/>
+            <argument type="service" id="event_dispatcher"/>
+        </service>
+
+        <service id="Swag\CustomizedProducts\Storefront\Page\Product\PriceDetail\CustomizedProductPriceDetailController" public="true">
+            <argument type="service" id="Swag\CustomizedProducts\Storefront\Page\Product\PriceDetail\Route\PriceDetailRoute"/>
         </service>
 
         <service id="Swag\CustomizedProducts\Storefront\Controller\CustomizedProductsCartController" public="true">

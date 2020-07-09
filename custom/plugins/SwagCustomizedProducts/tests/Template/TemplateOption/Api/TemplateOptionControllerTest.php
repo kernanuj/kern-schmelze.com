@@ -10,7 +10,6 @@ namespace Swag\CustomizedProducts\Test\Template\TemplateOption\Api;
 use PHPUnit\Framework\TestCase;
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Api\TemplateOptionController;
 use Swag\CustomizedProducts\Test\Helper\ServicesTrait;
-use function json_decode;
 
 class TemplateOptionControllerTest extends TestCase
 {
@@ -29,7 +28,7 @@ class TemplateOptionControllerTest extends TestCase
     public function testGetTypes(): void
     {
         $response = $this->controller->getTypes();
-        $data = json_decode($response->getContent() ?: '', true);
+        $data = \json_decode($response->getContent() ?: '', true);
 
         static::assertTrue($response->isSuccessful());
         static::assertSame($data, $this->getExpectedTypes());

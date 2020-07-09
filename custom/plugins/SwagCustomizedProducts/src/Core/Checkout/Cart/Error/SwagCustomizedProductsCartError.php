@@ -9,7 +9,6 @@ namespace Swag\CustomizedProducts\Core\Checkout\Cart\Error;
 
 use Shopware\Core\Checkout\Cart\Error\Error;
 use Shopware\Core\Framework\Uuid\Uuid;
-use function sprintf;
 
 abstract class SwagCustomizedProductsCartError extends Error
 {
@@ -39,7 +38,7 @@ abstract class SwagCustomizedProductsCartError extends Error
 
     public function getId(): string
     {
-        return sprintf('%s-%s', static::KEY, $this->id);
+        return \sprintf('%s-%s', static::KEY, $this->id);
     }
 
     public function getLevel(): int

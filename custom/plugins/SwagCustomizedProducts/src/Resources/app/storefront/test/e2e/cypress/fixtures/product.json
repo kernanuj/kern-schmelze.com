@@ -8,7 +8,7 @@
     "shippingFree": false,
     "restockTime": 3,
     "productNumber": "RS-333",
-    "descriptionLong": "Product description",
+    "description": "Product description",
     "taxName": "Standard rate",
     "price": [
         {
@@ -34,15 +34,15 @@
                 "isMultiSelect": false,
                 "isDropDown": false
             },
-            "required": false,
+            "required": true,
             "oneTimeSurcharge": true,
             "relativeSurcharge": false,
-            "advancedSurcharge": true,
+            "advancedSurcharge": false,
             "position": 1,
             "price": [{
                 "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                "net": 0.0,
-                "gross": 0.0,
+                "net": 8.4,
+                "gross": 10,
                 "linked": true
             }],
             "values": [{
@@ -58,8 +58,8 @@
                 "price": [
                     {
                         "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                        "net": 0,
-                        "gross": 0,
+                        "net": 8.4,
+                        "gross": 10,
                         "linked": true
                     }
                 ]
@@ -76,8 +76,8 @@
                 "price": [
                     {
                         "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                        "net": 0,
-                        "gross": 0,
+                        "net": 8.4,
+                        "gross": 10,
                         "linked": true
                     }
                 ]
@@ -94,8 +94,8 @@
                 "price": [
                     {
                         "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                        "net": 0,
-                        "gross": 0,
+                        "net": 8.4,
+                        "gross": 10,
                         "linked": true
                     }
                 ]
@@ -112,8 +112,8 @@
                 "price": [
                     {
                         "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                        "net": 0,
-                        "gross": 0,
+                        "net": 8.4,
+                        "gross": 10,
                         "linked": true
                     }
                 ]
@@ -125,27 +125,27 @@
             "required": false,
             "oneTimeSurcharge": true,
             "relativeSurcharge": false,
-            "advancedSurcharge": true,
+            "advancedSurcharge": false,
             "position": 2,
             "price": [{
                 "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                "net": 0.0,
-                "gross": 0.0,
+                "net": 8.4,
+                "gross": 10,
                 "linked": true
             }]
         }, {
             "type": "textfield",
             "displayName": "Example textfield",
             "typeProperties": [],
-            "required": false,
+            "required": true,
             "oneTimeSurcharge": true,
             "relativeSurcharge": false,
-            "advancedSurcharge": true,
+            "advancedSurcharge": false,
             "position": 3,
             "price": [{
                 "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                "net": 0.0,
-                "gross": 0.0,
+                "net": 8.4,
+                "gross": 10,
                 "linked": true
             }]
         }, {
@@ -155,27 +155,27 @@
             "required": false,
             "oneTimeSurcharge": true,
             "relativeSurcharge": false,
-            "advancedSurcharge": true,
+            "advancedSurcharge": false,
             "position": 4,
             "price": [{
                 "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                "net": 0.0,
-                "gross": 0.0,
+                "net": 8.4,
+                "gross": 10,
                 "linked": true
             }]
         }, {
             "type": "numberfield",
             "displayName": "Example numberfield",
             "typeProperties": [],
-            "required": false,
+            "required": true,
             "oneTimeSurcharge": true,
             "relativeSurcharge": false,
-            "advancedSurcharge": true,
+            "advancedSurcharge": false,
             "position": 5,
             "price": [{
                 "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                "net": 0.0,
-                "gross": 0.0,
+                "net": 8.4,
+                "gross": 10,
                 "linked": true
             }]
         }, {
@@ -185,12 +185,12 @@
             "required": false,
             "oneTimeSurcharge": true,
             "relativeSurcharge": false,
-            "advancedSurcharge": true,
+            "advancedSurcharge": false,
             "position": 6,
             "price": [{
                 "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                "net": 0.0,
-                "gross": 0.0,
+                "net": 8.4,
+                "gross": 10,
                 "linked": true
             }]
         }, {
@@ -200,12 +200,12 @@
             "required": false,
             "oneTimeSurcharge": true,
             "relativeSurcharge": false,
-            "advancedSurcharge": true,
+            "advancedSurcharge": false,
             "position": 7,
             "price": [{
                 "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                "net": 0.0,
-                "gross": 0.0,
+                "net": 8.4,
+                "gross": 10,
                 "linked": true
             }]
         }, {
@@ -218,12 +218,12 @@
             "required": false,
             "oneTimeSurcharge": true,
             "relativeSurcharge": false,
-            "advancedSurcharge": true,
+            "advancedSurcharge": false,
             "position": 8,
             "price": [{
                 "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                "net": 0.0,
-                "gross": 0.0,
+                "net": 8.4,
+                "gross": 10,
                 "linked": true
             }],
             "values": [{
@@ -239,8 +239,8 @@
                 "price": [
                     {
                         "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                        "net": 0,
-                        "gross": 0,
+                        "net": 8.4,
+                        "gross": 10,
                         "linked": true
                     }
                 ]
@@ -257,8 +257,8 @@
                 "price": [
                     {
                         "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                        "net": 0,
-                        "gross": 0,
+                        "net": 8.4,
+                        "gross": 10,
                         "linked": true
                     }
                 ]
@@ -275,8 +275,8 @@
                 "price": [
                     {
                         "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                        "net": 0,
-                        "gross": 0,
+                        "net": 8.4,
+                        "gross": 10,
                         "linked": true
                     }
                 ]
@@ -293,8 +293,8 @@
                 "price": [
                     {
                         "currencyId": "b7d2554b0ce847cd82f3ac9bd1c0dfca",
-                        "net": 0,
-                        "gross": 0,
+                        "net": 8.4,
+                        "gross": 10,
                         "linked": true
                     }
                 ]

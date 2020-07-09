@@ -1,5 +1,13 @@
 {
     "customizedProducts": {
+        "priceDisplay":  {
+            "unitPrice": "Per unit surcharge",
+            "productPrice": "Product price",
+            "subTotal": "Subtotal",
+            "oneTimePrice": "One-time surcharge",
+            "summary": "Summary",
+            "totalPrice": "Total price"
+        },
         "stepByStep": {
             "navigation": {
                 "btnPrev": "Back",

@@ -32,8 +32,7 @@ use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\Select;
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\Textarea;
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\TextField;
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\Timestamp;
-use function array_merge;
-use function random_int;
+use Swag\CustomizedProducts\Template\TemplateDefinition;
 
 trait ServicesTrait
 {
@@ -76,7 +75,7 @@ trait ServicesTrait
 
     protected function getTemplateOptionArray(array $properties = []): array
     {
-        return array_merge([
+        return \array_merge([
             'id' => Uuid::randomBytes(),
             'templateId' => Uuid::randomBytes(),
             'displayName' => 'displayName',
@@ -89,16 +88,18 @@ trait ServicesTrait
 
     protected function createTemplate(
         string $templateId,
-        EntityRepositoryInterface $templateRepository,
         Context $context,
         array $additionalData = []
     ): void {
+        /** @var EntityRepositoryInterface $templateRepository */
+        $templateRepository = $this->getContainer()->get(\sprintf('%s.repository', TemplateDefinition::ENTITY_NAME));
+
         $templateData = [
             'id' => $templateId,
             'internalName' => $this->templateName,
             'displayName' => $this->displayName,
         ];
-        $templateData = array_merge($templateData, $additionalData);
+        $templateData = \array_merge($templateData, $additionalData);
 
         $templateRepository->create([
             $templateData,
@@ -107,7 +108,7 @@ trait ServicesTrait
 
     protected function getTemplateOptionsArrayForCreation(array $properties = []): array
     {
-        return array_merge([
+        return \array_merge([
             'id' => Uuid::randomHex(),
             'displayName' => 'displayName',
             'type' => Select::NAME,
@@ -127,7 +128,7 @@ trait ServicesTrait
 
     protected function getTemplateOptionValuesArrayForCreation(array $properties = []): array
     {
-        return array_merge([
+        return \array_merge([
             'id' => Uuid::randomHex(),
             'displayName' => 'some options',
             'position' => 0,
@@ -157,7 +158,7 @@ trait ServicesTrait
         $currencyRepo = $this->getContainer()->get('currency.repository');
 
         $currencyRepo->create([
-            array_merge([
+            \array_merge([
                 'id' => $id,
                 'symbol' => '¥',
                 'decimalPrecision' => 2,
@@ -178,7 +179,7 @@ trait ServicesTrait
             new EqualsFilter('templateOptionType', $optionType)
         );
         $criteria->addSorting(
-            new FieldSorting('id', random_int(0, 1) === 1 ? FieldSorting::ASCENDING : FieldSorting::DESCENDING)
+            new FieldSorting('id', \random_int(0, 1) === 1 ? FieldSorting::ASCENDING : FieldSorting::DESCENDING)
         );
 
         $operatorId = $operatorRepository->searchIds($criteria, Context::createDefaultContext())->firstId();

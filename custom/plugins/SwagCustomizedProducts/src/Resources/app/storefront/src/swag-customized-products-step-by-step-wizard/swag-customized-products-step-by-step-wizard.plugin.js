@@ -303,14 +303,13 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
             const formValidation = this.collectFormControlFromPage(page, true);
             let required = false;
 
-            // When we're having a form element, get the "required" attribute from the DOM element
+            // When we're having a form element, get the "required" attributes from the DOM element
             if (formValidation && formValidation.elements) {
                 required = formValidation.elements.reduce((accumulator, el) => {
                     if (accumulator) {
                         return accumulator;
                     }
-
-                    accumulator = el.required;
+                    accumulator = el.required || !!el.dataset.swagCustomizedProductsSelectionRequired;
                     return accumulator;
                 }, false);
             }
@@ -480,7 +479,12 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
                 if (!accumulator) {
                     return accumulator;
                 }
-                accumulator = el.validity.valid;
+
+                if (el.dataset.swagCustomizedProductsSelectionRequired !== undefined) {
+                    accumulator = el.checked;
+                } else {
+                    accumulator = el.validity.valid;
+                }
                 return accumulator;
             }, true),
             handler
@@ -518,29 +522,40 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
         const currentPage = this.pages[this.currentPage - 1];
         const { elements } = currentPage.formValidation;
 
-        const isValid = elements.reduce((accumulator, el) => {
-            if (!accumulator) {
+        let isValid;
+        if (DomAccess.getDataAttribute(elements[0], 'swag-customized-products-selection-required', false) !== undefined) {
+            isValid = elements.reduce((accumulator, el) => {
+                if (accumulator) {
+                    return accumulator;
+                }
+
+                return el.checked;
+            }, false);
+        } else {
+            isValid = elements.reduce((accumulator, el) => {
+                if (!accumulator) {
+                    return accumulator;
+                }
+
+                let elementValid = el.checkValidity();
+
+                // We have to check if we're dealing with a date picker
+                if (Object.prototype.hasOwnProperty.call(el, '_flatpickr')) {
+                    // eslint-disable-next-line
+                    const datePicker = el._flatpickr;
+                    elementValid = datePicker.selectedDates.length > 0;
+                }
+
+                // We're dealing with a HTML editor
+                if (el.__plugins && el.__plugins.size > 0 && el.__plugins.has('SwagCustomizedProductsHtmlEditor')) {
+                    /* eslint-env jquery */
+                    elementValid = !$(el).summernote('isEmpty');
+                }
+
+                accumulator = elementValid;
                 return accumulator;
-            }
-
-            let elementValid = el.checkValidity();
-
-            // We have to check if we're dealing with a date picker
-            if (Object.prototype.hasOwnProperty.call(el, '_flatpickr')) {
-                // eslint-disable-next-line
-                const datePicker = el._flatpickr;
-                elementValid = datePicker.selectedDates.length > 0;
-            }
-
-            // We're dealing with a HTML editor
-            if (el.__plugins && el.__plugins.size > 0 && el.__plugins.has('SwagCustomizedProductsHtmlEditor')) {
-                /* eslint-env jquery */
-                elementValid = !$(el).summernote('isEmpty');
-            }
-
-            accumulator = elementValid;
-            return accumulator;
-        }, true);
+            }, true);
+        }
 
         currentPage.formValidation.valid = isValid;
 
@@ -631,7 +646,7 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
     isValidConfiguration() {
         let isValid = this.pages.reduce((accumulator, page) => {
             // One of the fields is required and not valid, we always want to return false
-            if (!accumulator) {
+            if (!accumulator || !page.required) {
                 return accumulator;
             }
 
@@ -662,7 +677,7 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
     static isPageValid(page) {
         const { required, formValidation } = page;
 
-        // We don't have any form elements, therefor we're always valid
+        // We don't have any form elements, therefore we're always valid
         if (!formValidation) {
             return true;
         }

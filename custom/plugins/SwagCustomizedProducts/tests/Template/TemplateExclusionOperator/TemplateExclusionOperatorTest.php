@@ -13,7 +13,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Swag\CustomizedProducts\Test\Helper\ServicesTrait;
-use function count;
 
 class TemplateExclusionOperatorTest extends TestCase
 {
@@ -44,19 +43,16 @@ class TemplateExclusionOperatorTest extends TestCase
 
         // Second we check that we have exact twice the amount of translations as operators ( Each Operator in English and German )
         $translationIds = $this->templateExclusionOperatorTranslationRepository->searchIds(new Criteria(), $context)->getIds();
-        static::assertCount(2 * count($ids), $translationIds);
+        static::assertCount(2 * \count($ids), $translationIds);
     }
 
     public function testThatOperatorsCanGetAssignedToACondition(): void
     {
-        /** @var EntityRepositoryInterface $templateRepository */
-        $templateRepository = $this->getContainer()->get('swag_customized_products_template.repository');
         $context = Context::createDefaultContext();
         $optionId = Uuid::randomHex();
 
         $this->createTemplate(
             Uuid::randomHex(),
-            $templateRepository,
             $context,
             [
                 'options' => [

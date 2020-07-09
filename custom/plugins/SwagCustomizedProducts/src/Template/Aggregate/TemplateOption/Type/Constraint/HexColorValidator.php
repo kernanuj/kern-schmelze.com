@@ -10,7 +10,6 @@ namespace Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\Constra
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
-use function preg_match;
 
 class HexColorValidator extends ConstraintValidator
 {
@@ -24,8 +23,8 @@ class HexColorValidator extends ConstraintValidator
             return;
         }
 
-        if (! preg_match("/^\#([0-9a-fA-F]{6})$/", $value)
-            && ! preg_match("/^\#([0-9a-fA-F]{8})$/", $value)
+        if (!\preg_match("/^\#([0-9a-fA-F]{6})$/", $value)
+            && !\preg_match("/^\#([0-9a-fA-F]{8})$/", $value)
         ) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $this->formatValue($value))

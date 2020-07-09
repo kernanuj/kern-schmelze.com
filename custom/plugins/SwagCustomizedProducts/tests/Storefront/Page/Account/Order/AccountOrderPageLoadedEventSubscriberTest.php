@@ -14,6 +14,8 @@ use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity;
 use Shopware\Core\Checkout\Order\OrderCollection;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Defaults;
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\AggregationResult\AggregationResultCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Test\TestCaseBase\KernelTestBehaviour;
@@ -54,6 +56,48 @@ class AccountOrderPageLoadedEventSubscriberTest extends TestCase
         $orderLineItemCollection = $order->getLineItems();
         static::assertNotNull($orderLineItemCollection);
         static::assertCount(2, $orderLineItemCollection);
+    }
+
+    public function testAccountOverviewLastOrderWithoutOrders(): void
+    {
+        $listener = new AccountOrderPageLoadedEventSubscriber();
+        $reflectionMethod = (new \ReflectionClass(AccountOrderPageLoadedEventSubscriber::class))
+            ->getMethod('getOrderCollection');
+        $reflectionMethod->setAccessible(true);
+
+        $event = $this->getEvent();
+        $event->getPage()->setOrders(
+            new StorefrontSearchResult(
+                0,
+                new OrderCollection(),
+                null,
+                new Criteria(),
+                Context::createDefaultContext()
+            )
+        );
+
+        /** @var EntityCollection $orderCollection */
+        $orderCollection = $reflectionMethod->invoke($listener, $event);
+
+        static::assertCount(0, $orderCollection->getElements());
+    }
+
+    public function testAccountOverviewLastOrderWithOrders(): void
+    {
+        $listener = new AccountOrderPageLoadedEventSubscriber();
+        $reflectionMethod = (new \ReflectionClass(AccountOrderPageLoadedEventSubscriber::class))
+            ->getMethod('getOrderCollection');
+        $reflectionMethod->setAccessible(true);
+
+        $event = $this->getEvent(
+            CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_TEMPLATE_LINE_ITEM_TYPE,
+            LineItem::PRODUCT_LINE_ITEM_TYPE
+        );
+
+        /** @var EntityCollection $orderCollection */
+        $orderCollection = $reflectionMethod->invoke($listener, $event);
+
+        static::assertCount(1, $orderCollection->getElements());
     }
 
     public function testThatOrderWithCustomizedProductReturnsNestedLineItems(): void

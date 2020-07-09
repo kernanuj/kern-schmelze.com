@@ -7,7 +7,6 @@
 
 namespace Swag\CustomizedProducts\Migration;
 
-use DateTime;
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Migration\MigrationStep;
@@ -43,7 +42,7 @@ SQL;
 
         $connection->executeUpdate($sql, [
             ':id' => $defaultFolderId,
-            ':createdAt' => (new DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            ':createdAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ]);
     }
 
@@ -56,7 +55,7 @@ SQL;
 
         $connection->executeUpdate($sql, [
             ':id' => $configurationId,
-            ':createdAt' => (new DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            ':createdAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ]);
     }
 
@@ -71,7 +70,7 @@ SQL;
             ':folderId' => Uuid::randomBytes(),
             ':defaultFolderId' => $defaultFolderId,
             ':configurationId' => $configurationId,
-            ':createdAt' => (new DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            ':createdAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ]);
     }
 }

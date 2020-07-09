@@ -23,7 +23,6 @@ use Swag\CustomizedProducts\Core\Checkout\Cart\Error\SwagCustomizedProductsCartE
 use Swag\CustomizedProducts\Storefront\Controller\CustomizedProductsCartController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use function reset;
 
 /**
  * @RouteScope(scopes={"store-api"})
@@ -115,7 +114,7 @@ class AddCustomizedProductsToCartRoute extends AbstractAddCustomizedProductsToCa
 
         $lineItems = $request->request->get('lineItems', []);
         /** @var array|false $product */
-        $product = reset($lineItems);
+        $product = \reset($lineItems);
         if ($product === false) {
             throw new MissingRequestParameterException('lineItems');
         }

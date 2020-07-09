@@ -9,7 +9,6 @@ namespace Swag\CustomizedProducts\Template\Aggregate\TemplateOption;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\ResultStatement;
-use PDO;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\ChangeSet;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\InsertCommand;
@@ -33,13 +32,6 @@ use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use function array_key_exists;
-use function array_keys;
-use function in_array;
-use function is_string;
-use function json_decode;
-use function sprintf;
-use function str_replace;
 
 class TemplateOptionValidator implements EventSubscriberInterface
 {
@@ -137,7 +129,7 @@ class TemplateOptionValidator implements EventSubscriberInterface
 
             // If the first version commit gets inserted, we dont validate
             if (isset($command->getPayload()['type_properties'])) {
-                $typeProperties = json_decode($command->getPayload()['type_properties'], true);
+                $typeProperties = \json_decode($command->getPayload()['type_properties'], true);
 
                 if (isset($typeProperties['optionAdd'])) {
                     continue;
@@ -157,7 +149,7 @@ class TemplateOptionValidator implements EventSubscriberInterface
                         'The property "{{ fieldName }}" should be set.',
                         ['{{ fieldName }}' => 'position'],
                         null,
-                        sprintf('%s/position', $currentId)
+                        \sprintf('%s/position', $currentId)
                     )
                 );
                 continue;
@@ -172,16 +164,16 @@ class TemplateOptionValidator implements EventSubscriberInterface
                         'This "type" value (%value%) is invalid.',
                         ['%value%' => $type ?? 'NULL'],
                         null,
-                        sprintf('%s/type', $currentId)
+                        \sprintf('%s/type', $currentId)
                     )
                 );
                 continue;
             }
 
             $extractValue = $this->extractValue($payload);
-            $basePath = sprintf('%s/typeProperties', $currentId);
+            $basePath = \sprintf('%s/typeProperties', $currentId);
 
-            if ($command instanceof InsertCommand && ! array_key_exists('type_properties', $payload)) {
+            if ($command instanceof InsertCommand && !\array_key_exists('type_properties', $payload)) {
                 $violationList->add(
                     $this->buildViolation(
                         'The property "{{ fieldName }} should be set".',
@@ -236,7 +228,7 @@ class TemplateOptionValidator implements EventSubscriberInterface
 
     private function validType(string $type): bool
     {
-        return in_array($type, $this->typeCollection->getNames(), true);
+        return \in_array($type, $this->typeCollection->getNames(), true);
     }
 
     private function buildViolation(
@@ -248,7 +240,7 @@ class TemplateOptionValidator implements EventSubscriberInterface
         ?string $code = null
     ): ConstraintViolationInterface {
         return new ConstraintViolation(
-            str_replace( array_keys($parameters), $parameters, $messageTemplate),
+            \str_replace(\array_keys($parameters), $parameters, $messageTemplate),
             $messageTemplate,
             $parameters,
             $root,
@@ -263,7 +255,7 @@ class TemplateOptionValidator implements EventSubscriberInterface
     {
         $list = new ConstraintViolationList();
         foreach ($fieldValidations as $fieldName => $validations) {
-            $currentPath = sprintf('%s/%s', $basePath, $fieldName);
+            $currentPath = \sprintf('%s/%s', $basePath, $fieldName);
             $list->addAll(
                 $this->validator->startContext()
                     ->atPath($currentPath)
@@ -273,9 +265,9 @@ class TemplateOptionValidator implements EventSubscriberInterface
         }
 
         foreach ($payload as $fieldName => $_value) {
-            $currentPath = sprintf('%s/%s', $basePath, $fieldName);
+            $currentPath = \sprintf('%s/%s', $basePath, $fieldName);
 
-            if ( ! array_key_exists($fieldName, $fieldValidations) && $fieldName !== '_name') {
+            if (!\array_key_exists($fieldName, $fieldValidations) && $fieldName !== '_name') {
                 $list->add(
                     $this->buildViolation(
                         'The property "{{ fieldName }}" is not allowed.',
@@ -292,11 +284,11 @@ class TemplateOptionValidator implements EventSubscriberInterface
 
     private function extractValue(array $payload): array
     {
-        if ( ! array_key_exists('type_properties', $payload) || $payload['type_properties'] === null) {
+        if (!\array_key_exists('type_properties', $payload) || $payload['type_properties'] === null) {
             return [];
         }
 
-        return json_decode($payload['type_properties'], true);
+        return \json_decode($payload['type_properties'], true);
     }
 
     private function setTypeIfNotSetDuringUpdate(WriteCommand $command, array $payload, ChangeSet $changeSet): array
@@ -345,7 +337,7 @@ class TemplateOptionValidator implements EventSubscriberInterface
                     'The property "{{ fieldName }}" should be set.',
                     ['{{ fieldName }}' => 'percentageSurcharge'],
                     null,
-                    sprintf('%s/percentageSurcharge', $currentId)
+                    \sprintf('%s/percentageSurcharge', $currentId)
                 )
             );
 
@@ -358,7 +350,7 @@ class TemplateOptionValidator implements EventSubscriberInterface
                     'The property "{{ fieldName }}" should be set.',
                     ['{{ fieldName }}' => 'price'],
                     null,
-                    sprintf('%s/price', $currentId)
+                    \sprintf('%s/price', $currentId)
                 )
             );
 
@@ -377,24 +369,24 @@ class TemplateOptionValidator implements EventSubscriberInterface
             }
 
             $afterValue = $changeSet->getAfter('value');
-            if (! is_string($afterValue)) {
+            if (!\is_string($afterValue)) {
                 return;
             }
 
-            $value = json_decode($afterValue, true);
+            $value = \json_decode($afterValue, true);
         }
 
         if ($command instanceof InsertCommand) {
             $payload = $command->getPayload();
             if (isset($payload['value'])) {
-                $value = json_decode($payload['value'], true);
+                $value = \json_decode($payload['value'], true);
             }
         }
 
         $constraints = [new HexColor(), new NotBlank()];
         $violationList->addAll(
             $this->validator->startContext()
-                ->atPath( sprintf('%s/value/_value', $commandKey))
+                ->atPath(\sprintf('%s/value/_value', $commandKey))
                 ->validate($value['_value'] ?? null, $constraints)
                 ->getViolations()
         );
@@ -411,24 +403,24 @@ class TemplateOptionValidator implements EventSubscriberInterface
             }
 
             $afterValue = $changeSet->getAfter('value');
-            if (! is_string($afterValue)) {
+            if (!\is_string($afterValue)) {
                 return;
             }
 
-            $value = json_decode($afterValue, true);
+            $value = \json_decode($afterValue, true);
         }
 
         if ($command instanceof InsertCommand) {
             $payload = $command->getPayload();
             if (isset($payload['value'])) {
-                $value = json_decode($payload['value'], true);
+                $value = \json_decode($payload['value'], true);
             }
         }
 
         $constraints = [new NotBlank()];
         $violationList->addAll(
             $this->validator->startContext()
-                ->atPath( sprintf('%s/value/_value', $commandKey))
+                ->atPath(\sprintf('%s/value/_value', $commandKey))
                 ->validate($value['_value'] ?? null, $constraints)
                 ->getViolations()
         );
@@ -473,7 +465,7 @@ class TemplateOptionValidator implements EventSubscriberInterface
             return null;
         }
 
-        return $query->fetch( PDO::FETCH_COLUMN);
+        return $query->fetch(\PDO::FETCH_COLUMN);
     }
 
     private function getCommandOptionType(UpdateCommand $command): ?string
@@ -485,7 +477,7 @@ class TemplateOptionValidator implements EventSubscriberInterface
         }
 
         $before = $changeSet->getBefore('type');
-        if (! is_string($before)) {
+        if (!\is_string($before)) {
             return null;
         }
 
@@ -499,7 +491,7 @@ class TemplateOptionValidator implements EventSubscriberInterface
         ConstraintViolationList $violationList
     ): void {
         $payload = $command->getPayload();
-        if ( ! array_key_exists('required', $payload) || !$payload['required']) {
+        if (!\array_key_exists('required', $payload) || !$payload['required']) {
             return;
         }
 
@@ -511,7 +503,7 @@ class TemplateOptionValidator implements EventSubscriberInterface
                     '{{ type }}' => $type,
                 ],
                 null,
-                sprintf('%s/required', $key)
+                \sprintf('%s/required', $key)
             )
         );
     }

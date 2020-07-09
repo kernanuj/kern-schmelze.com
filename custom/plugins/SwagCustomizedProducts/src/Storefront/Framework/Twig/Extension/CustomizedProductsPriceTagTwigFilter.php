@@ -13,7 +13,6 @@ use Shopware\Core\Framework\Adapter\Twig\Filter\CurrencyFilter;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
-use function sprintf;
 
 class CustomizedProductsPriceTagTwigFilter extends AbstractExtension
 {
@@ -69,7 +68,7 @@ class CustomizedProductsPriceTagTwigFilter extends AbstractExtension
             $displayText = $perItemText;
         }
 
-        return sprintf(
+        return \sprintf(
             '%s(%s%s%s %s)%s',
             $prefix,
             $sign,

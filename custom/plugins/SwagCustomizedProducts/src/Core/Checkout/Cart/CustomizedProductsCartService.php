@@ -7,9 +7,6 @@
 
 namespace Swag\CustomizedProducts\Core\Checkout\Cart;
 
-use Exception;
-use HTMLPurifier;
-use HTMLPurifier_Config;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\Exception\InvalidPayloadException;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
@@ -26,11 +23,6 @@ use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\TemplateOptionEnti
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\FileUpload;
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\HtmlEditor;
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\ImageUpload;
-use function array_filter;
-use function count;
-use function in_array;
-use function is_string;
-use function sprintf;
 
 class CustomizedProductsCartService implements CustomizedProductCartServiceInterface
 {
@@ -78,11 +70,11 @@ class CustomizedProductsCartService implements CustomizedProductCartServiceInter
     public function loadOptionEntities(string $templateId, RequestDataBag $options, Context $context): TemplateOptionCollection
     {
         $optionIds = $options->keys();
-        $optionIds = array_filter($optionIds, static function ($id) {
+        $optionIds = \array_filter($optionIds, static function ($id) {
             return Uuid::isValid($id);
         });
 
-        if ( count($optionIds) < 1) {
+        if (\count($optionIds) < 1) {
             return new TemplateOptionCollection();
         }
 
@@ -135,10 +127,10 @@ class CustomizedProductsCartService implements CustomizedProductCartServiceInter
 
             $entity = $optionEntities->get($optionId);
             if ($entity === null) {
-                throw new Exception('Option entity not found');
+                throw new \Exception('Option entity not found');
             }
 
-            if ( in_array($entity->getType(), [ImageUpload::NAME, FileUpload::NAME], true)) {
+            if (\in_array($entity->getType(), [ImageUpload::NAME, FileUpload::NAME], true)) {
                 $this->enrichOptionLineItemWithMedia($entity, $option, $optionLineItem);
 
                 $customizedProductsLineItem->addChild($optionLineItem);
@@ -155,7 +147,7 @@ class CustomizedProductsCartService implements CustomizedProductCartServiceInter
             }
 
             // Radiobuttons, Dropdown data structure
-            if ($value !== null && is_string($value) && Uuid::isValid($value)) {
+            if ($value !== null && \is_string($value) && Uuid::isValid($value)) {
                 $this->addOptionValue($optionLineItem, $value);
             }
 
@@ -163,7 +155,7 @@ class CustomizedProductsCartService implements CustomizedProductCartServiceInter
                 $optionLineItem->setPayloadValue('value', $value);
             } catch (InvalidPayloadException $e) {
                 $this->logger->warning(
-                    sprintf(
+                    \sprintf(
                         'The provided value for option "%s" is invalid. Exception message: %s',
                         $optionId,
                         $e->getMessage()
@@ -180,11 +172,11 @@ class CustomizedProductsCartService implements CustomizedProductCartServiceInter
     {
         $value = $optionData->get('value');
 
-        $config = HTMLPurifier_Config::createDefault();
+        $config = \HTMLPurifier_Config::createDefault();
         $config->set('HTML.AllowedElements', HtmlEditor::ALLOWED_ELEMENTS);
         $config->set('HTML.AllowedAttributes', HtmlEditor::ALLOWED_ATTRIBUTES);
 
-        $purifier = new HTMLPurifier($config);
+        $purifier = new \HTMLPurifier($config);
         $value = $purifier->purify($value);
 
         $optionData->set('value', $value);
@@ -232,7 +224,7 @@ class CustomizedProductsCartService implements CustomizedProductCartServiceInter
 
         if (isset($typeProperties['maxCount'])
             && $typeProperties['maxCount'] > 0
-            && count($mediaArray->all()) > $typeProperties['maxCount']
+            && \count($mediaArray->all()) > $typeProperties['maxCount']
         ) {
             throw new SwagCustomizedProductsMaxFileCountExceededError();
         }

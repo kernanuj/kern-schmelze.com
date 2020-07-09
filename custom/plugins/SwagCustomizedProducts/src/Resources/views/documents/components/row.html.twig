@@ -12,6 +12,8 @@
         {% if lineItem.type == 'customized-products' %}
             {% set customProductIds = customProductIds|merge([lineItem.id]) %}
             {# collect all options which will be rendered nested#}
+        {% elseif lineItem.type == 'product' %}
+            {% set customProducts = customProducts|merge([lineItem]) %}
         {% elseif lineItem.type == 'customized-products-option' %}
             {% set options = options|merge([lineItem]) %}
         {% elseif lineItem.type == 'option-values' %}
@@ -21,11 +23,6 @@
 
     {# @var lineItem \Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity #}
     {% for lineItem in lineItemPage %}
-        {# collect all custom product items #}
-        {% if lineItem.type == 'product' and lineItem.parentId in customProductIds %}
-            {% set customProducts = customProducts|merge([lineItem]) %}
-        {% endif %}
-
         {% if lineItem.type == 'customized-products' %}
             {% for product in customProducts %}
                 {% if product.parentId == lineItem.id %}

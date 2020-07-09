@@ -4,6 +4,20 @@ import DomAccess from 'src/helper/dom-access.helper';
 import optionTypeManager from './option-types';
 
 /**
+ * Helper method which terminates the absolute position of an element on the page.
+ *
+ * @params {Element} element
+ * @returns {{top: number, left: number}}
+ */
+const getOffset = (element) => {
+    const rect = element.getBoundingClientRect();
+    return {
+        left: rect.left + window.scrollX,
+        top: rect.top + window.scrollY
+    };
+};
+
+/**
  * Exclusion list validator which reads an exclusion tree from the DOM element and displays
  * a list of all violations.
  *
@@ -13,12 +27,14 @@ export default class SwagCustomizedProductsExclusionListValidation extends Plugi
     /**
      * Plugin options
      *
-     * @type {{idPrefix: string, formControlSelector: string}}
+     * @type {{idPrefix: string, formControlSelector: string, scrollOffset: number}}
      */
     static options = {
         formControlSelector: '.swag-customized-products-form-control',
         idPrefix: 'swag-customized-products-option-id-',
-        buyButtonSelector: '#productDetailPageBuyProductForm .btn-buy'
+        buyButtonSelector: '#productDetailPageBuyProductForm .btn-buy',
+        scrollOffset: 80,
+        collapsePanelSelector: '.collapse'
     };
 
     /**
@@ -29,6 +45,16 @@ export default class SwagCustomizedProductsExclusionListValidation extends Plugi
      */
     init() {
         this.parentEl = this.el.closest('form');
+        this.isStepByStepActive = DomAccess.hasAttribute(this.el, 'data-swag-customized-product-step-by-step');
+        this.stepByStepModePlugin = null;
+
+        if (this.isStepByStepActive) {
+            this.stepByStepModePlugin = window.PluginManager.getPluginInstanceFromElement(
+                this.el,
+                'SwagCustomizedProductsStepByStepWizard'
+            );
+        }
+
         this.violationHolderElement = DomAccess.querySelector(
             this.parentEl,
             '.swag-customized-products__violation-list-holder'
@@ -55,6 +81,7 @@ export default class SwagCustomizedProductsExclusionListValidation extends Plugi
         };
 
         const exclusions = DomAccess.getDataAttribute(this.el, 'data-swag-exclusion-list-validation-options');
+
         const elements = this.collectInputElements(
             this.el,
             this.options
@@ -79,23 +106,65 @@ export default class SwagCustomizedProductsExclusionListValidation extends Plugi
     _registerEventListeners() {
         this.parentEl.addEventListener('change', this.onInputChange.bind(this), false);
 
-        // Intentional commented out code cause this feature will be implemented in PT-9999
-        /* this.violationHolderElement.addEventListener('click', (event) => {
-            const target = event.target;
+        this.violationHolderElement.addEventListener('click', this.onViolationHolderElementClick.bind(this));
+    }
 
-            if (!target.matches('.entry__link')) {
-                return;
-            }
+    /**
+     * Event listener which will be triggered when the user clicks into the violation holder element. The method scrolls
+     * to the input element which has a violation.
+     *
+     * @param {Event} event
+     * @returns {void}
+     */
+    onViolationHolderElementClick(event) {
+        const clickTarget = event.target;
+        if (!clickTarget.matches('.entry__link')) {
+            return;
+        }
 
-            event.preventDefault();
-            const { top } = target.getBoundingClientRect();
+        event.preventDefault();
 
-            window.scrollTo({
-                top,
-                left: 0,
-                behavior: 'smooth'
-            });
-        }); */
+        const targetId = DomAccess.getDataAttribute(clickTarget, 'data-target');
+        const target = DomAccess.querySelector(this.el, `#${targetId}`);
+
+        if (this.isStepByStepActive) {
+            this.switchPageInStepByStep(target);
+        }
+
+        const collapsePanel = target.closest(this.options.collapsePanelSelector);
+        if (collapsePanel && !this.isStepByStepActive) {
+            /* eslint-env jquery */
+            $(collapsePanel).collapse('show');
+        }
+
+        const { top } = getOffset(target);
+        window.scrollTo({
+            top: top - this.options.scrollOffset,
+            left: 0,
+            behavior: 'smooth'
+        });
+    }
+
+    /**
+     * When the step by step mode is enabled, the method switches the page which contains the provided element
+     * @param {Element} element
+     * @returns {Boolean}
+     */
+    switchPageInStepByStep(element) {
+        const plugin = this.stepByStepModePlugin;
+        const parent = element.closest('.swag-customized-products__item');
+
+        const pageConfig = plugin.navigationEntries.find((item) => {
+            return item.pageEl.isSameNode(parent);
+        });
+
+        if (!pageConfig) {
+            return false;
+        }
+
+        plugin.transitionToPage.call(plugin, pageConfig.pageNum + 1);
+
+        return true;
     }
 
     /**
@@ -335,28 +404,20 @@ export default class SwagCustomizedProductsExclusionListValidation extends Plugi
             return translation;
         };
 
-        /**
-         * Helper method which returns the link icon svg as a string.
-         *
-         * @returns {string}
-         */
-        const getLinkIcon = () => {
-            /* eslint-disable max-len */
-            return `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
-                <path fill-rule="evenodd" d="M2,4 C2,1.790861 3.790861,-2.22044605e-16 6,-2.22044605e-16 C8.209139,-2.22044605e-16 10,1.790861 10,4 C10,4.55228475 9.55228475,5 9,5 C8.44771525,5 8,4.55228475 8,4 C8,2.8954305 7.1045695,2 6,2 C4.8954305,2 4,2.8954305 4,4 C4,4.55228475 3.55228475,5 3,5 C2.44771525,5 2,4.55228475 2,4 Z M2,8 C2,7.44771525 2.44771525,7 3,7 C3.55228475,7 4,7.44771525 4,8 C4,9.1045695 4.8954305,10 6,10 C7.1045695,10 8,9.1045695 8,8 C8,7.44771525 8.44771525,7 9,7 C9.55228475,7 10,7.44771525 10,8 C10,10.209139 8.209139,12 6,12 C3.790861,12 2,10.209139 2,8 Z M7,8 C7,8.55228475 6.55228475,9 6,9 C5.44771525,9 5,8.55228475 5,8 L5,4 C5,3.44771525 5.44771525,3 6,3 C6.55228475,3 7,3.44771525 7,4 L7,8 Z" transform="rotate(45 6 6)"/>
-            </svg>`;
-            /* eslint-enable max-len */
-        };
-
         const renderListItems = (items) => {
             return items.map((item) => {
                 let excludedElements = item.excludedElements.map((excludedItem) => {
-                    return `<li>${getLinkIcon()}<strong>${excludedItem.labelText}</strong></li>`;
+                    const elementId = excludedItem.element.id;
+                    return `<li>
+                        <strong class="entry__link" data-target="${elementId}">
+                            ${excludedItem.labelText}
+                        </strong>
+                    </li>`;
                 });
                 excludedElements = `<ul class="excluded-element-list">${excludedElements.join('')}</ul>`;
 
                 // eslint-disable-next-line max-len
-                return `<li class="violation-list__entry">${formatExcludeString(`<strong>${item.labelText}</strong>`, excludedElements)}</li>`;
+                return `<li class="violation-list__entry">${formatExcludeString(`<strong class="entry__link" data-target="${item.element.id}">${item.labelText}</strong>`, excludedElements)}</li>`;
             }).join('');
         };
 

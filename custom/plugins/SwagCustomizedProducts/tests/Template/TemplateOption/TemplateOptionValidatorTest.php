@@ -8,7 +8,6 @@
 namespace Swag\CustomizedProducts\Test\Template\TemplateOption;
 
 use Doctrine\DBAL\Connection;
-use Iterator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Defaults;
@@ -42,8 +41,6 @@ use Swag\CustomizedProducts\Template\TemplateEntity;
 use Swag\CustomizedProducts\Test\Helper\ServicesTrait;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use function json_decode;
-use function json_encode;
 
 class TemplateOptionValidatorTest extends TestCase
 {
@@ -242,7 +239,7 @@ class TemplateOptionValidatorTest extends TestCase
     public function testInsertValidWithValidTypeProperties(): void
     {
         $option = $this->getTemplateOptionArray(['type' => Checkbox::NAME]);
-        $option['type_properties'] = json_encode([
+        $option['type_properties'] = \json_encode([
             'label' => 'foo',
             'description' => 'foo',
         ]);
@@ -269,7 +266,7 @@ class TemplateOptionValidatorTest extends TestCase
     {
         $option = $this->getTemplateOptionArray(['type' => Checkbox::NAME]);
         $option['relative_surcharge'] = 0;
-        $option['type_properties'] = json_encode([
+        $option['type_properties'] = \json_encode([
             'label' => 'foo',
             'description' => 'foo',
         ]);
@@ -309,7 +306,7 @@ class TemplateOptionValidatorTest extends TestCase
     {
         $option = $this->getTemplateOptionArray(['type' => Checkbox::NAME]);
         $option['relative_surcharge'] = 1;
-        $option['type_properties'] = json_encode([
+        $option['type_properties'] = \json_encode([
             'label' => 'foo',
             'description' => 'foo',
         ]);
@@ -348,7 +345,7 @@ class TemplateOptionValidatorTest extends TestCase
     public function testUpdateValid(): void
     {
         $option = $this->getTemplateOptionArray(['type' => Checkbox::NAME]);
-        $option['type_properties'] = json_encode([
+        $option['type_properties'] = \json_encode([
             'label' => 'foo',
             'description' => 'foo',
         ]);
@@ -396,7 +393,7 @@ class TemplateOptionValidatorTest extends TestCase
             (string) $this->getBrowser()->getResponse()->getContent()
         );
 
-        $response = json_decode((string) $this->getBrowser()->getResponse()->getContent(), true);
+        $response = \json_decode((string) $this->getBrowser()->getResponse()->getContent(), true);
         $invalidHexError = $response['errors'][0];
         static::assertSame((new HexColor())->message, $invalidHexError['template']);
     }
@@ -418,7 +415,7 @@ class TemplateOptionValidatorTest extends TestCase
             (string) $this->getBrowser()->getResponse()->getContent()
         );
 
-        $response = json_decode((string) $this->getBrowser()->getResponse()->getContent(), true);
+        $response = \json_decode((string) $this->getBrowser()->getResponse()->getContent(), true);
         $error = $response['errors'][0];
         static::assertSame((new NotBlank())->message, $error['template']);
         static::assertStringContainsString('value/_value', $error['source']['pointer']);
@@ -514,7 +511,7 @@ class TemplateOptionValidatorTest extends TestCase
             (string) $this->getBrowser()->getResponse()->getContent()
         );
 
-        $response = json_decode((string) $this->getBrowser()->getResponse()->getContent(), true);
+        $response = \json_decode((string) $this->getBrowser()->getResponse()->getContent(), true);
         $invalidHexError = $response['errors'][0];
         static::assertSame((new HexColor())->message, $invalidHexError['template']);
 
@@ -534,7 +531,7 @@ class TemplateOptionValidatorTest extends TestCase
             (string) $this->getBrowser()->getResponse()->getContent()
         );
 
-        $response = json_decode((string) $this->getBrowser()->getResponse()->getContent(), true);
+        $response = \json_decode((string) $this->getBrowser()->getResponse()->getContent(), true);
         $invalidHexError = $response['errors'][0];
         static::assertSame((new NotBlank())->message, $invalidHexError['template']);
     }
@@ -602,7 +599,7 @@ class TemplateOptionValidatorTest extends TestCase
         ];
     }
 
-    private function getGenerator(?OptionTypeInterface $optionType = null): Iterator
+    private function getGenerator(?OptionTypeInterface $optionType = null): \Iterator
     {
         if ($optionType !== null) {
             yield $optionType;

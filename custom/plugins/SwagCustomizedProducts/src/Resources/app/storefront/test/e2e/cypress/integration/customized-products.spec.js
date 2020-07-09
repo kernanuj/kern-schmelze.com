@@ -1,18 +1,67 @@
 // / <reference types="Cypress" />
 
+const waitingTimeForNextButton = 400;
+const waitingTimeForFlatpickr = 300;
+
 let product;
 describe('Storefront: Custom products', () => {
     before(() => {
-        return cy.createProductFixture().then(() => {
-            return cy.createDefaultFixture('category');
-        }).then(() => {
-            return cy.fixture('product');
+        return cy.createDefaultFixture('category').then(() => {
+            // Read the content of the product.json
+            return cy.fixture('product')
         }).then((fixtureProduct) => {
             product = fixtureProduct;
+            // Now fetch the tax based on name
+            return cy.searchViaAdminApi({
+                endpoint: 'tax',
+                data: {
+                    field: 'name',
+                    value: 'Standard rate'
+                }
+            })
+        }).then((tax) => {
+            // Add the tax id to the options and option values
+            product.swagCustomizedProductsTemplate.options = product.swagCustomizedProductsTemplate.options.map((value) => {
+                value.taxId = tax.id;
+                if (!Object.prototype.hasOwnProperty.call(value, 'values')) {
+                    return value;
+                }
+                value.values = value.values.map((item) => {
+                    item.taxId = tax.id;
+                    return item;
+                });
+                return value;
+            });
+
+            // Create the product
+            return cy.createProductFixture(product);
+        }).then(() => {
+            // Create a default customer
             return cy.createCustomerFixtureStorefront();
         }).then(() => {
+            // ...last but not least, visit the storefront
             cy.visit('/');
         });
+    });
+
+    it('should not break the account overview with no orders', () => {
+        // Login
+        cy.get('#accountWidget')
+            .should('be.visible')
+            .click();
+        cy.get('[href="/account"]')
+            .should('be.visible')
+            .click();
+        cy.get('#loginMail').typeAndCheckStorefront('test@example.com');
+        cy.get('#loginPassword').typeAndCheckStorefront('shopware');
+        cy.get('.login-submit [type="submit"]').click();
+
+        // Check for basic information
+        cy.contains('.account-overview-profile p', 'Mr. Pep Eroni');
+        cy.contains('.account-overview-profile p ~ p', 'test@example.com');
+
+        // No latest order yet
+        cy.get('.account-overview-card account-overview-newest-order').should('not.exist');
     });
 
     it('should open up the customized product in the storefront', () => {
@@ -22,41 +71,160 @@ describe('Storefront: Custom products', () => {
             .type(product.name);
         cy.contains('.search-suggest-product-name', product.name).click();
 
-        // Select field
-        cy.contains('.swag-customized-products-option__title', 'Example select').click();
-        cy.contains('.swag-customized-products-option-type-select-checkboxes-label-property', 'Example #1').click();
+        // Check for the price box
+        cy.get('.swag-customized-product__price-display').should('not.exist');
+        cy.get('.swag-customized-product__price-display').should('be.exist');
+
+        // Check for the product price
+        cy.contains('.price-display__product-price > .price-display__label', 'Product price');
+        cy.contains('.price-display__product-price > .price-display__price', '€10.00*');
+
+        // Check the total price
+        cy.contains('.price-display__total-price > .price-display__price', '€10.00*');
+
+        // Select field (required)
+        cy.contains('.swag-customized-products-option__title', 'Example select').should('be.visible');
+        cy.contains('.swag-customized-products-option-type-select-checkboxes-label-property', 'Example #1')
+            .should('be.visible')
+            .click();
+
+        // Check for the price box
+        cy.get('.swag-customized-product__price-display').should('be.exist');
+
+        // Check unit price
+        cy.contains('.list__unit-price .price-display__item:nth-child(2) > .price-display__label', 'Example #1');
+        cy.contains('.list__unit-price .price-display__item:nth-child(2) > .price-display__price', '€10.00*');
+
+        // Check one time price
+        cy.contains('.list__one-time-price .price-display__item .price-display__label', 'Example select');
+        cy.contains('.list__one-time-price .price-display__item .price-display__price', '€10.00*');
+
+        // Total price
+        cy.contains('.price-display__total-price > .price-display__price', '€30.00*');
 
         // Checkbox
-        cy.contains('.swag-customized-products-option__title', 'Example checkbox').click();
-        cy.contains('.custom-control-label', 'Example checkbox').click();
+        cy.contains('.custom-control-label', 'Example checkbox').should('not.be.visible');
+        cy.contains('.swag-customized-products-option__title', 'Example checkbox')
+            .should('be.visible')
+            .click();
+        cy.contains('.custom-control-label', 'Example checkbox')
+            .should('be.visible')
+            .click();
 
-        // Textfield
-        cy.contains('.swag-customized-products-option__title', 'Example textfield').click();
-        cy.get('.swag-customized-products__type-textfield input').type('Hello Customized Products Textfield');
+        // Check price display
+        cy.get('.swag-customized-product__price-display').should('be.exist');
+        cy.contains('.list__one-time-price .price-display__item:nth-child(2) .price-display__label', 'Example checkbox');
+        cy.contains('.list__one-time-price .price-display__item:nth-child(2) .price-display__price', '€10.00*');
+
+        // Total price
+        cy.contains('.price-display__total-price > .price-display__price', '€40.00*');
+
+        // Textfield (required)
+        cy.contains('.swag-customized-products-option__title', 'Example textfield')
+            .should('be.visible');
+        cy.get('.swag-customized-products__type-textfield input')
+            .should('be.visible')
+            .type('Hello Customized Products Textfield{enter}');
+
+        // Check price display
+        cy.get('.swag-customized-product__price-display').should('be.exist');
+        cy.contains('.list__one-time-price .price-display__item:nth-child(3) .price-display__label', 'Example textfield');
+        cy.contains('.list__one-time-price .price-display__item:nth-child(3) .price-display__price', '€10.00*');
+
+        // Total price
+        cy.contains('.price-display__total-price > .price-display__price', '€50.00*');
 
         // Textarea
+        cy.get('.swag-customized-products__type-textarea textarea').should('not.be.visible');
         cy.contains('.swag-customized-products-option__title', 'Example textarea').click();
-        cy.get('.swag-customized-products__type-textarea textarea').type('Hello Customized Products Textarea');
+        cy.get('.swag-customized-products__type-textarea textarea')
+            .should('be.visible')
+            .type('Hello Customized Products Textarea');
+        cy.contains('.swag-customized-products-option__title', 'Example textarea').click();
 
-        // Numberfield
+        // Check price display
+        cy.get('.swag-customized-product__price-display').should('be.exist');
+        cy.contains('.list__one-time-price .price-display__item:nth-child(4) .price-display__label', 'Example textarea');
+        cy.contains('.list__one-time-price .price-display__item:nth-child(4) .price-display__price', '€10.00*');
+
+        // Total price
+        cy.contains('.price-display__total-price > .price-display__price', '€60.00*');
+
+        // Numberfield (required)
+        cy.contains('.swag-customized-products-option__title', 'Example numberfield').should('be.visible');
+        cy.get('.swag-customized-products__type-numberfield input')
+            .should('be.visible')
+            .type('42');
         cy.contains('.swag-customized-products-option__title', 'Example numberfield').click();
-        cy.get('.swag-customized-products__type-numberfield input').type('42');
+
+        // Price display
+        cy.get('.swag-customized-product__price-display').should('be.exist');
+        cy.contains('.list__one-time-price .price-display__item:nth-child(5) .price-display__label', 'Example numberfield');
+        cy.contains('.list__one-time-price .price-display__item:nth-child(5) .price-display__price', '€10.00*');
+
+        // Total price
+        cy.contains('.price-display__total-price > .price-display__price', '€70.00*');
 
         // Datefield
-        cy.contains('.swag-customized-products-option__title', 'Example datefield').click();
-        cy.get('.swag-customized-products__type-datetime > .input-group > input[type="text"].swag-customized-products-options-datetime').click();
+        cy.get('.swag-customized-products__type-datetime > .input-group > input[type="text"].swag-customized-products-options-datetime')
+            .should('not.be.visible');
+        cy.contains('.swag-customized-products-option__title', 'Example datefield')
+            .should('be.visible')
+            .click();
+        cy.get('.swag-customized-products__type-datetime > .input-group > input[type="text"].swag-customized-products-options-datetime')
+            .should('be.visible')
+            .click();
         cy.get('.flatpickr-calendar').should('be.visible');
         cy.get('.flatpickr-day.today').click();
 
+        // Price display
+        cy.get('.swag-customized-product__price-display').should('be.exist');
+        cy.contains('.list__one-time-price .price-display__item:nth-child(6) .price-display__label', 'Example datefield');
+        cy.contains('.list__one-time-price .price-display__item:nth-child(6) .price-display__price', '€10.00*');
+
+        // Total price
+        cy.contains('.price-display__total-price > .price-display__price', '€80.00*');
+
         // Time field
-        cy.contains('.swag-customized-products-option__title', 'Example timefield').click();
-        cy.get('.swag-customized-products__type-timestamp > .input-group > input[type="text"].swag-customized-products-options-datetime').click();
+        cy.get('.swag-customized-products__type-timestamp > .input-group > input[type="text"].swag-customized-products-options-datetime')
+            .should('not.be.visible');
+        cy.contains('.swag-customized-products-option__title', 'Example timefield')
+            .should('be.visible')
+            .click();
+        cy.get('.swag-customized-products__type-timestamp > .input-group > input[type="text"].swag-customized-products-options-datetime')
+            .should('be.visible')
+            .click();
         cy.get('.flatpickr-calendar').should('be.visible');
         cy.get('.numInputWrapper .flatpickr-hour').type('3');
 
+        // Price display
+        cy.get('.swag-customized-product__price-display').should('be.exist');
+        cy.contains('.list__one-time-price .price-display__item:nth-child(7) .price-display__label', 'Example timefield');
+        cy.contains('.list__one-time-price .price-display__item:nth-child(7) .price-display__price', '€10.00*');
+
+        // Total price
+        cy.contains('.price-display__total-price > .price-display__price', '€90.00*');
+
         // Color select
-        cy.contains('.swag-customized-products-option__title', 'Example color select').click();
-        cy.contains('.swag-customized-products-option-type-select-checkboxes-label-property', 'Example Purple').click();
+        cy.contains('.swag-customized-products-option-type-select-checkboxes-label-property', 'Example Purple')
+            .should('not.be.visible');
+        cy.contains('.swag-customized-products-option__title', 'Example color select')
+            .should('be.visible')
+            .click();
+        cy.contains('.swag-customized-products-option-type-select-checkboxes-label-property', 'Example Purple')
+            .should('be.visible')
+            .click();
+
+        // Price display
+        cy.get('.swag-customized-product__price-display').should('be.exist');
+        cy.contains('.list__one-time-price .price-display__item:nth-child(8) .price-display__label', 'Example color select');
+        cy.contains('.list__one-time-price .price-display__item:nth-child(8) .price-display__price', '€10.00*');
+
+        cy.contains('.list__unit-price .price-display__item:nth-child(3) > .price-display__label', 'Example Purple');
+        cy.contains('.list__unit-price .price-display__item:nth-child(3) > .price-display__price', '€10.00*');
+
+        // Total price
+        cy.contains('.price-display__total-price > .price-display__price', '€110.00*').should('be.visible');
 
         // Add to cart
         cy.get('.product-detail-buy .btn-buy').click();
@@ -117,6 +285,7 @@ describe('Storefront: Custom products', () => {
 
             // Next button
             cy.get('.swag-customized-products-pager__button.btn-next').should('be.visible');
+            cy.wait(waitingTimeForNextButton);
             cy.get('.swag-customized-products-pager__button.btn-next').click();
 
             // Checkbox
@@ -125,6 +294,7 @@ describe('Storefront: Custom products', () => {
 
             // Next button
             cy.get('.swag-customized-products-pager__button.btn-next').should('be.visible');
+            cy.wait(waitingTimeForNextButton);
             cy.get('.swag-customized-products-pager__button.btn-next').click();
 
             // Textfield
@@ -132,6 +302,8 @@ describe('Storefront: Custom products', () => {
             cy.get('.swag-customized-products__type-textfield input').type('Hello Customized Products Textfield StepByStep');
 
             // Next button
+            cy.get('.swag-customized-products-pager__button.btn-next').should('be.visible');
+            cy.wait(waitingTimeForNextButton);
             cy.get('.swag-customized-products-pager__button.btn-next').click();
 
             // Textarea
@@ -140,6 +312,7 @@ describe('Storefront: Custom products', () => {
 
             // Next button
             cy.get('.swag-customized-products-pager__button.btn-next').should('be.visible');
+            cy.wait(waitingTimeForNextButton);
             cy.get('.swag-customized-products-pager__button.btn-next').click();
 
             // Numberfield
@@ -148,6 +321,7 @@ describe('Storefront: Custom products', () => {
 
             // Next button
             cy.get('.swag-customized-products-pager__button.btn-next').should('be.visible');
+            cy.wait(waitingTimeForNextButton);
             cy.get('.swag-customized-products-pager__button.btn-next').click();
 
             // Datefield
@@ -157,10 +331,11 @@ describe('Storefront: Custom products', () => {
             cy.get('.flatpickr-day.today').click();
 
             // We have to wait here to update the pager, the flatpickr is kinda weird in this regard
-            cy.wait(50);
+            cy.wait(waitingTimeForFlatpickr);
 
             // Next button
             cy.get('.swag-customized-products-pager__button.btn-next').should('be.visible');
+            cy.wait(waitingTimeForNextButton);
             cy.get('.swag-customized-products-pager__button.btn-next').click();
 
             // Time field
@@ -170,10 +345,11 @@ describe('Storefront: Custom products', () => {
             cy.get('.numInputWrapper .flatpickr-hour').type('3{enter}');
 
             // We have to wait here to update the pager, the flatpickr is kinda weird in this regard
-            cy.wait(50);
+            cy.wait(waitingTimeForFlatpickr);
 
             // Next button
             cy.get('.swag-customized-products-pager__button.btn-next').should('be.visible');
+            cy.wait(waitingTimeForNextButton);
             cy.get('.swag-customized-products-pager__button.btn-next').click();
 
             // Color select
@@ -182,6 +358,7 @@ describe('Storefront: Custom products', () => {
 
             // Next button
             cy.get('.swag-customized-products-pager__button.btn-next').should('be.visible');
+            cy.wait(waitingTimeForNextButton);
             cy.get('.swag-customized-products-pager__button.btn-next').click();
 
             // Check if the configuration was done

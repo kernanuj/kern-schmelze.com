@@ -53,7 +53,6 @@ class ModifyTemplateOptionValuePriceConstraintTest extends TestCase
 
         $this->createTemplate(
             $templateId,
-            $this->templateRepo,
             $context,
             $this->getColorSelectTemplateData(
                 $templateId,

@@ -26,7 +26,6 @@ use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\TemplateOptionEnti
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOptionValue\TemplateOptionValueEntity;
 use Swag\CustomizedProducts\Template\TemplateEntity;
 use Symfony\Component\HttpFoundation\Request;
-use function array_values;
 
 class SalesChannelProductSubscriberTest extends TestCase
 {
@@ -142,10 +141,10 @@ class SalesChannelProductSubscriberTest extends TestCase
         /** @var TemplateOptionCollection $optionCollection */
         $optionCollection = $template->getOptions();
         /** @var TemplateOptionEntity[] $options */
-        $options = array_values($optionCollection->getElements());
+        $options = \array_values($optionCollection->getElements());
 
         /** @var TemplateOptionValueEntity[] $values */
-        $values = array_values($options[0]->get('values')->getElements());
+        $values = \array_values($options[0]->get('values')->getElements());
 
         static::assertSame(1, $values[0]->getPosition());
         static::assertSame(3, $values[1]->getPosition());

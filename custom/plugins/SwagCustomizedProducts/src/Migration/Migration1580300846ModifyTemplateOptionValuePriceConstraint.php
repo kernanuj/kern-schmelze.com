@@ -8,7 +8,6 @@
 namespace Swag\CustomizedProducts\Migration;
 
 use Doctrine\DBAL\Connection;
-use PDO;
 use Shopware\Core\Framework\Migration\MigrationStep;
 
 class Migration1580300846ModifyTemplateOptionValuePriceConstraint extends MigrationStep
@@ -41,7 +40,7 @@ class Migration1580300846ModifyTemplateOptionValuePriceConstraint extends Migrat
         WHERE CONSTRAINT_NAME = 'uniq.swag_cupr_template_option_value_id__version'
         AND TABLE_NAME = 'swag_customized_products_template_option_value_price'
 SQL
-        )->fetch( PDO::FETCH_ASSOC);
+        )->fetch(\PDO::FETCH_ASSOC);
 
         return (bool) $exists;
     }

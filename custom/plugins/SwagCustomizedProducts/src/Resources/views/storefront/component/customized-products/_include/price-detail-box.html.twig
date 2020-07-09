@@ -1,0 +1,149 @@
+{% block swag_customized_products_price_detail_box %}
+    <div class="swag-customized-product__price-display card">
+        <div class="card-body">
+
+            {% block swag_customized_products_price_detail_box_unit_price_header %}
+                <h5 class="card-title">
+                    {{ 'customizedProducts.priceDisplay.unitPrice' | trans }}
+                </h5>
+            {% endblock %}
+
+            {% block swag_customized_products_price_detail_box_unit_price_list %}
+                <ul class="price-display__list list__unit-price">
+
+                    {% block swag_customized_products_price_detail_box_unit_price_list_product %}
+                        <li class="price-display__product-price">
+
+                            {% block swag_customized_products_price_detail_box_unit_price_list_product_label %}
+                                <span class="price-display__label">
+                                    {{ 'customizedProducts.priceDisplay.productPrice' | trans }}
+                                </span>
+                            {% endblock %}
+
+                            {% block swag_customized_products_price_detail_box_unit_price_list_product_price %}
+                                <span class="price-display__price">
+                                    {{ priceDetails.productPrice | currency }}{{ "general.star"|trans|sw_sanitize }}
+                                </span>
+                            {% endblock %}
+                        </li>
+                    {% endblock %}
+
+                    {% for displayName, surchargePrice in priceDetails.surcharges %}
+
+                        {% block swag_customized_products_price_detail_box_unit_price_list_element %}
+                            <li class="price-display__item">
+
+                                {% block swag_customized_products_price_detail_box_unit_price_list_element_label %}
+                                    <span class="price-display__label">
+                                        {{ displayName }}
+                                    </span>
+                                {% endblock %}
+
+                                {% block swag_customized_products_price_detail_box_unit_price_list_element_price %}
+                                    <span class="price-display__price">
+                                        {{ surchargePrice | currency }}{{ "general.star"|trans|sw_sanitize }}
+                                    </span>
+                                {% endblock %}
+                            </li>
+                        {% endblock %}
+                    {% endfor %}
+
+                    {% block swag_customized_products_price_detail_box_unit_price_list_summary %}
+                        <li class="price-display__summary">
+
+                            {% block swag_customized_products_price_detail_box_unit_price_list_summary_label %}
+                                 <span class="price-display__label">
+                                    {{ 'customizedProducts.priceDisplay.subTotal' | trans }}
+                                 </span>
+                            {% endblock %}
+
+                            {% block swag_customized_products_price_detail_box_unit_price_list_summary_price %}
+                                <span class="price-display__price">
+                                    {% set surchargesSubTotal =  priceDetails.surchargesSubTotal + priceDetails.productPrice %}
+                                    {{ surchargesSubTotal | currency }}{{ "general.star"|trans|sw_sanitize }}
+                                </span>
+                            {% endblock %}
+                        </li>
+                    {% endblock %}
+                </ul>
+            {% endblock %}
+
+            {% if priceDetails.oneTimeSurcharges|length > 0 %}
+
+                {% block swag_customized_products_price_detail_box_one_time_price_header %}
+                    <h5 class="card-title">
+                        {{ 'customizedProducts.priceDisplay.oneTimePrice' | trans }}
+                    </h5>
+                {% endblock %}
+
+                {% block swag_customized_products_price_detail_box_one_time_price_list %}
+                    <ul class="price-display__list list__one-time-price">
+                        {% for displayName, surchargePrice in priceDetails.oneTimeSurcharges %}
+
+                            {% block swag_customized_products_price_detail_box_one_time_price_list_element %}
+                                <li class="price-display__item">
+                                    {% block swag_customized_products_price_detail_box_one_time_price_list_element_label %}
+                                        <span class="price-display__label">
+                                            {{ displayName }}
+                                        </span>
+                                    {% endblock %}
+
+                                    {% block swag_customized_products_price_detail_box_one_time_price_list_element_price %}
+                                        <span class="price-display__price">
+                                            {{ surchargePrice | currency }}{{ "general.star"|trans|sw_sanitize }}
+                                        </span>
+                                    {% endblock %}
+                                </li>
+                            {% endblock %}
+                        {% endfor %}
+
+                        {% block swag_customized_products_price_detail_box_one_time_price_list_summary %}
+                            <li class="price-display__summary">
+
+                                {% block swag_customized_products_price_detail_box_one_time_price_list_summary_label %}
+                                     <span class="price-display__label">
+                                        {{ 'customizedProducts.priceDisplay.subTotal' | trans }}
+                                     </span>
+                                {% endblock %}
+
+                                {% block swag_customized_products_price_detail_box_one_time_price_list_summary_price %}
+                                    <span class="price-display__price">
+                                        {{ priceDetails.oneTimeSurchargesSubTotal | currency }}{{ "general.star"|trans|sw_sanitize }}
+                                    </span>
+                                {% endblock %}
+                            </li>
+                        {% endblock %}
+                    </ul>
+                {% endblock %}
+            {% endif %}
+
+            {% block swag_customized_products_price_detail_box_summary_header %}
+                <h5 class="card-title">
+                    {{ 'customizedProducts.priceDisplay.summary' | trans }}
+                </h5>
+            {% endblock %}
+
+            {% block swag_customized_products_price_detail_box_summary_list %}
+                <ul class="price-display__list">
+
+                    {% block swag_customized_products_price_detail_box_summary_list_element %}
+                        <li class="price-display__summary price-display__total-price">
+
+                            {% block swag_customized_products_price_detail_box_summary_list_label %}
+                                 <span class="price-display__label">
+                                    {{ 'customizedProducts.priceDisplay.totalPrice' | trans }}
+                                 </span>
+                            {% endblock %}
+
+                            {% block swag_customized_products_price_detail_box_summary_list_price %}
+                                <span class="price-display__price">
+                                    {{ priceDetails.totalPrice | currency }}{{ "general.star"|trans|sw_sanitize }}
+                                </span>
+                            {% endblock %}
+                        </li>
+                    {% endblock %}
+                </ul>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
