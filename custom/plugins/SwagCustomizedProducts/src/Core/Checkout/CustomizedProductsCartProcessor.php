@@ -23,9 +23,6 @@ use Shopware\Core\Checkout\Cart\Price\Struct\QuantityPriceDefinition;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Swag\CustomizedProducts\Core\Checkout\Cart\Error\SwagCustomizedProductsNotAvailableError;
 use Swag\CustomizedProducts\Template\Exception\NoProductException;
-use function array_pop;
-use function count;
-use function get_class;
 
 class CustomizedProductsCartProcessor implements CartProcessorInterface
 {
@@ -128,14 +125,14 @@ class CustomizedProductsCartProcessor implements CartProcessorInterface
                 continue;
             }
 
-            switch ( get_class($priceDefinition)) {
+            switch (\get_class($priceDefinition)) {
                 case QuantityPriceDefinition::class:
                     $price = $this->quantityPriceCalculator->calculate($priceDefinition, $context);
                     break;
                 case PercentagePriceDefinition::class:
                     $price = $this->percentagePriceCalculator->calculate(
                         $priceDefinition->getPercentage(),
-                        $products->getPrices(),
+                        $this->getPercentagePrices($products, $optionLineItem, $context),
                         $context
                     );
                     break;
@@ -187,11 +184,11 @@ class CustomizedProductsCartProcessor implements CartProcessorInterface
         }
 
         foreach ($hashLineItemMap as $lineItems) {
-            if ( count($lineItems) <= 1) {
+            if (\count($lineItems) <= 1) {
                 continue;
             }
 
-            $firstLineItem = array_pop($lineItems);
+            $firstLineItem = \array_pop($lineItems);
 
             $finalQuantity = $firstLineItem->getQuantity();
             foreach ($lineItems as $lineItem) {
@@ -203,5 +200,29 @@ class CustomizedProductsCartProcessor implements CartProcessorInterface
             $firstLineItem->setQuantity($finalQuantity);
             $firstLineItem->setStackable(false);
         }
+    }
+
+    private function getPercentagePrices(LineItemCollection $products, LineItem $optionLineItem, SalesChannelContext $context): PriceCollection
+    {
+        $prices = $products->getPrices();
+
+        if (!$optionLineItem->getPayloadValue('isOneTimeSurcharge')) {
+            return $prices;
+        }
+
+        $unitPrices = [];
+        foreach ($prices as $price) {
+            $unitPriceDefinition = new QuantityPriceDefinition(
+                $price->getUnitPrice(),
+                $price->getTaxRules(),
+                $context->getCurrency()->getDecimalPrecision(),
+                1,
+                true
+            );
+
+            $unitPrices[] = $this->quantityPriceCalculator->calculate($unitPriceDefinition, $context);
+        }
+
+        return new PriceCollection($unitPrices);
     }
 }

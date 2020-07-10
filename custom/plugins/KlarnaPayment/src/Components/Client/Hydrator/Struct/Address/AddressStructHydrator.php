@@ -94,7 +94,7 @@ class AddressStructHydrator implements AddressStructHydratorInterface
             'city'           => $address->getCity(),
             'country'        => $address->getCountry() instanceof CountryEntity ? $address->getCountry()->getIso() : '',
             'email'          => $customer->getEmail(),
-            'phoneNumber'    => $address->getPhoneNumber(),
+            'phoneNumber'    => $address->getPhoneNumber() ?? 'No number provided',
         ]);
 
         return $addressStruct;

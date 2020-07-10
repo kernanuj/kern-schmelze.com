@@ -13,6 +13,7 @@ variables:
     MYSQL_DATABASE: shopware
     MYSQL_USER: shopware
     MYSQL_PASSWORD: shopware
+    SHOPWARE_VERSION: "v6.2.0" # Tag
 
 composer:
     stage: setup
@@ -34,14 +35,11 @@ phpstan:
     dependencies:
         - composer
     script:
-        - git clone -b v6.1.0 --depth 1 https://github.com/shopware/development "${CI_PROJECT_DIR}/opt/shopware"
-        - git clone -b v6.1.0 --depth 1 https://github.com/shopware/platform "${CI_PROJECT_DIR}/opt/shopware/platform"
-        - mv ${CI_PROJECT_DIR}/opt /tmp/opt
-        - cp -r ${CI_PROJECT_DIR} /tmp/opt/shopware/custom/plugins/${CI_PROJECT_NAME}
-        - mv /tmp/opt ${CI_PROJECT_DIR}/opt
-        - cd ${CI_PROJECT_DIR}/opt/shopware && composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts
-        - cd ${CI_PROJECT_DIR}/opt/shopware && composer dump-autoload -d custom/plugins/${CI_PROJECT_NAME}
-        - cd ${CI_PROJECT_DIR}/opt/shopware/custom/plugins/${CI_PROJECT_NAME} && vendor/bin/phpstan analyse -l 7 -c phpstan.neon --autoload-file=${CI_PROJECT_DIR}/opt/shopware/vendor/autoload.php src
+        - git clone -b ${SHOPWARE_VERSION} --depth 1 https://github.com/shopware/development "/tmp/shopware"
+        - cp -r ${CI_PROJECT_DIR} /tmp/shopware/custom/plugins/${CI_PROJECT_NAME}
+        - cd /tmp/shopware/custom/plugins/${CI_PROJECT_NAME} && composer install --no-interaction --optimize-autoloader
+        - cd /tmp/shopware && composer install --no-interaction --optimize-autoloader --no-suggest --no-scripts
+        - cd /tmp/shopware/custom/plugins/${CI_PROJECT_NAME} && composer phpstan
 
 codestyle:
     stage: test
@@ -65,8 +63,8 @@ codestyle:
 #  script:
 #    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --optimize-autoloader
 #    - sudo apt-get update && sudo apt-get install default-mysql-client -y
-#    - git clone -b v6.1.0-rc3 https://github.com/shopware/development "${CI_PROJECT_DIR}/opt/shopware"
-#    - git clone -b v6.1.0-rc3 https://github.com/shopware/platform "${CI_PROJECT_DIR}/opt/shopware/platform"
+#    - git clone -b v6.1.2 https://github.com/shopware/development "${CI_PROJECT_DIR}/opt/shopware"
+#    - git clone -b v6.1.2 https://github.com/shopware/platform "${CI_PROJECT_DIR}/opt/shopware/platform"
 #    - mv ${CI_PROJECT_DIR}/opt /tmp/opt
 #    - cp -r ${CI_PROJECT_DIR} /tmp/opt/shopware/custom/plugins/${CI_PROJECT_NAME}
 #    - mv /tmp/opt ${CI_PROJECT_DIR}/opt
@@ -111,7 +109,7 @@ staging:
         - mkdir -p ~/.ssh
         - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     script:
-        - ssh -A web-user@c-1686.maxcluster.net 'cd /var/www/share/klarna.sw-6.de/shopware/custom/plugins/KlarnaPayment && git pull && /var/www/share/klarna.sw-6.de/shopware/bin/console cache:clear && /var/www/share/klarna.sw-6.de/shopware/bin/console plugin:refresh && /var/www/share/klarna.sw-6.de/shopware/bin/console plugin:uninstall --keep-user-data -c KlarnaPayment && /var/www/share/klarna.sw-6.de/shopware/bin/console plugin:install -c -v --activate KlarnaPayment && /var/www/share/klarna.sw-6.de/shopware/bin/console klarna:methods:activate'
+        - ssh -A web-user@c-1686.maxcluster.net 'cd /var/www/share/klarna.sw-6.de/shopware/custom/plugins/KlarnaPayment && git pull && /var/www/share/klarna.sw-6.de/shopware/bin/console cache:clear && /var/www/share/klarna.sw-6.de/shopware/bin/console plugin:refresh && /var/www/share/klarna.sw-6.de/shopware/bin/console plugin:uninstall --keep-user-data -c KlarnaPayment && /var/www/share/klarna.sw-6.de/shopware/bin/console plugin:install -c -v --activate KlarnaPayment && /var/www/share/klarna.sw-6.de/shopware/bin/console klarna:methods:activate && /var/www/share/klarna.sw-6.de/shopware/bin/build-js.sh'
 
 package:
     image: kellerkinder/shopware-package-plugin:latest
@@ -123,7 +121,7 @@ package:
         - mysql:5.7
     script:
         - mkdir /tmp/opt
-        - git clone -b v6.1.4 --depth 1 https://github.com/shopware/production /tmp/opt/shopware
+        - git clone -b ${SHOPWARE_VERSION} --depth 1 https://github.com/shopware/production /tmp/opt/shopware
         - cp -r ${CI_PROJECT_DIR} /tmp/opt/shopware/custom/plugins/${CI_PROJECT_NAME}
         - cd /tmp/opt/shopware && composer install --no-interaction -o
         - cd /tmp/opt/shopware && php bin/console system:setup --database-url=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE} --generate-jwt-keys -nq

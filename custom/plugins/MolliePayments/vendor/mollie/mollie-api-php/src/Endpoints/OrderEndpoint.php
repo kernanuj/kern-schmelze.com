@@ -5,7 +5,6 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderCollection;
-use stdClass;
 
 class OrderEndpoint extends CollectionEndpointAbstract
 {
@@ -32,7 +31,7 @@ class OrderEndpoint extends CollectionEndpointAbstract
      * endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param stdClass $_links
+     * @param \stdClass $_links
      *
      * @return OrderCollection
      */
@@ -88,7 +87,7 @@ class OrderEndpoint extends CollectionEndpointAbstract
      *
      * @param array $parameters
      * @return Order
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function cancel($orderId, $parameters = [])
     {

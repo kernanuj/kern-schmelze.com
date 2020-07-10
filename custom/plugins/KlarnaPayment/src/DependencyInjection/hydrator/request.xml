@@ -11,7 +11,7 @@
             <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Struct\Customer\CustomerStructHydrator" />
             <argument type="service" id="KlarnaPayment\Components\Helper\PaymentHelper\PaymentHelper" />
             <argument type="service" id="Shopware\Core\Checkout\Cart\Order\OrderConverter" />
-            <argument type="service" id="order.repository" />
+            <argument type="service" id="KlarnaPayment\Components\Helper\OrderFetcher" />
             <argument type="service" id="router.default" />
             <argument type="service" id="KlarnaPayment\Components\ConfigReader\ConfigReader" />
         </service>
@@ -31,8 +31,10 @@
 
         <!-- UpdateOrderRequest -->
         <service id="KlarnaPayment\Components\Client\Hydrator\Request\UpdateOrder\UpdateOrderRequestHydrator">
-            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Struct\LineItem\OrderLineItemStructHydrator" />
-            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Struct\Delivery\OrderDeliveryStructHydrator" />
+            <argument type="service" id="Shopware\Core\Checkout\Cart\Order\OrderConverter" />
+            <argument type="service" id="KlarnaPayment\Components\Helper\OrderFetcher" />
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Struct\LineItem\LineItemStructHydrator" />
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Struct\Delivery\DeliveryStructHydrator" />
         </service>
 
         <!-- CancelOrderRequest -->
@@ -52,5 +54,11 @@
 
         <!-- GetOrderRequest -->
         <service id="KlarnaPayment\Components\Client\Hydrator\Request\GetOrder\GetOrderRequestHydrator" />
+
+        <!-- CreateButtonKeyRequest -->
+        <service id="KlarnaPayment\Components\Client\Hydrator\Request\CreateButtonKey\CreateButtonKeyRequestHydrator">
+            <argument type="service" id="KlarnaPayment\Components\Helper\MerchantUrlHelper\MerchantUrlHelper" />
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+        </service>
     </services>
 </container>

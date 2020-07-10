@@ -2,13 +2,9 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\BaseCollection;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
-use stdClass;
 
 class CustomerPaymentsEndpoint extends CollectionEndpointAbstract
 {
@@ -28,7 +24,7 @@ class CustomerPaymentsEndpoint extends CollectionEndpointAbstract
      * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param stdClass $_links
+     * @param \stdClass $_links
      *
      * @return PaymentCollection
      */
@@ -45,7 +41,7 @@ class CustomerPaymentsEndpoint extends CollectionEndpointAbstract
      * @param array $filters
      *
      * @return Payment
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createFor(Customer $customer, array $options = [], array $filters = [])
     {
@@ -59,8 +55,8 @@ class CustomerPaymentsEndpoint extends CollectionEndpointAbstract
      * @param array $options
      * @param array $filters
      *
-     * @return BaseResource|Payment
-     * @throws ApiException
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Payment
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createForId($customerId, array $options = [], array $filters = [])
     {
@@ -76,7 +72,7 @@ class CustomerPaymentsEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return PaymentCollection
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function listFor(Customer $customer, $from = null, $limit = null, array $parameters = [])
     {
@@ -89,8 +85,8 @@ class CustomerPaymentsEndpoint extends CollectionEndpointAbstract
      * @param int $limit
      * @param array $parameters
      *
-     * @return BaseCollection|PaymentCollection
-     * @throws ApiException
+     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\PaymentCollection
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function listForId($customerId, $from = null, $limit = null, array $parameters = [])
     {

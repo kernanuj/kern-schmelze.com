@@ -8,13 +8,15 @@
         <service id="Swag\CustomizedProducts\Core\Checkout\CustomizedProductsCartDataCollector">
             <argument type="service" id="swag_customized_products_template.repository"/>
             <argument type="service" id="sales_channel.product.repository"/>
-            <tag name="shopware.cart.collector"/>
+            <!-- Inject after product collector(5000) but before promotion collector(4900) -->
+            <tag name="shopware.cart.collector" priority="4999"/>
         </service>
 
         <service id="Swag\CustomizedProducts\Core\Checkout\CustomizedProductsCartProcessor">
             <argument type="service" id="Shopware\Core\Checkout\Cart\Price\QuantityPriceCalculator"/>
             <argument type="service" id="Shopware\Core\Checkout\Cart\Price\PercentagePriceCalculator"/>
-            <tag name="shopware.cart.processor"/>
+            <!-- Inject after product processor(5000) but before promotion processor(4900) -->
+            <tag name="shopware.cart.processor" priority="4999"/>
         </service>
 
         <service id="Swag\CustomizedProducts\Core\Checkout\Document\DocumentSubscriber">

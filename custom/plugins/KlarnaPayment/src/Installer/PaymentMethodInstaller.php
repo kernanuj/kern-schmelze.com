@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace KlarnaPayment\Installer;
 
+use KlarnaPayment\Components\PaymentHandler\KlarnaInstantShoppingPaymentHandler;
 use KlarnaPayment\Components\PaymentHandler\KlarnaPaymentsPaymentHandler;
 use KlarnaPayment\KlarnaPayment;
 use Shopware\Core\Framework\Context;
@@ -26,6 +27,8 @@ class PaymentMethodInstaller implements InstallerInterface
     public const KLARNA_DIRECT_BANK_TRANSFER = 'a03b53a6e3d34836b150cc6eeaf6d97d';
     public const KLARNA_CREDIT_CARD          = 'd245c39e8707e85f053e806abffcbb36';
     public const KLARNA_PAY_NOW              = 'f1ef36538c594dc580b59e28206a1297';
+
+    public const KLARNA_INSTANT_SHOPPING = '0e9d7933f84244879a78acfc5b8a8d99';
 
     public const KLARNA_PAYMENTS_CODES = [
         self::KLARNA_PAY_LATER            => 'pay_later',
@@ -75,9 +78,10 @@ class PaymentMethodInstaller implements InstallerInterface
      * Klarna codes: 'pay_later','pay_over_time','direct_debit','direct_bank_transfer','card','pay_now'
      */
     private const PAYMENT_METHODS = [
-        [
+        self::KLARNA_PAY_LATER => [
             'id'                => self::KLARNA_PAY_LATER,
             'handlerIdentifier' => KlarnaPaymentsPaymentHandler::class,
+            'afterOrderEnabled' => true,
             'translations'      => [
                 'de-DE' => [
                     'name' => 'Klarna Rechnung',
@@ -87,9 +91,10 @@ class PaymentMethodInstaller implements InstallerInterface
                 ],
             ],
         ],
-        [
+        self::KLARNA_FINANCING => [
             'id'                => self::KLARNA_FINANCING,
             'handlerIdentifier' => KlarnaPaymentsPaymentHandler::class,
+            'afterOrderEnabled' => true,
             'translations'      => [
                 'de-DE' => [
                     'name' => 'Klarna Ratenkauf',
@@ -99,33 +104,49 @@ class PaymentMethodInstaller implements InstallerInterface
                 ],
             ],
         ],
-        [
+        self::KLARNA_DIRECT_DEBIT => [
             'id'                => self::KLARNA_DIRECT_DEBIT,
             'handlerIdentifier' => KlarnaPaymentsPaymentHandler::class,
+            'afterOrderEnabled' => true,
             'translations'      => [
                 'de-DE' => [
-                    'name' => 'Klarna Sofortüberweisung',
+                    'name' => 'Klarna Lastschrift',
                 ],
                 'en-GB' => [
                     'name' => 'Klarna Direct Debit',
                 ],
             ],
         ],
-        [
+        self::KLARNA_DIRECT_BANK_TRANSFER => [
             'id'                => self::KLARNA_DIRECT_BANK_TRANSFER,
             'handlerIdentifier' => KlarnaPaymentsPaymentHandler::class,
+            'afterOrderEnabled' => true,
             'translations'      => [
                 'de-DE' => [
-                    'name' => 'Klarna Lastschrift',
+                    'name' => 'Klarna Sofortüberweisung',
                 ],
                 'en-GB' => [
                     'name' => 'Klarna Online Bank Transfer',
                 ],
             ],
         ],
-        [
+        self::KLARNA_INSTANT_SHOPPING => [
+            'id'                => self::KLARNA_INSTANT_SHOPPING,
+            'handlerIdentifier' => KlarnaInstantShoppingPaymentHandler::class,
+            'translations'      => [
+                'de-DE' => [
+                    'name' => 'Klarna Instant Shopping',
+                ],
+                'en-GB' => [
+                    'name' => 'Klarna Instant Shopping',
+                ],
+            ],
+            'active' => false,
+        ],
+        self::KLARNA_CREDIT_CARD => [
             'id'                => self::KLARNA_CREDIT_CARD,
             'handlerIdentifier' => KlarnaPaymentsPaymentHandler::class,
+            'afterOrderEnabled' => true,
             'translations'      => [
                 'de-DE' => [
                     'name' => 'Klarna Kreditkarte',
@@ -135,9 +156,10 @@ class PaymentMethodInstaller implements InstallerInterface
                 ],
             ],
         ],
-        [
+        self::KLARNA_PAY_NOW => [
             'id'                => self::KLARNA_PAY_NOW,
             'handlerIdentifier' => KlarnaPaymentsPaymentHandler::class,
+            'afterOrderEnabled' => true,
             'translations'      => [
                 'de-DE' => [
                     'name' => 'Klarna Sofort bezahlen',
@@ -188,6 +210,10 @@ class PaymentMethodInstaller implements InstallerInterface
             $this->upsertPaymentMethod($paymentMethod, $context->getContext());
         }
 
+        if ($context->getPlugin()->isActive()) {
+            $this->setPaymentMethodStatus(self::PAYMENT_METHODS[self::KLARNA_INSTANT_SHOPPING], true, $context->getContext());
+        }
+
         $this->removeKlarnaCheckout($context->getContext());
     }
 
@@ -210,7 +236,7 @@ class PaymentMethodInstaller implements InstallerInterface
      */
     public function activate(ActivateContext $context): void
     {
-        // Nothing to do here
+        $this->setPaymentMethodStatus(self::PAYMENT_METHODS[self::KLARNA_INSTANT_SHOPPING], true, $context->getContext());
     }
 
     /**

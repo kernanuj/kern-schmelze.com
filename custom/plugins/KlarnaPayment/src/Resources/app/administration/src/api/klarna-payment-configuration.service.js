@@ -20,6 +20,20 @@ class KlarnaPaymentConfigurationService extends ApiService {
                 return ApiService.handleResponse(response);
             });
     }
+
+    createButtonKeys(credentials) {
+        return this.httpClient
+            .post(
+                `_action/${this.getApiBasePath()}/create-button-keys`,
+                credentials,
+                {
+                    headers: this.getBasicHeaders()
+                }
+            )
+            .then((response) => {
+                return ApiService.handleResponse(response);
+            });
+    }
 }
 
 Application.addServiceProvider('KlarnaPaymentConfigurationService', (container) => {

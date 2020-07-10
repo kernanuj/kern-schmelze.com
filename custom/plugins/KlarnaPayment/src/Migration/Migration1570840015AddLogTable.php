@@ -16,7 +16,10 @@ class Migration1570840015AddLogTable extends MigrationStep
 
     public function update(Connection $connection): void
     {
-        $connection->exec('
+        $result = $connection->fetchColumn('SHOW TABLES LIKE \'klarna_payment_request_log\';');
+
+        if (!$result) {
+            $connection->exec('
             CREATE TABLE IF NOT EXISTS `klarna_payment_log` (
                 `id` BINARY(16) NOT NULL,
                 
@@ -30,10 +33,12 @@ class Migration1570840015AddLogTable extends MigrationStep
                 `updated_at` DATETIME(3) NULL,
                 
                 PRIMARY KEY (`id`),
+                
                 CONSTRAINT `json.klarna_payment_log.request` CHECK (JSON_VALID(`request`)),
                 CONSTRAINT `json.klarna_payment_log.response` CHECK (JSON_VALID(`response`))
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
        ');
+        }
     }
 
     public function updateDestructive(Connection $connection): void

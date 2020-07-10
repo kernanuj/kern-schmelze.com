@@ -2,9 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
-use stdClass;
 
 abstract class CursorCollection extends BaseCollection
 {
@@ -16,7 +14,7 @@ abstract class CursorCollection extends BaseCollection
     /**
      * @param MollieApiClient $client
      * @param int $count
-     * @param stdClass $_links
+     * @param \stdClass $_links
      */
     final public function __construct(MollieApiClient $client, $count, $_links)
     {
@@ -34,7 +32,7 @@ abstract class CursorCollection extends BaseCollection
      * Return the next set of resources when available
      *
      * @return CursorCollection|null
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     final public function next()
     {
@@ -57,7 +55,7 @@ abstract class CursorCollection extends BaseCollection
      * Return the previous set of resources when available
      *
      * @return CursorCollection|null
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     final public function previous()
     {

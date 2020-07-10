@@ -3,6 +3,7 @@
     .swag-customized-products-option-type-modal-content-tree {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
+      min-height: calc(100vh - 200px);
 
       .swag-customized-products-option-type-modal-content-tree__tree {
         border: none;

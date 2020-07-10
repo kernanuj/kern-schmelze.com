@@ -4,7 +4,6 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\MandateStatus;
-use stdClass;
 
 class Mandate extends BaseResource
 {
@@ -34,7 +33,7 @@ class Mandate extends BaseResource
     public $method;
 
     /**
-     * @var stdClass|null
+     * @var \stdClass|null
      */
     public $details;
 
@@ -61,7 +60,7 @@ class Mandate extends BaseResource
     public $signatureDate;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $_links;
 

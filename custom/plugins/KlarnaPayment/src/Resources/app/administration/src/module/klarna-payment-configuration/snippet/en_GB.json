@@ -13,7 +13,8 @@
         "messageTestErrorLive": "The API credentials could not be validated.",
         "messageTestErrorTest": "The test mode API credentials could not be validated.",
         "messageSaveSuccess": "The plugin settings have been saved.",
-        "messageSaveError": "The plugin settings could not be saved."
+        "messageSaveError": "The plugin settings could not be saved.",
+        "messageButtonKeyCreateError": "An error \"{code}\" occurred during creation of the Instant Shopping button keys: {message}"
       },
       "buttons": {
         "save": "Save settings",

@@ -12,6 +12,7 @@ use KlarnaPayment\Components\Client\Request\CreateOrderRequest;
 use KlarnaPayment\Components\Client\Struct\Attachment;
 use KlarnaPayment\Components\Client\Struct\Options;
 use KlarnaPayment\Components\ConfigReader\ConfigReaderInterface;
+use KlarnaPayment\Components\Helper\OrderFetcherInterface;
 use KlarnaPayment\Components\Helper\PaymentHelper\PaymentHelperInterface;
 use KlarnaPayment\Components\Struct\ExtraMerchantData;
 use LogicException;
@@ -19,11 +20,8 @@ use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\Order\OrderConverter;
 use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
 use Shopware\Core\Checkout\Order\Aggregate\OrderDelivery\OrderDeliveryEntity;
-use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
+use Shopware\Core\Checkout\Payment\Cart\SyncPaymentTransactionStruct;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\Routing\RouterInterface;
@@ -48,8 +46,8 @@ class CreateOrderRequestHydrator implements CreateOrderRequestHydratorInterface
     /** @var OrderConverter */
     private $orderConverter;
 
-    /** @var EntityRepositoryInterface */
-    private $orderRepository;
+    /** @var OrderFetcherInterface */
+    private $orderFetcher;
 
     /** @var RouterInterface */
     private $router;
@@ -64,7 +62,7 @@ class CreateOrderRequestHydrator implements CreateOrderRequestHydratorInterface
         CustomerStructHydratorInterface $customerHydrator,
         PaymentHelperInterface $paymentHelper,
         OrderConverter $orderConverter,
-        EntityRepositoryInterface $orderRepository,
+        OrderFetcherInterface $orderFetcher,
         RouterInterface $router,
         ConfigReaderInterface $configReader
     ) {
@@ -74,20 +72,30 @@ class CreateOrderRequestHydrator implements CreateOrderRequestHydratorInterface
         $this->customerHydrator = $customerHydrator;
         $this->paymentHelper    = $paymentHelper;
         $this->orderConverter   = $orderConverter;
-        $this->orderRepository  = $orderRepository;
+        $this->orderFetcher     = $orderFetcher;
         $this->router           = $router;
         $this->configReader     = $configReader;
     }
 
     public function hydrate(
-        AsyncPaymentTransactionStruct $transaction,
+        SyncPaymentTransactionStruct $transaction,
         RequestDataBag $dataBag,
         SalesChannelContext $context
     ): CreateOrderRequest {
-        $order = $this->fetchOrder($transaction->getOrder(), $context);
-        $cart  = $this->orderConverter->convertToCart($order, $context->getContext());
+        $order = $this->orderFetcher->getOrderFromOrder($transaction->getOrder()->getId(), $context->getContext());
+
+        if (null === $order) {
+            throw new LogicException('could not find order via id');
+        }
+
+        $cart = $this->orderConverter->convertToCart($order, $context->getContext());
 
         $totalTaxAmount = $this->getTotalTaxAmount($cart->getPrice()->getCalculatedTaxes());
+
+        $options = new Options();
+        $options->assign([
+            'disable_confirmation_modals' => true,
+        ]);
 
         if ($order->getAddresses() === null) {
             throw new LogicException('Order has no addresses');
@@ -123,9 +131,9 @@ class CreateOrderRequestHydrator implements CreateOrderRequestHydratorInterface
             'purchaseCountry'    => $billingAddress->getCountry()->getIso(),
             'locale'             => substr_replace($this->paymentHelper->getSalesChannelLocale($context)->getCode(), $billingAddress->getCountry()->getIso(), 3, 2),
             'purchaseCurrency'   => $context->getCurrency()->getIsoCode(),
-            'options'            => new Options(),
+            'options'            => $options,
             'precision'          => $context->getCurrency()->getDecimalPrecision(),
-            'orderAmount'        => $cart->getPrice()->getTotalPrice(),
+            'orderAmount'        => $order->getPrice()->getTotalPrice(),
             'orderTaxAmount'     => $totalTaxAmount,
             'orderLines'         => $this->hydrateOrderLines($cart, $context),
             'salesChannel'       => $context->getSalesChannel()->getId(),
@@ -152,36 +160,6 @@ class CreateOrderRequestHydrator implements CreateOrderRequestHydratorInterface
         return $request;
     }
 
-    private function fetchOrder(OrderEntity $order, SalesChannelContext $context): OrderEntity
-    {
-        $criteria = new Criteria([$order->getId()]);
-        $criteria->addAssociation('addresses');
-        $criteria->addAssociation('addresses.country');
-        $criteria->addAssociation('addresses.salutation');
-        $criteria->addAssociation('orderCustomer');
-        $criteria->addAssociation('orderCustomer.customer');
-        $criteria->addAssociation('lineItems');
-        $criteria->addAssociation('lineItems.cover');
-        $criteria->addAssociation('deliveries');
-        $criteria->addAssociation('deliveries.shippingMethod');
-        $criteria->addAssociation('deliveries.positions');
-        $criteria->addAssociation('deliveries.positions.orderLineItem');
-        $criteria->addAssociation('deliveries.shippingOrderAddress');
-        $criteria->addAssociation('deliveries.shippingOrderAddress.country');
-        $criteria->addAssociation('deliveries.shippingOrderAddress.countryState');
-        $criteria->addAssociation('deliveries.shippingOrderAddress.salutation');
-        $criteria->addSorting(new FieldSorting('lineItems.createdAt'));
-
-        /** @var null|OrderEntity $result */
-        $result = $this->orderRepository->search($criteria, $context->getContext())->first();
-
-        if (null === $result) {
-            throw new LogicException('could not load order from database during payment processing');
-        }
-
-        return $result;
-    }
-
     private function getTotalTaxAmount(CalculatedTaxCollection $taxes): float
     {
         $totalTaxAmount = 0;
@@ -193,22 +171,25 @@ class CreateOrderRequestHydrator implements CreateOrderRequestHydratorInterface
         return $totalTaxAmount;
     }
 
-    private function hydrateOrderLines(Cart $cart, SalesChannelContext $context): array
+    private function hydrateOrderLines(Cart $cart, SalesChannelContext $salesChannelContext): array
     {
         $orderLines = [];
 
-        foreach ($this->lineItemHydrator->hydrate($cart->getLineItems(), $context) as $orderLine) {
+        $currency = $salesChannelContext->getCurrency();
+        $context  = $salesChannelContext->getContext();
+
+        foreach ($this->lineItemHydrator->hydrate($cart->getLineItems(), $currency, $context) as $orderLine) {
             $orderLines[] = $orderLine;
         }
 
-        foreach ($this->deliveryHydrator->hydrate($cart->getDeliveries(), $context) as $orderLine) {
+        foreach ($this->deliveryHydrator->hydrate($cart->getDeliveries(), $currency, $context) as $orderLine) {
             $orderLines[] = $orderLine;
         }
 
         return array_filter($orderLines);
     }
 
-    private function getMerchantUrls(AsyncPaymentTransactionStruct $transaction): array
+    private function getMerchantUrls(SyncPaymentTransactionStruct $transaction): array
     {
         $notificationUrl = $this->router->generate(
             'frontend.klarna.callback.notification',
@@ -218,8 +199,19 @@ class CreateOrderRequestHydrator implements CreateOrderRequestHydratorInterface
             RouterInterface::ABSOLUTE_URL
         );
 
+        if ($transaction instanceof AsyncPaymentTransactionStruct) {
+            /** @var AsyncPaymentTransactionStruct $confirmationUrl */
+            $confirmationUrl = $transaction->getReturnUrl();
+        } else {
+            $confirmationUrl = $this->router->generate('frontend.klarna.instantShopping.finish', [
+                'order_id'       => $transaction->getOrder()->getId(),
+                'transaction_id' => $transaction->getOrderTransaction()->getId(),
+            ],
+            RouterInterface::ABSOLUTE_URL);
+        }
+
         return [
-            'confirmation' => $transaction->getReturnUrl(),
+            'confirmation' => $confirmationUrl,
             'notification' => $notificationUrl,
         ];
     }

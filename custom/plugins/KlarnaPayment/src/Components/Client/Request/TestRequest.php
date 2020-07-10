@@ -12,6 +12,9 @@ class TestRequest extends GetOrderRequest
     /** @var string */
     protected $password;
 
+    /** @var bool */
+    protected $testMode;
+
     public function getUsername(): string
     {
         return $this->username;
@@ -20,5 +23,10 @@ class TestRequest extends GetOrderRequest
     public function getPassword(): string
     {
         return $this->password;
+    }
+
+    public function getTestMode(): bool
+    {
+        return $this->testMode;
     }
 }

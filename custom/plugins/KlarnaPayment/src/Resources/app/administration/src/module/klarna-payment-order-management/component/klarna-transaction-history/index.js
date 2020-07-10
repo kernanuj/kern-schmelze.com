@@ -3,7 +3,7 @@ import './klarna-transaction-history.scss';
 
 const { Component, Mixin } = Shopware;
 
-Shopware.Component.register('klarna-transaction-history', {
+Component.register('klarna-transaction-history', {
     template,
 
     props: {

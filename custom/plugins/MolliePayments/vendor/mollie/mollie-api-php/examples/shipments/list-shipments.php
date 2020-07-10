@@ -3,8 +3,6 @@
  * List shipment for an order using the Mollie API.
  */
 
-use Mollie\Api\Exceptions\ApiException;
-
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
@@ -27,6 +25,6 @@ try {
             echo $line->name . ' - status: <b>' . $line->status . '</b>.';
         }
     }
-} catch ( ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

@@ -22,7 +22,7 @@ class MandateCollection extends CursorCollection
 
     /**
      * @param string $status
-     * @return array|MandateCollection
+     * @return array|\Mollie\Api\Resources\MandateCollection
      */
     public function whereStatus($status)
     {

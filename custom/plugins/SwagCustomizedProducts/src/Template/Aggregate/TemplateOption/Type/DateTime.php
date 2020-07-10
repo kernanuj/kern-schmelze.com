@@ -7,7 +7,6 @@
 
 namespace Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type;
 
-use DateTimeInterface;
 use Symfony\Component\Validator\Constraints\Type;
 
 class DateTime extends OptionType
@@ -15,12 +14,12 @@ class DateTime extends OptionType
     public const NAME = 'datetime';
 
     /**
-     * @var DateTimeInterface
+     * @var \DateTimeInterface
      */
     private $minDate;
 
     /**
-     * @var DateTimeInterface
+     * @var \DateTimeInterface
      */
     private $maxDate;
 
@@ -34,22 +33,22 @@ class DateTime extends OptionType
         return self::NAME;
     }
 
-    public function getMinDate(): DateTimeInterface
+    public function getMinDate(): \DateTimeInterface
     {
         return $this->minDate;
     }
 
-    public function setMinDate( DateTimeInterface $minDate): void
+    public function setMinDate(\DateTimeInterface $minDate): void
     {
         $this->minDate = $minDate;
     }
 
-    public function getMaxDate(): DateTimeInterface
+    public function getMaxDate(): \DateTimeInterface
     {
         return $this->maxDate;
     }
 
-    public function setMaxDate( DateTimeInterface $maxDate): void
+    public function setMaxDate(\DateTimeInterface $maxDate): void
     {
         $this->maxDate = $maxDate;
     }

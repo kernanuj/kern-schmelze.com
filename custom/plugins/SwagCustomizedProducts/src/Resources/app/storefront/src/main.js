@@ -9,10 +9,19 @@ import SwagCustomizedProductsExclusionListValidation
 import SwagCustomizedProductsFileUpload
     from './swag-customized-products-file-upload/swag-customized-products-file-upload.plugin';
 
+import SwagCustomizedProductPriceDisplay
+    from './swag-customized-products-price-display/swag-customized-products-price-display.plugin';
+
 window.PluginManager.register(
     'SwagCustomizedProductsFormValidator',
     SwagCustomizedProductsFormValidator,
     '[data-swag-customized-products-form-validator="true"]'
+);
+
+window.PluginManager.register(
+    'SwagCustomizedProductPriceDisplay',
+    SwagCustomizedProductPriceDisplay,
+    '[data-swag-customized-product-price-display="true"]',
 );
 
 window.PluginManager.register(

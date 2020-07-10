@@ -7,7 +7,6 @@
 
 namespace Swag\CustomizedProducts\Test\Storefront\Controller;
 
-use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\Exception\LineItemNotFoundException;
@@ -48,9 +47,6 @@ use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\TextField;
 use Swag\CustomizedProducts\Template\TemplateDefinition;
 use Swag\CustomizedProducts\Test\Helper\ServicesTrait;
 use Symfony\Component\HttpFoundation\Request;
-use function array_values;
-use function random_int;
-use function sprintf;
 
 class CustomizedProductsCartControllerTest extends TestCase
 {
@@ -113,7 +109,7 @@ class CustomizedProductsCartControllerTest extends TestCase
         $salesChannelContext = $this->salesChannelContextFactory->create(Uuid::randomHex(), Defaults::SALES_CHANNEL);
 
         $this->expectException(MissingRequestParameterException::class);
-        $this->expectExceptionMessage( sprintf(
+        $this->expectExceptionMessage(\sprintf(
             'Parameter "%s" is missing.',
             CustomizedProductsCartController::CUSTOMIZED_PRODUCTS_TEMPLATE_REQUEST_PARAMETER
         ));
@@ -141,7 +137,7 @@ class CustomizedProductsCartControllerTest extends TestCase
         $salesChannelContext = $this->salesChannelContextFactory->create(Uuid::randomHex(), Defaults::SALES_CHANNEL);
 
         $this->expectException(MissingRequestParameterException::class);
-        $this->expectExceptionMessage( sprintf('Parameter "%s" is missing.', 'lineItems'));
+        $this->expectExceptionMessage(\sprintf('Parameter "%s" is missing.', 'lineItems'));
         $controller->addCustomizedProduct(
             $cart,
             $requestDataBag,
@@ -196,7 +192,6 @@ class CustomizedProductsCartControllerTest extends TestCase
 
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $salesChannelContext->getContext(),
             $templateData
         );
@@ -336,12 +331,12 @@ class CustomizedProductsCartControllerTest extends TestCase
         static::assertSame(self::NORMAL_ITEM_NUMBER, $firstOption->getPayloadValue('productNumber'));
 
         /** @var LineItem $secondOption */
-        $secondOption = array_values($optionLineItems->getElements())[1];
+        $secondOption = \array_values($optionLineItems->getElements())[1];
         static::assertTrue($secondOption->hasPayloadValue('productNumber'));
         static::assertSame('*', $secondOption->getPayloadValue('productNumber'));
 
         /** @var LineItem $thirdOption */
-        $thirdOption = array_values($optionLineItems->getElements())[2];
+        $thirdOption = \array_values($optionLineItems->getElements())[2];
         static::assertTrue($thirdOption->hasPayloadValue('productNumber'));
         static::assertSame('*', $thirdOption->getPayloadValue('productNumber'));
         static::assertSame(self::TEST_HTMLEDITOR_PURIFIED, $thirdOption->getPayloadValue('value'));
@@ -470,7 +465,7 @@ class CustomizedProductsCartControllerTest extends TestCase
         static::assertSame(self::NORMAL_ITEM_NUMBER, $firstOption->getPayloadValue('productNumber'));
 
         /** @var LineItem $secondOption */
-        $secondOption = array_values($optionLineItems->getElements())[1];
+        $secondOption = \array_values($optionLineItems->getElements())[1];
         static::assertTrue($secondOption->hasPayloadValue('productNumber'));
         static::assertSame('*', $secondOption->getPayloadValue('productNumber'));
         static::assertNotEmpty($secondOption->getPayloadValue('media'));
@@ -552,7 +547,6 @@ class CustomizedProductsCartControllerTest extends TestCase
 
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $salesChannelContext->getContext(),
             $templateData
         );
@@ -708,7 +702,6 @@ class CustomizedProductsCartControllerTest extends TestCase
 
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $salesChannelContext->getContext(),
             $templateData
         );
@@ -924,7 +917,6 @@ class CustomizedProductsCartControllerTest extends TestCase
 
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $salesChannelContext->getContext(),
             $templateData
         );
@@ -1138,7 +1130,7 @@ class CustomizedProductsCartControllerTest extends TestCase
         return [
             [
                 'id' => $orderId,
-                'orderDateTime' => (new DateTimeImmutable())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'orderDateTime' => (new \DateTimeImmutable())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
                 'price' => new CartPrice(10, 10, 10, new CalculatedTaxCollection(), new TaxRuleCollection(), CartPrice::TAX_STATE_NET),
                 'shippingCosts' => new CalculatedPrice(10, 10, new CalculatedTaxCollection(), new TaxRuleCollection()),
                 'stateId' => $this->stateMachineRegistry->getInitialState(OrderStates::STATE_MACHINE, $context)->getId(),
@@ -1258,7 +1250,7 @@ class CustomizedProductsCartControllerTest extends TestCase
         $productRepository->create([
             [
                 'id' => $productId,
-                'stock' => random_int(1, 5),
+                'stock' => \random_int(1, 5),
                 'taxId' => $taxId,
                 'price' => [
                     'net' => [

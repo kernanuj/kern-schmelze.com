@@ -21,11 +21,11 @@
     {% set klarnaCheckoutData = page.extensions[constant('KlarnaPayment\\Components\\Extension\\TemplateData\\CheckoutDataExtension::EXTENSION_NAME')] %}
 
     {% if klarnaCheckoutData.klarnaType == constant('KlarnaPayment\\Components\\Extension\\TemplateData\\CheckoutDataExtension::TYPE_CHECKOUT') %}
-        {% sw_include '@Storefront/storefront/klarna/klarna-checkout.html.twig' %}
+        {% sw_include '@Storefront/storefront/klarna/checkout.html.twig' %}
     {% endif %}
 
     {% if klarnaCheckoutData.klarnaType == constant('KlarnaPayment\\Components\\Extension\\TemplateData\\CheckoutDataExtension::TYPE_PAYMENTS') %}
-        {% sw_include '@Storefront/storefront/klarna/klarna-payments.html.twig' %}
+        {% sw_include '@Storefront/storefront/klarna/payments.html.twig' %}
     {% endif %}
 {% endblock %}
 

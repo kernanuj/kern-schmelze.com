@@ -8,7 +8,6 @@
 namespace Swag\CustomizedProducts\Migration;
 
 use Doctrine\DBAL\Connection;
-use PDO;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Migration\MigrationStep;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -22,7 +21,6 @@ use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\Select;
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\Textarea;
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\TextField;
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type\Timestamp;
-use function array_merge;
 
 class Migration1583737095BasicOperators extends MigrationStep
 {
@@ -42,7 +40,7 @@ class Migration1583737095BasicOperators extends MigrationStep
 
             $connection->insert(
                 'swag_customized_products_template_exclusion_operator',
-                array_merge(
+                \array_merge(
                     [
                         'id' => $operatorId,
                         'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
@@ -147,6 +145,6 @@ SQL;
 
         return $connection->executeQuery(
             $query
-        )->fetchAll( PDO::FETCH_KEY_PAIR);
+        )->fetchAll(\PDO::FETCH_KEY_PAIR);
     }
 }

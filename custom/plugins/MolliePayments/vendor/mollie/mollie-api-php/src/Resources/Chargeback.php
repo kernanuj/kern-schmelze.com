@@ -2,8 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-use stdClass;
-
 /**
  * @method Refund[]|RefundCollection all($from = null, $limit = 50, array $filters = [])
  * @method Refund get($refundId, array $filters = [])
@@ -22,7 +20,7 @@ class Chargeback extends BaseResource
     /**
      * The $amount that was refunded.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $amount;
 
@@ -44,12 +42,12 @@ class Chargeback extends BaseResource
     /**
      * The settlement amount
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $settlementAmount;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $_links;
 

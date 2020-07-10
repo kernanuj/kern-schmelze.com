@@ -6,7 +6,9 @@ namespace KlarnaPayment\Components\EventListener;
 
 use KlarnaPayment\Components\Extension\TemplateData\CheckoutDataExtension;
 use KlarnaPayment\Components\Helper\PaymentHelper\PaymentHelperInterface;
+use Shopware\Storefront\Page\Account\Order\AccountEditOrderPageLoadedEvent;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
+use Shopware\Storefront\Page\PageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CheckoutEventListener implements EventSubscriberInterface
@@ -22,12 +24,17 @@ class CheckoutEventListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            CheckoutConfirmPageLoadedEvent::class => 'addKlarnaTemplateData',
+            CheckoutConfirmPageLoadedEvent::class  => 'addKlarnaTemplateData',
+            AccountEditOrderPageLoadedEvent::class => 'addKlarnaTemplateData',
         ];
     }
 
-    public function addKlarnaTemplateData(CheckoutConfirmPageLoadedEvent $event): void
+    public function addKlarnaTemplateData(PageLoadedEvent $event): void
     {
+        if (!($event instanceof CheckoutConfirmPageLoadedEvent) && !($event instanceof AccountEditOrderPageLoadedEvent)) {
+            return;
+        }
+
         if ($this->paymentHelper->isKlarnaPaymentsEnabled($event->getSalesChannelContext())) {
             $type = CheckoutDataExtension::TYPE_PAYMENTS;
         } elseif ($this->paymentHelper->isKlarnaCheckoutEnabled($event->getSalesChannelContext())) {

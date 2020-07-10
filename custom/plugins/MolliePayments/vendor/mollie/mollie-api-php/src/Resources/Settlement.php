@@ -5,7 +5,6 @@ namespace Mollie\Api\Resources;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\SettlementStatus;
-use stdClass;
 
 class Settlement extends BaseResource
 {
@@ -54,14 +53,14 @@ class Settlement extends BaseResource
     /**
      * Total settlement amount in euros.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $amount;
 
     /**
      * Revenues and costs nested per year, per month, and per payment method.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $periods;
 
@@ -73,7 +72,7 @@ class Settlement extends BaseResource
     public $invoiceId;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $_links;
 

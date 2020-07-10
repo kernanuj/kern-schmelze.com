@@ -1,5 +1,18 @@
+# 2.2.0
+- PT-11172 - Adjusted Custom Products option modal box to fixed size
+- PT-11288 - Relative surcharges are now listed correctly in the order confirmation mail
+- PT-11303 - The calculated custom product price, as well as the summary of the selected options, will be broken down right above the buy button
+- PT-11312 - Required options of the custom product are automatically unfolded on the product detail page
+- PT-11359 - One time relative surcharges are now calculated correctly
+- PT-11466 - Ensures compatibility between promotions and Customized Products
+- PT-11632 - Added navigation for elements that cannot be combined due to an exclusion
+- PT-11773 - Custom Products with unfilled required options can no longer be placed in the cart
+- PT-11774 - The step by step mode no longer cuts off the configuration for image and file uploads
+- PT-11868 - Implemented Multi select validation for step-by-step mode
+
 # 2.1.0
 - PT-11476 - Provides Store API endpoints
+- PT-11799 - Customer without orders can use the overview again
 
 # 2.0.0
 - PT-11724 - Deletes storefront uploads on uninstall
@@ -8,7 +21,7 @@
 # 1.3.3
 - PT-11698 - Adjusted max display amount of options' selections
 - PT-11738 - Fixes uploads in the storefront
-- PT-11739 - Fix plugin installation for shops where the languages German and/or English are missing
+- PT-11739 - Fixes plugin installation for shops where the languages German and/or English are missing
 
 # 1.3.2
 - PT-11427 - Fixes displaying of absolute surcharges of template options and its values with non-default currencies

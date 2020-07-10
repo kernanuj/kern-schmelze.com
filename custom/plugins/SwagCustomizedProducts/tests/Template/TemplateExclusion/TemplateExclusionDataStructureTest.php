@@ -53,7 +53,6 @@ class TemplateExclusionDataStructureTest extends TestCase
 
         $this->createTemplate(
             Uuid::randomHex(),
-            $this->templateRepository,
             $context,
             [
                 'exclusions' => [
@@ -73,7 +72,6 @@ class TemplateExclusionDataStructureTest extends TestCase
 
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context,
             [
                 'exclusions' => [

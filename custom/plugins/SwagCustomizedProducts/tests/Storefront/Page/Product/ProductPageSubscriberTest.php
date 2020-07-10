@@ -30,7 +30,6 @@ use Swag\CustomizedProducts\Template\SalesChannel\Price\PriceService;
 use Swag\CustomizedProducts\Template\TemplateEntity;
 use Swag\CustomizedProducts\Test\Helper\ServicesTrait;
 use Symfony\Component\HttpFoundation\Request;
-use function random_int;
 
 class ProductPageSubscriberTest extends TestCase
 {
@@ -308,8 +307,6 @@ class ProductPageSubscriberTest extends TestCase
         $salesChannelRepo = $this->getContainer()->get('sales_channel.product.repository');
         /** @var EntityRepositoryInterface $productRepo */
         $productRepo = $this->getContainer()->get(ProductDefinition::ENTITY_NAME . '.repository');
-        /** @var EntityRepositoryInterface $templateRepository */
-        $templateRepository = $this->getContainer()->get('swag_customized_products_template.repository');
         $parentId = Uuid::randomHex();
         $variantId = Uuid::randomHex();
         $templateId = Uuid::randomHex();
@@ -318,7 +315,7 @@ class ProductPageSubscriberTest extends TestCase
         $productRepo->create([
             [
                 'id' => $parentId,
-                'stock' => random_int(1, 5),
+                'stock' => \random_int(1, 5),
                 'taxId' => $taxId,
                 'price' => [
                     'net' => [
@@ -339,7 +336,6 @@ class ProductPageSubscriberTest extends TestCase
 
         $this->createTemplate(
             $templateId,
-            $templateRepository,
             $salesChannelContext->getContext()
         );
 
@@ -348,7 +344,7 @@ class ProductPageSubscriberTest extends TestCase
             [
                 'id' => $variantId,
                 'parentId' => $parentId,
-                'stock' => random_int(1, 5),
+                'stock' => \random_int(1, 5),
                 'taxId' => $taxId,
                 'swagCustomizedProductsTemplateId' => $templateId,
                 'visibilities' => [
@@ -408,7 +404,7 @@ class ProductPageSubscriberTest extends TestCase
         $templateId = Uuid::randomHex();
         $additionalData = $this->prepareAdditionalTemplateData($netPrice);
 
-        $this->createTemplate($templateId, $templateRepo, $context, $additionalData);
+        $this->createTemplate($templateId, $context, $additionalData);
 
         // Gather the created data from the DAL
         $criteria = (new Criteria([$templateId]))

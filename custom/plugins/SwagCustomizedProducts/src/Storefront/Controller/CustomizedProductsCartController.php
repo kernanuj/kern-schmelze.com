@@ -9,6 +9,10 @@ namespace Swag\CustomizedProducts\Storefront\Controller;
 
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\Error\Error;
+use Shopware\Core\Checkout\Promotion\Cart\Error\PromotionNotEligibleError;
+use Shopware\Core\Checkout\Promotion\Cart\Error\PromotionNotFoundError;
+use Shopware\Core\Checkout\Promotion\Cart\PromotionCartAddedInformationError;
+use Shopware\Core\Checkout\Promotion\Cart\PromotionCartDeletedInformationError;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -86,6 +90,37 @@ class CustomizedProductsCartController extends StorefrontController
             }
 
             return $this->createActionResponse($request);
+        }
+
+        $promotionErrors = $cart->getErrors()->filter(static function (Error $error) {
+            $promotionErrors = [
+                PromotionNotEligibleError::class,
+                PromotionNotFoundError::class,
+                PromotionCartAddedInformationError::class,
+                PromotionCartDeletedInformationError::class,
+            ];
+
+            return \in_array(\get_class($error), $promotionErrors, true);
+        });
+
+        foreach ($promotionErrors as $error) {
+            if ($error instanceof PromotionCartAddedInformationError
+                    || $error instanceof PromotionCartDeletedInformationError
+            ) {
+                $this->addFlash(
+                    'info',
+                    $this->trans(
+                        \sprintf('checkout.%s', $error->getMessageKey()),
+                        [
+                            '%name%' => $error->getParameters()['name'],
+                        ]
+                    )
+                );
+
+                continue;
+            }
+
+            $this->addFlash('info', $this->trans(\sprintf('checkout.%s', $error->getMessageKey())));
         }
 
         $this->addFlash('success', $this->trans('customizedProducts.addToCart.success'));

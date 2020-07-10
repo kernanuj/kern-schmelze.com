@@ -3,8 +3,6 @@
  * Revoke a customer mandate
  */
 
-use Mollie\Api\Exceptions\ApiException;
-
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
@@ -28,6 +26,6 @@ try {
 
     echo "<p>Mandate has been successfully revoked.</p>";
 
-} catch ( ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

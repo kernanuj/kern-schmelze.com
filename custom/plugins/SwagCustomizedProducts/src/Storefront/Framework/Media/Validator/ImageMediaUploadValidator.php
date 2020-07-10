@@ -10,8 +10,6 @@ namespace Swag\CustomizedProducts\Storefront\Framework\Media\Validator;
 use Shopware\Storefront\Framework\Media\Exception\FileTypeNotAllowedException;
 use Shopware\Storefront\Framework\Media\Validator\MimeTypeValidationTrait;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use function getimagesize;
-use function is_array;
 
 class ImageMediaUploadValidator implements CustomizedProductsMediaUploadValidatorInterface
 {
@@ -51,8 +49,8 @@ class ImageMediaUploadValidator implements CustomizedProductsMediaUploadValidato
 
         // additional mime type validation
         // we detect the mime type over the `getimagesize` extension
-        $imageSize = getimagesize($file->getPath() . '/' . $file->getFileName());
-        $mimeType = is_array($imageSize) && isset($imageSize['mime']) ? $imageSize['mime'] : '';
+        $imageSize = \getimagesize($file->getPath() . '/' . $file->getFileName());
+        $mimeType = \is_array($imageSize) && isset($imageSize['mime']) ? $imageSize['mime'] : '';
         if ($mimeType !== $fileMimeType) {
             throw new FileTypeNotAllowedException($fileMimeType, $this->getType());
         }

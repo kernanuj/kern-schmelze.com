@@ -2,9 +2,6 @@
 /*
  * Example 10 -  Using OAuth access token to prepare a new payment.
  */
-
-use Mollie\Api\Exceptions\ApiException;
-
 try
 {
     /*
@@ -64,7 +61,7 @@ try
     }
     header("Location: " . $payment->getCheckoutUrl(), true, 303);
 }
-catch ( ApiException $e)
+catch (\Mollie\Api\Exceptions\ApiException $e)
 {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

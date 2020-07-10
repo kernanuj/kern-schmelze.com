@@ -7,16 +7,20 @@ namespace KlarnaPayment\Components\Client\Hydrator\Struct\LineItem;
 use KlarnaPayment\Components\Client\Hydrator\Struct\ProductIdentifier\ProductIdentifierStructHydratorInterface;
 use KlarnaPayment\Components\Client\Struct\LineItem;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem as CartLineItem;
-use Shopware\Core\Checkout\Cart\LineItem\LineItem as ShopwareLineItem;
-use Shopware\Core\Checkout\Cart\LineItem\LineItemCollection;
+use Shopware\Core\Checkout\Cart\LineItem\LineItemCollection as CartLineItemCollection;
 use Shopware\Core\Checkout\Cart\Price\Struct\CalculatedPrice;
+use Shopware\Core\Checkout\Cart\Price\Struct\CartPrice;
 use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
+use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity;
 use Shopware\Core\Checkout\Promotion\Cart\PromotionProcessor;
 use Shopware\Core\Content\Product\ProductEntity;
+use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Shopware\Core\Framework\Struct\Collection;
+use Shopware\Core\Framework\Struct\Struct;
+use Shopware\Core\System\Currency\CurrencyEntity;
 
 class LineItemStructHydrator implements LineItemStructHydratorInterface
 {
@@ -34,60 +38,64 @@ class LineItemStructHydrator implements LineItemStructHydratorInterface
         $this->productRepository         = $productRepository;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function hydrate(LineItemCollection $cartLineItems, SalesChannelContext $context): array
+    public function hydrate(CartLineItemCollection $lineItems, CurrencyEntity $currency, Context $context): array
     {
-        $precision = $context->getCurrency()->getDecimalPrecision();
-        $products  = $this->loadProducts($cartLineItems, $context);
+        $products = $this->loadProducts($lineItems, $context);
 
-        $lineItems = [];
+        $result = [];
 
-        /** @var CartLineItem $cartLineItem */
-        foreach ($cartLineItems as $cartLineItem) {
+        foreach ($lineItems as $item) {
             $lineItem = new LineItem();
             $lineItem->assign([
-                'type'      => $this->matchType($cartLineItem->getType()),
-                'reference' => $this->getReferenceNumber($cartLineItem),
-                'name'      => $cartLineItem->getLabel(),
-                'quantity'  => $cartLineItem->getQuantity(),
+                'type'      => $this->matchType($item->getType()),
+                'reference' => $this->getReferenceNumber($item),
+                'name'      => $item->getLabel(),
+                'quantity'  => $item->getQuantity(),
             ]);
 
-            if (null !== $cartLineItem->getCover()) {
+            if (null !== $item->getCover()) {
                 $lineItem->assign([
-                    'imageUrl' => $cartLineItem->getCover()->getUrl(),
+                    'imageUrl' => $item->getCover()->getUrl(),
                 ]);
             }
 
-            if (null !== $cartLineItem->getPrice()) {
-                $totalTaxAmount = $this->getTotalTaxAmount($cartLineItem->getPrice()->getCalculatedTaxes());
+            if ($item->getType() === CartLineItem::PRODUCT_LINE_ITEM_TYPE) {
+                /** @var null|ProductEntity $product */
+                $product = $products->get((string) $item->getReferencedId());
 
-                if ($cartLineItem->getType() === CartLineItem::PRODUCT_LINE_ITEM_TYPE) {
-                    /** @var null|ProductEntity $product */
-                    $product = $products->get((string) $cartLineItem->getReferencedId());
+                if (null !== $product) {
+                    $lineItem->assign([
+                        'productId'         => $product->getId(),
+                        'quantityUnit'      => $this->getUnitNameFromProduct($product),
+                        'productIdentifier' => $this->productIdentifierHydrator->hydrate($product),
+                    ]);
+                }
+            }
 
-                    if (null !== $product) {
-                        $lineItem->assign([
-                            'quantityUnit'      => $this->getUnitNameFromProduct($product),
-                            'productIdentifier' => $this->productIdentifierHydrator->hydrate($product, $context),
-                        ]);
-                    }
+            if (null !== $item->getPrice()) {
+                $totalTaxAmount = $this->getTotalTaxAmount($item->getPrice()->getCalculatedTaxes());
+
+                $totalAmount = $item->getPrice()->getTotalPrice();
+                $unitPrice   = $item->getPrice()->getUnitPrice();
+
+                if ($context->getTaxState() === CartPrice::TAX_STATE_NET) {
+                    $totalAmount += $totalTaxAmount;
+                    $unitPrice += round($totalTaxAmount / $item->getQuantity(), $currency->getDecimalPrecision());
                 }
 
                 $lineItem->assign([
-                    'precision'      => $precision,
-                    'unitPrice'      => $cartLineItem->getPrice()->getUnitPrice(),
-                    'totalAmount'    => $cartLineItem->getPrice()->getTotalPrice(),
+                    'precision'      => $currency->getDecimalPrecision(),
+                    'unitPrice'      => $unitPrice,
+                    'totalAmount'    => $totalAmount,
                     'totalTaxAmount' => $totalTaxAmount,
-                    'taxRate'        => $this->getTaxRate($cartLineItem->getPrice()),
+                    'taxRate'        => $this->getTaxRate($item->getPrice()),
                 ]);
             }
 
-            $lineItems[] = $lineItem;
+            $result[] = $lineItem;
         }
 
-        return $lineItems;
+        return $result;
     }
 
     private function getTaxRate(CalculatedPrice $price): float
@@ -116,11 +124,11 @@ class LineItemStructHydrator implements LineItemStructHydratorInterface
 
     private function matchType(string $type): string
     {
-        if ($type === ShopwareLineItem::PRODUCT_LINE_ITEM_TYPE) {
+        if ($type === CartLineItem::PRODUCT_LINE_ITEM_TYPE) {
             return LineItem::TYPE_PHYSICAL;
         }
 
-        if ($type === ShopwareLineItem::CREDIT_LINE_ITEM_TYPE) {
+        if ($type === CartLineItem::CREDIT_LINE_ITEM_TYPE) {
             return LineItem::TYPE_DISCOUNT;
         }
 
@@ -133,22 +141,41 @@ class LineItemStructHydrator implements LineItemStructHydratorInterface
         return LineItem::TYPE_PHYSICAL;
     }
 
-    private function loadProducts(LineItemCollection $cartLineItems, SalesChannelContext $context): EntityCollection
+    private function loadProducts(Collection $lineItems, Context $context): EntityCollection
     {
-        $products = $cartLineItems->filterType(CartLineItem::PRODUCT_LINE_ITEM_TYPE);
+        $products = $this->getReferenceIds($lineItems);
 
-        $criteria = new Criteria($products->getReferenceIds());
+        if (empty($products)) {
+            return new EntityCollection();
+        }
+
+        $criteria = new Criteria();
         $criteria->addAssociation('unit');
         $criteria->addAssociation('categories');
         $criteria->addAssociation('manufacturer');
 
-        $products = $this->productRepository->search($criteria, $context->getContext());
+        $products = $this->productRepository->search($criteria, $context);
 
         if (!$products->count()) {
             return new EntityCollection();
         }
 
         return $products->getEntities();
+    }
+
+    private function getReferenceIds(Collection $lineItems): array
+    {
+        return $lineItems->fmap(static function (Struct $lineItem) {
+            if ($lineItem instanceof CartLineItem) {
+                return $lineItem->getReferencedId();
+            }
+
+            if ($lineItem instanceof OrderLineItemEntity) {
+                return $lineItem->getReferencedId();
+            }
+
+            return null;
+        });
     }
 
     private function getUnitNameFromProduct(ProductEntity $product): ?string
@@ -160,7 +187,7 @@ class LineItemStructHydrator implements LineItemStructHydratorInterface
         return $product->getUnit()->getTranslation('shortCode');
     }
 
-    private function getReferenceNumber(ShopwareLineItem $cartLineItem): string
+    private function getReferenceNumber(CartLineItem $cartLineItem): string
     {
         if ($cartLineItem->hasPayloadValue('productNumber')) {
             $referenceNumber = $cartLineItem->getPayloadValue('productNumber');
@@ -168,6 +195,6 @@ class LineItemStructHydrator implements LineItemStructHydratorInterface
             $referenceNumber = (string) $cartLineItem->getReferencedId();
         }
 
-        return mb_strimwidth($referenceNumber, 0, 255);
+        return mb_strimwidth($referenceNumber, 0, 64);
     }
 }

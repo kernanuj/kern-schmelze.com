@@ -3,9 +3,6 @@
 /*
  * Make sure to disable the display of errors in production code!
  */
-
-use Mollie\Api\MollieApiClient;
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -18,5 +15,5 @@ require_once __DIR__ . "/functions.php";
  *
  * See: https://docs.mollie.com/oauth/overview
  */
-$mollie = new MollieApiClient();
+$mollie = new \Mollie\Api\MollieApiClient();
 $mollie->setAccessToken("access_Wwvu7egPcJLLJ9Kb7J632x8wJ2zMeJ");

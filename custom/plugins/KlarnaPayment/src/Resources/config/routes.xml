@@ -11,4 +11,5 @@
 
     <!-- Storefront Controllers -->
     <import resource="@KlarnaPayment/Components/Controller/Storefront/CallbackController.php" type="annotation"/>
+    <import resource="@KlarnaPayment/Components/Controller/Storefront/InstantShoppingController.php" type="annotation"/>
 </routes>

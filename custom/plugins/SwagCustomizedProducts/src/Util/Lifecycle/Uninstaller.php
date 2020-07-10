@@ -17,7 +17,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\MultiFilter;
 use Swag\CustomizedProducts\Migration\Migration1565933910TemplateProduct;
-use function str_replace;
 
 class Uninstaller
 {
@@ -181,7 +180,7 @@ SQL;
 
     private function dropColumn(string $tableName, string $columnName): void
     {
-        $sql = str_replace(
+        $sql = \str_replace(
             ['#table#', '#column#'],
             [$tableName, $columnName],
             'ALTER TABLE `#table#` DROP COLUMN `#column#`'

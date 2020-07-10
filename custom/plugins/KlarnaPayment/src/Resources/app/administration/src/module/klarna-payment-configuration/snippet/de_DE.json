@@ -13,7 +13,8 @@
         "messageTestErrorLive": "Die API-Zugangsdaten konnten nicht validiert werden.",
         "messageTestErrorTest": "Die API-Zugangsdaten des Testmodus konnten nicht validiert werden.",
         "messageSaveSuccess": "Die Plugin-Einstellungen wurden gespeichert.",
-        "messageSaveError": "Die Plugin-Einstellungen konnten nicht gespeichert werden."
+        "messageSaveError": "Die Plugin-Einstellungen konnten nicht gespeichert werden.",
+        "messageButtonKeyCreateError": "Beim Erstellen der Instant Shopping Button-Keys ist ein Fehler \"{code}\" aufgetreten: {message}"
       },
       "buttons": {
         "save": "Einstellungen speichern",

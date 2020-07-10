@@ -1,0 +1,17 @@
+{% block klarna_payments_instant_shopping %}
+    {% if (not page.product.isCloseout or (page.product.availableStock >= page.product.minPurchase)) and page.product.childCount <= 0 %}
+        {# @var \KlarnaPayment\Components\Extension\TemplateData\InstantShoppingDataExtension klarnaInstantShoppingData #}
+        {% set klarnaInstantShoppingData = page.extensions[constant('KlarnaPayment\\Components\\Extension\\TemplateData\\InstantShoppingDataExtension::EXTENSION_NAME')] %}
+
+        {% if klarnaInstantShoppingData.buttonKey %}
+            <div data-is-klarna-instant-shopping="true"
+                 class="klarna-instant-shopping--container"
+                 style="display:none;"
+                 {% block klarna_payments_instant_shopping_options %}
+                    data-klarna-instant-shopping-options='{{ klarnaInstantShoppingData|json_encode }}'
+                 {% endblock %}>
+                <klarna-instant-shopping data-instance-id="{{ klarnaInstantShoppingData.instanceId }}" class="klarna-instant-shopping-element"></klarna-instant-shopping>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

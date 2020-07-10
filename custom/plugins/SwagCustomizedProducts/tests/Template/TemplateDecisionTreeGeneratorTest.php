@@ -20,9 +20,6 @@ use Swag\CustomizedProducts\Template\TemplateDecisionTreeGeneratorInterface;
 use Swag\CustomizedProducts\Template\TemplateDefinition;
 use Swag\CustomizedProducts\Template\TemplateEntity;
 use Swag\CustomizedProducts\Test\Helper\ServicesTrait;
-use function array_keys;
-use function in_array;
-use function random_int;
 
 class TemplateDecisionTreeGeneratorTest extends TestCase
 {
@@ -62,7 +59,6 @@ class TemplateDecisionTreeGeneratorTest extends TestCase
         $context = Context::createDefaultContext();
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context,
             [
                 'options' => [
@@ -143,7 +139,6 @@ class TemplateDecisionTreeGeneratorTest extends TestCase
         $context = Context::createDefaultContext();
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context,
             $this->getBenchmarkData()
         );
@@ -176,7 +171,7 @@ class TemplateDecisionTreeGeneratorTest extends TestCase
             $conditions = [];
             for ($j = 0; $j < 10; ++$j) {
                 $conditions[] = [
-                    'templateOptionId' => $data['options'][random_int(0, 99)]['id'],
+                    'templateOptionId' => $data['options'][\random_int(0, 99)]['id'],
                     'templateExclusionOperatorId' => $this->getOperatorIdForType($this->operatorRepository),
                 ];
             }
@@ -192,7 +187,7 @@ class TemplateDecisionTreeGeneratorTest extends TestCase
 
     private function assertTree(array $tree, string $firstOptionId, string $secondOptionId, string $thirdOptionId): void
     {
-        static::assertCount(1, array_keys($tree));
+        static::assertCount(1, \array_keys($tree));
         foreach ($tree as $leaf) {
             $optionIds = [$firstOptionId, $secondOptionId, $thirdOptionId];
 
@@ -205,7 +200,7 @@ class TemplateDecisionTreeGeneratorTest extends TestCase
                 $id = $condition['id'];
                 static::assertContains($id, $optionIds);
                 static::assertArrayHasKey('type', $condition);
-                if ( in_array($id, [$firstOptionId, $secondOptionId], true)) {
+                if (\in_array($id, [$firstOptionId, $secondOptionId], true)) {
                     static::assertEquals(Checkbox::NAME, $condition['type']);
                 } else {
                     static::assertEquals(Select::NAME, $condition['type']);

@@ -8,8 +8,6 @@
 namespace Swag\CustomizedProducts\Template\Message;
 
 use Shopware\Core\Framework\Context;
-use function serialize;
-use function unserialize;
 
 class GenerateDecisionTreeMessage
 {
@@ -45,13 +43,13 @@ class GenerateDecisionTreeMessage
 
     public function withContext(Context $context): GenerateDecisionTreeMessage
     {
-        $this->contextData = serialize($context);
+        $this->contextData = \serialize($context);
 
         return $this;
     }
 
     public function readContext(): Context
     {
-        return unserialize($this->contextData);
+        return \unserialize($this->contextData);
     }
 }

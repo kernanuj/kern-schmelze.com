@@ -17,7 +17,6 @@ use Swag\CustomizedProducts\Migration\Migration1565933910TemplateProduct;
 use Swag\CustomizedProducts\Template\SalesChannel\Price\PriceService;
 use Swag\CustomizedProducts\Template\TemplateEntity;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use function array_key_exists;
 
 class ProductPageSubscriber implements EventSubscriberInterface
 {
@@ -70,7 +69,7 @@ class ProductPageSubscriber implements EventSubscriberInterface
 
         $customFields = $product->getCustomFields();
         if ($customFields === null
-            || ! array_key_exists(ProductWrittenSubscriber::SWAG_CUSTOMIZED_PRODUCTS_TEMPLATE_INHERITED_CUSTOM_FIELD, $customFields)
+            || !\array_key_exists(ProductWrittenSubscriber::SWAG_CUSTOMIZED_PRODUCTS_TEMPLATE_INHERITED_CUSTOM_FIELD, $customFields)
         ) {
             return;
         }

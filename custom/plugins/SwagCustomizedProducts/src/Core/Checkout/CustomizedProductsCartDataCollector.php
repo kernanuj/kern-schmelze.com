@@ -27,16 +27,12 @@ use Shopware\Core\System\SalesChannel\Entity\SalesChannelRepositoryInterface;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Swag\CustomizedProducts\Core\Checkout\Cart\Error\SwagCustomizedProductsNotAvailableError;
 use Swag\CustomizedProducts\Migration\Migration1565933910TemplateProduct;
+use Swag\CustomizedProducts\Storefront\Page\Product\PriceDetail\Route\PriceDetailRoute;
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOption\TemplateOptionCollection;
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOptionPriceAbleEntity\TemplateOptionPriceAbleEntity;
 use Swag\CustomizedProducts\Template\Aggregate\TemplateOptionPriceAware\TemplateOptionPriceAwareInterface;
 use Swag\CustomizedProducts\Template\TemplateCollection;
 use Swag\CustomizedProducts\Template\TemplateEntity;
-use function array_flip;
-use function array_key_exists;
-use function in_array;
-use function md5;
-use function serialize;
 
 class CustomizedProductsCartDataCollector implements CartDataCollectorInterface
 {
@@ -130,7 +126,9 @@ class CustomizedProductsCartDataCollector implements CartDataCollectorInterface
                 return;
             }
 
-            if (!$this->customizedProductsLineItemContainsAllRequiredOptions($customizedProductsLineItem, $templateOptions)) {
+            if (!$original->hasExtension(PriceDetailRoute::PRICE_DETAIL_CALCULATION_EXTENSION_KEY)
+                    && !$this->customizedProductsLineItemContainsAllRequiredOptions($customizedProductsLineItem, $templateOptions)
+            ) {
                 $this->handleError($original, new LineItemCollection([$customizedProductsLineItem]), new SwagCustomizedProductsNotAvailableError($lineItemId));
 
                 return;
@@ -379,7 +377,7 @@ class CustomizedProductsCartDataCollector implements CartDataCollectorInterface
         }
 
         foreach ($prices as $optionPrice) {
-            if (! in_array($optionPrice->getRuleId(), $salesChannelContext->getRuleIds(), true)) {
+            if (!\in_array($optionPrice->getRuleId(), $salesChannelContext->getRuleIds(), true)) {
                 continue;
             }
 
@@ -524,9 +522,9 @@ class CustomizedProductsCartDataCollector implements CartDataCollectorInterface
             return false;
         }
 
-        $referencedOptionIds = array_flip($optionLineItems->getReferenceIds());
+        $referencedOptionIds = \array_flip($optionLineItems->getReferenceIds());
         foreach ($templateOptionsIds as $templateOptionsId) {
-            if (! array_key_exists($templateOptionsId, $referencedOptionIds)) {
+            if (!\array_key_exists($templateOptionsId, $referencedOptionIds)) {
                 return false;
             }
         }
@@ -576,7 +574,7 @@ class CustomizedProductsCartDataCollector implements CartDataCollectorInterface
 
         $customizedProductsLineItem->setPayloadValue(
             self::CUSTOMIZED_PRODUCTS_TEMPLATE_LINE_ITEM_CONFIGURATION_HASH,
-            md5( serialize($arrayToHash))
+            \md5(\serialize($arrayToHash))
         );
     }
 }

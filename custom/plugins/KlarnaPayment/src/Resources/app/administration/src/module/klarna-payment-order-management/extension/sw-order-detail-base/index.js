@@ -1,11 +1,6 @@
-import template from './sw-order-detail-base.html.twig';
-
 const { Component, Mixin } = Shopware;
-const { Criteria } = Shopware.Data;
 
 Component.override('sw-order-detail-base', {
-    template,
-
     inject: ['KlarnaPaymentOrderUpdateService'],
 
     mixins: [
@@ -19,7 +14,7 @@ Component.override('sw-order-detail-base', {
 
             this.KlarnaPaymentOrderUpdateService.updateOrder(this.orderId, this.versionContext.versionId).then(() => {
                 this.$super('onSaveEdits');
-            }).catch((error) => {
+            }).catch(() => {
                 this.createNotificationError({
                     title: this.$tc('klarna-payment-order-management.messages.updateErrorTitle'),
                     message: this.$tc('klarna-payment-order-management.messages.updateErrorMessage')

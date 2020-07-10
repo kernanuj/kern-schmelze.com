@@ -11,7 +11,6 @@ use Doctrine\DBAL\Connection;
 use Shopware\Core\Content\Product\ProductDefinition;
 use Shopware\Core\Framework\Migration\InheritanceUpdaterTrait;
 use Shopware\Core\Framework\Migration\MigrationStep;
-use function str_replace;
 
 class Migration1565933910TemplateProduct extends MigrationStep
 {
@@ -34,7 +33,7 @@ class Migration1565933910TemplateProduct extends MigrationStep
         ];
 
         foreach ($fields as $field) {
-            $sql = str_replace(
+            $sql = \str_replace(
                 ['#table#', '#column#'],
                 [ProductDefinition::ENTITY_NAME, $field],
                 'ALTER TABLE `#table#` ADD COLUMN `#column#` binary(16) NULL'

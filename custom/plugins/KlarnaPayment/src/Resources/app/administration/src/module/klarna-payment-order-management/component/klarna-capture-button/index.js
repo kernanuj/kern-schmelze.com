@@ -35,9 +35,11 @@ Component.register('klarna-capture-button', {
         buttonEnabled() {
             if (this.klarnaOrder.fraud_status !== 'ACCEPTED') {
                 return false;
-            } if (this.klarnaOrder.order_status === 'CANCELLED') {
+            }
+            if (this.klarnaOrder.order_status === 'CANCELLED') {
                 return false;
-            } if (this.klarnaOrder.remaining_amount <= 0) {
+            }
+            if (this.klarnaOrder.remaining_amount <= 0) {
                 return false;
             }
 
@@ -95,9 +97,9 @@ Component.register('klarna-capture-button', {
             const orderLines = [];
 
             this.selection.forEach((selection) => {
-                this.klarnaOrder.order_lines.forEach((order_item) => {
-                    if (order_item.reference === selection.reference && selection.selected && selection.quantity) {
-                        const copy = { ...order_item };
+                this.klarnaOrder.order_lines.forEach((orderItem) => {
+                    if (orderItem.reference === selection.reference && selection.selected && selection.quantity) {
+                        const copy = { ...orderItem };
 
                         copy.quantity = selection.quantity;
                         copy.total_amount = copy.unit_price * copy.quantity;
@@ -173,21 +175,21 @@ Component.register('klarna-capture-button', {
         },
 
         onChangeDescription(description) {
-            const max_chars = 255;
+            const maxChars = 255;
 
-            if (description.length >= max_chars) {
-                description = description.substr(0, max_chars);
+            if (description.length >= maxChars) {
+                this.description = description.substr(0, maxChars);
+            } else {
+                this.description = description;
             }
-
-            this.description = description;
         },
 
         _populateSelectionProperty() {
-            this.klarnaOrder.order_lines.forEach((order_item) => {
+            this.klarnaOrder.order_lines.forEach((orderItem) => {
                 this.selection.push({
-                    quantity: order_item.quantity - order_item.captured_quantity,
-                    reference: order_item.reference,
-                    unit_price: order_item.unit_price,
+                    quantity: orderItem.quantity - orderItem.captured_quantity,
+                    reference: orderItem.reference,
+                    unit_price: orderItem.unit_price,
                     selected: false
                 });
             });

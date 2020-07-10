@@ -1,5 +1,18 @@
+# 2.2.0
+- PT-11172 - Custom-Products-Optionsmodal auf feste Größe angepasst
+- PT-11288 - Relative Zuschläge werden jetzt korrekt in der Auftragsbestätigungsmail aufgeführt
+- PT-11303 - Der kalkuierte Preis eines Custom Products, samt Auflistung der einzelnen Optionen, wird jetzt überhalb des Warenkorb-Buttons aufgeschlüsselt
+- PT-11312 - Erforderliche Optionen des Custom Product werden automatisch auf der Produktdetailseite ausgeklappt
+- PT-11359 - Prozentuale Einmalaufschläge werden jetzt korrekt berechnet
+- PT-11466 - Gewährleistet die Kompatibilität zwischen Promotionen und Customized Products
+- PT-11632 - Die Navigation für Elemente, die wegen eines Ausschlusses nicht kombiniert werden können, wurde hinzugefügt
+- PT-11773 - Custom Products mit nicht gefüllten erforderlichen Optionen können nicht mehr in den Warenkorb gelegt werden
+- PT-11774 - Der Step-by-Step-Modus schneidet die Konfiguration für Bild- und Datei-Uploads nicht mehr ab
+- PT-11868 - Multiselect-Validierung für Step-By-Step-Modus implementiert
+
 # 2.1.0
 - PT-11476 - Stellt Store-API Endpunkte zur Verfügung
+- PT-11799 - Kunden ohne Bestellung können die Accountübersicht wieder aufrufen
 
 # 2.0.0
 - PT-11724 - Löscht die Storefront-Uploads beim deinstallieren

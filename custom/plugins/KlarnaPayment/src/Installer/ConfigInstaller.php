@@ -29,6 +29,8 @@ class ConfigInstaller implements InstallerInterface
         'kcoFooterBadgeStyle'                => 'long-blue',
         'isInitialized'                      => false,
         'klarnaType'                         => 'deactivated',
+        'instantShoppingVariation'           => 'dark',
+        'instantShoppingType'                => 'buy',
     ];
 
     /** @var SystemConfigService */

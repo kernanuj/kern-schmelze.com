@@ -2,13 +2,10 @@
 
 namespace Mollie\Api\Exceptions;
 
-use Exception;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
-class ApiException extends Exception
+class ApiException extends \Exception
 {
     /**
      * @var string
@@ -26,13 +23,12 @@ class ApiException extends Exception
     protected $links = [];
 
     /**
-     * @param string         $message
-     * @param int            $code
-     * @param string|null    $field
-     * @param Response|null  $response
-     * @param Throwable|null $previous
-     *
-     * @throws ApiException
+     * @param string $message
+     * @param int $code
+     * @param string|null $field
+     * @param \GuzzleHttp\Psr7\Response|null $response
+     * @param \Throwable|null $previous
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function __construct(
         $message = "",
@@ -67,11 +63,10 @@ class ApiException extends Exception
     }
 
     /**
-     * @param RequestException $guzzleException
-     * @param Throwable                              $previous
-     *
-     * @return ApiException
-     * @throws ApiException
+     * @param \GuzzleHttp\Exception\RequestException $guzzleException
+     * @param \Throwable $previous
+     * @return \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public static function createFromGuzzleException($guzzleException, Throwable $previous = null)
     {
@@ -86,11 +81,10 @@ class ApiException extends Exception
     }
 
     /**
-     * @param ResponseInterface $response
-     * @param Throwable|null                      $previous
-     *
-     * @return ApiException
-     * @throws ApiException
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \Throwable|null $previous
+     * @return \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public static function createFromResponse($response, Throwable $previous = null)
     {
@@ -185,9 +179,8 @@ class ApiException extends Exception
 
     /**
      * @param $response
-     *
      * @return mixed
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     protected static function parseResponseBody($response)
     {

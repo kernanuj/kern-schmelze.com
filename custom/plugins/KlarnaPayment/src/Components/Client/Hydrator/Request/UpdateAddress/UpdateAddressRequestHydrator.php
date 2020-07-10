@@ -10,7 +10,7 @@ use LogicException;
 use Shopware\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderCustomer\OrderCustomerEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderDelivery\OrderDeliveryEntity;
-use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
 
@@ -117,11 +117,19 @@ class UpdateAddressRequestHydrator implements UpdateAddressRequestHydratorInterf
 
     private function getKlarnaOrderId(OrderEntity $orderEntity): string
     {
-        /** @var OrderTransactionEntity[] $transactions */
-        $transactions = $orderEntity->getTransactions();
+        if (null === $orderEntity->getTransactions()) {
+            throw new LogicException('could not locate the klarna_order_id field in any order transaction');
+        }
 
-        // TODO: Only one transaction per order is supported, this could change in the future.
-        foreach ($transactions as $transaction) {
+        foreach ($orderEntity->getTransactions() as $transaction) {
+            if (null === $transaction->getStateMachineState()) {
+                continue;
+            }
+
+            if ($transaction->getStateMachineState()->getTechnicalName() === OrderTransactionStates::STATE_CANCELLED) {
+                continue;
+            }
+
             if (empty($transaction->getCustomFields()['klarna_order_id'])) {
                 continue;
             }

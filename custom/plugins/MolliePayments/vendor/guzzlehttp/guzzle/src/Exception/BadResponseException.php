@@ -1,7 +1,6 @@
 <?php
 namespace GuzzleHttp\Exception;
 
-use Exception;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -14,7 +13,7 @@ class BadResponseException extends RequestException
         $message,
         RequestInterface $request,
         ResponseInterface $response = null,
-        Exception $previous = null,
+        \Exception $previous = null,
         array $handlerContext = []
     ) {
         if (null === $response) {

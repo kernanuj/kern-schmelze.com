@@ -17,7 +17,6 @@ use Swag\CustomizedProducts\Template\Aggregate\TemplateExclusionOperator\Templat
 use Swag\CustomizedProducts\Template\TemplateDefinition;
 use Swag\CustomizedProducts\Test\Helper\ServicesTrait;
 use Symfony\Component\HttpFoundation\Response;
-use function sprintf;
 
 class TemplateControllerTest extends TestCase
 {
@@ -48,7 +47,6 @@ class TemplateControllerTest extends TestCase
         $secondOptionId = Uuid::randomHex();
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             Context::createDefaultContext(),
             [
                 'options' => [
@@ -87,7 +85,7 @@ class TemplateControllerTest extends TestCase
 
         $this->getBrowser()->request(
             'POST',
-            sprintf('/api/v' . PlatformRequest::API_VERSION . '/_action/swag-customized-products-template/%s/tree', $templateId)
+            \sprintf('/api/v' . PlatformRequest::API_VERSION . '/_action/swag-customized-products-template/%s/tree', $templateId)
         );
 
         static::assertSame(

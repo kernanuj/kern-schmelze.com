@@ -53,7 +53,7 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
             success: 'is--success',
             error: 'is--error'
         }
-    }
+    };
 
     /**
      * Initialization of targeted elements and helpers
@@ -64,6 +64,12 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
         if (this._prepareUploadedFilesList() === false) {
             return;
         }
+
+        this.stepByStepElement = DomAccess.querySelector(
+            document,
+            '*[data-swag-customized-product-step-by-step="true"]',
+            false
+        );
 
         this.dropzone = DomAccess.querySelector(
             this.fileUpload,
@@ -231,12 +237,32 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
      * Handles multiple files to be uploaded
      *
      * @param {FileList} files
-     *
+     * @returns {Boolean}
      * @private
      */
     _onFilesAdded(files) {
         Array.from(files).forEach(this._handleFileUpload.bind(this));
         this.input.value = '';
+    }
+
+    /**
+     * Sets the page height in the step by step mode (requirement, the step by step mode is active).
+     *
+     * @returns {Boolean}
+     */
+    setPageHeightInStepByStep() {
+        if (!this.stepByStepElement) {
+            return false;
+        }
+
+        const plugin = window.PluginManager.getPluginInstanceFromElement(
+            this.stepByStepElement,
+            'SwagCustomizedProductsStepByStepWizard'
+        );
+
+        plugin.setPageHeight(plugin.currentPage);
+
+        return true;
     }
 
     /**
@@ -281,6 +307,8 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
         fileName.innerHTML = filename;
 
         this.uploadedFilesList.appendChild(fileElement);
+
+        this.setPageHeightInStepByStep();
 
         return fileElement;
     }
@@ -351,7 +379,8 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
         buyForm.append(mediaIdInput);
         buyForm.append(fileNameInput);
 
-        DomAccess.querySelector(file.element, this.options.selectors.closeButton)
+        DomAccess
+            .querySelector(file.element, this.options.selectors.closeButton)
             .addEventListener('click', this._onRemoveValidElement.bind(this, file, mediaIdInput, fileNameInput));
     }
 
@@ -416,6 +445,8 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
 
         this.uploadedFilesList.removeChild(file.element);
         this.registry.delete(file.file.name);
+
+        this.setPageHeightInStepByStep();
     }
 
     /**

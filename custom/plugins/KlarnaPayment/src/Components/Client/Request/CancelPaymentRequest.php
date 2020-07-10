@@ -44,7 +44,6 @@ class CancelPaymentRequest extends Struct implements RequestInterface
     {
         return [
             'klarna_order_id' => $this->getOrderId(),
-            'sales_channel'   => $this->getSalesChannel(),
         ];
     }
 }

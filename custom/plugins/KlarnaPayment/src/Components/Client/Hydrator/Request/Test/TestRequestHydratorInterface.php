@@ -8,5 +8,5 @@ use KlarnaPayment\Components\Client\Request\TestRequest;
 
 interface TestRequestHydratorInterface
 {
-    public function hydrate(string $username, string $password, ?string $salesChannel): TestRequest;
+    public function hydrate(string $username, string $password, bool $testMode, ?string $salesChannel): TestRequest;
 }

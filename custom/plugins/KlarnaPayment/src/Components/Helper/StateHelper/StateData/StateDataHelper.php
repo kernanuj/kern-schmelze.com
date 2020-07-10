@@ -6,6 +6,9 @@ namespace KlarnaPayment\Components\Helper\StateHelper\StateData;
 
 use KlarnaPayment\Components\Client\Client;
 use KlarnaPayment\Components\Client\Hydrator\Request\GetOrder\GetOrderRequestHydratorInterface as Hydrator;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionCollection;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
@@ -63,5 +66,24 @@ class StateDataHelper implements StateDataHelperInterface
         }
 
         return $dataBag;
+    }
+
+    public function getValidTransactions(OrderEntity $order): OrderTransactionCollection
+    {
+        if (null === $order->getTransactions()) {
+            return new OrderTransactionCollection();
+        }
+
+        return $order->getTransactions()->filter(static function (OrderTransactionEntity $transaction) {
+            if (null === $transaction->getStateMachineState()) {
+                return false;
+            }
+
+            if ($transaction->getStateMachineState()->getTechnicalName() === OrderTransactionStates::STATE_CANCELLED) {
+                return false;
+            }
+
+            return true;
+        });
     }
 }

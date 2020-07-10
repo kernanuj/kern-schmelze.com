@@ -74,7 +74,6 @@ class TemplateVersioningTest extends TestCase
         $context = Context::createDefaultContext();
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context
         );
 
@@ -93,7 +92,6 @@ class TemplateVersioningTest extends TestCase
 
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context
         );
 
@@ -124,7 +122,6 @@ class TemplateVersioningTest extends TestCase
 
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context,
             [
                 'options' => [
@@ -161,7 +158,6 @@ SQL;
 
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context,
             [
                 'options' => [
@@ -218,7 +214,6 @@ SQL;
 
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context,
             [
                 'products' => [
@@ -249,7 +244,6 @@ SQL;
 
         $this->createTemplate(
             $templateId,
-            $this->templateRepository,
             $context,
             [
                 'products' => [

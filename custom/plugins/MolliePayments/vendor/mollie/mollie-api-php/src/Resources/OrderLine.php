@@ -5,7 +5,6 @@ namespace Mollie\Api\Resources;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\OrderLineStatus;
 use Mollie\Api\Types\OrderLineType;
-use stdClass;
 
 class OrderLine extends BaseResource
 {
@@ -71,21 +70,21 @@ class OrderLine extends BaseResource
     /**
      * The price of a single item in the order line.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $unitPrice;
 
     /**
      * Any discounts applied to the order line.
      *
-     * @var stdClass|null
+     * @var \stdClass|null
      */
     public $discountAmount;
 
     /**
      * The total amount of the line, including VAT and discounts.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $totalAmount;
 
@@ -102,7 +101,7 @@ class OrderLine extends BaseResource
     /**
      * The amount of value-added tax on the line.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     public $vatAmount;
 
@@ -126,12 +125,12 @@ class OrderLine extends BaseResource
      * @var string|null
      */
     public $productUrl;
-
+    
     /**
      * During creation of the order you can set custom metadata on order lines that is stored with
      * the order, and given back whenever you retrieve that order line.
      *
-     * @var stdClass|mixed|null
+     * @var \stdClass|mixed|null
      */
     public $metadata;
 
@@ -144,7 +143,7 @@ class OrderLine extends BaseResource
     public $createdAt;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $_links;
 

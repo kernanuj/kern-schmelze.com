@@ -6,7 +6,9 @@ namespace KlarnaPayment\Components\Validator;
 
 use KlarnaPayment\Components\ConfigReader\ConfigReaderInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderDelivery\OrderDeliveryDefinition;
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
 use Shopware\Core\Checkout\Order\OrderDefinition;
+use Shopware\Core\Checkout\Order\OrderStates;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -48,41 +50,46 @@ class OrderTransitionChangeValidator
     public function isAutomaticCapture(StateMachineTransitionEvent $transitionEvent, string $salesChannelId): bool
     {
         $config = $this->configReader->read($salesChannelId);
-        $type   = $config->get('automaticCapture');
+        $type   = (string) $config->get('automaticCapture');
 
         if (!$this->hasDefinedType($type, $transitionEvent->getEntityName())) {
             return false;
         }
 
-        if (!$this->isCorrectStateTransition(
-            $config->get(self::CAPTURE_SETTING_KEYS[$type]),
+        return $this->isCorrectStateTransition(
+            (string) $config->get(self::CAPTURE_SETTING_KEYS[$type]),
             $transitionEvent->getToPlace()->getTechnicalName(),
-            $transitionEvent->getContext())
-        ) {
-            return false;
-        }
-
-        return true;
+            $transitionEvent->getContext()
+        );
     }
 
     public function isAutomaticRefund(StateMachineTransitionEvent $transitionEvent, string $salesChannelId): bool
     {
         $config = $this->configReader->read($salesChannelId);
-        $type   = $config->get('automaticRefund');
+        $type   = (string) $config->get('automaticRefund');
 
         if (!$this->hasDefinedType($type, $transitionEvent->getEntityName())) {
             return false;
         }
 
-        if (!$this->isCorrectStateTransition(
-            $config->get(self::REFUND_SETTING_KEYS[$type]),
+        return $this->isCorrectStateTransition(
+            (string) $config->get(self::REFUND_SETTING_KEYS[$type]),
             $transitionEvent->getToPlace()->getTechnicalName(),
-            $transitionEvent->getContext())
-        ) {
-            return false;
+            $transitionEvent->getContext()
+        );
+    }
+
+    public function isAutomaticCancel(StateMachineTransitionEvent $transitionEvent): bool
+    {
+        if ($transitionEvent->getToPlace()->getTechnicalName() === OrderTransactionStates::STATE_CANCELLED) {
+            return true;
         }
 
-        return true;
+        if ($transitionEvent->getToPlace()->getTechnicalName() === OrderStates::STATE_CANCELLED) {
+            return true;
+        }
+
+        return false;
     }
 
     private function hasDefinedType(string $type, string $entityName): bool
@@ -116,10 +123,6 @@ class OrderTransitionChangeValidator
         }
 
         /** @var StateMachineEntity $stateMachineSearchResultElement */
-        if ($stateMachineSearchResultElement->getTechnicalName() !== $technicalName) {
-            return false;
-        }
-
-        return true;
+        return $stateMachineSearchResultElement->getTechnicalName() === $technicalName;
     }
 }

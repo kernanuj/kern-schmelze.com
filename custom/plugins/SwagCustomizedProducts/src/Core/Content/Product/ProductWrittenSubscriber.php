@@ -17,8 +17,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Swag\CustomizedProducts\Migration\Migration1565933910TemplateProduct;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use function array_key_exists;
-use function is_array;
 
 class ProductWrittenSubscriber implements EventSubscriberInterface
 {
@@ -53,15 +51,15 @@ class ProductWrittenSubscriber implements EventSubscriberInterface
         $updateData = [];
         $fetchedParentIds = [];
         foreach ($event->getPayloads() as $payload) {
-            if (! array_key_exists('id', $payload)) {
+            if (!\array_key_exists('id', $payload)) {
                 continue;
             }
 
-            if (! array_key_exists('parentId', $payload)) {
+            if (!\array_key_exists('parentId', $payload)) {
                 continue;
             }
 
-            if ( array_key_exists('swagCustomizedProductsTemplateId', $payload)) {
+            if (\array_key_exists('swagCustomizedProductsTemplateId', $payload)) {
                 continue;
             }
 
@@ -91,15 +89,15 @@ class ProductWrittenSubscriber implements EventSubscriberInterface
         }
 
         foreach ($event->getPayloads() as $payload) {
-            if (! array_key_exists('id', $payload)) {
+            if (!\array_key_exists('id', $payload)) {
                 continue;
             }
 
-            if ( array_key_exists('parentId', $payload)) {
+            if (\array_key_exists('parentId', $payload)) {
                 continue;
             }
 
-            if (! array_key_exists('swagCustomizedProductsTemplateId', $payload)) {
+            if (!\array_key_exists('swagCustomizedProductsTemplateId', $payload)) {
                 continue;
             }
 
@@ -109,7 +107,7 @@ class ProductWrittenSubscriber implements EventSubscriberInterface
 
     private function parentHasTemplateAssociated(string $parentId, array $fetchedParentIds, Context $context): bool
     {
-        if ( array_key_exists($parentId, $fetchedParentIds)) {
+        if (\array_key_exists($parentId, $fetchedParentIds)) {
             return $fetchedParentIds[$parentId];
         }
 
@@ -144,8 +142,8 @@ class ProductWrittenSubscriber implements EventSubscriberInterface
         /** @var ProductEntity $variant */
         foreach ($variants as $variant) {
             $customFields = $variant->getCustomFields();
-            if ( is_array($customFields)
-                 && array_key_exists(self::SWAG_CUSTOMIZED_PRODUCTS_TEMPLATE_INHERITED_CUSTOM_FIELD, $customFields)
+            if (\is_array($customFields)
+                && \array_key_exists(self::SWAG_CUSTOMIZED_PRODUCTS_TEMPLATE_INHERITED_CUSTOM_FIELD, $customFields)
             ) {
                 continue;
             }

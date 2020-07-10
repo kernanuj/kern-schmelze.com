@@ -7,7 +7,6 @@
 
 namespace Swag\CustomizedProducts\Template\Aggregate\TemplateOption\Type;
 
-use DateTimeInterface;
 use Symfony\Component\Validator\Constraints\Type;
 
 class Timestamp extends OptionType
@@ -15,12 +14,12 @@ class Timestamp extends OptionType
     public const NAME = 'timestamp';
 
     /**
-     * @var DateTimeInterface
+     * @var \DateTimeInterface
      */
     private $startTime;
 
     /**
-     * @var DateTimeInterface
+     * @var \DateTimeInterface
      */
     private $endTime;
 
@@ -34,22 +33,22 @@ class Timestamp extends OptionType
         return self::NAME;
     }
 
-    public function getStartTime(): DateTimeInterface
+    public function getStartTime(): \DateTimeInterface
     {
         return $this->startTime;
     }
 
-    public function setStartTime( DateTimeInterface $startTime): void
+    public function setStartTime(\DateTimeInterface $startTime): void
     {
         $this->startTime = $startTime;
     }
 
-    public function getEndTime(): DateTimeInterface
+    public function getEndTime(): \DateTimeInterface
     {
         return $this->endTime;
     }
 
-    public function setEndTime( DateTimeInterface $endTime): void
+    public function setEndTime(\DateTimeInterface $endTime): void
     {
         $this->endTime = $endTime;
     }

@@ -1,5 +1,13 @@
 {
     "customizedProducts": {
+        "priceDisplay":  {
+            "unitPrice": "Pro Stück Aufschläge",
+            "productPrice": "Produktpreis",
+            "subTotal": "Zwischensumme",
+            "oneTimePrice": "Einmalaufschlag",
+            "summary": "Zusammenfassung",
+            "totalPrice": "Gesamtpreis"
+        },
         "stepByStep": {
             "navigation": {
                 "btnPrev": "Zurück",

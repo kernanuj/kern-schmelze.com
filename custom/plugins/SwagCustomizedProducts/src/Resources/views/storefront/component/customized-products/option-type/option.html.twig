@@ -1,5 +1,6 @@
 {% block swag_customized_products_option_type_template_option %}
-    <div class="form-row swag-customized-products-option swag-customized-products__item" data-name="{{ option.translated.displayName }}">
+    <div class="form-row swag-customized-products-option{% if isSelection %} swag-customized-products-option--with-selection{% endif %} swag-customized-products__item"
+         data-name="{{ option.translated.displayName }}">
         <div class="form-group col-12">
 
             {% block swag_customized_products_option_type_template_option_label %}
@@ -16,7 +17,7 @@
 
             {% block swag_customized_products_option_type_template_option_input %}
                 <div id="collapseCustomizedProductsConfigurationOption-{{ option.id }}"
-                     {% if not isStepByStep %}class="collapse"{% endif %}>
+                    {% if not isStepByStep %}class="collapse{{ option.required ? ' show' : '' }}"{% endif %}>
 
                     {% block swag_customized_products_option_type_template_option_input_card %}
                         <div class="card">

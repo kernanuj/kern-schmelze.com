@@ -17,7 +17,6 @@ use Shopware\Core\Checkout\Promotion\Cart\PromotionProcessor;
 use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SalesChannel\Context\SalesChannelContextFactory;
@@ -60,14 +59,11 @@ class LineItemAddedSubscriberTest extends TestCase
 
     protected function setUp(): void
     {
-        /** @var EntityRepository $templateRepository */
-        $templateRepository = $this->getContainer()->get('swag_customized_products_template.repository');
         $templateId = Uuid::randomHex();
         $optionId = Uuid::randomHex();
         $this->productId = Uuid::randomHex();
         $this->createTemplate(
             $templateId,
-            $templateRepository,
             Context::createDefaultContext(),
             [
                 'options' => [

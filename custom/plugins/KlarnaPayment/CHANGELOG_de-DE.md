@@ -1,3 +1,10 @@
+# 1.2.0
+- Kompatibilität zu Shopware 6.2 hergestellt
+
+# 1.1.0
+- Implementierung von Klarna Instant Shopping
+- Unterstützung von reinen Nettopreisen hinzugefügt (ab Shopware 6.2.0)
+
 # 1.0.4
 - Korrektur des Bestellabschluss-Buttons für andere Zahlungsmethoden
 

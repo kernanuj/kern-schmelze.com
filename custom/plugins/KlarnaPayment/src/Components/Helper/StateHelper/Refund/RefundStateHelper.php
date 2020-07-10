@@ -7,6 +7,7 @@ namespace KlarnaPayment\Components\Helper\StateHelper\Refund;
 use KlarnaPayment\Components\Client\Client;
 use KlarnaPayment\Components\Client\Hydrator\Request\CreateRefund\CreateRefundRequestHydratorInterface;
 use KlarnaPayment\Components\Helper\StateHelper\StateData\StateDataHelperInterface;
+use KlarnaPayment\Core\Framework\ContextScope;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler;
@@ -47,11 +48,7 @@ class RefundStateHelper implements RefundStateHelperInterface
 
     public function processOrderRefund(OrderEntity $order, Context $context): void
     {
-        if (null === $order->getTransactions()) {
-            return;
-        }
-
-        foreach ($order->getTransactions()->getElements() as $transaction) {
+        foreach ($this->stateDataHelper->getValidTransactions($order) as $transaction) {
             $this->refundTransaction($transaction, $order, $context);
         }
     }
@@ -100,11 +97,18 @@ class RefundStateHelper implements RefundStateHelperInterface
         $response = $this->client->request($request, $context);
 
         if ($response->getHttpStatus() !== 201) {
+            $this->logger->notice('transaction was not refunded automatically', [
+                'orderNumber'   => $order->getOrderNumber(),
+                'transactionId' => $transaction->getId(),
+            ]);
+
             return;
         }
 
         try {
-            $this->transactionStateHandler->refund($transaction->getId(), $context);
+            $context->scope(ContextScope::INTERNAL_SCOPE, function (Context $context) use ($transaction): void {
+                $this->transactionStateHandler->refund($transaction->getId(), $context);
+            });
         } catch (IllegalTransitionException $exception) {
             $this->logger->notice($exception->getMessage(), $exception->getParameters());
         }

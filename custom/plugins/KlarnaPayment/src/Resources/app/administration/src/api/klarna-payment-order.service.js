@@ -7,12 +7,12 @@ class KlarnaPaymentOrderService extends ApiService {
         super(httpClient, loginService, apiEndpoint);
     }
 
-    fetchOrderData(klarna_order_id, salesChannel) {
+    fetchOrderData(klarnaOrderId, salesChannel) {
         return this.httpClient
             .post(
                 `_action/${this.getApiBasePath()}/fetch_order`,
                 {
-                    klarna_order_id: klarna_order_id,
+                    klarna_order_id: klarnaOrderId,
                     salesChannel: salesChannel
                 },
                 {
@@ -72,14 +72,14 @@ class KlarnaPaymentOrderService extends ApiService {
             });
     }
 
-    releaseRemainingAuthorization(klarna_order_id, salesChannel) {
+    releaseRemainingAuthorization(klarnaOrderId, salesChannel) {
         const headers = this.getBasicHeaders();
 
         return this.httpClient
             .post(
                 `_action/${this.getApiBasePath()}/release_remaining_authorization`,
                 {
-                    klarna_order_id: klarna_order_id,
+                    klarna_order_id: klarnaOrderId,
                     salesChannel: salesChannel
                 },
                 {
@@ -91,14 +91,14 @@ class KlarnaPaymentOrderService extends ApiService {
             });
     }
 
-    extendAuthorization(klarna_order_id) {
+    extendAuthorization(klarnaOrderId) {
         const headers = this.getBasicHeaders();
 
         return this.httpClient
             .post(
                 `_action/${this.getApiBasePath()}/extend_authorization`,
                 {
-                    klarna_order_id: klarna_order_id
+                    klarna_order_id: klarnaOrderId
                 },
                 {
                     headers: headers

@@ -23,11 +23,7 @@ Component.register('klarna-order-cancel', {
 
     computed: {
         isDisabled() {
-            if (this.klarnaOrder.captured_amount === 0 && this.klarnaOrder.order_status !== 'CANCELLED') {
-                return false;
-            }
-
-            return true;
+            return !(this.klarnaOrder.captured_amount === 0 && this.klarnaOrder.order_status !== 'CANCELLED');
         }
     },
 
@@ -53,7 +49,11 @@ Component.register('klarna-order-cancel', {
             this.isDisabled = true;
             this.isLoading = true;
 
-            this.KlarnaPaymentOrderService.cancelPayment(this.klarnaOrder.orderTransactionId, this.klarnaOrder.order_id, this.klarnaOrder.salesChannel).then((response) => {
+            this.KlarnaPaymentOrderService.cancelPayment(
+                this.klarnaOrder.orderTransactionId,
+                this.klarnaOrder.order_id,
+                this.klarnaOrder.salesChannel
+            ).then(() => {
                 this.createNotificationSuccess({
                     title: this.$tc('klarna-payment-order-management.cancellation.messages.successTitle'),
                     message: this.$tc('klarna-payment-order-management.cancellation.messages.successMessage')

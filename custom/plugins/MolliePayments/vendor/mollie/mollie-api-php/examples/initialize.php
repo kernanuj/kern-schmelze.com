@@ -2,9 +2,6 @@
 /*
  * Make sure to disable the display of errors in production code!
  */
-
-use Mollie\Api\MollieApiClient;
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -17,5 +14,5 @@ require_once __DIR__ . "/functions.php";
  *
  * See: https://www.mollie.com/dashboard/developers/api-keys
  */
-$mollie = new MollieApiClient();
+$mollie = new \Mollie\Api\MollieApiClient();
 $mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");

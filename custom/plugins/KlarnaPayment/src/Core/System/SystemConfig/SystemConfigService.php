@@ -9,11 +9,14 @@ use Shopware\Core\Framework\Bundle;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\System\SalesChannel\SalesChannelEntity;
 use Shopware\Core\System\SystemConfig\SystemConfigService as BaseSystemConfigService;
 
 class SystemConfigService extends BaseSystemConfigService
 {
     private const SETTING_ALLOWED_KLARNA_PAYMENTS_CODES = 'KlarnaPayment.settings.allowedKlarnaPaymentsCodes';
+
+    private const SETTING_INSTANT_SHOPPING_ENABLED = 'KlarnaPayment.settings.instantShoppingEnabled';
 
     /** @var BaseSystemConfigService */
     private $baseService;
@@ -24,14 +27,19 @@ class SystemConfigService extends BaseSystemConfigService
     /** @var EntityRepositoryInterface */
     private $salesChannelRepository;
 
+    /** @var EntityRepositoryInterface */
+    private $salesChannelPaymentRepository;
+
     public function __construct(
         BaseSystemConfigService $baseService,
         EntityRepositoryInterface $paymentMethodRepository,
-        EntityRepositoryInterface $salesChannelRepository
+        EntityRepositoryInterface $salesChannelRepository,
+        EntityRepositoryInterface $salesChannelPaymentRepository
     ) {
-        $this->baseService             = $baseService;
-        $this->paymentMethodRepository = $paymentMethodRepository;
-        $this->salesChannelRepository  = $salesChannelRepository;
+        $this->baseService                   = $baseService;
+        $this->paymentMethodRepository       = $paymentMethodRepository;
+        $this->salesChannelRepository        = $salesChannelRepository;
+        $this->salesChannelPaymentRepository = $salesChannelPaymentRepository;
     }
 
     public function get(string $key, ?string $salesChannelId = null)
@@ -72,6 +80,10 @@ class SystemConfigService extends BaseSystemConfigService
             foreach ($inactiveMethodCodes as $code) {
                 $this->setPaymentMethodStatus($code, false);
             }
+        }
+
+        if ($key === self::SETTING_INSTANT_SHOPPING_ENABLED) {
+            $this->updateInstantShoppingSalesChannelAssignment(Context::createDefaultContext());
         }
     }
 
@@ -136,5 +148,65 @@ class SystemConfigService extends BaseSystemConfigService
         }
 
         return $activeMethodCodes;
+    }
+
+    private function updateInstantShoppingSalesChannelAssignment(Context $context): void
+    {
+        $instantShoppingPaymentMethodEnabled = false;
+        $salesChannels                       = $this->salesChannelRepository->search(new Criteria(), $context);
+
+        /** @var SalesChannelEntity $channel */
+        foreach ($salesChannels as $channel) {
+            $isEnabled = $this->get('KlarnaPayment.settings.instantShoppingEnabled', $channel->getId());
+
+            if ($isEnabled) {
+                $instantShoppingPaymentMethodEnabled = true;
+                $this->assignPaymentMethod($channel, $context);
+            } else {
+                $this->unassignPaymentMethod($channel, $context);
+            }
+        }
+
+        $this->setInstantShoppingPaymentMethodActiveState($instantShoppingPaymentMethodEnabled, $context);
+    }
+
+    private function assignPaymentMethod(SalesChannelEntity $salesChannel, Context $context): void
+    {
+        if (!is_array($salesChannel->getPaymentMethodIds()) || !in_array(PaymentMethodInstaller::KLARNA_INSTANT_SHOPPING, $salesChannel->getPaymentMethodIds())) {
+            $this->salesChannelRepository->update(
+                [
+                    [
+                        'id'             => $salesChannel->getId(),
+                        'paymentMethods' => [
+                            ['id' => PaymentMethodInstaller::KLARNA_INSTANT_SHOPPING],
+                        ],
+                    ],
+                ],
+                $context
+            );
+        }
+    }
+
+    private function unassignPaymentMethod(SalesChannelEntity $salesChannel, Context $context): void
+    {
+        $this->salesChannelPaymentRepository->delete(
+            [
+                [
+                    'salesChannelId'  => $salesChannel->getId(),
+                    'paymentMethodId' => PaymentMethodInstaller::KLARNA_INSTANT_SHOPPING,
+                ],
+            ],
+            $context
+        );
+    }
+
+    private function setInstantShoppingPaymentMethodActiveState(bool $isActive, Context $context): void
+    {
+        $this->paymentMethodRepository->update([
+            [
+                'id'     => PaymentMethodInstaller::KLARNA_INSTANT_SHOPPING,
+                'active' => $isActive,
+            ],
+        ], $context);
     }
 }

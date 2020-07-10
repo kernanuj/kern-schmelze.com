@@ -3,12 +3,9 @@
 namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\BaseCollection;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 use Mollie\Api\Resources\ResourceFactory;
-use stdClass;
 
 class MethodEndpoint extends CollectionEndpointAbstract
 {
@@ -25,11 +22,11 @@ class MethodEndpoint extends CollectionEndpointAbstract
     /**
      * Retrieve all active methods. In test mode, this includes pending methods. The results are not paginated.
      *
+     * @deprecated Use allActive() instead
      * @param array $parameters
      *
-     * @return BaseCollection|MethodCollection
+     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\MethodCollection
      * @throws ApiException
-     * @deprecated Use allActive() instead
      */
     public function all(array $parameters = [])
     {
@@ -42,7 +39,7 @@ class MethodEndpoint extends CollectionEndpointAbstract
      *
      * @param array $parameters
      *
-     * @return BaseCollection|MethodCollection
+     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\MethodCollection
      * @throws ApiException
      */
     public function allActive(array $parameters = [])
@@ -55,9 +52,8 @@ class MethodEndpoint extends CollectionEndpointAbstract
      * results are not paginated. Make sure to include the profileId parameter if using an OAuth Access Token.
      *
      * @param array $parameters Query string parameters.
-     *
-     * @return BaseCollection|MethodCollection
-     * @throws ApiException
+     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\MethodCollection
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function allAvailable(array $parameters = [])
     {
@@ -77,7 +73,7 @@ class MethodEndpoint extends CollectionEndpointAbstract
      * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param stdClass $_links
+     * @param \stdClass $_links
      *
      * @return MethodCollection
      */
@@ -93,7 +89,7 @@ class MethodEndpoint extends CollectionEndpointAbstract
      *
      * @param string $methodId
      * @param array $parameters
-     * @return BaseResource|Method
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Method
      * @throws ApiException
      */
     public function get($methodId, array $parameters = [])

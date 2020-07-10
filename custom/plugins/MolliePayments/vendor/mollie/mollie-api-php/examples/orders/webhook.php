@@ -3,8 +3,6 @@
  * Handle an order status change using the Mollie API.
  */
 
-use Mollie\Api\Exceptions\ApiException;
-
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
@@ -47,6 +45,6 @@ try {
          * The order is pending.
          */
     }
-} catch ( ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

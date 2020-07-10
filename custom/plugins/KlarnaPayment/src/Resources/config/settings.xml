@@ -56,8 +56,8 @@
     </card>
 
     <card>
-        <title>Basic Settings</title>
-        <title lang="de-DE">Grundeinstellungen</title>
+        <title>On-Site Messaging Settings</title>
+        <title lang="de-DE">On-Site Messaging Einstellungen</title>
 
         <input-field type="bool">
             <name>isOnsiteMessagingActive</name>
@@ -244,6 +244,77 @@
             <name>kpDisplayFooterBadge</name>
             <label>Should the Klarna badge be displayed in the footer?</label>
             <label lang="de-DE">Soll das Klarna Badge im Footer angezeigt werden?</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Instant Shopping Settings</title>
+        <title lang="de-DE">Instant Shopping Einstellungen</title>
+
+        <input-field type="bool">
+            <name>instantShoppingEnabled</name>
+            <label>Activate Instant Shopping</label>
+            <label lang="de-DE">Instant Shopping aktivieren</label>
+            <helpText>Use this switch to enable Klarna Instant Shopping. This will automatically generate a button key for usage in the shop frontend.</helpText>
+            <helpText lang="de-DE">Verwenden Sie diese Option, um Klarna Instant Shopping zu aktivieren. Dadurch wird automatisch ein Button-Key für die Verwendung im Shop-Frontend generiert.</helpText>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>termsCategory</name>
+            <label>Terms and conditions</label>
+            <label lang="de-DE">AGB-Seite</label>
+            <helpText>Enter the category of your terms and conditions here. This page will be linked from inside the Klarna Instant Shopping popup.</helpText>
+            <helpText lang="de-DE">Geben Sie hier die Kategorie mit den Allgemeinen Geschäftsbedingungen ein. Diese Seite wird von innerhalb des Klarna Instant Shopping-Popups verlinkt.</helpText>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>instantShoppingVariation</name>
+            <label>Variation</label>
+            <label lang="de-DE">Variation</label>
+            <options>
+                <option>
+                    <id>klarna</id>
+                    <name>Klarna</name>
+                    <name lang="de-DE">Klarna</name>
+                </option>
+                <option>
+                    <id>dark</id>
+                    <name>Dark</name>
+                    <name lang="de-DE">Dunkel</name>
+                </option>
+                <option>
+                    <id>light</id>
+                    <name>Light</name>
+                    <name lang="de-DE">Hell</name>
+                </option>
+            </options>
+            <helpText>Please choose between a fully Klarna branded version of the button or between a dark or light version.</helpText>
+            <helpText lang="de-DE">Bitte wählen Sie zwischen einer vollständig mit Klarna gebrandeten Version des Buttons oder zwischen einer dunklen oder hellen Version.</helpText>
+        </input-field>
+
+        <input-field type="single-select">
+            <name>instantShoppingType</name>
+            <label>Type</label>
+            <label lang="de-DE">Typ</label>
+            <options>
+                <option>
+                    <id>buy</id>
+                    <name>Buy</name>
+                    <name lang="de-DE">Kaufen</name>
+                </option>
+                <option>
+                    <id>express</id>
+                    <name>Express</name>
+                    <name lang="de-DE">Express</name>
+                </option>
+                <option>
+                    <id>pay</id>
+                    <name>Pay</name>
+                    <name lang="de-DE">Bezahlen</name>
+                </option>
+            </options>
+            <helpText>Please choose the desired label of the button.</helpText>
+            <helpText lang="de-DE">Bitte wählen Sie die gewünschte Beschriftung des Buttons.</helpText>
         </input-field>
     </card>
 </config>

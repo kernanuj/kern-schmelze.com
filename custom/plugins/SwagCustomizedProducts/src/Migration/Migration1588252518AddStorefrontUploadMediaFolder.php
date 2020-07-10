@@ -7,13 +7,10 @@
 
 namespace Swag\CustomizedProducts\Migration;
 
-use DateTime;
 use Doctrine\DBAL\Connection;
-use RuntimeException;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Migration\MigrationStep;
 use Shopware\Core\Framework\Uuid\Uuid;
-use function is_string;
 
 class Migration1588252518AddStorefrontUploadMediaFolder extends MigrationStep
 {
@@ -46,7 +43,7 @@ SQL;
 
         $connection->executeUpdate($query, [
             ':id' => $configurationId,
-            ':createdAt' => (new DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            ':createdAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ]);
     }
 
@@ -62,7 +59,7 @@ SQL;
             ':parentId' => $parentId,
             'defaultFolderId' => $defaultFolderId,
             ':configurationId' => $configurationId,
-            ':createdAt' => (new DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            ':createdAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ]);
     }
 
@@ -73,8 +70,8 @@ SELECT `id` FROM `media_folder` WHERE `name` = "Custom Products Media";
 SQL;
 
         $id = $connection->fetchColumn($query);
-        if (! is_string($id)) {
-            throw new RuntimeException('Couldn\'t fetch parent id.');
+        if (!\is_string($id)) {
+            throw new \RuntimeException('Couldn\'t fetch parent id.');
         }
 
         return $id;
@@ -89,7 +86,7 @@ SQL;
 
         $connection->executeUpdate($sql, [
             ':id' => $defaultFolderId,
-            ':createdAt' => (new DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+            ':createdAt' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
         ]);
     }
 }

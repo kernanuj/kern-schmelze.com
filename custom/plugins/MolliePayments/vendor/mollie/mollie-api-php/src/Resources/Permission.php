@@ -2,8 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-use stdClass;
-
 class Permission extends BaseResource
 {
     /**
@@ -28,7 +26,7 @@ class Permission extends BaseResource
     public $granted;
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $_links;
 }

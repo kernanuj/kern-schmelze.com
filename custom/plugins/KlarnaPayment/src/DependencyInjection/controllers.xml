@@ -8,7 +8,7 @@
 
         <service id="KlarnaPayment\Components\Controller\Administration\OrderController">
             <argument type="service" id="KlarnaPayment\Components\Client\Client" />
-            <argument type="service" id="klarna_payment_log.repository" />
+            <argument type="service" id="klarna_payment_request_log.repository" />
             <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\GetOrder\GetOrderRequestHydrator" />
             <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Response\GetOrder\GetOrderResponseHydrator" />
             <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\CreateCapture\CreateCaptureRequestHydrator" />
@@ -41,6 +41,7 @@
             <argument type="service" id="KlarnaPayment\Components\Client\Client" />
             <argument type="service" id="KlarnaPayment\Components\Logger" />
             <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\Test\TestRequestHydrator" />
+            <argument type="service" id="KlarnaPayment\Components\ButtonKeyHandler\ButtonKeyHandler" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
@@ -60,6 +61,33 @@
         <service id="KlarnaPayment\Components\Controller\Storefront\CallbackController">
             <argument type="service" id="order_transaction.repository" />
             <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler" />
+
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="KlarnaPayment\Components\Controller\Storefront\InstantShoppingController">
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\DataProvider\UpdateDataProvider" />
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\DataProvider\UpdateCallbackProvider" />
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\DataProvider\PlaceOrderCallbackProvider" />
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Struct\Address\AddressStructHydrator" />
+            <argument type="service" id="KlarnaPayment\Components\ConfigReader\ConfigReader" />
+            <argument type="service" id="KlarnaPayment\Components\Logger" />
+            <argument type="service" id="KlarnaPayment\Components\Client\Client" />
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\ContextHandler\ContextHandler" />
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\CartHandler\CartHandler" />
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\CustomerHandler\CustomerHandler" />
+            <argument type="service" id="KlarnaPayment\Components\InstantShopping\MerchantDataProvider\MerchantDataProvider" />
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Struct\LineItem\LineItemStructHydrator"/>
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Struct\ShippingOptions\ShippingOptionsStructHydrator"/>
+            <argument type="service" id="KlarnaPayment\Components\CartHasher\InstantShoppingCartHasher"/>
+            <argument type="service" id="KlarnaPayment\Components\Helper\CurrencyHelper\CurrencyHelper"/>
+            <argument type="service" id="KlarnaPayment\Components\Helper\MerchantUrlHelper\MerchantUrlHelper"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
+            <argument type="service" id="KlarnaPayment\Components\Helper\LocaleHelper\LocaleHelper"/>
+            <argument type="service" id="KlarnaPayment\Components\Helper\ShippingMethodHelper\ShippingMethodHelper"/>
+            <argument type="service" id="KlarnaPayment\Components\Helper\SalesChannelHelper\SalesChannelHelper" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container"/>

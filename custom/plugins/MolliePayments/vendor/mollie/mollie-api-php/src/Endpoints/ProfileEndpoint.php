@@ -3,12 +3,9 @@
 namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\BaseCollection;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\CurrentProfile;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
-use stdClass;
 
 class ProfileEndpoint extends CollectionEndpointAbstract
 {
@@ -29,7 +26,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param stdClass $_links
+     * @param \stdClass $_links
      *
      * @return ProfileCollection
      */
@@ -44,7 +41,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @param array $data An array containing details on the profile.
      * @param array $filters
      *
-     * @return BaseResource|Profile
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Profile
      * @throws ApiException
      */
     public function create(array $data = [], array $filters = [])
@@ -60,7 +57,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @param string $profileId
      * @param array $parameters
      *
-     * @return BaseResource|Profile
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Profile
      * @throws ApiException
      */
     public function get($profileId, array $parameters = [])
@@ -77,7 +74,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      *
      * @param array $parameters
      *
-     * @return BaseResource|CurrentProfile
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\CurrentProfile
      * @throws ApiException
      */
     public function getCurrent(array $parameters = [])
@@ -96,8 +93,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @param string $profileId
      *
      * @param array $data
-     *
-     * @return BaseResource|Profile
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Profile
      * @throws ApiException
      */
     public function delete($profileId, array $data = [])
@@ -112,7 +108,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @param int $limit
      * @param array $parameters
      *
-     * @return BaseCollection|ProfileCollection
+     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\ProfileCollection
      * @throws ApiException
      */
     public function page($from = null, $limit = null, array $parameters = [])

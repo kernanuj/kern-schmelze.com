@@ -14,7 +14,12 @@
         {% endblock %}
 
         {% block document_line_item_table_row_quantity %}
-            <td class="align-right">{{ lineItem.quantity }}</td>
+            {% if lineItem.priceDefinition.percentage %}
+                {% set quantity = 1 %}
+            {% else %}
+                {% set quantity = lineItem.quantity %}
+            {% endif %}
+            <td class="align-right">{{ quantity }}</td>
         {% endblock %}
 
         {% block document_line_item_table_prices %}

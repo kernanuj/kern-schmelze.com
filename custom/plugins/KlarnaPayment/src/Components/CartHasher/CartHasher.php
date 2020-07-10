@@ -11,9 +11,6 @@ use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class CartHasher implements CartHasherInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function generate(Cart $cart, SalesChannelContext $context): string
     {
         $hashData = $this->getHashData($cart, $context);
@@ -21,9 +18,6 @@ class CartHasher implements CartHasherInterface
         return $this->generateHash($hashData);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function validate(Cart $cart, string $cartHash, SalesChannelContext $context): bool
     {
         $hashData = $this->getHashData($cart, $context);
@@ -32,7 +26,7 @@ class CartHasher implements CartHasherInterface
         return hash_equals($expected, $cartHash);
     }
 
-    private function getHashData(Cart $cart, SalesChannelContext $context): array
+    protected function getHashData(Cart $cart, SalesChannelContext $context): array
     {
         $hashData = [];
 

@@ -8,18 +8,23 @@ use Shopware\Core\Framework\Struct\Struct;
 
 class Options extends Struct
 {
-    /** @var bool */
-    protected $disableConfirmationModals = true;
+    /** @var array */
+    protected $options = [];
 
-    public function getDisableConfirmationModals(): bool
+    public function assign(array $options): self
     {
-        return $this->disableConfirmationModals;
+        $this->options = array_merge($this->options, $options);
+
+        return $this;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 
     public function jsonSerialize(): array
     {
-        return [
-            'disable_confirmation_modals' => $this->getDisableConfirmationModals(),
-        ];
+        return $this->getOptions();
     }
 }

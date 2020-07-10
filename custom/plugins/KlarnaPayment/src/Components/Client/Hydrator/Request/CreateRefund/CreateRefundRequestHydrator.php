@@ -42,20 +42,20 @@ class CreateRefundRequestHydrator implements CreateRefundRequestHydratorInterfac
     /**
      * @return LineItem[]
      */
-    private function hydrateOrderLines(array $order_lines): array
+    private function hydrateOrderLines(array $orderLines): array
     {
         $lineItems = [];
 
-        foreach ($order_lines as $order_line) {
+        foreach ($orderLines as $orderLine) {
             $lineItem = new LineItem();
 
-            if (!empty($order_line['product_identifiers'])) {
+            if (!empty($orderLine['product_identifiers'])) {
                 $productIdentifier = new ProductIdentifier();
                 $productIdentifier->assign([
-                    'brand'                  => $order_line['product_identifiers']['brand'] ?? null,
-                    'categoryPath'           => $order_line['product_identifiers']['category_path'] ?? null,
-                    'globalTradeItemNumber'  => $order_line['product_identifiers']['global_trade_item_number'] ?? null,
-                    'manufacturerPartNumber' => $order_line['product_identifiers']['manufacturer_part_number'] ?? null,
+                    'brand'                  => $orderLine['product_identifiers']['brand'] ?? null,
+                    'categoryPath'           => $orderLine['product_identifiers']['category_path'] ?? null,
+                    'globalTradeItemNumber'  => $orderLine['product_identifiers']['global_trade_item_number'] ?? null,
+                    'manufacturerPartNumber' => $orderLine['product_identifiers']['manufacturer_part_number'] ?? null,
                 ]);
 
                 $lineItem->assign([
@@ -64,15 +64,15 @@ class CreateRefundRequestHydrator implements CreateRefundRequestHydratorInterfac
             }
 
             $lineItem->assign([
-                'reference'      => $order_line['reference'],
-                'type'           => $order_line['type'],
-                'quantity'       => $order_line['quantity'],
-                'quantityUnit'   => $order_line['quantity_unit'] ?? null,
-                'name'           => $order_line['name'],
-                'totalAmount'    => $order_line['total_amount'],
-                'unitPrice'      => $order_line['unit_price'],
-                'taxRate'        => $order_line['tax_rate'],
-                'totalTaxAmount' => $order_line['total_tax_amount'],
+                'reference'      => $orderLine['reference'],
+                'type'           => $orderLine['type'],
+                'quantity'       => $orderLine['quantity'],
+                'quantityUnit'   => $orderLine['quantity_unit'] ?? null,
+                'name'           => $orderLine['name'],
+                'totalAmount'    => $orderLine['total_amount'],
+                'unitPrice'      => $orderLine['unit_price'],
+                'taxRate'        => $orderLine['tax_rate'],
+                'totalTaxAmount' => $orderLine['total_tax_amount'],
             ]);
 
             $lineItems[] = $lineItem;

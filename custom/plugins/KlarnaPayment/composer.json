@@ -1,9 +1,10 @@
 {
     "name": "klarna/payment",
     "description": "Klarna Checkout and Klarna Payments for Shopware 6",
-    "version": "1.0.4",
+    "version": "1.2.0",
     "type": "shopware-platform-plugin",
     "license": "MIT",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "authors": [
         {
@@ -21,16 +22,19 @@
         "php": "^7.2",
         "ext-curl": "*",
         "ext-json": "*",
-        "shopware/core": "^6.1",
-        "shopware/storefront": "^6.1",
-        "shopware/administration":"^6.1"
+        "ext-mbstring": "*",
+        "shopware/core": "^6.1.2",
+        "shopware/administration": "^6.1.2",
+        "shopware/storefront": "^6.1.2"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-master",
         "fzaninotto/faker": "1.8.0",
         "k10r/codestyle": "^1.0",
-        "phpstan/phpstan": "^0.11",
-        "phpstan/phpstan-phpunit": "^0.11",
-        "phpunit/phpunit": "^8.1"
+        "phpstan/phpstan": "^0.12",
+        "phpstan/phpstan-phpunit": "^0.12",
+        "phpunit/phpunit": "^8.1",
+        "phpmd/phpmd": "^2.7"
     },
     "extra": {
         "shopware-plugin-class": "KlarnaPayment\\KlarnaPayment",
@@ -42,6 +46,14 @@
         "description": {
             "de-DE": "Klarna Zahlungsarten für Shopware 6",
             "en-GB": "Klarna payment integration for Shopware 6 "
+        },
+        "manufacturerLink": {
+            "de-DE": "https://www.klarna.com/de/",
+            "en-GB": "https://www.klarna.com/international/"
+        },
+        "supportLink": {
+            "de-DE": "http://bit.ly/klarna-shopware-6-installationguide-de",
+            "en-GB": "http://bit.ly/klarna-shopware-6-installationguide-en"
         }
     },
     "autoload": {
@@ -61,6 +73,8 @@
         }
     },
     "scripts": {
-        "phpcs": ["vendor/bin/php-cs-fixer fix"]
+        "phpcs": "./vendor/bin/php-cs-fixer fix",
+        "phpstan": "./vendor/bin/phpstan analyse -a ../../../vendor/autoload.php src",
+        "phpmd": "./vendor/bin/phpmd . xml phpmd.xml > phpmd_result.xml | true"
     }
 }

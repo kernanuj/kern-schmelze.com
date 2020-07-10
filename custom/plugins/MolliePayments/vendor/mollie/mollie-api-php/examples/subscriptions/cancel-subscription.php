@@ -3,8 +3,6 @@
  * How to cancel a subscription.
  */
 
-use Mollie\Api\Exceptions\ApiException;
-
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
@@ -33,6 +31,6 @@ try {
      * The subscription status should now be canceled
      */
     echo "<p>The subscription status is now: '" . htmlspecialchars($canceledSubscription->status) . "'.</p>\n";
-} catch ( ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

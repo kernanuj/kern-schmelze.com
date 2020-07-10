@@ -8,9 +8,12 @@
         {# Define variable to check for step-by-step wizard mode #}
         {% set isStepByStep = customizedProductsTemplate.stepByStep %}
         {% set isExclusions = customizedProductsTemplate.decisionTree|length > 0 %}
+        {% set priceDetailData = {"url": path('storefront.customized-products.price-detail'), "csrfToken": sw_csrf('storefront.customized-products.price-detail', {"mode": "token"})} %}
 
         <div class="swag-customized-products{% if isStepByStep %} is--step-by-step{% endif %}"
              data-swag-customized-products-form-validator="true"
+             data-swag-customized-product-price-display="true"
+             data-swag-customized-product-price-display-options="{{ priceDetailData|json_encode }}"
              {% if isExclusions %}
                  data-swag-exclusion-list-validation="true"
                  data-swag-exclusion-list-validation-options="{{ customizedProductsTemplate.decisionTree | json_encode }}"
@@ -135,6 +138,8 @@
                     heading: '%1'
                 } %}</template>
             </div>
+
+            <div class="swag-customized-product__price-display-holder"></div>
         </div>
     {% endif %}
 

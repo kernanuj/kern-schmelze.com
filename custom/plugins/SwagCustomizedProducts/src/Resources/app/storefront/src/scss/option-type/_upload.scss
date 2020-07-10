@@ -1,4 +1,4 @@
-@import "~scss/variables";
+// @import "~scss/variables"; // ToDo NEXT-7365: uncomment if not loaded correctly (check also the build variant!)
 
 .customized-products-upload {
     &-dropzone {
@@ -107,5 +107,10 @@
                 }
             }
         }
+    }
+
+    // Hide the template
+    template.customized-products-upload-files-element {
+        display: none;
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Endpoints;
 
-use InvalidArgumentException;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\BaseCollection;
@@ -207,7 +206,7 @@ abstract class EndpointAbstract
 
         try {
             $encoded = \GuzzleHttp\json_encode($body);
-        } catch ( InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             throw new ApiException("Error encoding parameters into JSON: '".$e->getMessage()."'.");
         }
 

@@ -1,3 +1,5 @@
+import './components/klarna-payment-plugin-icon';
+
 import './extension/sw-settings-index';
 
 import './page/klarna-payment-settings';
@@ -37,4 +39,13 @@ Module.register('klarna-payment-configuration', {
             }
         }
     }
+
+    // TODO: Enable once Shopware has fixed iconComponent.
+    // settingsItem: [{
+    //    name:   'klarna-payment-configuration',
+    //    to:     'klarna.payment.configuration.settings',
+    //    label:  'klarna-payment-configuration.module.title',
+    //    group:  'plugins',
+    //    iconComponent: 'klarna-payment-plugin-icon'
+    // }],
 });

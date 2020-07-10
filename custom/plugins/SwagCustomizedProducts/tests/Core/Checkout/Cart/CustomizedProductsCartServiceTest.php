@@ -7,7 +7,6 @@
 
 namespace Swag\CustomizedProducts\Test\Core\Checkout\Cart;
 
-use Exception;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -74,7 +73,7 @@ class CustomizedProductsCartServiceTest extends TestCase
         $option = new TemplateOptionEntity();
         $option->setId(Uuid::randomHex());
 
-        $this->expectException( Exception::class);
+        $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Option entity not found');
         $this->customizedProductsCartService->addOptions(
             $customizedProductLineItem,
