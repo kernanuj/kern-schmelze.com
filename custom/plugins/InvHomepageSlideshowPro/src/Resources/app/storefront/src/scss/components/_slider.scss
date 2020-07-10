@@ -203,12 +203,7 @@
             text-align: center;
 
             span {
-                display: inline-block;
-                zoom: 1;
-                *display: inline;
-                margin-left: auto;
-                margin-right: auto;
-                margin-bottom: 20px;
+                display: block;
             }
         }
     }
