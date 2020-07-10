@@ -63,6 +63,28 @@
             <helpText lang="fr-FR">Idéalement, il s'agit d'un fichier .jpg de dimensions 384 x 500px.</helpText>
             <helpText lang="nl-NL">Idealiter is het een .jpg bestand met de afmetingen 384 x 500px.</helpText>
         </component>
+
+        <component name="sw-colorpicker">
+            <name>leftbackgroundcolor1</name>
+            <colorOutput>hex</colorOutput>
+            <label>Background Color slide (left)</label>
+            <label lang="de-DE">Hintergrundfarbe Slide (links)</label>
+            <label lang="es-ES">Color de fondo del slide (izquierda)</label>
+            <label lang="fr-FR">Couleur de fond de la slide (gauche)</label>
+            <label lang="nl-NL">Achtergrondkleur slide (links)</label>
+            <defaultValue>#FFFFFF</defaultValue>
+        </component>
+
+        <component name="sw-colorpicker">
+            <name>rightbackgroundcolor1</name>
+            <colorOutput>hex</colorOutput>
+            <label>Background Color slide (right)</label>
+            <label lang="de-DE">Hintergrundfarbe Slide (rechts)</label>
+            <label lang="es-ES">Color de fondo del slide (derecha)</label>
+            <label lang="fr-FR">Couleur de fond de la slide (droite)</label>
+            <label lang="nl-NL">Achtergrondkleur slide (juist)</label>
+            <defaultValue>#FFFFFF</defaultValue>
+        </component>
     </card>
 
     <card>
@@ -108,6 +130,28 @@
             <helpText lang="es-ES">Idealmente este es un archivo .jpg con las dimensiones 384 x 500px.</helpText>
             <helpText lang="fr-FR">Idéalement, il s'agit d'un fichier .jpg de dimensions 384 x 500px.</helpText>
             <helpText lang="nl-NL">Idealiter is het een .jpg bestand met de afmetingen 384 x 500px.</helpText>
+        </component>
+
+        <component name="sw-colorpicker">
+            <name>leftbackgroundcolor2</name>
+            <colorOutput>hex</colorOutput>
+            <label>Background Color slide (left)</label>
+            <label lang="de-DE">Hintergrundfarbe Slide (links)</label>
+            <label lang="es-ES">Color de fondo del slide (izquierda)</label>
+            <label lang="fr-FR">Couleur de fond de la slide (gauche)</label>
+            <label lang="nl-NL">Achtergrondkleur slide (links)</label>
+            <defaultValue>#FFFFFF</defaultValue>
+        </component>
+
+        <component name="sw-colorpicker">
+            <name>rightbackgroundcolor2</name>
+            <colorOutput>hex</colorOutput>
+            <label>Background Color slide (right)</label>
+            <label lang="de-DE">Hintergrundfarbe Slide (rechts)</label>
+            <label lang="es-ES">Color de fondo del slide (derecha)</label>
+            <label lang="fr-FR">Couleur de fond de la slide (droite)</label>
+            <label lang="nl-NL">Achtergrondkleur slide (juist)</label>
+            <defaultValue>#FFFFFF</defaultValue>
         </component>
     </card>
 
@@ -155,6 +199,28 @@
             <helpText lang="fr-FR">Idéalement, il s'agit d'un fichier .jpg de dimensions 384 x 500px.</helpText>
             <helpText lang="nl-NL">Idealiter is het een .jpg bestand met de afmetingen 384 x 500px.</helpText>
         </component>
+
+        <component name="sw-colorpicker">
+            <name>leftbackgroundcolor3</name>
+            <colorOutput>hex</colorOutput>
+            <label>Background Color slide (left)</label>
+            <label lang="de-DE">Hintergrundfarbe Slide (links)</label>
+            <label lang="es-ES">Color de fondo del slide (izquierda)</label>
+            <label lang="fr-FR">Couleur de fond de la slide (gauche)</label>
+            <label lang="nl-NL">Achtergrondkleur slide (links)</label>
+            <defaultValue>#FFFFFF</defaultValue>
+        </component>
+
+        <component name="sw-colorpicker">
+            <name>rightbackgroundcolor3</name>
+            <colorOutput>hex</colorOutput>
+            <label>Background Color slide (right)</label>
+            <label lang="de-DE">Hintergrundfarbe Slide (rechts)</label>
+            <label lang="es-ES">Color de fondo del slide (derecha)</label>
+            <label lang="fr-FR">Couleur de fond de la slide (droite)</label>
+            <label lang="nl-NL">Achtergrondkleur slide (juist)</label>
+            <defaultValue>#FFFFFF</defaultValue>
+        </component>
     </card>
 
     <card>
@@ -200,6 +266,28 @@
             <helpText lang="es-ES">Idealmente este es un archivo .jpg con las dimensiones 384 x 500px.</helpText>
             <helpText lang="fr-FR">Idéalement, il s'agit d'un fichier .jpg de dimensions 384 x 500px.</helpText>
             <helpText lang="nl-NL">Idealiter is het een .jpg bestand met de afmetingen 384 x 500px.</helpText>
+        </component>
+
+        <component name="sw-colorpicker">
+            <name>leftbackgroundcolor4</name>
+            <colorOutput>hex</colorOutput>
+            <label>Background Color slide (left)</label>
+            <label lang="de-DE">Hintergrundfarbe  Slide (links)</label>
+            <label lang="es-ES">Color de fondo del slide  (izquierda)</label>
+            <label lang="fr-FR">Couleur de fond de la slide  (gauche)</label>
+            <label lang="nl-NL">Achtergrondkleur slide (links)</label>
+            <defaultValue>#FFFFFF</defaultValue>
+        </component>
+
+        <component name="sw-colorpicker">
+            <name>rightbackgroundcolor4</name>
+            <colorOutput>hex</colorOutput>
+            <label>Background Color slide (right)</label>
+            <label lang="de-DE">Hintergrundfarbe Slide (rechts)</label>
+            <label lang="es-ES">Color de fondo del slide (derecha)</label>
+            <label lang="fr-FR">Couleur de fond de la slide (droite)</label>
+            <label lang="nl-NL">Achtergrondkleur slide (juist)</label>
+            <defaultValue>#FFFFFF</defaultValue>
         </component>
     </card>
 
@@ -247,37 +335,29 @@
             <helpText lang="fr-FR">Idéalement, il s'agit d'un fichier .jpg de dimensions 384 x 500px.</helpText>
             <helpText lang="nl-NL">Idealiter is het een .jpg bestand met de afmetingen 384 x 500px.</helpText>
         </component>
+
+        <component name="sw-colorpicker">
+            <name>leftbackgroundcolor5</name>
+            <colorOutput>hex</colorOutput>
+            <label>Background Color slide (left)</label>
+            <label lang="de-DE">Hintergrundfarbe Slide (links)</label>
+            <label lang="es-ES">Color de fondo del slide (izquierda)</label>
+            <label lang="fr-FR">Couleur de fond de la slide (gauche)</label>
+            <label lang="nl-NL">Achtergrondkleur slide (links)</label>
+            <defaultValue>#FFFFFF</defaultValue>
+        </component>
+
+        <component name="sw-colorpicker">
+            <name>rightbackgroundcolor5</name>
+            <colorOutput>hex</colorOutput>
+            <label>Background Color slide (right)</label>
+            <label lang="de-DE">Hintergrundfarbe Slide (rechts)</label>
+            <label lang="es-ES">Color de fondo del slide (derecha)</label>
+            <label lang="fr-FR">Couleur de fond de la slide (droite)</label>
+            <label lang="nl-NL">Achtergrondkleur slide (juist)</label>
+            <defaultValue>#FFFFFF</defaultValue>
+        </component>
     </card>
-
-    <!--<card>
-        <title>Colors (compile theme if changed)</title>
-        <title lang="de-DE">Farben (Theme kompilieren, wenn Werte geändert werden)</title>
-        <title lang="es-ES">Colores (compilar theme si se cambia los valores)</title>
-        <title lang="fr-FR">Couleurs (compiler le thème si les valeurs sont modifiées)</title>
-        <title lang="nl-NL">Kleuren (Thema compileren als waarden worden gewijzigd)</title>
-
-        <component name="sw-colorpicker">
-            <name>arrowColor</name>
-            <colorOutput>hex</colorOutput>
-            <label>Arrow color</label>
-            <label lang="de-DE">Pfeilfarbe</label>
-            <label lang="es-ES">Color de flechas</label>
-            <label lang="fr-FR">Couleur des flèches</label>
-            <label lang="nl-NL">Pijlkleur</label>
-            <defaultValue>#000000</defaultValue>
-        </component>
-
-        <component name="sw-colorpicker">
-            <name>textColor</name>
-            <colorOutput>hex</colorOutput>
-            <label>Text color</label>
-            <label lang="de-DE">Textfarbe</label>
-            <label lang="es-ES">Color del texto</label>
-            <label lang="fr-FR">Couleur du texte</label>
-            <label lang="nl-NL">Tekstkleur</label>
-            <defaultValue>#000000</defaultValue>
-        </component>
-    </card>-->
 
     <card>
         <title>Dimensions</title>
