@@ -117,7 +117,7 @@
         <service id="InvMixerProduct\Repository\MixEntityRepository" public="true">
             <argument type="service" id="inv_mixer_product__mix.repository"/>
             <argument type="service" id="inv_mixer_product__mix_item.repository"/>
-            <argument type="service" id="InvMixerProduct\Service\ConfigurationInterface" />
+            <argument type="service" id="InvMixerProduct\Service\ConfigurationInterface"/>
         </service>
         <service id="InvMixerProduct\Repository\ProductRepository" public="true">
             <argument type="service" id="product.repository"/>
@@ -142,5 +142,18 @@
 
         <service id="InvMixerProduct\Service\ConfigurationInterface"
                  alias="InvMixerProduct\Service\StaticConfiguration"/>
+
+        <service id="InvMixerProduct\Service\Checkout\MixProductCartDataCollector">
+            <argument type="service" id="sales_channel.product.repository"/>
+            <argument type="service" id="InvMixerProduct\Repository\MixEntityRepository" />
+            <argument type="service" id="InvMixerProduct\Repository\SalesChannelProductRepository" />
+            <tag name="shopware.cart.collector" priority="6000"/>
+        </service>
+
+        <service id="InvMixerProduct\Service\Checkout\MixProductCartProcessor">
+            <argument type="service" id="Shopware\Core\Checkout\Cart\Price\QuantityPriceCalculator"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\Price\PercentagePriceCalculator"/>
+            <tag name="shopware.cart.processor" priority="6000"/>
+        </service>
     </services>
 </container>

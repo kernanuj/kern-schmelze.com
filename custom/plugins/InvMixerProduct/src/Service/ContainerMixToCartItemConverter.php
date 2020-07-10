@@ -6,10 +6,6 @@ use InvMixerProduct\Constants;
 use InvMixerProduct\Entity\MixEntity as Subject;
 use InvMixerProduct\Repository\ProductRepository;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
-use Shopware\Core\Checkout\Cart\Price\QuantityPriceCalculator;
-use Shopware\Core\Checkout\Cart\Price\Struct\QuantityPriceDefinition;
-use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRule;
-use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRuleCollection;
 use Shopware\Core\Content\Product\Cart\ProductLineItemFactory;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
@@ -35,24 +31,16 @@ class ContainerMixToCartItemConverter implements MixToCartItemConverterInterface
     private $productRepository;
 
     /**
-     * @var QuantityPriceCalculator
-     */
-    private $priceCalculator;
-
-    /**
      * ContainerMixToCartItemConverter constructor.
      * @param ProductLineItemFactory $productLineItemFactory
      * @param ProductRepository $productRepository
-     * @param QuantityPriceCalculator $priceCalculator
      */
     public function __construct(
         ProductLineItemFactory $productLineItemFactory,
-        ProductRepository $productRepository,
-        QuantityPriceCalculator $priceCalculator
+        ProductRepository $productRepository
     ) {
         $this->productLineItemFactory = $productLineItemFactory;
         $this->productRepository = $productRepository;
-        $this->priceCalculator = $priceCalculator;
     }
 
 
@@ -72,41 +60,23 @@ class ContainerMixToCartItemConverter implements MixToCartItemConverterInterface
         );
 
         $lineItem = null;
-        $lineItem = new LineItem($subject->getId(), LineItem::PRODUCT_LINE_ITEM_TYPE, $containerProduct->getId(), $quantity);
+        $lineItem = new LineItem($subject->getId(), Constants::LINE_ITEM_TYPE_IDENTIFIER, $containerProduct->getId(),
+            $quantity);
         $lineItem->setRemovable(true);
         $lineItem->setStackable(true);
         $lineItem->setPayloadValue(Constants::KEY_MIX_LABEL_CART_ITEM, $subject->getLabel());
+        $lineItem->setPayloadValue(Constants::KEY_IS_MIX_CONTAINER_PRODUCT, true);
 
         foreach ($subject->getItems() as $item) {
             $childLineItem = new LineItem(
                 $item->getId(),
                 LineItem::PRODUCT_LINE_ITEM_TYPE,
                 $item->getProductId(),
-                $item->getQuantity() *$quantity
+                $item->getQuantity()
             );
 
-
-            if(false) {
-                /**
-                 * @todo: without this section the prices would not be calculated.
-                 * is it necessary though?
-                 */
-                $taxRule = new TaxRule(7);
-                $quantityPriceDefinition = new QuantityPriceDefinition(
-                    $item->getProduct()->getPrice()->first()->getNet(),
-                    new TaxRuleCollection([$taxRule]),
-                    2
-                );
-                $price = $this->priceCalculator->calculate(
-                    $quantityPriceDefinition,
-                    $salesChannelContext
-                );
-                $childLineItem->setPrice($price);
-                $childLineItem->setPriceDefinition($quantityPriceDefinition);
-            }
-
             $childLineItem->setRemovable(false);
-            $childLineItem->setStackable(true);
+            $childLineItem->setStackable(false);
 
             $lineItem->addChild(
                 $childLineItem
