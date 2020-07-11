@@ -26,10 +26,10 @@
         </service>
         <service id="InvMixerProduct\Controller\StoreFront\Mix\IndexController">
             <tag name="controller.service_arguments"/>
-            <argument type="service" id="Shopware\Core\Content\Product\SalesChannel\Listing\ProductListingLoader"/>
             <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
             <argument type="service" id="session"/>
             <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader"/>
+            <argument type="service" id="InvMixerProduct\Service\DefaultProductListingProvider" />
         </service>
         <service id="InvMixerProduct\Controller\StoreFront\Mix\StateController">
             <tag name="controller.service_arguments"/>
@@ -142,6 +142,13 @@
 
         <service id="InvMixerProduct\Service\ConfigurationInterface"
                  alias="InvMixerProduct\Service\StaticConfiguration"/>
+
+        <service id="InvMixerProduct\Service\DefaultProductListingProvider">
+            <argument type="service" id="Shopware\Core\Content\Product\SalesChannel\Listing\ProductListingLoader"/>
+        </service>
+
+        <service id="InvMixerProduct\Service\ProductListingProviderInterface"
+                 alias="InvMixerProduct\Service\DefaultProductListingProvider"/>
 
         <service id="InvMixerProduct\Service\Checkout\MixProductCartDataCollector">
             <argument type="service" id="sales_channel.product.repository"/>

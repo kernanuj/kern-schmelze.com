@@ -42,6 +42,11 @@ final class Constants
 
     public const CONTAINER_PRODUCT_PRODUCT_NUMBER_PREFIX = 'impc_';
 
+    public const CATALOG_PRODUCT_TAG_PRODUCT_ITEM = 'mixer-product-item';
+    public const CATALOG_PRODUCT_TAG_CATEGORY_NUTS = 'mixer-product-category-nuts';
+    public const CATALOG_PRODUCT_TAG_CATEGORY_SEEDS = 'mixer-product-category-seeds';
+    public const CATALOG_PRODUCT_TAG_CATEGORY_DRIEDFRUIT = 'mixer-product-category-driedfruit';
+
     /**
      * @return Design[]
      */
@@ -57,6 +62,16 @@ final class Constants
         ];
     }
 
+    /**
+     * @return array|string[]
+     */
+    public static function VALID_CATALOG_PRODUCT_TAGS():array {
+        return [
+            self::CATALOG_PRODUCT_TAG_CATEGORY_NUTS,
+            self::CATALOG_PRODUCT_TAG_CATEGORY_SEEDS,
+            self::CATALOG_PRODUCT_TAG_CATEGORY_DRIEDFRUIT,
+        ];
+    }
     /**
      * @return Design
      */
