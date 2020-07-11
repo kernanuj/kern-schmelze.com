@@ -4,7 +4,12 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <imports>
+        <import resource="service/repository.xml"/>
+    </imports>
+
     <services>
+
         <service id="InvMixerProduct\Resources\snippet\en_GB\SnippetFile_en_GB" public="true">
             <tag name="shopware.snippet.file"/>
         </service>
@@ -145,6 +150,7 @@
 
         <service id="InvMixerProduct\Service\DefaultProductListingProvider">
             <argument type="service" id="Shopware\Core\Content\Product\SalesChannel\Listing\ProductListingLoader"/>
+            <argument type="service" id="InvMixerProduct\Repository\TagRepository" />
         </service>
 
         <service id="InvMixerProduct\Service\ProductListingProviderInterface"
