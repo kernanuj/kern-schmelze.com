@@ -85,9 +85,7 @@ class AddToCartController extends MixController
             $salesChannelContext
         );
 
-        $this->session->remove(
-            self::SESSION_KEY_CURRENT_MIX
-        );
+        $this->removeFromSession($this->session);
 
         $this->addFlash(
             'success',

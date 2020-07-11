@@ -6,7 +6,6 @@ use InvMixerProduct\Service\MixContainerDefinitionProviderInterface;
 use InvMixerProduct\Service\MixServiceInterface;
 use InvMixerProduct\Service\MixViewTransformer;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Page\GenericPageLoaderInterface;
@@ -22,6 +21,8 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @RouteScope(scopes={"storefront"})
  * @Route("/mix/state", methods={"GET"}, name="invMixerProduct.storeFront.mix.state")
+ * @todo: exclude route from seo
+ * @todo: disable csrf
  */
 class StateController extends MixController
 {
@@ -84,20 +85,51 @@ class StateController extends MixController
     public function __invoke(Request $request, SalesChannelContext $salesChannelContext, Context $context)
     {
 
-        $mixView = $this->getOrInitiateCurrentMixAndReturnAsView(
-            $this->mixViewTransformer,
-            $salesChannelContext,
-            $this->session,
-            $this->mixService
-        );
+        try {
+            $mixView = $this->getOrInitiateCurrentMixAndReturnAsView(
+                $this->mixViewTransformer,
+                $salesChannelContext,
+                $this->session,
+                $this->mixService
+            );
 
-        return $this->renderStorefront(
-            '@InvMixerProduct/storefront/component/mix.state.html.twig',
-            [
-                'page' => $this->pageLoader->load($request, $salesChannelContext),
-                'containerDefinitionCollection' => $this->mixContainerDefinitionProvider->getAvailableContainerCollection(),
-                'mixView' => $mixView,
-            ]
-        );
+            return $this->renderStorefront(
+                '@InvMixerProduct/storefront/component/mix.state.html.twig',
+                [
+                    'page' => $this->pageLoader->load($request, $salesChannelContext),
+                    'containerDefinitionCollection' => $this->mixContainerDefinitionProvider->getAvailableContainerCollection(),
+                    'mixView' => $mixView,
+                ]
+            );
+        } catch (\Throwable $e) {
+            $this->addFlash(
+                'alert',
+                $e->getMessage()
+            );
+
+            $this->removeFromSession($this->session);
+
+            /**
+             * Re-Initiate the mix if any error has occured in showing the state; that means the mix is probably broken
+             */
+            $mixView = $this->getOrInitiateCurrentMixAndReturnAsView(
+                $this->mixViewTransformer,
+                $salesChannelContext,
+                $this->session,
+                $this->mixService
+            );
+
+            return $this->renderStorefront(
+                '@InvMixerProduct/storefront/component/mix.state.html.twig',
+                [
+                    'page' => $this->pageLoader->load($request, $salesChannelContext),
+                    'containerDefinitionCollection' => $this->mixContainerDefinitionProvider->getAvailableContainerCollection(),
+                    'mixView' => $mixView,
+                ]
+            );
+
+        }
+
+
     }
 }
