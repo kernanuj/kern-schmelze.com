@@ -11,6 +11,8 @@ use Shopware\Core\Checkout\Cart\LineItem\CartDataCollection;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Cart\Price\PercentagePriceCalculator;
 use Shopware\Core\Checkout\Cart\Price\QuantityPriceCalculator;
+use Shopware\Core\Checkout\Cart\Price\Struct\CalculatedPrice;
+use Shopware\Core\Checkout\Cart\Price\Struct\PriceCollection;
 use Shopware\Core\Checkout\Cart\Price\Struct\QuantityPriceDefinition;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
@@ -56,9 +58,17 @@ class MixProductCartProcessor implements CartProcessorInterface
             }
             $this->calculateChildProductPrices($subjectContainerProductLineItem, $salesChannelContext);
 
-            $subjectContainerProductLineItem->setPrice(
-                $subjectContainerProductLineItem->getChildren()->getPrices()->sum()
+            $priceOfChildProducts = $subjectContainerProductLineItem->getChildren()->getPrices()->sum();
+
+            $priceCollection = new PriceCollection($subjectContainerProductLineItem->getChildren()->getPrices());
+
+
+            //duplicate price to set unit price to price of all child items for quantity of 1
+            $finalPrice = $this->calculateActualPriceForContainerLineItem(
+                $subjectContainerProductLineItem,
+                $priceCollection
             );
+            $subjectContainerProductLineItem->setPrice($finalPrice);
 
             $toCalculate->add($subjectContainerProductLineItem);
         }
@@ -82,5 +92,26 @@ class MixProductCartProcessor implements CartProcessorInterface
                 );
             }
         }
+    }
+
+    private function calculateActualPriceForContainerLineItem(
+        LineItem $subjectLineItem,
+        PriceCollection $priceCollection
+
+    ): CalculatedPrice {
+
+        $price = $priceCollection->sum();
+
+        $newPrice = new CalculatedPrice(
+            $price->getTotalPrice() / $subjectLineItem->getQuantity(),
+            $price->getTotalPrice(),
+            $price->getCalculatedTaxes(),
+            $price->getTaxRules(),
+            $price->getQuantity(),
+            $price->getReferencePrice(),
+            $price->getListPrice()
+        );
+
+        return $newPrice;
     }
 }
