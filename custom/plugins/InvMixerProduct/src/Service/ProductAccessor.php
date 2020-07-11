@@ -23,6 +23,14 @@ class ProductAccessor implements ProductAccessorInterface
         SalesChannelContext $context
     ): bool {
 
+        if (!$subject->getUnit()) {
+            return false;
+        }
+
+        if (!$subject->getWeight()) {
+            return false;
+        }
+
         return true;
     }
 
