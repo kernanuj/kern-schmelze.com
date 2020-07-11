@@ -39,6 +39,9 @@ final class Constants
      */
     public const LABEL_REGEX_PATTERN = "/^[a-z0-9\.,\-öäü\(\):\s]{1,}$/i";
 
+
+    public const CONTAINER_PRODUCT_PRODUCT_NUMBER_PREFIX = 'impc_';
+
     /**
      * @return Design[]
      */

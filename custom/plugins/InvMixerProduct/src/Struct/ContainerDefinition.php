@@ -75,11 +75,17 @@ class ContainerDefinition extends Struct
     }
 
     /**
-     * @return BaseProduct
+     * @return string
      */
-    public function getBaseProduct(): BaseProduct
+    public function translateToProductNumber(): string
     {
-        return $this->baseProduct;
+        return strtolower(sprintf(
+                'impc_%s_%s_%s',
+                $this->getFillDelimiter()->getWeight()->getValue() . $this->getFillDelimiter()->getWeight()->getUnit(),
+                $this->getDesign(),
+                $this->getBaseProduct()->getIdentifier()
+            )
+        );
     }
 
     /**
@@ -96,6 +102,14 @@ class ContainerDefinition extends Struct
     public function getDesign(): Design
     {
         return $this->design;
+    }
+
+    /**
+     * @return BaseProduct
+     */
+    public function getBaseProduct(): BaseProduct
+    {
+        return $this->baseProduct;
     }
 
     public function jsonSerialize(): array
