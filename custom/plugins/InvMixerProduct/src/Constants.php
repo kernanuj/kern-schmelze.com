@@ -23,7 +23,12 @@ final class Constants
      *
      */
     public const KEY_MIX_LABEL_CART_ITEM = self::PLUGIN_PREFIX_SNAKE_CASE . '_mix_label';
+    public const KEY_IS_MIX_CONTAINER_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE . '_is_mix_container_product';
+    public const KEY_CONTAINER_DEFINITION = self::PLUGIN_PREFIX_SNAKE_CASE . '_container_definition';
 
+
+    public const LINE_ITEM_TYPE_IDENTIFIER = self::PLUGIN_PREFIX_SNAKE_CASE.'_product';
+    public const CART_DATA_KEY_CONTAINER_SALES_CHANNEL_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE.'_container_product';
     /**
      *
      */
@@ -33,6 +38,14 @@ final class Constants
      *
      */
     public const LABEL_REGEX_PATTERN = "/^[a-z0-9\.,\-öäü\(\):\s]{1,}$/i";
+
+
+    public const CONTAINER_PRODUCT_PRODUCT_NUMBER_PREFIX = 'impc_';
+
+    public const CATALOG_PRODUCT_TAG_PRODUCT_ITEM = 'mixer-product-item';
+    public const CATALOG_PRODUCT_TAG_CATEGORY_NUTS = 'mixer-product-category-nuts';
+    public const CATALOG_PRODUCT_TAG_CATEGORY_SEEDS = 'mixer-product-category-seeds';
+    public const CATALOG_PRODUCT_TAG_CATEGORY_DRIEDFRUIT = 'mixer-product-category-driedfruit';
 
     /**
      * @return Design[]
@@ -49,6 +62,16 @@ final class Constants
         ];
     }
 
+    /**
+     * @return array|string[]
+     */
+    public static function VALID_CATALOG_PRODUCT_TAGS():array {
+        return [
+            self::CATALOG_PRODUCT_TAG_CATEGORY_NUTS,
+            self::CATALOG_PRODUCT_TAG_CATEGORY_SEEDS,
+            self::CATALOG_PRODUCT_TAG_CATEGORY_DRIEDFRUIT,
+        ];
+    }
     /**
      * @return Design
      */

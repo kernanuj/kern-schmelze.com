@@ -4,7 +4,12 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <imports>
+        <import resource="service/repository.xml"/>
+    </imports>
+
     <services>
+
         <service id="InvMixerProduct\Resources\snippet\en_GB\SnippetFile_en_GB" public="true">
             <tag name="shopware.snippet.file"/>
         </service>
@@ -26,10 +31,10 @@
         </service>
         <service id="InvMixerProduct\Controller\StoreFront\Mix\IndexController">
             <tag name="controller.service_arguments"/>
-            <argument type="service" id="Shopware\Core\Content\Product\SalesChannel\Listing\ProductListingLoader"/>
             <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
             <argument type="service" id="session"/>
             <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader"/>
+            <argument type="service" id="InvMixerProduct\Service\DefaultProductListingProvider" />
         </service>
         <service id="InvMixerProduct\Controller\StoreFront\Mix\StateController">
             <tag name="controller.service_arguments"/>
@@ -117,7 +122,7 @@
         <service id="InvMixerProduct\Repository\MixEntityRepository" public="true">
             <argument type="service" id="inv_mixer_product__mix.repository"/>
             <argument type="service" id="inv_mixer_product__mix_item.repository"/>
-            <argument type="service" id="InvMixerProduct\Service\ConfigurationInterface" />
+            <argument type="service" id="InvMixerProduct\Service\ConfigurationInterface"/>
         </service>
         <service id="InvMixerProduct\Repository\ProductRepository" public="true">
             <argument type="service" id="product.repository"/>
@@ -142,5 +147,26 @@
 
         <service id="InvMixerProduct\Service\ConfigurationInterface"
                  alias="InvMixerProduct\Service\StaticConfiguration"/>
+
+        <service id="InvMixerProduct\Service\DefaultProductListingProvider">
+            <argument type="service" id="Shopware\Core\Content\Product\SalesChannel\Listing\ProductListingLoader"/>
+            <argument type="service" id="InvMixerProduct\Repository\TagRepository" />
+        </service>
+
+        <service id="InvMixerProduct\Service\ProductListingProviderInterface"
+                 alias="InvMixerProduct\Service\DefaultProductListingProvider"/>
+
+        <service id="InvMixerProduct\Service\Checkout\MixProductCartDataCollector">
+            <argument type="service" id="sales_channel.product.repository"/>
+            <argument type="service" id="InvMixerProduct\Repository\MixEntityRepository" />
+            <argument type="service" id="InvMixerProduct\Repository\SalesChannelProductRepository" />
+            <tag name="shopware.cart.collector" priority="6000"/>
+        </service>
+
+        <service id="InvMixerProduct\Service\Checkout\MixProductCartProcessor">
+            <argument type="service" id="Shopware\Core\Checkout\Cart\Price\QuantityPriceCalculator"/>
+            <argument type="service" id="Shopware\Core\Checkout\Cart\Price\PercentagePriceCalculator"/>
+            <tag name="shopware.cart.processor" priority="6000"/>
+        </service>
     </services>
 </container>

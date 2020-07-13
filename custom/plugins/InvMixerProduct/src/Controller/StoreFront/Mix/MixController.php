@@ -96,4 +96,14 @@ abstract class MixController extends StorefrontController
 
         return $entity;
     }
+
+    /**
+     * @param SessionInterface $session
+     */
+    protected function removeFromSession(SessionInterface $session)
+    {
+        $session->remove(
+            self::SESSION_KEY_CURRENT_MIX
+        );
+    }
 }
