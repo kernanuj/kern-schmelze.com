@@ -30,6 +30,20 @@ class ThemeVariablesSubscriber implements EventSubscriberInterface
 
     public function onAddVariables(ThemeCompilerEnrichScssVariablesEvent $event)
     {
+
+        /** @var string $configStatus */
+        $configStatus = $this->systemConfigService->get('InvHomepageSlideshowPro.config.status', $event->getSalesChannelId());
+        if ($configStatus) {
+            $event->addVariable('inv-homepage-slideshow-pro-status', $configStatus);
+        }
+
+        /** @var string $configAutplay */
+        $configAutplay = $this->systemConfigService->get('InvHomepageSlideshowPro.config.autoplay', $event->getSalesChannelId());
+        if ($configAutplay) {
+            $event->addVariable('inv-homepage-slideshow-pro-autoplay', $configAutplay);
+        }
+
+
         /** @var string $configRightBackgroundColor1 */
         $configRightBackgroundColor1 = $this->systemConfigService->get('InvHomepageSlideshowPro.config.leftbackgroundcolor1', $event->getSalesChannelId());
         if ($configRightBackgroundColor1) {

@@ -1,5 +1,5 @@
 {% if shopware.config.InvHomepageSlideshowPro.config.status == true and InvHomepageSlideshowProImage1 and activeRoute == "frontend.home.page" %}
-    <section class="center slider">
+    <section class="center slider" data-autoplay="{{ shopware.config.InvHomepageSlideshowPro.config.autoplay }}" data-autoplay-speed="{{ shopware.config.InvHomepageSlideshowPro.config.autoplayspeed }}">
         {%  if InvHomepageSlideshowProImage1 %}
             {% set media = searchMedia([InvHomepageSlideshowProImage1], context.context) %}
             {% set image1Entity = media.get(InvHomepageSlideshowProImage1) %}

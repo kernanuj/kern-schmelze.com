@@ -20,6 +20,34 @@
     </card>
 
     <card>
+        <title>Autoplay</title>
+        <title lang="de-DE">Autoplay</title>
+        <title lang="es-ES">Autoplay</title>
+        <title lang="fr-FR">Autoplay</title>
+        <title lang="nl-NL">Autoplay</title>
+
+        <input-field type="bool">
+            <name>autoplay</name>
+            <label>Active</label>
+            <label lang="de-DE">Aktiv</label>
+            <label lang="es-ES">Activado</label>
+            <label lang="fr-FR">Actif</label>
+            <label lang="nl-NL">Actief</label>
+            <defaultValue>1</defaultValue>
+        </input-field>
+
+        <input-field type="text">
+            <name>autoplayspeed</name>
+            <label>Speed (milliseconds)</label>
+            <label lang="de-DE">Geschwindigkeit (Millisekunden)</label>
+            <label lang="es-ES">Velocidad (milisegundos)</label>
+            <label lang="fr-FR">Vitesse (millisecondes)</label>
+            <label lang="nl-NL">Snelheid (milliseconden)</label>
+            <defaultValue>5000</defaultValue>
+        </input-field>
+    </card>
+
+    <card>
         <title>Slide 1</title>
         <title lang="de-DE">Slide 1</title>
         <title lang="es-ES">Slide 1</title>
