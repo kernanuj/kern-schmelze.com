@@ -10,6 +10,7 @@ services:
     depends_on:
       - mysql
       - elasticsearch
+      - mailcatcher
     ports:
       - 80:8000
       - 443:443
@@ -17,6 +18,8 @@ services:
       - 8005:8000
       - 8998:8998
       - 9999:9999
+      - 9000:3072
+      - 9998:9998
     extra_hosts:
       - "docker.vm:127.0.0.1"
       - "kern-schmelze.localhost:127.0.0.1"
@@ -54,6 +57,12 @@ services:
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - discovery.type=single-node
+
+  mailcatcher:
+    container_name: ks_mailcatcher
+    image: schickling/mailcatcher:latest
+    ports:
+        - 1080:1080
 
 volumes:
   mysql-data:
