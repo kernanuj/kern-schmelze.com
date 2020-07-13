@@ -1,0 +1,15 @@
+ul {
+    &.checker {
+        list-style: none;
+        margin: 30px 0;
+        padding: 0;
+
+        li {
+            display: block;
+            background: url(../../../bundles/invkernschmelzetemplate/storefront/images/icon-tick.svg) no-repeat;
+            background-size: 20px 20px;
+            padding-left: 30px;
+            margin: 0 0 10px 0;
+        }
+    }
+}

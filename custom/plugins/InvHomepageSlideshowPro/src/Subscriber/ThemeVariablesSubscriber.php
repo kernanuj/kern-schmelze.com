@@ -10,8 +10,8 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 class ThemeVariablesSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var SystemConfigService
-     */
+    * @var SystemConfigService
+    */
     protected $systemConfigService;
 
     // add the `SystemConfigService` to your constructor
@@ -30,6 +30,80 @@ class ThemeVariablesSubscriber implements EventSubscriberInterface
 
     public function onAddVariables(ThemeCompilerEnrichScssVariablesEvent $event)
     {
+
+        /** @var string $configStatus */
+        $configStatus = $this->systemConfigService->get('InvHomepageSlideshowPro.config.status', $event->getSalesChannelId());
+        if ($configStatus) {
+            $event->addVariable('inv-homepage-slideshow-pro-status', $configStatus);
+        }
+
+        /** @var string $configAutplay */
+        $configAutplay = $this->systemConfigService->get('InvHomepageSlideshowPro.config.autoplay', $event->getSalesChannelId());
+        if ($configAutplay) {
+            $event->addVariable('inv-homepage-slideshow-pro-autoplay', $configAutplay);
+        }
+
+
+        /** @var string $configRightBackgroundColor1 */
+        $configRightBackgroundColor1 = $this->systemConfigService->get('InvHomepageSlideshowPro.config.leftbackgroundcolor1', $event->getSalesChannelId());
+        if ($configRightBackgroundColor1) {
+            $event->addVariable('inv-homepage-slideshow-pro-left-background-color1', $configRightBackgroundColor1);
+        }
+
+        /** @var string $configLeftBackgroundColor1 */
+        $configLeftBackgroundColor1 = $this->systemConfigService->get('InvHomepageSlideshowPro.config.rightbackgroundcolor1', $event->getSalesChannelId());
+        if ($configLeftBackgroundColor1) {
+            $event->addVariable('inv-homepage-slideshow-pro-right-background-color1', $configLeftBackgroundColor1);
+        }
+
+        /** @var string $configRightBackgroundColor2 */
+        $configRightBackgroundColor2 = $this->systemConfigService->get('InvHomepageSlideshowPro.config.leftbackgroundcolor2', $event->getSalesChannelId());
+        if ($configRightBackgroundColor2) {
+            $event->addVariable('inv-homepage-slideshow-pro-left-background-color2', $configRightBackgroundColor2);
+        }
+
+        /** @var string $configLeftBackgroundColor2 */
+        $configLeftBackgroundColor2 = $this->systemConfigService->get('InvHomepageSlideshowPro.config.rightbackgroundcolor2', $event->getSalesChannelId());
+        if ($configLeftBackgroundColor2) {
+            $event->addVariable('inv-homepage-slideshow-pro-right-background-color2', $configLeftBackgroundColor2);
+        }
+
+        /** @var string $configRightBackgroundColor3 */
+        $configRightBackgroundColor3 = $this->systemConfigService->get('InvHomepageSlideshowPro.config.leftbackgroundcolor3', $event->getSalesChannelId());
+        if ($configRightBackgroundColor3) {
+            $event->addVariable('inv-homepage-slideshow-pro-left-background-color3', $configRightBackgroundColor3);
+        }
+
+        /** @var string $configLeftBackgroundColor3 */
+        $configLeftBackgroundColor3 = $this->systemConfigService->get('InvHomepageSlideshowPro.config.rightbackgroundcolor3', $event->getSalesChannelId());
+        if ($configLeftBackgroundColor3) {
+            $event->addVariable('inv-homepage-slideshow-pro-right-background-color3', $configLeftBackgroundColor3);
+        }
+
+        /** @var string $configRightBackgroundColor4 */
+        $configRightBackgroundColor4 = $this->systemConfigService->get('InvHomepageSlideshowPro.config.leftbackgroundcolor4', $event->getSalesChannelId());
+        if ($configRightBackgroundColor4) {
+            $event->addVariable('inv-homepage-slideshow-pro-left-background-color4', $configRightBackgroundColor4);
+        }
+
+        /** @var string $configLeftBackgroundColor4 */
+        $configLeftBackgroundColor4 = $this->systemConfigService->get('InvHomepageSlideshowPro.config.rightbackgroundcolor4', $event->getSalesChannelId());
+        if ($configLeftBackgroundColor4) {
+            $event->addVariable('inv-homepage-slideshow-pro-right-background-color4', $configLeftBackgroundColor4);
+        }
+
+        /** @var string $configRightBackgroundColor5 */
+        $configRightBackgroundColor5 = $this->systemConfigService->get('InvHomepageSlideshowPro.config.leftbackgroundcolor5', $event->getSalesChannelId());
+        if ($configRightBackgroundColor5) {
+            $event->addVariable('inv-homepage-slideshow-pro-left-background-color5', $configRightBackgroundColor5);
+        }
+
+        /** @var string $configLeftBackgroundColor5 */
+        $configLeftBackgroundColor5 = $this->systemConfigService->get('InvHomepageSlideshowPro.config.rightbackgroundcolor5', $event->getSalesChannelId());
+        if ($configLeftBackgroundColor5) {
+            $event->addVariable('inv-homepage-slideshow-pro-right-background-color5', $configLeftBackgroundColor5);
+        }
+
         /** @var string $configMinHeight */
         $configMinHeight = $this->systemConfigService->get('InvHomepageSlideshowPro.config.minHeight', $event->getSalesChannelId());
         if ($configMinHeight) {

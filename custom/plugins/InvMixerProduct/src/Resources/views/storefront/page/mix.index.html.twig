@@ -24,19 +24,24 @@
         <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 order-lg-1">
             <h1>{{ "InvMixerProduct.page.title"|trans }}</h1>
 
-            <div class="row">
+
+            {% block inv_product_mixer_product_categories %}
+
                 <ul class="nav nav-tabs" role="tablist">
                     {% for listingProductGroup in listingProductCollection.groups %}
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" id="tab{{ listingProductGroup.groupIdentifier }}"
                                href="#{{ listingProductGroup.groupIdentifier }}" role="tab"
                                aria-controls="{{ listingProductGroup.groupIdentifier }}" aria-selected="true">
-                                {{ listingProductGroup.groupIdentifier|trans }}
+                                {{ ("InvMixerProduct.tabs." ~ listingProductGroup.groupIdentifier)|trans }}
                             </a>
                         </li>
                     {% endfor %}
                 </ul>
-            </div>
+
+            <hr />
+            {% endblock %}
+
             <div class="row">
                 {% block inv_product_mixer_product_list %}
                     <div class="tab-content col-lg-12">

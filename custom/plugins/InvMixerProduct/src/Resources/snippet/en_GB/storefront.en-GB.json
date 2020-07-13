@@ -3,6 +3,11 @@
         "page":{
             "title": "Product Mixer"
         },
+        "tabs": {
+            "mixer-product-category-nuts": "Nuts",
+            "mixer-product-category-seeds": "Seeds",
+            "mixer-product-category-driedfruit": "Dried fruits"
+        },
         "sidebar": {
             "description": "Mix, try out and refine your very own <br />personal chocolate mix.",
             "titles": {
