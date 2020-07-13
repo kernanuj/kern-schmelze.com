@@ -49,6 +49,16 @@ class MixView
     private $itemCollection;
 
     /**
+     * @var bool
+     */
+    private $isFilled = false;
+
+    /**
+     * @var bool
+     */
+    private $isComplete = false;
+
+    /**
      * MixView constructor.
      * @param Identifier $mixId
      * @param Label $mixLabel
@@ -131,5 +141,42 @@ class MixView
     {
         return $this->itemCollection;
     }
+
+    /**
+     * @return bool
+     */
+    public function isFilled(): bool
+    {
+        return $this->isFilled;
+    }
+
+    /**
+     * @param bool $isFilled
+     * @return MixView
+     */
+    public function setIsFilled(bool $isFilled): MixView
+    {
+        $this->isFilled = $isFilled;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isComplete(): bool
+    {
+        return $this->isComplete;
+    }
+
+    /**
+     * @param bool $isComplete
+     * @return MixView
+     */
+    public function setIsComplete(bool $isComplete): MixView
+    {
+        $this->isComplete = $isComplete;
+        return $this;
+    }
+
 
 }
