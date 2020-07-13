@@ -1,7 +1,12 @@
 {
     "InvMixerProduct": {
-        "page":{
+        "page": {
             "title": "Produkt Mixer"
+        },
+        "tabs": {
+            "mixer-product-category-nuts": "Nüsse",
+            "mixer-product-category-seeds": "Kerne",
+            "mixer-product-category-driedfruit": "Trockenfrüchte"
         },
         "sidebar": {
             "description": "Mixe, probiere aus und veredle Deinen ganz <br />persönlichen Schokoladen-Mix.",
