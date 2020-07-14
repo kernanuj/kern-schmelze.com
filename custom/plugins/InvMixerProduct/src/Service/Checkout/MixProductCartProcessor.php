@@ -2,8 +2,6 @@
 
 namespace InvMixerProduct\Service\Checkout;
 
-use InvMixerProduct\Constants;
-use InvMixerProduct\Helper\LineItemAccessor;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\CartBehavior;
 use Shopware\Core\Checkout\Cart\CartProcessorInterface;
@@ -14,10 +12,15 @@ use Shopware\Core\Checkout\Cart\Price\QuantityPriceCalculator;
 use Shopware\Core\Checkout\Cart\Price\Struct\CalculatedPrice;
 use Shopware\Core\Checkout\Cart\Price\Struct\PriceCollection;
 use Shopware\Core\Checkout\Cart\Price\Struct\QuantityPriceDefinition;
+use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTax;
+use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 class MixProductCartProcessor implements CartProcessorInterface
 {
+
+    use MixProductCartTrait;
+
     /**
      * @var QuantityPriceCalculator
      */
@@ -36,6 +39,13 @@ class MixProductCartProcessor implements CartProcessorInterface
         $this->percentagePriceCalculator = $percentagePriceCalculator;
     }
 
+    /**
+     * @param CartDataCollection $data
+     * @param Cart $original
+     * @param Cart $toCalculate
+     * @param SalesChannelContext $salesChannelContext
+     * @param CartBehavior $behavior
+     */
     public function process(
         CartDataCollection $data,
         Cart $original,
@@ -44,34 +54,37 @@ class MixProductCartProcessor implements CartProcessorInterface
         CartBehavior $behavior
     ): void {
 
-        $subjectContainerProductLineItems = $original->getLineItems()->filterType(
-            Constants::LINE_ITEM_TYPE_IDENTIFIER
-        );
-
-        if ($subjectContainerProductLineItems->count() === 0) {
+        if (true !== $this->isCartContainsSubjectLineItems($original)) {
             return;
         }
 
+        $subjectContainerProductLineItems = $this->getSubjectLineItemsFromCart($original);
+
         foreach ($subjectContainerProductLineItems as $subjectContainerProductLineItem) {
-            if (true !== LineItemAccessor::isContainsMixContainerProduct($subjectContainerProductLineItem)) {
-                continue;
-            }
-            $this->calculateChildProductPrices($subjectContainerProductLineItem, $salesChannelContext);
-
-            $priceOfChildProducts = $subjectContainerProductLineItem->getChildren()->getPrices()->sum();
-
-            $priceCollection = new PriceCollection($subjectContainerProductLineItem->getChildren()->getPrices());
-
-
-            //duplicate price to set unit price to price of all child items for quantity of 1
-            $finalPrice = $this->calculateActualPriceForContainerLineItem(
-                $subjectContainerProductLineItem,
-                $priceCollection
-            );
-            $subjectContainerProductLineItem->setPrice($finalPrice);
-
+            $this->calculatePriceForContainerLineItem($subjectContainerProductLineItem, $salesChannelContext);
             $toCalculate->add($subjectContainerProductLineItem);
         }
+    }
+
+    /**
+     * @param LineItem $subjectContainerProductLineItem
+     * @param SalesChannelContext $salesChannelContext
+     */
+    private function calculatePriceForContainerLineItem(
+        LineItem $subjectContainerProductLineItem,
+        SalesChannelContext $salesChannelContext
+    ): void {
+        $this->calculateChildProductPrices($subjectContainerProductLineItem, $salesChannelContext);
+
+        $priceCollection = new PriceCollection($subjectContainerProductLineItem->getChildren()->getPrices());
+
+        //duplicate price to set unit price to price of all child items for quantity of 1
+        $finalPrice = $this->calculateActualPriceForContainerLineItem(
+            $subjectContainerProductLineItem,
+            $priceCollection,
+            $salesChannelContext
+        );
+        $subjectContainerProductLineItem->setPrice($finalPrice);
     }
 
     /**
@@ -80,38 +93,57 @@ class MixProductCartProcessor implements CartProcessorInterface
      */
     private function calculateChildProductPrices(LineItem $bundleLineItem, SalesChannelContext $context): void
     {
-        {
-            $products = $bundleLineItem->getChildren()->filterType(LineItem::PRODUCT_LINE_ITEM_TYPE);
+        $products = $bundleLineItem->getChildren()->filterType(LineItem::PRODUCT_LINE_ITEM_TYPE);
 
-            foreach ($products as $product) {
-                /** @var QuantityPriceDefinition $priceDefinition */
-                $priceDefinition = $product->getPriceDefinition();
+        foreach ($products as $product) {
+            /** @var QuantityPriceDefinition $priceDefinition */
+            $priceDefinition = $product->getPriceDefinition();
 
-                $product->setPrice(
-                    $this->quantityPriceCalculator->calculate($priceDefinition, $context)
-                );
-            }
+            $product->setPrice(
+                $this->quantityPriceCalculator->calculate($priceDefinition, $context)
+            );
         }
     }
 
+    /**
+     * @param LineItem $subjectLineItem
+     * @param PriceCollection $priceCollection
+     * @param SalesChannelContext $salesChannelContext
+     * @return CalculatedPrice
+     */
     private function calculateActualPriceForContainerLineItem(
         LineItem $subjectLineItem,
-        PriceCollection $priceCollection
+        PriceCollection $priceCollection,
+        SalesChannelContext $salesChannelContext
 
     ): CalculatedPrice {
 
         $price = $priceCollection->sum();
 
-        $newPrice = new CalculatedPrice(
+        //fix issue where mollie payments uses tax calucaltion on whole order, not on order items. therefore a rounding error occurs.
+        // so we have to set the tax based on the sum, not on the individual line items which already have the tax calculated
+        $calculatedPrice = $this->quantityPriceCalculator->calculate(
+            new QuantityPriceDefinition(
+                $price->getTotalPrice(),
+                $price->getTaxRules(),
+                $salesChannelContext->getCurrency()->getDecimalPrecision(),
+                1,
+                true
+            ),
+            $salesChannelContext
+        );
+
+
+        // this would sum up the wrong taxes since they are already rounded
+        return new CalculatedPrice(
             $price->getTotalPrice() / $subjectLineItem->getQuantity(),
             $price->getTotalPrice(),
-            $price->getCalculatedTaxes(),
+            $calculatedPrice->getCalculatedTaxes(),
             $price->getTaxRules(),
             $price->getQuantity(),
             $price->getReferencePrice(),
             $price->getListPrice()
         );
 
-        return $newPrice;
     }
 }

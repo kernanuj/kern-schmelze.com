@@ -112,7 +112,7 @@
         <service id="InvMixerProduct\Service\ContainerMixToCartItemConverter">
             <argument type="service" id="Shopware\Core\Content\Product\Cart\ProductLineItemFactory"/>
             <argument type="service" id="InvMixerProduct\Repository\ProductRepository"/>
-            <argument type="service" id="Shopware\Core\Checkout\Cart\Price\QuantityPriceCalculator"/>
+            <argument type="service" id="InvMixerProduct\Repository\SalesChannelProductRepository"/>
         </service>
 
         <service id="InvMixerProduct\EntityDefinition\MixEntityDefinition">
@@ -160,6 +160,8 @@
             <argument type="service" id="sales_channel.product.repository"/>
             <argument type="service" id="InvMixerProduct\Repository\MixEntityRepository" />
             <argument type="service" id="InvMixerProduct\Repository\SalesChannelProductRepository" />
+            <argument type="service" id="Shopware\Core\Content\Product\SalesChannel\Price\ProductPriceDefinitionBuilderInterface" />
+            <argument type="service" id="Shopware\Core\Content\Product\Cart\ProductGateway" />
             <tag name="shopware.cart.collector" priority="6000"/>
         </service>
 
