@@ -2,7 +2,7 @@
 {# @var containerDefinitionCollection \InvMixerProduct\Struct\ContainerDefinitionCollection #}
 
 {% block inv_product_mixer_sidebar %}
-    <div>
+    <div id="mix-state-container" data-mix-state-is-complete="{{ mixView.complete }}" data-mix-state-is-filled="{{ mixView.filled }}">
         {% block inv_product_mixer_sidebar_messages %}
             <div class="flashbags">
                 {% for type, messages in app.flashes %}
@@ -246,13 +246,14 @@
         {% block inv_product_mixer_sidebar_mixer_product_label %}
             {% block inv_product_mixer_sidebar_mixer_product_label_title %}
                 <hr/>
-                <span class="title">{{ "InvMixerProduct.sidebar.titles.label"|trans }}</span>
+                <span id="mix-state-set-label-anchor" class="title">{{ "InvMixerProduct.sidebar.titles.label"|trans }}</span>
             {% endblock %}
 
             {% block inv_product_mixer_sidebar_mixer_product_label_form %}
                 <div class="mixer-product-label">
                     <form method="post" action="{{ path('invMixerProduct.storeFront.mix.session.label.set') }}"
                           data-inv-mixer-mix-state-action="true"
+                          id="mix-state-set-label-form"
                     >
                         <input type="hidden" name="_csrf_token"
                                value="{{ csrf_token('invMixerProduct.storeFront.mix.session.label.set') }}">
@@ -284,7 +285,7 @@
 
             <hr/>
             <div class="mixer-product-price-info">
-                <span class="mixer-product-total">
+                <span class="mixer-product-total" id="mix-state-add-to-cart-anchor">
                     {{ mixerProductTotalPrice|currency }}
                 </span>
                 <span class="mixer-product-baseprice">
@@ -315,7 +316,7 @@
                 #}
                 {% block inv_product_mixer_sidebar_action_add_to_cart %}
                     <form method="post"
-                          action="{{ path('invMixerProduct.storeFront.mix.session.addToCart') }}">
+                          action="{{ path('invMixerProduct.storeFront.mix.session.addToCart') }}" id="mix-state-add-to-cart-form">
                         <input type="hidden" name="_csrf_token"
                                value="{{ csrf_token('invMixerProduct.storeFront.mix.session.addToCart') }}">
 

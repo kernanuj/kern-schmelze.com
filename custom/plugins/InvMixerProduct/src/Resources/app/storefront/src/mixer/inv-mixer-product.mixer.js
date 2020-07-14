@@ -58,6 +58,26 @@ export default class InvMixerProductMixer extends Plugin {
 
     displayState(stateInnerHtml) {
         this.el.innerHTML = stateInnerHtml;
+        const displayContainer = document.getElementById('mix-state-container');
+        const isComplete = displayContainer.dataset.mixStateIsComplete || 0;
+        const isFilled = displayContainer.dataset.mixStateIsFilled || 0;
+
+        try {
+            if (isComplete) {
+                document.querySelector('#mix-state-add-to-cart-anchor').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+
+            if (isFilled) {
+                document.querySelector('#mix-state-set-label-anchor').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        }catch (e) {
+            //ignore
+        }
+
         this.attachMixStateEvents()
     }
 

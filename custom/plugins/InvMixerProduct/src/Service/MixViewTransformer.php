@@ -62,7 +62,7 @@ class MixViewTransformer
 
 
         $itemCollection = $this->buildItemCollection($salesChannelContext, $mix);
-        return new MixView(
+        $mixView = new MixView(
             Identifier::fromString($mix->getId()),
             Label::fromString($mix->getLabel()),
             $this->getTotalPrice(
@@ -77,6 +77,16 @@ class MixViewTransformer
             $mix->getCustomer(),
             $itemCollection
         );
+
+        $mixView->setIsFilled(
+            $mix->getContainerDefinition()->getFillDelimiter()->getWeight()->isEqualTo($mixView->getMixTotalWeight())
+        );
+
+        $mixView->setIsComplete(
+            $mixView->isFilled() && !empty($mixView->getMixLabel())
+        );
+
+        return $mixView;
     }
 
     /**
