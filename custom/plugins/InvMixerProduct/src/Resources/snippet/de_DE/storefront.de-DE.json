@@ -1,7 +1,7 @@
 {
     "InvMixerProduct": {
         "page": {
-            "title": "Produkt Mixer"
+            "title": "Schoko Mixer"
         },
         "tabs": {
             "mixer-product-category-nuts": "Nüsse",
@@ -12,8 +12,8 @@
             "description": "Mixe, probiere aus und veredle Deinen ganz <br />persönlichen Schokoladen-Mix.",
             "titles": {
                 "main": "Dein Schoko-Mix",
-                "size": "Größe der Dose",
-                "design": "Design der Dose",
+                "size": "Tafelgröße",
+                "design": "Design",
                 "base": "Schokoladensorte",
                 "label": "Wie soll Dein Mix heißen?"
             }
