@@ -29,8 +29,14 @@
 
                 <ul class="nav nav-tabs" role="tablist">
                     {% for listingProductGroup in listingProductCollection.groups %}
+                        {% if loop.first %}
+                            {% set class = "active" %}
+                        {% else %}
+                            {% set class = "" %}
+                        {% endif %}
+
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" id="tab{{ listingProductGroup.groupIdentifier }}"
+                            <a class="nav-link {{ class }}" data-toggle="tab" id="tab{{ listingProductGroup.groupIdentifier }}"
                                href="#{{ listingProductGroup.groupIdentifier }}" role="tab"
                                aria-controls="{{ listingProductGroup.groupIdentifier }}" aria-selected="true">
                                 {{ ("InvMixerProduct.tabs." ~ listingProductGroup.groupIdentifier)|trans }}
@@ -42,11 +48,18 @@
             <hr />
             {% endblock %}
 
-            <div class="row">
+            <div class="">
                 {% block inv_product_mixer_product_list %}
-                    <div class="tab-content col-lg-12">
+                    <div class="tab-content">
                         {% for listingProductGroup in listingProductCollection.groups %}
-                            <div class="tab-pane fade show" id="{{ listingProductGroup.groupIdentifier }}" role="tabpanel" aria-labelledby="tab{{ listingProductGroup.groupIdentifier }}">
+
+                            {% if loop.first %}
+                                {% set class = "active" %}
+                            {% else %}
+                                {% set class = "" %}
+                            {% endif %}
+
+                            <div class="tab-pane fade show row {{ class }}" id="{{ listingProductGroup.groupIdentifier }}" role="tabpanel" aria-labelledby="tab{{ listingProductGroup.groupIdentifier }}">
                                 {% set productListing = listingProductGroup.entitySearchResult %}
                                 {% for product in productListing.elements %}
 

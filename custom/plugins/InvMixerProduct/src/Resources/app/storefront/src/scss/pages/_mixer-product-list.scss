@@ -1,7 +1,16 @@
 .mixer-product-list {
     .col-lg-8 {
+
+        .tab-content {
+            display: flex;
+            align-items: center;
+            justify-items: center;
+        }
+
         .col-lg-4 {
             margin-bottom: 30px;
+            display: block;
+            float: left;
 
             .product-box {
                 .product-info {

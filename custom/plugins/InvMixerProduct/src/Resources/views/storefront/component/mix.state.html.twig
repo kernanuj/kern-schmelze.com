@@ -46,6 +46,36 @@
             {% endblock %}
         {% endblock %}
 
+        {% block inv_product_mixer_sidebar_mixer_product_base %}
+            {% block inv_product_mixer_sidebar_mixer_product_base_title %}
+                <hr/>
+                <span class="title">{{ "InvMixerProduct.sidebar.titles.base"|trans }}</span>
+            {% endblock %}
+
+            <ul class="mixer-product-base-product">
+                {% for availableContainerBaseProduct in containerDefinitionCollection.availableBaseProducts %}
+                    {% if mixView.containerDefinition.baseProduct.identifier == availableContainerBaseProduct.identifier %}
+                        {% set class = "active" %}
+                    {% else %}
+                        {% set class = "" %}
+                    {% endif %}
+
+                    <li class="{{ class }}">
+                        <p>{{ availableContainerBaseProduct }}</p>
+                        <form method="post"
+                              action="{{ path('invMixerProduct.storeFront.mix.session.container.baseProduct.set') }}"
+                              data-inv-mixer-mix-state-action="true"
+                        >
+                            <input type="hidden" name="baseProduct" value="{{ availableContainerBaseProduct }}">
+                            <input type="hidden" name="_csrf_token"
+                                   value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.baseProduct.set') }}">
+                            <button type="submit">set: {{ availableContainerBaseProduct }}</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endblock %}
+
         {% block inv_product_mixer_sidebar_mixer_product_design %}
             {% block inv_product_mixer_sidebar_mixer_product_design_title %}
                 <hr/>
@@ -71,36 +101,6 @@
                                 <input type="hidden" name="_csrf_token"
                                        value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.design.set') }}">
                                 <button type="submit">set: {{ availableContainerDesign }}</button>
-                            </form>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endblock %}
-
-            {% block inv_product_mixer_sidebar_mixer_product_base %}
-                {% block inv_product_mixer_sidebar_mixer_product_base_title %}
-                    <hr/>
-                    <span class="title">{{ "InvMixerProduct.sidebar.titles.base"|trans }}</span>
-                {% endblock %}
-
-                <ul class="mixer-product-base-product">
-                    {% for availableContainerBaseProduct in containerDefinitionCollection.availableBaseProducts %}
-                        {% if mixView.containerDefinition.baseProduct.identifier == availableContainerBaseProduct.identifier %}
-                            {% set class = "active" %}
-                        {% else %}
-                            {% set class = "" %}
-                        {% endif %}
-
-                        <li class="{{ class }}">
-                            <p>{{ availableContainerBaseProduct }}</p>
-                            <form method="post"
-                                  action="{{ path('invMixerProduct.storeFront.mix.session.container.baseProduct.set') }}"
-                                  data-inv-mixer-mix-state-action="true"
-                            >
-                                <input type="hidden" name="baseProduct" value="{{ availableContainerBaseProduct }}">
-                                <input type="hidden" name="_csrf_token"
-                                       value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.baseProduct.set') }}">
-                                <button type="submit">set: {{ availableContainerBaseProduct }}</button>
                             </form>
                         </li>
                     {% endfor %}

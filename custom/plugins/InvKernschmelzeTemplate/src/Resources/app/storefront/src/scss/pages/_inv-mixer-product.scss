@@ -1,0 +1,14 @@
+.mixer-product-list {
+    .nav-tabs {
+        li {
+            a {
+                color: $black;
+
+                &:hover,
+                &.active {
+                    color: $ks-brown;
+                }
+            }
+        }
+    }
+}
