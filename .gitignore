@@ -30,6 +30,8 @@ phpunit.inv.xml
 !custom/plugins/InvExportLabel/*
 !.gitkeep
 
+_dev/*
+
 /vendor/
 /bin/vendor/
 
@@ -78,3 +80,4 @@ phpunit.inv.xml
 !/var/test/.gitkeep
 !/var/plugins.json
 !.gitkeep
+
