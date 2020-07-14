@@ -1,17 +1,29 @@
 {
     "InvMixerProduct": {
         "page": {
-            "title": "Schoko Mixer"
+            "title": "Schoko-Konfigurator"
         },
         "tabs": {
             "mixer-product-category-nuts": "Nüsse",
             "mixer-product-category-seeds": "Kerne",
             "mixer-product-category-driedfruit": "Trockenfrüchte"
         },
+        "designs": {
+            "design_1": "KERNschmelze",
+            "design_2": "Dankeschön",
+            "design_3": "Glückwunsch",
+            "design_4": "Nur für dich"
+        },
+        "types": {
+            "Milchschokolade": "Vollmilch",
+            "WeisseSchokolade": "Weiß",
+            "RubySchokolade": "Ruby",
+            "Zartbitterschokolade": "Zartbitter"
+        },
         "sidebar": {
-            "description": "Mixe, probiere aus und veredle Deinen ganz <br />persönlichen Schokoladen-Mix.",
+            "description": "Mixe, probiere aus und veredle Deine ganz <br />persönliche Schokolade.",
             "titles": {
-                "main": "Dein Schoko-Mix",
+                "main": "Deine Schokolade",
                 "size": "Tafelgröße",
                 "design": "Design",
                 "base": "Schokoladensorte",

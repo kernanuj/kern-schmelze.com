@@ -96,11 +96,6 @@
                                                                 } %}
                                                             </div>
                                                         {% endif %}
-
-                                                        {#
-                                                        {{ product.coverId }}
-                                                        {{ dump() }}
-                                                        #}
                                                     </div>
                                                 {% endblock %}
 
@@ -112,14 +107,6 @@
                                                                 {{ product.name }}
                                                             </div>
                                                         {% endblock %}
-
-                                                        {# Do not display product description
-                                                            {% block inv_product_mixer_product_info_description %}
-                                                                <div class="product-description">
-                                                                    {{ product.translated.description|striptags|raw }}
-                                                                </div>
-                                                            {% endblock %}
-                                                        #}
 
                                                         {% block inv_product_mixer_product_box_price %}
                                                             <div class="product-price-info">
