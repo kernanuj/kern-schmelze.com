@@ -39,7 +39,7 @@
                             <a class="nav-link {{ class }}" data-toggle="tab" id="tab{{ listingProductGroup.groupIdentifier }}"
                                href="#{{ listingProductGroup.groupIdentifier }}" role="tab"
                                aria-controls="{{ listingProductGroup.groupIdentifier }}" aria-selected="true">
-                                {{ ("InvMixerProduct.tabs." ~ listingProductGroup.groupIdentifier)|trans }}
+                                <img src="{{ asset('storefront/img/'~listingProductGroup.groupIdentifier~'.jpg', '@InvMixerProduct') }}" alt="{{ ("InvMixerProduct.tabs." ~ listingProductGroup.groupIdentifier)|trans }}" /> {{ ("InvMixerProduct.tabs." ~ listingProductGroup.groupIdentifier)|trans }}
                             </a>
                         </li>
                     {% endfor %}

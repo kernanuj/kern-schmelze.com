@@ -21,13 +21,13 @@
             "Zartbitterschokolade": "Dark"
         },
         "sidebar": {
-            "description": "Mix, try out and refine your very own <br />personal chocolate.",
+            "description": "Combine, try out and refine your very own <br />personal chocolate.",
             "titles": {
                 "main": "Your Chocolate",
-                "size": "Size",
-                "design": "Design",
-                "base": "Chocolate variety",
-                "label": "Name your mix"
+                "size": "1. Size",
+                "base": "2. Chocolate variety",
+                "design": "3. Design",
+                "label": "4. Name your chocolate"
             }
         },
         "buttons": {
@@ -36,11 +36,14 @@
             "addToCart": "Add to cart"
         },
         "placeholders": {
-            "mixLabel": "My Mix",
-            "noItems": "Noch ist Dein Mix leer. Füge jetzt Zutaten hinzu!"
+            "mixLabel": "My chocolate",
+            "noItems": "Your chocolate bar does not yet have any additional ingredients. <br />Add some ingredients now!"
         },
         "information": {
             "deliveryTime": "Expected delivery in 3-8 working days"
+        },
+        "alerts": {
+            "productHasBeenAddedToCart": "Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt."
         }
     }
 }

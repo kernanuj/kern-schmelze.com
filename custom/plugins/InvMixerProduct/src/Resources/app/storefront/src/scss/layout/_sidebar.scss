@@ -72,12 +72,12 @@
                 flex-wrap: inherit;
 
                 li {
-                    border: 0px solid $inv-mixer-product-sidebar-options-list-border-color;
+                    border: 0;
                     margin-bottom: 10px;
                     overflow: hidden;
-                    -webkit-opacity: .5;
-                    -moz-opacity: .5;
-                    opacity: .5;
+                    -webkit-opacity: .4;
+                    -moz-opacity: .4;
+                    opacity: .4;
                     display: block;
                     float: left;
                     padding: 0 5px;
@@ -107,12 +107,18 @@
                         max-width: 200px;
                         margin: 0 auto 5px auto;
                         text-align: center;
+                        border: 1px solid $inv-mixer-product-sidebar-options-list-border-color;
                     }
 
-                    &.active {
+                    &.active,
+                    &:hover {
                         -webkit-opacity: 1;
                         -moz-opacity: 1;
                         opacity: 1;
+
+                        img {
+                            border: 1px solid $black;
+                        }
                     }
                 }
             }

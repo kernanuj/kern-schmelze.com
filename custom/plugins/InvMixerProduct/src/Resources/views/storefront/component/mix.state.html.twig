@@ -60,7 +60,7 @@
                         {% set class = "" %}
                     {% endif %}
 
-                    <li class="{{ class }} col-xs-6 col-sm-6 col-md-6 col-lg-3">
+                    <li class="{{ class }} col-xs-4 col-sm-6 col-md-6 col-lg-3">
                         <form method="post"
                               action="{{ path('invMixerProduct.storeFront.mix.session.container.baseProduct.set') }}"
                               data-inv-mixer-mix-state-action="true"
@@ -120,7 +120,7 @@
             <hr/>
 
             {% if mixView.itemCollection.items is empty %}
-                {{ "InvMixerProduct.placeholders.noItems"|trans }}
+                {{ "InvMixerProduct.placeholders.noItems"|trans|raw }}
             {% endif %}
 
             <div class="mixer-product-items">
@@ -346,6 +346,7 @@
 
     </div>
 
+    {#
     <br/><br/><br/>
     <p><u>Debugging:</u></p>
     <p>
@@ -373,4 +374,5 @@
     <p>
         Total Price: {{ mixView.mixTotalPrice.value }}
     </p>
+    #}
 {% endblock %}

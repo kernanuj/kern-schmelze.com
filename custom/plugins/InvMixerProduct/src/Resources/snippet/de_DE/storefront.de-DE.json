@@ -21,13 +21,13 @@
             "Zartbitterschokolade": "Zartbitter"
         },
         "sidebar": {
-            "description": "Mixe, probiere aus und veredle Deine ganz <br />persönliche Schokolade.",
+            "description": "Kombiniere, probiere aus und veredle Deine ganz <br />persönliche Schokolade.",
             "titles": {
                 "main": "Deine Schokolade",
-                "size": "Tafelgröße",
-                "design": "Design",
-                "base": "Schokoladensorte",
-                "label": "Wie soll Dein Mix heißen?"
+                "size": "1. Tafelgröße",
+                "base": "2. Schokoladensorte",
+                "design": "3. Design",
+                "label": "4. Wie soll Deine Schokoladentafel heißen?"
             }
         },
         "buttons": {
@@ -36,11 +36,14 @@
             "addToCart": "In den Warenkorb"
         },
         "placeholders": {
-            "mixLabel": "Mein Mix",
-            "noItems": "Noch ist Dein Mix leer. Füge jetzt Zutaten hinzu!"
+            "mixLabel": "Meine Schokolade",
+            "noItems": "Noch hat Deine Schokoladentafel keine zusätzlichen Zutaten. <br />Füge jetzt weitere Zutaten hinzu!"
         },
         "information": {
             "deliveryTime": "Voraussichtliche Lieferung in 3-8 Werktagen"
+        },
+        "alerts": {
+            "productHasBeenAddedToCart": "Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt."
         }
     }
 }
