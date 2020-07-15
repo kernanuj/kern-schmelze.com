@@ -29,6 +29,7 @@ final class LineItemAccessor
     /**
      * @param LineItem $lineItem
      * @return bool
+     * @deprecated
      */
     public static function isContainsMixContainerProduct(LineItem $lineItem): bool
     {

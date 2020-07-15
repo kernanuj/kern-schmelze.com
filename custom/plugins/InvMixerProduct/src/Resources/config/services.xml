@@ -6,6 +6,7 @@
 
     <imports>
         <import resource="service/repository.xml"/>
+        <import resource="service/controller.xml"/>
     </imports>
 
     <services>
@@ -17,69 +18,7 @@
             <tag name="shopware.snippet.file"/>
         </service>
 
-        <service id="InvMixerProduct\Controller\StoreFront\Mix\AddController">
-            <tag name="controller.service_arguments"/>
-            <argument type="service" id="InvMixerProduct\Repository\ProductRepository"/>
-            <argument type="service" id="session"/>
-            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
-        </service>
-        <service id="InvMixerProduct\Controller\StoreFront\Mix\SetQuantityController">
-            <tag name="controller.service_arguments"/>
-            <argument type="service" id="InvMixerProduct\Repository\ProductRepository"/>
-            <argument type="service" id="session"/>
-            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
-        </service>
-        <service id="InvMixerProduct\Controller\StoreFront\Mix\IndexController">
-            <tag name="controller.service_arguments"/>
-            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
-            <argument type="service" id="session"/>
-            <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader"/>
-            <argument type="service" id="InvMixerProduct\Service\DefaultProductListingProvider" />
-        </service>
-        <service id="InvMixerProduct\Controller\StoreFront\Mix\StateController">
-            <tag name="controller.service_arguments"/>
-            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
-            <argument type="service" id="session"/>
-            <argument type="service" id="InvMixerProduct\Service\MixViewTransformer"/>
-            <argument type="service" id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"/>
-            <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader"/>
-        </service>
-        <service id="InvMixerProduct\Controller\StoreFront\Mix\SetLabelController">
-            <tag name="controller.service_arguments"/>
-            <argument type="service" id="session"/>
-            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
-            <argument type="service" id="validator"/>
-        </service>
-        <service id="InvMixerProduct\Controller\StoreFront\Mix\SetContainerDesignController">
-            <tag name="controller.service_arguments"/>
-            <argument type="service" id="session"/>
-            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
-            <argument type="service" id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"/>
-        </service>
-        <service id="InvMixerProduct\Controller\StoreFront\Mix\SetContainerBaseProductController">
-            <tag name="controller.service_arguments"/>
-            <argument type="service" id="session"/>
-            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
-            <argument type="service" id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"/>
-        </service>
-        <service id="InvMixerProduct\Controller\StoreFront\Mix\SetContainerWeightController">
-            <tag name="controller.service_arguments"/>
-            <argument type="service" id="session"/>
-            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
-            <argument type="service" id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"/>
-        </service>
 
-        <service id="InvMixerProduct\Controller\StoreFront\Mix\AddToCartController">
-            <tag name="controller.service_arguments"/>
-            <argument type="service" id="session"/>
-            <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
-            <argument type="service" id="Shopware\Core\Checkout\Cart\SalesChannel\CartService"/>
-        </service>
-
-        <service id="InvMixerProduct\Controller\StoreFront\Mix\ResetController">
-            <tag name="controller.service_arguments"/>
-            <argument type="service" id="session"/>
-        </service>
 
         <service id="InvMixerProduct\Service\MixViewTransformer">
             <argument type="service" id="InvMixerProduct\Service\ProductAccessor"/>
@@ -112,7 +51,7 @@
         <service id="InvMixerProduct\Service\ContainerMixToCartItemConverter">
             <argument type="service" id="Shopware\Core\Content\Product\Cart\ProductLineItemFactory"/>
             <argument type="service" id="InvMixerProduct\Repository\ProductRepository"/>
-            <argument type="service" id="Shopware\Core\Checkout\Cart\Price\QuantityPriceCalculator"/>
+            <argument type="service" id="InvMixerProduct\Repository\SalesChannelProductRepository"/>
         </service>
 
         <service id="InvMixerProduct\EntityDefinition\MixEntityDefinition">
@@ -160,6 +99,8 @@
             <argument type="service" id="sales_channel.product.repository"/>
             <argument type="service" id="InvMixerProduct\Repository\MixEntityRepository" />
             <argument type="service" id="InvMixerProduct\Repository\SalesChannelProductRepository" />
+            <argument type="service" id="Shopware\Core\Content\Product\SalesChannel\Price\ProductPriceDefinitionBuilderInterface" />
+            <argument type="service" id="Shopware\Core\Content\Product\Cart\ProductGateway" />
             <tag name="shopware.cart.collector" priority="6000"/>
         </service>
 

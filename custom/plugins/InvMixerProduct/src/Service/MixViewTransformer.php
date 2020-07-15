@@ -61,17 +61,24 @@ class MixViewTransformer
     ): MixView {
 
 
+        $containerProduct = $this->salesChannelProductRepository->findOneByProductNumber(
+            $mix->getContainerDefinition()->translateToProductNumber(),
+            $salesChannelContext
+        );
+
         $itemCollection = $this->buildItemCollection($salesChannelContext, $mix);
         $mixView = new MixView(
             Identifier::fromString($mix->getId()),
             Label::fromString($mix->getLabel()),
             $this->getTotalPrice(
                 $salesChannelContext,
-                $itemCollection
+                $itemCollection,
+                $containerProduct
             ),
             $this->getTotalWeight(
                 $salesChannelContext,
-                $mix
+                $mix,
+                $containerProduct
             ),
             $mix->getContainerDefinition(),
             $mix->getCustomer(),
@@ -79,7 +86,7 @@ class MixViewTransformer
         );
 
         $mixView->setIsFilled(
-            $mix->getContainerDefinition()->getFillDelimiter()->getWeight()->isEqualTo($mixView->getMixTotalWeight())
+            $mix->getContainerDefinition()->getFillDelimiter()->getAmount()->getValue() == $mix->getTotalItemQuantity()
         );
 
         $mixView->setIsComplete(
@@ -153,11 +160,13 @@ class MixViewTransformer
     /**
      * @param SalesChannelContext $salesChannelContext
      * @param MixViewItemCollection $mixViewItemCollection
+     * @param SalesChannelProductEntity $containerProduct
      * @return Price
      */
     private function getTotalPrice(
         SalesChannelContext $salesChannelContext,
-        MixViewItemCollection $mixViewItemCollection
+        MixViewItemCollection $mixViewItemCollection,
+        SalesChannelProductEntity $containerProduct
     ): Price {
         $price = Price::aZero();
 
@@ -167,6 +176,10 @@ class MixViewTransformer
             );
         }
 
+        $price = $price->add(
+            Price::fromFloat($containerProduct->getCalculatedListingPrice()->getFrom()->getTotalPrice())
+        );
+
         return $price;
 
     }
@@ -174,23 +187,33 @@ class MixViewTransformer
     /**
      * @param SalesChannelContext $salesChannelContext
      * @param Subject $mixEntity
+     * @param SalesChannelProductEntity $containerProduct
      * @return Weight
      */
-    private function getTotalWeight(SalesChannelContext $salesChannelContext, MixEntity $mixEntity): Weight
-    {
-        $weight = Weight::aZeroGrams();
+    private function getTotalWeight(
+        SalesChannelContext $salesChannelContext,
+        MixEntity $mixEntity,
+        SalesChannelProductEntity $containerProduct
+    ): Weight {
 
-        if ($mixEntity->hasItems()) {
-            foreach ($mixEntity->getItems() as $item) {
-                $weight->add(
-                    $this->productAccessor->accessProductWeight(
-                        $item->getProduct(),
-                        $salesChannelContext
-                    )->multipliedBy($item->getQuantity())
-                );
-            }
-        }
-        return $weight;
+        return $mixEntity->getContainerDefinition()->getFillDelimiter()->getWeight();
+        //#40 the weight of the product is completely determined by the weight of the container product; each ingredient will only substitute a part of the weight
+        /**
+         * $weight = Weight::aZeroGrams();
+         *
+         * if ($mixEntity->hasItems()) {
+         * foreach ($mixEntity->getItems() as $item) {
+         * $weight->add(
+         * $this->productAccessor->accessProductWeight(
+         * $item->getProduct(),
+         * $salesChannelContext
+         * )->multipliedBy($item->getQuantity())
+         * );
+         * }
+         * }
+         *
+         * return $weight;
+         * **/
     }
 
 }

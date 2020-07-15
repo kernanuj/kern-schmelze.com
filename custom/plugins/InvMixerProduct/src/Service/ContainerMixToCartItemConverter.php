@@ -5,8 +5,10 @@ namespace InvMixerProduct\Service;
 use InvMixerProduct\Constants;
 use InvMixerProduct\Entity\MixEntity as Subject;
 use InvMixerProduct\Repository\ProductRepository;
+use InvMixerProduct\Repository\SalesChannelProductRepository;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Content\Product\Cart\ProductLineItemFactory;
+use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 /**
@@ -31,21 +33,29 @@ class ContainerMixToCartItemConverter implements MixToCartItemConverterInterface
     private $productRepository;
 
     /**
+     * @var SalesChannelProductRepository
+     */
+    private $salesChannelProductRepository;
+
+    /**
      * ContainerMixToCartItemConverter constructor.
      * @param ProductLineItemFactory $productLineItemFactory
      * @param ProductRepository $productRepository
+     * @param SalesChannelProductRepository $salesChannelProductRepository
      */
     public function __construct(
         ProductLineItemFactory $productLineItemFactory,
-        ProductRepository $productRepository
+        ProductRepository $productRepository,
+        SalesChannelProductRepository $salesChannelProductRepository
     ) {
         $this->productLineItemFactory = $productLineItemFactory;
         $this->productRepository = $productRepository;
+        $this->salesChannelProductRepository = $salesChannelProductRepository;
     }
-
 
     /**
      * @inheritDoc
+     * @throws \InvMixerProduct\Exception\EntityNotFoundException
      */
     public function toCartItem(
         Subject $subject,
@@ -54,18 +64,37 @@ class ContainerMixToCartItemConverter implements MixToCartItemConverterInterface
     ): LineItem {
 
 
-        $containerProduct = $this->productRepository->findOneByProductNumber(
-            'ks-mixer-container',
-            $salesChannelContext->getContext()
+        $baseProduct = $this->salesChannelProductRepository->findOneByProductNumber(
+            $subject->getContainerDefinition()->translateToProductNumber(),
+            $salesChannelContext
         );
 
+
         $lineItem = null;
-        $lineItem = new LineItem($subject->getId(), Constants::LINE_ITEM_TYPE_IDENTIFIER, $containerProduct->getId(),
-            $quantity);
+        $lineItem = new LineItem(
+            $subject->getId(),
+            Constants::LINE_ITEM_TYPE_IDENTIFIER,
+            null,
+            $quantity
+        );
         $lineItem->setRemovable(true);
         $lineItem->setStackable(true);
         $lineItem->setPayloadValue(Constants::KEY_MIX_LABEL_CART_ITEM, $subject->getLabel());
         $lineItem->setPayloadValue(Constants::KEY_IS_MIX_CONTAINER_PRODUCT, true);
+
+
+        // add container product as first line item
+        $baseProductLineItem = new LineItem(
+            Uuid::randomHex(),
+            LineItem::PRODUCT_LINE_ITEM_TYPE,
+            $baseProduct->getId(),
+            $quantity
+        );
+        $baseProductLineItem->setPayloadValue(Constants::KEY_IS_MIX_BASE_PRODUCT, true);
+
+        $lineItem->addChild(
+            $baseProductLineItem
+        );
 
         foreach ($subject->getItems() as $item) {
             $childLineItem = new LineItem(
@@ -77,6 +106,7 @@ class ContainerMixToCartItemConverter implements MixToCartItemConverterInterface
 
             $childLineItem->setRemovable(false);
             $childLineItem->setStackable(false);
+            $childLineItem->setPayloadValue(Constants::KEY_IS_MIX_CHILD_PRODUCT, true);
 
             $lineItem->addChild(
                 $childLineItem

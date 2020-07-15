@@ -24,11 +24,15 @@ final class Constants
      */
     public const KEY_MIX_LABEL_CART_ITEM = self::PLUGIN_PREFIX_SNAKE_CASE . '_mix_label';
     public const KEY_IS_MIX_CONTAINER_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE . '_is_mix_container_product';
+    public const KEY_IS_MIX_BASE_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE . '_is_mix_base_product';
+    public const KEY_IS_MIX_CHILD_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE . '_is_mix_child_product';
     public const KEY_CONTAINER_DEFINITION = self::PLUGIN_PREFIX_SNAKE_CASE . '_container_definition';
 
 
     public const LINE_ITEM_TYPE_IDENTIFIER = self::PLUGIN_PREFIX_SNAKE_CASE.'_product';
     public const CART_DATA_KEY_CONTAINER_SALES_CHANNEL_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE.'_container_product';
+    public const CART_DATA_KEY_BASE_SALES_CHANNEL_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE.'_base_product';
+    public const CART_DATA_KEY_CHILD_SALES_CHANNEL_PRODUCTS = self::PLUGIN_PREFIX_SNAKE_CASE.'_child_products';
     /**
      *
      */
