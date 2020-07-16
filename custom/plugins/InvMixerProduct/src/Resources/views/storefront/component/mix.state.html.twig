@@ -60,7 +60,7 @@
                         {% set class = "" %}
                     {% endif %}
 
-                    <li class="{{ class }} col-xs-4 col-sm-6 col-md-6 col-lg-3">
+                    <li class="{{ class }} col-3 col-sm-3 col-md-3 col-lg-3">
                         <form method="post"
                               action="{{ path('invMixerProduct.storeFront.mix.session.container.baseProduct.set') }}"
                               data-inv-mixer-mix-state-action="true"
@@ -95,7 +95,7 @@
                             {% set class = "" %}
                         {% endif %}
 
-                        <li class="{{ class }} col-xs-6 col-sm-6 col-md-6 col-lg-3">
+                        <li class="{{ class }} col-3 col-sm-3 col-md-3 col-lg-3">
                             <form method="post"
                                   action="{{ path('invMixerProduct.storeFront.mix.session.container.design.set') }}"
                                   data-inv-mixer-mix-state-action="true"
@@ -139,7 +139,7 @@
                     {% block inv_product_mixer_sidebar_mixer_product_item %}
                         <div class="row mixer-product-item-wrapper">
                             {% block inv_product_mixer_sidebar_mixer_product_item_image %}
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-2">
                                     <div class="mixer-product-item-image-wrapper">
                                         {% if mixItemCover.url %}
                                             {% set attributes = {
@@ -170,7 +170,7 @@
                             {% endblock %}
 
                             {% block inv_product_mixer_sidebar_mixer_product_item_data %}
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-7">
                                     <span class="mix-item-product-name product-name">{{ name }}</span>
                                     <span
                                         class="mix-item-product-quantity">{{ mixItemQuantity }} x</span>
@@ -178,14 +178,14 @@
                             {% endblock %}
 
                             {% block inv_product_mixer_sidebar_mixer_product_item_price %}
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-2">
                                     <span
                                         class="mix-item-product-price">{{ mixItemPriceQty|currency }}{{ "general.star"|trans|sw_sanitize }}</span>
                                 </div>
                             {% endblock %}
 
                             {% block inv_product_mixer_sidebar_mixer_product_item_actions %}
-                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-1">
                                     <div class="mix-item-product-actions">
                                         <form method="post"
                                               action="{{ path('invMixerProduct.storeFront.mix.session.item.quantity.set') }}"
@@ -324,11 +324,11 @@
                                value="{{ csrf_token('invMixerProduct.storeFront.mix.session.addToCart') }}">
 
                         <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-2 col-xs-12">
+                            <div class="col-lg-4 col-md-4 col-sm-2 col-12">
                                 <input type="number" name="quantity" value="1" min="1" max="100"/>
                             </div>
 
-                            <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
+                            <div class="col-lg-8 col-md-8 col-sm-10 col-12">
                                 <button type="submit" class="btn button btn-block btn-buy">
                                     {{ "InvMixerProduct.buttons.addToCart"|trans }}
                                 </button>
