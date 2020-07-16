@@ -72,6 +72,7 @@
 
     .mixer-product-off-canvas-botton {
         visibility: hidden;
+        display: none;
         transform:translateX(-100%);
         position: static;
         background: $inv-mixer-product-button-add-background-color url(../../../bundles/invmixerproduct/storefront/img/icon-config.svg) no-repeat 10px center;
@@ -140,6 +141,7 @@
         }
 
         .mixer-product-off-canvas-botton {
+            display: block;
             visibility: visible;
             transform: translateX(0);
             /*top: 50%;

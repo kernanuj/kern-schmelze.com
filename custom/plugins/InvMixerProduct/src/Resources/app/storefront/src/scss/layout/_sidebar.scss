@@ -99,6 +99,7 @@
                     background: none;
                     margin: 0;
                     padding: 0;
+                    width: 100%;
                 }
 
                 img {
@@ -276,11 +277,10 @@
     }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 992px) {
     .mixer-product-list {
         .col-lg-4 {
             .inner {
-                background: $inv-mixer-product-sidebar-background-color;
                 padding: 50px 30px 30px 30px;
             }
 
@@ -290,7 +290,13 @@
                     font-size: 11px;
                 }
             }
+        }
+    }
+}
 
+@media (max-width: 576px) {
+    .mixer-product-list {
+        .col-lg-4 {
             .mixer-product-actions {
                 .col-lg-4 {
                     padding: 0 20px;
