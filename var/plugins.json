@@ -147,6 +147,24 @@
             "styleFiles": []
         }
     },
+    "InvExportLabel": {
+        "basePath": "custom\/plugins\/InvExportLabel\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-export-label",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
+        }
+    },
     "InvKernschmelzeTemplate": {
         "basePath": "custom\/plugins\/InvKernschmelzeTemplate\/src\/",
         "views": [
@@ -350,6 +368,8 @@
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/_variables.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/base.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/layout\/_sidebar.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/components\/_mobile-enhancer.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/components\/_nav-tabs.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvMixerProduct\/src\/Resources\/app\/storefront\/src\/scss\/pages\/_mixer-product-list.scss"
             ]
         }
@@ -373,6 +393,7 @@
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SwagCustomizedProducts\/src\/Resources\/app\/storefront\/src\/scss\/base.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SwagCustomizedProducts\/src\/Resources\/app\/storefront\/src\/scss\/page\/account\/order-history\/order-detail-list-item.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SwagCustomizedProducts\/src\/Resources\/app\/storefront\/src\/scss\/product-detail\/_customized-product-step-by-step.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SwagCustomizedProducts\/src\/Resources\/app\/storefront\/src\/scss\/product-detail\/_price-display.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SwagCustomizedProducts\/src\/Resources\/app\/storefront\/src\/scss\/product-detail\/_price-label-notice.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SwagCustomizedProducts\/src\/Resources\/app\/storefront\/src\/scss\/product-detail\/_customized-product.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SwagCustomizedProducts\/src\/Resources\/app\/storefront\/src\/scss\/checkout\/_cart.scss",
