@@ -1,5 +1,17 @@
 {% sw_extends "@Storefront/storefront/page/checkout/checkout-item.html.twig" %}
 
+{% block page_checkout_item_container %}
+    {% if lineItem.payload.inv_mixer_product__is_mix_child_product or lineItem.payload.inv_mixer_product__is_mix_base_product %}
+        {% set class = "is-mix-child-product" %}
+    {% else %}
+        {% set class = "" %}
+    {% endif %}
+
+    <div class="{{ class }}">
+        {{ parent() }}
+    </div>
+{% endblock %}
+
 {% block page_checkout_item_info_image_link %}
     {% if isDiscount %}
         <div class="cart-item-img cart-item-discount-icon">
@@ -162,7 +174,7 @@
         </form>
     {% else %}
 {#{% if not lineItem.payload.inv_mixer_product__is_mix_child_product and not lineItem.payload.inv_mixer_product__is_mix_base_product %}#}
-            {{ lineItem.quantity }}
+            {{ lineItem.quantity }} {% if lineItem.payload.inv_mixer_product__is_mix_child_product or lineItem.payload.inv_mixer_product__is_mix_base_product %}x{% endif %}
 {#{% endif %}#}
     {% endif %}
 {% endblock %}

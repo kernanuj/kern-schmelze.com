@@ -1,0 +1,13 @@
+div.cart-item-label {
+    &:hover {
+        color: inherit;
+    }
+}
+
+.cart-item-img {
+    padding: 0;
+    border: 1px solid $black;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}

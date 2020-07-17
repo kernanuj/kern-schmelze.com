@@ -1,0 +1,33 @@
+.is-mix-child-product {
+    .cart-item-img,
+    .icon {
+       max-width: 30px;
+    }
+
+    .cart-item-label {
+        font-weight: normal;
+    }
+}
+
+.offcanvas-cart {
+    .is-mix-child-product {
+        .cart-item {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        .cart-item-details {
+            margin-bottom: 0;
+        }
+
+        .cart-item-label {
+            font-weight: normal;
+        }
+
+        .cart-item-img,
+        .icon {
+            width: auto;
+            height: auto;
+        }
+    }
+}

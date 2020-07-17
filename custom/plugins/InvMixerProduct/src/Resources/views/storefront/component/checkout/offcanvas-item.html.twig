@@ -1,5 +1,17 @@
 {% sw_extends "@Storefront/storefront/component/checkout/offcanvas-item.html.twig" %}
 
+{% block component_offcanvas_cart_item_container %}
+    {% if lineItem.payload.inv_mixer_product__is_mix_child_product or lineItem.payload.inv_mixer_product__is_mix_base_product %}
+        {% set class = "is-mix-child-product" %}
+    {% else %}
+        {% set class = "" %}
+    {% endif %}
+
+    <div class="{{ class }}">
+        {{ parent() }}
+    </div>
+{% endblock %}
+
 {% block component_offcanvas_product_image_inner %}
     <div class="cart-item-img">
         {% if isDiscount %}
