@@ -1,3 +1,7 @@
+.checkout-aside-item-title {
+    font-weight: bold;
+}
+
 .is-mix-child-product {
     .cart-item-img,
     .icon {
@@ -6,6 +10,15 @@
 
     .cart-item-label {
         font-weight: normal;
+    }
+
+    .checkout-aside-item-title {
+        font-weight: normal;
+    }
+
+    .checkout-aside-item-link-quantity,
+    .checkout-aside-item-link-price {
+        display: none;
     }
 }
 
