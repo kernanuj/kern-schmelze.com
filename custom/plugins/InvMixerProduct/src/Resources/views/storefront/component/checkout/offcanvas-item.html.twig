@@ -1,0 +1,69 @@
+{% sw_extends "@Storefront/storefront/component/checkout/offcanvas-item.html.twig" %}
+
+{% block component_offcanvas_product_image_inner %}
+    <div class="cart-item-img">
+        {% if isDiscount %}
+            <div class="cart-item-discount-icon">
+                {% sw_icon 'marketing' style {
+                    'color': 'success'
+                } %}
+            </div>
+        {% elseif isNested %}
+            <div class="cart-item-nested-icon">
+                {% sw_icon 'bag-product' style {
+                    'color': 'light'
+                } %}
+            </div>
+        {% else %}
+            {% if not lineItem.payload.inv_mixer_product__is_mix_child_product and not lineItem.payload.inv_mixer_product__is_mix_base_product %}
+                <a href="{{ seoUrl('frontend.detail.page', {'productId': referencedId}) }}"
+                   class="cart-item-img-link"
+                   title="{{ label }}">
+            {% endif %}
+                {% if lineItem.cover.url %}
+                    {% sw_thumbnails 'cart-item-img-thumbnails' with {
+                        media: lineItem.cover,
+                        sizes: {
+                            'default': '100px'
+                        },
+                        attributes: {
+                            'class': 'img-fluid cart-item-img-source',
+                            'alt': label,
+                            'title': label
+                        }
+                    } %}
+                {% else %}
+                    {% sw_icon 'placeholder' style {
+                        'size': 'fluid'
+                    } %}
+                {% endif %}
+            {% if not lineItem.payload.inv_mixer_product__is_mix_child_product and not lineItem.payload.inv_mixer_product__is_mix_base_product %}
+                </a>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+{% block component_offcanvas_product_label %}
+    <div class="cart-item-details">
+        {% if type == 'product' and not lineItem.payload.inv_mixer_product__is_mix_child_product and not lineItem.payload.inv_mixer_product__is_mix_base_product %}
+            <a href="{{ seoUrl('frontend.detail.page', {'productId': referencedId}) }}"
+               class="cart-item-label"
+               title="{{ label }}">
+                {{ quantity }}{{ "checkout.quantityTimes"|trans|sw_sanitize }} {{ label|u.truncate(60) }}
+            </a>
+        {% else %}
+            <div class="cart-item-label">
+                {{ label|u.truncate(60) }}
+            </div>
+        {% endif  %}
+    </div>
+{% endblock %}
+
+
+{% block component_offcanvas_product_total_price %}
+    {% if not lineItem.payload.inv_mixer_product__is_mix_child_product and not lineItem.payload.inv_mixer_product__is_mix_base_product %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
