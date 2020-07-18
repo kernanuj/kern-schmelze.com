@@ -1,3 +1,5 @@
+[INV_README.md](./INV_README.md)
+
 # Shopware 6 production template
 
 This repository contains the production template that enables you to build,
