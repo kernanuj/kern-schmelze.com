@@ -19,6 +19,11 @@ final class Constants
     public const SYSTEM_CONFIG_MIXER_PRODUCT_BEST_BEFORE_MONTHS = 'InvExportLabel.config.mixerProductBestBeforeMonths';
 
     /**
+     * @see \Dompdf\Adapter\CPDF::$PAPER_SIZES
+     */
+    public const LABEL_PDF_PAPER_SIZE = 'a4';
+
+    /**
      * @param string $type
      * @return bool
      */
