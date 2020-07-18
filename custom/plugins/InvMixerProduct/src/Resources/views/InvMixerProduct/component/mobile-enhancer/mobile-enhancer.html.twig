@@ -1,0 +1,81 @@
+<div class="inv-sticky-top">
+    {% block inv_mixer_product_mobile_quickbar %}
+        <div class="inv-mixer-product-mobile-quickbar">
+            <div class="row">
+                <div class="col-4">
+                    <span>Sorte: {{ mixView.containerDefinition.baseProduct.identifier }} </span>
+                </div>
+                <div class="col-4">
+                    <span>Design: {{ mixView.containerDefinition.design }}</span>
+                </div>
+                <div class="col-4">
+                    <span>Zutaten: {{ mixView.itemCollection.items|length }}</span>
+                </div>
+            </div>
+            <div class="mixer-product-label-row row">
+                <div class="col-12">
+                    <div class="mixer-product-label">
+                        <form method="post" action="{{ path('invMixerProduct.storeFront.mix.session.label.set') }}"
+                              data-inv-mixer-mix-state-action="true"
+                              id="mix-state-set-label-form"
+                        >
+                            <input type="hidden" name="_csrf_token"
+                                   value="{{ csrf_token('invMixerProduct.storeFront.mix.session.label.set') }}">
+                            <input type="text" name="label" value="{{ mixView.mixLabel }}"
+                                   placeholder="{{ "InvMixerProduct.placeholders.mixLabelMobile"|trans }}" onchange="this.form.getElementsByTagName('button').item(0).click()"/>
+                            <button type="submit" style="display:none">set label</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="mixer-product-actions row">
+                <div class="col-6">
+                    ### Preis, Grundpreis, MwSt.- und Versandkosten-Link ###
+                </div>
+                <div class="col-6">
+                    <form method="post"
+                          action="{{ path('invMixerProduct.storeFront.mix.session.addToCart') }}" id="mix-state-add-to-cart-form">
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('invMixerProduct.storeFront.mix.session.addToCart') }}">
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="number" name="quantity" value="1" min="1" max="100"/>
+                            </div>
+
+                            <div class="col-6">
+                                <button type="submit" class="btn button btn-block btn-buy">
+                                    {% sw_icon 'bag' %}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block inv_product_mixer_product_mobile_config %}
+        <button class="mixer-product-off-canvas-botton" data-trigger="#mixer-product-offcanvas"></button>
+    {% endblock %}
+
+    {% block inv_product_mixer_product_categories %}
+        <ul class="nav nav-tabs" role="tablist">
+            {% for listingProductGroup in listingProductCollection.groups %}
+                {% if loop.first %}
+                    {% set class = "active" %}
+                {% else %}
+                    {% set class = "" %}
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link {{ class }}" data-toggle="tab" id="tab{{ listingProductGroup.groupIdentifier }}"
+                       href="#{{ listingProductGroup.groupIdentifier }}" role="tab"
+                       aria-controls="{{ listingProductGroup.groupIdentifier }}" aria-selected="true">
+                        <img src="{{ asset('storefront/img/'~listingProductGroup.groupIdentifier~'.jpg', '@InvMixerProduct') }}" alt="{{ ("InvMixerProduct.tabs." ~ listingProductGroup.groupIdentifier)|trans }}" /> {{ ("InvMixerProduct.tabs." ~ listingProductGroup.groupIdentifier)|trans }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        <hr />
+    {% endblock %}
+</div>

@@ -1,0 +1,13 @@
+{% sw_extends "@Storefront/storefront/page/checkout/checkout-aside-item.html.twig" %}
+
+{% block page_checkout_aside_item %}
+    {% if lineItem.payload.inv_mixer_product__is_mix_child_product or lineItem.payload.inv_mixer_product__is_mix_base_product %}
+        {% set class = "is-mix-child-product" %}
+    {% else %}
+        {% set class = "" %}
+    {% endif %}
+
+    <div class="{{ class }}">
+        {{ parent() }}
+    </div>
+{% endblock %}

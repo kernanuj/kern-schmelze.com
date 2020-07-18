@@ -37,6 +37,7 @@
         },
         "placeholders": {
             "mixLabel": "My chocolate",
+            "mixLabelMobile": "Name your chocolate",
             "noItems": "Your chocolate bar does not yet have any additional ingredients. <br />Add some ingredients now!"
         },
         "information": {

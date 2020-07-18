@@ -37,6 +37,7 @@
         },
         "placeholders": {
             "mixLabel": "Meine Schokolade",
+            "mixLabelMobile": "Benenne Deine Schokolade",
             "noItems": "Noch hat Deine Schokoladentafel keine zusätzlichen Zutaten. <br />Füge jetzt weitere Zutaten hinzu!"
         },
         "information": {

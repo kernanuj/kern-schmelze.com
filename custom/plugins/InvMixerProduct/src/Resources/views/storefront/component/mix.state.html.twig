@@ -95,7 +95,7 @@
                             {% set class = "" %}
                         {% endif %}
 
-                        <li class="{{ class }} col-3 col-sm-6 col-md-3 col-lg-3">
+                        <li class="{{ class }} col-3 col-sm-3 col-md-3 col-lg-3">
                             <form method="post"
                                   action="{{ path('invMixerProduct.storeFront.mix.session.container.design.set') }}"
                                   data-inv-mixer-mix-state-action="true"
@@ -270,14 +270,7 @@
 
         {% block inv_product_mixer_sidebar_price_info %}
             {% set mixerProductTotalPrice = mixView.mixTotalPrice.value %}
-
-            {# Todo: Calculate and fill with value: mixView.mixTotalWeight.value #}
-            {% if mixView.mixTotalWeight.value == 0 %}
-                {% set mixerProductTotalWeight = 200 %}
-            {% else %}
-                {% set mixerProductTotalWeight = mixView.mixTotalWeight.value %}
-            {% endif %}
-
+            {% set mixerProductTotalWeight = mixView.mixTotalWeight.value %}
             {% set mixerProductBasePrice = mixerProductTotalPrice / mixerProductTotalWeight * 100 %}
 
             {% if context.taxState == "gross" %}
