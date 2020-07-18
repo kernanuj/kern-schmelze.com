@@ -51,6 +51,8 @@ final class Constants
     public const CATALOG_PRODUCT_TAG_CATEGORY_SEEDS = 'mixer-product-category-seeds';
     public const CATALOG_PRODUCT_TAG_CATEGORY_DRIEDFRUIT = 'mixer-product-category-driedfruit';
 
+    public const MIX_DISPLAY_ID_OFFSET = 100000;
+
     /**
      * @return Design[]
      */

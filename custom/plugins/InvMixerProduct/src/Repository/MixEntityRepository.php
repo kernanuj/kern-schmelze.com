@@ -3,17 +3,17 @@
 namespace InvMixerProduct\Repository;
 
 
+use Doctrine\DBAL\Connection;
+use InvMixerProduct\Constants;
 use InvMixerProduct\Entity\MixEntity as SubjectEntity;
 use InvMixerProduct\Entity\MixItemEntity;
 use InvMixerProduct\Exception\EntityNotFoundException;
 use InvMixerProduct\Service\ConfigurationInterface;
-use InvMixerProduct\Struct\ContainerDefinition;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
-use Shopware\Core\System\SalesChannel\SalesChannelContext;
 
 /**
  * Class MixEntityRepository
@@ -38,20 +38,29 @@ class MixEntityRepository
     private $configuration;
 
     /**
+     * @var Connection
+     */
+    private $connection;
+
+    /**
      * MixEntityRepository constructor.
      * @param EntityRepositoryInterface $dalEntityRepository
      * @param EntityRepositoryInterface $mixItemRepository
-     * @param ConfigurationInterface $configurationInterface
+     * @param ConfigurationInterface $configuration
+     * @param Connection $connection
      */
     public function __construct(
         EntityRepositoryInterface $dalEntityRepository,
         EntityRepositoryInterface $mixItemRepository,
-        ConfigurationInterface $configurationInterface
+        ConfigurationInterface $configuration,
+        Connection $connection
     ) {
         $this->dalEntityRepository = $dalEntityRepository;
         $this->mixItemRepository = $mixItemRepository;
-        $this->configuration = $configurationInterface;
+        $this->configuration = $configuration;
+        $this->connection = $connection;
     }
+
 
     /**
      * @return SubjectEntity
@@ -80,10 +89,15 @@ class MixEntityRepository
             $context
         );
 
+        if (true !== $entity->hasDisplayId()) {
+            $entity->setDisplayId($this->getNextMixDisplayId());
+        }
+
         $data = [
             'id' => $entity->getId(),
             'created_at' => $entity->getCreatedAt(),
             'updated_at' => $entity->getUpdatedAt(),
+            'displayId' => $entity->getDisplayId(),
             'containerDefinition' => $entity->getContainerDefinition(),
             'customerId' => $entity->getCustomer() ? $entity->getCustomer()->getId() : null,
             'label' => $entity->getLabel(),
@@ -115,7 +129,7 @@ class MixEntityRepository
      */
     private function removeItemsNotExistentInSubject(SubjectEntity $subject, Context $context): self
     {
-        if(!$subject->getItems()){
+        if (!$subject->getItems()) {
             return $this;
         }
 
@@ -131,7 +145,7 @@ class MixEntityRepository
             return true;
         });
 
-        if(empty($idsToRemove)){
+        if (empty($idsToRemove)) {
             return $this;
         }
 
@@ -153,6 +167,26 @@ class MixEntityRepository
         );
 
         return $this;
+    }
+
+    /**
+     * @return int
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    private function getNextMixDisplayId(): int
+    {
+        $nextID = $this->connection->fetchColumn(
+            'SELECT max(display_id) FROM inv_mixer_product__mix',
+            [],
+            0
+        );
+
+        if($nextID < Constants::MIX_DISPLAY_ID_OFFSET){
+            $nextID = Constants::MIX_DISPLAY_ID_OFFSET;
+        }
+        $nextID = (int)$nextID;
+
+        return $nextID + 1;
     }
 
     /**
