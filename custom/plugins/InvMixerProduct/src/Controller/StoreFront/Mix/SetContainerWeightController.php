@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package InvMixerProduct\Controller\StoreFront\Mix
  *
  * @RouteScope(scopes={"storefront"})
- * @Route("/mix/container/weight", methods={"POST"}, name="invMixerProduct.storeFront.mix.session.container.weight.set")
+ * @Route("/mix/container/weight", methods={"POST"}, defaults={"csrf_protected": false}, name="invMixerProduct.storeFront.mix.session.container.weight.set")
  */
 class SetContainerWeightController extends MixController
 {
