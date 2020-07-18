@@ -4,7 +4,7 @@ namespace InvMixerProduct\Helper;
 
 
 use InvMixerProduct\Constants;
-use Shopware\Core\Checkout\Cart\LineItem\LineItem;
+use Shopware\Core\Checkout\Cart\LineItem\LineItem as Subject;
 
 /**
  * Class LineItemAccessor
@@ -14,30 +14,49 @@ final class LineItemAccessor
 {
 
     /**
-     * @param LineItem $lineItem
+     * @param Subject $subject
      * @return string|null
      */
-    public static function getMixLabel(LineItem $lineItem): ?string
+    public static function getMixLabel(Subject $subject): ?string
     {
-        if (!is_array($lineItem->getPayload())) {
+        if (!is_array($subject->getPayload())) {
             return null;
         }
 
-        return $lineItem->getPayload()[Constants::KEY_MIX_LABEL_CART_ITEM] ?? null;
+        return $subject->getPayload()[Constants::KEY_MIX_LABEL_CART_ITEM] ?? null;
     }
 
     /**
-     * @param LineItem $lineItem
+     * @param Subject $subject
      * @return bool
-     * @deprecated
      */
-    public static function isContainsMixContainerProduct(LineItem $lineItem): bool
+    public static function isContainsMixContainerProduct(Subject $subject): bool
     {
-        if (!is_array($lineItem->getPayload())) {
+        $payload = $subject->getPayload();
+        if (!is_array($payload)) {
             return false;
         }
 
-        return (bool)$lineItem->getPayload()[Constants::KEY_IS_MIX_CONTAINER_PRODUCT] ?? false;
+        $value = $payload[Constants::KEY_IS_MIX_CONTAINER_PRODUCT] ?? false;
 
+        return (bool)$value;
+
+    }
+
+    /**
+     * @param Subject $subject
+     * @return bool
+     */
+    public static function isContainsMixBaseProduct(Subject $subject): bool
+    {
+
+        $payload = $subject->getPayload();
+        if (!is_array($payload)) {
+            return false;
+        }
+
+        $value = $payload[Constants::KEY_IS_MIX_BASE_PRODUCT] ?? false;
+
+        return (bool)$value;
     }
 }

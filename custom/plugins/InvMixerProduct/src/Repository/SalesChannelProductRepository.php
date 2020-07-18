@@ -39,9 +39,10 @@ class SalesChannelProductRepository
     public function findOneById(string $id, SalesChannelContext $context): SubjectEntity
     {
         $found = $this->salesChannelRepository->search(
-            (new Criteria(
-                [$id]
-            )),
+            (new Criteria([$id]))
+                ->addAssociation('prices')
+                ->addAssociation('unit')
+                ->addAssociation('cover'),
             $context
         )->first();
 
