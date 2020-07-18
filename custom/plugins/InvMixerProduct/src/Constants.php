@@ -27,6 +27,9 @@ final class Constants
     public const KEY_IS_MIX_BASE_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE . '_is_mix_base_product';
     public const KEY_IS_MIX_CHILD_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE . '_is_mix_child_product';
     public const KEY_CONTAINER_DEFINITION = self::PLUGIN_PREFIX_SNAKE_CASE . '_container_definition';
+    public const KEY_MIX_ENTITY_ID = self::PLUGIN_PREFIX_SNAKE_CASE . '_entity_id';
+    public const KEY_MIX_ITEM_ENTITY_ID = self::PLUGIN_PREFIX_SNAKE_CASE . '_item_entity_id';
+    public const KEY_MIX_DISPLAY_ID = self::PLUGIN_PREFIX_SNAKE_CASE . '_display_id';
 
 
     public const LINE_ITEM_TYPE_IDENTIFIER = self::PLUGIN_PREFIX_SNAKE_CASE.'_product';
