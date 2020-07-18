@@ -4,10 +4,10 @@ namespace InvExportLabel\Service;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use InvExportLabel\Service\Renderer\RendererRegistry;
 use InvExportLabel\Value\ExportRequestConfiguration;
 use InvExportLabel\Value\ExportResult;
 use InvExportLabel\Value\SourceCollection;
+use SplFileObject;
 
 /**
  * Class LabelCreator
@@ -22,19 +22,19 @@ class LabelCreator
     private $sourceProvider;
 
     /**
-     * @var RendererRegistry
+     * @var TypeInstanceRegistry
      */
-    private $rendererRegistry;
+    private $typeInstanceRegistry;
 
     /**
      * LabelCreator constructor.
      * @param SourceProviderInterface $sourceProvider
-     * @param RendererRegistry $rendererRegistry
+     * @param TypeInstanceRegistry $typeInstanceRegistry
      */
-    public function __construct(SourceProviderInterface $sourceProvider, RendererRegistry $rendererRegistry)
+    public function __construct(SourceProviderInterface $sourceProvider, TypeInstanceRegistry $typeInstanceRegistry)
     {
         $this->sourceProvider = $sourceProvider;
-        $this->rendererRegistry = $rendererRegistry;
+        $this->typeInstanceRegistry = $typeInstanceRegistry;
     }
 
     /**
@@ -70,7 +70,7 @@ class LabelCreator
         SourceCollection $collection,
         ExportResult $exportResult
     ): self {
-        $renderer = $this->rendererRegistry->forType($configuration->getType());
+        $renderer = $this->typeInstanceRegistry->forType($configuration->getType())->getRenderer();
 
         $options = new Options();
         $options->set('isRemoteEnabled', false);
@@ -82,7 +82,7 @@ class LabelCreator
 
         file_put_contents($configuration->getStoragePathName(), $dompdf->output());
         $exportResult->setCreatedFile(
-            new \SplFileObject($configuration->getStoragePathName())
+            new SplFileObject($configuration->getStoragePathName())
         );
         return $this;
     }

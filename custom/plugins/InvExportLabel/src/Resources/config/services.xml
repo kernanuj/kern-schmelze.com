@@ -3,7 +3,10 @@
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
+    <imports>
+        <import resource="services/repository.xml"/>
+        <import resource="services/type.mixerProduct.xml"/>
+    </imports>
     <services>
         <service id="InvExportLabel\Command\ExportCommand">
             <call method="setCreator">
@@ -17,25 +20,23 @@
 
         <service id="InvExportLabel\Service\LabelCreator">
             <argument type="service" id="InvExportLabel\Service\OrderSourceProvider"/>
-            <argument type="service" id="InvExportLabel\Service\Renderer\RendererRegistry"/>
+            <argument type="service" id="InvExportLabel\Service\TypeInstanceRegistry"/>
         </service>
 
         <service id="InvExportLabel\Service\SourceProviderInterface"
                  alias="InvExportLabel\Service\OrderSourceProvider"/>
         <service id="InvExportLabel\Service\OrderSourceProvider">
-
+            <argument type="service" id="InvExportLabel\Repository\OrderRepository"/>
+            <argument type="service" id="InvExportLabel\Service\TypeInstanceRegistry"/>
         </service>
 
-        <service id="InvExportLabel\Service\Renderer\MixerProductRenderer">
-            <argument type="service" id="Shopware\Core\Checkout\Document\Twig\DocumentTemplateRenderer"/>
-
-        </service>
-        <service id="InvExportLabel\Service\Renderer\RendererRegistry">
-            <call method="addRenderer">
+        <service id="InvExportLabel\Service\TypeInstanceRegistry">
+            <call method="addTypeInstance">
                 <argument type="string">inv_mixer_product</argument>
-                <argument type="service" id="InvExportLabel\Service\Renderer\MixerProductRenderer"/>
+                <argument type="service" id="InvExportLabel\Service\TypeInstance\MixerProduct\TypeInstance"/>
             </call>
         </service>
+
         <service id="InvExportLabel\Service\ConfigurationProvider">
             <argument type="string">%kernel.project_dir%/var/InvExportLabel</argument>
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>

@@ -2,9 +2,12 @@
 
 namespace InvExportLabel\Service;
 
+use InvExportLabel\Repository\OrderRepository;
 use InvExportLabel\Value\ExportRequestConfiguration;
 use InvExportLabel\Value\SourceCollection;
 use InvExportLabel\Value\SourceItemType\MixerProductSourceItem;
+use Shopware\Core\Checkout\Order\OrderCollection;
+use Shopware\Core\Framework\Context;
 
 /**
  * Class OrderSourceProvider
@@ -12,11 +15,44 @@ use InvExportLabel\Value\SourceItemType\MixerProductSourceItem;
  */
 class  OrderSourceProvider implements SourceProviderInterface
 {
+
+    /**
+     * @var OrderRepository
+     */
+    private $orderRepository;
+
+    /**
+     * @var TypeInstanceRegistry
+     */
+    private $typeInstanceRegistry;
+
+    /**
+     * OrderSourceProvider constructor.
+     * @param OrderRepository $orderRepository
+     * @param TypeInstanceRegistry $typeInstanceRegistry
+     */
+    public function __construct(OrderRepository $orderRepository, TypeInstanceRegistry $typeInstanceRegistry)
+    {
+        $this->orderRepository = $orderRepository;
+        $this->typeInstanceRegistry = $typeInstanceRegistry;
+    }
+
     /**
      * @inheritDoc
      */
     public function fetchSourceCollection(ExportRequestConfiguration $configuration): SourceCollection
     {
+
+        $typeInstance = $this->typeInstanceRegistry->forType($configuration->getType());
+
+        $orderEntityCollection = $this->loadMatchingOrders(
+            $configuration,
+            Context::createDefaultContext()
+        );
+
+        $typeInstance->extractOrderLineItems($orderEntityCollection);
+
+
         $collection = new SourceCollection();
         $collection->addItem(
             (new MixerProductSourceItem())
@@ -42,5 +78,21 @@ Pekannüsse, Macadamias, Erdnussöl)')
         );
 
         return $collection;
+    }
+
+    /**
+     * @param ExportRequestConfiguration $configuration
+     * @param Context $context
+     * @return OrderCollection
+     */
+    private function loadMatchingOrders(ExportRequestConfiguration $configuration, Context $context): OrderCollection
+    {
+
+        return $this->orderRepository->getOrdersForDateRange(
+            $configuration->getSourceFilterDefinition()->getOrderedAtFrom(),
+            $configuration->getSourceFilterDefinition()->getOrderedAtTo(),
+            $context
+        );
+
     }
 }

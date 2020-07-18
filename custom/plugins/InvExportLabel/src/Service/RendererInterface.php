@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace InvExportLabel\Service\Renderer;
+namespace InvExportLabel\Service;
 
 use InvExportLabel\Value\RenderedDocument;
 use InvExportLabel\Value\SourceCollection;
 
 /**
  * Interface RendererInterface
- * @package InvExportLabel\Service\Renderer
+ * @package InvExportLabel\Service
  */
 interface RendererInterface
 {

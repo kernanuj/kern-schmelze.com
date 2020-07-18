@@ -41,12 +41,14 @@ class ConfigurationProvider
      */
     public function provideDefaultSet(): ExportRequestConfiguration
     {
+
+
         return (new ExportRequestConfiguration())
             ->setSourceFilterDefinition(
                 new SourceFilterDefinition(
                     (new \DateTime())->sub(new \DateInterval('P1D'))->setTime(0, 0, 0),
                     (new \DateTime())->setTime(0, 0, 0),
-                    $this->systemConfigService->get(Constants::SYSTEM_CONFIG_MIXER_PRODUCT_FILTER_ORDER_STATE)
+                    $this->fromConfigurationReadValidOrderStates()
                 ))
             ->setBestBeforeDate(
                 (new \DateTime())
@@ -75,7 +77,6 @@ class ConfigurationProvider
 
     }
 
-
     /**
      * @return string
      */
@@ -87,5 +88,21 @@ class ConfigurationProvider
         Assert::writable($this->baseStorageDirectory);
 
         return $this->baseStorageDirectory;
+    }
+
+    /**
+     * @return array
+     */
+    private function fromConfigurationReadValidOrderStates(): array
+    {
+        $orderStates = $this->systemConfigService->get(Constants::SYSTEM_CONFIG_MIXER_PRODUCT_FILTER_ORDER_STATE);
+        if (!is_array($orderStates)) {
+            $orderStates = [$orderStates];
+        }
+
+        if (empty($orderStates)) {
+            throw new \RuntimeException('Needs at least one order state to be configured');
+        }
+        return $orderStates;
     }
 }
