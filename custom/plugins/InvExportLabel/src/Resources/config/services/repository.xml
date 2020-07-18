@@ -7,6 +7,8 @@
     <services>
         <service id="InvExportLabel\Repository\OrderRepository">
             <argument type="service" id="order.repository"/>
+            <argument type="service" id="state_machine_history.repository"/>
+            <argument type="service" id="order_transaction.repository"/>
         </service>
     </services>
 </container>

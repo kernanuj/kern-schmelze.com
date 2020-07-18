@@ -4,11 +4,14 @@
 namespace InvExportLabel\Repository;
 
 
+use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEntity;
 use Shopware\Core\Checkout\Order\OrderCollection;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\RangeFilter;
+use Shopware\Core\System\StateMachine\Aggregation\StateMachineHistory\StateMachineHistoryEntity;
 
 /**
  * Class OrderRepository
@@ -20,16 +23,34 @@ class OrderRepository
     /**
      * @var EntityRepositoryInterface
      */
-    private $entityRepository;
+    private $baseOrderRepository;
+
+    /**
+     * @var EntityRepositoryInterface
+     */
+    private $baseStateMachineHistoryRepository;
+
+    /**
+     * @var EntityRepositoryInterface
+     */
+    private $baseOrderTransactionRepository;
 
     /**
      * OrderRepository constructor.
-     * @param EntityRepositoryInterface $entityRepository
+     * @param EntityRepositoryInterface $baseOrderRepository
+     * @param EntityRepositoryInterface $baseStateMachineHistoryRepository
+     * @param EntityRepositoryInterface $baseOrderTransactionRepository
      */
-    public function __construct(EntityRepositoryInterface $entityRepository)
-    {
-        $this->entityRepository = $entityRepository;
+    public function __construct(
+        EntityRepositoryInterface $baseOrderRepository,
+        EntityRepositoryInterface $baseStateMachineHistoryRepository,
+        EntityRepositoryInterface $baseOrderTransactionRepository
+    ) {
+        $this->baseOrderRepository = $baseOrderRepository;
+        $this->baseStateMachineHistoryRepository = $baseStateMachineHistoryRepository;
+        $this->baseOrderTransactionRepository = $baseOrderTransactionRepository;
     }
+
 
     /**
      * @param \DateTime $fromDate
@@ -69,7 +90,7 @@ class OrderRepository
         $criteria->addFilter(new RangeFilter('orderDateTime', ['gte' => $fromDate->format(DATE_ATOM)]));
         $criteria->addFilter(new RangeFilter('orderDateTime', ['lte' => $toDate->format(DATE_ATOM)]));
 
-        return $this->entityRepository->search($criteria, $context)->getIds();
+        return $this->baseOrderRepository->search($criteria, $context)->getIds();
     }
 
     /**
@@ -83,7 +104,7 @@ class OrderRepository
         $criteria->addAssociations($this->getAssociationsForOrder());
 
         /** @var OrderCollection $collection */
-        $collection = $this->entityRepository->search($criteria, $context)->getEntities();
+        $collection = $this->baseOrderRepository->search($criteria, $context)->getEntities();
 
         return $collection;
     }
@@ -97,8 +118,79 @@ class OrderRepository
     {
         return [
             'lineItems.product',
+            'transactions',
+            'deliveries',
             'currency',
         ];
+    }
+
+    /**
+     * @param \DateTime $fromDate
+     * @param \DateTime $toDate
+     * @param Context $context
+     * @return OrderCollection
+     */
+    public function getOrdersWithStateChangeInDateRange(
+        \DateTime $fromDate,
+        \DateTime $toDate,
+        Context $context
+    ): OrderCollection {
+
+        $ids = $this->getOrderIdsFromOrderTransactions($fromDate, $toDate, $context);
+
+        return $this->getOrders($ids, $context);
+    }
+
+    /**
+     * @param \DateTime $fromDate
+     * @param \DateTime $toDate
+     * @param Context $context
+     * @return array|int[]
+     */
+    private function getOrderTransactionIdsFromStateHistory(\DateTime $fromDate, \DateTime $toDate, Context $context): array
+    {
+        $criteria = new Criteria();
+
+        $criteria->addFilter(new EqualsFilter('entityName', 'order_transaction'));
+        $criteria->addFilter(new RangeFilter('createdAt', ['gte' => $fromDate->format(DATE_ATOM)]));
+        $criteria->addFilter(new RangeFilter('createdAt', ['lte' => $toDate->format(DATE_ATOM)]));
+        $transactions = $this->baseStateMachineHistoryRepository->search(
+            $criteria,
+            $context
+        );
+
+        $ids = array_map(function (StateMachineHistoryEntity $entity) {
+            return $entity->getEntityId()['id'] ?? null;
+        }, $transactions->getElements());
+
+        return array_values(array_unique($ids));
+    }
+
+    /**
+     * @param \DateTime $fromDate
+     * @param \DateTime $toDate
+     * @param Context $context
+     * @return array|int[]
+     */
+    private function getOrderIdsFromOrderTransactions(\DateTime $fromDate, \DateTime $toDate, Context $context): array
+    {
+
+        $ids = $this->getOrderTransactionIdsFromStateHistory(
+            $fromDate,
+            $toDate,
+            $context
+        );
+
+        $transactions = $this->baseOrderTransactionRepository->search(
+            new Criteria($ids),
+            $context
+        );
+
+        $ids = array_map(function (OrderTransactionEntity $entity) {
+            return $entity->getOrderId();
+        }, $transactions->getElements());
+
+        return array_values(array_unique($ids));
     }
 
 

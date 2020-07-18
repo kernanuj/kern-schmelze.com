@@ -32,11 +32,13 @@ final class OrderLineItemEntityAccessor
      */
     public static function isContainsMixContainerProduct(Subject $subject): bool
     {
-        if (!is_array($subject->getPayload())) {
+
+        $payload = $subject->getPayload();
+        if (!is_array($payload)) {
             return false;
         }
 
-        $value = $subject->getPayload()[Constants::KEY_IS_MIX_CONTAINER_PRODUCT] ?? false;
+        $value = $payload[Constants::KEY_IS_MIX_CONTAINER_PRODUCT] ?? false;
 
         return (bool)$value;
 
@@ -48,11 +50,13 @@ final class OrderLineItemEntityAccessor
      */
     public static function isContainsMixBaseProduct(Subject $subject): bool
     {
-        if (!is_array($subject->getPayload())) {
+
+        $payload = $subject->getPayload();
+        if (!is_array($payload)) {
             return false;
         }
 
-        $value = $subject->getPayload()[Constants::KEY_IS_MIX_BASE_PRODUCT] ?? false;
+        $value = $payload[Constants::KEY_IS_MIX_BASE_PRODUCT] ?? false;
 
         return (bool)$value;
     }
@@ -63,11 +67,13 @@ final class OrderLineItemEntityAccessor
      */
     public static function isContainsMixChildProduct(Subject $subject): bool
     {
-        if (!is_array($subject->getPayload())) {
+
+        $payload = $subject->getPayload();
+        if (!is_array($payload)) {
             return false;
         }
 
-        $value = $subject->getPayload()[Constants::KEY_IS_MIX_CHILD_PRODUCT] ?? false;
+        $value = $payload[Constants::KEY_IS_MIX_CHILD_PRODUCT] ?? false;
 
         return (bool)$value;
     }

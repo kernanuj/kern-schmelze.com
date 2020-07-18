@@ -2,7 +2,10 @@
 
 namespace InvExportLabel\Service;
 
+use InvExportLabel\Value\ExportRequestConfiguration;
+use InvExportLabel\Value\SourceItemInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemCollection;
+use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity;
 use Shopware\Core\Checkout\Order\OrderCollection;
 
 /**
@@ -14,7 +17,7 @@ interface TypeInstanceInterface
 
     /**
      * Extracts all line items that match a the current type and should be used for further processing.
-     * 
+     *
      * @param OrderCollection $orderCollection
      * @return OrderLineItemCollection
      */
@@ -23,7 +26,17 @@ interface TypeInstanceInterface
     /**
      * @return RendererInterface
      */
-    public function getRenderer():RendererInterface;
+    public function getRenderer(): RendererInterface;
+
+    /**
+     * @param OrderLineItemEntity $orderLineItemEntity
+     * @param ExportRequestConfiguration $exportRequestConfiguration
+     * @return SourceItemInterface
+     */
+    public function convertOrderLineItemToSourceItem(
+        OrderLineItemEntity $orderLineItemEntity,
+        ExportRequestConfiguration $exportRequestConfiguration
+    ): SourceItemInterface;
 
 
 }

@@ -7,9 +7,11 @@
     <services>
         <service id="InvExportLabel\Service\TypeInstance\MixerProduct\TypeInstance">
             <argument type="service" id="InvExportLabel\Service\TypeInstance\MixerProduct\Renderer"/>
+            <argument type="service" id="InvExportLabel\Service\TypeInstance\MixerProduct\SourceItemConverter"/>
         </service>
         <service id="InvExportLabel\Service\TypeInstance\MixerProduct\Renderer">
             <argument type="service" id="Shopware\Core\Checkout\Document\Twig\DocumentTemplateRenderer"/>
         </service>
+        <service id="InvExportLabel\Service\TypeInstance\MixerProduct\SourceItemConverter"/>
     </services>
 </container>
