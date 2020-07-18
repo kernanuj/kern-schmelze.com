@@ -63,13 +63,18 @@ export default class InvMixerProductMixer extends Plugin {
         const isFilled = displayContainer.dataset.mixStateIsFilled || 0;
 
         try {
-            if (isComplete) {
+
+            if(this.el.getElementsByClassName('flashbags').length > 0){
+                document.querySelector('#mix-state-container .flashbags').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+            else if (isComplete) {
                 document.querySelector('#mix-state-add-to-cart-anchor').scrollIntoView({
                     behavior: 'smooth'
                 });
             }
-
-            if (isFilled) {
+            else if (isFilled) {
                 document.querySelector('#mix-state-set-label-anchor').scrollIntoView({
                     behavior: 'smooth'
                 });
