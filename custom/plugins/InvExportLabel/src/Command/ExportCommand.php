@@ -96,6 +96,12 @@ class ExportCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
+        if (false) {
+            $this->printOrderStateCombinations($output);
+            return;
+        }
+
         $configuration = $this->buildConfigurationFromInput($input);
 
         $result = $this->creator->run(
@@ -108,6 +114,41 @@ class ExportCommand extends Command
         }
 
         $output->writeln('Generated file:' . $result->getCreatedFile()->getPathname());
+    }
+
+    /**
+     * @param OutputInterface $output
+     */
+    private function printOrderStateCombinations(OutputInterface $output)
+    {
+        foreach (Constants::allOrderStates() as $orderState) {
+            foreach (Constants::allOrderTransactionStates() as $orderTransactionState) {
+                foreach (Constants::allOrderDeliveryStates() as $orderDeliveryState) {
+                    $option = <<<XML
+                <option>
+                    <id>%s</id>
+                    <name>Order:%s, Transaction:%s, Delivery:%s</name>
+                </option>
+XML;
+
+                    $output->writeln(
+                        sprintf(
+                            $option,
+                            \json_encode(
+                                [
+                                    'order' => $orderState,
+                                    'orderTransaction' => $orderTransactionState,
+                                    'orderDelivery' => $orderDeliveryState
+                                ]
+                            ),
+                            $orderState,
+                            $orderTransactionState,
+                            $orderDeliveryState
+                        )
+                    );
+                }
+            }
+        }
     }
 
     /**
