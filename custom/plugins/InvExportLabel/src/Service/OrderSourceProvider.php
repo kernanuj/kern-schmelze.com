@@ -56,12 +56,15 @@ class  OrderSourceProvider implements SourceProviderInterface
         $matchingOrderLineItems = $typeInstance->extractOrderLineItems($orderEntityCollection);
 
         foreach ($matchingOrderLineItems as $matchingOrderLineItem) {
-            $collection->addItem(
-                $typeInstance->convertOrderLineItemToSourceItem(
-                    $matchingOrderLineItem,
-                    $configuration
-                )
+            $converted = $typeInstance->convertOrderLineItemToSourceItem(
+                $matchingOrderLineItem,
+                $configuration
             );
+            for ($i = 0; $i < $matchingOrderLineItem->getQuantity(); $i++ ) {
+                $collection->addItem(
+                    $converted
+                );
+            }
         }
 
         return $collection;
