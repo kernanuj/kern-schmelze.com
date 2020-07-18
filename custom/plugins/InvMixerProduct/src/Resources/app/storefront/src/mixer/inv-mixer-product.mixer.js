@@ -8,7 +8,8 @@ export default class InvMixerProductMixer extends Plugin {
         /**
          * @type string
          */
-        urlMixState: '/produkt-mixer/mix/state'
+        urlMixState: '/produkt-mixer/mix/state',
+        urlMixStateMobile: '/produkt-mixer/mix/state?view=mobile'
     };
 
     init() {
@@ -86,8 +87,15 @@ export default class InvMixerProductMixer extends Plugin {
         this.attachMixStateEvents()
     }
 
+    displayStateMobile(stateInnerHtml) {
+        const displayContainer = document.getElementById('inv-mixer-product-mobile-enhancer-container');
+        displayContainer.innerHTML = stateInnerHtml
+        this.attachMixStateEvents()
+    }
+
     loadState() {
         const that = this;
         this._client.get(that.options.urlMixState, content => this.displayState(content));
+        this._client.get(that.options.urlMixStateMobile, content => this.displayStateMobile(content));
     }
 }

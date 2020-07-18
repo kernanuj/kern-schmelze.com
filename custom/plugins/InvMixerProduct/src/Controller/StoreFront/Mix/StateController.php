@@ -20,9 +20,8 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package InvMixerProduct\Controller\StoreFront\Mix
  *
  * @RouteScope(scopes={"storefront"})
- * @Route("/mix/state", methods={"GET"}, name="invMixerProduct.storeFront.mix.state")
+ * @Route("/mix/state", methods={"GET"}, defaults={"csrf_protected": false}, name="invMixerProduct.storeFront.mix.state")
  * @todo: exclude route from seo
- * @todo: disable csrf
  */
 class StateController extends MixController
 {
@@ -93,6 +92,16 @@ class StateController extends MixController
                 $this->mixService
             );
 
+            if($request->get('view') === 'mobile'){
+                return $this->renderStorefront(
+                    '@InvMixerProduct/InvMixerProduct/component/mobile-enhancer/mobile-enhancer.html.twig',
+                    [
+                        'page' => $this->pageLoader->load($request, $salesChannelContext),
+                        'containerDefinitionCollection' => $this->mixContainerDefinitionProvider->getAvailableContainerCollection(),
+                        'mixView' => $mixView,
+                    ]
+                );
+            }
             return $this->renderStorefront(
                 '@InvMixerProduct/storefront/component/mix.state.html.twig',
                 [
