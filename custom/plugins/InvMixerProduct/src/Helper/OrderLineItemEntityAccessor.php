@@ -77,4 +77,19 @@ final class OrderLineItemEntityAccessor
 
         return (bool)$value;
     }
+
+    /**
+     * @param Subject $subject
+     * @return string|null
+     */
+    public static function getMixDisplayId(Subject $subject): ?string
+    {
+        $payload = $subject->getPayload();
+        if (!is_array($payload)) {
+            return null;
+        }
+
+        return (string)$payload[Constants::KEY_MIX_DISPLAY_ID] ?? null;
+    }
+
 }

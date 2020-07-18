@@ -36,6 +36,9 @@ final class Constants
     public const CART_DATA_KEY_CONTAINER_SALES_CHANNEL_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE.'_container_product';
     public const CART_DATA_KEY_BASE_SALES_CHANNEL_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE.'_base_product';
     public const CART_DATA_KEY_CHILD_SALES_CHANNEL_PRODUCTS = self::PLUGIN_PREFIX_SNAKE_CASE.'_child_products';
+
+    public const PRODUCT_CUSTOM_FIELD_KEY_DATA_INGREDIENTS = 'custom_product_data_ingredients';
+    public const PRODUCT_CUSTOM_FIELD_KEY_DATA_ALLERGENS = 'custom_product_data_allergens';
     /**
      *
      */

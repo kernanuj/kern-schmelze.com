@@ -7,16 +7,22 @@
             background: black;
             color: white;
             font-family: Arial, sans-serif;
+            margin:0;
+            padding:0;
         }
 
         .container {
             width: 15cm;
-            height:auto;
+            height: auto;
+            padding:0;
+            margin: 21mm 30mm 21mm 30mm;
+
         }
 
         @page {
             page-break-after: always;
             margin: 0;
+            padding:0;
         }
 
         p {
@@ -33,35 +39,47 @@
             font-size: 12pt;
             font-weight: bold;
         }
+
         .address {
-            font-size:8pt;
+            font-size: 8pt;
+        }
+
+        .best-and-weight {
+            text-align: center;
         }
     </style>
 </head>
 <body>
-{# @var item \InvExportLabel\Value\SourceItemType\MixerProductSourceItem #}
+
 {% for item in sourceCollection.items %}
+    {# @var item \InvExportLabel\Value\SourceItemType\MixerProductSourceItem #}
     <div class="container">
         <p class="mix-name">
             {{ item.mixName }}
         </p>
-        <p class="best-before">
-            Mindestens haltbar bis: {{ item.bestBeforeDate | date("d.m.Y") }}
-        </p>
         <p>
-            Zutaten: {{ item.ingredients }}
+            Zutaten: {{ item.ingredients|join(', ') }}
         </p>
         <p class="disclaimer">
             Kann Spuren enthalten von anderen Nüssen, Ei,
             glutenhaltigem Getreide, Sesam, Sulfit.
             Vor Wärme schützen und trocken lagern.
         </p>
+        <p class="mix-id">
+            Mixed-ID: {{ item.displayId }}
+        </p>
+        <div class="best-and-weight">
+            <span class="best-before">Mindestens haltbar bis: {{ item.bestBeforeDate | date("d.m.Y") }}</span>
+            <span class="weight">{{ item.weight }}</span>
+        </div>
         <p class="address">
             KERNenergie GmbH · Grundtalring 23 · D-63868 Großwallstadt <br/>
             www.kern-energie.com www.kern-schmelze.com
         </p>
     </div>
-    <div class="break"></div>
+    {% if false == (loop.last) %}
+        <div class="break"></div>
+    {% endif %}
 {% endfor %}
 </body>
 </html>

@@ -118,6 +118,7 @@ class OrderRepository
     {
         return [
             'lineItems.product',
+            'lineItems.product.customFields',
             'transactions',
             'deliveries',
             'currency',

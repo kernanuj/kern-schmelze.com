@@ -4,6 +4,7 @@
 namespace InvExportLabel\Value\SourceItemType;
 
 use InvExportLabel\Value\SourceItemInterface;
+use InvMixerProduct\Value\Weight;
 
 /**
  * Class MixerProductSourceItem
@@ -19,14 +20,25 @@ class MixerProductSourceItem implements SourceItemInterface
     private $mixName = '';
 
     /**
-     * @var string
+     * @var array
      */
-    private $ingredients = '';
+    private $ingredients = [];
 
     /**
      * @var \DateTime
      */
     private $bestBeforeDate;
+
+    /**
+     * @var string
+     */
+    private $displayId = 0;
+
+    /**
+     * @var Weight
+     */
+    private $weight;
+
 
     /**
      * @return string
@@ -47,18 +59,18 @@ class MixerProductSourceItem implements SourceItemInterface
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getIngredients(): string
+    public function getIngredients(): array
     {
         return $this->ingredients;
     }
 
     /**
-     * @param string $ingredients
+     * @param array $ingredients
      * @return MixerProductSourceItem
      */
-    public function setIngredients(string $ingredients): MixerProductSourceItem
+    public function setIngredients(array $ingredients): MixerProductSourceItem
     {
         $this->ingredients = $ingredients;
         return $this;
@@ -81,4 +93,42 @@ class MixerProductSourceItem implements SourceItemInterface
         $this->bestBeforeDate = $bestBeforeDate;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getDisplayId(): string
+    {
+        return $this->displayId;
+    }
+
+    /**
+     * @param string $displayId
+     * @return MixerProductSourceItem
+     */
+    public function setDisplayId(string $displayId): MixerProductSourceItem
+    {
+        $this->displayId = $displayId;
+        return $this;
+    }
+
+    /**
+     * @return Weight
+     */
+    public function getWeight(): Weight
+    {
+        return $this->weight;
+    }
+
+    /**
+     * @param Weight $weight
+     * @return MixerProductSourceItem
+     */
+    public function setWeight(Weight $weight): MixerProductSourceItem
+    {
+        $this->weight = $weight;
+        return $this;
+    }
+
+
 }
