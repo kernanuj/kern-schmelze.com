@@ -20,9 +20,10 @@ class NumberOfProductsExceededException extends \Exception
         ContainerDefinition $containerDefinition,
         int $newCount
     ): self {
+        //@todo: make this tranbslateable whenever there is time
         return new self(
             sprintf(
-                'The maximum number of products %d is exceeded with %d',
+                'Dein Mix hat bereits die maximale Anzahl (%d) an Zutaten.',
                 $containerDefinition->getFillDelimiter()->getAmount()->getValue(),
                 $newCount
             )
