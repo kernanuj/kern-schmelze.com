@@ -4,6 +4,8 @@ namespace InvExportLabel\Service;
 
 use InvExportLabel\Constants;
 use InvExportLabel\Value\ExportRequestConfiguration;
+use InvExportLabel\Value\OrderStateCombination;
+use InvExportLabel\Value\OrderStateCombinationCollection;
 use InvExportLabel\Value\SourceFilterDefinition;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Webmozart\Assert\Assert;
@@ -48,7 +50,7 @@ class ConfigurationProvider
                 new SourceFilterDefinition(
                     (new \DateTime())->sub(new \DateInterval('P1D'))->setTime(0, 0, 0),
                     (new \DateTime())->setTime(0, 0, 0),
-                    $this->fromConfigurationReadValidOrderStates()
+                    $this->fromConfigurationReadValidOrderStateCombinations()
                 ))
             ->setBestBeforeDate(
                 (new \DateTime())
@@ -78,6 +80,23 @@ class ConfigurationProvider
     }
 
     /**
+     * @return OrderStateCombinationCollection
+     */
+    private function fromConfigurationReadValidOrderStateCombinations(): OrderStateCombinationCollection
+    {
+        $orderStates = $this->systemConfigService->get(Constants::SYSTEM_CONFIG_MIXER_PRODUCT_FILTER_ORDER_STATE);
+
+        $collection = new OrderStateCombinationCollection();
+        foreach ($orderStates as $orderState) {
+
+            $collection->addCombination(
+                OrderStateCombination::fromConfigValue($orderState)
+            );
+        }
+        return $collection;
+    }
+
+    /**
      * @return string
      */
     public function getStorageDirectory(): string
@@ -88,21 +107,5 @@ class ConfigurationProvider
         Assert::writable($this->baseStorageDirectory);
 
         return $this->baseStorageDirectory;
-    }
-
-    /**
-     * @return array
-     */
-    private function fromConfigurationReadValidOrderStates(): array
-    {
-        $orderStates = $this->systemConfigService->get(Constants::SYSTEM_CONFIG_MIXER_PRODUCT_FILTER_ORDER_STATE);
-        if (!is_array($orderStates)) {
-            $orderStates = [$orderStates];
-        }
-
-        if (empty($orderStates)) {
-            throw new \RuntimeException('Needs at least one order state to be configured');
-        }
-        return $orderStates;
     }
 }

@@ -15,34 +15,148 @@
             <name>mixerProductFilterOrderState</name>
             <options>
                 <option>
-                    <id>cancelled</id>
-                    <name>cancelled</name>
-                    <name lang="de-DE">cancelled</name>
+                    <id>{"order":"open","orderTransaction":"open","orderDelivery":"open"}</id>
+                    <name>Order:open, Transaction:open, Delivery:open</name>
                 </option>
                 <option>
-                    <id>shipped</id>
-                    <name>shipped</name>
-                    <name lang="de-DE">shipped</name>
+                    <id>{"order":"open","orderTransaction":"open","orderDelivery":"shipped_partially"}</id>
+                    <name>Order:open, Transaction:open, Delivery:shipped_partially</name>
                 </option>
                 <option>
-                    <id>open</id>
-                    <name>open</name>
-                    <name lang="de-DE">open</name>
+                    <id>{"order":"open","orderTransaction":"open","orderDelivery":"shipped"}</id>
+                    <name>Order:open, Transaction:open, Delivery:shipped</name>
                 </option>
                 <option>
-                    <id>in_progress</id>
-                    <name>in_progress</name>
-                    <name lang="de-DE">in_progress</name>
+                    <id>{"order":"open","orderTransaction":"paid","orderDelivery":"open"}</id>
+                    <name>Order:open, Transaction:paid, Delivery:open</name>
                 </option>
                 <option>
-                    <id>paid</id>
-                    <name>paid</name>
-                    <name lang="de-DE">paid</name>
+                    <id>{"order":"open","orderTransaction":"paid","orderDelivery":"shipped_partially"}</id>
+                    <name>Order:open, Transaction:paid, Delivery:shipped_partially</name>
                 </option>
                 <option>
-                    <id>paid_partially</id>
-                    <name>paid_partially</name>
-                    <name lang="de-DE">paid_partially</name>
+                    <id>{"order":"open","orderTransaction":"paid","orderDelivery":"shipped"}</id>
+                    <name>Order:open, Transaction:paid, Delivery:shipped</name>
+                </option>
+                <option>
+                    <id>{"order":"open","orderTransaction":"paid_partially","orderDelivery":"open"}</id>
+                    <name>Order:open, Transaction:paid_partially, Delivery:open</name>
+                </option>
+                <option>
+                    <id>{"order":"open","orderTransaction":"paid_partially","orderDelivery":"shipped_partially"}</id>
+                    <name>Order:open, Transaction:paid_partially, Delivery:shipped_partially</name>
+                </option>
+                <option>
+                    <id>{"order":"open","orderTransaction":"paid_partially","orderDelivery":"shipped"}</id>
+                    <name>Order:open, Transaction:paid_partially, Delivery:shipped</name>
+                </option>
+                <option>
+                    <id>{"order":"open","orderTransaction":"in_progress","orderDelivery":"open"}</id>
+                    <name>Order:open, Transaction:in_progress, Delivery:open</name>
+                </option>
+                <option>
+                    <id>{"order":"open","orderTransaction":"in_progress","orderDelivery":"shipped_partially"}</id>
+                    <name>Order:open, Transaction:in_progress, Delivery:shipped_partially</name>
+                </option>
+                <option>
+                    <id>{"order":"open","orderTransaction":"in_progress","orderDelivery":"shipped"}</id>
+                    <name>Order:open, Transaction:in_progress, Delivery:shipped</name>
+                </option>
+                <option>
+                    <id>{"order":"in_progress","orderTransaction":"open","orderDelivery":"open"}</id>
+                    <name>Order:in_progress, Transaction:open, Delivery:open</name>
+                </option>
+                <option>
+                    <id>{"order":"in_progress","orderTransaction":"open","orderDelivery":"shipped_partially"}</id>
+                    <name>Order:in_progress, Transaction:open, Delivery:shipped_partially</name>
+                </option>
+                <option>
+                    <id>{"order":"in_progress","orderTransaction":"open","orderDelivery":"shipped"}</id>
+                    <name>Order:in_progress, Transaction:open, Delivery:shipped</name>
+                </option>
+                <option>
+                    <id>{"order":"in_progress","orderTransaction":"paid","orderDelivery":"open"}</id>
+                    <name>Order:in_progress, Transaction:paid, Delivery:open</name>
+                </option>
+                <option>
+                    <id>{"order":"in_progress","orderTransaction":"paid","orderDelivery":"shipped_partially"}</id>
+                    <name>Order:in_progress, Transaction:paid, Delivery:shipped_partially</name>
+                </option>
+                <option>
+                    <id>{"order":"in_progress","orderTransaction":"paid","orderDelivery":"shipped"}</id>
+                    <name>Order:in_progress, Transaction:paid, Delivery:shipped</name>
+                </option>
+                <option>
+                    <id>{"order":"in_progress","orderTransaction":"paid_partially","orderDelivery":"open"}</id>
+                    <name>Order:in_progress, Transaction:paid_partially, Delivery:open</name>
+                </option>
+                <option>
+                    <id>{"order":"in_progress","orderTransaction":"paid_partially","orderDelivery":"shipped_partially"}</id>
+                    <name>Order:in_progress, Transaction:paid_partially, Delivery:shipped_partially</name>
+                </option>
+                <option>
+                    <id>{"order":"in_progress","orderTransaction":"paid_partially","orderDelivery":"shipped"}</id>
+                    <name>Order:in_progress, Transaction:paid_partially, Delivery:shipped</name>
+                </option>
+                <option>
+                    <id>{"order":"in_progress","orderTransaction":"in_progress","orderDelivery":"open"}</id>
+                    <name>Order:in_progress, Transaction:in_progress, Delivery:open</name>
+                </option>
+                <option>
+                    <id>{"order":"in_progress","orderTransaction":"in_progress","orderDelivery":"shipped_partially"}</id>
+                    <name>Order:in_progress, Transaction:in_progress, Delivery:shipped_partially</name>
+                </option>
+                <option>
+                    <id>{"order":"in_progress","orderTransaction":"in_progress","orderDelivery":"shipped"}</id>
+                    <name>Order:in_progress, Transaction:in_progress, Delivery:shipped</name>
+                </option>
+                <option>
+                    <id>{"order":"completed","orderTransaction":"open","orderDelivery":"open"}</id>
+                    <name>Order:completed, Transaction:open, Delivery:open</name>
+                </option>
+                <option>
+                    <id>{"order":"completed","orderTransaction":"open","orderDelivery":"shipped_partially"}</id>
+                    <name>Order:completed, Transaction:open, Delivery:shipped_partially</name>
+                </option>
+                <option>
+                    <id>{"order":"completed","orderTransaction":"open","orderDelivery":"shipped"}</id>
+                    <name>Order:completed, Transaction:open, Delivery:shipped</name>
+                </option>
+                <option>
+                    <id>{"order":"completed","orderTransaction":"paid","orderDelivery":"open"}</id>
+                    <name>Order:completed, Transaction:paid, Delivery:open</name>
+                </option>
+                <option>
+                    <id>{"order":"completed","orderTransaction":"paid","orderDelivery":"shipped_partially"}</id>
+                    <name>Order:completed, Transaction:paid, Delivery:shipped_partially</name>
+                </option>
+                <option>
+                    <id>{"order":"completed","orderTransaction":"paid","orderDelivery":"shipped"}</id>
+                    <name>Order:completed, Transaction:paid, Delivery:shipped</name>
+                </option>
+                <option>
+                    <id>{"order":"completed","orderTransaction":"paid_partially","orderDelivery":"open"}</id>
+                    <name>Order:completed, Transaction:paid_partially, Delivery:open</name>
+                </option>
+                <option>
+                    <id>{"order":"completed","orderTransaction":"paid_partially","orderDelivery":"shipped_partially"}</id>
+                    <name>Order:completed, Transaction:paid_partially, Delivery:shipped_partially</name>
+                </option>
+                <option>
+                    <id>{"order":"completed","orderTransaction":"paid_partially","orderDelivery":"shipped"}</id>
+                    <name>Order:completed, Transaction:paid_partially, Delivery:shipped</name>
+                </option>
+                <option>
+                    <id>{"order":"completed","orderTransaction":"in_progress","orderDelivery":"open"}</id>
+                    <name>Order:completed, Transaction:in_progress, Delivery:open</name>
+                </option>
+                <option>
+                    <id>{"order":"completed","orderTransaction":"in_progress","orderDelivery":"shipped_partially"}</id>
+                    <name>Order:completed, Transaction:in_progress, Delivery:shipped_partially</name>
+                </option>
+                <option>
+                    <id>{"order":"completed","orderTransaction":"in_progress","orderDelivery":"shipped"}</id>
+                    <name>Order:completed, Transaction:in_progress, Delivery:shipped</name>
                 </option>
             </options>
             <defaultValue>paid</defaultValue>
