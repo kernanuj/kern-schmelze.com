@@ -103,7 +103,7 @@ class ContainerMixToCartItemConverter implements MixToCartItemConverterInterface
                 $item->getId(),
                 LineItem::PRODUCT_LINE_ITEM_TYPE,
                 $item->getProductId(),
-                $item->getQuantity()
+                $item->getQuantity() * $quantity
             );
 
             $childLineItem->setRemovable(false);
