@@ -4,6 +4,7 @@ namespace InvExportLabel\Service;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use InvExportLabel\Constants;
 use InvExportLabel\Value\ExportRequestConfiguration;
 use InvExportLabel\Value\ExportResult;
 use InvExportLabel\Value\SourceCollection;
@@ -76,7 +77,7 @@ class LabelCreator
         $options->set('isRemoteEnabled', false);
         $options->setIsHtml5ParserEnabled(true);
         $dompdf = new Dompdf($options);
-        $dompdf->setPaper('a4', 'portrait');
+        $dompdf->setPaper(Constants::LABEL_PDF_PAPER_SIZE, 'portrait');
         $dompdf->loadHtml($renderer->render($collection)->getHtml());
         $dompdf->render();
 
