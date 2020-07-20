@@ -4,7 +4,7 @@
         display: none;
         transform:translateX(-100%);
         position: static;
-        background: $inv-mixer-product-button-add-background-color url(../../../bundles/invmixerproduct/storefront/img/icon-config.svg) no-repeat center center;
+        background: $inv-mixer-product-button-add-background-color url(../../../bundles/invmixerproduct/storefront/img/icon-config.svg) no-repeat 15px center;
         background-size: 18px 18px !important;
         color: $white;
         border: 0;
@@ -12,8 +12,9 @@
         -moz-box-shadow: none;
         box-shadow: none;
         text-align: center;
-        width: 50px;
+        min-width: 290px;
         min-height: 30px;
+        padding-left: 30px;
         -webkit-border-radius: 0 0 30px 30px;
         -moz-border-radius: 0 0 30px 30px;
         border-radius: 0 0 30px 30px;

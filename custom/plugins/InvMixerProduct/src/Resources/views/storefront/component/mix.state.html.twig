@@ -118,7 +118,6 @@
 
         {% block inv_product_mixer_sidebar_mixer_product_items %}
             <hr/>
-
             {% if mixView.itemCollection.items is empty %}
                 {{ "InvMixerProduct.placeholders.noItems"|trans|raw }}
             {% endif %}
@@ -287,10 +286,10 @@
                 <span class="mixer-product-baseprice">
                      ({{ mixerProductBasePrice|currency }}{{ "general.star"|trans|sw_sanitize }} / 100 {{ mixView.mixTotalWeight.unit }})
                      <a class="mixer-product-tax-link"
-                        href="{{ path('frontend.cms.page',{ id: shopware.config.core.basicInformation.shippingPaymentInfoPage }) }}"
+                        href="/Service/Versand-und-Lieferung/"
                         title="{{ taxText }}"
-                        data-toggle="modal"
-                        data-url="{{ path('frontend.cms.page',{ id: shopware.config.core.basicInformation.shippingPaymentInfoPage }) }}">
+                     target="_blank"
+                     >
                         {{ taxText }}
                     </a>
                 </span>

@@ -64,7 +64,6 @@ export default class InvMixerProductMixer extends Plugin {
         const isFilled = displayContainer.dataset.mixStateIsFilled || 0;
 
         try {
-
             if(this.el.getElementsByClassName('flashbags').length > 0){
                 document.querySelector('#mix-state-container .flashbags').scrollIntoView({
                     behavior: 'smooth'
@@ -89,8 +88,26 @@ export default class InvMixerProductMixer extends Plugin {
 
     displayStateMobile(stateInnerHtml) {
         const displayContainer = document.getElementById('inv-mixer-product-mobile-enhancer-container');
-        displayContainer.innerHTML = stateInnerHtml
+        displayContainer.innerHTML = stateInnerHtml;
         this.attachMixStateEvents()
+
+        $("#mixer-product-off-canvas-botton").on("click", function(e){
+            alert('test');
+            console.log('test');
+            e.preventDefault();
+            e.stopPropagation();
+            var offcanvas_id =  $(this).attr('data-trigger');
+            console.log(offcanvas_id);
+            $(offcanvas_id).toggleClass("show");
+            $('body').toggleClass("offcanvas-active");
+            $(".screen-overlay").toggleClass("show");
+        });
+
+        $(".mix-product-offcanvas-close, .screen-overlay").click(function(e){
+            $(".screen-overlay").removeClass("show");
+            $("#mixer-product-offcanvas").removeClass("show");
+            $("body").removeClass("offcanvas-active");
+        });
     }
 
     loadState() {
