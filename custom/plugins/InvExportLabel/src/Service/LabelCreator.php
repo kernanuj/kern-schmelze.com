@@ -4,10 +4,11 @@ namespace InvExportLabel\Service;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use InvExportLabel\Service\Renderer\RendererRegistry;
+use InvExportLabel\Constants;
 use InvExportLabel\Value\ExportRequestConfiguration;
 use InvExportLabel\Value\ExportResult;
 use InvExportLabel\Value\SourceCollection;
+use SplFileObject;
 
 /**
  * Class LabelCreator
@@ -22,19 +23,19 @@ class LabelCreator
     private $sourceProvider;
 
     /**
-     * @var RendererRegistry
+     * @var TypeInstanceRegistry
      */
-    private $rendererRegistry;
+    private $typeInstanceRegistry;
 
     /**
      * LabelCreator constructor.
      * @param SourceProviderInterface $sourceProvider
-     * @param RendererRegistry $rendererRegistry
+     * @param TypeInstanceRegistry $typeInstanceRegistry
      */
-    public function __construct(SourceProviderInterface $sourceProvider, RendererRegistry $rendererRegistry)
+    public function __construct(SourceProviderInterface $sourceProvider, TypeInstanceRegistry $typeInstanceRegistry)
     {
         $this->sourceProvider = $sourceProvider;
-        $this->rendererRegistry = $rendererRegistry;
+        $this->typeInstanceRegistry = $typeInstanceRegistry;
     }
 
     /**
@@ -70,19 +71,19 @@ class LabelCreator
         SourceCollection $collection,
         ExportResult $exportResult
     ): self {
-        $renderer = $this->rendererRegistry->forType($configuration->getType());
+        $renderer = $this->typeInstanceRegistry->forType($configuration->getType())->getRenderer();
 
         $options = new Options();
         $options->set('isRemoteEnabled', false);
         $options->setIsHtml5ParserEnabled(true);
         $dompdf = new Dompdf($options);
-        $dompdf->setPaper('a4', 'portrait');
+        $dompdf->setPaper(Constants::LABEL_PDF_PAPER_SIZE, 'portrait');
         $dompdf->loadHtml($renderer->render($collection)->getHtml());
         $dompdf->render();
 
         file_put_contents($configuration->getStoragePathName(), $dompdf->output());
         $exportResult->setCreatedFile(
-            new \SplFileObject($configuration->getStoragePathName())
+            new SplFileObject($configuration->getStoragePathName())
         );
         return $this;
     }

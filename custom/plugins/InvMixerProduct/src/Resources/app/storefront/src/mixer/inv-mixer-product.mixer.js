@@ -8,7 +8,8 @@ export default class InvMixerProductMixer extends Plugin {
         /**
          * @type string
          */
-        urlMixState: '/produkt-mixer/mix/state'
+        urlMixState: '/produkt-mixer/mix/state',
+        urlMixStateMobile: '/produkt-mixer/mix/state?view=mobile'
     };
 
     init() {
@@ -63,13 +64,18 @@ export default class InvMixerProductMixer extends Plugin {
         const isFilled = displayContainer.dataset.mixStateIsFilled || 0;
 
         try {
-            if (isComplete) {
+
+            if(this.el.getElementsByClassName('flashbags').length > 0){
+                document.querySelector('#mix-state-container .flashbags').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+            else if (isComplete) {
                 document.querySelector('#mix-state-add-to-cart-anchor').scrollIntoView({
                     behavior: 'smooth'
                 });
             }
-
-            if (isFilled) {
+            else if (isFilled) {
                 document.querySelector('#mix-state-set-label-anchor').scrollIntoView({
                     behavior: 'smooth'
                 });
@@ -81,8 +87,15 @@ export default class InvMixerProductMixer extends Plugin {
         this.attachMixStateEvents()
     }
 
+    displayStateMobile(stateInnerHtml) {
+        const displayContainer = document.getElementById('inv-mixer-product-mobile-enhancer-container');
+        displayContainer.innerHTML = stateInnerHtml
+        this.attachMixStateEvents()
+    }
+
     loadState() {
         const that = this;
         this._client.get(that.options.urlMixState, content => this.displayState(content));
+        this._client.get(that.options.urlMixStateMobile, content => this.displayStateMobile(content));
     }
 }

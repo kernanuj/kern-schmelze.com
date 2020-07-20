@@ -1,16 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace InvExportLabel\Service\Renderer;
+namespace InvExportLabel\Service\TypeInstance\MixerProduct;
 
+use InvExportLabel\Service\RendererInterface;
 use InvExportLabel\Value\RenderedDocument;
 use InvExportLabel\Value\SourceCollection;
 use Shopware\Core\Checkout\Document\Twig\DocumentTemplateRenderer;
 
 /**
- * Class MixerProductRenderer
- * @package InvExportLabel\Service\Renderer
+ * Class Renderer
+ * @package InvExportLabel\Service\TypeInstance\MixerProduct
  */
-class MixerProductRenderer implements RendererInterface
+class Renderer implements RendererInterface
 {
 
     /**

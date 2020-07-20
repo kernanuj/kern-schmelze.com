@@ -4,13 +4,13 @@ namespace InvMixerProduct\Helper;
 
 
 use InvMixerProduct\Constants;
-use Shopware\Core\Checkout\Cart\LineItem\LineItem as Subject;
+use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity as Subject;
 
 /**
- * Class LineItemAccessor
+ * Class OrderLineItemAccessor
  * @package InvMixerProduct\Helper
  */
-final class LineItemAccessor
+final class OrderLineItemEntityAccessor
 {
 
     /**
@@ -32,6 +32,7 @@ final class LineItemAccessor
      */
     public static function isContainsMixContainerProduct(Subject $subject): bool
     {
+
         $payload = $subject->getPayload();
         if (!is_array($payload)) {
             return false;
@@ -59,4 +60,36 @@ final class LineItemAccessor
 
         return (bool)$value;
     }
+
+    /**
+     * @param Subject $subject
+     * @return bool
+     */
+    public static function isContainsMixChildProduct(Subject $subject): bool
+    {
+
+        $payload = $subject->getPayload();
+        if (!is_array($payload)) {
+            return false;
+        }
+
+        $value = $payload[Constants::KEY_IS_MIX_CHILD_PRODUCT] ?? false;
+
+        return (bool)$value;
+    }
+
+    /**
+     * @param Subject $subject
+     * @return string|null
+     */
+    public static function getMixDisplayId(Subject $subject): ?string
+    {
+        $payload = $subject->getPayload();
+        if (!is_array($payload)) {
+            return null;
+        }
+
+        return (string)$payload[Constants::KEY_MIX_DISPLAY_ID] ?? null;
+    }
+
 }

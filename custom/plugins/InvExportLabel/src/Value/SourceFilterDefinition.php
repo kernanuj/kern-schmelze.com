@@ -3,64 +3,101 @@
 
 namespace InvExportLabel\Value;
 
-use Shopware\Core\System\StateMachine\StateMachineEntity;
+use DateTime;
 
 /**
  * Class SourceFilterDefinition
  * @package InvExportLabel\Value
  */
-class SourceFilterDefinition {
+class SourceFilterDefinition
+{
 
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     private $orderedAtFrom;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     private $orderedAtTo;
 
     /**
-     * @var string[]
+     * @var OrderStateCombinationCollection
      */
-    private $states;
+    private $orderStateCombinationCollection;
 
     /**
      * SourceFilterDefinition constructor.
-     * @param \DateTime $orderedAtFrom
-     * @param \DateTime $orderedAtTo
-     * @param string[] $states
+     * @param DateTime $orderedAtFrom
+     * @param DateTime $orderedAtTo
+     * @param OrderStateCombinationCollection $orderStateCombinationCollection
      */
-    public function __construct(\DateTime $orderedAtFrom, \DateTime $orderedAtTo, array $states)
-    {
+    public function __construct(
+        DateTime $orderedAtFrom,
+        DateTime $orderedAtTo,
+        OrderStateCombinationCollection $orderStateCombinationCollection
+    ) {
         $this->orderedAtFrom = $orderedAtFrom;
         $this->orderedAtTo = $orderedAtTo;
-        $this->states = $states;
+        $this->orderStateCombinationCollection = $orderStateCombinationCollection;
     }
 
+
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getOrderedAtFrom(): \DateTime
+    public function getOrderedAtFrom(): DateTime
     {
         return $this->orderedAtFrom;
     }
 
     /**
-     * @return \DateTime
+     * @param DateTime $orderedAtFrom
+     * @return SourceFilterDefinition
      */
-    public function getOrderedAtTo(): \DateTime
+    public function setOrderedAtFrom(DateTime $orderedAtFrom): SourceFilterDefinition
+    {
+        $this->orderedAtFrom = $orderedAtFrom;
+        return $this;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getOrderedAtTo(): DateTime
     {
         return $this->orderedAtTo;
     }
 
     /**
-     * @return string[]
+     * @param DateTime $orderedAtTo
+     * @return SourceFilterDefinition
      */
-    public function getStates(): array
+    public function setOrderedAtTo(DateTime $orderedAtTo): SourceFilterDefinition
     {
-        return $this->states;
+        $this->orderedAtTo = $orderedAtTo;
+        return $this;
     }
+
+    /**
+     * @return OrderStateCombinationCollection
+     */
+    public function getOrderStateCombinationCollection(): OrderStateCombinationCollection
+    {
+        return $this->orderStateCombinationCollection;
+    }
+
+    /**
+     * @param OrderStateCombinationCollection $orderStateCombinationCollection
+     * @return SourceFilterDefinition
+     */
+    public function setOrderStateCombinationCollection(OrderStateCombinationCollection $orderStateCombinationCollection
+    ): SourceFilterDefinition {
+        $this->orderStateCombinationCollection = $orderStateCombinationCollection;
+        return $this;
+    }
+
+
 }

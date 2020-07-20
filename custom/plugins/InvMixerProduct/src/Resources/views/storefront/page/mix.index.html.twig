@@ -1,10 +1,12 @@
-{# @var productListing \Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult #}
-{# @var listingProductCollection \InvMixerProduct\Value\ListingProductCollection #}
-{# @var mixPluginOptions array #}
-
 {% sw_extends '@Storefront/storefront/base.html.twig' %}
-
+{% block base_header %}
+    {%  sw_include '@InvTrustBar/storefront/component/top.html.twig' %}
+    {{  parent() }}
+{% endblock %}
 {% block base_content %}
+    {# @var productListing \Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult #}
+    {# @var listingProductCollection \InvMixerProduct\Value\ListingProductCollection #}
+    {# @var mixPluginOptions array #}
     {{ parent() }}
 
     <div class="row mixer-product-list">
@@ -26,7 +28,8 @@
             <h1>{{ "InvMixerProduct.page.title"|trans }}</h1>
 
             {% block inv_mixer_product_navigation %}
-                {% sw_include '@InvMixerProduct/InvMixerProduct/component/mobile-enhancer/mobile-enhancer.html.twig' %}
+                <div id="inv-mixer-product-mobile-enhancer-container">
+                </div>
             {% endblock %}
 
 

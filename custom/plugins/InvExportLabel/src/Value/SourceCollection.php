@@ -3,6 +3,8 @@
 
 namespace InvExportLabel\Value;
 
+use InvExportLabel\Value\SourceItemType\MixerProductSourceItem;
+
 /**
  * Class SourceCollection
  * @package InvExportLabel\Value
@@ -16,7 +18,7 @@ class SourceCollection
     private $items = [];
 
     /**
-     * @return SourceItemInterface[]
+     * @return SourceItemInterface[]|MixerProductSourceItem[]
      */
     public function getItems(): array
     {

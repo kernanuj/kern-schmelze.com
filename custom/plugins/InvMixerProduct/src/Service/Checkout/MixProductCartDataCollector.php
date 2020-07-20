@@ -109,12 +109,6 @@ class MixProductCartDataCollector implements CartDataCollectorInterface
 
             $this->assertIsValidLineItem($subjectContainerProductLineItem);
 
-            $this->gatherCartData(
-                $data,
-                $subjectContainerProductLineItem,
-                $salesChannelContext
-            );
-
             $this->enrich(
                 $subjectContainerProductLineItem,
                 $salesChannelContext,
@@ -140,60 +134,11 @@ class MixProductCartDataCollector implements CartDataCollectorInterface
     }
 
     /**
-     * @param CartDataCollection $data
-     * @param LineItem $subjectContainerProductLineItem
-     * @param SalesChannelContext $salesChannelContext
-     * @throws EntityNotFoundException
-     */
-    private function gatherCartData(
-        CartDataCollection $data,
-        LineItem $subjectContainerProductLineItem,
-        SalesChannelContext $salesChannelContext
-    ): void {
-
-
-        if(is_null($this->dataGetBaseSalesChannelProduct(
-            $data,
-            $subjectContainerProductLineItem->getId()
-        ))) {
-
-            $baseProductLineItem = $this->filterBaseProductLineItemFromContainerLineItem($subjectContainerProductLineItem);
-
-            $this->dataSetBaseSalesChannelProduct(
-                $data,
-                $subjectContainerProductLineItem->getId(),
-                $this->salesChannelProductRepository->findOneById(
-                    $baseProductLineItem->getReferencedId(),
-                    $salesChannelContext
-                )
-            );
-        }
-    }
-
-    /**
-     * @param CartDataCollection $data
-     * @param string $identifier
-     * @param SalesChannelProductEntity $productEntity
-     * @return $this
-     */
-    private function dataSetBaseSalesChannelProduct(
-        CartDataCollection $data,
-        string $identifier,
-        SalesChannelProductEntity $productEntity
-    ): self {
-        $data->set(
-            Constants::CART_DATA_KEY_CONTAINER_SALES_CHANNEL_PRODUCT . $identifier,
-            $productEntity
-        );
-
-        return $this;
-    }
-
-    /**
      * @param LineItem $subjectContainerProductLineItem
      * @param SalesChannelContext $salesChannelContext
      * @param Cart $originalCart
      * @param CartDataCollection $data
+     * @throws EntityNotFoundException
      */
     private function enrich(
         LineItem $subjectContainerProductLineItem,
@@ -202,45 +147,132 @@ class MixProductCartDataCollector implements CartDataCollectorInterface
         CartDataCollection $data
     ): void {
 
+        if(true !== $subjectContainerProductLineItem->isModified()){
+            return;
+        }
 
         $this->enrichDeliveryTime(
             $subjectContainerProductLineItem,
             $salesChannelContext,
-            $originalCart,
             $data
+        )->enrichBaseProductCover(
+            $subjectContainerProductLineItem,
+            $salesChannelContext,
+            $data
+        )->enrichContainerProductLabel(
+            $subjectContainerProductLineItem
         );
-        /*
-                $priceDefinition = $this->productPriceDefinitionBuilder->build(
-                    $this->dataGetContainerSalesChannelProduct(
-                        $data,
-                        $subjectContainerProductLineItem->getId()
-                    ),
-                    $salesChannelContext, $subjectContainerProductLineItem->getQuantity()
-                );
 
-                $subjectContainerProductLineItem->setPriceDefinition($priceDefinition->getQuantityPrice());
+    }
 
-        */
-        $this->enrichContainerProductLabel($subjectContainerProductLineItem);
+    /**
+     * @param LineItem $subjectContainerProductLineItem
+     * @return $this
+     */
+    private function enrichContainerProductLabel(LineItem $subjectContainerProductLineItem): self
+    {
+        $separator = ': ';
+        $subjectContainerProductLineItem->setLabel('Meine Schokolade' . $separator . LineItemAccessor::getMixLabel($subjectContainerProductLineItem));
+
+        return $this;
     }
 
     /**
      * @param LineItem $subjectContainerProductLineItem
      * @param SalesChannelContext $salesChannelContext
-     * @param Cart $originalCart
      * @param CartDataCollection $data
+     * @return $this
+     * @throws EntityNotFoundException
+     */
+    private function enrichBaseProductCover(
+        LineItem $subjectContainerProductLineItem,
+        SalesChannelContext $salesChannelContext,
+        CartDataCollection $data
+
+    ): self {
+        $baseProductLineItem = $this->filterBaseProductLineItemFromContainerLineItem($subjectContainerProductLineItem);
+
+        if ($baseProductLineItem->getCover()) {
+            return $this;
+        }
+
+        $baseProduct = $this->dataGetBaseSalesChannelProduct(
+            $data,
+            $subjectContainerProductLineItem,
+            $salesChannelContext
+        );
+
+        if(!$baseProduct->getCover()){
+            return $this;
+        }
+
+        $baseProductLineItem->setCover(
+            $baseProduct->getCover()->getMedia()
+        );
+
+        $subjectContainerProductLineItem->setCover(
+            $baseProduct->getCover()->getMedia()
+        );
+
+        return $this;
+    }
+
+    /**
+     * @param CartDataCollection $data
+     * @param LineItem $subjectContainerProductLineItem
+     * @param SalesChannelContext $context
+     * @return SalesChannelProductEntity|null
+     * @throws EntityNotFoundException
+     */
+    private function dataGetBaseSalesChannelProduct(
+        CartDataCollection $data,
+        LineItem $subjectContainerProductLineItem,
+        SalesChannelContext $context
+    ): ?SalesChannelProductEntity {
+        \assert(LineItemAccessor::isContainsMixContainerProduct($subjectContainerProductLineItem));
+        $dataKey = Constants::CART_DATA_KEY_CONTAINER_SALES_CHANNEL_PRODUCT . $subjectContainerProductLineItem->getId();
+        $existing = $data->get(
+            $dataKey
+        );
+
+
+        if ($existing instanceof SalesChannelProductEntity) {
+            return $existing;
+        }
+        $baseProductLineItem = $this->filterBaseProductLineItemFromContainerLineItem($subjectContainerProductLineItem);
+        $baseProduct = $this->productGateway->get(
+            [$baseProductLineItem->getReferencedId()],
+            $context
+        )->first();
+
+        $data->set($dataKey, $baseProduct);
+
+
+        return $baseProduct;
+    }
+
+    /**
+     * @param LineItem $subjectContainerProductLineItem
+     * @param SalesChannelContext $salesChannelContext
+     * @param CartDataCollection $data
+     * @return $this
+     * @throws EntityNotFoundException
      */
     private function enrichDeliveryTime(
         LineItem $subjectContainerProductLineItem,
         SalesChannelContext $salesChannelContext,
-        Cart $originalCart,
         CartDataCollection $data
 
-    ) {
+    ): self {
+
+        if ($subjectContainerProductLineItem->getDeliveryInformation()) {
+            return $this;
+        }
 
         $baseSalesChannelProduct = $this->dataGetBaseSalesChannelProduct(
             $data,
-            $subjectContainerProductLineItem->getId()
+            $subjectContainerProductLineItem,
+            $salesChannelContext
         );
 
         $containerProductDeliveryTime = $baseSalesChannelProduct->getDeliveryTime();
@@ -260,31 +292,8 @@ class MixProductCartDataCollector implements CartDataCollectorInterface
                 )
             )
             ->setQuantityInformation(new QuantityInformation());
-    }
 
-    /**
-     * @param CartDataCollection $data
-     * @param string $identifier
-     * @return SalesChannelProductEntity|null
-     */
-    private function dataGetBaseSalesChannelProduct(
-        CartDataCollection $data,
-        string $identifier
-    ): ?SalesChannelProductEntity {
-        return $data->get(
-            Constants::CART_DATA_KEY_CONTAINER_SALES_CHANNEL_PRODUCT . $identifier
-        );
-    }
-
-    /**
-     * @param LineItem $subjectContainerProductLineItem
-     */
-    private function enrichContainerProductLabel(LineItem $subjectContainerProductLineItem): void
-    {
-        if (LineItemAccessor::getMixLabel($subjectContainerProductLineItem)) {
-            $seperator = ': ';
-        }
-        $subjectContainerProductLineItem->setLabel('Meine Schokolade' . $seperator . LineItemAccessor::getMixLabel($subjectContainerProductLineItem));
+        return $this;
     }
 
     private function handleError(

@@ -27,12 +27,18 @@ final class Constants
     public const KEY_IS_MIX_BASE_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE . '_is_mix_base_product';
     public const KEY_IS_MIX_CHILD_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE . '_is_mix_child_product';
     public const KEY_CONTAINER_DEFINITION = self::PLUGIN_PREFIX_SNAKE_CASE . '_container_definition';
+    public const KEY_MIX_ENTITY_ID = self::PLUGIN_PREFIX_SNAKE_CASE . '_entity_id';
+    public const KEY_MIX_ITEM_ENTITY_ID = self::PLUGIN_PREFIX_SNAKE_CASE . '_item_entity_id';
+    public const KEY_MIX_DISPLAY_ID = self::PLUGIN_PREFIX_SNAKE_CASE . '_display_id';
 
 
     public const LINE_ITEM_TYPE_IDENTIFIER = self::PLUGIN_PREFIX_SNAKE_CASE.'_product';
     public const CART_DATA_KEY_CONTAINER_SALES_CHANNEL_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE.'_container_product';
     public const CART_DATA_KEY_BASE_SALES_CHANNEL_PRODUCT = self::PLUGIN_PREFIX_SNAKE_CASE.'_base_product';
     public const CART_DATA_KEY_CHILD_SALES_CHANNEL_PRODUCTS = self::PLUGIN_PREFIX_SNAKE_CASE.'_child_products';
+
+    public const PRODUCT_CUSTOM_FIELD_KEY_DATA_INGREDIENTS = 'custom_product_data_ingredients';
+    public const PRODUCT_CUSTOM_FIELD_KEY_DATA_ALLERGENS = 'custom_product_data_allergens';
     /**
      *
      */
@@ -50,6 +56,8 @@ final class Constants
     public const CATALOG_PRODUCT_TAG_CATEGORY_NUTS = 'mixer-product-category-nuts';
     public const CATALOG_PRODUCT_TAG_CATEGORY_SEEDS = 'mixer-product-category-seeds';
     public const CATALOG_PRODUCT_TAG_CATEGORY_DRIEDFRUIT = 'mixer-product-category-driedfruit';
+
+    public const MIX_DISPLAY_ID_OFFSET = 100000;
 
     /**
      * @return Design[]

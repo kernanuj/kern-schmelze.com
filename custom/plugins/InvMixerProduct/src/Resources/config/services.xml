@@ -62,6 +62,7 @@
             <argument type="service" id="inv_mixer_product__mix.repository"/>
             <argument type="service" id="inv_mixer_product__mix_item.repository"/>
             <argument type="service" id="InvMixerProduct\Service\ConfigurationInterface"/>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
         </service>
         <service id="InvMixerProduct\Repository\ProductRepository" public="true">
             <argument type="service" id="product.repository"/>

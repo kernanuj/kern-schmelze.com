@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package InvMixerProduct\Controller\StoreFront\Mix
  *
  * @RouteScope(scopes={"storefront"})
- * @Route("/mix/container/design", methods={"POST"}, name="invMixerProduct.storeFront.mix.session.container.design.set")
+ * @Route("/mix/container/design", methods={"POST"}, defaults={"csrf_protected": false}, name="invMixerProduct.storeFront.mix.session.container.design.set")
  */
 class SetContainerDesignController extends MixController
 {

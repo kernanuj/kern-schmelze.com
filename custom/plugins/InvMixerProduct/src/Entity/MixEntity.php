@@ -47,6 +47,11 @@ class MixEntity extends Entity
     protected $items;
 
     /**
+     * @var int
+     */
+    protected $displayId;
+
+    /**
      * @return string|null
      */
     public function getLabel(): ?string
@@ -254,6 +259,32 @@ class MixEntity extends Entity
         }
 
         return count(array_unique($ids));
+    }
+
+    /**
+     * @return int
+     */
+    public function getDisplayId(): int
+    {
+        return $this->displayId;
+    }
+
+    /**
+     * @param int $displayId
+     * @return MixEntity
+     */
+    public function setDisplayId(int $displayId): MixEntity
+    {
+        $this->displayId = $displayId;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDisplayId(): bool
+    {
+        return !is_null($this->displayId);
     }
 
 }

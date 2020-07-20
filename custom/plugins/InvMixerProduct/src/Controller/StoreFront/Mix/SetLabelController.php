@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * @package InvMixerProduct\Controller\StoreFront\Mix
  *
  * @RouteScope(scopes={"storefront"})
- * @Route("/mix/label", methods={"POST"}, name="invMixerProduct.storeFront.mix.session.label.set")
+ * @Route("/mix/label", methods={"POST"}, defaults={"csrf_protected": false}, name="invMixerProduct.storeFront.mix.session.label.set")
  */
 class SetLabelController extends MixController
 {

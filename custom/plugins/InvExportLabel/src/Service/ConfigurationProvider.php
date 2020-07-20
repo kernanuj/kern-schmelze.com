@@ -4,6 +4,8 @@ namespace InvExportLabel\Service;
 
 use InvExportLabel\Constants;
 use InvExportLabel\Value\ExportRequestConfiguration;
+use InvExportLabel\Value\OrderStateCombination;
+use InvExportLabel\Value\OrderStateCombinationCollection;
 use InvExportLabel\Value\SourceFilterDefinition;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Webmozart\Assert\Assert;
@@ -41,12 +43,14 @@ class ConfigurationProvider
      */
     public function provideDefaultSet(): ExportRequestConfiguration
     {
+
+
         return (new ExportRequestConfiguration())
             ->setSourceFilterDefinition(
                 new SourceFilterDefinition(
                     (new \DateTime())->sub(new \DateInterval('P1D'))->setTime(0, 0, 0),
                     (new \DateTime())->setTime(0, 0, 0),
-                    $this->systemConfigService->get(Constants::SYSTEM_CONFIG_MIXER_PRODUCT_FILTER_ORDER_STATE)
+                    $this->fromConfigurationReadValidOrderStateCombinations()
                 ))
             ->setBestBeforeDate(
                 (new \DateTime())
@@ -75,6 +79,22 @@ class ConfigurationProvider
 
     }
 
+    /**
+     * @return OrderStateCombinationCollection
+     */
+    private function fromConfigurationReadValidOrderStateCombinations(): OrderStateCombinationCollection
+    {
+        $orderStates = $this->systemConfigService->get(Constants::SYSTEM_CONFIG_MIXER_PRODUCT_FILTER_ORDER_STATE);
+
+        $collection = new OrderStateCombinationCollection();
+        foreach ($orderStates as $orderState) {
+
+            $collection->addCombination(
+                OrderStateCombination::fromConfigValue($orderState)
+            );
+        }
+        return $collection;
+    }
 
     /**
      * @return string

@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package InvMixerProduct\Controller\StoreFront\Mix
  *
  * @RouteScope(scopes={"storefront"})
- * @Route("/mix/add", methods={"POST"}, name="invMixerProduct.storeFront.mix.session.add")
+ * @Route("/mix/add", methods={"POST"}, defaults={"csrf_protected": false}, name="invMixerProduct.storeFront.mix.session.add")
  */
 class AddController extends MixController
 {

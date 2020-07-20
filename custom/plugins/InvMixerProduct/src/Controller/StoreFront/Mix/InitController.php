@@ -21,9 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package InvMixerProduct\Controller\StoreFront\Mix
  *
  * @RouteScope(scopes={"storefront"})
- * @Route("/mix/init", methods={"GET"}, name="invMixerProduct.storeFront.mix.init")
- * @todo: exclude route from seo
- * @todo: disable csrf
+ * @Route("/mix/init", methods={"GET"}, defaults={"csrf_protected": false}, name="invMixerProduct.storeFront.mix.init")
  */
 class InitController extends MixController
 {
