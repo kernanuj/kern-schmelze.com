@@ -1,3 +1,6 @@
+# 1.7.1
+- PT-11884 - Wenn PayPal nicht verfügbar ist, werden Plus und Smart Payment Buttons nicht mehr geladen
+
 # 1.7.0
 - PT-11669 - Kompatibilität mit dem Zahlungsprozess nach einer Bestellung hinzugefügt
 - PT-11707 - Individuelle Formular-Parameter der Bestellseite werden nicht mehr ignoriert
@@ -5,7 +8,7 @@
 - PT-11773 - Kaufen von Custom Products mit PayPal korrigiert
 - PT-11813 - Fehlerbehandlung für Express Checkout Buttons
 - PT-11858 - Verarbeitung von mehreren Transaktionen pro Bestellung verbessert
-- PT-11869 - Handhabung von Zahlungen verbessert, die von Kunden storniert wurden
+- PT-11869 - Handhabung von Zahlungen verbessert, die von Kunden abgebrochen wurden
 
 # 1.6.0
 - PT-11519 - Registriert Webhooks mit HTTPS

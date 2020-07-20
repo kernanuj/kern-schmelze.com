@@ -21,7 +21,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\IdSearchResult;
 use Swag\PayPal\Test\Helper\ConstantsForTesting;
 use Swag\PayPal\Test\Helper\PaymentTransactionTrait;
-use function count;
 
 class OrderRepositoryMock implements EntityRepositoryInterface
 {
@@ -61,7 +60,7 @@ class OrderRepositoryMock implements EntityRepositoryInterface
         }
 
         return new EntitySearchResult(
-            count($orderCollection),
+            \count($orderCollection),
             $orderCollection,
             null,
             $criteria,

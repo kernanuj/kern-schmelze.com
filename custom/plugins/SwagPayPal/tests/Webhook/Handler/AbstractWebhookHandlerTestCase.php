@@ -21,7 +21,6 @@ use Swag\PayPal\Test\Helper\StateMachineStateTrait;
 use Swag\PayPal\Test\Mock\Repositories\OrderTransactionRepoMock;
 use Swag\PayPal\Webhook\Exception\WebhookOrderTransactionNotFoundException;
 use Swag\PayPal\Webhook\Handler\AbstractWebhookHandler;
-use function sprintf;
 
 abstract class AbstractWebhookHandlerTestCase extends TestCase
 {
@@ -93,7 +92,7 @@ abstract class AbstractWebhookHandlerTestCase extends TestCase
 
         $this->expectException(WebhookOrderTransactionNotFoundException::class);
         $this->expectExceptionMessage(
-            sprintf(
+            \sprintf(
                 '[PayPal %s Webhook] Could not find associated order with the PayPal ID "%s"',
                 $webhookName,
                 OrderTransactionRepoMock::WEBHOOK_PAYMENT_ID_WITHOUT_TRANSACTION

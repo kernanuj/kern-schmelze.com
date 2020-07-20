@@ -13,7 +13,6 @@ use Swag\PayPal\Setting\SwagPayPalSettingStruct;
 use Swag\PayPal\Util\LocaleCodeProvider;
 use Swag\PayPal\Util\PaymentMethodUtil;
 use Symfony\Component\Routing\RouterInterface;
-use function str_replace;
 
 class SPBCheckoutDataService
 {
@@ -83,7 +82,7 @@ class SPBCheckoutDataService
             return $settingsLocale;
         }
 
-        return str_replace(
+        return \str_replace(
             '-',
             '_',
             $this->localeCodeProvider->getLocaleCodeFromContext($context->getContext())

@@ -117,6 +117,14 @@ class ThemeVariablesSubscriber implements EventSubscriberInterface
         $InvHomepageSlideshowProStatus = $this->systemConfigService->get('InvHomepageSlideshowPro.config.status');
         $event->setParameter('InvHomepageSlideshowProStatus', $InvHomepageSlideshowProStatus);
 
+        /** @var bool $InvHomepageSlideshowProAutoplay */
+        $InvHomepageSlideshowProAutoplay = $this->systemConfigService->get('InvHomepageSlideshowPro.config.autoplay');
+        $event->setParameter('InvHomepageSlideshowProAutoplay', $InvHomepageSlideshowProAutoplay);
+
+        /** @var bool $InvHomepageSlideshowProAutoplaySpeed */
+        $InvHomepageSlideshowProAutoplaySpeed = $this->systemConfigService->get('InvHomepageSlideshowPro.config.autoplayspeed');
+        $event->setParameter('InvHomepageSlideshowProAutoplaySpeed', $InvHomepageSlideshowProAutoplaySpeed);
+
         /** @var string $InvHomepageSlideshowProSlide1 */
         $InvHomepageSlideshowProSlide1 = $this->systemConfigService->get('InvHomepageSlideshowPro.config.slide1');
         $event->setParameter('InvHomepageSlideshowProSlide1', $InvHomepageSlideshowProSlide1);
@@ -176,5 +184,9 @@ class ThemeVariablesSubscriber implements EventSubscriberInterface
         /** @var string $InvHomepageSlideshowProImage55 */
         $InvHomepageSlideshowProImage55 = $this->systemConfigService->get('InvHomepageSlideshowPro.config.image55');
         $event->setParameter('InvHomepageSlideshowProImage55', $InvHomepageSlideshowProImage55);
+
+        /** @var bool $InvHomepageSlideshowProMinHeight*/
+        $InvHomepageSlideshowProMinHeight = $this->systemConfigService->get('InvHomepageSlideshowPro.config.minHeight');
+        $event->setParameter('InvHomepageSlideshowProMinHeight', $InvHomepageSlideshowProMinHeight);
     }
 }

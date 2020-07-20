@@ -24,7 +24,6 @@ use Swag\PayPal\PayPal\Api\Capture;
 use Swag\PayPal\PayPal\Api\Payment;
 use Swag\PayPal\PayPal\Api\Refund;
 use Symfony\Component\HttpFoundation\Request;
-use function in_array;
 
 class PaymentStatusUtil
 {
@@ -155,7 +154,7 @@ class PaymentStatusUtil
         Context $context
     ): void {
         $refundStates = [OrderTransactionStates::STATE_PARTIALLY_REFUNDED, OrderTransactionStates::STATE_REFUNDED];
-        if ( in_array($stateMachineState->getTechnicalName(), $refundStates, true)) {
+        if (\in_array($stateMachineState->getTechnicalName(), $refundStates, true)) {
             $this->orderTransactionStateHandler->reopen($transactionId, $context);
         }
     }

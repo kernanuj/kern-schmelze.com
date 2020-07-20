@@ -28,7 +28,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
-use function sprintf;
 
 class PlusPaymentFinalizeController extends AbstractController
 {
@@ -89,14 +88,14 @@ class PlusPaymentFinalizeController extends AbstractController
                 MultiFilter::CONNECTION_AND,
                 [
                     new EqualsFilter(
-                        sprintf('customFields.%s', SwagPayPal::ORDER_TRANSACTION_CUSTOM_FIELDS_PAYPAL_TOKEN),
+                        \sprintf('customFields.%s', SwagPayPal::ORDER_TRANSACTION_CUSTOM_FIELDS_PAYPAL_TOKEN),
                         $token
                     ),
                     new NotFilter(
                         NotFilter::CONNECTION_AND,
                         [
                             new EqualsFilter(
-                                sprintf('customFields.%s', SwagPayPal::ORDER_TRANSACTION_CUSTOM_FIELDS_PAYPAL_TOKEN),
+                                \sprintf('customFields.%s', SwagPayPal::ORDER_TRANSACTION_CUSTOM_FIELDS_PAYPAL_TOKEN),
                                 null
                             ),
                         ]
@@ -160,7 +159,7 @@ class PlusPaymentFinalizeController extends AbstractController
         SalesChannelContext $salesChannelContext
     ): RedirectResponse {
         $this->logger->error(
-            sprintf(
+            \sprintf(
                 'Route "paypal.plus.payment.finalize.transaction" is deprecated. Use "payment.paypal.plus.finalize.transaction" instead'
             )
         );

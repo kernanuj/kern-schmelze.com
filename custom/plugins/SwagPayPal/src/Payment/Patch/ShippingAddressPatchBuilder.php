@@ -11,8 +11,6 @@ use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Customer\Exception\AddressNotFoundException;
 use Swag\PayPal\PayPal\Api\Patch;
 use Swag\PayPal\PayPal\Api\Payment\Transaction\ItemList\ShippingAddress;
-use function json_decode;
-use function json_encode;
 
 class ShippingAddressPatchBuilder
 {
@@ -57,7 +55,7 @@ class ShippingAddressPatchBuilder
             $shippingAddress->setPhone($phoneNumber);
         }
         $shippingAddress->setRecipientName($customerShippingAddress->getFirstName() . ' ' . $customerShippingAddress->getLastName());
-        $shippingAddressArray = json_decode((string) json_encode($shippingAddress), true);
+        $shippingAddressArray = \json_decode((string) \json_encode($shippingAddress), true);
 
         $shippingAddressPatch = new Patch();
         $shippingAddressPatch->assign([

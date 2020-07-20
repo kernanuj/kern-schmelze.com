@@ -7,7 +7,6 @@
 
 namespace Swag\PayPal\Checkout\Plus\Service;
 
-use Exception;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
@@ -29,7 +28,6 @@ use Swag\PayPal\Util\PaymentMethodUtil;
 use Swag\PayPal\Util\PaymentTokenExtractor;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
-use function strncmp;
 
 class PlusDataService
 {
@@ -155,7 +153,7 @@ class PlusDataService
                 $salesChannelContext->getSalesChannel()->getId(),
                 PartnerAttributionId::PAYPAL_PLUS
             );
-        } catch ( Exception $e) {
+        } catch (\Exception $e) {
             return null;
         }
 
@@ -190,7 +188,7 @@ class PlusDataService
         $plusLanguage = 'en_GB';
         // use english as default, use german if the locale is from german speaking country (de_DE, de_AT, etc)
         // by now the PPP iFrame does not support other languages
-        if ( strncmp($languageIso, 'de-', 3) === 0) {
+        if (\strncmp($languageIso, 'de-', 3) === 0) {
             $plusLanguage = 'de_DE';
         }
 

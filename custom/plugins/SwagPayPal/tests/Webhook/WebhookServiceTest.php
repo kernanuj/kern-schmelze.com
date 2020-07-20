@@ -27,7 +27,6 @@ use Swag\PayPal\Test\Mock\Webhook\Handler\DummyWebhook;
 use Swag\PayPal\Test\PayPal\Resource\WebhookResourceTest;
 use Swag\PayPal\Webhook\WebhookService;
 use Swag\PayPal\Webhook\WebhookServiceInterface;
-use function mb_strlen;
 
 class WebhookServiceTest extends TestCase
 {
@@ -88,7 +87,7 @@ class WebhookServiceTest extends TestCase
         $settings = $settingsService->getSettings();
 
         static::assertSame(GuzzleClientMock::TEST_WEBHOOK_ID, $settings->getWebhookId());
-        static::assertSame(WebhookService::PAYPAL_WEBHOOK_TOKEN_LENGTH, mb_strlen($settings->getWebhookExecuteToken() ?? ''));
+        static::assertSame(WebhookService::PAYPAL_WEBHOOK_TOKEN_LENGTH, \mb_strlen($settings->getWebhookExecuteToken() ?? ''));
     }
 
     public function testExecuteWebhook(): void

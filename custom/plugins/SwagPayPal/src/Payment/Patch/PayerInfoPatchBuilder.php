@@ -13,8 +13,6 @@ use Shopware\Core\Checkout\Customer\Exception\AddressNotFoundException;
 use Swag\PayPal\PayPal\Api\Patch;
 use Swag\PayPal\PayPal\Api\Payment\Payer\PayerInfo;
 use Swag\PayPal\PayPal\Api\Payment\Payer\PayerInfo\BillingAddress;
-use function json_decode;
-use function json_encode;
 
 class PayerInfoPatchBuilder
 {
@@ -34,7 +32,7 @@ class PayerInfoPatchBuilder
         $payerInfo->setLastName($customerBillingAddress->getLastName());
         $payerInfo->setBillingAddress($this->createBillingAddress($customerBillingAddress));
 
-        $payerInfoArray = json_decode((string) json_encode($payerInfo), true);
+        $payerInfoArray = \json_decode((string) \json_encode($payerInfo), true);
 
         $payerInfoPatch = new Patch();
         $payerInfoPatch->assign([

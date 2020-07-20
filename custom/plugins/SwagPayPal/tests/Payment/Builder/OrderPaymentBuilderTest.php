@@ -21,8 +21,6 @@ use Swag\PayPal\Test\Helper\PaymentTransactionTrait;
 use Swag\PayPal\Test\Helper\ServicesTrait;
 use Swag\PayPal\Test\Mock\Repositories\SalesChannelRepoMock;
 use Swag\PayPal\Test\Webhook\WebhookServiceTest;
-use function json_decode;
-use function json_encode;
 
 class OrderPaymentBuilderTest extends TestCase
 {
@@ -47,10 +45,10 @@ class OrderPaymentBuilderTest extends TestCase
         $payment = $paymentBuilder->getPayment($paymentTransaction, $salesChannelContext);
 
         $transaction = $payment->getTransactions()[0];
-        $transactionJsonString = json_encode($transaction);
+        $transactionJsonString = \json_encode($transaction);
         static::assertNotFalse($transactionJsonString);
 
-        $transactionArray = json_decode($transactionJsonString, true);
+        $transactionArray = \json_decode($transactionJsonString, true);
 
         static::assertArrayHasKey('invoice_number', $transactionArray);
         static::assertSame(self::TEST_ORDER_NUMBER, $transactionArray['invoice_number']);
@@ -81,10 +79,10 @@ class OrderPaymentBuilderTest extends TestCase
         $salesChannelContext = Generator::createSalesChannelContext($context);
         $salesChannelContext->getSalesChannel()->setId(Defaults::SALES_CHANNEL);
 
-        $payment = json_encode($paymentBuilder->getPayment($paymentTransaction, $salesChannelContext));
+        $payment = \json_encode($paymentBuilder->getPayment($paymentTransaction, $salesChannelContext));
         static::assertNotFalse($payment);
 
-        $payment = json_decode($payment, true);
+        $payment = \json_decode($payment, true);
 
         static::assertSame(SalesChannelRepoMock::SALES_CHANNEL_NAME, $payment['application_context']['brand_name']);
     }
@@ -99,10 +97,10 @@ class OrderPaymentBuilderTest extends TestCase
         $context = $this->createContextWithoutSalesChannel();
         $salesChannelContext = Generator::createSalesChannelContext($context);
 
-        $payment = json_encode($paymentBuilder->getPayment($paymentTransaction, $salesChannelContext));
+        $payment = \json_encode($paymentBuilder->getPayment($paymentTransaction, $salesChannelContext));
         static::assertNotFalse($payment);
 
-        $payment = json_decode($payment, true);
+        $payment = \json_decode($payment, true);
 
         static::assertSame('', $payment['application_context']['brand_name']);
     }
@@ -159,10 +157,10 @@ class OrderPaymentBuilderTest extends TestCase
         $paymentTransaction = $this->createPaymentTransactionStruct(ConstantsForTesting::VALID_ORDER_ID);
 
         $payment = $paymentBuilder->getPayment($paymentTransaction, $salesChannelContext);
-        $paymentJsonString = json_encode($payment);
+        $paymentJsonString = \json_encode($payment);
         static::assertNotFalse($paymentJsonString);
 
-        $applicationContext = json_decode($paymentJsonString, true)['application_context'];
+        $applicationContext = \json_decode($paymentJsonString, true)['application_context'];
         static::assertSame($expectedResult, $applicationContext['landing_page']);
         static::assertSame('en-GB', $applicationContext['locale']);
         static::assertSame('commit', $applicationContext['user_action']);
@@ -211,10 +209,10 @@ class OrderPaymentBuilderTest extends TestCase
         $context = Context::createDefaultContext();
         $salesChannelContext = Generator::createSalesChannelContext($context);
 
-        $payment = json_encode($paymentBuilder->getPayment($paymentTransaction, $salesChannelContext));
+        $payment = \json_encode($paymentBuilder->getPayment($paymentTransaction, $salesChannelContext));
         static::assertNotFalse($payment);
 
-        $payment = json_decode($payment, true);
+        $payment = \json_decode($payment, true);
 
         static::assertSame(
             $orderNumberPrefix . self::TEST_ORDER_NUMBER,
@@ -233,10 +231,10 @@ class OrderPaymentBuilderTest extends TestCase
         $context = Context::createDefaultContext();
         $salesChannelContext = Generator::createSalesChannelContext($context);
 
-        $payment = json_encode($paymentBuilder->getPayment($paymentTransaction, $salesChannelContext));
+        $payment = \json_encode($paymentBuilder->getPayment($paymentTransaction, $salesChannelContext));
         static::assertNotFalse($payment);
 
-        $payment = json_decode($payment, true);
+        $payment = \json_decode($payment, true);
 
         static::assertSame(self::TEST_ORDER_NUMBER, $payment['transactions'][0]['invoice_number']);
     }
@@ -269,10 +267,10 @@ class OrderPaymentBuilderTest extends TestCase
 
         $payment = $paymentBuilder->getPayment($paymentTransaction, $salesChannelContext);
 
-        $transaction = json_encode($payment->getTransactions()[0]);
+        $transaction = \json_encode($payment->getTransactions()[0]);
 
         static::assertNotFalse($transaction);
 
-        return json_decode($transaction, true);
+        return \json_decode($transaction, true);
     }
 }

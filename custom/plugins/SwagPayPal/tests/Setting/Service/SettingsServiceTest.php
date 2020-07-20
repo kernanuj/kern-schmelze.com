@@ -16,7 +16,6 @@ use Swag\PayPal\Setting\Service\SettingsService;
 use Swag\PayPal\Test\Helper\ServicesTrait;
 use Swag\PayPal\Test\Mock\PayPal\Client\GuzzleClientMock;
 use Swag\PayPal\Webhook\WebhookService;
-use function method_exists;
 
 class SettingsServiceTest extends TestCase
 {
@@ -67,7 +66,7 @@ class SettingsServiceTest extends TestCase
         $settingsService = new SettingsService($this->createSystemConfigServiceMock($settingValues));
         $settings = $settingsService->getSettings();
 
-        static::assertTrue( method_exists($settings, $getterName), 'getter ' . $getterName . ' does not exist');
+        static::assertTrue(\method_exists($settings, $getterName), 'getter ' . $getterName . ' does not exist');
         static::assertSame($value, $settings->$getterName());
     }
 
@@ -103,7 +102,7 @@ class SettingsServiceTest extends TestCase
         $settingsService->updateSettings([$key => $value]);
         $settings = $settingsService->getSettings();
 
-        static::assertTrue( method_exists($settings, $getterName), 'getter ' . $getterName . ' does not exist');
+        static::assertTrue(\method_exists($settings, $getterName), 'getter ' . $getterName . ' does not exist');
         static::assertSame($value, $settings->$getterName());
     }
 

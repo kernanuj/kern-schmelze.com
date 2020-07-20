@@ -55,8 +55,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use function mb_strlen;
-use function sprintf;
 
 class PlusSubscriberTest extends TestCase
 {
@@ -137,7 +135,7 @@ class PlusSubscriberTest extends TestCase
 
         $this->expectException(InvalidOrderException::class);
         $this->expectExceptionMessage(
-            sprintf('The order with id %s is invalid or could not be found.', ConstantsForTesting::VALID_ORDER_ID)
+            \sprintf('The order with id %s is invalid or could not be found.', ConstantsForTesting::VALID_ORDER_ID)
         );
         $subscriber->onAccountEditOrderLoaded($event);
     }
@@ -151,7 +149,7 @@ class PlusSubscriberTest extends TestCase
 
         $this->expectException(InvalidOrderException::class);
         $this->expectExceptionMessage(
-            sprintf('The order with id %s is invalid or could not be found.', ConstantsForTesting::VALID_ORDER_ID)
+            \sprintf('The order with id %s is invalid or could not be found.', ConstantsForTesting::VALID_ORDER_ID)
         );
         $subscriber->onAccountEditOrderLoaded($event);
     }
@@ -352,7 +350,7 @@ class PlusSubscriberTest extends TestCase
     public function testOnCheckoutConfirmLoadedWithoutPayPalInSalesChannel(): void
     {
         $subscriber = $this->createSubscriber();
-        $event = $this->createConfirmEvent();
+        $event = $this->createConfirmEvent(false, false, false);
         $subscriber->onCheckoutConfirmLoaded($event);
 
         $paymentMethod = $event->getSalesChannelContext()->getPaymentMethod();
@@ -397,10 +395,14 @@ class PlusSubscriberTest extends TestCase
 
     private function createConfirmEvent(
         bool $withCustomer = true,
-        bool $withOtherDefaultPayment = false
+        bool $withOtherDefaultPayment = false,
+        bool $withPayPalPaymentMethod = true
     ): CheckoutConfirmPageLoadedEvent {
-        $payPalPaymentMethod = $this->createPayPalPaymentMethod();
-        $paymentCollection = new PaymentMethodCollection([$payPalPaymentMethod]);
+        $paymentCollection = new PaymentMethodCollection();
+        if ($withPayPalPaymentMethod) {
+            $paymentCollection->add($this->createPayPalPaymentMethod());
+        }
+
         $salesChannelContext = $this->createSalesChannelContext(
             $this->getContainer(),
             $paymentCollection,
@@ -591,7 +593,7 @@ class PlusSubscriberTest extends TestCase
 
         static::assertNotNull($plusExtension);
         static::assertSame(CreateResponseFixture::CREATE_PAYMENT_APPROVAL_URL, $plusExtension->getApprovalUrl());
-        static::assertSame(2, mb_strlen($plusExtension->getCustomerCountryIso()));
+        static::assertSame(2, \mb_strlen($plusExtension->getCustomerCountryIso()));
         static::assertSame('live', $plusExtension->getMode());
         static::assertSame('de_DE', $plusExtension->getCustomerSelectedLanguage());
         static::assertSame($this->paypalPaymentMethodId, $plusExtension->getPaymentMethodId());

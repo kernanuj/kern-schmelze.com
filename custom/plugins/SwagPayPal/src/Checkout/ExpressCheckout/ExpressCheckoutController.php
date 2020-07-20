@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use function sprintf;
 
 class ExpressCheckoutController extends AbstractController
 {
@@ -138,7 +137,7 @@ class ExpressCheckoutController extends AbstractController
     public function onApproveDeprecated(SalesChannelContext $salesChannelContext, Request $request): JsonResponse
     {
         $this->logger->error(
-            sprintf(
+            \sprintf(
                 'Route "paypal.approve_payment" is deprecated. Use "payment.paypal.approve_payment" instead'
             )
         );

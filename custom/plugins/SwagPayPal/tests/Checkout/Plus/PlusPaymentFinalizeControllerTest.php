@@ -19,7 +19,6 @@ use Swag\PayPal\Test\Mock\Repositories\OrderTransactionRepoMock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
-use function sprintf;
 
 class PlusPaymentFinalizeControllerTest extends TestCase
 {
@@ -65,7 +64,7 @@ class PlusPaymentFinalizeControllerTest extends TestCase
         $salesChannelContext->getContext()->addExtension(self::WITHOUT_ORDER, new ArrayStruct());
         $this->expectException(InvalidTransactionException::class);
         $this->expectExceptionMessage(
-            sprintf(
+            \sprintf(
                 'The transaction with id %s is invalid or could not be found.',
                 OrderTransactionRepoMock::ORDER_TRANSACTION_ID
             )

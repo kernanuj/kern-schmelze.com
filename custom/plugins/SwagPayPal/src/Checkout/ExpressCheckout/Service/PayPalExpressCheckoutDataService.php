@@ -15,7 +15,6 @@ use Swag\PayPal\Payment\PayPalPaymentHandler;
 use Swag\PayPal\Setting\SwagPayPalSettingStruct;
 use Swag\PayPal\Util\LocaleCodeProvider;
 use Symfony\Component\Routing\RouterInterface;
-use function str_replace;
 
 class PayPalExpressCheckoutDataService
 {
@@ -92,7 +91,7 @@ class PayPalExpressCheckoutDataService
             return $settingsLocale;
         }
 
-        return str_replace(
+        return \str_replace(
             '-',
             '_',
             $this->localeCodeProvider->getLocaleCodeFromContext($context->getContext())

@@ -25,7 +25,6 @@ use Swag\PayPal\Webhook\WebhookService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use function json_decode;
 
 class WebhookControllerTest extends TestCase
 {
@@ -43,7 +42,7 @@ class WebhookControllerTest extends TestCase
         $content = $jsonResponse->getContent();
         static::assertNotFalse($content);
 
-        $result = json_decode($content, true);
+        $result = \json_decode($content, true);
 
         $this->silentAssertArraySubset(['result' => WebhookService::WEBHOOK_CREATED], $result);
     }

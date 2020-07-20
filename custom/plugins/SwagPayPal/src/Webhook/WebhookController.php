@@ -7,7 +7,6 @@
 
 namespace Swag\PayPal\Webhook;
 
-use Exception;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -24,8 +23,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use function json_encode;
-use function sprintf;
 
 /**
  * @RouteScope(scopes={"api"})
@@ -103,7 +100,7 @@ class WebhookController extends AbstractController
     public function executeWebhookDeprecated(Request $request, Context $context): Response
     {
         $this->logger->error(
-            sprintf('Route "paypal.webhook.execute" is deprecated. Use "api.action.paypal.webhook.execute" instead. Please save the PayPal settings to prevent this error.')
+            \sprintf('Route "paypal.webhook.execute" is deprecated. Use "api.action.paypal.webhook.execute" instead. Please save the PayPal settings to prevent this error.')
         );
 
         return $this->executeWebhook($request, $context);
@@ -170,12 +167,12 @@ class WebhookController extends AbstractController
                 '[PayPal Webhook] ' . $webhookException->getMessage(),
                 [
                     'type' => $webhookException->getEventType(),
-                    'webhook' => json_encode($webhook),
+                    'webhook' => \json_encode($webhook),
                 ]
             );
 
             throw new BadRequestHttpException('An error occurred during execution of webhook');
-        } catch ( Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->error('[PayPal Webhook] ' . $e->getMessage());
 
             throw new BadRequestHttpException('An error occurred during execution of webhook');

@@ -24,7 +24,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use function get_class;
 
 class SwagPayPal extends Plugin
 {
@@ -92,7 +91,7 @@ class SwagPayPal extends Plugin
             $countryRepository,
             $pluginIdProvider,
             $systemConfigService,
-            get_class($this)
+            \get_class($this)
         ))->install($installContext->getContext());
 
         parent::install($installContext);
@@ -131,7 +130,7 @@ class SwagPayPal extends Plugin
             $countryRepository,
             $pluginIdProvider,
             $systemConfigService,
-            get_class($this)
+            \get_class($this)
         ))->uninstall($context);
 
         parent::uninstall($uninstallContext);
