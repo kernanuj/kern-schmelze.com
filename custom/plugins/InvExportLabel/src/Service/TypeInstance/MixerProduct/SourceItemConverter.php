@@ -30,7 +30,9 @@ class SourceItemConverter
 
         return (new MixerProductSourceItem())
             ->setMixName(
+                //Todo: Nur für Testing, da MixLabel nicht zur Verfügung steht.
                 OrderLineItemEntityAccessor::getMixLabel($orderLineItemEntity)
+                #'Meine Schokolade'
             )
             ->setDisplayId(
                 OrderLineItemEntityAccessor::getMixDisplayId($orderLineItemEntity)

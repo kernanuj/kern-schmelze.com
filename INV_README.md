@@ -18,5 +18,3 @@ For an order to be considered in the export, the following must match
     - transaction state (payment)
     - delivery state
     - example : `order:open, transaction:paid, delivery:open`
-
-    

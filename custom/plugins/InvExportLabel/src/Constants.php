@@ -21,7 +21,7 @@ final class Constants
     /**
      * @see \Dompdf\Adapter\CPDF::$PAPER_SIZES
      */
-    public const LABEL_PDF_PAPER_SIZE = 'a4';
+    public const LABEL_PDF_PAPER_SIZE = '0,0,71,71';
 
     /**
      * @param string $type

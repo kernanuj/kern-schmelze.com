@@ -12,10 +12,10 @@
         }
 
         .container {
-            width: 15cm;
+            width: 66mm;
             height: auto;
             padding:0;
-            margin: 21mm 30mm 21mm 30mm;
+            margin: 2mm 2mm 2mm 2mm;
 
         }
 
@@ -23,12 +23,24 @@
             page-break-after: always;
             margin: 0;
             padding:0;
+            size: 71mm 71mm landscape;
+        }
+
+        img {
+            text-align: center;
+            margin: 0 auto 10px auto;
+            width: 15mm;
+            height: auto;
+            display: block;
+            border: 0;
         }
 
         p {
             font-family: Arial, sans-serif;
             text-align: center;
-            font-size: 10pt;
+            font-size: 5pt;
+            margin: 0 0 5px 0;
+            padding: 0;
         }
 
         .break {
@@ -36,15 +48,27 @@
         }
 
         .mix-name {
-            font-size: 12pt;
+            font-size: 8pt;
+            font-weight: bold;
+        }
+
+        .mix-id {
+            text-align: center;
+            font-size: 5pt;
+        }
+
+        .best-and-weight {
+            text-align: center;
+            font-size: 5pt;
+        }
+
+        .weight {
+            font-size: 8pt;
             font-weight: bold;
         }
 
         .address {
-            font-size: 8pt;
-        }
-
-        .best-and-weight {
+            font-size: 5pt;
             text-align: center;
         }
     </style>
@@ -54,6 +78,8 @@
 {% for item in sourceCollection.items %}
     {# @var item \InvExportLabel\Value\SourceItemType\MixerProductSourceItem #}
     <div class="container">
+        <img src="{{ asset('img/logo.jpg', '@InvExportLabel') }}">
+
         <p class="mix-name">
             {{ item.mixName }}
         </p>
@@ -61,17 +87,20 @@
             Zutaten: {{ item.ingredients|join(', ') }}
         </p>
         <p class="disclaimer">
-            Kann Spuren enthalten von anderen Nüssen, Ei,
-            glutenhaltigem Getreide, Sesam, Sulfit.
+            <strong>
+                Kann Spuren enthalten von anderen Nüssen, Ei,
+                glutenhaltigem Getreide, Sesam, Sulfit.
+            </strong>
+            <br />
             Vor Wärme schützen und trocken lagern.
         </p>
         <p class="mix-id">
             Mixed-ID: {{ item.displayId }}
         </p>
-        <div class="best-and-weight">
+        <p class="best-and-weight">
             <span class="best-before">Mindestens haltbar bis: {{ item.bestBeforeDate | date("d.m.Y") }}</span>
-            <span class="weight">{{ item.weight }}</span>
-        </div>
+            <span class="weight">&nbsp;&nbsp;&nbsp;&nbsp;{{ item.weight }}</span>
+        </p>
         <p class="address">
             KERNenergie GmbH · Grundtalring 23 · D-63868 Großwallstadt <br/>
             www.kern-energie.com www.kern-schmelze.com
