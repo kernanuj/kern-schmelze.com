@@ -8,6 +8,7 @@
 namespace Swag\CustomizedProducts\Storefront\Page\Account\Order;
 
 use Shopware\Core\Checkout\Order\OrderCollection;
+use Shopware\Storefront\Page\Account\Order\AccountEditOrderPageLoadedEvent;
 use Shopware\Storefront\Page\Account\Order\AccountOrderPageLoadedEvent;
 use Shopware\Storefront\Page\Account\Overview\AccountOverviewPageLoadedEvent;
 use Shopware\Storefront\Page\PageLoadedEvent;
@@ -21,11 +22,12 @@ class AccountOrderPageLoadedEventSubscriber implements EventSubscriberInterface
         return [
             AccountOrderPageLoadedEvent::class => 'nestOrderLineItems',
             AccountOverviewPageLoadedEvent::class => 'nestOrderLineItems',
+            AccountEditOrderPageLoadedEvent::class => 'nestOrderLineItems',
         ];
     }
 
     /**
-     * @param AccountOrderPageLoadedEvent|AccountOverviewPageLoadedEvent $event
+     * @param AccountOrderPageLoadedEvent|AccountOverviewPageLoadedEvent|AccountEditOrderPageLoadedEvent $event
      */
     public function nestOrderLineItems(PageLoadedEvent $event): void
     {
@@ -54,7 +56,7 @@ class AccountOrderPageLoadedEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param AccountOrderPageLoadedEvent|AccountOverviewPageLoadedEvent $event
+     * @param AccountOrderPageLoadedEvent|AccountOverviewPageLoadedEvent|AccountEditOrderPageLoadedEvent $event
      */
     private function getOrderCollection(PageLoadedEvent $event): OrderCollection
     {
@@ -63,6 +65,10 @@ class AccountOrderPageLoadedEventSubscriber implements EventSubscriberInterface
             $orderCollection = $event->getPage()->getOrders()->getEntities();
 
             return $orderCollection;
+        }
+
+        if ($event instanceof AccountEditOrderPageLoadedEvent) {
+            return new OrderCollection([$event->getPage()->getOrder()]);
         }
 
         $newestOrder = $event->getPage()->getNewestOrder();

@@ -165,7 +165,7 @@ Component.register('swag-customized-products-detail-base', {
 
         loadOptionTypes() {
             return this.SwagCustomizedProductsTemplateOptionService.getSupportedTypes().then((types) => {
-                // TODO: Remove blacklist when storefront implementation is finished
+                // TODO PT-11904 - Remove blacklist when storefront implementation is finished
                 const optionTypeBlacklist = [
                     'colorpicker'
                 ];
@@ -297,6 +297,12 @@ Component.register('swag-customized-products-detail-base', {
             this.getOptionList();
         },
 
+        onChangeStepByStep() {
+            if (this.template.stepByStep === true) {
+                this.template.optionsAutoCollapse = false;
+            }
+        },
+
         async saveOptions() {
             this.isLoading = true;
 
@@ -306,12 +312,8 @@ Component.register('swag-customized-products-detail-base', {
             this.isLoading = false;
         },
 
-        saveError(option) {
+        saveError() {
             this.isLoading = false;
-
-            if (this.newOption && option.id === this.newOption.id) {
-                // TODO: new option got a save error (PT-10720)
-            }
 
             const titleSaveError = this.$tc('global.default.error');
             const messageSaveError = this.$tc('swag-customized-products.detail.tabGeneral.cardOption.errorSave');

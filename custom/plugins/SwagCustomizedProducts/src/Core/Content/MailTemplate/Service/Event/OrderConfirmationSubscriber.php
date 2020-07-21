@@ -67,13 +67,13 @@ class OrderConfirmationSubscriber
             $this->adjustPercentageQuantity($orderLineItemCollection, $customizedProductOptionLineItems);
             $this->adjustPercentageQuantity($orderLineItemCollection, $customizedProductOptionValueLineItems);
 
-            // ToDo@SEG Remove with PT-11847
+            // ToDo@SEG PT-11847 - Remove
             $this->addTemplateNameToChildLabel($productLineItems, $templateLabel);
             $this->addTemplateNameToChildLabel($customizedProductOptionLineItems, $templateLabel);
             $this->addTemplateNameToChildLabel($customizedProductOptionValueLineItems, $templateLabel);
         }
 
-        // ToDo@SEG Remove with PT-11847
+        // ToDo@SEG PT-11847 - Remove
         $orderLineItemCollection = $orderLineItemCollection->filter(static function (OrderLineItemEntity $lineItem) {
             return $lineItem->getType() !== CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_TEMPLATE_LINE_ITEM_TYPE;
         });

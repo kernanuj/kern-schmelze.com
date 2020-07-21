@@ -1,3 +1,16 @@
+# 2.3.0
+- PT-11308 - Nummernfeld-Konfiguration für "Nachkommastellen" entfernt, welche im Widerspruch zur "Schrittweiten"-Konfiguration steht
+- PT-11310 - Zeit- und Datumsvalidierung für die Optionstypen Datumsfeld und Zeitauswahlfeld eingebaut 
+- PT-11370 - In der Storefront beim Klick auf ein Bild in der Bildauswahl wird dieses in einer Vollbild-Ansicht dargestellt
+- PT-11452 - Optionales Einklappen von Optionen implemeniert, wenn eine neue angeklickt wird und die vorherige valide ist
+- PT-11621 - Fehlgeschlagene Bestellungen welche ein oder mehrere Custom Products enthalten können jetzt im Account editiert werden
+- PT-11719 - Duplizieren der Produktvorlage deaktiviert, wenn diese noch nicht gespeichert wurde.
+- PT-11775 - Erforderliche Optionen vom Typ Datei- und Bildupload blockieren nicht länger die Bestellung eines Custom Product
+- PT-11823 - Der HTML-Editor wird nun im Schritt-für-Schritt-Modus vertikal richtig ausgerichtet
+- PT-11840 - Der Button "Produkt hinzufügen" ist im Bestellmodul wieder verfügbar
+- PT-11881 - Kompatibilität für Safari und Internet Explorer 11
+- PT-11897 - Datei- und Bildupload geben nun korrekte Fehler aus, wenn die maximale Anzahl oder Dateigröße beim Upload überschritten wurden
+
 # 2.2.0
 - PT-11172 - Custom-Products-Optionsmodal auf feste Größe angepasst
 - PT-11288 - Relative Zuschläge werden jetzt korrekt in der Auftragsbestätigungsmail aufgeführt
@@ -11,7 +24,7 @@
 - PT-11868 - Multiselect-Validierung für Step-By-Step-Modus implementiert
 
 # 2.1.0
-- PT-11476 - Stellt Store-API Endpunkte zur Verfügung
+- PT-11476 - Stellt Store-API-Endpunkte zur Verfügung
 - PT-11799 - Kunden ohne Bestellung können die Accountübersicht wieder aufrufen
 
 # 2.0.0

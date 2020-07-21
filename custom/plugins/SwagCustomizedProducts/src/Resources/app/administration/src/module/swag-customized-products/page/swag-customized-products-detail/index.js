@@ -89,6 +89,14 @@ Component.register('swag-customized-products-detail', {
         // Only for overriding purposes to re-enable the tabview
         showTabs() {
             return false;
+        },
+
+        isNewlyCreated() {
+            if (!this.template) {
+                return true;
+            }
+
+            return this.template._isNew;
         }
     },
 

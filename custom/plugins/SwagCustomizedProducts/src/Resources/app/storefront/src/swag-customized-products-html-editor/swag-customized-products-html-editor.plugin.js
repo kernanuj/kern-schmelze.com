@@ -1,9 +1,7 @@
 /* eslint-disable import/no-unresolved */
 
 import Plugin from 'src/plugin-system/plugin.class';
-import '../../../../public/storefront/vendors/summernote/src/summernote';
-import '../../../../public/storefront/vendors/summernote/src/bs4/settings';
-import '../../../../public/storefront/vendors/summernote/lang/summernote-de-DE';
+import '../../../../public/storefront/vendors/summernote/src/summernote-bs4';
 
 /**
  * HTML editor component that is loaded when the 'data-swag-customized-products-html-editor' attribute exists.

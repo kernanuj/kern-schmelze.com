@@ -93,7 +93,7 @@
         &__image {
             text-align: center;
             align-self: center;
-            width: $spacer-xl;
+            max-width: 100%;
         }
 
         &--required {

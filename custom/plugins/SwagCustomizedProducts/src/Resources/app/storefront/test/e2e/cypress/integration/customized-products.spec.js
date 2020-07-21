@@ -111,6 +111,10 @@ describe('Storefront: Custom products', () => {
             .should('be.visible')
             .click();
 
+        // Check collapsing of prior option, after changing input of the current
+        cy.get('.swag-customized-products-option-type-select-checkboxes-label-property')
+            .should('not.be.visible');
+
         // Check price display
         cy.get('.swag-customized-product__price-display').should('be.exist');
         cy.contains('.list__one-time-price .price-display__item:nth-child(2) .price-display__label', 'Example checkbox');
@@ -125,6 +129,9 @@ describe('Storefront: Custom products', () => {
         cy.get('.swag-customized-products__type-textfield input')
             .should('be.visible')
             .type('Hello Customized Products Textfield{enter}');
+
+        // Check collapsing of prior option, after changing input of the current
+        cy.contains('.custom-control-label', 'Example checkbox').should('not.be.visible');
 
         // Check price display
         cy.get('.swag-customized-product__price-display').should('be.exist');
@@ -142,6 +149,10 @@ describe('Storefront: Custom products', () => {
             .type('Hello Customized Products Textarea');
         cy.contains('.swag-customized-products-option__title', 'Example textarea').click();
 
+        // Check collapsing of prior option, after changing input of the current
+        cy.get('.swag-customized-products__type-textfield input')
+            .should('not.be.visible');
+
         // Check price display
         cy.get('.swag-customized-product__price-display').should('be.exist');
         cy.contains('.list__one-time-price .price-display__item:nth-child(4) .price-display__label', 'Example textarea');
@@ -156,6 +167,9 @@ describe('Storefront: Custom products', () => {
             .should('be.visible')
             .type('42');
         cy.contains('.swag-customized-products-option__title', 'Example numberfield').click();
+
+        // Check collapsing of prior option, after changing input of the current
+        cy.get('.swag-customized-products__type-textarea textarea').should('not.be.visible');
 
         // Price display
         cy.get('.swag-customized-product__price-display').should('be.exist');
@@ -177,6 +191,9 @@ describe('Storefront: Custom products', () => {
         cy.get('.flatpickr-calendar').should('be.visible');
         cy.get('.flatpickr-day.today').click();
 
+        // Check collapsing of prior option, after changing input of the current
+        cy.get('.swag-customized-products__type-numberfield input').should('not.be.visible');
+
         // Price display
         cy.get('.swag-customized-product__price-display').should('be.exist');
         cy.contains('.list__one-time-price .price-display__item:nth-child(6) .price-display__label', 'Example datefield');
@@ -197,6 +214,10 @@ describe('Storefront: Custom products', () => {
         cy.get('.flatpickr-calendar').should('be.visible');
         cy.get('.numInputWrapper .flatpickr-hour').type('3');
 
+        // Check collapsing of prior option, after changing input of the current
+        cy.get('.swag-customized-products__type-datetime > .input-group > input[type="text"].swag-customized-products-options-datetime')
+            .should('not.be.visible');
+
         // Price display
         cy.get('.swag-customized-product__price-display').should('be.exist');
         cy.contains('.list__one-time-price .price-display__item:nth-child(7) .price-display__label', 'Example timefield');
@@ -214,6 +235,10 @@ describe('Storefront: Custom products', () => {
         cy.contains('.swag-customized-products-option-type-select-checkboxes-label-property', 'Example Purple')
             .should('be.visible')
             .click();
+
+        // Check collapsing of prior option, after changing input of the current
+        cy.get('.swag-customized-products__type-timestamp > .input-group > input[type="text"].swag-customized-products-options-datetime')
+            .should('not.be.visible');
 
         // Price display
         cy.get('.swag-customized-product__price-display').should('be.exist');

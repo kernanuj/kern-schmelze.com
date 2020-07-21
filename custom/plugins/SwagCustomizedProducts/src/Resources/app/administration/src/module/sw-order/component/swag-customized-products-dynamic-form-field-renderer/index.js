@@ -284,7 +284,7 @@ function renderImageSelect(h, context) {
 function renderTimestamp(h, context) {
     const date = new Date(context.option.value);
 
-    // ToDo PT-11138: Switch `sw-text-field` to `sw-date-picker` if it can be disabled
+    // ToDo PT-11138 - Switch `sw-text-field` to `sw-date-picker` if it can be disabled
     return h('sw-text-field', {
         props: {
             value: date.toISOString().split('T')[1].split('.')[0]
@@ -306,7 +306,7 @@ function renderTimestamp(h, context) {
 function renderDateTime(h, context) {
     const date = new Date(context.option.value);
 
-    // ToDo PT-11138: Switch `sw-text-field` to `sw-date-picker` if it can be disabled
+    // ToDo PT-11138 - Switch `sw-text-field` to `sw-date-picker` if it can be disabled
     return h('sw-text-field', {
         props: {
             value: date.toISOString().split('T')[0]

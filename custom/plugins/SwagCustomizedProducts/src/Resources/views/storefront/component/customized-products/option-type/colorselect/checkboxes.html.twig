@@ -5,11 +5,9 @@
            for="swag-customized-products-option-id-{{ optionValue.id }}">
 
         {% block swag_customized_products_option_type_template_select_input_list_radio_options_label_color %}
-            <span class="swag-customized-products-option-type-select-checkboxes-label-property">
-                <div class="swag-customized-products-option-type-select-checkboxes-label-property m-0"
-                     style="background-color: {{ optionValue.getValue._value }}">
-                </div>
-            </span>
+            <div class="swag-customized-products-option-type-select-checkboxes-label-property-bubble"
+                 style="background-color: {{ optionValue.getValue._value }}">
+            </div>
         {% endblock %}
 
         {% block swag_customized_products_option_type_template_select_input_list_radio_options_label_name %}
@@ -29,7 +27,7 @@
 {% endblock %}
 
 {% block swag_customized_products_option_type_template_select_input_list_radio_no_selection_content %}
-    <div class="swag-customized-products-option-type-select-checkboxes-label-property">
+    <div class="swag-customized-products-option-type-select-checkboxes-label-property-bubble no-selection">
         <div class="swag-customized-products__no-selection-icon img-fluid">
             {% sw_icon 'blocked' %}
         </div>

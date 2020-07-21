@@ -11,21 +11,36 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
     static options = {
         /**
          * The endpoint to upload to.
+         *
+         * @type {String}
          */
         endpoint: '',
 
         /**
          * The id that will also be send to the backend.
+         *
+         * @type {String}
          */
         optionId: '',
 
         /**
+         * Maximal upload amount of this option.
+         *
+         * @type {Number}
+         */
+        maxCount: 1,
+
+        /**
          * CSRF Token for the upload.
+         *
+         * @type {String}
          */
         csrfToken: '',
 
         /**
          * Child selectors
+         *
+         * @type {Object}
          */
         selectors: {
             dropzonePrefix: '#customized-products-dropzone-',
@@ -33,6 +48,7 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
             browseButtonPrefix: '#customized-products-browse-',
             dropzoneIdPrefix: '#customized-products-dropzone-',
 
+            upload: '.customized-products-upload',
             buyForm: '#productDetailPageBuyProductForm',
             dropzone: '.customized-products-upload-dropzone',
             uploadedFilesList: '.customized-products-upload-files',
@@ -40,6 +56,8 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
             filename: '.customized-products-upload-files-element-filename',
             iconElement: '.customized-products-upload-files-element-icon',
             closeButton: '.customized-products-upload-files-element-close-button',
+            priceDisplayContainer: '[data-swag-customized-product-price-display="true"]',
+            customizedProductContainer: '.swag-customized-products',
 
             iconSuccess: '.customized-products-upload-icon-success',
             iconError: '.customized-products-upload-icon-error'
@@ -47,6 +65,8 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
 
         /**
          * Dynamically applied style classes
+         *
+         * @type {Object}
          */
         classes: {
             dragover: 'dragover',
@@ -83,6 +103,7 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
             this.dropzone,
             this.options.selectors.browseButtonPrefix + this.options.optionId
         );
+        this.buyForm = DomAccess.querySelector(document, this.options.selectors.buyForm);
 
         this.iconSuccess = DomAccess.querySelector(this.fileUpload, this.options.selectors.iconSuccess).innerHTML;
         this.iconError = DomAccess.querySelector(this.fileUpload, this.options.selectors.iconError).innerHTML;
@@ -260,7 +281,7 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
             'SwagCustomizedProductsStepByStepWizard'
         );
 
-        plugin.setPageHeight(plugin.currentPage);
+        plugin.setPageHeight(plugin.currentPage, true);
 
         return true;
     }
@@ -278,10 +299,20 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
             return false;
         }
 
+        const validEntryAmount = Array.from(this.registry.values()).filter(value => value.valid).length;
+        const maxCountExceeded = validEntryAmount >= this.options.maxCount;
+
         this.registry.set(file.name, {
             file,
-            element: this._appendNewFileElement(file.name)
+            element: this._appendNewFileElement(file.name),
+            valid: !maxCountExceeded
         });
+
+        if (maxCountExceeded) {
+            this._onUploadError(file.name);
+
+            return false;
+        }
 
         const fileReader = new FileReader();
         fileReader.addEventListener('error', this._onUploadError.bind(this, file.name));
@@ -300,7 +331,7 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
      */
     _appendNewFileElement(filename) {
         const fileElement = document.createElement('div');
-        fileElement.classList = this.fileTemplate.classList;
+        fileElement.setAttribute('class', this.fileTemplate.getAttribute('class'));
         fileElement.innerHTML = this.fileTemplate.innerHTML;
 
         const fileName = DomAccess.querySelector(fileElement, this.options.selectors.filename);
@@ -351,6 +382,14 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
 
             return false;
         }
+
+        // If the request resolves in error (e.g. max file site exceeded), error visualization will be called
+        if (result.errors !== undefined) {
+            this._onUploadError(filename);
+
+            return false;
+        }
+
         this._onUploadSuccess(filename, result);
 
         return true;
@@ -367,7 +406,6 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
      */
     _onUploadSuccess(filename, result) {
         const file = this.registry.get(filename);
-        const buyForm = DomAccess.querySelector(document, this.options.selectors.buyForm);
         const icon = DomAccess.querySelector(file.element, this.options.selectors.iconElement);
 
         file.element.classList.add(this.options.classes.success);
@@ -376,8 +414,10 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
         const mediaIdInput = this._createMediaIdInput(filename, result.mediaId);
         const fileNameInput = this._createFileNameInput(filename);
 
-        buyForm.append(mediaIdInput);
-        buyForm.append(fileNameInput);
+        this.buyForm.appendChild(mediaIdInput);
+        this.buyForm.appendChild(fileNameInput);
+
+        this.updatePriceDisplay();
 
         DomAccess
             .querySelector(file.element, this.options.selectors.closeButton)
@@ -417,6 +457,8 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
 
         mediaIdInput.remove();
         fileNameInput.remove();
+
+        this.updatePriceDisplay();
     }
 
     /**
@@ -445,6 +487,20 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
 
         this.uploadedFilesList.removeChild(file.element);
         this.registry.delete(file.file.name);
+
+        const customizedProductContainer = DomAccess.querySelector(
+            this.buyForm,
+            this.options.selectors.customizedProductContainer,
+            false
+        );
+        if (customizedProductContainer) {
+            const formValidatorPlugin = window.PluginManager.getPluginInstanceFromElement(
+                customizedProductContainer,
+                'SwagCustomizedProductsFormValidator'
+            );
+
+            formValidatorPlugin._onFormChange();
+        }
 
         this.setPageHeightInStepByStep();
     }
@@ -482,5 +538,29 @@ export default class SwagCustomizedProductsFileUpload extends Plugin {
         fileNameInput.value = filename;
 
         return fileNameInput;
+    }
+
+    /**
+     * Forces the price display to update
+     *
+     * @returns {boolean}
+     */
+    updatePriceDisplay() {
+        const priceDisplayContainer = DomAccess.querySelector(
+            document,
+            this.options.selectors.priceDisplayContainer,
+            false
+        );
+        if (!priceDisplayContainer) {
+            return false;
+        }
+
+        const priceDisplayPlugin = window.PluginManager.getPluginInstanceFromElement(
+            priceDisplayContainer,
+            'SwagCustomizedProductPriceDisplay'
+        );
+        priceDisplayPlugin.onFormChange();
+
+        return true;
     }
 }

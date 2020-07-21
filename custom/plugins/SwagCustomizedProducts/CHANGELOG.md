@@ -1,3 +1,16 @@
+# 2.3.0
+- PT-11308 - Removed numberfield configuration for "decimal places", which was in contradiction to the "step size" configuration
+- PT-11310 - Time and date validation for the option types date field and time selection field implemented
+- PT-11370 - In storefront by clicking on an image in the image selection it will be displayed in a full screen view 
+- PT-11452 - Implemented optional option collapsing, if the current option is valid and clicking into a new one
+- PT-11621 - Failed orders which contain one or more Custom Products can now be edited in the account
+- PT-11719 - Duplicating the product template is deactivated if the template has not yet been saved.
+- PT-11775 - Required options of the type file and image upload no longer block ordering a Custom Product
+- PT-11823 - The HTML editor is now correctly vertical aligned in step by step mode
+- PT-11840 - The "add product" button is back in the order module
+- PT-11881 - Compatibility for Safari and Internet Explorer 11
+- PT-11897 - File and image upload now return a correct error state when exceeding max file size or amount 
+
 # 2.2.0
 - PT-11172 - Adjusted Custom Products option modal box to fixed size
 - PT-11288 - Relative surcharges are now listed correctly in the order confirmation mail
@@ -8,7 +21,7 @@
 - PT-11632 - Added navigation for elements that cannot be combined due to an exclusion
 - PT-11773 - Custom Products with unfilled required options can no longer be placed in the cart
 - PT-11774 - The step by step mode no longer cuts off the configuration for image and file uploads
-- PT-11868 - Implemented Multi select validation for step-by-step mode
+- PT-11868 - Implemented multi select validation for step-by-step mode
 
 # 2.1.0
 - PT-11476 - Provides Store API endpoints

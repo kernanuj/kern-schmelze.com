@@ -72,6 +72,8 @@
 
 {# Append custom products configuration modal window #}
 {% block sw_order_line_items_grid_actions %}
+    {% parent %}
+
     <swag-customized-products-configuration-modal
         v-if="currentProduct && isCustomProductModalOpen"
         :orderLineItems="order.lineItems"

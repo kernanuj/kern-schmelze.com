@@ -16,7 +16,6 @@
         {% endblock %}
 
         {% block swag_customized_products_option_type_numberfield_field_group %}
-            {# TODO: Make the container mobile friendly (PT-10820) #}
             <sw-container class="swag-customized-products-option-type-numberfield__field_group"
                           columns="repeat(4, minmax(150px, 1fr))"
                           gap="0px 32px">
@@ -44,18 +43,15 @@
                         required>
                     </sw-number-field>
                 {% endblock %}
-            </sw-container>
-
-            <sw-container class="swag-customized-products-option-type-numberfield__field_group"
-                          columns="repeat(4, minmax(150px, 1fr))"
-                          gap="0px 32px">
 
                 {% block swag_customized_products_option_type_numberfield_field_interval %}
                     <sw-number-field
                         v-model="option.typeProperties.interval"
                         class="swag-customized-products-option-type-numberfield__field_interval"
                         :label="$tc('swag-customized-products.optionDetailModal.optionType.numberfield.stepLabel')"
+                        numberType="float"
                         :step="0.1"
+                        :digits="10"
                         placeholder="1"
                         required>
                     </sw-number-field>
@@ -73,15 +69,7 @@
                 {% endblock %}
 
                 {% block swag_customized_products_option_type_numberfield_field_decimal_places %}
-                    <sw-number-field
-                        v-model="option.typeProperties.decimalPlaces"
-                        class="swag-customized-products-option-type-numberfield__field_decimal_places"
-                        :label="$tc('swag-customized-products.optionDetailModal.optionType.numberfield.decimalPlacesLabel')"
-                        :step="1"
-                        numberType="int"
-                        placeholder="1"
-                        required>
-                    </sw-number-field>
+                    {# @deprecated tag:3.0.0 use the functionality of 'step' instead #}
                 {% endblock %}
             </sw-container>
         {% endblock %}

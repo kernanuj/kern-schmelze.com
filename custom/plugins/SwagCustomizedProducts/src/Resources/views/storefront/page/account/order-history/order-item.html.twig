@@ -29,10 +29,3 @@
         {{ parent() }}
     {% endif %}
 {% endblock %}
-
-{# Todo:PT-11621 Implement change of payment #}
-{% block page_account_order_item_context_menu_content_change_payment_button %}
-    {% if not containsCustomProducts %}
-        {{ parent() }}
-    {% endif %}
-{% endblock %}

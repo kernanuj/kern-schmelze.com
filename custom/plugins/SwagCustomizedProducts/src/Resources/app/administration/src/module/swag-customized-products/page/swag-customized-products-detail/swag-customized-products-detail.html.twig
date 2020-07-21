@@ -38,7 +38,7 @@
                         {% endblock %}
 
                         {% block swag_customized_products_detail_smart_bar_actions_save_context_menu %}
-                            <sw-context-button>
+                            <sw-context-button v-if="!isNewlyCreated">
                                 <template #button>
                                     <sw-button
                                         class="swag-customized-products-detail__context-menu-save-action"

@@ -130,7 +130,7 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
      * Event handler will be triggered when the user changes the selection in the navigation element.
      *
      * @event change
-     * @param {EventImpl} event
+     * @params {EventImpl} event
      * @returns {void}
      */
     onNavigationEntry(event) {
@@ -155,7 +155,7 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
      * Event listener which will get fired when the user starts the step-by-step wizard.
      *
      * @event click
-     * @param {EventImpl} event
+     * @params {EventImpl} event
      * @returns {void}
      */
     onClickStartButton(event) {
@@ -173,7 +173,7 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
     renderNavigationSelection() {
         /**
          * Renders a single option of the select box.
-         * @param {Object} entry
+         * @params {Object} entry
          * @returns {string}
          */
         const renderSelectOption = (entry) => {
@@ -293,12 +293,14 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
 
     /**
      * Collects the pages and information about the page for the step-by-step wizard.
-     * @param {NodeList} pages
+     * @params {NodeList} pages
      * @returns {{pageEl: unknown, name: (*|string|null), pageNum: number, required: boolean, formValidation: Object}[]}
      */
     collectPages(pages) {
         return Array.from(pages).map((page, pageNum) => {
             const name = DomAccess.getDataAttribute(page, 'name', false) || null;
+            const pageChild = page.children[0];
+            const pageHeight = SwagCustomizedProductsStepByStepWizard.elementOuterHeight(pageChild);
 
             const formValidation = this.collectFormControlFromPage(page, true);
             let required = false;
@@ -319,7 +321,8 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
                 pageNum: pageNum,
                 name,
                 required,
-                formValidation
+                formValidation,
+                pageHeight
             };
         });
     }
@@ -327,7 +330,7 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
     /**
      * Collects the entries for the navigation element.
      *
-     * @param {Array} pages
+     * @params {Array} pages
      * @returns {Array}
      */
     collectNavigationEntries(pages) {
@@ -344,7 +347,7 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
      * Updates the buy button and sets a "disabled" attribute onto the button when the step-by-step wizard is
      * not valid.
      *
-     * @param {HTMLButtonElement} buyButton
+     * @params {HTMLButtonElement} buyButton
      * @returns {HTMLButtonElement}
      */
     updateBuyButton(buyButton) {
@@ -406,19 +409,20 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
     /**
      * Transitions to the given page and updates the current page as well as the pager.
      *
-     * @param {Number} newPage
-     * @param {Boolean} [setHistoryEntry=true]
+     * @params {Number} newPage
+     * @params {Boolean} [setHistoryEntry=true]
      * @returns {boolean}
      */
     transitionToPage(newPage, setHistoryEntry = true) {
         this.resetPreviousFormControl(this.pages[this.currentPage - 1]);
-        this.setPageHeight(newPage);
 
         // Transition to the next page
-        this.containerEl.style.transform = `translateX(-${(newPage - 1) * 100}%)`;
+        const transition = `translateX(-${(newPage - 1) * 100}%)`;
+        this.containerEl.style.transform = transition;
+        this.containerEl.style.webkitTransform = transition;
+        this.containerEl.style.msTransform = transition;
         this.currentPage = newPage;
 
-        // TODO: Set page validation object active
         this.setActiveFormElement(this.pages[this.currentPage - 1]);
 
         // Render pager & navigation element
@@ -427,6 +431,8 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
 
         // Update buy button
         this.buyButton = this.updateBuyButton(this.buyButton);
+
+        this.setPageHeight(newPage);
 
         if (setHistoryEntry) {
             this.updateHistory();
@@ -453,7 +459,7 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
     /**
      * Collects the form control element from the current page for validation purposes later on.
      *
-     * @param {Number} pageNum
+     * @params {Number} pageNum
      * @returns {null|Object}
      */
     collectFormControlFromPage(page) {
@@ -516,7 +522,7 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
     /**
      * Validates the current field and checks if the field is valid
      * @event input
-     * @param event
+     * @params event
      */
     validateCurrentField() {
         const currentPage = this.pages[this.currentPage - 1];
@@ -568,18 +574,38 @@ export default class SwagCustomizedProductsStepByStepWizard extends Plugin {
     /**
      * Resizes the scrolling element to the page height of the next page.
      *
-     * @param {Number} newPage
+     * @params {Number} newPage
+     * @params {Boolean} [force=false]
      * @returns {Boolean}
      */
-    setPageHeight(newPage) {
+    setPageHeight(newPage, force = false) {
         const nextPage = this.pages[newPage - 1].pageEl;
-        const pageChildren = nextPage.children;
-        if (!pageChildren || pageChildren.length <= 0) {
-            return false;
-        }
+        let height = this.pages[newPage - 1].pageHeight;
 
-        const child = pageChildren[0];
-        let height = SwagCustomizedProductsStepByStepWizard.elementOuterHeight(child);
+        /**
+         * Helper method which terminates the padding of the provided element
+         * @params {Element} element
+         * @returns {Number}
+         */
+        const getElementPadding = (element) => {
+            const style = window.getComputedStyle(element);
+            return window.parseFloat(style.paddingTop) + window.parseFloat(style.paddingBottom);
+        };
+
+        // Force mode is used by the file upload when a new file / image got uploaded
+        if (force) {
+            const pageChildren = nextPage.children;
+            if (!pageChildren || pageChildren.length <= 0) {
+                return false;
+            }
+
+            // Collecting the height of the child elements. The initial value in the accumulator is the padding of
+            // the parent element.
+            const child = pageChildren[0];
+            height = Array.from(child.children).reduce((accumulator, formGroupChild) => {
+                return accumulator + SwagCustomizedProductsStepByStepWizard.elementOuterHeight(formGroupChild);
+            }, getElementPadding(nextPage));
+        }
 
         // If the height goes over the threshold we limit the height and resize the page element itself and add
         // a scrollbar

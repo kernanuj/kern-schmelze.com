@@ -1,6 +1,6 @@
 .swag-customized-products-option-type-select-wrapper {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: block;
+    width: 100%;
 
     .forms-boolean {
         height: auto;
@@ -8,11 +8,6 @@
     }
 
     .forms-boolean-label {
-        display: grid;
-        min-height: 72px;
-        grid-template-columns: 0 4fr 1fr;
-        align-items: center;
-
         &::before {
             border-radius: 0;
             width: 100%;
@@ -51,14 +46,78 @@
 
 .swag-customized-products__type-colorselect,
 .swag-customized-products__type-imageselect {
-    .forms-boolean-label {
-        grid-template-columns: 56px 4fr 1fr;
+    .swag-customized-products-option-type-select-checkboxes-label-property-bubble {
+        width: 24px;
+        height: 24px;
+        border-radius: 100%;
+        margin: 0 12px 0 0;
+
+        &.no-selection {
+            margin-top: 0;
+        }
+
+        .icon > svg {
+            top: 0;
+            position: initial;
+        }
+    }
+}
+
+.swag-customized-products__type-imageselect {
+    .swag-customized-products-option-type-select-checkboxes-label-property-bubble {
+        width: 48px;
+
+        .icon {
+            margin-left: 12px;
+        }
+    }
+
+    .swag-customized-products-option-type-select-checkboxes-label-property-image {
+        width: 48px;
+        margin: 8px 14px 8px 0;
+
+        .swag-customized-products-image-zoom__template {
+            display: none;
+        }
+
+        .swag-customized-products-option__image {
+            border: 1px solid $border-color;
+            border-radius: $border-radius;
+        }
+
+        .swag-customized-products-option__image:hover {
+            border-color: $primary;
+            & + .icon-editor-expand > svg {
+                color: $primary;
+            }
+        }
+
+        &.swag-customized-products-image-zoom {
+            position: relative;
+            margin: 8px 32px 8px 0;
+
+            .icon-editor-expand {
+                position: absolute;
+                width: 12px;
+                height: 12px;
+                right: -20px;
+                top: 50%;
+                margin-top: -10px;
+
+                &:hover svg {
+                    color: $primary;
+                }
+            }
+        }
     }
 }
 
 .swag-customized-products-option-type-select-checkboxes-label {
     height: 100%;
-    line-height: 1.1rem;
+    display: flex;
+    padding: 10px 16px;
+    text-align: left;
+    align-items: center;
 
     &:after {
         content: none;
@@ -72,19 +131,17 @@
 
     .swag-customized-products-option-type-select-checkboxes-label-property {
         border-radius: 100%;
-        margin: 4px 0px 4px 12px;
-        padding: 12px;
         word-break: break-all;
+        flex: 5;
     }
 
     .swag-customized-products-option-type-colorselect-checkboxes-label-name {
-        line-height: 1;
         padding-bottom: 0;
+        flex: 1;
     }
 
     .swag-customized-products-option-type-select-checkboxes-label-surcharge-info {
-        line-height: 1;
         font-weight: bold;
-        margin-right: 12px;
+        flex: 1;
     }
 }

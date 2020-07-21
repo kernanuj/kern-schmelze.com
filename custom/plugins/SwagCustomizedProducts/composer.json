@@ -1,7 +1,7 @@
 {
     "name": "swag/customized-products",
     "description": "Custom Products for Shopware 6",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "type": "shopware-platform-plugin",
     "license": "proprietary",
     "authors": [

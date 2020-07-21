@@ -34,9 +34,9 @@
             </errorLevel>
         </MoreSpecificImplementedParamType>
 
-        <!-- ToDo@SEG remove with 6.3.0 -->
         <DeprecatedInterface>
             <errorLevel type="info">
+                <!-- ToDo@SEG 6.3.0 - Remove -->
                 <file name="src/Extension/CurrencyExtension.php"/>
                 <file name="src/Extension/LanguageExtension.php"/>
                 <file name="src/Extension/MediaExtension.php"/>
@@ -44,6 +44,9 @@
                 <file name="src/Extension/RuleExtension.php"/>
                 <file name="src/Extension/TaxExtension.php"/>
                 <file name="src/Core/Checkout/Promotion/Cart/Discount/ScopePackager/CartScopeDiscountPackagerDecorator.php"/>
+                <!-- ToDo PT-11912 / 6.4.0 - Remove -->
+                <file name="src/Resources/app/storefront/snippet/de_DE/SnippetFile_de_DE.php"/>
+                <file name="src/Resources/app/storefront/snippet/en_GB/SnippetFile_en_GB.php"/>
             </errorLevel>
         </DeprecatedInterface>
 

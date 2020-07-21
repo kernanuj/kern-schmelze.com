@@ -83,6 +83,4 @@ class TemplateExclusionOperatorTest extends TestCase
         );
         static::assertTrue(true);
     }
-
-    // ToDo@SEG: Make sure that neither operators nor translations can get altered by the user
 }

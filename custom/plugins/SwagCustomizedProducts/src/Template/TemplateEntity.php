@@ -55,6 +55,11 @@ class TemplateEntity extends Entity
     protected $confirmInput;
 
     /**
+     * @var bool
+     */
+    protected $optionsAutoCollapse;
+
+    /**
      * @var array|null
      */
     protected $decisionTree;
@@ -152,6 +157,16 @@ class TemplateEntity extends Entity
     public function setConfirmInput(bool $confirmInput): void
     {
         $this->confirmInput = $confirmInput;
+    }
+
+    public function isOptionsAutoCollapse(): bool
+    {
+        return $this->optionsAutoCollapse;
+    }
+
+    public function setOptionsAutoCollapse(bool $optionsAutoCollapse): void
+    {
+        $this->optionsAutoCollapse = $optionsAutoCollapse;
     }
 
     public function getTranslations(): ?TemplateTranslationCollection

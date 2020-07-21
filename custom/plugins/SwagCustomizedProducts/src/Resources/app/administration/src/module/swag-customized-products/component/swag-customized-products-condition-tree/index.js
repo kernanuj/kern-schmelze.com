@@ -82,7 +82,7 @@ Component.register('swag-customized-products-condition-tree', {
                         Criteria.not(
                             'and',
                             [
-                                // ToDo remove supported types from blacklist
+                                // ToDo PT-11904 - remove supported types from blacklist
                                 Criteria.equalsAny(
                                     'type',
                                     [

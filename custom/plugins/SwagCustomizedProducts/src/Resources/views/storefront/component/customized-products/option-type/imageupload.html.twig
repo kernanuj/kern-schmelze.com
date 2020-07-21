@@ -2,6 +2,7 @@
     {% set uploadProperties = '{
         "endpoint": "' ~ path("store-api.customized-products.upload", {"version": constant('Swag\\CustomizedProducts\\SwagCustomizedProducts::CURRENT_API_VERSION')}) ~ '",
         "optionId": "' ~ option.id ~ '",
+        "maxCount": "' ~ option.typeProperties.maxCount ~ '",
         "csrfToken": "' ~ sw_csrf("store-api.customized-products.upload", {"mode": "token"}) ~ '"
     }' %}
 

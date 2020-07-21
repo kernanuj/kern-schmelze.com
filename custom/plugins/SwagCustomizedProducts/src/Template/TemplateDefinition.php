@@ -59,6 +59,7 @@ class TemplateDefinition extends EntityDefinition
             'active' => false,
             'stepByStep' => false,
             'confirmInput' => false,
+            'optionsAutoCollapse' => false,
         ];
     }
 
@@ -76,6 +77,7 @@ class TemplateDefinition extends EntityDefinition
             new BoolField('active', 'active'),
             new BoolField('step_by_step', 'stepByStep'),
             new BoolField('confirm_input', 'confirmInput'),
+            new BoolField('options_auto_collapse', 'optionsAutoCollapse'),
             (new JsonField('decision_tree', 'decisionTree'))->addFlags(new WriteProtected(Context::SYSTEM_SCOPE)),
 
             (new TranslationsAssociationField(TemplateTranslationDefinition::class, 'swag_customized_products_template_id'))->addFlags(new Required()),

@@ -1,3 +1,7 @@
+import './polyfill/report-validity';
+
+import SwagCustomizedProductsCollapsingValidOptions
+    from './swag-customized-products-collapse/swag-customized-products-collapse.plugin';
 import SwagCustomizedProductsFormValidator
     from './swag-customized-products-form-validator/swag-customized-products-form-validator.plugin';
 import SwagCustomizedProductsHtmlEditor
@@ -8,9 +12,22 @@ import SwagCustomizedProductsExclusionListValidation
     from './swag-customized-products-exclusion-list-validation/swag-customized-products-exclusion-list-validation';
 import SwagCustomizedProductsFileUpload
     from './swag-customized-products-file-upload/swag-customized-products-file-upload.plugin';
-
 import SwagCustomizedProductPriceDisplay
     from './swag-customized-products-price-display/swag-customized-products-price-display.plugin';
+import SwagCustomizedProductsImageZoom
+    from './swag-customized-products-image-zoom/swag-customized-products-image-zoom.plugin';
+
+window.PluginManager.register(
+    'SwagCustomizedProductsFileUpload',
+    SwagCustomizedProductsFileUpload,
+    '[data-swag-customized-products-file-upload]',
+);
+
+window.PluginManager.register(
+    'SwagCustomizedProductsCollapsingValidOptions',
+    SwagCustomizedProductsCollapsingValidOptions,
+    '*[data-swag-customized-products-collapse="true"]',
+);
 
 window.PluginManager.register(
     'SwagCustomizedProductsFormValidator',
@@ -43,9 +60,9 @@ window.PluginManager.register(
 );
 
 window.PluginManager.register(
-    'SwagCustomizedProductsFileUpload',
-    SwagCustomizedProductsFileUpload,
-    '[data-swag-customized-products-file-upload]',
+    'SwagCustomizedProductsImageZoom',
+    SwagCustomizedProductsImageZoom,
+    '*[data-swag-customized-products-image-zoom="true"]',
 );
 
 if (module.hot) {

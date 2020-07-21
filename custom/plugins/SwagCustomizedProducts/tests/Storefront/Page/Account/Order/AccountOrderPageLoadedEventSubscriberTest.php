@@ -22,9 +22,13 @@ use Shopware\Core\Framework\Test\TestCaseBase\KernelTestBehaviour;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SalesChannel\Context\SalesChannelContextFactory;
 use Shopware\Storefront\Framework\Page\StorefrontSearchResult;
+use Shopware\Storefront\Page\Account\Order\AccountEditOrderPage;
+use Shopware\Storefront\Page\Account\Order\AccountEditOrderPageLoadedEvent;
 use Shopware\Storefront\Page\Account\Order\AccountOrderPage;
 use Shopware\Storefront\Page\Account\Order\AccountOrderPageLoadedEvent;
+use Shopware\Storefront\Page\Account\Overview\AccountOverviewPage;
 use Shopware\Storefront\Page\Account\Overview\AccountOverviewPageLoadedEvent;
+use Shopware\Storefront\Page\PageLoadedEvent;
 use Swag\CustomizedProducts\Core\Checkout\CustomizedProductsCartDataCollector;
 use Swag\CustomizedProducts\Storefront\Page\Account\Order\AccountOrderPageLoadedEventSubscriber;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,6 +43,7 @@ class AccountOrderPageLoadedEventSubscriberTest extends TestCase
             [
                 AccountOrderPageLoadedEvent::class => 'nestOrderLineItems',
                 AccountOverviewPageLoadedEvent::class => 'nestOrderLineItems',
+                AccountEditOrderPageLoadedEvent::class => 'nestOrderLineItems',
             ],
             AccountOrderPageLoadedEventSubscriber::getSubscribedEvents()
         );
@@ -46,10 +51,11 @@ class AccountOrderPageLoadedEventSubscriberTest extends TestCase
 
     public function testThatOrderWithoutCustomizedProductDoesNotReturnNestedLineItems(): void
     {
-        $listener = new AccountOrderPageLoadedEventSubscriber();
+        $subscriber = new AccountOrderPageLoadedEventSubscriber();
         $event = $this->getEvent();
+        static::assertInstanceOf(AccountOrderPageLoadedEvent::class, $event);
 
-        $listener->nestOrderLineItems($event);
+        $subscriber->nestOrderLineItems($event);
         /** @var OrderEntity|null $order */
         $order = $event->getPage()->getOrders()->first();
         static::assertNotNull($order);
@@ -60,12 +66,13 @@ class AccountOrderPageLoadedEventSubscriberTest extends TestCase
 
     public function testAccountOverviewLastOrderWithoutOrders(): void
     {
-        $listener = new AccountOrderPageLoadedEventSubscriber();
+        $subscriber = new AccountOrderPageLoadedEventSubscriber();
         $reflectionMethod = (new \ReflectionClass(AccountOrderPageLoadedEventSubscriber::class))
             ->getMethod('getOrderCollection');
         $reflectionMethod->setAccessible(true);
 
         $event = $this->getEvent();
+        static::assertInstanceOf(AccountOrderPageLoadedEvent::class, $event);
         $event->getPage()->setOrders(
             new StorefrontSearchResult(
                 0,
@@ -77,14 +84,14 @@ class AccountOrderPageLoadedEventSubscriberTest extends TestCase
         );
 
         /** @var EntityCollection $orderCollection */
-        $orderCollection = $reflectionMethod->invoke($listener, $event);
+        $orderCollection = $reflectionMethod->invoke($subscriber, $event);
 
         static::assertCount(0, $orderCollection->getElements());
     }
 
     public function testAccountOverviewLastOrderWithOrders(): void
     {
-        $listener = new AccountOrderPageLoadedEventSubscriber();
+        $subscriber = new AccountOrderPageLoadedEventSubscriber();
         $reflectionMethod = (new \ReflectionClass(AccountOrderPageLoadedEventSubscriber::class))
             ->getMethod('getOrderCollection');
         $reflectionMethod->setAccessible(true);
@@ -93,22 +100,24 @@ class AccountOrderPageLoadedEventSubscriberTest extends TestCase
             CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_TEMPLATE_LINE_ITEM_TYPE,
             LineItem::PRODUCT_LINE_ITEM_TYPE
         );
+        static::assertInstanceOf(AccountOrderPageLoadedEvent::class, $event);
 
         /** @var EntityCollection $orderCollection */
-        $orderCollection = $reflectionMethod->invoke($listener, $event);
+        $orderCollection = $reflectionMethod->invoke($subscriber, $event);
 
         static::assertCount(1, $orderCollection->getElements());
     }
 
     public function testThatOrderWithCustomizedProductReturnsNestedLineItems(): void
     {
-        $listener = new AccountOrderPageLoadedEventSubscriber();
+        $subscriber = new AccountOrderPageLoadedEventSubscriber();
         $event = $this->getEvent(
             CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_TEMPLATE_LINE_ITEM_TYPE,
             LineItem::PRODUCT_LINE_ITEM_TYPE
         );
+        static::assertInstanceOf(AccountOrderPageLoadedEvent::class, $event);
 
-        $listener->nestOrderLineItems($event);
+        $subscriber->nestOrderLineItems($event);
         /** @var OrderEntity|null $order */
         $order = $event->getPage()->getOrders()->first();
         static::assertNotNull($order);
@@ -117,14 +126,55 @@ class AccountOrderPageLoadedEventSubscriberTest extends TestCase
         static::assertCount(1, $orderLineItemCollection);
     }
 
+    public function testThatEditOrderWithCustomizedProductReturnsNestedLineItems(): void
+    {
+        $subscriber = new AccountOrderPageLoadedEventSubscriber();
+        $event = $this->getEvent(
+            CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_TEMPLATE_LINE_ITEM_TYPE,
+            LineItem::PRODUCT_LINE_ITEM_TYPE,
+            AccountEditOrderPageLoadedEvent::class
+        );
+        static::assertInstanceOf(AccountEditOrderPageLoadedEvent::class, $event);
+
+        $subscriber->nestOrderLineItems($event);
+        /** @var OrderEntity|null $order */
+        $order = $event->getPage()->getOrder();
+        static::assertNotNull($order);
+        $orderLineItemCollection = $order->getLineItems();
+        static::assertNotNull($orderLineItemCollection);
+        static::assertCount(1, $orderLineItemCollection);
+    }
+
+    public function testThatOrderOverviewWithNewestOrderHasNestedLineItems(): void
+    {
+        $subscriber = new AccountOrderPageLoadedEventSubscriber();
+        $event = $this->getEvent(
+            CustomizedProductsCartDataCollector::CUSTOMIZED_PRODUCTS_TEMPLATE_LINE_ITEM_TYPE,
+            LineItem::PRODUCT_LINE_ITEM_TYPE,
+            AccountOverviewPageLoadedEvent::class
+        );
+        static::assertInstanceOf(AccountOverviewPageLoadedEvent::class, $event);
+
+        $subscriber->nestOrderLineItems($event);
+        /** @var OrderEntity|null $order */
+        $order = $event->getPage()->getNewestOrder();
+        static::assertNotNull($order);
+        $orderLineItemCollection = $order->getLineItems();
+        static::assertNotNull($orderLineItemCollection);
+        static::assertCount(1, $orderLineItemCollection);
+    }
+
+    /**
+     * @return AccountOrderPageLoadedEvent|AccountOverviewPageLoadedEvent|AccountEditOrderPageLoadedEvent
+     */
     private function getEvent(
         string $parentType = LineItem::PRODUCT_LINE_ITEM_TYPE,
-        string $childType = LineItem::CUSTOM_LINE_ITEM_TYPE
-    ): AccountOrderPageLoadedEvent {
+        string $childType = LineItem::CUSTOM_LINE_ITEM_TYPE,
+        string $event = AccountOrderPageLoadedEvent::class
+    ): PageLoadedEvent {
         /** @var SalesChannelContextFactory $salesChannelContextFactory */
         $salesChannelContextFactory = $this->getContainer()->get(SalesChannelContextFactory::class);
         $salesChannelContext = $salesChannelContextFactory->create(Uuid::randomHex(), Defaults::SALES_CHANNEL);
-        $page = new AccountOrderPage();
         $orderEntity = new OrderEntity();
         $orderEntity->setId(Uuid::randomHex());
         $parentId = Uuid::randomHex();
@@ -137,6 +187,22 @@ class AccountOrderPageLoadedEventSubscriberTest extends TestCase
         $childLineItem->setParentId($parentId);
         $childLineItem->setType($childType);
         $orderEntity->setLineItems(new OrderLineItemCollection([$parentLineItem, $childLineItem]));
+
+        if ($event === AccountOverviewPageLoadedEvent::class) {
+            $page = new AccountOverviewPage();
+            $page->setNewestOrder($orderEntity);
+
+            return new $event($page, $salesChannelContext, new Request());
+        }
+
+        if ($event === AccountEditOrderPageLoadedEvent::class) {
+            $page = new AccountEditOrderPage();
+            $page->setOrder($orderEntity);
+
+            return new $event($page, $salesChannelContext, new Request());
+        }
+
+        $page = new AccountOrderPage();
         $page->setOrders(
             new StorefrontSearchResult(
                 1,
@@ -147,6 +213,6 @@ class AccountOrderPageLoadedEventSubscriberTest extends TestCase
             )
         );
 
-        return new AccountOrderPageLoadedEvent($page, $salesChannelContext, new Request());
+        return new $event($page, $salesChannelContext, new Request());
     }
 }

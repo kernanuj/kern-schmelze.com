@@ -24,10 +24,6 @@ Component.extend('swag-customized-products-option-type-numberfield', 'swag-custo
                 this.option.typeProperties.defaultValue = 0;
             }
 
-            if (!this.checkRequired(this.option.typeProperties.decimalPlaces)) {
-                this.option.typeProperties.decimalPlaces = 0;
-            }
-
             this.$super('createdComponent');
         },
 
@@ -35,8 +31,7 @@ Component.extend('swag-customized-products-option-type-numberfield', 'swag-custo
             return this.checkRequired(value.typeProperties.minValue)
                 && this.checkRequired(value.typeProperties.maxValue)
                 && this.checkRequired(value.typeProperties.interval)
-                && this.checkRequired(value.typeProperties.defaultValue)
-                && this.checkRequired(value.typeProperties.decimalPlaces);
+                && this.checkRequired(value.typeProperties.defaultValue);
         }
     }
 });

@@ -27,6 +27,7 @@
         "active": true,
         "stepByStep": false,
         "confirmInput": false,
+        "optionsAutoCollapse": true,
         "options": [{
             "type": "select",
             "displayName": "Example select",
@@ -121,7 +122,7 @@
         }, {
             "type": "checkbox",
             "displayName": "Example checkbox",
-            "typeProperties": [],
+            "typeProperties": {},
             "required": false,
             "oneTimeSurcharge": true,
             "relativeSurcharge": false,
@@ -136,7 +137,7 @@
         }, {
             "type": "textfield",
             "displayName": "Example textfield",
-            "typeProperties": [],
+            "typeProperties": {},
             "required": true,
             "oneTimeSurcharge": true,
             "relativeSurcharge": false,
@@ -151,7 +152,7 @@
         }, {
             "type": "textarea",
             "displayName": "Example textarea",
-            "typeProperties": [],
+            "typeProperties": {},
             "required": false,
             "oneTimeSurcharge": true,
             "relativeSurcharge": false,
@@ -166,7 +167,7 @@
         }, {
             "type": "numberfield",
             "displayName": "Example numberfield",
-            "typeProperties": [],
+            "typeProperties": {},
             "required": true,
             "oneTimeSurcharge": true,
             "relativeSurcharge": false,
@@ -181,7 +182,7 @@
         }, {
             "type": "datetime",
             "displayName": "Example datefield",
-            "typeProperties": [],
+            "typeProperties": {},
             "required": false,
             "oneTimeSurcharge": true,
             "relativeSurcharge": false,
@@ -196,7 +197,7 @@
         }, {
             "type": "timestamp",
             "displayName": "Example timefield",
-            "typeProperties": [],
+            "typeProperties": {},
             "required": false,
             "oneTimeSurcharge": true,
             "relativeSurcharge": false,

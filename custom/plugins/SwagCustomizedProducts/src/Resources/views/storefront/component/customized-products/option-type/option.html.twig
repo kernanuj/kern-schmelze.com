@@ -17,7 +17,11 @@
 
             {% block swag_customized_products_option_type_template_option_input %}
                 <div id="collapseCustomizedProductsConfigurationOption-{{ option.id }}"
-                    {% if not isStepByStep %}class="collapse{{ option.required ? ' show' : '' }}"{% endif %}>
+                     class="collapsingCustomizedProductsOption
+                            {% if not isStepByStep %}
+                                collapse
+                                {{ option.required ? 'show' : '' }}
+                            {% endif %}">
 
                     {% block swag_customized_products_option_type_template_option_input_card %}
                         <div class="card">

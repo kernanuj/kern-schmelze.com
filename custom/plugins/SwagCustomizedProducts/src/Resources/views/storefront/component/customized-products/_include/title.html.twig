@@ -5,7 +5,7 @@
            role="button"
            data-toggle="collapse"
            aria-controls="collapseCustomizedProductsConfigurationOption-{{ option.id }}"
-           aria-expanded="false">
+           aria-expanded="{{ option.required ? 'true' : 'false' }}">
             <div class="container">
 
                 {% block swag_customized_products_option_type_template_label_container %}

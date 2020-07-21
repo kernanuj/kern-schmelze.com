@@ -89,11 +89,17 @@ class NumberField extends OptionType
         $this->interval = $interval;
     }
 
+    /**
+     * @deprecated tag:v3.0.0 will be removed. Use getInterval instead
+     */
     public function getDecimalPlaces(): int
     {
         return $this->decimalPlaces;
     }
 
+    /**
+     * @deprecated tag:v3.0.0 will be removed. Use setInterval instead
+     */
     public function setDecimalPlaces(int $decimalPlaces): void
     {
         $this->decimalPlaces = $decimalPlaces;
@@ -116,7 +122,6 @@ class NumberField extends OptionType
         $constraints['minValue'] = [new NotBlank(), new Type('numeric')];
         $constraints['maxValue'] = [new NotBlank(), new Type('numeric')];
         $constraints['interval'] = [new NotBlank(), new Type('numeric')];
-        $constraints['decimalPlaces'] = [new NotBlank(), new Type('int')];
         $constraints['placeholder'] = [new Type('string')];
 
         return $constraints;

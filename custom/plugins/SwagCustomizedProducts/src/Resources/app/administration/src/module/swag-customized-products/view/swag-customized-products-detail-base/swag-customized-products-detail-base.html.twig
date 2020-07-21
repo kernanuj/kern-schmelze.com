@@ -71,19 +71,36 @@
                     </sw-media-upload>
                 {% endblock %}
 
-                {% block swag_customized_products_detail_base_card_general_step_by_step %}
-                    <sw-switch-field
-                        v-model="template.stepByStep"
-                        class="swag-customized-products-base-step-by-step__checkbox-field"
-                        :label="$tc('swag-customized-products.detail.tabGeneral.labelStepByStep')"
-                        :helpText="$tc('swag-customized-products.detail.tabGeneral.helpTextStepByStep')"
-                        bordered>
-                    </sw-switch-field>
+                {% block swag_customized_products_detail_base_card_general_step_by_step_options_auto_collapse_container %}
+                    <sw-container columns="repeat(auto-fit, minmax(250px, 1fr)" gap="0 30px">
+
+                        {% block swag_customized_products_detail_base_card_general_step_by_step %}
+                            <sw-switch-field
+                                v-model="template.stepByStep"
+                                class="swag-customized-products-base-step-by-step__checkbox-field"
+                                :label="$tc('swag-customized-products.detail.tabGeneral.labelStepByStep')"
+                                :helpText="$tc('swag-customized-products.detail.tabGeneral.helpTextStepByStep')"
+                                bordered
+                                @change="onChangeStepByStep">
+                            </sw-switch-field>
+                        {% endblock %}
+
+                        {% block swag_customized_products_detail_base_card_general_options_auto_collapse %}
+                            <sw-switch-field
+                                v-model="template.optionsAutoCollapse"
+                                class="swag-customized-products-base-options-auto-collapse__checkbox-field"
+                                :disabled="template.stepByStep"
+                                :label="$tc('swag-customized-products.detail.tabGeneral.labelOptionsAutoCollapse')"
+                                :helpText="$tc('swag-customized-products.detail.tabGeneral.helpTextOptionsAutoCollapse')"
+                                bordered>
+                            </sw-switch-field>
+                        {% endblock %}
+                    </sw-container>
                 {% endblock %}
 
                 {% block swag_customized_products_detail_base_card_general_confirm_input %}
                     <sw-switch-field
-                        v-if="false" {# TODO: Remove when it is implemented in the storefront #}
+                        v-if="false" {# TODO PT-11905 - Remove when it is implemented in the storefront #}
                         v-model="template.confirmInput"
                         class="swag-customized-products-base-confirmInput__checkbox-field"
                         :label="$tc('swag-customized-products.detail.tabGeneral.labelConfirmInput')"

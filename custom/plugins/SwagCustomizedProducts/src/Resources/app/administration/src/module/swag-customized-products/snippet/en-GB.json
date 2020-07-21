@@ -37,13 +37,20 @@
         "labelImage": "Image",
         "labelStepByStep": "Step-by-step mode",
         "labelConfirmInput": "Customers need to confirm their configurations",
+        "labelOptionsAutoCollapse": "Self-collapsing options",
         "textAssignmentInfo": "Assign a custom product template on the detail page of an existing product in order to make it customisable.",
+        "placeholderInternalName": "Enter technical name...",
+        "placeholderDisplayName": "Enter display name...",
+        "placeholderDescription": "Enter product description...",
+        "helpTextStepByStep": "In step-by-step mode, the options for individualising a product are displayed one after the other.",
+        "helpTextConfirmInput": "Individualised products can only be put into the shopping cart after confirming the individual configuration by ticking a checkbox.",
+        "helpTextOptionsAutoCollapse": "If this setting is active, options will close automatically after a valid input. This function is not available in step-by-step mode.",
         "cardOption": {
           "title": "Options",
           "labelName": "Name",
           "labelType": "Type",
           "labelPosition": "Position",
-          "labelOptionValuesCount": "Value(s)",
+          "labelOptionValuesCount": "Values",
           "buttonAdd": "Add option",
           "placeholderSearch": "Search options...",
           "placeholderType": "Choose an input type...",
@@ -72,12 +79,7 @@
             "title": "{name} | Add excluded combination",
             "nameLabel": "Name"
           }
-        },
-        "placeholderInternalName": "Enter technical name...",
-        "placeholderDisplayName": "Enter display name...",
-        "placeholderDescription": "Enter product description...",
-        "helpTextStepByStep": "In step-by-step mode, the options for individualizing the product are enabled one by one.",
-        "helpTextConfirmInput": "Individualised products can only be put into the shopping cart after the customer has confirmed the individual configuration by ticking a corresponding checkbox."
+        }
       },
       "tabAssignment": {
         "title": "Product assignment",
@@ -108,7 +110,7 @@
         "numberfield": {
           "minimumValueLabel": "Min. value",
           "maximumValueLabel": "Max. value",
-          "stepLabel": "Step",
+          "stepLabel": "Step size",
           "decimalPlacesLabel": "Decimal places"
         },
         "imageupload": {

@@ -8,6 +8,7 @@
         {# Define variable to check for step-by-step wizard mode #}
         {% set isStepByStep = customizedProductsTemplate.stepByStep %}
         {% set isExclusions = customizedProductsTemplate.decisionTree|length > 0 %}
+        {% set hasCollapsingOptions = customizedProductsTemplate.optionsAutoCollapse %}
         {% set priceDetailData = {"url": path('storefront.customized-products.price-detail'), "csrfToken": sw_csrf('storefront.customized-products.price-detail', {"mode": "token"})} %}
 
         <div class="swag-customized-products{% if isStepByStep %} is--step-by-step{% endif %}"
@@ -26,8 +27,10 @@
                  data-swag-customized-product-step-by-step-translation-btnNext="{{ 'customizedProducts.stepByStep.navigation.btnNext' | trans }}"
                  data-swag-customized-product-step-by-step-translation-btnFinish="{{ 'customizedProducts.stepByStep.navigation.btnFinish' | trans }}"
                  data-swag-customized-product-step-by-step-translation-required="{{ 'customizedProducts.stepByStep.navigation.required' | trans }}"
-             {% endif %}
-        >
+             {% elseif hasCollapsingOptions %}
+                 data-swag-customized-products-collapse="true"
+             {% endif %}>
+
             <div class="card swag-customized-products__card">
                 {% if isStepByStep %}
                     <div class="swag-customized-products__navigation-holder"></div>
@@ -38,6 +41,7 @@
                     {% block swag_customized_products_introdcution %}
                         <div class="swag-customized-products__item">
                             <div class="swag-customized-products__introduction">
+
                                 {% block swag_customized_products_title %}
                                     <div class="swag-customized-products__title h4 col12">
                                         {{ customizedProductsTemplate.translated.displayName }}
@@ -49,7 +53,6 @@
                                        value="{{ customizedProductsTemplate.id }}">
 
                                 {% block swag_customized_products_description %}
-
                                     {% block swag_customized_products_description_image %}
                                         {% if customizedProductsTemplate.media %}
                                             <div class="swag-customized-products__image">

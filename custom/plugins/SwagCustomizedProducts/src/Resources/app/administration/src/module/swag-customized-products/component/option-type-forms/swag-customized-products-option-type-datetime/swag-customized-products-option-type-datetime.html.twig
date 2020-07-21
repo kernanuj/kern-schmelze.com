@@ -3,12 +3,12 @@
 {% endblock %}
 
 {% block swag_customized_products_option_type_base_content %}
-    {% block swag_customized_products_option_type_datetime_field_group %}
+    {% block swag_customized_products_option_type_datetime_field_group_general %}
         <sw-container class="swag-customized-products-option-type-textarea__field_group"
                       columns="repeat(auto-fit, minmax(250px, 1fr))"
                       gap="0px 30px">
 
-            {% block swag_customized_products_option_type_datetime_field_group_content %}
+            {% block swag_customized_products_option_type_datetime_field_group_content_general %}
                 {% block swag_customized_products_option_type_textarea_field_item_number %}
                     <sw-text-field v-model="option.itemNumber"
                                    :placeholder="$tc('swag-customized-products.optionDetailModal.optionType.placeholderItemNumber')"
@@ -24,10 +24,21 @@
                                    :label="$tc('swag-customized-products.optionDetailModal.optionType.placeholderLabel')">
                     </sw-text-field>
                 {% endblock %}
+            {% endblock %}
+        </sw-container>
+    {% endblock %}
 
+    {% block swag_customized_products_option_type_datetime_field_group_datetime %}
+        <sw-container class="swag-customized-products-option-type-textarea__field_group"
+                      columns="repeat(auto-fit, minmax(250px, 1fr))"
+                      gap="0px 30px">
+
+            {% block swag_customized_products_option_type_datetime_field_group_content_datetime %}
                 {% block swag_customized_products_option_type_datetime_field_group_min_date %}
                     <sw-datepicker v-model="option.typeProperties.minDate"
+                                   ref="minDateField"
                                    :label="$tc('swag-customized-products.optionDetailModal.optionType.datetime.minDate')"
+                                   :config="minDateConfig"
                                    dateType="date"
                                    size="default">
                     </sw-datepicker>
@@ -35,7 +46,9 @@
 
                 {% block swag_customized_products_option_type_datetime_field_group_max_date %}
                     <sw-datepicker v-model="option.typeProperties.maxDate"
+                                   ref="maxDateField"
                                    :label="$tc('swag-customized-products.optionDetailModal.optionType.datetime.maxDate')"
+                                   :config="maxDateConfig"
                                    dateType="date"
                                    size="default">
                     </sw-datepicker>
