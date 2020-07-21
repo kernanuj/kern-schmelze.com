@@ -379,6 +379,7 @@
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SwagCustomizedProducts\/src\/Resources\/app\/storefront\/src\/scss\/product-detail\/_price-display.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SwagCustomizedProducts\/src\/Resources\/app\/storefront\/src\/scss\/product-detail\/_price-label-notice.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SwagCustomizedProducts\/src\/Resources\/app\/storefront\/src\/scss\/product-detail\/_customized-product.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SwagCustomizedProducts\/src\/Resources\/app\/storefront\/src\/scss\/product-detail\/_image-zoom.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SwagCustomizedProducts\/src\/Resources\/app\/storefront\/src\/scss\/checkout\/_cart.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SwagCustomizedProducts\/src\/Resources\/app\/storefront\/src\/scss\/option-type\/_select.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SwagCustomizedProducts\/src\/Resources\/app\/storefront\/src\/scss\/option-type\/_html-editor.scss",
@@ -408,6 +409,44 @@
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvHomepageSlideshowPro\/src\/Resources\/app\/storefront\/src\/scss\/base.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvHomepageSlideshowPro\/src\/Resources\/app\/storefront\/src\/scss\/components\/_slider-theme.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvHomepageSlideshowPro\/src\/Resources\/app\/storefront\/src\/scss\/components\/_slider.scss"
+            ]
+        }
+    },
+    "InvExportLabel": {
+        "basePath": "custom\/plugins\/InvExportLabel\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-export-label",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
+        }
+    },
+    "fgitsAutoinvoiceSW6": {
+        "basePath": "custom\/plugins\/fgitsAutoinvoiceSW6\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "fgits-autoinvoice-s-w6",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": [
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/fgitsAutoinvoiceSW6\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
             ]
         }
     }
