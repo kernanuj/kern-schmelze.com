@@ -1,21 +1,16 @@
 {% sw_extends '@Storefront/storefront/page/product-detail/buy-widget.html.twig' %}
 
 {% block page_product_detail_delivery_informations %}
-    {% set isKlarnaOnSiteMessagingActive = true %}
     {% block klarna_payments_onsite_messaging_definition %}
         {# @var \KlarnaPayment\Components\Extension\TemplateData\OnsiteMessagingDataExtension klarnaOnsiteMessagingData #}
         {% set klarnaOnsiteMessagingData = page.extensions[constant('KlarnaPayment\\Components\\Extension\\TemplateData\\OnsiteMessagingDataExtension::EXTENSION_NAME')] %}
 
         {% if klarnaOnsiteMessagingData.klarnaOnsiteMessagingSnippet and klarnaOnsiteMessagingData.klarnaOnsiteMessagingScript %}
             {{ klarnaOnsiteMessagingData.klarnaOnsiteMessagingSnippet|raw }}
-        {% else %}
-            {% set isKlarnaOnSiteMessagingActive = false %}
         {% endif %}
     {% endblock %}
 
-    {% if isKlarnaOnSiteMessagingActive == false %}
-        {{ parent() }}
-    {% endif %}
+    {{ parent() }}
 {% endblock %}
 
 {% block page_product_detail_buy_form %}

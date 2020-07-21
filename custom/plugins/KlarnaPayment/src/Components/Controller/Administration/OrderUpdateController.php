@@ -8,9 +8,9 @@ use KlarnaPayment\Components\Client\Client;
 use KlarnaPayment\Components\Client\Hydrator\Request\UpdateAddress\UpdateAddressRequestHydratorInterface;
 use KlarnaPayment\Components\Client\Hydrator\Request\UpdateOrder\UpdateOrderRequestHydratorInterface;
 use KlarnaPayment\Components\Helper\OrderFetcherInterface;
+use KlarnaPayment\Components\Helper\OrderValidator\OrderValidatorInterface;
 use KlarnaPayment\Components\Helper\RequestHasherInterface;
 use KlarnaPayment\Core\Framework\ContextScope;
-use KlarnaPayment\Exception\InvalidOrderUpdateException;
 use KlarnaPayment\Exception\OrderUpdateDeniedException;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
@@ -46,13 +46,17 @@ class OrderUpdateController extends AbstractController
     /** @var RequestHasherInterface */
     private $requestHasher;
 
+    /** @var OrderValidatorInterface */
+    private $orderValidator;
+
     public function __construct(
         Client $client,
         EntityRepositoryInterface $orderRepository,
         UpdateAddressRequestHydratorInterface $updateAddressRequestHydrator,
         UpdateOrderRequestHydratorInterface $updateOrderRequestHydrator,
         OrderFetcherInterface $orderFetcher,
-        RequestHasherInterface $requestHasher
+        RequestHasherInterface $requestHasher,
+        OrderValidatorInterface $orderValidator
     ) {
         $this->client                       = $client;
         $this->orderRepository              = $orderRepository;
@@ -60,13 +64,15 @@ class OrderUpdateController extends AbstractController
         $this->updateOrderRequestHydrator   = $updateOrderRequestHydrator;
         $this->orderFetcher                 = $orderFetcher;
         $this->requestHasher                = $requestHasher;
+        $this->orderValidator               = $orderValidator;
     }
 
     /**
      * @Route("/api/v{version}/_action/klarna_payment/update_order", name="api.action.klarna_payment.order_update.update", methods={"POST"})
      *
-     * @throws InvalidOrderUpdateException
      * @throws OrderUpdateDeniedException
+     *
+     * @see \KlarnaPayment\Components\EventListener\OrderChangeEventListener::validateKlarnaOrder Change accordingly to keep functionality synchronized
      */
     public function update(RequestDataBag $dataBag, Context $context): JsonResponse
     {
@@ -75,11 +81,15 @@ class OrderUpdateController extends AbstractController
         try {
             $orderEntity = $this->orderFetcher->getOrderFromOrder(Uuid::fromHexToBytes($orderId), $context);
         } catch (InvalidUuidException $e) {
-            throw new InvalidOrderUpdateException($orderId);
+            return new JsonResponse(['status' => 'success'], 200);
         }
 
         if (!$orderEntity) {
-            throw new InvalidOrderUpdateException($orderId);
+            return new JsonResponse(['status' => 'success'], 200);
+        }
+
+        if (!$this->orderValidator->isKlarnaOrder($orderEntity)) {
+            return new JsonResponse(['status' => 'success'], 200);
         }
 
         if (!$this->validateLineItems($orderEntity, $context) || !$this->validateOrderAddress($orderEntity, $context)) {

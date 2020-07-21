@@ -8,11 +8,11 @@ use KlarnaPayment\Components\Client\ClientInterface;
 use KlarnaPayment\Components\Client\Hydrator\Request\UpdateAddress\UpdateAddressRequestHydratorInterface;
 use KlarnaPayment\Components\Client\Hydrator\Request\UpdateOrder\UpdateOrderRequestHydratorInterface;
 use KlarnaPayment\Components\Helper\OrderFetcherInterface;
+use KlarnaPayment\Components\Helper\OrderValidator\OrderValidatorInterface;
 use KlarnaPayment\Components\Helper\RequestHasherInterface;
 use KlarnaPayment\Core\Framework\ContextScope;
 use Shopware\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressDefinition;
 use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemDefinition;
-use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStates;
 use Shopware\Core\Checkout\Order\OrderDefinition;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Defaults;
@@ -49,6 +49,9 @@ class OrderChangeEventListener implements EventSubscriberInterface
     /** @var RequestHasherInterface */
     private $requestHasher;
 
+    /** @var OrderValidatorInterface */
+    private $orderValidator;
+
     public function __construct(
         OrderFetcherInterface $orderFetcher,
         UpdateAddressRequestHydratorInterface $addressRequestHydrator,
@@ -56,7 +59,8 @@ class OrderChangeEventListener implements EventSubscriberInterface
         ClientInterface $client,
         EntityRepositoryInterface $orderRepository,
         TranslatorInterface $translator,
-        RequestHasherInterface $requestHasher
+        RequestHasherInterface $requestHasher,
+        OrderValidatorInterface $orderValidator
     ) {
         $this->orderFetcher           = $orderFetcher;
         $this->addressRequestHydrator = $addressRequestHydrator;
@@ -65,6 +69,7 @@ class OrderChangeEventListener implements EventSubscriberInterface
         $this->orderRepository        = $orderRepository;
         $this->translator             = $translator;
         $this->requestHasher          = $requestHasher;
+        $this->orderValidator         = $orderValidator;
     }
 
     public static function getSubscribedEvents(): array
@@ -74,6 +79,9 @@ class OrderChangeEventListener implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @see \KlarnaPayment\Components\Controller\Administration\OrderUpdateController::update Change accordingly to keep functionality synchronized
+     */
     public function validateKlarnaOrder(PostWriteValidationEvent $event): void
     {
         if ($event->getContext()->getScope() === ContextScope::INTERNAL_SCOPE) {
@@ -88,37 +96,12 @@ class OrderChangeEventListener implements EventSubscriberInterface
 
         $order = $this->getOrderFromWriteCommands($event);
 
-        if (null === $order || !$this->isKlarnaOrder($order)) {
+        if (null === $order || !$this->orderValidator->isKlarnaOrder($order)) {
             return;
         }
 
         $this->validateOrderAddress($order, $event);
         $this->validateLineItems($order, $event);
-    }
-
-    private function isKlarnaOrder(OrderEntity $orderEntity): bool
-    {
-        if (null === $orderEntity->getTransactions()) {
-            return false;
-        }
-
-        foreach ($orderEntity->getTransactions() as $transaction) {
-            if (null === $transaction->getStateMachineState()) {
-                continue;
-            }
-
-            if ($transaction->getStateMachineState()->getTechnicalName() === OrderTransactionStates::STATE_CANCELLED) {
-                continue;
-            }
-
-            if (empty($transaction->getCustomFields()['klarna_order_id'])) {
-                continue;
-            }
-
-            return true;
-        }
-
-        return false;
     }
 
     private function validateLineItems(OrderEntity $orderEntity, PostWriteValidationEvent $event): void

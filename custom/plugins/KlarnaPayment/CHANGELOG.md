@@ -1,3 +1,7 @@
+# 1.2.1
+- Fix delivery information display on detail pages
+- Fix administration order updates for non-Klarna orders
+
 # 1.2.0
 - Added compatibility with Shopware 6.2
 

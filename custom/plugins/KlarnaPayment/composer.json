@@ -1,7 +1,7 @@
 {
     "name": "klarna/payment",
     "description": "Klarna Checkout and Klarna Payments for Shopware 6",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "type": "shopware-platform-plugin",
     "license": "MIT",
     "minimum-stability": "stable",

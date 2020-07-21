@@ -19,6 +19,7 @@
             <argument type="service" id="order.repository" />
             <argument type="service" id="translator" />
             <argument type="service" id="KlarnaPayment\Components\Helper\RequestHasher" />
+            <argument type="service" id="KlarnaPayment\Components\Helper\OrderValidator\OrderValidator" />
 
             <tag name="kernel.event_subscriber"/>
         </service>

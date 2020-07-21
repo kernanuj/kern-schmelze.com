@@ -1,3 +1,7 @@
+# 1.2.1
+- Korrektur der Anzeige von Lieferinformationen auf Produktdetailseiten
+- Korrektur von Bestellaktualisierungen in der Administration mit anderen Zahlungsmethoden
+
 # 1.2.0
 - Kompatibilität zu Shopware 6.2 hergestellt
 

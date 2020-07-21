@@ -31,6 +31,7 @@
             <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\UpdateOrder\UpdateOrderRequestHydrator" />
             <argument type="service" id="KlarnaPayment\Components\Helper\OrderFetcher" />
             <argument type="service" id="KlarnaPayment\Components\Helper\RequestHasher" />
+            <argument type="service" id="KlarnaPayment\Components\Helper\OrderValidator\OrderValidator" />
 
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
