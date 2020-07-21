@@ -1,0 +1,10 @@
+{
+  "fgits-autoinvoice": {
+    "customergroupExclude": {
+      "select": {
+        "label": "No invoice for these customer groups",
+        "helpText": "Excludes selected customer groups. All conditions must be true at the same time."
+      }
+    }
+  }
+}

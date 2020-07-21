@@ -1,0 +1,3 @@
+Guten Tag,
+
+anbei finden Sie die Rechnung zur Bestellung #{{ order.orderNumber }} auf {{ salesChannel.name }} am {{ order.orderDateTime|date("d.m.Y") }} um {{ order.orderDateTime|date("H:i") }}

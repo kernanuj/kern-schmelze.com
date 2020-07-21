@@ -1,0 +1,11 @@
+{% block fgits_orderdetail_autoinvoice_send %}
+    <sw-button-process
+            size="x-small"
+            :variant="variant"
+            @click="fgitsAutoinvoiceSend"
+            :processSuccess="sent"
+            animationTimeout="1250"
+            :isLoading="isLoading">
+        {{ text }}
+    </sw-button-process>
+{% endblock %}

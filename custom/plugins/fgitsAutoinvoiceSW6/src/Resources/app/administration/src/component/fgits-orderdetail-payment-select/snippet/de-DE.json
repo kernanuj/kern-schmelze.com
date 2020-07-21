@@ -1,0 +1,10 @@
+{
+  "fgits-autoinvoice": {
+    "payment": {
+      "select": {
+        "label": "Rechnung erstellen bei Zahlungsstatus",
+        "helpText": "Die Rechnung wird erstellt, sobald dieser Zahlungsstatus erreicht wurde. Die Bedingungen müssen immer alle gleichzeitig zutreffen."
+      }
+    }
+  }
+}

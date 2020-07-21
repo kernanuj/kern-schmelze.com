@@ -1,0 +1,10 @@
+{
+  "fgits-autoinvoice": {
+    "send": {
+      "button": {
+        "text": "Rechnung versenden",
+        "error": "Fehler beim Rechnungsversand"
+      }
+    }
+  }
+}

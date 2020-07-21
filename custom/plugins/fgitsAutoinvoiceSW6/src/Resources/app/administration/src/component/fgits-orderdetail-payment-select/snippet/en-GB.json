@@ -1,0 +1,10 @@
+{
+  "fgits-autoinvoice": {
+    "payment": {
+      "select": {
+        "label": "Payment status",
+        "helpText": "Invoice is created if this payment status is reached. All conditions must be true at the same time."
+      }
+    }
+  }
+}

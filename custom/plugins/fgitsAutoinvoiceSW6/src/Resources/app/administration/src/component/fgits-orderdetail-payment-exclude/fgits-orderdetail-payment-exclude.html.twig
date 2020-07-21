@@ -1,0 +1,12 @@
+{% block fgits_orderdetail_payment_exclude %}
+<sw-multi-select
+    v-if="options.length"
+    :label="getTitle"
+    :options="options"
+    :isLoading="isLoading"
+    valueProperty="id"
+    labelProperty="name"
+    v-model="currentValue"
+>
+</sw-multi-select>
+{% endblock %}

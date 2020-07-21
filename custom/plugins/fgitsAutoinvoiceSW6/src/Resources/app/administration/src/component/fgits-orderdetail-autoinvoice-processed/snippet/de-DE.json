@@ -1,0 +1,9 @@
+{
+  "fgits-autoinvoice": {
+    "processed": {
+      "checkbox": {
+        "label": "Rechnung wurde verschickt"
+      }
+    }
+  }
+}

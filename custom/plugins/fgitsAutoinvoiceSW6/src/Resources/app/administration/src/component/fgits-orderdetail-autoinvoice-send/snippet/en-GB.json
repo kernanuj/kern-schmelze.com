@@ -1,0 +1,10 @@
+{
+  "fgits-autoinvoice": {
+    "send": {
+      "button": {
+        "text": "Send invoice",
+        "error": "Error on sending invoice"
+      }
+    }
+  }
+}

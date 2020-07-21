@@ -1,0 +1,45 @@
+{
+    "name": "fgits/autoinvoice",
+    "description": "Das Shopware Plugin AutoInvoice automatisiert die Rechnungsstellung nach Bestelleingang vollständig. Über die Einstellungen können Sie konfigurieren, unter welchen Bedingungen eine Rechnung an den Kunden und ein Lieferschein z.B. an die Buchhaltung oder den Shopbetreiber gesandt werden sollen.",
+    "version": "v5.2.1",
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "GOLLE IT",
+            "email": "fabian@golle-it.de",
+            "homepage": "https://www.golle-it.de",
+            "role": "Manufacturer"
+        }
+    ],
+    "require": {
+        "shopware/core": ">=6.2.2",
+        "ext-json": "*"
+    },
+    "extra": {
+        "shopware-plugin-class": "Fgits\\AutoInvoice\\fgitsAutoinvoiceSW6",
+        "plugin-icon": "src/Resources/config/plugin.png",
+        "copyright": "(c) GOLLE IT",
+        "label": {
+            "de-DE": "AutoInvoice - Automatische Belegerstellung",
+            "en-GB": "AutoInvoice - Automatic Document Creation"
+        },
+        "description": {
+            "de-DE": "Automatisiert die Rechnungsstellung",
+            "en-GB": "Automates the document creation process"
+        },
+        "manufacturerLink": {
+            "de-DE": "https://www.golle-it.de",
+            "en-GB": "https://www.golle-it.de"
+        },
+        "supportLink": {
+            "de-DE": "https://www.golle-it.de",
+            "en-GB": "https://www.golle-it.de"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Fgits\\AutoInvoice\\": "src/"
+        }
+    }
+}

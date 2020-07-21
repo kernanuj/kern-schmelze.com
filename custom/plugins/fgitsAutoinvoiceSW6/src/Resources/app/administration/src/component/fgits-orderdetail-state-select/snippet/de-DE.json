@@ -1,0 +1,10 @@
+{
+  "fgits-autoinvoice": {
+    "state": {
+      "select": {
+        "label": "Rechnung erstellen bei Bestellstatus",
+        "helpText": "Die Rechnung wird erstellt, sobald dieser Bestellstatus erreicht wurde. Die Bedingungen müssen immer alle gleichzeitig zutreffen."
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{% block sw_order_detail_base_overview_status_change %}
+    {% parent %}
+
+    <sw-container v-if="!isEditing"
+                  slot="additional-actions"
+                  columns="minmax(min-content, 1fr) minmax(min-content, 1fr) 1fr"
+                  gap="0 15px">
+
+        <div></div>
+
+        <div class="fgits-orderdetail-autoinvoice-processed">
+            <fgits-orderdetail-autoinvoice-processed
+                    :order="order"
+            >
+            </fgits-orderdetail-autoinvoice-processed>
+        </div>
+
+        <div class="fgits-orderdetail-autoinvoice-send">
+            <fgits-orderdetail-autoinvoice-send
+                    :order="order"
+            >
+            </fgits-orderdetail-autoinvoice-send>
+        </div>
+    </sw-container>
+{% endblock %}
