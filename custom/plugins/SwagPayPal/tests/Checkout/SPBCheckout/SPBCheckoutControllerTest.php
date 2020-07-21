@@ -16,6 +16,7 @@ use Shopware\Core\Checkout\Payment\PaymentMethodCollection;
 use Shopware\Core\Checkout\Test\Cart\Common\Generator;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Struct\ArrayStruct;
+use Shopware\Core\Framework\Test\TestCaseBase\BasicTestDataBehaviour;
 use Shopware\Core\Framework\Test\TestCaseBase\DatabaseTransactionBehaviour;
 use Swag\PayPal\Checkout\SPBCheckout\SPBCheckoutController;
 use Swag\PayPal\Payment\Builder\CartPaymentBuilder;
@@ -35,12 +36,23 @@ use Symfony\Component\HttpFoundation\Response;
 class SPBCheckoutControllerTest extends TestCase
 {
     use DatabaseTransactionBehaviour;
+    use BasicTestDataBehaviour;
     use SalesChannelContextTrait;
     use ServicesTrait;
 
-    public function testCreatePayment(): void
+    /**
+     * @dataProvider dataProviderTestCreatePayment
+     */
+    public function testCreatePayment(bool $withCartLineItems): void
     {
-        $salesChannelContext = $this->createSalesChannelContext($this->getContainer(), new PaymentMethodCollection());
+        $salesChannelContext = $this->createSalesChannelContext(
+            $this->getContainer(),
+            new PaymentMethodCollection(),
+            null,
+            true,
+            false,
+            $withCartLineItems
+        );
 
         $response = $this->createController()->createPayment($salesChannelContext, new Request());
         $content = $response->getContent();
@@ -105,6 +117,11 @@ class SPBCheckoutControllerTest extends TestCase
         $this->createController()->createPayment($salesChannelContext, $request);
     }
 
+    public function dataProviderTestCreatePayment(): array
+    {
+        return [[true], [false]];
+    }
+
     private function createController(): SPBCheckoutController
     {
         $container = $this->getContainer();
@@ -116,8 +133,6 @@ class SPBCheckoutControllerTest extends TestCase
         $settings->setClientSecret('testClientSecret');
 
         $settingsService = new SettingsServiceMock($settings);
-        /** @var EntityRepositoryInterface $salesChannelRepo */
-        $salesChannelRepo = $container->get('sales_channel.repository');
         /** @var LocaleCodeProvider $localeCodeProvider */
         $localeCodeProvider = $container->get(LocaleCodeProvider::class);
         /** @var EntityRepositoryInterface $currencyRepo */
@@ -125,13 +140,11 @@ class SPBCheckoutControllerTest extends TestCase
 
         $cartPaymentBuilder = new CartPaymentBuilder(
             $settingsService,
-            $salesChannelRepo,
             $localeCodeProvider
         );
 
         $orderPaymentBuilder = new OrderPaymentBuilder(
             $settingsService,
-            $salesChannelRepo,
             $localeCodeProvider,
             $currencyRepo
         );

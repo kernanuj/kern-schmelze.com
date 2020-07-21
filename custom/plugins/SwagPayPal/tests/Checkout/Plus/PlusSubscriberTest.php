@@ -24,7 +24,9 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\Framework\Test\TestCaseBase\BasicTestDataBehaviour;
 use Shopware\Core\Framework\Test\TestCaseBase\DatabaseTransactionBehaviour;
+use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\SalesChannelRequest;
 use Shopware\Core\System\SalesChannel\Context\SalesChannelContextFactory;
 use Shopware\Core\System\SalesChannel\Context\SalesChannelContextService;
@@ -61,6 +63,7 @@ class PlusSubscriberTest extends TestCase
     use DatabaseTransactionBehaviour;
     use PaymentMethodTrait;
     use PaymentTransactionTrait;
+    use BasicTestDataBehaviour;
     use SalesChannelContextTrait;
     use ServicesTrait;
 
@@ -451,8 +454,6 @@ class PlusSubscriberTest extends TestCase
         $localeCodeProvider = $this->getContainer()->get(LocaleCodeProvider::class);
         /** @var RouterInterface $router */
         $router = $this->getContainer()->get('router');
-        /** @var EntityRepositoryInterface $salesChannelRepo */
-        $salesChannelRepo = $this->getContainer()->get('sales_channel.repository');
         /** @var TranslatorInterface $translator */
         $translator = $this->getContainer()->get('translator');
         /** @var EntityRepositoryInterface $currencyRepo */
@@ -461,12 +462,10 @@ class PlusSubscriberTest extends TestCase
         $plusDataService = new PlusDataService(
             new CartPaymentBuilder(
                 $settingsService,
-                $salesChannelRepo,
                 $localeCodeProvider
             ),
             new OrderPaymentBuilder(
                 $settingsService,
-                $salesChannelRepo,
                 $localeCodeProvider,
                 $currencyRepo
             ),
@@ -488,7 +487,7 @@ class PlusSubscriberTest extends TestCase
         /** @var SalesChannelContextFactory $salesChannelContextFactory */
         $salesChannelContextFactory = $this->getContainer()->get(SalesChannelContextFactory::class);
         $salesChannelContext = $salesChannelContextFactory->create(
-            'token',
+            Uuid::randomHex(),
             Defaults::SALES_CHANNEL,
             [
                 SalesChannelContextService::PAYMENT_METHOD_ID => $this->paypalPaymentMethodId,
@@ -601,6 +600,7 @@ class PlusSubscriberTest extends TestCase
         static::assertSame(CreateResponseFixture::CREATE_PAYMENT_APPROVAL_TOKEN, $plusExtension->getPaypalToken());
         static::assertSame('/sales-channel-api/v2/checkout/order', $plusExtension->getCheckoutOrderUrl());
         static::assertSame(PayPalPaymentHandler::PAYPAL_PLUS_CHECKOUT_ID, $plusExtension->getIsEnabledParameterName());
+        static::assertSame($event->getContext()->getLanguageId(), $plusExtension->getLanguageId());
 
         return $plusExtension;
     }

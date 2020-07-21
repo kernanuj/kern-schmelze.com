@@ -1,5 +1,6 @@
+import './component/swag-paypal-payment-actions';
+import './component/swag-paypal-text-field';
 import './extension/sw-order';
-import './extension/sw-plugin';
 import './page/swag-paypal-payment-detail';
 
 import deDE from './snippet/de-DE.json';
@@ -27,7 +28,10 @@ Module.register('swag-paypal-payment', {
                 component: 'swag-paypal-payment-detail',
                 name: 'swag.paypal.payment.detail',
                 isChildren: true,
-                path: '/sw/order/paypal/detail/:id'
+                path: '/sw/order/paypal/detail/:id',
+                meta: {
+                    parentPath: 'sw.order.index'
+                }
             });
         }
         next(currentRoute);
