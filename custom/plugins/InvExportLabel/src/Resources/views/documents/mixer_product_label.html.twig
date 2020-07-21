@@ -26,11 +26,20 @@
             size: 71mm 71mm landscape;
         }
 
+        .logo-image {
+            text-align: center;
+            position: absolute;
+            top: 3mm;
+            left: 52%;
+            transform: translate(-52%, 0);
+            width: 12mm;
+        }
+
         img {
             text-align: center;
             margin: 0 auto 10px auto;
-            width: 15mm;
-            height: auto;
+            width: 13mm;
+            height: 14mm;
             display: block;
             border: 0;
         }
@@ -50,6 +59,7 @@
         .mix-name {
             font-size: 8pt;
             font-weight: bold;
+            margin-top: 18mm;
         }
 
         .mix-id {
@@ -78,7 +88,10 @@
 {% for item in sourceCollection.items %}
     {# @var item \InvExportLabel\Value\SourceItemType\MixerProductSourceItem #}
     <div class="container">
-        <img src="{{ asset('img/logo.jpg', '@InvExportLabel') }}">
+
+        <div class="logo-image">
+            <img src="https://kern-schmelze.com/bundles/invexportlabel/img/logo.svg" />
+        </div>
 
         <p class="mix-name">
             {{ item.mixName }}

@@ -74,9 +74,17 @@ class LabelCreator
         $renderer = $this->typeInstanceRegistry->forType($configuration->getType())->getRenderer();
 
         $options = new Options();
-        $options->set('isRemoteEnabled', false);
+        $options->set('isRemoteEnabled', true);
         $options->setIsHtml5ParserEnabled(true);
         $dompdf = new Dompdf($options);
+        $contxt = stream_context_create([
+            'ssl' => [
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                'allow_self_signed'=> TRUE
+            ]
+        ]);
+        $dompdf->setHttpContext($contxt);
         $dompdf->setPaper(Constants::LABEL_PDF_PAPER_SIZE, 'portrait');
         $dompdf->loadHtml($renderer->render($collection)->getHtml());
         $dompdf->render();
