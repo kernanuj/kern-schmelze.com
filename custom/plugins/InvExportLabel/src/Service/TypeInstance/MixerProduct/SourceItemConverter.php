@@ -16,8 +16,6 @@ use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity;
 class SourceItemConverter
 {
 
-    private $productRepository;
-
     /**
      * @param OrderLineItemEntity $orderLineItemEntity
      * @param ExportRequestConfiguration $exportRequestConfiguration
@@ -30,9 +28,7 @@ class SourceItemConverter
 
         return (new MixerProductSourceItem())
             ->setMixName(
-                //Todo: Nur für Testing, da MixLabel nicht zur Verfügung steht.
-                OrderLineItemEntityAccessor::getMixLabel($orderLineItemEntity)
-                #'Meine Schokolade'
+                OrderLineItemEntityAccessor::getMixLabel($orderLineItemEntity) ?? 'Meine Schokolade'
             )
             ->setDisplayId(
                 OrderLineItemEntityAccessor::getMixDisplayId($orderLineItemEntity)
