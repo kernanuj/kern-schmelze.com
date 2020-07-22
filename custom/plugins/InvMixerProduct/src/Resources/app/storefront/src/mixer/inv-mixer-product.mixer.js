@@ -30,6 +30,7 @@ export default class InvMixerProductMixer extends Plugin {
         const url = form.getAttribute('action');
         this._client.post(url, new FormData(form), (response) => {
             this.displayState(response)
+            this.updateStateMobile()
         })
     }
 
@@ -43,6 +44,34 @@ export default class InvMixerProductMixer extends Plugin {
                 })
             }
         }
+    }
+
+    attachMixStateEventsMobile(displayContainer) {
+        const listingProducts = displayContainer.querySelectorAll('[data-inv-mixer-mix-state-action]');
+        for (const i in listingProducts) {
+
+            if (listingProducts.hasOwnProperty(i)) {
+                listingProducts[i].addEventListener('submit', event => {
+                    this.performActionByForm(event.target)
+                    event.preventDefault()
+                })
+            }
+        }
+        $('#mixer-product-off-canvas-botton').on('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var offcanvas_id =  $(this).attr('data-trigger');
+            $(offcanvas_id).toggleClass('show');
+            $('body').toggleClass('offcanvas-active');
+            $('.screen-overlay').toggleClass('show');
+        });
+
+        $('.mix-product-offcanvas-close, .screen-overlay').click(function(e){
+            $('.screen-overlay').removeClass('show');
+            $('#mixer-product-offcanvas').removeClass('show');
+            $('body').removeClass('offcanvas-active');
+            e.preventDefault()
+        });
     }
 
     attachListingEvents() {
@@ -89,30 +118,17 @@ export default class InvMixerProductMixer extends Plugin {
     displayStateMobile(stateInnerHtml) {
         const displayContainer = document.getElementById('inv-mixer-product-mobile-enhancer-container');
         displayContainer.innerHTML = stateInnerHtml;
-        this.attachMixStateEvents()
-
-        $("#mixer-product-off-canvas-botton").on("click", function(e){
-            alert('test');
-            console.log('test');
-            e.preventDefault();
-            e.stopPropagation();
-            var offcanvas_id =  $(this).attr('data-trigger');
-            console.log(offcanvas_id);
-            $(offcanvas_id).toggleClass("show");
-            $('body').toggleClass("offcanvas-active");
-            $(".screen-overlay").toggleClass("show");
-        });
-
-        $(".mix-product-offcanvas-close, .screen-overlay").click(function(e){
-            $(".screen-overlay").removeClass("show");
-            $("#mixer-product-offcanvas").removeClass("show");
-            $("body").removeClass("offcanvas-active");
-        });
+        this.attachMixStateEventsMobile(displayContainer)
     }
 
     loadState() {
         const that = this;
         this._client.get(that.options.urlMixState, content => this.displayState(content));
+        this._client.get(that.options.urlMixStateMobile, content => this.displayStateMobile(content));
+    }
+
+    updateStateMobile() {
+        const that = this;
         this._client.get(that.options.urlMixStateMobile, content => this.displayStateMobile(content));
     }
 }

@@ -42,7 +42,7 @@
 
                     <hr/>
                     <div class="mixer-product-price-info">
-                        <span class="mixer-product-total" id="mix-state-add-to-cart-anchor">
+                        <span class="mixer-product-total">
                             {{ mixerProductTotalPrice|currency }}
                         </span>
                                 <span class="mixer-product-baseprice">
@@ -59,9 +59,8 @@
                 </div>
                 <div class="col-6">
                     <form method="post"
-                          action="{{ path('invMixerProduct.storeFront.mix.session.addToCart') }}" id="mix-state-add-to-cart-form">
-                        <input type="hidden" name="_csrf_token"
-                               value="{{ csrf_token('invMixerProduct.storeFront.mix.session.addToCart') }}">
+                          action="{{ path('invMixerProduct.storeFront.mix.session.addToCart') }}"
+                    >
                         <div class="row">
                             <div class="col-6">
                                 <input type="number" name="quantity" value="1" min="1" max="100"/>
