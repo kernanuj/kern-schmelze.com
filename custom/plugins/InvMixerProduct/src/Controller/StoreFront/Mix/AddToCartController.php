@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package InvMixerProduct\Controller\StoreFront\Mix
  *
  * @RouteScope(scopes={"storefront"})
- * @Route("/mix/to-cart", methods={"POST"}, name="invMixerProduct.storeFront.mix.session.addToCart")
+ * @Route("/mix/to-cart", methods={"POST"}, defaults={"csrf_protected": false}, name="invMixerProduct.storeFront.mix.session.addToCart")
  */
 class AddToCartController extends MixController
 {
@@ -37,6 +37,8 @@ class AddToCartController extends MixController
      * @var CartService
      */
     private $cartService;
+
+    private $translator;
 
     /**
      * AddToCartController constructor.
@@ -87,11 +89,10 @@ class AddToCartController extends MixController
 
         $this->removeFromSession($this->session);
 
+
         $this->addFlash(
             'success',
-            # Todo: Move to snippet
-            #  'checkout.addToCartSuccess'
-            'Schokoladentafel erfolgreich dem Warenkorb hinzugefügt'
+            $this->trans('checkout.addToCartSuccess', ['%count%' => $quantity])
         );
 
         return $this->redirectToRoute(
