@@ -89,7 +89,9 @@ class AddToCartController extends MixController
 
         $this->addFlash(
             'success',
-            'checkout.addToCartSuccess'
+            # Todo: Move to snippet
+            #  'checkout.addToCartSuccess'
+            'Schokoladentafel erfolgreich dem Warenkorb hinzugefügt'
         );
 
         return $this->redirectToRoute(
