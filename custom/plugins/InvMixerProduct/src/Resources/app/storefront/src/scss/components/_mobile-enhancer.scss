@@ -62,8 +62,16 @@
     }
 }
 
+#inv-mixer-product-mobile-enhancer-container {
+    visibility: hidden;
+}
+
 
 @media (max-width: 992px) {
+    #inv-mixer-product-mobile-enhancer-container {
+        visibility: visible;
+    }
+
     .mixer-product-list {
         .inv-sticky-top {
             position: sticky;

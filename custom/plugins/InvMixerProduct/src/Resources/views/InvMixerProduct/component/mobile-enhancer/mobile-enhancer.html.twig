@@ -84,25 +84,4 @@
             {{ "InvMixerProduct.buttons.changeConfig"|trans }}
         </button>
     {% endblock %}
-
-    {% block inv_product_mixer_product_categories %}
-        <ul class="nav nav-tabs" role="tablist">
-            {% for listingProductGroup in listingProductCollection.groups %}
-                {% if loop.first %}
-                    {% set class = "active" %}
-                {% else %}
-                    {% set class = "" %}
-                {% endif %}
-
-                <li class="nav-item">
-                    <a class="nav-link {{ class }}" data-toggle="tab" id="tab{{ listingProductGroup.groupIdentifier }}"
-                       href="#{{ listingProductGroup.groupIdentifier }}" role="tab"
-                       aria-controls="{{ listingProductGroup.groupIdentifier }}" aria-selected="true">
-                        <img src="{{ asset('storefront/img/'~listingProductGroup.groupIdentifier~'.jpg', '@InvMixerProduct') }}" alt="{{ ("InvMixerProduct.tabs." ~ listingProductGroup.groupIdentifier)|trans }}" /> {{ ("InvMixerProduct.tabs." ~ listingProductGroup.groupIdentifier)|trans }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-        <hr />
-    {% endblock %}
 </div>
