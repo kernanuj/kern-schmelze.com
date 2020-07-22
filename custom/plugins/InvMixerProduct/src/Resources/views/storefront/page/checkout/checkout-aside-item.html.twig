@@ -11,3 +11,43 @@
         {{ parent() }}
     </div>
 {% endblock %}
+
+{% block page_checkout_aside_item_image_inner %}
+    {% if isDiscount %}
+        <div class="cart-item-discount-icon cart-item-img">
+            {% sw_icon 'marketing' style {
+                'color': 'success'
+            } %}
+        </div>
+    {%  elseif lineItem.payload.inv_mixer_product__is_mix_container_product %}
+        <img
+            src="{{ asset('storefront/img/mix-container-product.jpg', '@InvMixerProduct') }}"
+            alt="{{ "InvMixerProduct.checkout.mixProductContainer.title|trans" }}"
+            class="img-fluid cart-item-img"
+        />
+    {% elseif isNested %}
+        <div class="cart-item-nested-icon">
+            {% sw_icon 'bag-product' style {
+                'color': 'light'
+            } %}
+        </div>
+    {%  else %}
+        {% if lineItem.cover.url %}
+            {% sw_thumbnails 'cart-item-img-thumbnails' with {
+                media: lineItem.cover,
+                sizes: {
+                    'default': '100px'
+                },
+                attributes: {
+                    'class': 'img-fluid cart-item-img',
+                    'alt': (lineItem.cover.translated.alt ?: ''),
+                    'title': (lineItem.cover.translated.title ?: '')
+                }
+            } %}
+        {% else %}
+            {% sw_icon 'placeholder' style {
+                'size': 'fluid'
+            } %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

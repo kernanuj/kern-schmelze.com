@@ -46,6 +46,11 @@
         },
         "alerts": {
             "productHasBeenAddedToCart": "Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt."
+        },
+        "checkout": {
+            "mixProductContainer": {
+                "title": "My chocolate"
+            }
         }
     }
 }

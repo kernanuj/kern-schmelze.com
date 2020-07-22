@@ -19,6 +19,12 @@
                 'color': 'success'
             } %}
         </div>
+    {%  elseif lineItem.payload.inv_mixer_product__is_mix_container_product %}
+        <img
+            src="{{ asset('storefront/img/mix-container-product.jpg', '@InvMixerProduct') }}"
+            alt="{{ "InvMixerProduct.checkout.mixProductContainer.title|trans" }}"
+            class="img-fluid cart-item-img"
+        />
     {% elseif isNested %}
         <div class="cart-item-nested-icon">
             {% sw_icon 'bag-product' style {
@@ -37,7 +43,7 @@
                 data-url="{{ path('widgets.quickview.minimal', { 'productId': lineItem.referencedId }) }}"
             {% endif %}
         >
-            {% endif %}
+        {% endif %}
             {% block page_checkout_item_info_image_element %}
                 {% if lineItem.cover.url %}
                     {% sw_thumbnails 'cart-item-img-thumbnails' with {
