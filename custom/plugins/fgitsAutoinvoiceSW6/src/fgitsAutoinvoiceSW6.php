@@ -134,6 +134,8 @@ class fgitsAutoinvoiceSW6 extends Plugin
             $this->setup->deleteMailTemplateType($context, self::MAIL_TEMPLATE_ADMIN);
         } catch (\Exception $e) {
         }
+
+        $this->container->get('Shopware\Core\System\SystemConfig\SystemConfigService')->delete('fgitsAutoinvoiceSW6.config.cronjobActive');
     }
 
     /**

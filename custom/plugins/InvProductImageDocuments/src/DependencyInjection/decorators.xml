@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false"/>
+
+        <service id="inv.article_image_bills.service.decorator.invoice_generator_decorated"
+                 class="InvProductImageDocuments\Service\Decorator\InvoiceGeneratorDecorated"
+                 decorates="Shopware\Core\Checkout\Document\DocumentGenerator\InvoiceGenerator"
+        >
+            <argument type="service" id="inv.article_image_bills.service.decorator.invoice_generator_decorated.inner"/>
+            <argument type="service" id="inv.article_image_bills.service.document_service"/>
+            <argument type="service" id="InvProductImageDocuments\Service\Configuration"/>
+            <tag name="document.generator" />
+        </service>
+
+        <service id="inv.article_image_bills.service.decorator.delivery_note_generator_decorated"
+                 class="InvProductImageDocuments\Service\Decorator\DeliveryNoteGeneratorDecorated"
+                 decorates="Shopware\Core\Checkout\Document\DocumentGenerator\DeliveryNoteGenerator"
+        >
+            <argument type="service" id="inv.article_image_bills.service.decorator.delivery_note_generator_decorated.inner"/>
+            <argument type="service" id="inv.article_image_bills.service.document_service"/>
+            <argument type="service" id="InvProductImageDocuments\Service\Configuration"/>
+            <tag name="document.generator" />
+        </service>
+
+        <service id="inv.article_image_bills.service.decorator.credit_note_generator_decorated"
+                 class="InvProductImageDocuments\Service\Decorator\CreditNoteGeneratorDecorated"
+                 decorates="Shopware\Core\Checkout\Document\DocumentGenerator\CreditNoteGenerator"
+        >
+            <argument type="service" id="inv.article_image_bills.service.decorator.credit_note_generator_decorated.inner"/>
+            <argument type="service" id="inv.article_image_bills.service.document_service"/>
+            <argument type="service" id="InvProductImageDocuments\Service\Configuration"/>
+            <tag name="document.generator" />
+        </service>
+
+        <service id="inv.article_image_bills.service.decorator.storno_generator_decorated"
+                 class="InvProductImageDocuments\Service\Decorator\StornoGeneratorDecorated"
+                 decorates="Shopware\Core\Checkout\Document\DocumentGenerator\StornoGenerator"
+        >
+            <argument type="service" id="inv.article_image_bills.service.decorator.storno_generator_decorated.inner"/>
+            <argument type="service" id="inv.article_image_bills.service.document_service"/>
+            <argument type="service" id="InvProductImageDocuments\Service\Configuration"/>
+            <tag name="document.generator" />
+        </service>
+    </services>
+</container>

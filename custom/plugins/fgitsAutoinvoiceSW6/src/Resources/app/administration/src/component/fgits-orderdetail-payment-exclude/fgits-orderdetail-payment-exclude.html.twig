@@ -2,6 +2,7 @@
 <sw-multi-select
     v-if="options.length"
     :label="getTitle"
+    :helpText="getHelpText"
     :options="options"
     :isLoading="isLoading"
     valueProperty="id"

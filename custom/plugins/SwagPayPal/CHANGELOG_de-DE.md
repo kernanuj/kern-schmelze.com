@@ -1,3 +1,7 @@
+# 1.7.3
+- PT-11946 - Ein Update funktioniert nun auch wieder bei deaktiviertem Plugin
+- PT-11949 - Das Setzen von PayPal als Standardzahlungsart für alle Sales Channel ist wieder möglich
+
 # 1.7.2
 - PT-10491 - Intern genutzte Zusatzfeld-Entität für Transaktions-IDs entfernt
 - PT-11627 - Bestelltransaktionen haben nun den Status "In Bearbeitung" wenn der Zahlungsprozess gestartet wurde

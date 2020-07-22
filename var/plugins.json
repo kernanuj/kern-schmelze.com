@@ -449,5 +449,23 @@
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/fgitsAutoinvoiceSW6\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
             ]
         }
+    },
+    "InvProductImageDocuments": {
+        "basePath": "custom\/plugins\/InvProductImageDocuments\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-product-image-documents",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
+        }
     }
 }

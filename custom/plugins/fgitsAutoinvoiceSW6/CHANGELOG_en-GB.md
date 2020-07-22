@@ -11,3 +11,7 @@
 # 5.2.1
 - Fixed scheduled tasks
 - Fixed config snippets
+
+# 5.2.2
+- Deactivates cron if the plugin is deactivated
+- Fixed config components

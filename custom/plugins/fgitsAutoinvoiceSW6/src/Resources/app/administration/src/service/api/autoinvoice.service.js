@@ -17,7 +17,7 @@ class AutoinvoiceService extends ApiService {
     }
 
     sendInvoice(orderId) {
-        const route = '/fgits/order/${orderId}/invoice/send';
+        const route = `/fgits/order/${orderId}/invoice/send`;
 
         return this.httpClient.get(
             route,

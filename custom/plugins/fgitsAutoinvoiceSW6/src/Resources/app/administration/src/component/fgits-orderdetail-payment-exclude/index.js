@@ -46,6 +46,9 @@ Component.register('fgits-orderdetail-payment-exclude', {
         },
         getTitle() {
             return this.$attrs.title;
+        },
+        getHelpText() {
+            return this.$attrs.helpText;
         }
     },
 

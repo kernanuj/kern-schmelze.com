@@ -1,0 +1,15 @@
+{% sw_extends '@Framework/documents/delivery_note.html.twig' %}
+
+{% block document_line_item_table_head_position %}
+    {{ parent() }}
+    {% if config.invIsImageDeliveryNoteActive %}
+        <th>{{ "InvInvProductImageDocuments.documents.article"|trans }}</th>
+    {% endif %}
+{% endblock %}
+
+{% block document_line_item_table_row_position %}
+    {{ parent() }}
+    {% if config.invIsImageDeliveryNoteActive %}
+        {% sw_include '@Storefront/InvProductImageDocuments/cover.html.twig' %}
+    {% endif %}
+{% endblock %}

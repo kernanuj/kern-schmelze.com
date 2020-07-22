@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Settings</title>
+        <title lang="de-DE">Konfiguration</title>
+        <title lang="fr-FR">Configuration</title>
+
+        <input-field type="bool">
+            <name>imagesinvoice</name>
+            <defaultValue>true</defaultValue>
+            <label lang="de-DE">Produktbilder auf der Rechnung anzeigen?</label>
+            <label lang="en-GB">Show product images on the invoice?</label>
+            <label lang="fr-FR">Afficher les images sur la facture?</label>
+        </input-field>
+
+        <input-field type="bool">
+            <name>imagesdeliverynote</name>
+            <defaultValue>true</defaultValue>
+            <label lang="de-DE">Produktbilder auf dem Lieferschein anzeigen?</label>
+            <label lang="en-GB">Show product images on the delivery note?</label>
+            <label lang="fr-FR">Afficher les images sur le bon de livraison?</label>
+        </input-field>
+
+        <input-field type="bool">
+            <name>imagescreditnote</name>
+            <defaultValue>true</defaultValue>
+            <label lang="de-DE">Produktbilder auf der Gutschrift anzeigen?</label>
+            <label lang="en-GB">Show product images on the credit note?</label>
+            <label lang="fr-FR">Afficher les images sur la note de crédit?</label>
+        </input-field>
+
+        <input-field type="bool">
+            <name>imagescancellationinvoice</name>
+            <defaultValue>true</defaultValue>
+            <label lang="de-DE">Produktbilder auf der Stornorechnung anzeigen?</label>
+            <label lang="en-GB">Show product imageson the cancellation invoice?</label>
+            <label lang="fr-FR">Afficher les images sur la facture d'annulation?</label>
+        </input-field>
+
+        <input-field type="int">
+            <name>imagesize</name>
+            <defaultValue>50</defaultValue>
+            <label lang="de-DE">Bildgröße (in px)</label>
+            <label lang="en-GB">image size (in px)</label>
+            <label lang="fr-FR">Taille de l'image (en px)</label>
+        </input-field>
+    </card>
+</config>

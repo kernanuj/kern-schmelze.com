@@ -11,3 +11,7 @@
 # 5.2.1
 - Gefixt scheduled tasks
 - Gefixt config snippets
+
+# 5.2.2
+- Deaktiviert Cronjob, wenn Plugin ist deaktiviert
+- Gefixt Konfigurationskomponente
