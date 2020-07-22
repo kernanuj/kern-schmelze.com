@@ -46,6 +46,16 @@ class ExportRequestConfiguration
     private $bestBeforeDate;
 
     /**
+     * @var string
+     */
+    private $storagePerOrderPath;
+
+    /**
+     * @var callable
+     */
+    private $storagePerOrderPathNameBuilder;
+
+    /**
      * @return string
      */
     public function getType(): string
@@ -179,4 +189,42 @@ class ExportRequestConfiguration
         $this->bestBeforeDate = $bestBeforeDate;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getStoragePerOrderPath(): string
+    {
+        return $this->storagePerOrderPath;
+    }
+
+    /**
+     * @param string $storagePerOrderPath
+     * @return ExportRequestConfiguration
+     */
+    public function setStoragePerOrderPath(string $storagePerOrderPath): ExportRequestConfiguration
+    {
+        $this->storagePerOrderPath = $storagePerOrderPath;
+        return $this;
+    }
+
+    /**
+     * @return callable
+     */
+    public function getStoragePerOrderPathNameBuilder(): callable
+    {
+        return $this->storagePerOrderPathNameBuilder;
+    }
+
+    /**
+     * @param callable $storagePerOrderPathNameBuilder
+     * @return ExportRequestConfiguration
+     */
+    public function setStoragePerOrderPathNameBuilder(callable $storagePerOrderPathNameBuilder
+    ): ExportRequestConfiguration {
+        $this->storagePerOrderPathNameBuilder = $storagePerOrderPathNameBuilder;
+        return $this;
+    }
+
+
 }

@@ -113,7 +113,9 @@ class ExportCommand extends Command
             $output->writeln($log);
         }
 
-        $output->writeln('Generated file:' . $result->getCreatedFile()->getPathname());
+        foreach($result->getCreatedFiles() as $createdFile) {
+            $output->writeln('Generated file:' . $createdFile->getPathname());
+        }
     }
 
     /**

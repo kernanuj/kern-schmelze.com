@@ -41,6 +41,9 @@ class SourceItemConverter
             )
             ->setBestBeforeDate(
                 $exportRequestConfiguration->getBestBeforeDate()
+            )
+            ->setOrderNumber(
+                $orderLineItemEntity->getOrder()->getOrderNumber()
             );
     }
 

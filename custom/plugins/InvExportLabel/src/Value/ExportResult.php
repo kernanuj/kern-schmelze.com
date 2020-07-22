@@ -11,9 +11,9 @@ class ExportResult
 {
 
     /**
-     * @var \SplFileObject
+     * @var \SplFileObject[]
      */
-    private $createdFile;
+    private $createdFiles =[];
 
     /**
      * @var array
@@ -21,20 +21,20 @@ class ExportResult
     private $log = [];
 
     /**
-     * @return \SplFileObject
+     * @return \SplFileObject[]
      */
-    public function getCreatedFile(): \SplFileObject
+    public function getCreatedFiles(): array
     {
-        return $this->createdFile;
+        return $this->createdFiles;
     }
 
     /**
      * @param \SplFileObject $createdFile
      * @return ExportResult
      */
-    public function setCreatedFile(\SplFileObject $createdFile): ExportResult
+    public function addCreatedFile(\SplFileObject $createdFile): ExportResult
     {
-        $this->createdFile = $createdFile;
+        $this->createdFiles[] = $createdFile;
         return $this;
     }
 
