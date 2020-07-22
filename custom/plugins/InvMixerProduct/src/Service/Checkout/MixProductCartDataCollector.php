@@ -171,8 +171,13 @@ class MixProductCartDataCollector implements CartDataCollectorInterface
      */
     private function enrichContainerProductLabel(LineItem $subjectContainerProductLineItem): self
     {
-        $separator = ': ';
-        $subjectContainerProductLineItem->setLabel('Meine Schokolade' . $separator . LineItemAccessor::getMixLabel($subjectContainerProductLineItem));
+        if (LineItemAccessor::getMixLabel($subjectContainerProductLineItem)) {
+            $separator = ': ';
+        } else {
+            $separator = '';
+        }
+
+        $subjectContainerProductLineItem->setLabel('Meine Schokoladentafel' . $separator . LineItemAccessor::getMixLabel($subjectContainerProductLineItem));
 
         return $this;
     }
