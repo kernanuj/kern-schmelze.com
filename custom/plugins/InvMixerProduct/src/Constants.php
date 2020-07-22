@@ -159,7 +159,7 @@ final class Constants
     {
         return new FillDelimiter(
             Weight::xGrams(100),
-            Amount::fromInt(3)
+            Amount::fromInt(4)
         );
     }
 
@@ -170,7 +170,7 @@ final class Constants
     {
         return new FillDelimiter(
             Weight::xGrams(500),
-            Amount::fromInt(6)
+            Amount::fromInt(8)
         );
     }
 
