@@ -91,22 +91,22 @@ export default class InvMixerProductMixer extends Plugin {
         displayContainer.innerHTML = stateInnerHtml;
         this.attachMixStateEvents()
 
-        $("#mixer-product-off-canvas-botton").on("click", function(e){
+        $('#mixer-product-off-canvas-botton').on('click', function(e){
             alert('test');
             console.log('test');
             e.preventDefault();
             e.stopPropagation();
             var offcanvas_id =  $(this).attr('data-trigger');
             console.log(offcanvas_id);
-            $(offcanvas_id).toggleClass("show");
-            $('body').toggleClass("offcanvas-active");
-            $(".screen-overlay").toggleClass("show");
+            $(offcanvas_id).toggleClass('show');
+            $('body').toggleClass('offcanvas-active');
+            $('.screen-overlay').toggleClass('show');
         });
 
-        $(".mix-product-offcanvas-close, .screen-overlay").click(function(e){
-            $(".screen-overlay").removeClass("show");
-            $("#mixer-product-offcanvas").removeClass("show");
-            $("body").removeClass("offcanvas-active");
+        $('.mix-product-offcanvas-close, .screen-overlay').click(function(e){
+            $('.screen-overlay').removeClass('show');
+            $('#mixer-product-offcanvas').removeClass('show');
+            $('body').removeClass('offcanvas-active');
         });
     }
 
