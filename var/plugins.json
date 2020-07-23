@@ -147,24 +147,6 @@
             "styleFiles": []
         }
     },
-    "InvDocumentEnhancerPro": {
-        "basePath": "custom\/plugins\/InvDocumentEnhancerPro\/src\/",
-        "views": [
-            "Resources\/views"
-        ],
-        "technicalName": "inv-document-enhancer-pro",
-        "administration": {
-            "path": "Resources\/app\/administration\/src",
-            "entryFilePath": null,
-            "webpack": null
-        },
-        "storefront": {
-            "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": null,
-            "webpack": null,
-            "styleFiles": []
-        }
-    },
     "InvKernschmelzeTemplate": {
         "basePath": "custom\/plugins\/InvKernschmelzeTemplate\/src\/",
         "views": [
