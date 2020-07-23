@@ -9,7 +9,7 @@
                     <span>Design: <strong>{{ ("InvMixerProduct.designs." ~ mixView.containerDefinition.design)|trans }}</strong></span>
                 </div>
                 <div class="col-4">
-                    <span>Zutaten: <strong>{{ mixView.itemCollection.items|length }}</strong></span>
+                    <span>Zutaten: <strong>{{ mixView.totalItemQuantity }}</strong></span>
                 </div>
             </div>
             <div class="mixer-product-label-row row">
