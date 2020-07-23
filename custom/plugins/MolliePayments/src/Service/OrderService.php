@@ -2,6 +2,7 @@
 
 namespace Kiener\MolliePayments\Service;
 
+use InvMixerProduct\Helper\OrderLineItemEntityAccessor;
 use Mollie\Api\Types\OrderLineType;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
@@ -181,6 +182,12 @@ class OrderService
                     $unitPrice *= ((100 + $vatRate) / 100);
                     $totalAmount += $vatAmount;
                 }
+            }
+
+            if(true === OrderLineItemEntityAccessor::isContainsMixContainerProduct($item)){
+                $totalAmount = 0;
+                $unitPrice = 0;
+                $vatAmount = 0;
             }
 
             // Build the order lines array
