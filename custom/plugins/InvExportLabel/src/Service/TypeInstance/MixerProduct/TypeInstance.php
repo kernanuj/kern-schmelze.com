@@ -52,6 +52,7 @@ class TypeInstance implements TypeInstanceInterface
         foreach ($orderCollection as $orderEntity) {
             foreach ($orderEntity->getNestedLineItems() as $lineItem) {
                 if (true === $this->isLineItemWithSubject($lineItem)) {
+                    $lineItem->setOrder($orderEntity);
                     $filteredCollection->add($lineItem);
                 }
             }

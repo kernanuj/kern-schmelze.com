@@ -39,6 +39,29 @@ class MixerProductSourceItem implements SourceItemInterface
      */
     private $weight;
 
+    /**
+     * @var string
+     */
+    private $orderNumber;
+
+    /**
+     * @return string
+     */
+    public function getOrderNumber(): string
+    {
+        return $this->orderNumber;
+    }
+
+    /**
+     * @param string $orderNumber
+     * @return MixerProductSourceItem
+     */
+    public function setOrderNumber(string $orderNumber): SourceItemInterface
+    {
+        $this->orderNumber = $orderNumber;
+        return $this;
+    }
+
 
     /**
      * @return string

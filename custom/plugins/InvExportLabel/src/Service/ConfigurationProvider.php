@@ -40,12 +40,13 @@ class ConfigurationProvider
 
     /**
      * @return ExportRequestConfiguration
+     * @throws \Exception
      */
     public function provideDefaultSet(): ExportRequestConfiguration
     {
 
 
-        return (new ExportRequestConfiguration())
+        $configuration = (new ExportRequestConfiguration())
             ->setSourceFilterDefinition(
                 new SourceFilterDefinition(
                     (new \DateTime())->sub(new \DateInterval('P1D'))->setTime(0, 0, 0),
@@ -63,7 +64,7 @@ class ConfigurationProvider
                         )
                     )
             )
-            ->setStoragePath($this->getStorageDirectory())
+            ->setStoragePath($this->getBaseStorageDirectory())
             ->setStorageFileName(date('Y-m-d') . '.Etiketten.pdf')
             ->setRecipientEmailAddresses(
                 [
@@ -75,8 +76,23 @@ class ConfigurationProvider
             )
             ->setType(
                 Constants::LABEL_TYPE_MIXER_PRODUCT
+            )
+            ->setStoragePerOrderPath(
+                $this->getPerOrderStorageDirectory(Constants::LABEL_TYPE_MIXER_PRODUCT)
             );
 
+        $configuration->setStoragePerOrderPathNameBuilder(
+            function (string $identifier) use ($configuration) {
+                return
+                    $configuration->getStoragePerOrderPath().DIRECTORY_SEPARATOR.
+                    sprintf(
+                    'Bestellung.%s.Etiketten.pdf',
+                    $identifier
+                );
+            }
+        );
+
+        return $configuration;
     }
 
     /**
@@ -99,7 +115,7 @@ class ConfigurationProvider
     /**
      * @return string
      */
-    public function getStorageDirectory(): string
+    public function getBaseStorageDirectory(): string
     {
         if (!is_dir($this->baseStorageDirectory)) {
             @mkdir($this->baseStorageDirectory, 0777, true);
@@ -107,5 +123,22 @@ class ConfigurationProvider
         Assert::writable($this->baseStorageDirectory);
 
         return $this->baseStorageDirectory;
+    }
+
+    /**
+     * @param string $type
+     * @return string
+     */
+    public function getPerOrderStorageDirectory(string $type): string
+    {
+
+        $directory = $this->getBaseStorageDirectory();
+        $directory = $directory . DIRECTORY_SEPARATOR . 'perOrder' . DIRECTORY_SEPARATOR . $type;
+        if (!is_dir($directory)) {
+            @mkdir($directory, 0777, true);
+        }
+        Assert::writable($directory);
+
+        return $directory;
     }
 }
