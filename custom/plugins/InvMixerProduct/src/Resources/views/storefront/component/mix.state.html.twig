@@ -21,7 +21,7 @@
             {% endblock %}
 
             {% block inv_product_mixer_sidebar_mixer_product_size_items %}
-                <ul class="mixer-product-sizes">
+                <ul class="mixer-product-sizes row clearfix">
                     {% for availableContainerWeight in containerDefinitionCollection.availableMaxWeights %}
                         {% if mixView.containerDefinition.fillDelimiter.weight == availableContainerWeight %}
                             {% set class = "active" %}
@@ -30,7 +30,6 @@
                         {% endif %}
 
                         <li class="{{ class }}">
-                            <p>{{ availableContainerWeight }}</p>
                             <form method="post"
                                   action="{{ path('invMixerProduct.storeFront.mix.session.container.weight.set') }}"
                                   data-inv-mixer-mix-state-action="true"
@@ -38,7 +37,12 @@
                                 <input type="hidden" name="weight" value="{{ availableContainerWeight }}">
                                 <input type="hidden" name="_csrf_token"
                                        value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.weight.set') }}">
-                                <button type="submit">set: {{ availableContainerWeight }}</button>
+                                <button type="submit">
+                                    <img
+                                        src="{{ asset('storefront/img/size-'~availableContainerWeight|replace({' ':''})~'.jpg', '@InvMixerProduct') }}"
+                                        alt="{{ availableContainerWeight }}"/>
+                                    {{ availableContainerWeight }}
+                                </button>
                             </form>
                         </li>
                     {% endfor %}

@@ -39,31 +39,7 @@
             margin: 0 0 5px 0;
         }
 
-        ul.mixer-product-sizes {
-            list-style: none;
-            display: flex;
-            flex-flow: row wrap;
-            justify-content: flex-start;
-            margin: 0;
-            padding: 0;
-
-            li {
-                margin: 0 10px 10px 0;
-                padding: 30px 10px;
-                background: $white;
-                border: 1px solid $inv-mixer-product-sidebar-options-list-border-color;
-                text-align: center;
-                font-weight: 500;
-                min-width: 94px;
-
-                &:hover,
-                &.active {
-                    border-color: $black;
-                    cursor: pointer;
-                }
-            }
-        }
-
+        ul.mixer-product-sizes,
         ul.mixer-product-base-product,
         ul.mixer-product-designs {
             display: block !important;
@@ -76,9 +52,9 @@
                 border: 0;
                 margin-bottom: 10px;
                 overflow: hidden;
-                -webkit-opacity: .4;
-                -moz-opacity: .4;
-                opacity: .4;
+                -webkit-opacity: .3;
+                -moz-opacity: .3;
+                opacity: .3;
                 display: block;
                 float: left;
                 padding: 0 5px;
