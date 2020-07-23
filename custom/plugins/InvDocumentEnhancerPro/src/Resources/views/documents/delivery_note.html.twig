@@ -1,0 +1,45 @@
+{% sw_extends '@Framework/documents/base.html.twig' %}
+
+{% block document_line_item_table_row_product_number %}
+    {% if lineItem.payload.productNumber %}
+        {% if not lineItem.payload.inv_mixer_product__is_mix_child_product and not lineItem.payload.inv_mixer_product__is_mix_container_product %}
+            <td><strong>{{ lineItem.payload.productNumber }}</strong></td>
+        {% else %}
+            <td>{{ lineItem.payload.productNumber }}</td>
+        {% endif %}
+    {% else %}
+        <td></td>
+    {% endif %}
+{% endblock %}
+
+{% block document_line_item_table_row_label %}
+    {% if not lineItem.payload.inv_mixer_product__is_mix_child_product and not lineItem.payload.inv_mixer_product__is_mix_container_product %}
+        <td class="line-item-breakable"><strong>{{ lineItem.label }}</strong></td>
+    {% else %}
+        <td class="line-item-breakable">{{ lineItem.label }}</td>
+    {% endif %}
+{% endblock %}
+
+{% block document_line_item_table_row_tax_rate %}
+    {% if not lineItem.payload.inv_mixer_product__is_mix_child_product and not lineItem.payload.inv_mixer_product__is_mix_container_product %}
+        <td class="align-right">{{ lineItem.price.taxRules.first.taxRate }}%</td>
+    {% else %}
+        <td class="align-right"></td>
+    {% endif %}
+{% endblock %}
+
+{% block document_line_item_row_table_unit_price %}
+    {% if not lineItem.payload.inv_mixer_product__is_mix_child_product and not lineItem.payload.inv_mixer_product__is_mix_container_product %}
+        <td class="align-right">{{ lineItem.unitPrice|currency(currencyIsoCode) }}</td>
+    {% else %}
+        <td class="align-right"></td>
+    {% endif %}
+{% endblock %}
+
+{% block document_line_item_table_row_total_price %}
+    {% if not lineItem.payload.inv_mixer_product__is_mix_child_product and not lineItem.payload.inv_mixer_product__is_mix_container_product %}
+        <td class="align-right">{{ lineItem.totalPrice|currency(currencyIsoCode) }}</td>
+    {% else %}
+        <td class="align-right"></td>
+    {% endif %}
+{% endblock %}
