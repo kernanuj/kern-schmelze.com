@@ -1,0 +1,20 @@
+{% sw_extends "@Storefront/storefront/page/product-detail/configurator.html.twig" %}
+
+
+{% block page_product_detail_configurator_option_radio_label_media %}
+    {% if isActive %}
+        {% set class = " active" %}
+    {% endif %}
+    {% sw_thumbnails 'configurator-option-img-thumbnails' with {
+        media: media,
+        sizes: {
+            'default': '52px'
+        },
+        attributes: {
+            'class': 'product-detail-configurator-option-image'~class,
+            'alt': option.translated.name,
+            'title': option.translated.name
+        }
+    } %}
+    <span class="media-label {{ class }}">{{ option.translated.name }}</span>
+{% endblock %}

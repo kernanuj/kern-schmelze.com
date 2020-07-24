@@ -1,0 +1,63 @@
+.product-detail-configurator-option {
+    .product-detail-configurator-option-input.is-combinable
+    + .product-detail-configurator-option-label {
+        display: block;
+        padding: 0;
+        border: 0;
+        background: none;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        height: auto;
+
+        &:hover {
+            img {
+                -moz-opacity: 1;
+                -webkit-opacity: 1;
+                opacity: 1;
+            }
+
+            span {
+                &.media-label {
+                    -moz-opacity: 1;
+                    -webkit-opacity: 1;
+                    opacity: 1;
+                }
+            }
+        }
+
+        img {
+            border: 1px solid $black;
+            margin-bottom: 5px;
+            width: 80px;
+            height: 80px;
+            -moz-opacity: .3;
+            -webkit-opacity: .3;
+            opacity: .3;
+
+            &.active {
+                -moz-opacity: 1;
+                -webkit-opacity: 1;
+                opacity: 1;
+            }
+        }
+    }
+
+    span {
+        &.media-label {
+            display: block;
+            font-size: 11px;
+            line-height: 13px;
+            text-align: center;
+            -moz-opacity: .3;
+            -webkit-opacity: .3;
+            opacity: .3;
+
+            &.active {
+                -moz-opacity: 1;
+                -webkit-opacity: 1;
+                opacity: 1;
+            }
+        }
+    }
+}
