@@ -3,6 +3,7 @@
 namespace Kiener\MolliePayments\Service;
 
 use InvMixerProduct\Helper\OrderLineItemEntityAccessor;
+use Exception;
 use Mollie\Api\Types\OrderLineType;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
@@ -21,6 +22,10 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 class OrderService
 {
     public const ORDER_LINE_ITEM_ID = 'orderLineItemId';
+
+    private const TAX_ARRAY_KEY_TAX = 'tax';
+    private const TAX_ARRAY_KEY_TAX_RATE = 'taxRate';
+    private const TAX_ARRAY_KEY_PRICE = 'price';
 
     /** @var EntityRepository */
     protected $orderRepository;
@@ -81,12 +86,14 @@ class OrderService
             $criteria->addAssociation('language');
             $criteria->addAssociation('language.locale');
             $criteria->addAssociation('lineItems');
+            $criteria->addAssociation('lineItems.product');
+            $criteria->addAssociation('lineItems.product.media');
             $criteria->addAssociation('deliveries');
             $criteria->addAssociation('deliveries.shippingOrderAddress');
 
             /** @var OrderEntity $order */
             $order = $this->orderRepository->search($criteria, $context)->first();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->error($e->getMessage(), [$e]);
         }
 
@@ -235,6 +242,7 @@ class OrderService
 
         // Get shipping tax
         $shippingTax = null;
+        $shippingTaxes = null;
 
         if ($shipping->getCalculatedTaxes() !== null) {
             $shippingTax = $this->getLineItemTax($shipping->getCalculatedTaxes());
@@ -260,7 +268,7 @@ class OrderService
         }
 
         // Build the order line array
-        $line = [
+        $shippingLine = [
             'type' =>  OrderLineType::TYPE_SHIPPING_FEE,
             'name' => 'Shipping',
             'quantity' => $shipping->getQuantity(),
@@ -273,7 +281,7 @@ class OrderService
             'productUrl' => null,
         ];
 
-        return $line;
+        return $shippingLine;
     }
 
     /**
@@ -325,15 +333,33 @@ class OrderService
      * @param CalculatedTaxCollection $taxCollection
      * @return CalculatedTax|null
      */
-    public function getLineItemTax(CalculatedTaxCollection $taxCollection)
+    public function getLineItemTax(CalculatedTaxCollection $taxCollection): ?CalculatedTax
     {
-        $tax = null;
+        if ($taxCollection->count() === 0) {
+            return null;
+        } elseif ($taxCollection->count() === 1) {
+            return $taxCollection->first();
+        } else {
+            $tax = [
+                self::TAX_ARRAY_KEY_TAX      => 0,
+                self::TAX_ARRAY_KEY_TAX_RATE => 0,
+                self::TAX_ARRAY_KEY_PRICE    => 0,
+            ];
 
-        if ($taxCollection->count() > 0) {
-            /** @var CalculatedTax $tax */
-            $tax = $taxCollection->first();
+            $taxCollection->map(static function (CalculatedTax $calculatedTax) use (&$tax) {
+                $tax[self::TAX_ARRAY_KEY_TAX] += $calculatedTax->getTax();
+                $tax[self::TAX_ARRAY_KEY_PRICE] += $calculatedTax->getPrice();
+            });
+
+            if ($tax[self::TAX_ARRAY_KEY_PRICE] !== $tax[self::TAX_ARRAY_KEY_TAX]) {
+                $tax[self::TAX_ARRAY_KEY_TAX_RATE] = $tax[self::TAX_ARRAY_KEY_TAX] / ($tax[self::TAX_ARRAY_KEY_PRICE] - $tax[self::TAX_ARRAY_KEY_TAX]);
+            }
+
+            return new CalculatedTax(
+                $tax[self::TAX_ARRAY_KEY_TAX],
+                round($tax[self::TAX_ARRAY_KEY_TAX_RATE], 4) * 100,
+                $tax[self::TAX_ARRAY_KEY_PRICE]
+            );
         }
-
-        return $tax;
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
 namespace Kiener\MolliePayments\Subscriber;
+
 use Exception;
-use Kiener\MolliePayments\Framework\Cookie\CookieProvider;
 use Kiener\MolliePayments\Service\CustomerService;
 use Kiener\MolliePayments\Service\CustomFieldService;
 use Kiener\MolliePayments\Service\SettingsService;
