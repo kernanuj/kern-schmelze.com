@@ -1,15 +1,23 @@
-.sw-cms-block-image-text-row-two-columns {
+.cms-block-image-text-row-two-columns {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
     align-content: stretch;
     align-items: start;
     grid-gap: 40px;
 
-    .sw-cms-el-text {
+    .cms-el-text {
         padding-top: 20px;
     }
 
-    .sw-cms-el-image.is--cover {
+    .cms-el-image.is--cover {
         min-height: 200px;
+    }
+
+    .cms-element-image {
+        .cms-image {
+            text-align: center;
+            margin: 0 auto 20px auto;
+            display: block;
+        }
     }
 }
