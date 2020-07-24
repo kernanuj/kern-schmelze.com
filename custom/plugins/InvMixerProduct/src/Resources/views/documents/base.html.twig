@@ -1,4 +1,10 @@
-{% sw_extends '@Framework/documents/base.html.twig' %}
+{% sw_extends "@Framework/documents/base.html.twig" %}
+
+{% block document_line_item_table_row_position %}
+    {% if config.displayLineItemPosition %}
+        <td>{{ lineItem.payload.inv_position_as_child }}</td>
+    {% endif %}
+{% endblock %}
 
 {% block document_line_item_table_row_product_number %}
     {% if lineItem.payload.productNumber %}
