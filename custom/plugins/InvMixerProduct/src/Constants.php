@@ -54,7 +54,7 @@ final class Constants
 
     public const CATALOG_PRODUCT_TAG_PRODUCT_ITEM = 'mixer-product-item';
     public const CATALOG_PRODUCT_TAG_CATEGORY_NUTS = 'mixer-product-category-nuts';
-    public const CATALOG_PRODUCT_TAG_CATEGORY_SEEDS = 'mixer-product-category-seeds';
+    public const CATALOG_PRODUCT_TAG_CATEGORY_SWEETS = 'mixer-product-category-sweets';
     public const CATALOG_PRODUCT_TAG_CATEGORY_DRIEDFRUIT = 'mixer-product-category-driedfruit';
 
     public const MIX_DISPLAY_ID_OFFSET = 100000;
@@ -78,7 +78,7 @@ final class Constants
     public static function VALID_CATALOG_PRODUCT_TAGS():array {
         return [
             self::CATALOG_PRODUCT_TAG_CATEGORY_NUTS,
-            self::CATALOG_PRODUCT_TAG_CATEGORY_SEEDS,
+            self::CATALOG_PRODUCT_TAG_CATEGORY_SWEETS,
             self::CATALOG_PRODUCT_TAG_CATEGORY_DRIEDFRUIT,
         ];
     }
