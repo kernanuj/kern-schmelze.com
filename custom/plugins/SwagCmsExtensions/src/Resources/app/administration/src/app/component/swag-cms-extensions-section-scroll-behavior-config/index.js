@@ -2,6 +2,7 @@ import template from './swag-cms-extensions-section-scroll-behavior-config.html.
 import './swag-cms-extensions-section-scroll-behavior-config.scss';
 
 const { Component, Application: { view: { setReactive } } } = Shopware;
+const { mapPropertyErrors } = Component.getComponentHelper();
 
 Component.register('swag-cms-extensions-section-scroll-behavior-config', {
     template,
@@ -31,12 +32,16 @@ Component.register('swag-cms-extensions-section-scroll-behavior-config', {
             return this.section.extensions.swagCmsExtensionsScrollNavigation !== undefined;
         },
 
-        scrollNavigation() {
+        swagCmsExtensionsScrollNavigation() {
             if (this.scrollNavigationExtensionDefined) {
                 return this.section.extensions.swagCmsExtensionsScrollNavigation;
             }
             return this.scrollNavigationRepository.create(Shopware.Context.api);
-        }
+        },
+
+        ...mapPropertyErrors('swagCmsExtensionsScrollNavigation', [
+            'displayName'
+        ])
     },
 
     methods: {
@@ -48,7 +53,7 @@ Component.register('swag-cms-extensions-section-scroll-behavior-config', {
             setReactive(
                 this.section.extensions,
                 'swagCmsExtensionsScrollNavigation',
-                this.scrollNavigation
+                this.swagCmsExtensionsScrollNavigation
             );
             this.$emit('section-change', this.section);
         }

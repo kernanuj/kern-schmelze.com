@@ -8,12 +8,12 @@
 namespace Swag\CmsExtensions\Extension;
 
 use Shopware\Core\Content\Cms\Aggregate\CmsSection\CmsSectionDefinition;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityExtensionInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityExtension;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\OneToOneAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Swag\CmsExtensions\ScrollNavigation\ScrollNavigationDefinition;
 
-class CmsSectionEntityExtension implements EntityExtensionInterface
+class CmsSectionEntityExtension extends EntityExtension
 {
     public const SCROLL_NAVIGATION_ASSOCIATION_PROPERTY_NAME = 'swagCmsExtensionsScrollNavigation';
 

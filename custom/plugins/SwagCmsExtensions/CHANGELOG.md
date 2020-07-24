@@ -1,3 +1,9 @@
+# 1.5.0
+- PT-11676 - Add error visualization for section settings
+- PT-11919 - Shopware 6.3 compatibility
+- PT-11935 - Removed SnippetFiles to use generic core logic
+- PT-11952 - Fix animated scrolling activation via Administration
+
 # 1.4.0
 - PT-11317 - Fix switching variants in QuickView
 - PT-11462 - Add automated e2e testing
@@ -7,7 +13,7 @@
 - PT-11655 - Re-adjusted anchor position of a navigation point
 
 # 1.3.0
-- PT-11604 - 6.2 Compatibility
+- PT-11604 - Shopware 6.2 compatibility
 - PT-11604 - Added Psalm integration
 
 # 1.2.0

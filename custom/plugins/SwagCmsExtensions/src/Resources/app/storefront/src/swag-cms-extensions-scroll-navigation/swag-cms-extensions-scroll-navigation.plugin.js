@@ -94,7 +94,9 @@ export default class SwagCmsExtensionsScrollNavigation extends Plugin {
         this.anchoredSections = anchoredSections;
         this.navigationList = DomAccess.querySelector(this.sidebar, this.options.navigationListSelector);
 
-        this.enableSmoothScrolling(this.navigationList);
+        if (this.options.pageSettings.active === true) {
+            this.enableSmoothScrolling(this.navigationList);
+        }
         this.registerObserver(anchoredSections);
     }
 

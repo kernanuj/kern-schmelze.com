@@ -8,12 +8,12 @@
 namespace Swag\CmsExtensions\Extension;
 
 use Shopware\Core\Content\Cms\Aggregate\CmsBlock\CmsBlockDefinition;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityExtensionInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityExtension;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\OneToOneAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Swag\CmsExtensions\Quickview\QuickviewDefinition;
 
-class CmsBlockEntityExtension implements EntityExtensionInterface
+class CmsBlockEntityExtension extends EntityExtension
 {
     public const QUICKVIEW_ASSOCIATION_PROPERTY_NAME = 'swagCmsExtensionsQuickview';
 

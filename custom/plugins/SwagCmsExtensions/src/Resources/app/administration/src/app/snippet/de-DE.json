@@ -1,5 +1,10 @@
 {
     "swag-cms-extensions": {
+        "error-codes": {
+            "SWAG_SCROLL_NAVIGATION_EMPTY_FIELD_WHEN_ACTIVE_ERROR": "Dieses Feld darf nicht leer sein, wenn der Navigationspunkt aktiv ist.",
+            "SWAG_SCROLL_NAVIGATION_FIELD_TOO_LONG_ERROR": "Die maximale Länge dieses Feldes wurde überschritten.",
+            "SWAG_SCROLL_NAVIGATION_DUPLICATE_VALUE_ERROR": "Dieses Feld hat einen Wert, der bereits verwendet wird."
+        },
         "sw-cms": {
             "detail": {
                 "quickview": {

@@ -1,4 +1,7 @@
+import { ERRORS } from '../../../../../constant/swag-cms-extensions.constant';
+
 const { Component, State, Filter } = Shopware;
+const { ShopwareError } = Shopware.Classes;
 
 Component.override('sw-cms-detail', {
     inject: [
@@ -51,7 +54,11 @@ Component.override('sw-cms-detail', {
                 currentName = currentScrollNavigation.displayName;
             }
 
-            if ((currentScrollNavigation.active && currentName.length === 0) || currentName.length > 255) {
+            const nameTooLong = currentName.length > 255;
+            if ((currentScrollNavigation.active && currentName.length === 0) || nameTooLong) {
+                const code = nameTooLong ? ERRORS.SECTION.FIELD_TOO_LONG : ERRORS.SECTION.EMPTY_FIELD_WHEN_ACTIVE;
+
+                this.commitApiError(section, 'displayName', code);
                 this.onInvalidLength(section, currentName);
 
                 return true;
@@ -62,6 +69,7 @@ Component.override('sw-cms-detail', {
             }
 
             if (this.occuredDisplayNames.includes(currentName)) {
+                this.commitApiError(section, 'displayName', ERRORS.SECTION.DUPLICATE_VALUE);
                 this.onInvalidDisplayName(section, currentName);
 
                 return true;
@@ -98,6 +106,16 @@ Component.override('sw-cms-detail', {
                 title: this.$tc('global.default.error'),
                 message
             });
+        },
+
+        commitApiError(section, property, code) {
+            const expression = `swag_cms_extensions_scroll_navigation.${this.getScrollNavigation(section).id}.${property}`;
+            const error = new ShopwareError({
+                code,
+                detail: this.$tc(`swag-cms-extensions.error-codes.${code}`)
+            });
+
+            State.commit('error/addApiError', { expression, error });
         },
 
         selectSection(section) {

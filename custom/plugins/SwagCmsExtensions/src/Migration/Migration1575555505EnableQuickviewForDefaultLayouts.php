@@ -7,7 +7,6 @@
 
 namespace Swag\CmsExtensions\Migration;
 
-use DateTime;
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Migration\MigrationStep;
@@ -35,7 +34,7 @@ class Migration1575555505EnableQuickviewForDefaultLayouts extends MigrationStep
                 'id' => Uuid::randomBytes(),
                 'cms_block_id' => $block['id'],
                 'active' => 1,
-                'created_at' => (new DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
+                'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT),
             ];
 
             $connection->insert('swag_cms_extensions_quickview', $quickview);

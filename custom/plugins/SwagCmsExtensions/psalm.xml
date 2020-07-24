@@ -24,18 +24,7 @@
             </errorLevel>
         </MoreSpecificImplementedParamType>
 
-        <!-- ToDo: Remove with Shopware 6.3.0 -->
-        <DeprecatedInterface>
-            <errorLevel type="info">
-                <file name="src/Extension/CmsBlockEntityExtension.php"/>
-                <file name="src/Extension/CmsPageEntityExtension.php"/>
-                <file name="src/Extension/CmsSectionEntityExtension.php"/>
-                <file name="src/Extension/LanguageExtension.php"/>
-            </errorLevel>
-        </DeprecatedInterface>
-
         <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
-
         <PropertyNotSetInConstructor errorLevel="info"/>
         <MissingConstructor errorLevel="info"/>
     </issueHandlers>

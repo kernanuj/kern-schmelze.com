@@ -3,7 +3,7 @@
 
         {% block swag_cms_extensions_sidebar_section_scroll_behavior_config_anchor_switch %}
             <sw-switch-field
-                v-model="scrollNavigation.active"
+                v-model="swagCmsExtensionsScrollNavigation.active"
                 class="scroll-navigation__anchor-switch"
                 :label="$tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.anchorSwitch')"
                 @change="scrollNavigationActiveChanged">
@@ -12,10 +12,11 @@
 
         {% block swag_cms_extensions_sidebar_section_scroll_behavior_config_anchor_title %}
             <sw-text-field
-                v-model="scrollNavigation.displayName"
+                v-model="swagCmsExtensionsScrollNavigation.displayName"
                 class="scroll-navigation__anchor-title"
                 :label="$tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.anchorTitle')"
                 :helpText="$tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.anchorTitleHelpText')"
+                :error="swagCmsExtensionsScrollNavigationDisplayNameError"
                 @change="scrollNavigationActiveChanged">
             </sw-text-field>
         {% endblock %}

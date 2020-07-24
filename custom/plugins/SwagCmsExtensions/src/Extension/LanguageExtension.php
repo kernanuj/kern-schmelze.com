@@ -7,13 +7,13 @@
 
 namespace Swag\CmsExtensions\Extension;
 
-use Shopware\Core\Framework\DataAbstractionLayer\EntityExtensionInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityExtension;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\OneToManyAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopware\Core\System\Language\LanguageDefinition;
 use Swag\CmsExtensions\ScrollNavigation\Aggregate\ScrollNavigationTranslation\ScrollNavigationTranslationDefinition;
 
-class LanguageExtension implements EntityExtensionInterface
+class LanguageExtension extends EntityExtension
 {
     public function getDefinitionClass(): string
     {
