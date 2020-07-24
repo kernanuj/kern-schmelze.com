@@ -1,3 +1,36 @@
+.main-navigation {
+    background: $white;
+    border-top: 1px solid $ks-lightgray;
+    border-bottom: 1px solid $ks-lightgray;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    .nav {
+        justify-content: left;
+
+        a.main-navigation-link {
+            color: $ks-anthrazit;
+
+            .main-navigation-link-text {
+                border-bottom: 0;
+                padding-bottom: 0;
+                font-weight: 500;
+            }
+
+            &.home-link {
+                //margin-top: -5px;
+                padding-top: 3px;
+                margin-right: 32px;
+                border-right: 1px solid $ks-lightgray;
+
+                .icon {
+                    color: $ks-green;
+                }
+            }
+        }
+    }
+}
+
 .navigation-flyout-link {
     img {
         display: block;
