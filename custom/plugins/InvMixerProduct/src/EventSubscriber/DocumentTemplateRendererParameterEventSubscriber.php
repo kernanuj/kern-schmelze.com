@@ -6,6 +6,8 @@ use InvMixerProduct\Helper\OrderLineItemEntityAccessor;
 use Shopware\Core\Checkout\Document\Event\DocumentTemplateRendererParameterEvent;
 use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemCollection;
 use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity;
+use Shopware\Core\Checkout\Order\OrderEntity;
+use Shopware\Core\Content\MailTemplate\Service\Event\MailBeforeValidateEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 
@@ -15,7 +17,8 @@ class DocumentTemplateRendererParameterEventSubscriber implements EventSubscribe
     public static function getSubscribedEvents(): array
     {
         return [
-            DocumentTemplateRendererParameterEvent::class => 'onDocumentTemplateRendererParameterEvent'
+            DocumentTemplateRendererParameterEvent::class => 'onDocumentTemplateRendererParameterEvent',
+            MailBeforeValidateEvent::class => 'onMailBeforeValidateEvent'
         ];
     }
 
@@ -33,13 +36,32 @@ class DocumentTemplateRendererParameterEventSubscriber implements EventSubscribe
         if (is_null($originalOrder)) {
             return;
         }
-        $root = new OrderLineItemCollection();
-        $this->attachNonAffectedLineItems($originalOrder->getLineItems(), $root);
 
-        $this->attachAffectedLineItems($originalOrder->getLineItems(), $root);
+        $this->reorderLineItemsInOrder($originalOrder);
 
-        $originalOrder->setLineItems($root);
+    }
 
+    /**
+     * Handle e-mail generation grouping parent/child line items
+     *
+     * @param MailBeforeValidateEvent $event
+     */
+    public function onMailBeforeValidateEvent(MailBeforeValidateEvent $event): void
+    {
+        //@todo: could verify that the template matches a template id to make sure that only order related emails are affected
+        //$data = $event->getData();
+
+        $order = $event->getTemplateData()['order'] ?? null;
+        if ($order === null || !$order instanceof OrderEntity) {
+            return;
+        }
+
+        $orderLineItemCollection = $order->getLineItems();
+        if ($orderLineItemCollection === null) {
+            return;
+        }
+
+        $this->reorderLineItemsInOrder($order);
     }
 
     /**
@@ -170,6 +192,19 @@ class DocumentTemplateRendererParameterEventSubscriber implements EventSubscribe
 
         }
         return $items;
+    }
+
+    /**
+     * @param OrderEntity $originalOrder
+     */
+    private function reorderLineItemsInOrder(OrderEntity $originalOrder): void
+    {
+        $root = new OrderLineItemCollection();
+        $this->attachNonAffectedLineItems($originalOrder->getLineItems(), $root);
+
+        $this->attachAffectedLineItems($originalOrder->getLineItems(), $root);
+
+        $originalOrder->setLineItems($root);
     }
 
 }
