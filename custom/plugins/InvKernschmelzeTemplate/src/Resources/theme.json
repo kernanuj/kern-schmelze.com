@@ -5,6 +5,7 @@
      "@Storefront",
      "@Plugins",
      "@InvKernschmelzeTemplate"
+
   ],
   "style": [
     "app/storefront/src/scss/overrides.scss",
