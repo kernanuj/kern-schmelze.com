@@ -1,8 +1,0 @@
-{% block swag_customized_products_option_type_template_htmleditor %}
-    {% set editorProperties = '{
-        "locale": "' ~ app.request.locale ~ '",
-        "placeholder": "' ~ props.placeholder ~ '"
-    }' %}
-
-    {% sw_include customizedProductsOptionTemplatePrefix ~ 'htmleditor/htmleditor.html.twig' with { 'editorProperties': editorProperties } %}
-{% endblock %}

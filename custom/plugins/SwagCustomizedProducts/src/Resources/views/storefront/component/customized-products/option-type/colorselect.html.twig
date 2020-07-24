@@ -1,9 +1,0 @@
-{% block swag_customized_products_option_type_template_colorselect %}
-    <div class="swag-customized-products-option-type-select-wrapper">
-        {% if props.isDropDown %}
-            {% sw_include fileName ~ '/dropdown.html.twig' %}
-        {% else %}
-            {% sw_include fileName ~ '/checkboxes.html.twig' %}
-        {% endif %}
-    </div>
-{% endblock %}
