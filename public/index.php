@@ -14,7 +14,6 @@ use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 use Doctrine\DBAL\Connection;
-
 if (PHP_VERSION_ID < 70200) {
     header('Content-type: text/html; charset=utf-8', true, 503);
 

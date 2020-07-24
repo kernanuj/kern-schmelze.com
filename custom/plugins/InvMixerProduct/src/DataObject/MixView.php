@@ -178,5 +178,18 @@ class MixView
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getTotalItemQuantity(): int
+    {
+        $quantity = 0;
+        foreach ($this->itemCollection->getItems() as $item) {
+            $quantity += $item->getQuantity();
+        }
+
+        return $quantity;
+    }
+
 
 }
