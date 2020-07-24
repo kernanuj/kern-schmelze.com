@@ -1,0 +1,15 @@
+.cms-block-image-text-row-two-columns {
+    .cms-element-text {
+        p {
+            -webkit-letter-spacing: .8px;
+            -moz-letter-spacing: .8px;
+            letter-spacing: .8px;
+
+            .btn {
+                -webkit-letter-spacing: 0;
+                -moz-letter-spacing: 0;
+                letter-spacing: 0;
+            }
+        }
+    }
+}

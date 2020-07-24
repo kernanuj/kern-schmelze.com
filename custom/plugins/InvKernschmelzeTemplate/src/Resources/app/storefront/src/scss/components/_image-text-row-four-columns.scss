@@ -1,0 +1,20 @@
+.cms-block-image-text-row-four-columns {
+    .cms-element-text {
+        p {
+            font-size: 16px;
+            line-height: 22px;
+            text-transform: uppercase;
+            -webkit-letter-spacing: .8px;
+            -moz-letter-spacing: .8px;
+            letter-spacing: .8px;
+
+            .btn {
+                -webkit-letter-spacing: 0;
+                -moz-letter-spacing: 0;
+                letter-spacing: 0;
+                font-size: inherit;
+                line-height: inherit;
+            }
+        }
+    }
+}
