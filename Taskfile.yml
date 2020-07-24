@@ -82,9 +82,12 @@ tasks:
             #- RELEASE_DIR="$(ls -td release-* | head -1)"; rsync -a "{{.WEBSPACE_ROOT_DIR}}$RELEASE_DIR/{{.SHOPWARE_PUBLIC_DIR}}/thumbnail" {{.PERMANENT_SOURCES_DIR}}/thumbnail/
             #- echo '/public/thumbnail synced with /permanent_sources/thumbnail.'
             - rm -rf {{.SOFTWARE_BASE_DIR}}public/thumbnail
-            - echo '{{.SOFTWARE_BASE_DIR}}public/thumbnail deleted.'
-            - ln -s {{.PERMANENT_SOURCES_DIR}}/thumbnail {{.SOFTWARE_BASE_DIR}}public;
-            - echo 'Symlink from {{.SOFTWARE_BASE_DIR}}thumbnail to {{.PERMANENT_SOURCES_DIR}}public/thumbnail created.'
+                - echo '{{.SOFTWARE_BASE_DIR}}public/thumbnail deleted.'
+                - ln -s {{.PERMANENT_SOURCES_DIR}}/thumbnail {{.SOFTWARE_BASE_DIR}}public;
+                - echo 'Symlink from {{.SOFTWARE_BASE_DIR}}thumbnail to {{.PERMANENT_SOURCES_DIR}}public/thumbnail created.'
+
+                - ln -s {{.PERMANENT_SOURCES_DIR}}/var/InvExportLabel {{.SOFTWARE_BASE_DIR}}var;
+                - echo 'Symlink from {{.SOFTWARE_BASE_DIR}}var/InvExportLabel to {{.PERMANENT_SOURCES_DIR}}var/InvExportLabel created.'
 
             - cp {{.PERMANENT_SOURCES_DIR}}/.htaccess {{.SOFTWARE_BASE_DIR}}public
             - echo '.htaccess copied from {{.PERMANENT_SOURCES_DIR}} to {{.SOFTWARE_BASE_DIR}}public'
