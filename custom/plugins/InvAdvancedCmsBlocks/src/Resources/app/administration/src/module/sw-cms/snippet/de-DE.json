@@ -10,6 +10,9 @@
                 },
                 "imageTextGallerySixColumns": {
                     "label": "Sechs Spalten, Bild/Text-Karten"
+                },
+                "imageTextRowFourColumns": {
+                    "label": "Vier Spalten Bild und Text"
                 }
             }
         }

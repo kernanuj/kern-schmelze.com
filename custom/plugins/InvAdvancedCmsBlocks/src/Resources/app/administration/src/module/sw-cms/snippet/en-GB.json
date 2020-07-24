@@ -7,6 +7,12 @@
                 },
                 "imageTextGalleryFourColumns": {
                     "label": "Four Columns, Image/Text-Cards"
+                },
+                "imageTextGallerySixColumns": {
+                    "label": "Six Columns, Cards with Image and Text"
+                },
+                "imageTextRowFourColumns": {
+                    "label": "Four columns, Image and Text"
                 }
             }
         }
