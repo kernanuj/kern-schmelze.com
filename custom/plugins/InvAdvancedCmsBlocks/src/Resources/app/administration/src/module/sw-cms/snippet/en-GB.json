@@ -13,6 +13,9 @@
                 },
                 "imageTextRowFourColumns": {
                     "label": "Four columns, Image and Text"
+                },
+                "imageTextRowFourColumns": {
+                    "label": "Two columns, Image and Text"
                 }
             }
         }

@@ -13,6 +13,9 @@
                 },
                 "imageTextRowFourColumns": {
                     "label": "Vier Spalten Bild und Text"
+                },
+                "imageTextRowTwoColumns": {
+                    "label": "Zwei Spalten Bild und Text"
                 }
             }
         }
