@@ -73,21 +73,17 @@ tasks:
             - rm -rf {{.SOFTWARE_BASE_DIR}}public/media
             - echo '{{.SOFTWARE_BASE_DIR}}public/media deleted'
             - ln -s {{.PERMANENT_SOURCES_DIR}}/media {{.SOFTWARE_BASE_DIR}}public;
-            - echo 'Symlink from {{.SOFTWARE_BASE_DIR}}media to {{.PERMANENT_SOURCES_DIR}}public/media created.'
+            - echo 'Symlink from {{.SOFTWARE_BASE_DIR}}media to {{.PERMANENT_SOURCES_DIR}}/public/media created.'
 
-            #- cp -r {{.PERMANENT_SOURCES_DIR}}/media/ "{{.SOFTWARE_BASE_DIR}}public/"
-            #- echo "Copied /media to it's location."
-
-            # rsync not needed any more because /public/thumbnail dir of live release is a symlink to permanent_sources/thumbnail
-            #- RELEASE_DIR="$(ls -td release-* | head -1)"; rsync -a "{{.WEBSPACE_ROOT_DIR}}$RELEASE_DIR/{{.SHOPWARE_PUBLIC_DIR}}/thumbnail" {{.PERMANENT_SOURCES_DIR}}/thumbnail/
-            #- echo '/public/thumbnail synced with /permanent_sources/thumbnail.'
+            - echo "before deleting thumbs"
             - rm -rf {{.SOFTWARE_BASE_DIR}}public/thumbnail
-                - echo '{{.SOFTWARE_BASE_DIR}}public/thumbnail deleted.'
-                - ln -s {{.PERMANENT_SOURCES_DIR}}/thumbnail {{.SOFTWARE_BASE_DIR}}public;
-                - echo 'Symlink from {{.SOFTWARE_BASE_DIR}}thumbnail to {{.PERMANENT_SOURCES_DIR}}public/thumbnail created.'
+            - echo "after deleting thumbs"
+            - echo '{{.SOFTWARE_BASE_DIR}}public/thumbnail deleted.'
+            - ln -s {{.PERMANENT_SOURCES_DIR}}/thumbnail {{.SOFTWARE_BASE_DIR}}public;
+            - echo 'Symlink from {{.SOFTWARE_BASE_DIR}}thumbnail to {{.PERMANENT_SOURCES_DIR}}public/thumbnail created.'
 
-                - ln -s {{.PERMANENT_SOURCES_DIR}}/var/InvExportLabel {{.SOFTWARE_BASE_DIR}}var;
-                - echo 'Symlink from {{.SOFTWARE_BASE_DIR}}var/InvExportLabel to {{.PERMANENT_SOURCES_DIR}}var/InvExportLabel created.'
+            - ln -s {{.PERMANENT_SOURCES_DIR}}/var/InvExportLabel {{.SOFTWARE_BASE_DIR}}var;
+            - echo 'Symlink from {{.SOFTWARE_BASE_DIR}}var/InvExportLabel to {{.PERMANENT_SOURCES_DIR}}var/InvExportLabel created.'
 
             - cp {{.PERMANENT_SOURCES_DIR}}/.htaccess {{.SOFTWARE_BASE_DIR}}public
             - echo '.htaccess copied from {{.PERMANENT_SOURCES_DIR}} to {{.SOFTWARE_BASE_DIR}}public'
@@ -154,7 +150,3 @@ tasks:
             - echo '-------------------------'
             - echo 'All tasks finished.'
         silent: true
-
-
-
-
