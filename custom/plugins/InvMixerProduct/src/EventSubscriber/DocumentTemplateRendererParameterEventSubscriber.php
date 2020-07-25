@@ -92,7 +92,7 @@ class DocumentTemplateRendererParameterEventSubscriber implements EventSubscribe
         OrderLineItemCollection $root
     ): void {
 
-        $index = $root->count() - 1;
+        $index = $root->count()+1;
         foreach ($originalOrderLineItemCollection->getElements() as $originalOrderLineItem) {
             if (false === OrderLineItemEntityAccessor::isContainsMixContainerProduct($originalOrderLineItem)) {
                 continue;
@@ -108,6 +108,16 @@ class DocumentTemplateRendererParameterEventSubscriber implements EventSubscribe
                 $originalOrderLineItemCollection,
                 $originalOrderLineItem,
                 $index
+            );
+
+            $originalOrderLineItem->setPayload(
+                array_merge(
+                    $originalOrderLineItem->getPayload(),
+                    [
+                        'inv_is_child' => true,
+                        'inv_position' => $index
+                    ]
+                )
             );
 
             $root->add($originalOrderLineItem);
