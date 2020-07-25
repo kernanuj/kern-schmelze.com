@@ -15,9 +15,16 @@
             <call method="setConfigurationProvider">
                 <argument type="service" id="InvExportLabel\Service\ConfigurationProvider"/>
             </call>
+            <call method="setSender">
+                <argument type="service" id="InvExportLabel\Service\LabelSender"/>
+            </call>
             <tag name="console.command"/>
         </service>
 
+        <service id="InvExportLabel\Service\LabelSender">
+            <argument type="service" id="Shopware\Core\Content\MailTemplate\Service\MessageFactory"/>
+            <argument type="service" id="Shopware\Core\Content\MailTemplate\Service\MailSender"/>
+        </service>
         <service id="InvExportLabel\Service\LabelCreator">
             <argument type="service" id="InvExportLabel\Service\OrderSourceProvider"/>
             <argument type="service" id="InvExportLabel\Service\TypeInstanceRegistry"/>

@@ -79,16 +79,19 @@ class ConfigurationProvider
             )
             ->setStoragePerOrderPath(
                 $this->getPerOrderStorageDirectory(Constants::LABEL_TYPE_MIXER_PRODUCT)
+            )
+            ->setSenderEmailAddress(
+                $this->systemConfigService->get('core.mailerSettings.senderAddress')
             );
 
         $configuration->setStoragePerOrderPathNameBuilder(
             function (string $identifier) use ($configuration) {
                 return
-                    $configuration->getStoragePerOrderPath().DIRECTORY_SEPARATOR.
+                    $configuration->getStoragePerOrderPath() . DIRECTORY_SEPARATOR .
                     sprintf(
-                    'Bestellung.%s.Etiketten.pdf',
-                    $identifier
-                );
+                        'Bestellung.%s.Etiketten.pdf',
+                        $identifier
+                    );
             }
         );
 
