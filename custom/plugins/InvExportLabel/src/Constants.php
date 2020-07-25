@@ -15,6 +15,8 @@ final class Constants
 
     public const LABEL_TYPE_MIXER_PRODUCT = 'inv_mixer_product';
 
+    public const SYSTEM_CONFIG_Mixer_PRODUCT_EMAIL_RECIPIENTS = 'InvExportLabel.config.mixerProductEmailRecipients';
+    public const SYSTEM_CONFIG_Mixer_PRODUCT_EMAIL_BODY = 'InvExportLabel.config.mixerProductEmailBody';
     public const SYSTEM_CONFIG_MIXER_PRODUCT_FILTER_ORDER_STATE = 'InvExportLabel.config.mixerProductFilterOrderState';
     public const SYSTEM_CONFIG_MIXER_PRODUCT_BEST_BEFORE_MONTHS = 'InvExportLabel.config.mixerProductBestBeforeMonths';
 
