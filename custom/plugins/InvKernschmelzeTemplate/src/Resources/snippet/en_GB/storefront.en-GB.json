@@ -32,12 +32,16 @@
             }
         },
         "footer": {
-            "paymentMethodsHeadline": "Zahlung & Versand",
             "headlines": {
+                "kernenergieGroupHeadline": "KERNschmelze",
                 "paymentMethodsHeadline": "Payment & delivery",
                 "socialNetworksHeadline": "Social Networks"
             },
-            "freeShippingInfo": "To Germany, Belgium and the Netherlands we ship free of charge with DHL from an order value of 50 Euro (not valid for B2B customers).",
+            "contents": {
+                "kernenergiegroup": "A company of the KERNenergie Group.",
+                "freeShippingInfo": "To Germany, Belgium and the Netherlands we ship free of charge with DHL from an order value of 50 Euro (not valid for B2B customers).",
+                "socialnetworks": "Visit us in the social networks."
+            },
             "CopyrightInfo": "KERNenergie GmbH"
         }
     }
