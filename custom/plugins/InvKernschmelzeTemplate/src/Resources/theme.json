@@ -14,7 +14,8 @@
   ],
   "script": [
     "@Storefront",
-    "app/storefront/dist/storefront/js/inv-kernschmelze-template.js"
+    "app/storefront/dist/storefront/js/inv-kernschmelze-template.js",
+    "app/storefront/dist/storefront/js/sticky-header.js"
   ],
   "asset": [
     "app/storefront/src/assets"

@@ -1,19 +1,22 @@
 $(document).ready(function(){
-    // When the user scrolls the page, execute myFunction
-    window.onscroll = function() {myFunction()};
+    var header = $('.header-wrapper');
 
-    // Get the header
-    var header = jQuery('.header-main');
+    var sticky = header.offset();
+    var stickyTop = sticky.top;
 
-    // Get the offset position of the navbar
-    var sticky = header.offsetTop;
+    $(window).scroll( function(event) {
+        if (!$(".mixer-product-list").length) {
+            invMakeDivSticky(stickyTop);
+        }
+    });
 
-    // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
-    function myFunction() {
-        if (window.pageYOffset > sticky) {
-            header.classList.add("sticky");
+    function invMakeDivSticky(stickyTop) {
+        var scroll = $(window).scrollTop();
+
+        if (scroll > stickyTop) {
+            header.addClass("sticky");
         } else {
-            header.classList.remove("sticky");
+            header.removeClass("sticky");
         }
     }
 });
