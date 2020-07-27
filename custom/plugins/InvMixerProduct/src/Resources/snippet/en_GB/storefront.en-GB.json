@@ -35,7 +35,7 @@
             "remove": "Remove",
             "addToCart": "Add to cart",
             "changeConfig": "Größe, Sorte & Design konfigurieren",
-            "offcanvasSidebarClose": "Wähle hier Deine Zutaten"
+            "offcanvasSidebarClose": "Select your ingredients"
         },
         "placeholders": {
             "mixLabel": "My chocolate",
