@@ -2,6 +2,21 @@
 @import '../abstract/variables';
 
 .mixer-product-list {
+    .flashbags {
+        .alert {
+            background: $inv-mixer-product-alert-background;
+            color: $white;
+            font-weight: 500;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border-radius: 0;
+
+            svg {
+                color: $white;
+            }
+        }
+    }
+
     .col-lg-4 {
         margin-bottom: 30px;
 
