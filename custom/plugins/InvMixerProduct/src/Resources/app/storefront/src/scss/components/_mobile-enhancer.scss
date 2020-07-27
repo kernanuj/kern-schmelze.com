@@ -15,27 +15,40 @@
         min-width: 290px;
         min-height: 30px;
         padding-left: 30px;
-        -webkit-border-radius: 0 0 30px 30px;
-        -moz-border-radius: 0 0 30px 30px;
-        border-radius: 0 0 30px 30px;
         outline: none !important;
-        font-weight: 600;
+        font-weight: 500;
         margin: 0 auto 10px auto;
+        padding: 15px 30px 15px 35px;
+        -webkit-border-radius: 0;
+        text-transform: uppercase;
+        -webkit-letter-spacing: .8px;
+        -moz-letter-spacing: .8px;
+        letter-spacing: .8px;
+
     }
 
     .mix-product-offcanvas-close {
         display: none;
         position: absolute;
-        left: 10px;
-        top: 10px;
-        background: url(../../../bundles/invmixerproduct/storefront/img/button-close.svg) no-repeat center center;
+        left: 0;
+        top: 0;
+        background: $inv-mixer-product-button-add-background-color url(../../../bundles/invmixerproduct/storefront/img/arrow-left-white.svg) no-repeat 15px center;
         background-size: 15px 15px !important;
-        width: 30px;
-        height: 30px;
-        -moz-border-radius: 15px;
-        -webkit-border-radius: 15px;
-        border-radius: 15px;
-        border: 1px solid $black;
+        min-width: 200px;
+        min-height: 30px;
+        color: $white;
+        font-weight: 500;
+        padding: 15px 30px 15px 35px;
+        -webkit-border-radius: 0;
+        text-transform: uppercase;
+        -webkit-letter-spacing: .8px;
+        -moz-letter-spacing: .8px;
+        letter-spacing: .8px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: $inv-mixer-product-button-add-background-hover-color;
+        }
     }
 
     .screen-overlay {
