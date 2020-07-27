@@ -24,7 +24,6 @@ use SwagSocialShopping\Component\Network\NetworkInterface;
 use SwagSocialShopping\Component\Network\NetworkRegistryInterface;
 use SwagSocialShopping\Exception\InvalidNetworkException;
 use SwagSocialShopping\SwagSocialShopping;
-use function get_class;
 
 class SalesChannelTypeRepositoryDecorator implements EntityRepositoryInterface
 {
@@ -95,7 +94,7 @@ class SalesChannelTypeRepositoryDecorator implements EntityRepositoryInterface
 
         foreach ($this->networkRegistry->getNetworks() as $network) {
             if (!($network instanceof NetworkInterface)) {
-                throw new InvalidNetworkException( get_class($network));
+                throw new InvalidNetworkException(\get_class($network));
             }
 
             $salesChannelType = new SalesChannelTypeEntity();

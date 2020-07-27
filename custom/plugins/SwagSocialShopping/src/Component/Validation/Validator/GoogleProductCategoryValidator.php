@@ -17,7 +17,6 @@ use SwagSocialShopping\Component\Validation\NetworkProductValidatorInterface;
 use SwagSocialShopping\Component\Validation\NetworkValidationError;
 use SwagSocialShopping\DataAbstractionLayer\Entity\SocialShoppingSalesChannelEntity;
 use SwagSocialShopping\Installer\CustomFieldInstaller;
-use function in_array;
 
 class GoogleProductCategoryValidator implements NetworkProductValidatorInterface
 {
@@ -25,7 +24,7 @@ class GoogleProductCategoryValidator implements NetworkProductValidatorInterface
 
     public function supports(string $networkName): bool
     {
-        return in_array($networkName, [Facebook::class, Instagram::class, GoogleShopping::class], true);
+        return \in_array($networkName, [Facebook::class, Instagram::class, GoogleShopping::class], true);
     }
 
     public function validate(

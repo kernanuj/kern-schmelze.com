@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace SwagSocialShopping\Component\Validation;
 
-use IteratorAggregate;
 use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
@@ -18,12 +17,11 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use SwagSocialShopping\DataAbstractionLayer\Entity\SocialShoppingSalesChannelEntity;
-use function count;
 
 class NetworkProductValidator
 {
     /**
-     * @var IteratorAggregate|NetworkProductValidatorInterface[]
+     * @var \IteratorAggregate|NetworkProductValidatorInterface[]
      */
     private $validators;
 
@@ -32,7 +30,7 @@ class NetworkProductValidator
      */
     private $socialShoppingErrorRepository;
 
-    public function __construct( IteratorAggregate $validators, EntityRepositoryInterface $socialShoppingErrorRepository)
+    public function __construct(\IteratorAggregate $validators, EntityRepositoryInterface $socialShoppingErrorRepository)
     {
         $this->validators = $validators;
         $this->socialShoppingErrorRepository = $socialShoppingErrorRepository;
@@ -90,7 +88,7 @@ class NetworkProductValidator
 
         $ids = $this->socialShoppingErrorRepository->searchIds($criteria, $context);
 
-        if ( count($ids->getData()) === 0) {
+        if (\count($ids->getData()) === 0) {
             return;
         }
 

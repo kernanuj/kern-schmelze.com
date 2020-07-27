@@ -43,7 +43,8 @@ Component.register('sw-social-shopping-channel-network-base', {
             requiresCurrency: true,
             showValidationOption: true,
             isDisabled: false,
-            productStreamsChecking: true
+            productStreamsChecking: true,
+            disableGenerateByCronjob: false
         };
     },
 
@@ -92,6 +93,24 @@ Component.register('sw-social-shopping-channel-network-base', {
 
         salesChannelRepository() {
             return this.repositoryFactory.create('sales_channel');
+        },
+
+        salesChannelDomainRepository() {
+            return this.repositoryFactory.create('sales_channel_domain');
+        },
+
+        intervalOptions() {
+            const intervals = [
+                0, 120, 300, 600,
+                900, 1800, 3600, 7200,
+                14400, 28800, 43200, 86400,
+                172800, 259200, 345600, 432000,
+                518400, 604800
+            ];
+            return intervals.map((value) => ({
+                id: value,
+                name: this.$tc(`sw-sales-channel.detail.productComparison.intervalLabels.${value}`)
+            }));
         }
     },
 
@@ -177,6 +196,25 @@ Component.register('sw-social-shopping-channel-network-base', {
         },
 
         forceUpdate() {
+            this.$forceUpdate();
+        },
+
+        changeInterval() {
+            const socialShoppingSalesChannel = this.salesChannel.extensions.socialShoppingSalesChannel;
+            this.disableGenerateByCronjob = socialShoppingSalesChannel.configuration.interval === 0;
+
+            if (this.disableGenerateByCronjob) {
+                this.salesChannel.extensions.socialShoppingSalesChannel.configuration.generateByCronjob = false;
+            }
+        },
+
+        onGoogleProductCategoryChanged(value) {
+            let parsedValue = parseInt(value, 10);
+            if (parsedValue <= 0 || Number.isNaN(parsedValue)) {
+                parsedValue = null;
+            }
+
+            this.salesChannel.extensions.socialShoppingSalesChannel.configuration.defaultGoogleProductCategory = parsedValue;
             this.$forceUpdate();
         }
     }

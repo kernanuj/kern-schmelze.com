@@ -28,12 +28,6 @@
             </errorLevel>
         </InvalidReturnType>
 
-        <DeprecatedInterface>
-            <errorLevel type="info">
-                <file name="src/DataAbstractionLayer/Extension/SalesChannelExtension.php"/>
-            </errorLevel>
-        </DeprecatedInterface>
-
         <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
 
         <InternalMethod errorLevel="info"/>

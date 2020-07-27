@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use function get_class;
 
 /**
  * @RouteScope(scopes={"api"})
@@ -75,7 +74,7 @@ class SocialShoppingController extends AbstractController
                 continue;
             }
 
-            $networks[$network->getName()] = get_class($network);
+            $networks[$network->getName()] = \get_class($network);
         }
 
         return new JsonResponse($networks);

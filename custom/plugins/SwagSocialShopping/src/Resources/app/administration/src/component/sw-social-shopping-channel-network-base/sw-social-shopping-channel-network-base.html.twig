@@ -31,13 +31,12 @@
             {% block swag_social_shopping_channel_network_base_input_storefront %}
                 <sw-entity-single-select
                     v-model="socialShoppingStorefrontSalesChannelId"
-                    :label="$tc('swag-social-shopping.networks.base.storefront')"
-                    :criteria="storefrontSalesChannelCriteria"
                     labelProperty="name"
-                    valueProperty="id"
                     entity="sales_channel"
                     required
-                    @input="onStorefrontSelectionChange">
+                    :criteria="storefrontSalesChannelCriteria"
+                    :label="$tc('swag-social-shopping.networks.base.storefront')"
+                    @change="onStorefrontSelectionChange">
                 </sw-entity-single-select>
             {% endblock %}
 
@@ -45,13 +44,12 @@
                 <sw-entity-single-select
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.salesChannelDomainId"
                     required
-                    :label="$tc('swag-social-shopping.networks.base.storefrontDomain')"
-                    :criteria="storefrontSalesChannelDomainCriteria"
                     labelProperty="url"
-                    valueProperty="id"
                     entity="sales_channel_domain"
+                    :criteria="storefrontSalesChannelDomainCriteria"
                     :disabled="!salesChannel.extensions.socialShoppingSalesChannel.salesChannelDomainId && !socialShoppingStorefrontSalesChannelId"
-                    @input="forceUpdate">
+                    :label="$tc('swag-social-shopping.networks.base.storefrontDomain')"
+                    @change="forceUpdate">
                 </sw-entity-single-select>
             {% endblock %}
 
@@ -59,13 +57,12 @@
                 <sw-entity-single-select
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.currencyId"
                     required
-                    :label="$tc('swag-social-shopping.networks.base.storefrontDomainCurrency')"
-                    :criteria="storefrontSalesChannelDomainCurrencyCriteria"
                     labelProperty="name"
-                    valueProperty="id"
                     entity="currency"
+                    :criteria="storefrontSalesChannelDomainCurrencyCriteria"
                     :disabled="!salesChannel.extensions.socialShoppingSalesChannel.currencyId && !salesChannel.extensions.socialShoppingSalesChannel.salesChannelDomainId"
-                    @input="forceUpdate">
+                    :label="$tc('swag-social-shopping.networks.base.storefrontDomainCurrency')"
+                    @change="forceUpdate">
                 </sw-entity-single-select>
             {% endblock %}
 
@@ -73,12 +70,11 @@
                 <sw-entity-single-select
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.productStreamId"
                     v-if="requiresProductStream"
-                    :label="$tc('swag-social-shopping.networks.base.productStream')"
                     labelProperty="name"
-                    valueProperty="id"
                     required
                     entity="product_stream"
-                    @input="forceUpdate"
+                    :label="$tc('swag-social-shopping.networks.base.productStream')"
+                    @change="forceUpdate"
                 >
                 </sw-entity-single-select>
             {% endblock %}

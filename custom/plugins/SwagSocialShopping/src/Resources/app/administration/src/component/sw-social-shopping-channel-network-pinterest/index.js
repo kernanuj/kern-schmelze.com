@@ -19,10 +19,6 @@ Component.extend('sw-social-shopping-channel-network-pinterest', 'sw-social-shop
     },
 
     computed: {
-        salesChannelDomainRepository() {
-            return this.repositoryFactory.create('sales_channel_domain');
-        },
-
         salesChannelProductRepository() {
             return this.repositoryFactory.create('product');
         }

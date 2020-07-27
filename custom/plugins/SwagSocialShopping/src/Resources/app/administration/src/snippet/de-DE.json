@@ -93,7 +93,7 @@
                     "title": "How to: Einrichtung und Verbindung",
                     "description": "Dieser Sales Channel erzeugt einen XML-Feed, den Du bei Google nutzen kannst um Produkte automatisiert in den Katalog zu synchronisieren. Dazu musst Du die Feed-URL bei Google hinterlegen und definieren, wie oft Google den Feed abrufen soll. Weitere Informationen findest Du in dem Step-By-Step-Guide unten."
                 },
-                "stepByStep": "<li>Rufe das <a href=\"merchants.google.com\">Google Merchant Center</a> auf</li><li>Erstelle einen neuen Hauptfeed unter Produkte > Feeds</li><li>Wähle ein Land und eine Sprache</li><li>Benenne den Feed und wähle \"Geplanter Abruf\" aus</li><li>Benenne die Feed-Datei und füge die Export-URL unter \"Datei-URL\" ein</li><li>Danach kannst Du den Feed öffnen und abrufen</li>",
+                "stepByStep": "<li>Rufe das <a href=\"https://merchants.google.com\">Google Merchant Center</a> auf</li><li>Erstelle einen neuen Hauptfeed unter Produkte > Feeds</li><li>Wähle ein Land und eine Sprache</li><li>Benenne den Feed und wähle \"Geplanter Abruf\" aus</li><li>Benenne die Feed-Datei und füge die Export-URL unter \"Datei-URL\" ein</li><li>Danach kannst Du den Feed öffnen und abrufen</li>",
                 "dataFeedLabel": "Data Feed"
             },
             "instagram": {

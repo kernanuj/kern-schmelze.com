@@ -8,7 +8,6 @@
 
 namespace SwagSocialShopping\EventListener;
 
-use RuntimeException;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -26,7 +25,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
-use function in_array;
 
 class DefaultGoogleCategoryEventListener implements EventSubscriberInterface
 {
@@ -68,7 +66,7 @@ class DefaultGoogleCategoryEventListener implements EventSubscriberInterface
                 Uuid::fromBytesToHex($command->getPrimaryKey()['id']),
                 $event->getContext()
             );
-            if (! in_array($network, [Facebook::class, Instagram::class, GoogleShopping::class], true)) {
+            if (!\in_array($network, [Facebook::class, Instagram::class, GoogleShopping::class], true)) {
                 continue;
             }
 
@@ -106,7 +104,7 @@ class DefaultGoogleCategoryEventListener implements EventSubscriberInterface
             return $socialShoppingSalesChannel->getNetwork();
         }
 
-        throw new RuntimeException('Network not specified');
+        throw new \RuntimeException('Network not specified');
     }
 
     private function buildViolation(

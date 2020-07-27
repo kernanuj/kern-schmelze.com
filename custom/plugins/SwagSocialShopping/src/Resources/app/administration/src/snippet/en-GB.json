@@ -96,7 +96,7 @@
                     "title": "How to: Setup and connection",
                     "description": "This sales channel generates an XML feed that you can use on Google to automatically synchronize products into your catalogue. To do this, you have to deposit the feed URL on Google and define how often Google should download the feed. Everything else is explained in the step by step guide below"
                 },
-                "stepByStep": "<li>Open the <a href=\"merchants.google.com\">Google Merchant Center</a></li><li>Create a new Feed in Products > Feeds</li><li>Choose a country and a language</li><li>Name your feed and choose \"scheduled fetches\"</li><li>Name your feed file and paste the export url (below)</li><li>After that, open the feed and click \"fetch now\"</li>",
+                "stepByStep": "<li>Open the <a href=\"https://merchants.google.com\">Google Merchant Center</a></li><li>Create a new Feed in Products > Feeds</li><li>Choose a country and a language</li><li>Name your feed and choose \"scheduled fetches\"</li><li>Name your feed file and paste the export url (below)</li><li>After that, open the feed and click \"fetch now\"</li>",
                 "dataFeedLabel": "Data Feed"
             },
             "instagram": {

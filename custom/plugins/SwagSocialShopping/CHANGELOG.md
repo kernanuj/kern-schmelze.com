@@ -1,3 +1,6 @@
+# 1.2.0
+- PT-11921 - Added compatibility for Shopware 6.3
+
 # 1.1.1
 - PT-11683 - Fix export of products without manufacturer
 

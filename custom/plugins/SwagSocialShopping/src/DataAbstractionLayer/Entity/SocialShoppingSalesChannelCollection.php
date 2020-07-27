@@ -10,13 +10,12 @@ declare(strict_types=1);
 
 namespace SwagSocialShopping\DataAbstractionLayer\Entity;
 
-use Generator;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
 
 /**
  * @method void                                  add(SocialShoppingSalesChannelEntity $entity)
  * @method void                                  set(string $key, SocialShoppingSalesChannelEntity $entity)
- * @method Generator                            getIterator()
+ * @method \Generator                            getIterator()
  * @method SocialShoppingSalesChannelEntity[]    getElements()
  * @method SocialShoppingSalesChannelEntity|null get(string $key)
  * @method SocialShoppingSalesChannelEntity|null first()

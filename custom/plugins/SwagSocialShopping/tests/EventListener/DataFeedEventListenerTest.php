@@ -22,7 +22,6 @@ use Shopware\Core\Framework\Uuid\Uuid;
 use SwagSocialShopping\Component\Network\Facebook;
 use SwagSocialShopping\Component\Network\GoogleShopping;
 use SwagSocialShopping\SwagSocialShopping;
-use function array_slice;
 
 class DataFeedEventListenerTest extends TestCase
 {
@@ -168,7 +167,7 @@ class DataFeedEventListenerTest extends TestCase
         /** @var Connection $connection */
         $connection = $this->getContainer()->get(Connection::class);
 
-        $randomProductIds = implode('|', array_slice(array_column($this->createProducts(), 'id'), 0, 2));
+        $randomProductIds = implode('|', \array_slice(array_column($this->createProducts(), 'id'), 0, 2));
 
         $connection->exec("
             INSERT INTO `product_stream` (`id`, `api_filter`, `invalid`, `created_at`, `updated_at`)

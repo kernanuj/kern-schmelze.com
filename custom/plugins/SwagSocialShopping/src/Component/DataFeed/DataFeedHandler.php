@@ -24,7 +24,6 @@ use SwagSocialShopping\Component\Network\Instagram;
 use SwagSocialShopping\Component\Network\NetworkRegistryInterface;
 use SwagSocialShopping\DataAbstractionLayer\Entity\SocialShoppingSalesChannelEntity;
 use SwagSocialShopping\Exception\SocialShoppingSalesChannelNotFoundException;
-use function is_array;
 
 class DataFeedHandler
 {
@@ -70,7 +69,7 @@ class DataFeedHandler
     {
         $payload = $writeResult->getPayload();
         $primaryKey = $writeResult->getPrimaryKey();
-        $primaryKey = is_array($primaryKey)
+        $primaryKey = \is_array($primaryKey)
             ? $primaryKey['id']
             : $primaryKey;
 

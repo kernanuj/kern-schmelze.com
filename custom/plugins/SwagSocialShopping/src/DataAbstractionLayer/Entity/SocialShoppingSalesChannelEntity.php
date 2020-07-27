@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace SwagSocialShopping\DataAbstractionLayer\Entity;
 
-use DateTimeInterface;
 use Shopware\Core\Content\ProductStream\ProductStreamEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
@@ -78,7 +77,7 @@ class SocialShoppingSalesChannelEntity extends Entity
     protected $isValidating;
 
     /**
-     * @var DateTimeInterface|null
+     * @var \DateTimeInterface|null
      */
     protected $lastValidation;
 
@@ -192,12 +191,12 @@ class SocialShoppingSalesChannelEntity extends Entity
         $this->isValidating = $isValidating;
     }
 
-    public function getLastValidation(): ?DateTimeInterface
+    public function getLastValidation(): ?\DateTimeInterface
     {
         return $this->lastValidation;
     }
 
-    public function setLastValidation(?DateTimeInterface $lastValidation): void
+    public function setLastValidation(?\DateTimeInterface $lastValidation): void
     {
         $this->lastValidation = $lastValidation;
     }

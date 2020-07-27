@@ -8,9 +8,7 @@
 
 namespace SwagSocialShopping\Component\MessageQueue;
 
-use DateTime;
 use Doctrine\DBAL\Connection;
-use Exception;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Content\ProductStream\Service\ProductStreamBuilderInterface;
 use Shopware\Core\Framework\Adapter\Translation\Translator;
@@ -31,7 +29,6 @@ use SwagSocialShopping\Exception\NoLanguageAssignedException;
 use SwagSocialShopping\Exception\NoProductStreamAssignedException;
 use SwagSocialShopping\Exception\SocialShoppingSalesChannelNotFoundException;
 use Symfony\Component\Messenger\MessageBusInterface;
-use function get_class;
 
 class SocialShoppingValidationHandler extends AbstractMessageHandler
 {
@@ -124,7 +121,7 @@ class SocialShoppingValidationHandler extends AbstractMessageHandler
     /**
      * @param SocialShoppingValidation $message
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function handle($message): void
     {
@@ -143,7 +140,7 @@ class SocialShoppingValidationHandler extends AbstractMessageHandler
 
             if ($salesChannelDomain === null) {
                 throw new NoDomainAssignedException(
-                    get_class($socialShoppingSalesChannel),
+                    \get_class($socialShoppingSalesChannel),
                     $socialShoppingSalesChannel->getId()
                 );
             }
@@ -162,7 +159,7 @@ class SocialShoppingValidationHandler extends AbstractMessageHandler
 
             if ($salesChannelDomainLanguage === null) {
                 throw new NoLanguageAssignedException(
-                    get_class($salesChannelDomain),
+                    \get_class($salesChannelDomain),
                     $salesChannelDomain->getId()
                 );
             }
@@ -177,7 +174,7 @@ class SocialShoppingValidationHandler extends AbstractMessageHandler
             $productStreamId = $socialShoppingSalesChannel->getProductStreamId();
             if ($productStreamId === '' || $productStreamId === null) {
                 throw new NoProductStreamAssignedException(
-                    get_class($socialShoppingSalesChannel),
+                    \get_class($socialShoppingSalesChannel),
                     $socialShoppingSalesChannel->getId()
                 );
             }
@@ -213,7 +210,7 @@ class SocialShoppingValidationHandler extends AbstractMessageHandler
                     return;
                 }
             }
-        } catch ( Exception $exception) {
+        } catch (\Exception $exception) {
             $this->logger->error(
                 $exception->getMessage(),
                 [
@@ -274,7 +271,7 @@ class SocialShoppingValidationHandler extends AbstractMessageHandler
                 [
                     'id' => $socialShoppingSalesChannelId,
                     'isValidating' => false,
-                    'lastValidation' => new DateTime(),
+                    'lastValidation' => new \DateTime(),
                 ],
             ],
             Context::createDefaultContext()

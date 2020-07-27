@@ -1,0 +1,31 @@
+{
+    "name": "mwoelk/cookie-accept",
+    "type": "shopware-platform-plugin",
+    "description": "Add option to accept all cookies in Shopware 6",
+    "version": "v1.2.1",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Max Wölk",
+            "role": "Manufacturer",
+            "email": "max@mwoelk.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Mwoelk\\CookieAccept\\": "src/"
+        }
+    },
+    "require": {
+        "shopware/core": "<=6.3",
+        "shopware/storefront": "<=6.3" 
+    },
+    "extra": {
+        "shopware-plugin-class": "Mwoelk\\CookieAccept\\MwoelkCookieAccept",
+        "copyright": "(c) by Max Wölk",
+        "label": {
+            "de-DE": "Button um alle Cookies zu akzeptieren",
+            "en-GB": "Button to accept all cookies"
+        }
+    }
+}

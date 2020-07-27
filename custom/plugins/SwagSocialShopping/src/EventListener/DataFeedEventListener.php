@@ -13,7 +13,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
 use SwagSocialShopping\Component\DataFeed\DataFeedHandler;
 use SwagSocialShopping\SwagSocialShopping;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use function in_array;
 
 class DataFeedEventListener implements EventSubscriberInterface
 {
@@ -52,7 +51,7 @@ class DataFeedEventListener implements EventSubscriberInterface
             && (
                 (
                     isset($writeResult->getPayload()['network'])
-                    && in_array($writeResult->getPayload()['network'], DataFeedHandler::RELEVANT_NETWORKS, true)
+                    && \in_array($writeResult->getPayload()['network'], DataFeedHandler::RELEVANT_NETWORKS, true)
                 )
                 || !empty($writeResult->getPayload()['id'])
             );

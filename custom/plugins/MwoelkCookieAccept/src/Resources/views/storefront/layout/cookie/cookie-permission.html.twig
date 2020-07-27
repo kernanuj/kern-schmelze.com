@@ -1,0 +1,13 @@
+{% sw_extends '@Storefront/storefront/layout/cookie/cookie-permission.html.twig'%}
+
+{% block layout_cookie_permission_inner_button_configuration %}
+	{{ parent() }}
+
+	{% if mwoelkCookiePluginOptions.active %}
+		<span class="js-cookie-accept-all-button">
+			<button type="submit" class="btn btn-primary" data-mwoelk-cookie-plugin data-mwoelk-cookie-plugin-options="{{ mwoelkCookiePluginOptions|json_encode }}" >
+				{{ "cookie.acceptAll"|trans|sw_sanitize }}
+			</button>
+		</span>
+	{% endif %}
+{% endblock %}

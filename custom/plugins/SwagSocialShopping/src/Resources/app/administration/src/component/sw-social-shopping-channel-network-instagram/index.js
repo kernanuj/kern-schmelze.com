@@ -17,24 +17,11 @@ Component.extend('sw-social-shopping-channel-network-instagram', 'sw-social-shop
             socialShoppingSalesChannelDomain: null,
             socialShoppingSalesChannelDomainLoading: false,
             socialShoppingSalesChannelExport: null,
-            socialShoppingSalesChannelExportLoading: false,
-            disableGenerateByCronjob: false
+            socialShoppingSalesChannelExportLoading: false
         };
     },
 
     computed: {
-        getIntervalOptions() {
-            const intervals = [0, 120, 300, 600, 900, 1800, 3600, 7200, 14400, 28800, 43200, 86400, 172800, 259200, 345600, 432000, 518400, 604800];
-            return intervals.map((value) => ({
-                id: value,
-                name: this.$tc(`sw-sales-channel.detail.productComparison.intervalLabels.${value}`)
-            }));
-        },
-
-        salesChannelDomainRepository() {
-            return this.repositoryFactory.create('sales_channel_domain');
-        },
-
         productExportRepository() {
             return this.repositoryFactory.create('product_export');
         }
@@ -57,16 +44,6 @@ Component.extend('sw-social-shopping-channel-network-instagram', 'sw-social-shop
             }
 
             this.generateAccessUrl();
-        },
-
-        onGoogleProductCategoryChanged(value) {
-            let parsedValue = parseInt(value, 10);
-            if (parsedValue <= 0 || Number.isNaN(parsedValue)) {
-                parsedValue = null;
-            }
-
-            this.salesChannel.extensions.socialShoppingSalesChannel.configuration.defaultGoogleProductCategory = parsedValue;
-            this.$forceUpdate();
         },
 
         generateAccessUrl() {
@@ -115,16 +92,6 @@ Component.extend('sw-social-shopping-channel-network-instagram', 'sw-social-shop
 
                 this.generateAccessUrl();
             });
-        },
-
-        changeInterval() {
-            const socialShoppingSalesChannel = this.salesChannel.extensions.socialShoppingSalesChannel;
-            this.disableGenerateByCronjob = socialShoppingSalesChannel.configuration.interval === 0;
-
-            if (this.disableGenerateByCronjob) {
-                this.salesChannel.extensions.socialShoppingSalesChannel.configuration.generateByCronjob = false;
-            }
         }
-
     }
 });

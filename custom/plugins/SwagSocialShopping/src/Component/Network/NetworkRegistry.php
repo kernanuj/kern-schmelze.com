@@ -9,7 +9,6 @@
 namespace SwagSocialShopping\Component\Network;
 
 use SwagSocialShopping\Exception\NetworkNotFoundException;
-use function get_class;
 
 class NetworkRegistry implements NetworkRegistryInterface
 {
@@ -54,7 +53,7 @@ class NetworkRegistry implements NetworkRegistryInterface
         }
         $this->networksByName = [];
         foreach ($this->networks as $network) {
-            $this->networksByName[get_class($network)] = $network;
+            $this->networksByName[\get_class($network)] = $network;
         }
 
         return $this->networksByName;

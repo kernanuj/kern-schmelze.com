@@ -14,7 +14,7 @@
                 <sw-select-number-field
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.configuration.interval"
                     :label="$tc('swag-social-shopping.networks.instagram.interval')"
-                    :options="getIntervalOptions"
+                    :options="intervalOptions"
                     @change="changeInterval">
                 </sw-select-number-field>
             {% endblock %}

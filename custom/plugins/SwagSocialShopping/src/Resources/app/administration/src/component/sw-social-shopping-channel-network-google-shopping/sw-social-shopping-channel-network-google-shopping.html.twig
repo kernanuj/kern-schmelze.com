@@ -14,7 +14,7 @@
             {% block swag_social_shopping_channel_network_google_shopping_interval %}
                 <sw-select-number-field
                     :label="$tc('swag-social-shopping.networks.google-shopping.interval')"
-                    :options="getIntervalOptions"
+                    :options="intervalOptions"
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.configuration.interval"
                     @change="changeInterval">
                 </sw-select-number-field>

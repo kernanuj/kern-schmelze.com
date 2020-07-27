@@ -9,7 +9,6 @@
 namespace Swag\SocialShopping\Test\EventListener;
 
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use Shopware\Core\Content\Product\ProductDefinition;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
@@ -83,7 +82,7 @@ class DefaultGoogleCategoryEventListenerTest extends TestCase
 
         $preWriteValidationEvent = $this->createPreWriteValidationEvent($commands);
 
-        $this->expectException( RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Network not specified');
         $this->createListener()->preValidate($preWriteValidationEvent);
     }
