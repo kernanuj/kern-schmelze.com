@@ -10,16 +10,16 @@
         {% endblock %}
 
         {% block layout_footer_navigation_hotline %}
-            {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/pagelets/footer/payment-methods.html.twig' %}
-
+            {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/pagelets/footer/kernenergie-group.html.twig' %}
+            {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/pagelets/footer/payment-and-delivery.html.twig' %}
             {{ parent() }}
+            {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/pagelets/footer/social-networks.html.twig' %}
         {% endblock %}
     </div>
 {% endblock %}
 
 {% block layout_footer_copyright %}
     <div class="footer-copyright">
-
         {% if "now"|date("Y") > 2020 %}
             {% set copyrightYear = "2020-" ~ "now"|date("Y")  %}
         {% else %}
@@ -27,6 +27,5 @@
         {% endif %}
 
         <p>&copy;{{ copyrightYear }} {{ "InvKernschmelzeTemplate.footer.CopyrightInfo"|trans|sw_sanitize }} | Webdesign & Entwicklung: <a href="https://www.inventivo.de" target="_blank"><img src="https://www.inventivo.de/external-images/stamp-inventivo-grayscale.svg" title="inventivo Webdesign Münster" data-lazy-src="https://www.inventivo.de/external-images/stamp-inventivo-grayscale.svg" class="lazyloaded" data-was-processed="true"><noscript><img src="https://www.inventivo.de/external-images/stamp-inventivo-grayscale.svg" title="inventivo Webdesign Münster" /></noscript></a></p>
-
     </div>
 {% endblock %}

@@ -33,6 +33,10 @@
         },
         "footer": {
             "paymentMethodsHeadline": "Zahlung & Versand",
+            "headlines": {
+                "paymentMethodsHeadline": "Payment & delivery",
+                "socialNetworksHeadline": "Social Networks"
+            },
             "freeShippingInfo": "To Germany, Belgium and the Netherlands we ship free of charge with DHL from an order value of 50 Euro (not valid for B2B customers).",
             "CopyrightInfo": "KERNenergie GmbH"
         }
