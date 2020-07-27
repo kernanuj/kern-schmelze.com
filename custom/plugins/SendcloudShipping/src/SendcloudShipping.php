@@ -4,7 +4,6 @@ namespace Sendcloud\Shipping;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Sendcloud\Shipping\Entity\Config\ConfigEntityRepository;
 use Sendcloud\Shipping\Service\Utility\DatabaseHandler;
 use Sendcloud\Shipping\Service\Utility\ShippingMethodHandler;
@@ -52,7 +51,7 @@ class SendcloudShipping extends Plugin
      * @param UpdateContext $updateContext
      *
      * @throws DBALException
-     * @throws InvalidArgumentException
+     * @throws \Doctrine\DBAL\Exception\InvalidArgumentException
      */
     public function update(UpdateContext $updateContext): void
     {
@@ -77,7 +76,7 @@ class SendcloudShipping extends Plugin
 
     /**
      * @throws DBALException
-     * @throws InvalidArgumentException
+     * @throws \Doctrine\DBAL\Exception\InvalidArgumentException
      */
     private function removeIntegrationConnectTask(): void
     {

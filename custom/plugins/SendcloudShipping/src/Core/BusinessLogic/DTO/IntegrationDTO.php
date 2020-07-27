@@ -2,8 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\BusinessLogic\DTO;
 
-use DateTime;
-
 /**
  * Class IntegrationDTO
  * @package Sendcloud\Shipping\Core\BusinessLogic\DTO
@@ -23,11 +21,11 @@ class IntegrationDTO
      */
     private $system;
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     private $failingSince;
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     private $lastUpdatedAt;
     /**
@@ -55,8 +53,8 @@ class IntegrationDTO
      * @param string $system
      * @param bool $servicePointsEnabled
      * @param string[] $servicePointCarriers
-     * @param DateTime $failingSince
-     * @param DateTime $lastUpdateAt
+     * @param \DateTime $failingSince
+     * @param \DateTime $lastUpdateAt
      * @param bool $webHookActive
      * @param string $webHookUrl
      */
@@ -66,8 +64,8 @@ class IntegrationDTO
         $system,
         $servicePointsEnabled,
         array $servicePointCarriers,
-        DateTime $failingSince = null,
-        DateTime $lastUpdateAt = null,
+        \DateTime $failingSince = null,
+        \DateTime $lastUpdateAt = null,
         $webHookActive = false,
         $webHookUrl = ''
     ) {
@@ -107,7 +105,7 @@ class IntegrationDTO
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getFailingSince()
     {
@@ -115,7 +113,7 @@ class IntegrationDTO
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getLastUpdatedAt()
     {

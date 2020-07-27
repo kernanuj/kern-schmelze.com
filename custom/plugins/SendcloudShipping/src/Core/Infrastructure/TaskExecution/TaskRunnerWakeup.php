@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\Infrastructure\TaskExecution;
 
-use Exception;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Exposed\TaskRunnerStatusStorage as TaskRunnerStatusStorageInterface;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Exposed\TaskRunnerWakeup as TaskRunnerWakeupInterface;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\AsyncProcessStarter;
@@ -56,7 +55,7 @@ class TaskRunnerWakeup implements TaskRunnerWakeupInterface
                     'ExceptionTrace' => $ex->getTraceAsString(),
                 )
             );
-        } catch ( Exception $ex) {
+        } catch (\Exception $ex) {
             Logger::logDebug(
                 'Fail to wakeup task runner. Unexpected error occurred.',
                 'Core',

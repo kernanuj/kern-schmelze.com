@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\BusinessLogic;
 
-use InvalidArgumentException;
 use Sendcloud\Shipping\Core\BusinessLogic\DTO\IntegrationDTO;
 use Sendcloud\Shipping\Core\BusinessLogic\DTO\ShipmentDTO;
 use Sendcloud\Shipping\Core\BusinessLogic\DTO\ShipmentResponseDTO;
@@ -48,7 +47,7 @@ class Proxy implements ProxyInterface
     /**
      * Proxy constructor.
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct()
     {

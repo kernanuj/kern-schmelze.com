@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\Infrastructure\TaskExecution;
 
-use BadMethodCallException;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\Configuration;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\TaskQueueStorage;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Exposed\TaskRunnerWakeup as TaskRunnerWakeupInterface;
@@ -45,8 +44,8 @@ class Queue
      * @param string $context Task execution context. If integration supports multiple accounts (middleware integration) context
      * based on account id should be provided. Failing to do this will result in global task context and unpredictable task execution
      *
-     * @return QueueItem Created queue item
-     * @throws QueueStorageUnavailableException
+     * @return \Sendcloud\Shipping\Core\Infrastructure\TaskExecution\QueueItem Created queue item
+     * @throws \Sendcloud\Shipping\Core\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
      */
     public function enqueue($queueName, Task $task, $context = '')
     {
@@ -109,7 +108,7 @@ class Queue
      *
      * @param QueueItem $queueItem Queue item to finish
      *
-     * @throws QueueStorageUnavailableException
+     * @throws \Sendcloud\Shipping\Core\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException
      */
     public function finish(QueueItem $queueItem)
     {
@@ -170,7 +169,7 @@ class Queue
      * @param QueueItem $queueItem Queue item to fail
      * @param string $failureDescription Verbal description of failure
      *
-     * @throws BadMethodCallException Queue item must be in "in_progress" status for fail method
+     * @throws \BadMethodCallException Queue item must be in "in_progress" status for fail method
      * @throws QueueStorageUnavailableException
      */
     public function fail(QueueItem $queueItem, $failureDescription)
@@ -217,7 +216,7 @@ class Queue
     public function updateProgress(QueueItem $queueItem, $progress)
     {
         if ($queueItem->getStatus() !== QueueItem::IN_PROGRESS) {
-            throw new BadMethodCallException('Progress reported for not started queue item.');
+            throw new \BadMethodCallException('Progress reported for not started queue item.');
         }
 
         $lastExecutionProgress = $queueItem->getLastExecutionProgressBasePoints();
@@ -301,7 +300,7 @@ class Queue
      *
      * @param int $limit Result set limit. By default max 10 earliest queue items will be returned
      *
-     * @return QueueItem[] Found queue item list
+     * @return \Sendcloud\Shipping\Core\Infrastructure\TaskExecution\QueueItem[] Found queue item list
      */
     public function findOldestQueuedItems($limit = 10)
     {
@@ -379,11 +378,11 @@ class Queue
      *
      * @param string $fromStatus
      * @param string $toStatus
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      */
     private function throwIllegalTransitionException($fromStatus, $toStatus)
     {
-        throw new BadMethodCallException(sprintf(
+        throw new \BadMethodCallException(sprintf(
             'Illegal queue item state transition from "%s" to "%s"',
             $fromStatus,
             $toStatus

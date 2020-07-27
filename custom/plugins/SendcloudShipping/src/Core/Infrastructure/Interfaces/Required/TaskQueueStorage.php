@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required;
 
-use DateTime;
 use Sendcloud\Shipping\Core\Infrastructure\TaskExecution\Exceptions\QueueItemSaveException;
 use Sendcloud\Shipping\Core\Infrastructure\TaskExecution\QueueItem;
 
@@ -58,7 +57,7 @@ interface TaskQueueStorage
      *
      * @param int $limit Result set limit. By default max 10 earliest queue items will be returned
      *
-     * @return QueueItem[] Found queue item list
+     * @return \Sendcloud\Shipping\Core\Infrastructure\TaskExecution\QueueItem[] Found queue item list
      */
     public function findOldestQueuedItems($limit = 10);
 
@@ -72,7 +71,7 @@ interface TaskQueueStorage
      * @param int $start From which record index result set should start
      * @param int $limit Max number of records that should be returned (default is 10)
      *
-     * @return QueueItem[] Found queue item list
+     * @return \Sendcloud\Shipping\Core\Infrastructure\TaskExecution\QueueItem[] Found queue item list
      */
     public function findAll(array $filterBy = array(), array $sortBy = array(), $start = 0, $limit = 10);
 
@@ -90,7 +89,7 @@ interface TaskQueueStorage
     /**
      * Deletes queue items older than provided time limit with optional additional simple filters  and limit
      *
-     * @param DateTime $timeBefore Time boundary for delete operation. All queue items older than this time
+     * @param \DateTime $timeBefore Time boundary for delete operation. All queue items older than this time
      *      should be removed
      * @param array $filterBy List of simple search filters, where key is queue item property and value is condition
      *      value for that property. Leave empty for unfiltered removal.
@@ -99,6 +98,6 @@ interface TaskQueueStorage
      *
      * @return int Count of actually removed queue items
      */
-    public function deleteOldItemsBy( DateTime $timeBefore, array $filterBy = array(), array $excludeTypes = array(), $limit = 1000);
+    public function deleteOldItemsBy(\DateTime $timeBefore, array $filterBy = array(), array $excludeTypes = array(), $limit = 1000);
 
 }

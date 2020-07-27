@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Service\Utility;
 
-use InvalidArgumentException;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\ConnectService;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\OrderService;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\Proxy as ProxyInterface;
@@ -149,7 +148,7 @@ class Initializer
             $this->registerInfrastructureServices();
             $this->registerBusinessServices();
             $this->registerEventHandlers();
-        } catch ( InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException $exception) {
             //
         }
     }

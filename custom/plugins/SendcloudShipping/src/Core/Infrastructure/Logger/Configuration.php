@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\Infrastructure\Logger;
 
-use Exception;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\Configuration as ConfigInterface;
 use Sendcloud\Shipping\Core\Infrastructure\ServiceRegister;
 
@@ -85,7 +84,7 @@ class Configuration
         if (empty($this->isDefaultLoggerEnabled)) {
             try {
                 $this->isDefaultLoggerEnabled = $this->getShopConfiguration()->isDefaultLoggerEnabled();
-            } catch ( Exception $ex) {
+            } catch (\Exception $ex) {
                 // Catch if configuration is not set properly and for some reason throws exception
                 // e.g. Client is still not authorized (meaning that configuration is not set) and we want to log something
             }
@@ -115,7 +114,7 @@ class Configuration
         if (!isset($this->minLogLevel)) {
             try {
                 $this->minLogLevel = $this->getShopConfiguration()->getMinLogLevel();
-            } catch ( Exception $ex) {
+            } catch (\Exception $ex) {
                 // Catch if configuration is not set properly and for some reason throws exception
                 // e.g. Client is still not authorized (meaning that configuration is not set) and we want to log something
             }
@@ -143,7 +142,7 @@ class Configuration
         if (empty($this->integrationName)) {
             try {
                 $this->integrationName = $this->getShopConfiguration()->getIntegrationName();
-            } catch ( Exception $ex) {
+            } catch (\Exception $ex) {
                 // Catch if configuration is not set properly and for some reason throws exception
                 // e.g. Client is still not authorized (meaning that configuration is not set) and we want to log something
             }

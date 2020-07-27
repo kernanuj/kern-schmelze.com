@@ -167,7 +167,7 @@ abstract class CompositeTask extends Task
      *
      * @param string $taskKey
      *
-     * @return Task
+     * @return \Sendcloud\Shipping\Core\Infrastructure\TaskExecution\Task
      */
     protected function getSubTask($taskKey)
     {
@@ -192,7 +192,7 @@ abstract class CompositeTask extends Task
     /**
      * Attaches "report progress" and "report alive" events to a sub task.
      *
-     * @param Task $task
+     * @param \Sendcloud\Shipping\Core\Infrastructure\TaskExecution\Task $task
      */
     protected function attachSubTaskEvents(Task $task)
     {

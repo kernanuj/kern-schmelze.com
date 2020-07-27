@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\BusinessLogic\Sync;
 
-use DateTime;
 use Sendcloud\Shipping\Core\Infrastructure\Logger\Logger;
 use Sendcloud\Shipping\Core\Infrastructure\Utility\Exceptions\HttpAuthenticationException;
 use Sendcloud\Shipping\Core\Infrastructure\Utility\Exceptions\HttpCommunicationException;
@@ -123,7 +122,7 @@ class ParcelUpdateTask extends BaseSyncTask
                 $order->setShipmentId($parcel['external_shipment_id']);
             }
 
-            $order->setUpdatedAt( DateTime::createFromFormat("U.u", (float)$this->timestamp / 1000));
+            $order->setUpdatedAt(\DateTime::createFromFormat("U.u", (float)$this->timestamp / 1000));
             $this->getOrderService()->updateOrderStatus($order);
         } else {
             Logger::logError("Order number '{$this->orderNumber}' not found in the system.'");

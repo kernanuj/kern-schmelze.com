@@ -3,7 +3,6 @@
 namespace Sendcloud\Shipping\Service\Business;
 
 use Doctrine\DBAL\DBALException;
-use Exception;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\Configuration;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\Proxy;
 use Sendcloud\Shipping\Core\Infrastructure\Logger\Logger;
@@ -301,7 +300,7 @@ class ConfigurationService implements Configuration
             $configValue = $this->configRepository->getValue('SENDCLOUD_ASYNC_REQUEST_TIMEOUT');
 
             return $configValue ? (int)$configValue : self::ASYNC_PROCESS_TIMEOUT;
-        } catch ( Exception $exception) {
+        } catch (\Exception $exception) {
             Logger::logError(
                 "An error occurred when reading async request timeout from config table: {$exception->getMessage()}",
                 'Integration'
@@ -642,7 +641,7 @@ class ConfigurationService implements Configuration
             $integration = $proxy->getIntegrationById($this->getIntegrationId());
             $this->setCarriers($integration->getServicePointCarriers());
             $this->setServicePointEnabled($integration->isServicePointsEnabled());
-        } catch ( Exception $e) {
+        } catch (\Exception $e) {
             $this->setCarriers([]);
             $this->setServicePointEnabled(false);
             Logger::logError($e->getMessage(), 'Integration');

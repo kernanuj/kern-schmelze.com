@@ -4,7 +4,6 @@ namespace Sendcloud\Shipping\Service\Utility;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Sendcloud\Shipping\Migration\Migration1572012839CreateConfigsTable;
 use Sendcloud\Shipping\Migration\Migration1572012863CreateProcessesTable;
 use Sendcloud\Shipping\Migration\Migration1572012872CreateQueuesTable;
@@ -49,7 +48,7 @@ class DatabaseHandler
 
     /**
      * @throws DBALException
-     * @throws InvalidArgumentException
+     * @throws \Doctrine\DBAL\Exception\InvalidArgumentException
      */
     public function removeIntegrationConnectConnectTask(): void
     {

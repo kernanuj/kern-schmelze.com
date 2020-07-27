@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\Infrastructure\TaskExecution;
 
-use Exception;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\AsyncProcessStarter;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\Configuration;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Exposed\TaskRunnerStatusStorage as TaskRunnerStatusStorageInterface;
@@ -74,7 +73,7 @@ class TaskRunner
             $this->wakeup();
 
             $this->logDebug(array('Message' => 'Task runner: lifecycle ended.'));
-        } catch ( Exception $ex) {
+        } catch (\Exception $ex) {
             $this->logDebug(array(
                 'Message' => 'Fail to run task runner. Unexpected error occurred.',
                 'ExceptionMessage' => $ex->getMessage(),

@@ -2,8 +2,6 @@
 
 namespace Sendcloud\Shipping\Service\Infrastructure;
 
-use DateTime;
-use Exception;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\TaskQueueStorage;
 use Sendcloud\Shipping\Core\Infrastructure\Logger\Logger;
 use Sendcloud\Shipping\Core\Infrastructure\TaskExecution\Exceptions\QueueItemDeserializationException;
@@ -45,7 +43,7 @@ class TaskQueueStorageService implements TaskQueueStorage
     {
         try {
             return $this->queueEntityRepository->save($queueItem->getId(), $this->toArray($queueItem), $additionalWhere);
-        } catch ( Exception $exception) {
+        } catch (\Exception $exception) {
             throw new QueueItemSaveException('Failed to save queue item into database');
         }
     }
@@ -63,7 +61,7 @@ class TaskQueueStorageService implements TaskQueueStorage
             $queueEntity = $this->queueEntityRepository->getById($id);
 
             return $queueEntity ? $this->fromDatabaseEntity($queueEntity) : null;
-        } catch ( Exception $exception) {
+        } catch (\Exception $exception) {
             Logger::logError("Failed to fetch queue item by id from database: {$exception->getMessage()}");
 
             return null;
@@ -85,7 +83,7 @@ class TaskQueueStorageService implements TaskQueueStorage
             $queueEntity = $this->queueEntityRepository->findLatestByType($type);
 
             return $queueEntity ? $this->fromDatabaseEntity($queueEntity) : null;
-        } catch ( Exception $exception) {
+        } catch (\Exception $exception) {
             Logger::logError("Failed to fetch latest queue item by type from database: {$exception->getMessage()}");
 
             return null;
@@ -115,7 +113,7 @@ class TaskQueueStorageService implements TaskQueueStorage
             }
 
             return  $items;
-        } catch ( Exception $exception) {
+        } catch (\Exception $exception) {
             Logger::logError("Failed to find queueItems in database. Search parameters: {$exception->getMessage()}", 'Integration');
 
             return [];
@@ -146,7 +144,7 @@ class TaskQueueStorageService implements TaskQueueStorage
             }
 
             return  $items;
-        } catch ( Exception $exception) {
+        } catch (\Exception $exception) {
             Logger::logError("Failed to find queueItems in database. Search parameters: {$exception->getMessage()}", 'Integration');
 
             return [];
@@ -167,7 +165,7 @@ class TaskQueueStorageService implements TaskQueueStorage
         $deletedRaws = 0;
         try {
             $deletedRaws = $this->queueEntityRepository->deleteByType($type);
-        } catch ( Exception $exception) {
+        } catch (\Exception $exception) {
             Logger::logError("Failed to delete completed queue items: {$exception->getMessage()}", 'Integration');
         }
 
@@ -175,7 +173,7 @@ class TaskQueueStorageService implements TaskQueueStorage
     }
 
     public function deleteOldItemsBy(
-        DateTime $timeBefore,
+        \DateTime $timeBefore,
         array $filterBy = array(),
         array $excludeTypes = array(),
         $limit = 1000
@@ -184,7 +182,7 @@ class TaskQueueStorageService implements TaskQueueStorage
 
         try {
             $deletedRaws = $this->queueEntityRepository->deleteOldItemsBy($timeBefore, $filterBy, $excludeTypes, $limit);
-        } catch ( Exception $exception) {
+        } catch (\Exception $exception) {
             Logger::logError(
                 "Failed to delete old queue items: {$exception->getMessage()}",
                 'Integration',

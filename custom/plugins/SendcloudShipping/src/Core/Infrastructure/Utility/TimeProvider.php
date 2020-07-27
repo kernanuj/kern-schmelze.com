@@ -2,8 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\Infrastructure\Utility;
 
-use DateTime;
-
 /**
  * Class TimeProvider
  * @package Sendcloud\Shipping\Core\Infrastructure\Utility
@@ -15,11 +13,11 @@ class TimeProvider
     /**
      * Gets current time in default server timezone
      *
-     * @return DateTime Current time
+     * @return \DateTime Current time
      */
     public function getCurrentLocalTime()
     {
-        return new DateTime();
+        return new \DateTime();
     }
 
     /**

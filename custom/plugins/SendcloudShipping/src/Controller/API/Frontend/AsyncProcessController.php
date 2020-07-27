@@ -3,7 +3,6 @@
 
 namespace Sendcloud\Shipping\Controller\API\Frontend;
 
-use Exception;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Exposed\Runnable;
 use Sendcloud\Shipping\Core\Infrastructure\Logger\Logger;
 use Sendcloud\Shipping\Entity\Process\ProcessEntityRepository;
@@ -57,7 +56,7 @@ class AsyncProcessController extends AbstractController
             }
 
             $this->processRepository->deleteByGuid($guid);
-        } catch ( Exception $exception) {
+        } catch (\Exception $exception) {
             Logger::logError("Ann error occurred when accessing process table: {$exception->getMessage()}");
         }
 

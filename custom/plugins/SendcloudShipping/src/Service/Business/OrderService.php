@@ -2,8 +2,6 @@
 
 namespace Sendcloud\Shipping\Service\Business;
 
-use DateTime;
-use Exception;
 use Sendcloud\Shipping\Core\BusinessLogic\Entity\Order;
 use Sendcloud\Shipping\Core\BusinessLogic\Entity\OrderItem;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\OrderService as OrderServiceInterface;
@@ -95,7 +93,7 @@ class OrderService implements OrderServiceInterface
         $orderIds = [];
         try {
             $orderIds = $this->orderRepository->getOrderIds();
-        } catch ( Exception $exception) {
+        } catch (\Exception $exception) {
             Logger::logError("An error occurred when fetching order ids from database: {$exception->getMessage()}", 'Integration');
         }
 
@@ -182,7 +180,7 @@ class OrderService implements OrderServiceInterface
                     $this->orderDeliveryRepository->updateDeliveryStatus($id, (string)$stateId, Context::createDefaultContext());
                 }
             }
-        } catch ( Exception $exception) {
+        } catch (\Exception $exception) {
             Logger::logError("Failed to update order status: {$exception->getMessage()}", 'Integration');
         }
     }
@@ -231,7 +229,7 @@ class OrderService implements OrderServiceInterface
      *
      * @return Order
      * @throws InconsistentCriteriaIdsException
-     * @throws Exception
+     * @throws \Exception
      */
     private function buildOrderEntity(OrderEntity $sourceOrder): Order
     {
@@ -294,7 +292,7 @@ class OrderService implements OrderServiceInterface
         }
         /** @var OrderLineItemEntity $sourceItem */
         foreach ($sourceItems as $sourceItem) {
-            if ($sourceItem->getType() === 'promotion') {
+            if ($sourceItem->getType() !== 'product') {
                 continue;
             }
 
@@ -448,14 +446,14 @@ class OrderService implements OrderServiceInterface
      * @param OrderEntity $sourceOrder
      * @param Order $order
      *
-     * @throws Exception
+     * @throws \Exception
      */
     private function setDates(OrderEntity $sourceOrder, Order $order): void
     {
-        $createdAt = $sourceOrder->getCreatedAt() ?: new DateTime();
-        $order->setCreatedAt(new DateTime("@{$createdAt->getTimestamp()}"));
+        $createdAt = $sourceOrder->getCreatedAt() ?: new \DateTime();
+        $order->setCreatedAt(new \DateTime("@{$createdAt->getTimestamp()}"));
         $updatedAt = $sourceOrder->getUpdatedAt() ?: $createdAt;
-        $order->setUpdatedAt(new DateTime("@{$updatedAt->getTimestamp()}"));
+        $order->setUpdatedAt(new \DateTime("@{$updatedAt->getTimestamp()}"));
     }
 
     /**

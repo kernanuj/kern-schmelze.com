@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Controller\API\Backend;
 
-use Exception;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\ConnectService;
 use Sendcloud\Shipping\Core\BusinessLogic\Sync\InitialSyncTask;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\Configuration;
@@ -65,7 +64,7 @@ class RouterController extends AbstractController
      *
      * @return JsonApiResponse
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function handle(): JsonApiResponse
     {

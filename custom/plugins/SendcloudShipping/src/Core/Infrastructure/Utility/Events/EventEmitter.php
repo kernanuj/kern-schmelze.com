@@ -25,7 +25,7 @@ abstract class EventEmitter
     /**
      * Fires requested event by calling all its registered handlers
      *
-     * @param Event $event Event to fire
+     * @param \Sendcloud\Shipping\Core\Infrastructure\Utility\Events\Event $event Event to fire
      *
      * @return void
      */

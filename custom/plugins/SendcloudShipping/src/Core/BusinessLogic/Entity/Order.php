@@ -2,8 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\BusinessLogic\Entity;
 
-use DateTime;
-
 /**
  * Class Order
  * @package Sendcloud\Shipping\Core\BusinessLogic\Entity
@@ -114,11 +112,11 @@ class Order
      */
     private $totalValue = 0.0;
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     private $createdAt;
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     private $updatedAt;
     /**
@@ -636,7 +634,7 @@ class Order
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -644,7 +642,7 @@ class Order
     }
 
     /**
-     * @param DateTime $createdAt
+     * @param \DateTime $createdAt
      */
     public function setCreatedAt($createdAt)
     {
@@ -652,7 +650,7 @@ class Order
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -660,7 +658,7 @@ class Order
     }
 
     /**
-     * @param DateTime $updatedAt
+     * @param \DateTime $updatedAt
      */
     public function setUpdatedAt($updatedAt)
     {

@@ -2,13 +2,11 @@
 
 namespace Sendcloud\Shipping\Core\Infrastructure\Interfaces\Exposed;
 
-use Serializable;
-
 /**
  * Interface Runnable
  * @package Sendcloud\Shipping\Core\Infrastructure\Interfaces\Exposed
  */
-interface Runnable extends Serializable
+interface Runnable extends \Serializable
 {
     /**
      * Starts runnable run logic

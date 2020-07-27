@@ -2,28 +2,24 @@
 
 namespace Sendcloud\Shipping\Core\Infrastructure\TaskExecution;
 
-use DateTime;
-use InvalidArgumentException;
-use RuntimeException;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\Configuration;
 use Sendcloud\Shipping\Core\Infrastructure\ServiceRegister;
 use Sendcloud\Shipping\Core\Infrastructure\TaskExecution\TaskEvents\AliveAnnouncedTaskEvent;
 use Sendcloud\Shipping\Core\Infrastructure\TaskExecution\TaskEvents\ProgressedTaskEvent;
 use Sendcloud\Shipping\Core\Infrastructure\Utility\Events\EventEmitter;
 use Sendcloud\Shipping\Core\Infrastructure\Utility\TimeProvider;
-use Serializable;
 
 /**
  * Class Task
  * @package Sendcloud\Shipping\Core\Infrastructure\TaskExecution
  */
-abstract class Task extends EventEmitter implements Serializable
+abstract class Task extends EventEmitter implements \Serializable
 {
     /** Max inactivity period for a task in seconds */
     const MAX_INACTIVITY_PERIOD = 300;
     /** Minimal number of seconds that must pass between two alive signals */
     const ALIVE_SIGNAL_FREQUENCY = 2;
-    /** @var DateTime */
+    /** @var \DateTime */
     private $lastAliveSignalTime;
     /** @var Configuration */
     private $configService;
@@ -61,12 +57,12 @@ abstract class Task extends EventEmitter implements Serializable
      * 100 that immediately will be converted to base points. One base point is equal to 0.01%. For example 23.58% is
      * equal to 2358 base points
      *
-     * @throws InvalidArgumentException In case when progress percent is outside of 0 - 100 boundaries or not an float
+     * @throws \InvalidArgumentException In case when progress percent is outside of 0 - 100 boundaries or not an float
      */
     public function reportProgress($progressPercent)
     {
         if (!is_int($progressPercent) && !is_float($progressPercent)) {
-            throw new InvalidArgumentException('Progress percentage must be value integer or float value');
+            throw new \InvalidArgumentException('Progress percentage must be value integer or float value');
         }
 
         /** @var TimeProvider $timeProvider */
@@ -126,7 +122,7 @@ abstract class Task extends EventEmitter implements Serializable
         $name = end($namespaceParts);
 
         if ($name === 'Task') {
-            throw new RuntimeException('Constant CLASS_NAME not defined in class ' . get_called_class());
+            throw new \RuntimeException('Constant CLASS_NAME not defined in class ' . get_called_class());
         }
 
         return $name;

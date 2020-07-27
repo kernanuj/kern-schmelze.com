@@ -3,7 +3,6 @@
 namespace Sendcloud\Shipping\Controller\API\Backend;
 
 use Doctrine\DBAL\DBALException;
-use Exception;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\Configuration;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\TaskQueueStorage;
 use Sendcloud\Shipping\Core\Infrastructure\Logger\Logger;
@@ -102,7 +101,7 @@ class SupportController extends AbstractController
                 'PHP_CURL_LIBRARY' => function_exists('curl_version'),
                 'QUEUE_ITEMS' => $this->getQueueItems(),
             ];
-        } catch ( Exception $exception) {
+        } catch (\Exception $exception) {
             Logger::logError("An error occurred when fetching configuration: {$exception->getMessage()}", 'Integration');
             $data = ['error' => $exception->getMessage()];
         }
@@ -177,7 +176,7 @@ class SupportController extends AbstractController
             }
 
             return new JsonApiResponse(['message' => 'Successfully updated config values!']);
-        } catch ( Exception $exception) {
+        } catch (\Exception $exception) {
             return new JsonApiResponse(['error' => $exception->getMessage()]);
         }
     }

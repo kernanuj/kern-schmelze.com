@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\Infrastructure\TaskExecution\TaskEvents;
 
-use InvalidArgumentException;
 use Sendcloud\Shipping\Core\Infrastructure\Utility\Events\Event;
 
 /**
@@ -22,12 +21,12 @@ class ProgressedTaskEvent extends Event
      * @param int $progressPercentBasePoints Integer representation of progress percentage in base points, as value between 0 and
      * 10000. One base point is equal to 0.01%. For example 23.58% is equal to 2358 base points.
      *
-     * @throws InvalidArgumentException In case when progress percent is outside of 0 - 100 boundaries or not an integer
+     * @throws \InvalidArgumentException In case when progress percent is outside of 0 - 100 boundaries or not an integer
      */
     public function __construct($progressPercentBasePoints)
     {
         if (!is_int($progressPercentBasePoints) || $progressPercentBasePoints < 0 || 10000 < $progressPercentBasePoints) {
-            throw new InvalidArgumentException('Progress percentage must be value between 0 and 100.');
+            throw new \InvalidArgumentException('Progress percentage must be value between 0 and 100.');
         }
 
         $this->progressPercentBasePoints = $progressPercentBasePoints;

@@ -2,8 +2,6 @@
 
 namespace Sendcloud\Shipping\Entity\Order;
 
-use DateInterval;
-use DateTime;
 use Shopware\Core\Checkout\Order\OrderCollection;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
@@ -44,7 +42,7 @@ class OrderRepository
     public function getOrderIds(): array
     {
         $criteria = new Criteria();
-        $fromDate = (new DateTime())->sub(new DateInterval('P30D'));
+        $fromDate = (new \DateTime())->sub(new \DateInterval('P30D'));
 
         $criteria->addFilter(new RangeFilter('orderDateTime', ['gte' => $fromDate->format(DATE_ATOM)]));
 

@@ -2,8 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\Infrastructure\TaskExecution;
 
-use DateTime;
-use InvalidArgumentException;
 use Sendcloud\Shipping\Core\Infrastructure\Logger\Logger;
 use Sendcloud\Shipping\Core\Infrastructure\ServiceRegister;
 use Sendcloud\Shipping\Core\Infrastructure\TaskExecution\Exceptions\QueueItemDeserializationException;
@@ -57,25 +55,25 @@ class QueueItem
     /** @var string */
     private $failureDescription;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     private $createTime;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     private $startTime;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     private $finishTime;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     private $failTime;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     private $earliestStartTime;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     private $queueTime;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     private $lastUpdateTime;
 
     /** @var TimeProvider */
@@ -143,7 +141,7 @@ class QueueItem
     public function setStatus($status)
     {
         if (!in_array($status, array(self::CREATED, self::QUEUED, self::IN_PROGRESS, self::COMPLETED, self::FAILED))) {
-            throw new InvalidArgumentException(sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'Invalid QueueItem status: "%s". Status must be one of "%s", "%s", "%s", "%s" or "%s" values.',
                 $status,
                 self::CREATED,
@@ -197,7 +195,7 @@ class QueueItem
     public function setLastExecutionProgressBasePoints($lastExecutionProgressBasePoints)
     {
         if (!is_int($lastExecutionProgressBasePoints) || $lastExecutionProgressBasePoints < 0 || 10000 < $lastExecutionProgressBasePoints) {
-            throw new InvalidArgumentException('Last execution progress percentage must be value between 0 and 100.');
+            throw new \InvalidArgumentException('Last execution progress percentage must be value between 0 and 100.');
         }
 
         $this->lastExecutionProgressBasePoints = $lastExecutionProgressBasePoints;
@@ -233,7 +231,7 @@ class QueueItem
     public function setProgressBasePoints($progressBasePoints)
     {
         if (!is_int($progressBasePoints) || $progressBasePoints < 0 || 10000 < $progressBasePoints) {
-            throw new InvalidArgumentException('Progress percentage must be value between 0 and 100.');
+            throw new \InvalidArgumentException('Progress percentage must be value between 0 and 100.');
         }
 
         $this->progressBasePoints = $progressBasePoints;
@@ -377,7 +375,7 @@ class QueueItem
      */
     public function setCreateTimestamp($createTimestamp)
     {
-        $this->createTime = !empty($createTimestamp) ? new DateTime("@{$createTimestamp}") : null;
+        $this->createTime = !empty($createTimestamp) ? new \DateTime("@{$createTimestamp}") : null;
     }
 
     /**
@@ -397,7 +395,7 @@ class QueueItem
      */
     public function setStartTimestamp($startTimestamp)
     {
-        $this->startTime = !empty($startTimestamp) ? new DateTime("@{$startTimestamp}") : null;
+        $this->startTime = !empty($startTimestamp) ? new \DateTime("@{$startTimestamp}") : null;
     }
 
     /**
@@ -417,7 +415,7 @@ class QueueItem
      */
     public function setFinishTimestamp($finishTimestamp)
     {
-        $this->finishTime = !empty($finishTimestamp) ? new DateTime("@{$finishTimestamp}") : null;
+        $this->finishTime = !empty($finishTimestamp) ? new \DateTime("@{$finishTimestamp}") : null;
     }
 
     /**
@@ -437,7 +435,7 @@ class QueueItem
      */
     public function setFailTimestamp($failTimestamp)
     {
-        $this->failTime = !empty($failTimestamp) ? new DateTime("@{$failTimestamp}") : null;
+        $this->failTime = !empty($failTimestamp) ? new \DateTime("@{$failTimestamp}") : null;
     }
 
     /**
@@ -457,7 +455,7 @@ class QueueItem
      */
     public function setEarliestStartTimestamp($earliestStartTimestamp)
     {
-        $this->earliestStartTime = !empty($earliestStartTimestamp) ? new DateTime("@{$earliestStartTimestamp}") : null;
+        $this->earliestStartTime = !empty($earliestStartTimestamp) ? new \DateTime("@{$earliestStartTimestamp}") : null;
     }
 
     /**
@@ -477,7 +475,7 @@ class QueueItem
      */
     public function setQueueTimestamp($queueTimestamp)
     {
-        $this->queueTime = !empty($queueTimestamp) ? new DateTime("@{$queueTimestamp}") : null;
+        $this->queueTime = !empty($queueTimestamp) ? new \DateTime("@{$queueTimestamp}") : null;
     }
 
     /**
@@ -513,7 +511,7 @@ class QueueItem
      */
     public function setLastUpdateTimestamp($lastUpdateTimestamp)
     {
-        $this->lastUpdateTime = !empty($lastUpdateTimestamp) ? new DateTime("@{$lastUpdateTimestamp}") : null;
+        $this->lastUpdateTime = !empty($lastUpdateTimestamp) ? new \DateTime("@{$lastUpdateTimestamp}") : null;
     }
 
     /**
@@ -542,11 +540,11 @@ class QueueItem
     /**
      * Gets timestamp of time or null if time is not defined
      *
-     * @param DateTime|null $time
+     * @param \DateTime|null $time
      *
      * @return int|null
      */
-    private function getTimestamp( DateTime $time = null)
+    private function getTimestamp(\DateTime $time = null)
     {
         return !empty($time) ? $time->getTimestamp() : null;
     }

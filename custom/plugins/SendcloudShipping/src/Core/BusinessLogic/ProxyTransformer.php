@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\BusinessLogic;
 
-use DateTime;
 use Sendcloud\Shipping\Core\BusinessLogic\DTO\IntegrationDTO;
 use Sendcloud\Shipping\Core\BusinessLogic\DTO\ShipmentDTO;
 use Sendcloud\Shipping\Core\BusinessLogic\DTO\ShipmentResponseDTO;
@@ -232,12 +231,12 @@ class ProxyTransformer
     {
         $failingSince = null;
         if (!empty($integration['failing_since'])) {
-            $failingSince = DateTime::createFromFormat(self::DATE_FORMAT, $integration['failing_since']);
+            $failingSince = \DateTime::createFromFormat(self::DATE_FORMAT, $integration['failing_since']);
         }
 
         $lastUpdateAt = null;
         if (!empty($integration['last_updated_at'])) {
-            $lastUpdateAt = DateTime::createFromFormat(self::DATE_FORMAT, $integration['last_updated_at']);
+            $lastUpdateAt = \DateTime::createFromFormat(self::DATE_FORMAT, $integration['last_updated_at']);
         }
 
         return new IntegrationDTO(
@@ -282,8 +281,8 @@ class ProxyTransformer
         $order->setEmail($shipment['email']);
         $order->setCustomerName($shipment['name']);
         $order->setCheckoutShippingName($shipment['shipping_method_checkout_name']);
-        $order->setCreatedAt( DateTime::createFromFormat(self::DATE_FORMAT, $shipment['created_at']));
-        $order->setUpdatedAt( DateTime::createFromFormat(self::DATE_FORMAT, $shipment['updated_at']));
+        $order->setCreatedAt(\DateTime::createFromFormat(self::DATE_FORMAT, $shipment['created_at']));
+        $order->setUpdatedAt(\DateTime::createFromFormat(self::DATE_FORMAT, $shipment['updated_at']));
         $order->setCountryCode($shipment['country']);
         $order->setSendCloudStatus(isset($shipment['status']['message']) ? $shipment['status']['message'] : null);
         $order->setCompanyName($shipment['company_name']);

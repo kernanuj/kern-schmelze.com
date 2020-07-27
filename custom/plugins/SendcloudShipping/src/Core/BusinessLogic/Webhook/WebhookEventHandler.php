@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\BusinessLogic\Webhook;
 
-use Exception;
 use Sendcloud\Shipping\Core\BusinessLogic\DTO\WebhookDTO;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\Configuration;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\Configuration as BaseConfiguration;
@@ -34,7 +33,7 @@ class WebhookEventHandler
      * @param WebhookDTO $webhookDTO SendCloud webhook DTO.
      *
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      * @see https://docs.sendcloud.sc/api/v2/shipping/#webhooks
      */
     public function handle(WebhookDTO $webhookDTO)
@@ -92,7 +91,7 @@ class WebhookEventHandler
                 $webhookDTO->getContext()
             );
 
-        } catch ( Exception $e) {
+        } catch (\Exception $e) {
             Logger::logError($e->getMessage(), 'Integration');
             return false;
         }
@@ -117,7 +116,7 @@ class WebhookEventHandler
             $webhookIntegration = $this->getWebhookHelper()->parseIntegrationPayload($webhookDTO->getBody());
             $this->getConfiguration()->setServicePointEnabled($webhookIntegration->isServicePointsEnabled());
             $this->getConfiguration()->setCarriers($webhookIntegration->getCarriers());
-        } catch ( Exception $e) {
+        } catch (\Exception $e) {
             Logger::logError($e->getMessage(), 'Integration');
             return false;
         }
@@ -175,7 +174,7 @@ class WebhookEventHandler
                 $connectService->initializeConnection($credentials);
             }
 
-        } catch ( Exception $e) {
+        } catch (\Exception $e) {
             Logger::logError($e->getMessage(), 'Integration');
             $this->getConfiguration()->resetAuthorizationCredentials();
             $success = false;

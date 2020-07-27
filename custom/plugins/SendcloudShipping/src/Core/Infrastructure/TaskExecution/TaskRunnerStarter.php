@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Core\Infrastructure\TaskExecution;
 
-use Exception;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Exposed\Runnable;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Exposed\TaskRunnerStatusStorage as TaskRunnerStatusStorageInterface;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Exposed\TaskRunnerWakeup as TaskRunnerWakeupInterface;
@@ -111,7 +110,7 @@ class TaskRunnerStarter implements Runnable
         } catch (TaskRunnerRunException $ex) {
             Logger::logInfo($ex->getMessage());
             Logger::logDebug($ex->getMessage(), 'Core',  array('ExceptionTrace' => $ex->getTraceAsString()));
-        } catch ( Exception $ex) {
+        } catch (\Exception $ex) {
             Logger::logError(
                 'Failed to run task runner. Unexpected error occurred.',
                 'Core',
@@ -131,8 +130,8 @@ class TaskRunnerStarter implements Runnable
     /**
      * Runs task execution
      *
-     * @throws TaskRunnerRunException
-     * @throws TaskRunnerStatusStorageUnavailableException
+     * @throws \Sendcloud\Shipping\Core\Infrastructure\TaskExecution\Exceptions\TaskRunnerRunException
+     * @throws \Sendcloud\Shipping\Core\Infrastructure\TaskExecution\Exceptions\TaskRunnerStatusStorageUnavailableException
      */
     private function doRun()
     {

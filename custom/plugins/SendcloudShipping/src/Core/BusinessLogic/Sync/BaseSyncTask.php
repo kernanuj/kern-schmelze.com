@@ -47,7 +47,7 @@ abstract class BaseSyncTask extends Task
     /**
      * Gets order service class instance.
      *
-     * @return OrderService
+     * @return \Sendcloud\Shipping\Core\BusinessLogic\Interfaces\OrderService
      */
     protected function getOrderService()
     {

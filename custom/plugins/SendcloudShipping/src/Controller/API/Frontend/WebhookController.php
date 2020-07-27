@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Controller\API\Frontend;
 
-use Exception;
 use Sendcloud\Shipping\Core\BusinessLogic\DTO\WebhookDTO;
 use Sendcloud\Shipping\Core\BusinessLogic\Webhook\WebhookEventHandler;
 use Sendcloud\Shipping\Service\Utility\Initializer;
@@ -48,7 +47,7 @@ class WebhookController extends AbstractController
      *
      * @return JsonApiResponse
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function handle(Request $request, string $token = null): JsonApiResponse
     {

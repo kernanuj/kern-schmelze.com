@@ -2,7 +2,6 @@
 
 namespace Sendcloud\Shipping\Entity\Queue;
 
-use DateTime;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception\InvalidArgumentException;
@@ -67,7 +66,7 @@ class QueueEntityRepository
     }
 
     public function deleteOldItemsBy(
-        DateTime $timeBefore,
+        \DateTime $timeBefore,
         array $filterBy = array(),
         array $excludeTypes = array(),
         $limit = 1000
@@ -171,11 +170,11 @@ class QueueEntityRepository
      */
     public function findOldestQueuedEntities(int $limit = 10): array
     {
-        $runningQueuesQuery = "SELECT DISTINCT queueName
-                               FROM {$this->tableName} qi2
+        $runningQueuesQuery = "SELECT DISTINCT queueName 
+                               FROM {$this->tableName} qi2 
                                WHERE qi2.status='" . QueueItem::IN_PROGRESS . "'";
 
-        $query = "SELECT *
+        $query = "SELECT * 
                   FROM (
                     SELECT queueName, min(internalId) AS internalId
                     FROM {$this->tableName} AS t
