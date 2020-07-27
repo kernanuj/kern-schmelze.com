@@ -4,6 +4,9 @@
         "accountLinkText": "Account",
         "cartLinkText": "Warenkorb",
         "allProductsLink": "All Products",
+        "checkout": {
+            "addPromotionLabel": "Insert Voucher-Code here:"
+        },
         "benefits": {
             "benefit1": "Loving manual labor",
             "benefit2": "Finest Belgian chocolate",

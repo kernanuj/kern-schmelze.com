@@ -4,6 +4,9 @@
         "accountLinkText": "Account",
         "cartLinkText": "Warenkorb",
         "allProductsLink": "Alle Produkte",
+        "checkout": {
+            "addPromotionLabel": "Hier Rabattcode eingeben:"
+        },
         "benefits": {
             "benefit1": "Liebevolle Handarbeit",
             "benefit2": "Feinste Belgische Schokolade",
