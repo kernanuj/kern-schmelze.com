@@ -34,7 +34,8 @@
             "add": "hinzufügen",
             "remove": "entfernen",
             "addToCart": "In den Warenkorb",
-            "changeConfig": "Größe, Sorte & Design konfigurieren"
+            "changeConfig": "Größe, Sorte & Design konfigurieren",
+            "offcanvasSidebarClose": "Wähle hier Deine Zutaten"
         },
         "placeholders": {
             "mixLabel": "Meine Schokoladentafel",
