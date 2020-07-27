@@ -2,10 +2,12 @@
 
 {% block document_line_item_table_row_position %}
     {% if config.displayLineItemPosition %}
-        {% if not lineItem.payload.inv_position_as_child %}
-            <td>{{ loop.index }}</td>
-        {% else %}
+        {% if lineItem.payload.inv_position_as_child is defined %}
             <td>{{ lineItem.payload.inv_position_as_child|replace({'-': ''}) }}</td>
+        {% elseif  lineItem.payload.inv_position is defined %}
+            <td>{{ lineItem.payload.inv_position|replace({'-': ''}) }}</td>
+        {% else %}
+            <td>{{ loop.index }}</td>
         {% endif %}
     {% endif %}
 {% endblock %}

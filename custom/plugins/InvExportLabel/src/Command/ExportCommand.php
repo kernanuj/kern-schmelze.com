@@ -5,6 +5,7 @@ namespace InvExportLabel\Command;
 use InvExportLabel\Constants;
 use InvExportLabel\Service\ConfigurationProvider;
 use InvExportLabel\Service\LabelCreator;
+use InvExportLabel\Service\LabelSender;
 use InvExportLabel\Value\ExportRequestConfiguration;
 use InvExportLabel\Value\MixerProductCreateConfiguration;
 use Symfony\Component\Console\Command\Command;
@@ -37,6 +38,21 @@ class ExportCommand extends Command
      * @var ConfigurationProvider
      */
     private $configurationProvider;
+
+    /**
+     * @var LabelSender
+     */
+    private $sender;
+
+    /**
+     * @param LabelSender $sender
+     * @return ExportCommand
+     */
+    public function setSender(LabelSender $sender): ExportCommand
+    {
+        $this->sender = $sender;
+        return $this;
+    }
 
     /**
      * @param LabelCreator $creator
@@ -107,6 +123,12 @@ class ExportCommand extends Command
         $result = $this->creator->run(
             $configuration
         );
+
+        $this->sender->run(
+            $configuration,
+            $result
+        );
+
 
 
         foreach ($result->getLog() as $log) {

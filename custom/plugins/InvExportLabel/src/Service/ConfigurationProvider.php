@@ -67,28 +67,29 @@ class ConfigurationProvider
             ->setStoragePath($this->getBaseStorageDirectory())
             ->setStorageFileName(date('Y-m-d') . '.Etiketten.pdf')
             ->setRecipientEmailAddresses(
-                [
-                    'hallo@inventivo.de'
-                ]
+                $this->fromConfigurationReadEmailRecipientAddresses()
             )
             ->setRecipientEmailBody(
-                'test email body'
+                $this->fromConfigurationReadEmailBody()
             )
             ->setType(
                 Constants::LABEL_TYPE_MIXER_PRODUCT
             )
             ->setStoragePerOrderPath(
                 $this->getPerOrderStorageDirectory(Constants::LABEL_TYPE_MIXER_PRODUCT)
+            )
+            ->setSenderEmailAddress(
+                $this->systemConfigService->get('core.mailerSettings.senderAddress')
             );
 
         $configuration->setStoragePerOrderPathNameBuilder(
             function (string $identifier) use ($configuration) {
                 return
-                    $configuration->getStoragePerOrderPath().DIRECTORY_SEPARATOR.
+                    $configuration->getStoragePerOrderPath() . DIRECTORY_SEPARATOR .
                     sprintf(
-                    'Bestellung.%s.Etiketten.pdf',
-                    $identifier
-                );
+                        'Bestellung.%s.Etiketten.pdf',
+                        $identifier
+                    );
             }
         );
 
@@ -126,6 +127,23 @@ class ConfigurationProvider
     }
 
     /**
+     * @return string[]
+     */
+    private function fromConfigurationReadEmailRecipientAddresses(): array
+    {
+        $string = $this->systemConfigService->get(Constants::SYSTEM_CONFIG_Mixer_PRODUCT_EMAIL_RECIPIENTS);
+
+        $items = explode(',', $string);
+
+        array_walk($items, function (&$item) {
+            return trim($item);
+        });
+
+        return $items;
+
+    }
+
+    /**
      * @param string $type
      * @return string
      */
@@ -140,5 +158,15 @@ class ConfigurationProvider
         Assert::writable($directory);
 
         return $directory;
+    }
+
+    /**
+     * @return string
+     */
+    private function fromConfigurationReadEmailBody(): string
+    {
+        $string = $this->systemConfigService->get(Constants::SYSTEM_CONFIG_Mixer_PRODUCT_EMAIL_BODY);
+        return trim($string);
+
     }
 }

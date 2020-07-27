@@ -56,6 +56,11 @@ class ExportRequestConfiguration
     private $storagePerOrderPathNameBuilder;
 
     /**
+     * @var string
+     */
+    private $senderEmailAddress;
+
+    /**
      * @return string
      */
     public function getType(): string
@@ -226,5 +231,21 @@ class ExportRequestConfiguration
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getSenderEmailAddress(): string
+    {
+        return $this->senderEmailAddress;
+    }
 
+    /**
+     * @param string $senderEmailAddress
+     * @return ExportRequestConfiguration
+     */
+    public function setSenderEmailAddress(string $senderEmailAddress): ExportRequestConfiguration
+    {
+        $this->senderEmailAddress = $senderEmailAddress;
+        return $this;
+    }
 }
