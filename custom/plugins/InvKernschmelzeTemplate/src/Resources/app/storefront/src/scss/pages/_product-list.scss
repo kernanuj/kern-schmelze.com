@@ -33,3 +33,14 @@
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
 }
+
+.category-header-row {
+    .cms-image-container {
+        &.is-standard {
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+}
