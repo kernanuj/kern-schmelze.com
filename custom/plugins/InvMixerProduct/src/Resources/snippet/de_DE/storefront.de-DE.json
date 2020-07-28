@@ -27,7 +27,9 @@
                 "size": "1. Tafelgröße",
                 "base": "2. Schokoladensorte",
                 "design": "3. Design",
-                "label": "4. Wie soll Deine Schokoladentafel heißen?"
+                "ingredients": "4. Zutaten",
+                "ingredientsCount": "4. Zutaten",
+                "label": "5. Wie soll Deine Schokoladentafel heißen?"
             }
         },
         "buttons": {
@@ -35,7 +37,9 @@
             "remove": "entfernen",
             "addToCart": "In den Warenkorb",
             "changeConfig": "Größe, Sorte & Design konfigurieren",
-            "offcanvasSidebarClose": "Wähle hier Deine Zutaten"
+            "offcanvasSidebarClose": "Wähle hier Deine Zutaten",
+            "offcanvasSidebarChangeConfig": "Auswahl ändern oder bestellen",
+            "offcanvasSidebarChangeSelection": "Oder Auswahl ändern"
         },
         "placeholders": {
             "mixLabel": "Meine Schokoladentafel",

@@ -27,7 +27,11 @@
                 "size": "1. Size",
                 "base": "2. Chocolate variety",
                 "design": "3. Design",
-                "label": "4. Name your chocolate"
+                "ingredients": "4. Ingredients",
+                "ingredientsCount": "4. Ingredients",
+                "label": "5. Name your chocolate",
+                "offcanvasSidebarChangeConfig": "Change selection or order",
+                "offcanvasSidebarChangeSelection": "Or change selection"
             }
         },
         "buttons": {

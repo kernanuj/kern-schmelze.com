@@ -23,7 +23,7 @@ class NumberOfProductsExceededException extends \Exception
         //@todo: make this tranbslateable whenever there is time
         return new self(
             sprintf(
-                'Dein Mix hat bereits die maximale Anzahl (%d) an Zutaten.',
+                'Deine Schokoladentafel hat bereits die maximale Anzahl (%d) an Zutaten. Du kannst jetzt bestellen.',
                 $containerDefinition->getFillDelimiter()->getAmount()->getValue(),
                 $newCount
             )

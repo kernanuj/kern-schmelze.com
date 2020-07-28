@@ -10,8 +10,7 @@
     {{ parent() }}
 
     <div class="row mixer-product-list">
-        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 order-lg-12 is-left" id="mixer-product-offcanvas">
-            <div class="mix-product-offcanvas-close">{{ "InvMixerProduct.buttons.offcanvasSidebarClose"|trans }}</div>
+        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 order-lg-12 is-left show" id="mixer-product-offcanvas">
             {% set mixPluginOptions = {
                 urlMixState: path('invMixerProduct.storeFront.mix.state')
             } %}
@@ -27,32 +26,32 @@
         <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 order-lg-1">
             <h1>{{ "InvMixerProduct.page.title"|trans }}</h1>
 
-            {% block inv_mixer_product_navigation %}
-                <div class="inv-sticky-top">
+            {#
+                {% block inv_mixer_product_navigation %}
                     <div id="inv-mixer-product-mobile-enhancer-container">
                     </div>
+                {% endblock %}
+            #}
 
-                    {% block inv_product_mixer_product_categories %}
-                        <ul class="nav nav-tabs" role="tablist">
-                            {% for listingProductGroup in listingProductCollection.groups %}
-                                {% if loop.first %}
-                                    {% set class = "active" %}
-                                {% else %}
-                                    {% set class = "" %}
-                                {% endif %}
+            {% block inv_product_mixer_product_categories %}
+                <ul class="nav nav-tabs" role="tablist">
+                    {% for listingProductGroup in listingProductCollection.groups %}
+                        {% if loop.first %}
+                            {% set class = "active" %}
+                        {% else %}
+                            {% set class = "" %}
+                        {% endif %}
 
-                                <li class="nav-item">
-                                    <a class="nav-link {{ class }}" data-toggle="tab" id="tab{{ listingProductGroup.groupIdentifier }}"
-                                       href="#{{ listingProductGroup.groupIdentifier }}" role="tab"
-                                       aria-controls="{{ listingProductGroup.groupIdentifier }}" aria-selected="true">
-                                        <img src="{{ asset('storefront/img/'~listingProductGroup.groupIdentifier~'.jpg', '@InvMixerProduct') }}" alt="{{ ("InvMixerProduct.tabs." ~ listingProductGroup.groupIdentifier)|trans }}" /> {{ ("InvMixerProduct.tabs." ~ listingProductGroup.groupIdentifier)|trans }}
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                        <hr />
-                    {% endblock %}
-                </div>
+                        <li class="nav-item">
+                            <a class="nav-link {{ class }}" data-toggle="tab" id="tab{{ listingProductGroup.groupIdentifier }}"
+                               href="#{{ listingProductGroup.groupIdentifier }}" role="tab"
+                               aria-controls="{{ listingProductGroup.groupIdentifier }}" aria-selected="true">
+                                <img src="{{ asset('storefront/img/'~listingProductGroup.groupIdentifier~'.jpg', '@InvMixerProduct') }}" alt="{{ ("InvMixerProduct.tabs." ~ listingProductGroup.groupIdentifier)|trans }}" /> {{ ("InvMixerProduct.tabs." ~ listingProductGroup.groupIdentifier)|trans }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <hr />
             {% endblock %}
 
             <div class="">

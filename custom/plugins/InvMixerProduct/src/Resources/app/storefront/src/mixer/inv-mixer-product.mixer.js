@@ -46,8 +46,9 @@ export default class InvMixerProductMixer extends Plugin {
         }
     }
 
-    attachMixStateEventsMobile(displayContainer) {
-        const listingProducts = displayContainer.querySelectorAll('[data-inv-mixer-mix-state-action]');
+    //attachMixStateEventsMobile(displayContainer) {
+    attachMixStateEventsMobile() {
+        /*const listingProducts = displayContainer.querySelectorAll('[data-inv-mixer-mix-state-action]');
         for (const i in listingProducts) {
 
             if (listingProducts.hasOwnProperty(i)) {
@@ -56,22 +57,7 @@ export default class InvMixerProductMixer extends Plugin {
                     event.preventDefault()
                 })
             }
-        }
-        $('#mixer-product-off-canvas-botton').on('click', function(e){
-            e.preventDefault();
-            e.stopPropagation();
-            var offcanvas_id =  $(this).attr('data-trigger');
-            $(offcanvas_id).toggleClass('show');
-            $('body').toggleClass('offcanvas-active');
-            $('.screen-overlay').toggleClass('show');
-        });
-
-        $('.mix-product-offcanvas-close, .screen-overlay').click(function(e){
-            $('.screen-overlay').removeClass('show');
-            $('#mixer-product-offcanvas').removeClass('show');
-            $('body').removeClass('offcanvas-active');
-            e.preventDefault()
-        });
+        }*/
     }
 
     attachListingEvents() {
@@ -112,13 +98,28 @@ export default class InvMixerProductMixer extends Plugin {
             //ignore
         }
 
+        $('#mixer-product-off-canvas-botton').on('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var offcanvas_id =  $(this).attr('data-trigger');
+            $(offcanvas_id).addClass('minimal');
+        });
+
+        $('.mix-product-offcanvas-close, .screen-overlay').click(function(e){
+            $('.screen-overlay').removeClass('show');
+            $('#mixer-product-offcanvas').toggleClass('minimal');
+            e.preventDefault()
+        });
+
         this.attachMixStateEvents()
     }
 
-    displayStateMobile(stateInnerHtml) {
-        const displayContainer = document.getElementById('inv-mixer-product-mobile-enhancer-container');
-        displayContainer.innerHTML = stateInnerHtml;
-        this.attachMixStateEventsMobile(displayContainer)
+    //displayStateMobile(stateInnerHtml) {
+    displayStateMobile() {
+        //const displayContainer = document.getElementById('inv-mixer-product-mobile-enhancer-container');
+        //displayContainer.innerHTML = stateInnerHtml;
+        //this.attachMixStateEventsMobile(displayContainer)
+        this.attachMixStateEventsMobile()
     }
 
     loadState() {

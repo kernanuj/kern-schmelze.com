@@ -1,0 +1,301 @@
+.mixer-product-list {
+    /*.mix-product-offcanvas-close {
+        display: none;
+    }*/
+
+    .screen-overlay {
+        height: 100%;
+        z-index: 30;
+        position: fixed;
+        top: 0;
+        left: 0;
+        opacity:0;
+        visibility:hidden;
+        background-color: rgba(34, 34, 34, 0.6);
+        transition:opacity .2s linear, visibility .1s, width 1s ease-in;
+    }
+
+    .screen-overlay.show {
+        transition:opacity .5s ease, width 0s;
+        opacity:1;
+        width:100%;
+        visibility:visible;
+    }
+
+    .ingredients-mobile-wrapper {
+        display: none;
+    }
+}
+
+
+@media (max-width: 992px) {
+    .mix-product-offcanvas-close {
+        display: block;
+        background: $inv-mixer-product-button-add-background-color url(../../../bundles/invmixerproduct/storefront/img/arrow-left-white.svg) no-repeat 15px center;
+        background-size: 15px 15px !important;
+        min-width: 200px;
+        min-height: 30px;
+        color: $white;
+        font-weight: 500;
+        padding: 15px 30px 15px 35px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        -webkit-border-radius: 0;
+        text-transform: uppercase;
+        -webkit-letter-spacing: .8px;
+        -moz-letter-spacing: .8px;
+        letter-spacing: .8px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: $inv-mixer-product-button-add-background-hover-color;
+        }
+
+        &.inner-button {
+            margin-top: 0;
+            background: $inv-mixer-product-button-add-background-color url(../../../bundles/invmixerproduct/storefront/img/arrow-right-white.svg) no-repeat right 15px center;
+        }
+    }
+
+    .mixer-product-list {
+        .col-lg-4 {
+            &#mixer-product-offcanvas {
+                /*visibility: hidden;
+                transform:translateX(100%);
+                border-radius:0;*/
+
+                visibility: visible;
+                transform: translateX(0);
+
+                display:block;
+                position: fixed;
+                top: 0;
+                right:0;
+                height: 100%;
+                z-index: 91000;
+                width: 100%;
+                overflow-y: scroll;
+                overflow-x: hidden;
+                transition: visibility .2s ease-in-out, transform .2s ease-in-out;
+                padding: 0;
+
+                &.show {
+                    visibility: visible;
+                    transform: translateX(0);
+
+                    .mix-product-offcanvas-close {
+                        display: block;
+
+                        &.inner-button {
+                            display: none;
+                        }
+                    }
+                }
+
+                &.minimal {
+                    height: auto;
+
+                    .inner {
+                        padding: 5px 15px 15px 15px;
+                    }
+
+                    .mix-product-offcanvas-close {
+                        &.inner-button {
+                            display: block !important;
+
+                            &.mixiscomplete {
+                                background-color: $inv-mixer-product-button-add-background-color-soft;
+                            }
+                        }
+                    }
+
+                    h2,
+                    .description,
+                    .ingredients-desktop-wrapper,
+                    .mixer-product-actions {
+                        display: none;
+                    }
+
+                    .mixer-product-actions.mixiscomplete {
+                        display: block;
+                    }
+
+                    .ingredients-mobile-wrapper {
+                        display: block;
+                    }
+
+                    hr {
+                        clear: both;
+                        margin: 5px 0;
+
+                        &.hr-desktop {
+                            display: none;
+                        }
+                    }
+
+                    .mixer-product-tax-link {
+                        display: inline !important;
+                    }
+
+                    .title {
+                        display: block;
+                        width: 50%;
+                        float: left;
+                        margin-bottom: 5px;
+
+                        &:after {
+                            content: ': '
+                        }
+
+                        &#mix-state-set-label-anchor,
+                        &.title-ingredients {
+                            width: 100%;
+                            float: none;
+                            display: none;
+                        }
+
+                        &#mix-state-set-label-anchor.mixiscomplete {
+                            display: block;
+                        }
+                    }
+
+                    .mix-state-set-label {
+                        hr {
+                            display: none;
+                        }
+
+                        &.mixiscomplete {
+                            hr {
+                                display: block;
+                            }
+                        }
+                    }
+
+                    .mixer-product-label {
+                        display: none;
+
+                        &.mixiscomplete {
+                            display: block;
+                        }
+                    }
+
+                    ul {
+                        display: block !important;
+                        width: 50%;
+                        margin: 0;
+                        float: left;
+                        flex-wrap: wrap;
+                    }
+
+                    li {
+                        display: none;
+
+                        &.active {
+                            display: block;
+                            margin-bottom: 5px;
+                        }
+
+                        &.col-3 {
+                            flex: none;
+                            max-width: 500px;
+                        }
+
+                        button {
+                            display: block;
+                            text-align: left;
+                            font-size: 11px;
+                            line-height: 13px;
+
+                            img {
+                                display: none;
+                            }
+                        }
+                    }
+
+                    .mixer-product-items {
+                        .col-1 {
+                            img {
+                                max-width: 25px !important;
+                            }
+                        }
+
+                        .mix-item-product-name {
+                            font-size: 11px;
+                            line-height: 13px;
+                        }
+
+                        .col-1 {
+                            &.mix-item-product-actions-wrapper {
+                                display: none;
+                            }
+                        }
+                    }
+
+                    .mixer-product-total {
+                        font-size: 18px !important;
+                        line-height: 20px !important;
+                    }
+
+                    .mixer-product-baseprice {
+                        font-size: 12px !important;
+                        line-height: 14px !important;
+                    }
+
+                    .delivery-note-wrapper {
+                        hr,
+                        p.delivery-note {
+                            display: none;
+                        }
+
+                        &.mixiscomplete {
+                            hr,
+                            p.delivery-note {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .inner {
+                padding: 30px;
+            }
+
+            ul.mixer-product-base-product,
+            ul.mixer-product-designs {
+                li {
+                    font-size: 11px;
+                }
+            }
+
+            .description {
+                br {
+                    display: none;
+                }
+            }
+
+            hr {
+                margin: 5px 0;
+            }
+        }
+    }
+
+}
+
+@media (max-width: 576px) {
+    .mixer-product-list {
+        .col-lg-4 {
+            .mixer-product-actions {
+                .col-lg-4 {
+                    padding: 0 20px;
+                    width: 100%;
+                }
+
+                .col-lg-8 {
+                    padding: 0 20px;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

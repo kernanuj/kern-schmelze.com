@@ -191,5 +191,13 @@ class MixView
         return $quantity;
     }
 
+    /**
+     * @return int
+     */
+    public function getFillDelimiter(): int
+    {
+        $fillDelimiter = $this->containerDefinition->getFillDelimiter()->getAmount()->getValue();
 
+        return $fillDelimiter;
+    }
 }
