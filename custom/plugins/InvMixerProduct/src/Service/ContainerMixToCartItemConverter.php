@@ -94,6 +94,7 @@ class ContainerMixToCartItemConverter implements MixToCartItemConverterInterface
         );
         $baseProductLineItem->setPayloadValue(Constants::KEY_IS_MIX_BASE_PRODUCT, true);
         $baseProductLineItem->setPayloadValue(Constants::KEY_MIX_ENTITY_ID, $subject->getId());
+        $baseProductLineItem->setPayloadValue(Constants::KEY_MIX_DISPLAY_ID, $subject->getDisplayId());
         $lineItem->addChild(
             $baseProductLineItem
         );
@@ -111,6 +112,7 @@ class ContainerMixToCartItemConverter implements MixToCartItemConverterInterface
             $childLineItem->setPayloadValue(Constants::KEY_IS_MIX_CHILD_PRODUCT, true);
             $childLineItem->setPayloadValue(Constants::KEY_MIX_ENTITY_ID, $subject->getId());
             $childLineItem->setPayloadValue(Constants::KEY_MIX_ITEM_ENTITY_ID, $item->getId());
+            $childLineItem->setPayloadValue(Constants::KEY_MIX_DISPLAY_ID, $subject->getDisplayId());
 
             $lineItem->addChild(
                 $childLineItem
