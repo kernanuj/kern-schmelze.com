@@ -79,8 +79,9 @@ export default class InvMixerProductMixer extends Plugin {
         const isFilled = displayContainer.dataset.mixStateIsFilled || 0;
 
         try {
-            if(this.el.getElementsByClassName('flashbags').length > 0){
-                document.querySelector('#mix-state-container .flashbags').scrollIntoView({
+            if(this.el.getElementsByClassName('flashbags .alert').length > 0){
+                console.log('yes.');
+                document.querySelector('#mix-state-container .flashbags .alert').scrollIntoView({
                     behavior: 'smooth'
                 });
             }
