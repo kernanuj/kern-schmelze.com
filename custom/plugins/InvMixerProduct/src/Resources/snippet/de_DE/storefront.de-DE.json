@@ -58,6 +58,13 @@
             "mixProductContainer": {
                 "title": "Meine Schokoladentafel"
             }
+        },
+        "mix": {
+            "addToCart": {
+                "failed": {
+                    "insufficientComponents": "Bitte füge mindestens eine Zutat zu Deiner Schokolade hinzu."
+                }
+            }
         }
     }
 }

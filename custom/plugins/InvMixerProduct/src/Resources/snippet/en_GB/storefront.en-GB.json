@@ -58,6 +58,13 @@
             "mixProductContainer": {
                 "title": "My chocolate"
             }
+        },
+        "mix": {
+            "addToCart": {
+                "failed": {
+                    "insufficientComponents": "Please add at least one ongredient to your chocolate."
+                }
+            }
         }
     }
 }
