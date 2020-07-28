@@ -67,6 +67,11 @@
             font-size: 5pt;
         }
 
+        .mix-id span {
+            display: block;
+            font-size: 5pt;
+        }
+
         .best-and-weight {
             text-align: center;
             font-size: 5pt;
@@ -109,6 +114,7 @@
         </p>
         <p class="mix-id">
             Mix-ID: {{ item.displayId }}
+            <span>Bestell-ID: {{ order.OrderNumber }}</span>
         </p>
         <p class="best-and-weight">
             <span class="best-before">Mindestens haltbar bis: {{ item.bestBeforeDate | date("d.m.Y") }}</span>
