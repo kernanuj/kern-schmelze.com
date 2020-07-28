@@ -11,12 +11,6 @@
                         list: messages
                     } %}
                 {% endfor %}
-
-                {% if mixView.filled %}
-                    <div class="message alert-content-container">
-                        Fertig! Du hast die maximale Anzahl der Zutaten erreicht und kannst jetzt bestellen.
-                    </div>
-                {% endif %}
             </div>
         {% endblock %}
 
@@ -290,6 +284,15 @@
             {% block inv_product_mixer_sidebar_mixer_product_label_title %}
                 <div class="mix-state-set-label {{ classIsComplete }}">
                     <hr class="hr" />
+
+                    {% if mixView.filled and not mixView.isComplete %}
+                    <div class="flashbags">
+                        <div class="message alert-content-container">
+                            {{ "InvMixerProduct.alerts.mixIsFilled"|trans }}
+                        </div>
+                    </div>
+                    {% endif %}
+
                     <span id="mix-state-set-label-anchor" class="title">{{ "InvMixerProduct.sidebar.titles.label"|trans }}</span>
                 </div>
             {% endblock %}
@@ -322,8 +325,17 @@
             {% endif %}
 
             <hr/>
+
+            {% if mixView.isComplete %}
+                <div class="flashbags">
+                    <div class="message alert-content-container">
+                        {{ "InvMixerProduct.alerts.mixIsComplete"|trans }}
+                    </div>
+                </div>
+            {% endif %}
+
             <div class="mixer-product-price-info">
-                <span class="mixer-product-total" id="mix-state-add-to-cart-anchor">
+                <span class="mixer-product-total">
                     {{ mixerProductTotalPrice|currency }}
                 </span>
                 <span class="mixer-product-baseprice">
@@ -356,13 +368,14 @@
                     </form>
                 {% endblock %}
                 #}
+
                 {% block inv_product_mixer_sidebar_action_add_to_cart %}
                     <form method="post"
                           action="{{ path('invMixerProduct.storeFront.mix.session.addToCart') }}" id="mix-state-add-to-cart-form">
                         <input type="hidden" name="_csrf_token"
                                value="{{ csrf_token('invMixerProduct.storeFront.mix.session.addToCart') }}">
 
-                        <div class="row">
+                        <div class="row" id="mix-state-add-to-cart-anchor">
                             <div class="col-lg-4 col-md-4 col-sm-2 col-4">
                                 <input type="number" name="quantity" value="1" min="1" max="100"/>
                             </div>

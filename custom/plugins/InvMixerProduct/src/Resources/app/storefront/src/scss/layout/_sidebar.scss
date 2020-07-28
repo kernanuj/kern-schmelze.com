@@ -3,6 +3,8 @@
 
 .mixer-product-list {
     .flashbags {
+        margin-bottom: 5px;
+
         .alert {
             background: $inv-mixer-product-alert-background;
             color: $white;
@@ -21,6 +23,8 @@
                 background: $inv-mixer-product-alert-message-background;
                 color: $white;
                 font-weight: 500;
+                font-size: 12px;
+                line-height: 14px;
             }
         }
     }

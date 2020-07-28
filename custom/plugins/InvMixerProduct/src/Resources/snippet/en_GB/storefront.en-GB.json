@@ -44,13 +44,15 @@
         "placeholders": {
             "mixLabel": "My chocolate",
             "mixLabelMobile": "Name your chocolate",
-            "noItems": "Your chocolate bar does not yet have any additional ingredients. <br />Add some ingredients now!"
+            "noItems": "Your chocolate bar does not yet have any additional ingredients. Add some ingredients now!"
         },
         "information": {
             "deliveryTime": "Expected delivery in 3-8 working days"
         },
         "alerts": {
-            "productHasBeenAddedToCart": "Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt."
+            "productHasBeenAddedToCart": "Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt.",
+            "mixIsFilled": "You have reached the maximum number of ingredients. Name your mix now.",
+            "mixIsComplete": "Ready! Place your chocolate in the shopping cart now."
         },
         "checkout": {
             "mixProductContainer": {

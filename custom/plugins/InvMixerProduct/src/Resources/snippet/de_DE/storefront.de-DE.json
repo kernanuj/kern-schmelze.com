@@ -44,13 +44,15 @@
         "placeholders": {
             "mixLabel": "Meine Schokoladentafel",
             "mixLabelMobile": "Benenne Deine Schokolade",
-            "noItems": "Noch hat Deine Schokoladentafel keine zusätzlichen Zutaten. <br />Füge jetzt weitere Zutaten hinzu!"
+            "noItems": "Noch hat Deine Schokoladentafel keine zusätzlichen Zutaten. Füge jetzt weitere Zutaten hinzu!"
         },
         "information": {
             "deliveryTime": "Voraussichtliche Lieferung in 3-8 Werktagen"
         },
         "alerts": {
-            "productHasBeenAddedToCart": "Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt."
+            "productHasBeenAddedToCart": "Das Produkt wurde erfolgreich zum Warenkorb hinzugefügt.",
+            "mixIsFilled": "Du hast die maximale Anzahl der Zutaten erreicht. Benenne jetzt Deinen Mix.",
+            "mixIsComplete": "Fertig! Lege Deine Schokolade jetzt in den Warenkorb."
         },
         "checkout": {
             "mixProductContainer": {

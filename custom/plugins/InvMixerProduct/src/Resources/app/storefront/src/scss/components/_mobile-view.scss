@@ -1,7 +1,13 @@
 .mixer-product-list {
-    /*.mix-product-offcanvas-close {
-        display: none;
-    }*/
+    .ingredients-desktop-wrapper {
+        .mix-product-offcanvas-close {
+            display: none;
+
+            &.inner-button {
+                display: none;
+            }
+        }
+    }
 
     .screen-overlay {
         height: 100%;
@@ -23,6 +29,10 @@
     }
 
     .ingredients-mobile-wrapper {
+        display: none;
+    }
+
+    .mix-product-offcanvas-close {
         display: none;
     }
 }
