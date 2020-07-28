@@ -6,6 +6,7 @@ use Exception;
 use InvMixerProduct\Entity\MixEntity as Subject;
 use InvMixerProduct\Entity\MixItemEntity;
 use InvMixerProduct\Exception\ContainerWeightExceededException;
+use InvMixerProduct\Exception\InsufficientMixComponentsException;
 use InvMixerProduct\Exception\NotEligibleProductException;
 use InvMixerProduct\Exception\NumberOfProductsExceededException;
 use InvMixerProduct\Exception\ProductStockExceededException;
@@ -348,17 +349,48 @@ class MixService implements MixServiceInterface
 
     /**
      * @inheritDoc
+     * @throws InsufficientMixComponentsException
      */
     public function convertToCartItem(
         Subject $subject,
         int $quantity,
         SalesChannelContext $salesChannelContext
     ): LineItem {
+
+        $this->assertMixCanBeConvertedToCartItem(
+            $subject,
+            $salesChannelContext
+        );
+
         return $this->mixToCartItemConverter->toCartItem(
             $subject,
             $quantity,
             $salesChannelContext
         );
+    }
+
+    /**
+     * @param Subject $subject
+     * @param SalesChannelContext $salesChannelContext
+     * @throws InsufficientMixComponentsException
+     */
+    private function assertMixCanBeConvertedToCartItem(
+        Subject $subject,
+        SalesChannelContext $salesChannelContext
+    ): void {
+
+        if (true !== $subject->hasItems()) {
+            throw InsufficientMixComponentsException::fromMixHasNoChildren(
+                $subject
+            );
+        }
+
+        if (!$subject->getContainerDefinition()) {
+            throw InsufficientMixComponentsException::fromMixHasNoChildren(
+                $subject
+            );
+        }
+
     }
 
 

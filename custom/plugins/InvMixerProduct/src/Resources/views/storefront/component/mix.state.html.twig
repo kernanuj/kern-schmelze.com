@@ -381,7 +381,7 @@
                             </div>
 
                             <div class="col-lg-8 col-md-8 col-sm-10 col-8">
-                                <button type="submit" class="btn button btn-block btn-buy">
+                                <button type="submit" class="btn button btn-block btn-buy" {{ mixView.totalItemQuantity <= 0 ? 'disabled' : '' }}>
                                     {{ "InvMixerProduct.buttons.addToCart"|trans }}
                                 </button>
                             </div>
