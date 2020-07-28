@@ -324,7 +324,7 @@ class MixService implements MixServiceInterface
             );
         }
 
-        $currentProductCount = $subject->getCountOfDifferentProducts();
+        $currentProductCount = $subject->getTotalItemQuantity();
         if ($currentProductCount > $containerDefinition->getFillDelimiter()->getAmount()->getValue()) {
             throw NumberOfProductsExceededException::fromCountAndContainerDefinition(
                 $containerDefinition,
