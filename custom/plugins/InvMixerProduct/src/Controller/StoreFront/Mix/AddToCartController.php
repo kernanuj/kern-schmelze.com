@@ -3,6 +3,7 @@
 namespace InvMixerProduct\Controller\StoreFront\Mix;
 
 use Exception;
+use InvMixerProduct\Exception\InsufficientMixComponentsException;
 use InvMixerProduct\Service\MixServiceInterface;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
@@ -38,8 +39,6 @@ class AddToCartController extends MixController
      */
     private $cartService;
 
-    private $translator;
-
     /**
      * AddToCartController constructor.
      * @param SessionInterface $session
@@ -69,12 +68,22 @@ class AddToCartController extends MixController
 
         $quantity = (int)$request->get('quantity', 1);
 
-        $cartLineItem = $this->mixService->convertToCartItem(
-            $mix,
-            $quantity,
-            $salesChannelContext
-        );
+        try {
+            $cartLineItem = $this->mixService->convertToCartItem(
+                $mix,
+                $quantity,
+                $salesChannelContext
+            );
+        } catch (InsufficientMixComponentsException $exception) {
+            $this->addFlash(
+                'alert',
+                $this->trans('invMixerProduct.mix.addToCart.failed.insufficientComponents', ['%count%' => $mix->getCountOfDifferentProducts()])
+            );
 
+            return $this->redirectToRoute(
+                'invMixerProduct.storeFront.mix.index'
+            );
+        }
 
         $cart = $this->cartService->getCart(
             $salesChannelContext->getToken(),
