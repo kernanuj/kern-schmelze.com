@@ -5,7 +5,7 @@
              data-target="#collapseFooterKernenergieGroup"
              aria-expanded="true"
              aria-controls="collapseFooterKernenergieGroup">
-            {{ 'InvKernschmelzeTemplate.footer.headlines.kernenergieGroupHeadline'|trans|sw_sanitize }}
+            <span class="mobile">{{ 'InvKernschmelzeTemplate.footer.headlines.kernenergieGroupHeadline'|trans|sw_sanitize }}</span>
             {% block inv_kernschmelze_template_layout_footer_navigation_social_networks_icons %}
                 <div class="footer-column-toggle">
                                     <span class="footer-plus-icon">
@@ -25,8 +25,8 @@
              aria-labelledby="collapseFooterKernenergieGroupTitle">
             <div class="footer-column-content-inner">
                 <p class="footer-kernenergie-group">
-                    {{ 'InvKernschmelzeTemplate.footer.contents.kernenergiegroup'|trans|sw_sanitize }}
                     <img src="../../bundles/invkernschmelzetemplate/storefront/images/logo-kernenergie-group.svg" alt="KERNenergie Group" class="logo" />
+                    {{ 'InvKernschmelzeTemplate.footer.contents.kernenergiegroup'|trans|sw_sanitize }}
                 </p>
             </div>
         </div>

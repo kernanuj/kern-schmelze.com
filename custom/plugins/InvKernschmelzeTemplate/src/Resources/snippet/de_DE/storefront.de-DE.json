@@ -33,12 +33,12 @@
         },
         "footer": {
             "headlines": {
-                "kernenergieGroupHeadline": "KERNschmelze",
+                "kernenergieGroupHeadline": "KERNenergie Group",
                 "paymentMethodsHeadline": "Zahlung & Versand",
                 "socialNetworksHeadline": "Social Networks"
             },
             "contents": {
-                "kernenergiegroup": "Ein Unternehmen der KERNenergie Group.",
+                "kernenergiegroup": "KERNschmelze ist ein <br />Unternehmen der <br />KERNenergie Group",
                 "freeShippingInfo": "Nach Deutschland, Belgien und in die Niederlande versenden wir ab einem Bestellwert von 50 Euro versandkostenfrei mit DHL (gilt nicht für B2B Kunden).",
                 "socialnetworks": "Besuche uns in den sozialen Medien."
             },

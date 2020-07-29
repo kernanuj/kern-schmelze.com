@@ -36,11 +36,24 @@
         }
 
         #collapseFooterKernenergieGroup {
+            padding-bottom: 0;
+
+            span.mobile {
+                display: none;
+            }
+
+            p.footer-kernenergie-group {
+                text-align: center;
+                width: 100%;
+                max-width: 165px;
+            }
+
             .logo {
                 width: 60px;
                 height: 107px;
                 display: block;
-                margin: 10px 0 0 0;
+                margin: 0 auto 10px auto;
+                text-align: center;
             }
         }
 
@@ -101,6 +114,20 @@
             .footer-column-content {
                 padding-left: 10px;
                 border-left: 1px solid $white;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-main {
+        .footer-columns {
+            #collapseFooterKernenergieGroup {
+                padding-bottom: .5rem;
+
+                span.mobile {
+                    display: block;
+                }
             }
         }
     }
