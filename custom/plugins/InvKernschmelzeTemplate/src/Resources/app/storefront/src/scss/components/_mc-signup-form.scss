@@ -1,7 +1,10 @@
 #mc_signup_scroll {
     text-align: center;
 
-    input[type="email"] {
+    .form-control {
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+        height: 43px;
     }
 
     a {
@@ -10,7 +13,9 @@
             padding-right: 15px;
             width: 100%;
             max-width: 500px;
-            border: 1px solid #8d634b;
+            border: 1px solid $ks-green;
+            height: 43px;
+            line-height: 1.5;
         }
     }
 
