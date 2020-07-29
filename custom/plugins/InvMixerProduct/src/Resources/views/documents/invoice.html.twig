@@ -14,7 +14,10 @@
 
 {% block document_line_item_table_row_product_number %}
     {% if lineItem.payload.inv_mixer_product__is_mix_container_product %}
-        <td><strong>Schoko-Konfigurator</strong></td>
+        <td>
+            <strong>Schoko-Konfigurator</strong><br />
+            Mix-ID: {{ lineItem.payload.inv_mixer_product__display_id }}
+        </td>
     {% elseif not lineItem.payload.inv_mixer_product__is_mix_base_product and not lineItem.payload.inv_mixer_product__is_mix_child_product %}
         <td><strong>{{ lineItem.payload.productNumber }}</strong></td>
     {% else %}
