@@ -64,7 +64,8 @@
                 "failed": {
                     "insufficientComponents": "Please add at least one ongredient to your chocolate."
                 }
-            }
+            },
+            "from": "of"
         }
     }
 }

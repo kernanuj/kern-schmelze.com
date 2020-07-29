@@ -64,7 +64,8 @@
                 "failed": {
                     "insufficientComponents": "Bitte füge mindestens eine Zutat zu Deiner Schokolade hinzu."
                 }
-            }
+            },
+            "from": "von"
         }
     }
 }

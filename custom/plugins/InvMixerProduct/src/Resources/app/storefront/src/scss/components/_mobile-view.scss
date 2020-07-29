@@ -35,6 +35,14 @@
     .mix-product-offcanvas-close {
         display: none;
     }
+
+    .col-lg-4 {
+        .title {
+            span.desktop {
+                display: inline;
+            }
+        }
+    }
 }
 
 
@@ -69,6 +77,12 @@
 
     .mixer-product-list {
         .col-lg-4 {
+            .title {
+                span.desktop {
+                    display: none;
+                }
+            }
+
             &#mixer-product-offcanvas {
                 /*visibility: hidden;
                 transform:translateX(100%);
@@ -166,6 +180,10 @@
 
                         &#mix-state-set-label-anchor.mixiscomplete {
                             display: block;
+                        }
+
+                        span.desktop {
+                            display: none;
                         }
                     }
 

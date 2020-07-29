@@ -124,7 +124,7 @@
             <div class="ingredients-mobile-wrapper">
                 {% block inv_product_mixer_sidebar_mixer_product_ingredients_count_mobile_title %}
                     <hr />
-                    <span class="title ingredients-mobile-title">{{ "InvMixerProduct.sidebar.titles.ingredientsCount"|trans }}</span>
+                    <span class="title ingredients-mobile-title">{{ "InvMixerProduct.sidebar.titles.ingredientsCount"|trans }} <span class="desktop">{{ mixView.totalItemQuantity }} ({{ mixView.FillDelimiter }})</span></span>
                 {% endblock %}
 
                 {% block inv_product_mixer_sidebar_mixer_product_ingredients_count_items %}
@@ -140,7 +140,7 @@
         {% block inv_product_mixer_sidebar_mixer_product_items %}
             <div class="ingredients-desktop-wrapper">
                 <hr/>
-                <span class="title title-ingredients">{{ "InvMixerProduct.sidebar.titles.ingredients"|trans }}</span>
+                <span class="title title-ingredients">{{ "InvMixerProduct.sidebar.titles.ingredients"|trans }} <span class="desktop">({{ mixView.totalItemQuantity }} {{ "InvMixerProduct.mix.from"|trans }} {{ mixView.FillDelimiter }})</span></span>
 
                 {% if mixView.itemCollection.items is empty %}
                     <p>{{ "InvMixerProduct.placeholders.noItems"|trans|raw }}</p>
