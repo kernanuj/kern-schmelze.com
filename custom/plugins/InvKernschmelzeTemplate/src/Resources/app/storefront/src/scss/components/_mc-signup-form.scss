@@ -1,0 +1,22 @@
+#mc_signup_scroll {
+    text-align: center;
+
+    input[type="email"] {
+    }
+
+    a {
+        &.btn {
+            padding-left: 15px;
+            padding-right: 15px;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid #8d634b;
+        }
+    }
+
+    small {
+        display: block;
+        font-size: 11px;
+        line-height: 14px;
+    }
+}
