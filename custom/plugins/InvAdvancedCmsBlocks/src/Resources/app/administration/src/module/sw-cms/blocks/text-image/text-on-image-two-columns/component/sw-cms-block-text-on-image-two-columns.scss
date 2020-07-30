@@ -1,6 +1,6 @@
 .sw-cms-block-text-on-image-two-columns {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+    grid-template-columns: 1fr 1fr;
     align-content: stretch;
     align-items: start;
     grid-gap: 0;
