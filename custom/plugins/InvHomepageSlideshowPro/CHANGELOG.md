@@ -1,3 +1,6 @@
+# 1.0.4
+- Enhance configuration per sales channel
+
 # 1.0.3
 - Fixed bug in configuration per sales channel
 

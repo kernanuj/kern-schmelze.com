@@ -1,3 +1,6 @@
+# 1.0.4
+- Konfiguration pro Verkaufskanal verbessern
+
 # 1.0.3
 - Bugfix Konfiguration pro Verkaufskanal
 
