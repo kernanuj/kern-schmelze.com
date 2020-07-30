@@ -28,6 +28,21 @@
     }
 
     .home-teaser-with-background-color {
+        .cms-element-text {
+            &.has-vertical-alignment {
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        .cms-element-alignment {
+            &.align-self-center {
+                justify-self: center;
+                font-size: 18px;
+                line-height: 22px;
+            }
+        }
+
         h1 {
             color: $white;
         }
