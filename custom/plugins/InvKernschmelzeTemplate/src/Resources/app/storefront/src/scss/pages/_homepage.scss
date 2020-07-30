@@ -142,13 +142,104 @@
             }
         }
 
-        //&.home-categories,
+        // B2C
         &.banner-two-columns {
             .h2 {
                 text-align: center;
             }
 
             .col-lg-6 {
+                &.cms-block {
+                    overflow: hidden;
+                    float: left;
+                    min-height: 371px;
+                    display: flex;
+                    justify-items: center;
+                    justify-content: center;
+                    text-align: center;
+                    flex-direction: column;
+
+                    &:hover {
+                        -moz-opacity: .8;
+                        -webkit-opacity: .8;
+                        opacity: .8;
+                    }
+
+                    .cms-block-container {
+                        display: flex;
+                        justify-items: center;
+                        justify-content: center;
+                        text-align: center;
+                        align-self: center !important;
+                        flex: 1;
+                        flex-direction: column;
+                        width: 100%;
+                        padding: 0 !important;
+
+                        .cms-block-container-row {
+                            flex: 1;
+                            flex-direction: column;
+                            width: 100%;
+
+                            .col-12 {
+                                flex: 1;
+                                flex-direction: column;
+                                width: 100%;
+                                padding: 0;
+                                display: flex;
+
+                                .cms-element-text {
+                                    font-size: 16px;
+                                    line-height: 22px;
+                                    text-transform: uppercase;
+                                    -webkit-letter-spacing: .8px;
+                                    -moz-letter-spacing: .8px;
+                                    letter-spacing: .8px;
+                                    padding: 0;
+                                    flex: 1;
+                                    flex-direction: column;
+                                    width: 100%;
+
+                                    .cms-element-alignment {
+                                        flex: 1;
+                                        flex-direction: column;
+                                        width: 100%;
+                                        display: flex;
+
+                                        a {
+                                            color: $white;
+                                            text-align: center;
+                                            font-size: 36px;
+                                            line-height: 40px;
+                                            text-transform: uppercase;
+                                            font-weight: 500;
+                                            display: flex;
+                                            justify-items: center;
+                                            justify-content: center;
+                                            text-align: center;
+                                            flex: 1;
+                                            flex-direction: column;
+
+                                            &:hover {
+                                                text-decoration: none;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // B2B
+        &.banner-three-columns {
+            .h2 {
+                text-align: center;
+            }
+
+            .col-lg-4 {
                 &.cms-block {
                     overflow: hidden;
                     float: left;
