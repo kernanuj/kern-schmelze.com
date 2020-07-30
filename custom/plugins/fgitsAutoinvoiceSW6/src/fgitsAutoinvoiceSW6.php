@@ -7,7 +7,6 @@ use Fgits\AutoInvoice\Service\FgitsLibrary\PluginSetup;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Api\Context\SystemSource;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\DeactivateContext;
@@ -116,10 +115,9 @@ class fgitsAutoinvoiceSW6 extends Plugin
     {
         $context = new Context(new SystemSource());
 
-        try {
-            $this->setup->deleteCustomFieldSet($context, self::CUSTOM_FIELD_SET_NAME);
-        } catch (InconsistentCriteriaIdsException $e) {
-        }
+        $this->setup->deleteCustomFields($context, self::CUSTOM_FIELD_SET_NAME);
+
+        $this->setup->deleteCustomFieldSet($context, self::CUSTOM_FIELD_SET_NAME);
 
         try {
             $this->setup->deleteMailTemplate($context, self::MAIL_TEMPLATE_CUSTOMER);

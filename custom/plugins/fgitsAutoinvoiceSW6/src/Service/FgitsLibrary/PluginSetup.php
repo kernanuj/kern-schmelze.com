@@ -13,10 +13,12 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\ContainsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Exception\InvalidUuidException;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\CustomField\Aggregate\CustomFieldSet\CustomFieldSetEntity;
+use Shopware\Core\System\CustomField\CustomFieldCollection;
 use Shopware\Core\System\Language\LanguageEntity;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
@@ -25,7 +27,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
  * Copyright (c) 2020. GOLLE IT.
  *
  * @author Fabian Golle <fabian@golle-it.de>
- * @version 1.0.0
+ * @version 1.1.0
  */
 class PluginSetup
 {
@@ -235,8 +237,28 @@ class PluginSetup
     /**
      * @param Context $context
      * @param string $name
-     *
-     * @throws InconsistentCriteriaIdsException
+     */
+    public function deleteCustomFields(Context $context, string $name): void
+    {
+        /** @var EntityRepository $customFieldRepository */
+        $customFieldRepository = $this->container->get('custom_field.repository');
+
+        $criteria = new Criteria();
+        $criteria->addFilter(new ContainsFilter('name', $name));
+
+        /** @var CustomFieldCollection $customFields */
+        $customFields = $customFieldRepository->search($criteria, $context)->getElements();
+
+        foreach ($customFields as $customField) {
+            $customFieldRepository->delete([[
+                'id' => $customField->getId()
+            ]], $context);
+        }
+    }
+
+    /**
+     * @param Context $context
+     * @param string $name
      */
     public function deleteCustomFieldSet(Context $context, string $name): void
     {

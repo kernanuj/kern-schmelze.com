@@ -15,3 +15,6 @@
 # 5.2.2
 - Deaktiviert Cronjob, wenn Plugin ist deaktiviert
 - Gefixt Konfigurationskomponente
+
+# 5.2.3
+- Löscht custom fields wenn Plugin deaktiviert

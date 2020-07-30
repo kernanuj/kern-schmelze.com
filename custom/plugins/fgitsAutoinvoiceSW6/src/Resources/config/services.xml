@@ -66,6 +66,19 @@
         </service>
 
         <!-- CONTROLLERS -->
+        <service id="Fgits\AutoInvoice\Api\Controller\CronController" public="true">
+            <argument type="service" id="Fgits\AutoInvoice\Service\FgitsLibrary\ScheduledTask" />
+            <argument type="service" id="Psr\Log\LoggerInterface" />
+        </service>
+
+        <service id="Fgits\AutoInvoice\Api\Controller\OrderController" public="true">
+            <argument type="service" id="order.repository" />
+            <argument type="service" id="Fgits\AutoInvoice\Service\DocumentCreator" />
+            <argument type="service" id="Fgits\AutoInvoice\Service\OrderProcessor" />
+            <argument type="service" id="Fgits\AutoInvoice\Service\FgitsLibrary\ScheduledTask" />
+            <argument type="service" id="Psr\Log\LoggerInterface" />
+        </service>
+
         <service id="Fgits\AutoInvoice\Storefront\Controller\CustomAccountOrderController" public="true">
             <argument type="service" id="Shopware\Storefront\Page\Account\Order\AccountOrderPageLoader" />
             <argument type="service" id="Shopware\Core\Checkout\Order\SalesChannel\OrderRoute" />
@@ -90,14 +103,6 @@
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
-        </service>
-
-        <service id="Fgits\AutoInvoice\Api\Controller\OrderController" public="true">
-            <argument type="service" id="order.repository" />
-            <argument type="service" id="Fgits\AutoInvoice\Service\DocumentCreator" />
-            <argument type="service" id="Fgits\AutoInvoice\Service\OrderProcessor" />
-            <argument type="service" id="Fgits\AutoInvoice\Service\FgitsLibrary\ScheduledTask" />
-            <argument type="service" id="Psr\Log\LoggerInterface" />
         </service>
 
         <!-- SUBSCRIBERS -->

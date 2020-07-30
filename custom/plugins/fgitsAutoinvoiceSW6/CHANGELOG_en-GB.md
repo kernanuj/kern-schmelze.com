@@ -15,3 +15,6 @@
 # 5.2.2
 - Deactivates cron if the plugin is deactivated
 - Fixed config components
+
+# 5.2.3
+- Removes custom fields if the plugin is deactivated

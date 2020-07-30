@@ -2,7 +2,6 @@
 
 namespace Fgits\AutoInvoice\Api\Controller;
 
-use Fgits\AutoInvoice\ScheduledTask\AutoInvoiceOrderScanTask;
 use Fgits\AutoInvoice\Service\DocumentCreator;
 use Fgits\AutoInvoice\Service\FgitsLibrary\ScheduledTask as FgitsScheduledTask;
 use Fgits\AutoInvoice\Service\OrderProcessor;
@@ -76,18 +75,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/api/v{version}/fgits/cron/activate", name="api.action.fgits.cron.activate", methods={"GET"})
-     *
-     * @param Request $request
-     * @param Context $context
-     */
-    public function activateCron(Request $request, Context $context): void
-    {
-        $this->scheduledTask->schedule(AutoInvoiceOrderScanTask::getTaskName());
-    }
-
-    /**
-     * @Route("/api/v{version}/fgits/order/{orderId}/invoice/send", name="api.action.fgits.invoice.send", methods={"GET"})
+     * @Route("/api/v{version}/fgits/autoinvoice/order/{orderId}/invoice/send", name="api.action.fgits.autoinvoice.invoice.send", methods={"GET"})
      *
      * @param Request $request
      * @param Context $context
