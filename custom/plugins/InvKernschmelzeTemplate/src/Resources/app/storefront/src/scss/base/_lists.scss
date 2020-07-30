@@ -11,5 +11,15 @@ ul {
             padding-left: 30px;
             margin: 0 0 10px 0;
         }
+
+        &.white {
+            li {
+                color: $white;
+                background: url(../../../bundles/invkernschmelzetemplate/storefront/images/icon-tick-white.svg) no-repeat;
+                background-size: 20px 20px;
+                padding-left: 30px;
+                margin: 0 0 10px 0;
+            }
+        }
     }
 }

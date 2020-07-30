@@ -27,6 +27,26 @@
         }
     }
 
+    .home-teaser-with-background-color {
+        h1 {
+            color: $white;
+        }
+
+        ul {
+            &.checker {
+                li {
+                    font-size: 18px;
+                    line-height: 22px;
+                }
+            }
+        }
+
+        a.btn {
+            background: $white;
+            color: $ks-green;
+        }
+    }
+
     .cms-section {
         margin: 40px 0;
 
@@ -320,6 +340,23 @@
                             }
                         }
                     }
+                }
+            }
+        }
+
+        &.b2b-homepage-contact {
+            .cms-element-text {
+                &.has-vertical-alignment {
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+
+            .cms-element-alignment {
+                &.align-self-center {
+                    justify-self: center;
+                    font-size: 18px;
+                    line-height: 22px;
                 }
             }
         }
