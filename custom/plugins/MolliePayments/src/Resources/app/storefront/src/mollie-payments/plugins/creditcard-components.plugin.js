@@ -6,18 +6,18 @@ export default class MollieCreditCardComponents extends Plugin {
         locale: null,
         profileId: null,
         shopUrl: null,
-        testMode: true,
+        testMode: true
     };
 
     init() {
-        let me = this;
+        const me = this;
         let componentsObject = null;
 
         // Get an existing Mollie controller element
         const mollieController = document.querySelector(this.getSelectors().mollieController);
 
         // Remove the existing Mollie controller element
-        if (!!mollieController) {
+        if (mollieController) {
             mollieController.remove();
         }
 
@@ -41,7 +41,7 @@ export default class MollieCreditCardComponents extends Plugin {
             // eslint-disable-next-line no-undef
             componentsObject = Mollie(this.options.profileId, {
                 locale: this.options.locale,
-                testmode: this.options.testMode,
+                testmode: this.options.testMode
             });
         }
 
@@ -78,7 +78,7 @@ export default class MollieCreditCardComponents extends Plugin {
             mollieController: 'div.mollie-components-controller',
             paymentForm: '#confirmPaymentForm',
             radioInputs: '#confirmPaymentForm input[type="radio"]',
-            submitButton: '#confirmPaymentForm button[type="submit"]',
+            submitButton: '#confirmPaymentForm button[type="submit"]'
         };
     }
 
@@ -132,7 +132,7 @@ export default class MollieCreditCardComponents extends Plugin {
         const creditCardRadioInput = document.querySelector(this.getSelectors().creditCardRadioInput);
         const componentsContainer = document.querySelector(this.getSelectors().componentsContainer);
 
-        if (!!componentsContainer) {
+        if (componentsContainer) {
             if (
                 creditCardRadioInput === undefined
                 || creditCardRadioInput.checked === false
@@ -145,7 +145,7 @@ export default class MollieCreditCardComponents extends Plugin {
     }
 
     createComponentsInputs(componentsObject, inputs) {
-        let me = this;
+        const me = this;
 
         inputs.forEach((element, index, arr) => {
             const component = componentsObject.createComponent(element.name, me.getDefaultProperties());
@@ -184,7 +184,7 @@ export default class MollieCreditCardComponents extends Plugin {
     disableForm() {
         const submitButton = document.querySelector(this.getSelectors().submitButton);
 
-        if (!!submitButton) {
+        if (submitButton) {
             submitButton.disabled = true;
         }
     }
@@ -192,7 +192,7 @@ export default class MollieCreditCardComponents extends Plugin {
     enableForm() {
         const submitButton = document.querySelector(this.getSelectors().submitButton);
 
-        if (!!submitButton) {
+        if (submitButton) {
             submitButton.disabled = false;
         }
     }
