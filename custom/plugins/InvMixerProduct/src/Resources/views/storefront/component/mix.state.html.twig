@@ -15,85 +15,53 @@
         {% endblock %}
 
         {% block inv_product_mixer_sidebar_mixer_product_size %}
-            {% block inv_product_mixer_sidebar_mixer_product_size_title %}
-                <hr/>
-                <span class="title">{{ "InvMixerProduct.sidebar.titles.size"|trans }}</span>
-            {% endblock %}
+            <div class="mixer-product-row">
+                {% block inv_product_mixer_sidebar_mixer_product_size_title %}
+                    <hr class="hr-desktop" />
+                    <span class="title"><img src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-tick-green.svg') }}" width="30" height="" alt="21" class="mobile" /> {{ "InvMixerProduct.sidebar.titles.size"|trans }}</span>
+                {% endblock %}
 
-            {% block inv_product_mixer_sidebar_mixer_product_size_items %}
-                <ul class="mixer-product-sizes row clearfix">
-                    {% for availableContainerWeight in containerDefinitionCollection.availableMaxWeights %}
-                        {% if mixView.containerDefinition.fillDelimiter.weight == availableContainerWeight %}
-                            {% set class = "active" %}
-                        {% else %}
-                            {% set class = "" %}
-                        {% endif %}
+                {% block inv_product_mixer_sidebar_mixer_product_size_items %}
+                    <ul class="mixer-product-sizes row clearfix">
+                        {% for availableContainerWeight in containerDefinitionCollection.availableMaxWeights %}
+                            {% if mixView.containerDefinition.fillDelimiter.weight == availableContainerWeight %}
+                                {% set class = "active" %}
+                            {% else %}
+                                {% set class = "" %}
+                            {% endif %}
 
-                        <li class="{{ class }}">
-                            <form method="post"
-                                  action="{{ path('invMixerProduct.storeFront.mix.session.container.weight.set') }}"
-                                  data-inv-mixer-mix-state-action="true"
-                            >
-                                <input type="hidden" name="weight" value="{{ availableContainerWeight }}">
-                                <input type="hidden" name="_csrf_token"
-                                       value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.weight.set') }}">
-                                <button type="submit">
-                                    <img
-                                        src="{{ asset('storefront/img/size-'~availableContainerWeight|replace({' ':''})~'.jpg', '@InvMixerProduct') }}"
-                                        alt="{{ availableContainerWeight }}"/>
-                                    {{ availableContainerWeight }}
-                                </button>
-                            </form>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endblock %}
+                            <li class="{{ class }}">
+                                <form method="post"
+                                      action="{{ path('invMixerProduct.storeFront.mix.session.container.weight.set') }}"
+                                      data-inv-mixer-mix-state-action="true"
+                                >
+                                    <input type="hidden" name="weight" value="{{ availableContainerWeight }}">
+                                    <input type="hidden" name="_csrf_token"
+                                           value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.weight.set') }}">
+                                    <button type="submit">
+                                        <img
+                                            src="{{ asset('storefront/img/size-'~availableContainerWeight|replace({' ':''})~'.jpg', '@InvMixerProduct') }}"
+                                            alt="{{ availableContainerWeight }}"/>
+                                        {{ availableContainerWeight }}
+                                    </button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endblock %}
+            </div>
         {% endblock %}
 
         {% block inv_product_mixer_sidebar_mixer_product_base %}
-            {% block inv_product_mixer_sidebar_mixer_product_base_title %}
-                <hr/>
-                <span class="title">{{ "InvMixerProduct.sidebar.titles.base"|trans }}</span>
-            {% endblock %}
+            <div class="mixer-product-row">
+                {% block inv_product_mixer_sidebar_mixer_product_base_title %}
+                    <hr/>
+                    <span class="title"><img src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-tick-green.svg') }}" width="30" height="" alt="21" class="mobile" /> {{ "InvMixerProduct.sidebar.titles.base"|trans }}</span>
+                {% endblock %}
 
-            <ul class="mixer-product-base-product row clearfix">
-                {% for availableContainerBaseProduct in containerDefinitionCollection.availableBaseProducts %}
-                    {% if mixView.containerDefinition.baseProduct.identifier == availableContainerBaseProduct.identifier %}
-                        {% set class = "active" %}
-                    {% else %}
-                        {% set class = "" %}
-                    {% endif %}
-
-                    <li class="{{ class }} col-3 col-sm-3 col-md-3 col-lg-3">
-                        <form method="post"
-                              action="{{ path('invMixerProduct.storeFront.mix.session.container.baseProduct.set') }}"
-                              data-inv-mixer-mix-state-action="true"
-                        >
-                            <input type="hidden" name="baseProduct" value="{{ availableContainerBaseProduct }}">
-                            <input type="hidden" name="_csrf_token"
-                                   value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.baseProduct.set') }}">
-                            <button type="submit">
-                                <img
-                                    src="{{ asset('storefront/img/'~availableContainerBaseProduct~'.jpg', '@InvMixerProduct') }}"
-                                    alt="{{ ("InvMixerProduct.types." ~ availableContainerBaseProduct)|trans }}"/>
-                                {{ ("InvMixerProduct.types." ~ availableContainerBaseProduct)|trans }}
-                            </button>
-                        </form>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endblock %}
-
-        {% block inv_product_mixer_sidebar_mixer_product_design %}
-            {% block inv_product_mixer_sidebar_mixer_product_design_title %}
-                <hr/>
-                <span class="title">{{ "InvMixerProduct.sidebar.titles.design"|trans }}</span>
-            {% endblock %}
-
-            {% block inv_product_mixer_sidebar_mixer_product_design_items %}
-                <ul class="mixer-product-designs row clearfix">
-                    {% for availableContainerDesign in containerDefinitionCollection.availableDesigns %}
-                        {% if mixView.containerDefinition.design == availableContainerDesign %}
+                <ul class="mixer-product-base-product row clearfix">
+                    {% for availableContainerBaseProduct in containerDefinitionCollection.availableBaseProducts %}
+                        {% if mixView.containerDefinition.baseProduct.identifier == availableContainerBaseProduct.identifier %}
                             {% set class = "active" %}
                         {% else %}
                             {% set class = "" %}
@@ -101,46 +69,106 @@
 
                         <li class="{{ class }} col-3 col-sm-3 col-md-3 col-lg-3">
                             <form method="post"
-                                  action="{{ path('invMixerProduct.storeFront.mix.session.container.design.set') }}"
+                                  action="{{ path('invMixerProduct.storeFront.mix.session.container.baseProduct.set') }}"
                                   data-inv-mixer-mix-state-action="true"
                             >
-                                <input type="hidden" name="design" value="{{ availableContainerDesign }}">
+                                <input type="hidden" name="baseProduct" value="{{ availableContainerBaseProduct }}">
                                 <input type="hidden" name="_csrf_token"
-                                       value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.design.set') }}">
+                                       value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.baseProduct.set') }}">
                                 <button type="submit">
                                     <img
-                                        src="{{ asset('storefront/img/'~availableContainerDesign~'.jpg', '@InvMixerProduct') }}"
-                                        alt="{{ ("InvMixerProduct.designs." ~ availableContainerDesign)|trans }}"/>
-                                    {{ ("InvMixerProduct.designs." ~ availableContainerDesign)|trans }}
+                                        src="{{ asset('storefront/img/'~availableContainerBaseProduct~'.jpg', '@InvMixerProduct') }}"
+                                        alt="{{ ("InvMixerProduct.types." ~ availableContainerBaseProduct)|trans }}"/>
+                                    {{ ("InvMixerProduct.types." ~ availableContainerBaseProduct)|trans }}
                                 </button>
                             </form>
                         </li>
                     {% endfor %}
                 </ul>
-            {% endblock %}
+            </div>
         {% endblock %}
 
-        {% block inv_product_mixer_sidebar_mixer_product_ingredients_count_mobile %}
-            <div class="ingredients-mobile-wrapper">
-                {% block inv_product_mixer_sidebar_mixer_product_ingredients_count_mobile_title %}
-                    <hr />
-                    <span class="title ingredients-mobile-title">{{ "InvMixerProduct.sidebar.titles.ingredientsCount"|trans }} <span class="desktop">{{ mixView.totalItemQuantity }} ({{ mixView.FillDelimiter }})</span></span>
+        {% block inv_product_mixer_sidebar_mixer_product_design %}
+            <div class="mixer-product-row">
+                {% block inv_product_mixer_sidebar_mixer_product_design_title %}
+                    <hr/>
+                    <span class="title"><img src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-tick-green.svg') }}" width="30" height="" alt="21" class="mobile" /> {{ "InvMixerProduct.sidebar.titles.design"|trans }}</span>
                 {% endblock %}
 
-                {% block inv_product_mixer_sidebar_mixer_product_ingredients_count_items %}
-                    <ul class="mixer-product-ingredients-count row clearfix">
-                        <li class="active col-3 col-sm-3 col-md-3 col-lg-3">
-                            <button>{{ mixView.totalItemQuantity }} ({{ mixView.FillDelimiter }})</button>
-                        </li>
+                {% block inv_product_mixer_sidebar_mixer_product_design_items %}
+                    <ul class="mixer-product-designs row clearfix">
+                        {% for availableContainerDesign in containerDefinitionCollection.availableDesigns %}
+                            {% if mixView.containerDefinition.design == availableContainerDesign %}
+                                {% set class = "active" %}
+                            {% else %}
+                                {% set class = "" %}
+                            {% endif %}
+
+                            <li class="{{ class }} col-3 col-sm-3 col-md-3 col-lg-3">
+                                <form method="post"
+                                      action="{{ path('invMixerProduct.storeFront.mix.session.container.design.set') }}"
+                                      data-inv-mixer-mix-state-action="true"
+                                >
+                                    <input type="hidden" name="design" value="{{ availableContainerDesign }}">
+                                    <input type="hidden" name="_csrf_token"
+                                           value="{{ csrf_token('invMixerProduct.storeFront.mix.session.container.design.set') }}">
+                                    <button type="submit">
+                                        <img
+                                            src="{{ asset('storefront/img/'~availableContainerDesign~'.jpg', '@InvMixerProduct') }}"
+                                            alt="{{ ("InvMixerProduct.designs." ~ availableContainerDesign)|trans }}"/>
+                                        {{ ("InvMixerProduct.designs." ~ availableContainerDesign)|trans }}
+                                    </button>
+                                </form>
+                            </li>
+                        {% endfor %}
                     </ul>
                 {% endblock %}
             </div>
         {% endblock %}
 
+        {% block inv_product_mixer_sidebar_mixer_product_ingredients_count_mobile %}
+            <div class="ingredients-mobile-wrapper mixer-product-row">
+                {% block inv_product_mixer_sidebar_mixer_product_ingredients_count_mobile_title %}
+                    <hr />
+                    <span class="title ingredients-mobile-title">
+                        {% if mixView.filled or mixView.isComplete %}
+                            <img src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-tick-green.svg') }}" width="30" height="" alt="21" class="mobile" />
+                        {% else %}
+                            <img src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-arrow-right-brown.svg') }}" width="30" height="" alt="21" class="mobile" />
+                        {% endif %}
+
+                        {{ "InvMixerProduct.sidebar.titles.ingredientsCount"|trans }} <span>({{ mixView.totalItemQuantity }} {{ "InvMixerProduct.mix.from"|trans }} {{ mixView.FillDelimiter }})</span></span>
+                {% endblock %}
+
+                {% block inv_product_mixer_sidebar_mixer_product_ingredients_count_items %}
+                    <ul class="mixer-product-ingredients-count row clearfix">
+                        <li class="active col-3 col-sm-3 col-md-3 col-lg-3">
+                            <button>
+                                {% if mixView.itemCollection.items is empty %}
+                                    {{ "InvMixerProduct.placeholders.noItemsShort"|trans|raw }}
+                                {% else %}
+                                    {% if mixView.itemCollection.items|length > 1 %}
+                                        {% set moreLink = "InvMixerProduct.buttons.moreLink"|trans %}
+                                        {% set lessLink = "InvMixerProduct.buttons.lessLink"|trans %}
+                                    {% endif %}
+
+                                    {% for mixViewItem in mixView.itemCollection.items|slice(0, 1) %}
+                                        {% set name = mixViewItem.referencedMixItem.product.translated.name %}
+                                        {{ name }} <span class='mixer-product-itemlist-more-link'>{{ moreLink }}</span> <span class='mixer-product-itemlist-less-link hidden'>{{ lessLink }}</span>
+                                    {% endfor %}
+                                {% endif %}
+                            </button>
+                        </li>
+                    </ul>
+                {% endblock %}
+                <div class="clearfix"></div>
+            </div>
+        {% endblock %}
+
         {% block inv_product_mixer_sidebar_mixer_product_items %}
-            <div class="ingredients-desktop-wrapper">
+            <div class="ingredients-desktop-wrapper ingredients-desktop-wrapper-hidden">
                 <hr/>
-                <span class="title title-ingredients">{{ "InvMixerProduct.sidebar.titles.ingredients"|trans }} <span class="desktop">({{ mixView.totalItemQuantity }} {{ "InvMixerProduct.mix.from"|trans }} {{ mixView.FillDelimiter }})</span></span>
+                <span class="title title-ingredients">{{ "InvMixerProduct.sidebar.titles.ingredients"|trans }} <span class="">({{ mixView.totalItemQuantity }} {{ "InvMixerProduct.mix.from"|trans }} {{ mixView.FillDelimiter }})</span></span>
 
                 {% if mixView.itemCollection.items is empty %}
                     <p>{{ "InvMixerProduct.placeholders.noItems"|trans|raw }}</p>

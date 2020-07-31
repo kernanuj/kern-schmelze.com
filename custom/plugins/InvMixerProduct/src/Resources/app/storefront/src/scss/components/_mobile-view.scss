@@ -42,6 +42,12 @@
                 display: inline;
             }
         }
+
+        img {
+            &.mobile {
+                display: none;
+            }
+        }
     }
 }
 
@@ -83,6 +89,10 @@
                 }
             }
 
+            .inner {
+                padding-top: 30px;
+            }
+
             &#mixer-product-offcanvas {
                 /*visibility: hidden;
                 transform:translateX(100%);
@@ -93,7 +103,7 @@
 
                 display:block;
                 position: fixed;
-                top: 0;
+                bottom: 0;
                 right:0;
                 height: 100%;
                 z-index: 91000;
@@ -118,12 +128,25 @@
 
                 &.minimal {
                     height: auto;
+                    margin-bottom: 0;
+
+                    img {
+                        &.mobile {
+                            display: inline;
+                        }
+                    }
 
                     .inner {
                         padding: 5px 15px;
                     }
 
+                    .mixer-product-row {
+
+                    }
+
                     .mix-product-offcanvas-close {
+                        display: none;
+
                         &.inner-button {
                             display: block !important;
 
@@ -135,7 +158,7 @@
 
                     h2,
                     .description,
-                    .ingredients-desktop-wrapper,
+                    .ingredients-desktop-wrapper.ingredients-desktop-wrapper-hidden,
                     .mixer-product-actions {
                         display: none;
                     }
@@ -146,6 +169,16 @@
 
                     .ingredients-mobile-wrapper {
                         display: block;
+
+                        .mixer-product-itemlist-more-link,
+                        .mixer-product-itemlist-less-link {
+                            color: $mixer-product-itemlist-more-link-color;
+                            font-weight: bold;
+
+                            &.hidden {
+                                display: none;
+                            }
+                        }
                     }
 
                     hr {
@@ -167,6 +200,10 @@
                         float: left;
                         margin-bottom: 5px;
 
+                        &:first-child {
+                            display: none;
+                        }
+
                         &:after {
                             content: ': '
                         }
@@ -184,6 +221,10 @@
 
                         span.desktop {
                             display: none;
+                        }
+
+                        &.ingredients-mobile-title {
+                            margin-bottom: 0;
                         }
                     }
 
@@ -220,7 +261,8 @@
 
                         &.active {
                             display: block;
-                            margin-bottom: 5px;
+                            margin-bottom: 0;
+                            line-height: 13px;
                         }
 
                         &.col-3 {
@@ -233,6 +275,7 @@
                             text-align: left;
                             font-size: 11px;
                             line-height: 13px;
+                            padding-top: 2px;
 
                             img {
                                 display: none;

@@ -39,12 +39,17 @@
             "remove": "Remove",
             "addToCart": "Add to cart",
             "changeConfig": "Größe, Sorte & Design konfigurieren",
-            "offcanvasSidebarClose": "Select your ingredients"
+            "offcanvasSidebarClose": "Select your ingredients",
+            "offcanvasSidebarChangeConfig": "Change selection or order",
+            "offcanvasSidebarChangeSelection": "Or change selection",
+            "moreLink": " | More ...",
+            "lessLink": " | Less ..."
         },
         "placeholders": {
             "mixLabel": "My chocolate",
             "mixLabelMobile": "Name your chocolate",
-            "noItems": "Your chocolate bar does not yet have any additional ingredients. Add some ingredients now!"
+            "noItems": "Your chocolate bar does not yet have any additional ingredients. Add some ingredients now!",
+            "noItemsShort": "Add some ingredients now!"
         },
         "information": {
             "deliveryTime": "Expected delivery in 3-8 working days"

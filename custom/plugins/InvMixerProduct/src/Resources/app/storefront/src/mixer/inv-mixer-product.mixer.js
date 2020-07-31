@@ -111,6 +111,16 @@ export default class InvMixerProductMixer extends Plugin {
             e.preventDefault()
         });
 
+        if ($('.ingredients-mobile-wrapper').length > 0) {
+            $('.ingredients-mobile-wrapper').click(function() {
+                $('.ingredients-desktop-wrapper').toggleClass('ingredients-desktop-wrapper-hidden');
+                $('.mixer-product-itemlist-more-link').toggleClass('hidden');
+                $('.mixer-product-itemlist-less-link').toggleClass('hidden');
+            });
+        }
+
+
+
         this.attachMixStateEvents()
     }
 
