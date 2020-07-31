@@ -1,6 +1,7 @@
 import Plugin from 'src/plugin-system/plugin.class';
 import HttpClient from 'src/service/http-client.service'
 
+import InvMixerProductAnimation from './animation';
 //import DomAccess from 'src/plugin-system/dom-access.helper';
 export default class InvMixerProductMixer extends Plugin {
 
@@ -11,6 +12,8 @@ export default class InvMixerProductMixer extends Plugin {
         urlMixState: '/produkt-mixer/mix/state',
         urlMixStateMobile: '/produkt-mixer/mix/state?view=mobile'
     };
+
+    animated = [];
 
     init() {
         this._client = new HttpClient()
@@ -28,11 +31,17 @@ export default class InvMixerProductMixer extends Plugin {
             return
         }
         const url = form.getAttribute('action');
+        InvMixerProductAnimation.buttonAnimationStartInForm(form)
+
         this._client.post(url, new FormData(form), (response) => {
             this.displayState(response)
             this.updateStateMobile()
+            //@todo decide if request was successful
+            InvMixerProductAnimation.buttonAnimationResultInForm(form)
         })
     }
+
+
 
     attachMixStateEvents() {
         const listingProducts = document.querySelectorAll('[data-inv-mixer-mix-state-action]');
@@ -79,33 +88,31 @@ export default class InvMixerProductMixer extends Plugin {
         const isFilled = displayContainer.dataset.mixStateIsFilled || 0;
 
         try {
-            if(this.el.getElementsByClassName('alert').length > 0){
+            if (this.el.getElementsByClassName('alert').length > 0) {
                 document.querySelector('#mix-state-container .alert').scrollIntoView({
                     behavior: 'smooth'
                 });
-            }
-            else if (isComplete) {
+            } else if (isComplete) {
                 document.querySelector('#mix-state-add-to-cart-anchor').scrollIntoView({
                     behavior: 'smooth'
                 });
-            }
-            else if (isFilled) {
+            } else if (isFilled) {
                 document.querySelector('#mix-state-set-label-anchor').scrollIntoView({
                     behavior: 'smooth'
                 });
             }
-        }catch (e) {
+        } catch (e) {
             //ignore
         }
 
-        $('#mixer-product-off-canvas-botton').on('click', function(e){
+        $('#mixer-product-off-canvas-botton').on('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
-            var offcanvas_id =  $(this).attr('data-trigger');
+            var offcanvas_id = $(this).attr('data-trigger');
             $(offcanvas_id).addClass('minimal');
         });
 
-        $('.mix-product-offcanvas-close, .screen-overlay').click(function(e){
+        $('.mix-product-offcanvas-close, .screen-overlay').click(function (e) {
             $('.screen-overlay').removeClass('show');
             $('#mixer-product-offcanvas').toggleClass('minimal');
             e.preventDefault()
