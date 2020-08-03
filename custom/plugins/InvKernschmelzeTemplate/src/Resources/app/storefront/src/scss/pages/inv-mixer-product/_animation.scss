@@ -27,14 +27,15 @@
 
         span {
             height:1rem;
-        }
 
-        .icon {
-            color:white;
-            height:1rem;
-            width:1rem;
-            svg {
-                top:0.175rem;
+            &.icon {
+                color:white;
+                height:1rem;
+                width:1rem;
+
+                svg {
+                    top:0.175rem;
+                }
             }
         }
     }
@@ -121,6 +122,20 @@
 
         .label-state-result-failure {
             display: block;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .inv-mixerProduct-button-animated-loading {
+        .label-state-result-success {
+            span {
+                display: none;
+
+                &.icon {
+                    display: block;
+                }
+            }
         }
     }
 }

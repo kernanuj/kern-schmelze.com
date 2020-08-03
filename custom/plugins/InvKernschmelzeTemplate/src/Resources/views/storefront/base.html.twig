@@ -5,3 +5,14 @@
 
     {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/page/product-detail/cross-selling.html.twig' %}
 {% endblock %}
+
+
+{% block base_header %}
+   <div class="header-wrapper">
+        {{ parent() }}
+{% endblock %}
+
+{% block base_navigation %}
+   {{ parent() }}
+   </div>
+ {% endblock %}

@@ -12,6 +12,7 @@
     &.sticky {
         position: fixed;
         top: 0;
+        left: 0;
         z-index: 99999;
         width: 100%;
 
@@ -88,6 +89,19 @@
 }
 
 @media (max-width: 576px) {
+    .header-logo-col {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .header-wrapper {
+        .header-logo-main {
+            img {
+                max-width: 50px;
+            }
+        }
+    }
+
     .account-menu-btn,
     .header-cart-btn {
         span {
