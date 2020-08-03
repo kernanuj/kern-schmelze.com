@@ -1,0 +1,119 @@
+.inv-mixerProduct-button-animated-loading {
+    position: relative;
+    -moz-transition: all 0.6s;
+    -o-transition: all 0.6s;
+    -webkit-transition: all 0.6s;
+
+    .label-state-initial {
+    }
+
+    .label-state-progress {
+        height:1rem;
+        overflow:visible;
+        .spinner-border {
+            height:1.2rem;
+            width:1.2rem;
+        }
+    }
+
+    .label-state-result-success {
+        overflow:visible;
+        height:1rem;
+        span {
+            height:1rem;
+        }
+        .icon {
+            color:white;
+            height:1rem;
+            width:1rem;
+            svg {
+                top:0.175rem;
+            }
+        }
+    }
+
+    .label-state-result-failure {
+    }
+
+    &.state-initial {
+        .label-state-initial {
+            display: block;
+            opacity: 1;
+        }
+
+        .label-state-progress {
+            display: none;
+            opacity: 0;
+        }
+
+        .label-state-result-success {
+            display: none;
+            opacity: 0;
+        }
+
+        .label-state-result-failure {
+            display: none;
+            opacity: 0;
+        }
+    }
+
+    &.state-progress {
+        opacity: 0.5;
+        .label-state-initial {
+            display: none;
+        }
+
+        .label-state-progress {
+            display: block;
+
+        }
+
+        .label-state-result-success {
+            display: none;
+        }
+
+        .label-state-result-failure {
+            display: none;
+        }
+    }
+
+    &.state-result-success {
+        .label-state-initial {
+            display: none;
+            opacity: 0;
+        }
+
+        .label-state-progress {
+            display: none;
+            opacity: 0;
+        }
+
+        .label-state-result-success {
+            display: block;
+            opacity: 1;
+        }
+
+        .label-state-result-failure {
+            display: none;
+            opacity: 0;
+        }
+    }
+
+    &.state-result-failure {
+        .label-state-initial {
+            display: none;
+        }
+
+        .label-state-progress {
+            display: none;
+        }
+
+        .label-state-result-success {
+            display: none;
+        }
+
+        .label-state-result-failure {
+            display: block;
+        }
+    }
+}

@@ -135,9 +135,19 @@
                                                                         <input type="hidden" name="quantity" value="1">
                                                                         <input type="hidden" name="_csrf_token"
                                                                                value="{{ csrf_token('invMixerProduct.storeFront.mix.session.add') }}">
-                                                                        <button class="btn button btn-block btn-buy"
+                                                                        <button class="btn button btn-block btn-buy inv-mixerProduct-button-animated-loading state-initial"
                                                                                 type="submit">
-                                                                            {{ "InvMixerProduct.buttons.add"|trans }}
+                                                                            <span class="label-state-initial">{{ "InvMixerProduct.buttons.add"|trans }}</span>
+                                                                            <span class="label-state-progress">
+                                                                                <div class="spinner-border" role="status">
+                                                                                  <span class="sr-only">{{ "InvMixerProduct.buttons.add.progress"|trans }}</span>
+                                                                                </div>
+                                                                            </span>
+                                                                            <span class="label-state-result-success">
+                                                                                {% sw_icon 'checkmark-circle' style { 'color': 'white' } %}
+                                                                                <span>{{ "InvMixerProduct.buttons.add.success"|trans }}</span>
+                                                                            </span>
+                                                                            <span class="label-state-result-failure">{{ "InvMixerProduct.buttons.add.failure"|trans }}</span>
                                                                         </button>
                                                                     </form>
                                                                 </div>
