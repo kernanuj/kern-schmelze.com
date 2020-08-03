@@ -38,7 +38,7 @@
             "add": {
                 "add": "Add to chocolate",
                 "progress": "Adding to chocolate",
-                "success": "Added to chocolate"
+                "success": "Added"
             },
             "remove": "Remove",
             "addToCart": "Add to cart",
