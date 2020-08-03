@@ -3,6 +3,14 @@
 {% block page_checkout_cart_add_product %}
 {% endblock %}
 
+{% block page_checkout_cart_header %}
+    {{ parent() }}
+
+    <a href="{{ "InvKernschmelzeTemplate.checkout.continueShoppingLink"|trans }}" class="btn btn-primary continue-shopping" title="{{ "InvKernschmelzeTemplate.checkout.continueShopping"|trans }}">
+        {{ "InvKernschmelzeTemplate.checkout.continueShopping"|trans }}
+    </a>
+{% endblock %}
+
 {% block page_checkout_cart_add_promotion_label %}
     <label class="" for="addPromotionInput">
         {{ "InvKernschmelzeTemplate.checkout.addPromotionLabel"|trans|sw_sanitize }}

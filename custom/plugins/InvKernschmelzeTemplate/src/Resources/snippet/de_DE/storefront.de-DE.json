@@ -5,7 +5,9 @@
         "cartLinkText": "Warenkorb",
         "allProductsLink": "Alle Produkte",
         "checkout": {
-            "addPromotionLabel": "Hier Rabattcode eingeben:"
+            "addPromotionLabel": "Hier Rabattcode eingeben:",
+            "continueShopping": "Weiter einkaufen",
+            "continueShoppingLink": "/sortiment-schokolade/"
         },
         "benefits": {
             "benefit1": "Liebevolle Handarbeit",

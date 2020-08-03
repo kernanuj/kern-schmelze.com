@@ -5,7 +5,9 @@
         "cartLinkText": "Warenkorb",
         "allProductsLink": "All Products",
         "checkout": {
-            "addPromotionLabel": "Insert Voucher-Code here:"
+            "addPromotionLabel": "Insert Voucher-Code here:",
+            "continueShopping": "Continue shopping",
+            "continueShoppingLink": "/sortiment-schokolade/"
         },
         "benefits": {
             "benefit1": "Loving manual labor",

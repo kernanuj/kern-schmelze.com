@@ -25,3 +25,16 @@ div.cart-item-label {
         width: 100%;
     }
 }
+
+.checkout-main {
+    .btn {
+        &.continue-shopping {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: $ks-gray;
+            border-color: $ks-gray;
+            color: $black;
+        }
+    }
+}

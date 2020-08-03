@@ -1,3 +1,11 @@
+.sticky-padder {
+    display: none;
+
+    &.show {
+        display: block;
+    }
+}
+
 .header-wrapper {
     background: $white;
 
