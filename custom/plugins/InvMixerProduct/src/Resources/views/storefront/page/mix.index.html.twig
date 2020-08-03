@@ -27,10 +27,10 @@
             <h1>{{ "InvMixerProduct.page.title"|trans }}</h1>
 
             {#
-                {% block inv_mixer_product_navigation %}
-                    <div id="inv-mixer-product-mobile-enhancer-container">
-                    </div>
-                {% endblock %}
+            {% block inv_mixer_product_navigation %}
+                <div id="inv-mixer-product-mobile-enhancer-container">
+                </div>
+            {% endblock %}
             #}
 
             {% block inv_product_mixer_product_categories %}
@@ -59,110 +59,9 @@
 
             <div class="">
                 {% block inv_product_mixer_product_list %}
-
                 <div class="tab-content">
                     {% for listingProductGroup in listingProductCollection.groups %}
-                            {% if loop.first %}
-                                {% set class = "active" %}
-                            {% else %}
-                                {% set class = "" %}
-                            {% endif %}
 
-                            <div class="tab-pane fade show row {{ class }}" id="{{ listingProductGroup.groupIdentifier }}" role="tabpanel" aria-labelledby="tab{{ listingProductGroup.groupIdentifier }}">
-                                {% set productListing = listingProductGroup.entitySearchResult %}
-                                {% for product in productListing.elements %}
-
-                                    {% set name = product.translated.name %}
-                                    {% set id = product.id %}
-                                    {% set cover = product.cover.media %}
-
-                                    <div class="cms-listing-col col-6 col-sm-6 col-lg-4 col-xl-4">
-                                        <div class="card product-box box-standard">
-                                            <div class="card-body">
-                                                {% block inv_product_mixer_product_image %}
-                                                    <div class="product-image-wrapper">
-                                                        {% if cover.url %}
-                                                            {% set attributes = {
-                                                                'class': 'product-image',
-                                                                'alt': (cover.translated.alt ?: name),
-                                                                'title': (cover.translated.title ?: name)
-                                                            } %}
-
-                                                            {% sw_thumbnails 'product-image-thumbnails' with {
-                                                                media: cover,
-                                                                sizes: {
-                                                                    'xs': '501px',
-                                                                    'sm': '315px',
-                                                                    'md': '427px',
-                                                                    'lg': '333px',
-                                                                    'xl': '284px'
-                                                                }
-                                                            } %}
-                                                        {% else %}
-                                                            <div class="product-image-placeholder">
-                                                                {% sw_icon 'placeholder' style {
-                                                                    'size': 'fluid'
-                                                                } %}
-                                                            </div>
-                                                        {% endif %}
-                                                    </div>
-                                                {% endblock %}
-
-                                                {% block inv_product_mixer_product_info %}
-                                                    <div class="product-info">
-
-                                                        {% block inv_product_mixer_product_info_name %}
-                                                            <div class="product-name">
-                                                                {{ product.name }}
-                                                            </div>
-                                                        {% endblock %}
-
-                                                        {% block inv_product_mixer_product_box_price %}
-                                                            <div class="product-price-info">
-                                                                {% block inv_product_mixer_product_info_price_unit %}
-                                                                    {% sw_include '@InvMixerProduct/InvMixerProduct/component/product/card/price-unit.html.twig' %}
-                                                                {% endblock %}
-                                                            </div>
-                                                        {% endblock %}
-
-                                                        {% block inv_product_mixer_product_action %}
-                                                            <div class="row product-action">
-                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                                                                    <form method="post"
-                                                                          action="{{ path('invMixerProduct.storeFront.mix.session.add') }}"
-                                                                          class="inv-mixer-product-listing-product"
-                                                                          data-inv-mixer-product-listing-product-id="{{ product.id }}"
-                                                                          data-inv-mixer-product-listing-action="true">
-                                                                        <input type="hidden" name="product_id"
-                                                                               value="{{ product.id }}">
-                                                                        <input type="hidden" name="quantity" value="1">
-                                                                        <input type="hidden" name="_csrf_token"
-                                                                               value="{{ csrf_token('invMixerProduct.storeFront.mix.session.add') }}">
-                                                                        <button class="btn button btn-block btn-buy inv-mixerProduct-button-animated-loading state-initial"
-                                                                                type="submit">
-                                                                            <span class="label-state-initial">{{ "InvMixerProduct.buttons.add.add"|trans }}</span>
-                                                                            <span class="label-state-progress">
-                                                                                <div class="spinner-border" role="status">
-                                                                                  <span class="sr-only">{{ "InvMixerProduct.buttons.add.progress"|trans }}</span>
-                                                                                </div>
-                                                                            </span>
-                                                                            <span class="label-state-result-success">
-                                                                                {% sw_icon 'checkmark-circle' style { 'color': 'white' } %}
-                                                                                <span>{{ "InvMixerProduct.buttons.add.success"|trans }}</span>
-                                                                            </span>
-                                                                            <span class="label-state-result-failure">{{ "InvMixerProduct.buttons.add.failure"|trans }}</span>
-                                                                        </button>
-                                                                    </form>
-                                                                </div>
-                                                                {# Do not display product info
-                                                                <div class="col-lg-2 col-md-2 col-sm-2 col-2">
-                                                                   <img src="{{ asset('storefront/img/mixer-product-product-info.svg', '@InvMixerProduct') }}" alt="Info" />
-                                                                </div>
-                                                                #}
-                                                            </div>
-                                                        {% endblock %}
-                                                    </div>
-                                                {% endblock %}
                     {% if loop.first %}
                         {% set class = "active" %}
                     {% else %}
@@ -196,16 +95,16 @@
                                                     } %}
 
                                                     <button type="submit" class="btn btn-link">
-                                                    {% sw_thumbnails 'product-image-thumbnails' with {
-                                                        media: cover,
-                                                        sizes: {
-                                                            'xs': '501px',
-                                                            'sm': '315px',
-                                                            'md': '427px',
-                                                            'lg': '333px',
-                                                            'xl': '284px'
-                                                        }
-                                                    } %}
+                                                        {% sw_thumbnails 'product-image-thumbnails' with {
+                                                            media: cover,
+                                                            sizes: {
+                                                                'xs': '501px',
+                                                                'sm': '315px',
+                                                                'md': '427px',
+                                                                'lg': '333px',
+                                                                'xl': '284px'
+                                                            }
+                                                        } %}
                                                     </button>
                                                 {% else %}
                                                     <div class="product-image-placeholder">
@@ -242,36 +141,42 @@
                                                     <input type="hidden" name="quantity" value="1">
                                                     <input type="hidden" name="_csrf_token"
                                                            value="{{ csrf_token('invMixerProduct.storeFront.mix.session.add') }}">
-                                                    <button class="btn button btn-block btn-buy"
+                                                    <button class="btn button btn-block btn-buy inv-mixerProduct-button-animated-loading state-initial"
                                                             type="submit">
-                                                        {{ "InvMixerProduct.buttons.add"|trans }}
+                                                        <span class="label-state-initial">{{ "InvMixerProduct.buttons.add.add"|trans }}</span>
+                                                        <span class="label-state-progress">
+                                                                                <div class="spinner-border" role="status">
+                                                                                  <span class="sr-only">{{ "InvMixerProduct.buttons.add.progress"|trans }}</span>
+                                                                                </div>
+                                                                            </span>
+                                                        <span class="label-state-result-success">
+                                                                                {% sw_icon 'checkmark-circle' style { 'color': 'white' } %}
+                                                                                <span>{{ "InvMixerProduct.buttons.add.success"|trans }}</span>
+                                                                            </span>
+                                                        <span class="label-state-result-failure">{{ "InvMixerProduct.buttons.add.failure"|trans }}</span>
                                                     </button>
 
                                                 </div>
+                                            </div>
+                                            {% endblock %}
                                                 {# Do not display product info
                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-2">
                                                    <img src="{{ asset('storefront/img/mixer-product-product-info.svg', '@InvMixerProduct') }}" alt="Info" />
                                                 </div>
                                                 #}
+                                        </div>
+                                        {% endblock %}
                                     </form>
                                 </div>
-                                {% endblock %}
+                              </div>
                             </div>
-                            {% endblock %}
 
-
-                        </div>
+                        {% endfor %}
                     </div>
-                </div>
-
                 {% endfor %}
+                </div>
             </div>
-            {% endfor %}
         </div>
         {% endblock %}
     </div>
-    </div>
-    </div>
 {% endblock %}
-
-

@@ -10,6 +10,9 @@
     .label-state-progress {
         height:1rem;
         overflow:visible;
+        margin-top: -3px;
+        margin-bottom: 3px;
+
         .spinner-border {
             height:1.2rem;
             width:1.2rem;
@@ -19,9 +22,13 @@
     .label-state-result-success {
         overflow:visible;
         height:1rem;
+        margin-top: -3px;
+        margin-bottom: 3px;
+
         span {
             height:1rem;
         }
+
         .icon {
             color:white;
             height:1rem;
