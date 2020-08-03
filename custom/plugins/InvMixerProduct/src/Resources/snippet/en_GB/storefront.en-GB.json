@@ -35,7 +35,11 @@
             }
         },
         "buttons": {
-            "add": "Add to mix",
+            "add": {
+                "add": "Add to chocolate",
+                "progress": "Adding to chocolate",
+                "success": "Added to chocolate"
+            },
             "remove": "Remove",
             "addToCart": "Add to cart",
             "changeConfig": "Größe, Sorte & Design konfigurieren",

@@ -33,7 +33,11 @@
             }
         },
         "buttons": {
-            "add": "hinzufügen",
+            "add": {
+                "add": "hinzufügen",
+                "progress": "wird hinzugefügt...",
+                "success": "Zutat hinzugefügt"
+            },
             "remove": "entfernen",
             "addToCart": "In den Warenkorb",
             "changeConfig": "Größe, Sorte & Design konfigurieren",
