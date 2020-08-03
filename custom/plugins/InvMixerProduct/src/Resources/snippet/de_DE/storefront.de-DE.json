@@ -33,18 +33,25 @@
             }
         },
         "buttons": {
-            "add": "hinzufügen",
+            "add": {
+                "add": "hinzufügen",
+                "progress": "wird hinzugefügt...",
+                "success": "Zutat hinzugefügt"
+            },
             "remove": "entfernen",
             "addToCart": "In den Warenkorb",
             "changeConfig": "Größe, Sorte & Design konfigurieren",
             "offcanvasSidebarClose": "Wähle hier Deine Zutaten",
             "offcanvasSidebarChangeConfig": "Auswahl ändern oder bestellen",
-            "offcanvasSidebarChangeSelection": "Oder Auswahl ändern"
+            "offcanvasSidebarChangeSelection": "Oder Auswahl ändern",
+            "moreLink": " | Mehr ...",
+            "lessLink": " | Weniger ..."
         },
         "placeholders": {
             "mixLabel": "Meine Schokoladentafel",
             "mixLabelMobile": "Benenne Deine Schokolade",
-            "noItems": "Noch hat Deine Schokoladentafel keine zusätzlichen Zutaten. Füge jetzt weitere Zutaten hinzu!"
+            "noItems": "Noch hat Deine Schokoladentafel keine zusätzlichen Zutaten. Füge jetzt weitere Zutaten hinzu!",
+            "noItemsShort": "Füge jetzt Zutaten hinzu!"
         },
         "information": {
             "deliveryTime": "Voraussichtliche Lieferung in 3-8 Werktagen"

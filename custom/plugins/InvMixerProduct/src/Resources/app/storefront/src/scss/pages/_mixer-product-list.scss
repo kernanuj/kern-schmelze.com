@@ -4,6 +4,10 @@
     .col-lg-8 {
         .product-image-wrapper {
             height: auto;
+
+            &:hover {
+                cursor: pointer;
+            }
         }
 
         .tab-content {
