@@ -1,7 +1,7 @@
 {
     "InvKernschmelzeTemplate": {
         "searchLinkText": "Suche",
-        "accountLinkText": "Account",
+        "accountLinkText": "Mein Konto",
         "cartLinkText": "Warenkorb",
         "allProductsLink": "Alle Produkte",
         "checkout": {
