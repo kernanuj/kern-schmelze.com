@@ -103,15 +103,16 @@
 
                 display:block;
                 position: fixed;
-                bottom: 0;
+                top: 174px;
                 right:0;
-                height: 100%;
-                z-index: 91000;
+                height: calc(100% - 174px);
+                z-index: 1000;
                 width: 100%;
                 overflow-y: scroll;
                 overflow-x: hidden;
                 transition: visibility .2s ease-in-out, transform .2s ease-in-out;
                 padding: 0;
+                margin-bottom: 0;
 
                 &.show {
                     visibility: visible;
@@ -129,6 +130,10 @@
                 &.minimal {
                     height: auto;
                     margin-bottom: 0;
+                    top: auto;
+                    bottom: 0;
+                    max-height: calc(100% - 174px);
+                    overflow-y: auto;
 
                     img {
                         &.mobile {
@@ -284,7 +289,10 @@
                     }
 
                     .mixer-product-items {
-                        .col-1 {
+                        overflow-y: auto;
+                        max-height: 400px;
+
+                        /*.col-1 {
                             img {
                                 max-width: 25px !important;
                             }
@@ -297,9 +305,9 @@
 
                         .col-1 {
                             &.mix-item-product-actions-wrapper {
-                                display: none;
+                                //display: none;
                             }
-                        }
+                        }*/
                     }
 
                     .mixer-product-total {
