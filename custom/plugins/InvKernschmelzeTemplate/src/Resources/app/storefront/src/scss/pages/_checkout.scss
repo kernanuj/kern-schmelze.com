@@ -29,12 +29,15 @@ div.cart-item-label {
 .checkout-main {
     .btn {
         &.continue-shopping {
-            position: absolute;
-            top: 0;
-            right: 0;
+            float: right;
+            display: block;
             background: $ks-gray;
             border-color: $ks-gray;
             color: $black;
         }
+    }
+
+    .cart-main-header {
+        clear: both;
     }
 }

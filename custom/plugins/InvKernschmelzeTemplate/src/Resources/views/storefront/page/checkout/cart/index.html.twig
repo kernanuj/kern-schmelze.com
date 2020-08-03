@@ -4,11 +4,10 @@
 {% endblock %}
 
 {% block page_checkout_cart_header %}
-    {{ parent() }}
-
-    <a href="{{ "InvKernschmelzeTemplate.checkout.continueShoppingLink"|trans }}" class="btn btn-primary continue-shopping" title="{{ "InvKernschmelzeTemplate.checkout.continueShopping"|trans }}">
+    <a href="{{ "InvKernschmelzeTemplate.checkout.continueShoppingLink"|trans }}" class="btn btn-primary continue-shopping clearfix" title="{{ "InvKernschmelzeTemplate.checkout.continueShopping"|trans }}">
         {{ "InvKernschmelzeTemplate.checkout.continueShopping"|trans }}
     </a>
+    {{ parent() }}
 {% endblock %}
 
 {% block page_checkout_cart_add_promotion_label %}
