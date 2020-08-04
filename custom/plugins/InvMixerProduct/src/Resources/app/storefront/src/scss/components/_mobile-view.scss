@@ -356,12 +356,35 @@
             }
         }
     }
+}
 
+@media (max-width: 768px) {
+    .mixer-product-list {
+        .col-lg-4 {
+            &#mixer-product-offcanvas {
+                top: 146px;
+                height: calc(100% - 146px);
+
+                &.minimal {
+                    max-height: calc(100% - 146px);
+                }
+            }
+        }
+    }
 }
 
 @media (max-width: 576px) {
     .mixer-product-list {
         .col-lg-4 {
+            &#mixer-product-offcanvas {
+                top: 56px;
+                height: calc(100% - 56px);
+
+                &.minimal {
+                    max-height: calc(100% - 56px);
+                }
+            }
+
             .mixer-product-actions {
                 .col-lg-4 {
                     padding: 0 20px;
