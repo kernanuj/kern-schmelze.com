@@ -1,6 +1,7 @@
 #mc_signup_scroll {
     text-align: center;
     margin: 90px 0;
+    overflow: hidden;
 
     .h2 {
         margin-bottom: 30px;
@@ -28,5 +29,12 @@
         display: block;
         font-size: 11px;
         line-height: 14px;
+    }
+}
+
+
+@media (max-width: 576px) {
+    #mc_signup_scroll {
+        padding: 0 20px;
     }
 }
