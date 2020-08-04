@@ -127,9 +127,18 @@
         {% endblock %}
 
         {% block inv_product_mixer_sidebar_mixer_product_ingredients_count_mobile %}
-            <div class="ingredients-mobile-wrapper mixer-product-row">
+            {% if not mixView.filled and not mixView.isComplete %}
+                {% set borderClass = "frame-border" %}
+            {% endif %}
+            <div class="clear"></div>
+
+            {% if mixView.filled or mixView.isComplete %}
+                <hr />
+            {% endif %}
+
+            <div class="ingredients-mobile-wrapper mixer-product-row {{ borderClass }}">
                 {% block inv_product_mixer_sidebar_mixer_product_ingredients_count_mobile_title %}
-                    <hr />
+
                     <span class="title ingredients-mobile-title">
                         {% if mixView.filled or mixView.isComplete %}
                             <img src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-tick-green.svg') }}" width="30" height="" alt="21" class="mobile" />
@@ -147,10 +156,8 @@
                                 {% if mixView.itemCollection.items is empty %}
                                     {{ "InvMixerProduct.placeholders.noItemsShort"|trans|raw }}
                                 {% else %}
-                                    {% if mixView.itemCollection.items|length > 1 %}
-                                        {% set moreLink = "InvMixerProduct.buttons.moreLink"|trans %}
-                                        {% set lessLink = "InvMixerProduct.buttons.lessLink"|trans %}
-                                    {% endif %}
+                                    {% set moreLink = "InvMixerProduct.buttons.moreLink"|trans %}
+                                    {% set lessLink = "InvMixerProduct.buttons.lessLink"|trans %}
 
                                     {% for mixViewItem in mixView.itemCollection.items|slice(0, 1) %}
                                         {% set name = mixViewItem.referencedMixItem.product.translated.name %}
@@ -309,7 +316,9 @@
 
             {% block inv_product_mixer_sidebar_mixer_product_label_title %}
                 <div class="mix-state-set-label {{ classIsComplete }}">
-                    <hr class="hr" />
+                    {% if mixView.filled or mixView.isComplete %}
+                        <hr class="hr" />
+                    {% endif %}
 
                     {% if mixView.IsFilled and mixView.MixLabel is empty %}
                     <div class="flashbags">
@@ -319,7 +328,7 @@
                     </div>
                     {% endif %}
 
-                    <span id="mix-state-set-label-anchor" class="title">{{ "InvMixerProduct.sidebar.titles.label"|trans }}</span>
+                    <span id="mix-state-set-label-anchor" class="title {{ classIsComplete }}">{{ "InvMixerProduct.sidebar.titles.label"|trans }}</span>
                 </div>
             {% endblock %}
 
@@ -350,7 +359,9 @@
                 {% set taxText = "general.netTaxInformation"|trans|sw_sanitize %}
             {% endif %}
 
-            <hr/>
+            {% if mixView.filled or mixView.isComplete %}
+                <hr/>
+            {% endif %}
 
             {% if mixView.isComplete and mixView.MixLabel is not empty %}
                 <div class="flashbags">

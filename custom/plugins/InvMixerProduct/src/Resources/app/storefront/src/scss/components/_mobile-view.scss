@@ -112,6 +112,10 @@
                 padding: 0;
                 margin-bottom: 0;
 
+                .clear {
+                    clear: both;
+                }
+
                 &.show {
                     visibility: visible;
                     transform: translateX(0);
@@ -173,6 +177,12 @@
                     .ingredients-mobile-wrapper {
                         display: block;
 
+                        &.frame-border {
+                            border: 3px solid $mixer-product-itemlist-frame-color;
+                            padding: 5px;
+                            margin-bottom: 5px;
+                        }
+
                         .mixer-product-itemlist-more-link,
                         .mixer-product-itemlist-less-link {
                             color: $mixer-product-itemlist-more-link-color;
@@ -204,7 +214,7 @@
                         margin-bottom: 5px;
 
                         &:first-child {
-                            display: none;
+                            //display: none;
                         }
 
                         &:after {
