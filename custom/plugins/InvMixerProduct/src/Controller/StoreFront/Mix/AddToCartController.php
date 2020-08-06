@@ -96,6 +96,17 @@ class AddToCartController extends MixController
             $salesChannelContext
         );
 
+        if($cart->getErrors()->count() > 0){
+            $this->addFlash(
+                'alert',
+                $this->trans('error.addToCartError', ['%count%' => $quantity])
+            );
+
+            return $this->redirectToRoute(
+                'invMixerProduct.storeFront.mix.index'
+            );
+        }
+
         $this->removeFromSession($this->session);
 
 
