@@ -147,21 +147,25 @@ class MixProductCartDataCollector implements CartDataCollectorInterface
         CartDataCollection $data
     ): void {
 
-        if(true !== $subjectContainerProductLineItem->isModified()){
+        if (true !== $subjectContainerProductLineItem->isModified()) {
             return;
         }
 
-        $this->enrichDeliveryTime(
-            $subjectContainerProductLineItem,
-            $salesChannelContext,
-            $data
-        )->enrichBaseProductCover(
-            $subjectContainerProductLineItem,
-            $salesChannelContext,
-            $data
-        )->enrichContainerProductLabel(
-            $subjectContainerProductLineItem
-        );
+        $this
+            ->enrichQuantityInformation(
+                $subjectContainerProductLineItem
+            )
+            ->enrichDeliveryTime(
+                $subjectContainerProductLineItem,
+                $salesChannelContext,
+                $data
+            )->enrichBaseProductCover(
+                $subjectContainerProductLineItem,
+                $salesChannelContext,
+                $data
+            )->enrichContainerProductLabel(
+                $subjectContainerProductLineItem
+            );
 
     }
 
@@ -207,7 +211,7 @@ class MixProductCartDataCollector implements CartDataCollectorInterface
             $salesChannelContext
         );
 
-        if(!$baseProduct->getCover()){
+        if (!$baseProduct->getCover()) {
             return $this;
         }
 
@@ -297,6 +301,31 @@ class MixProductCartDataCollector implements CartDataCollectorInterface
                 )
             )
             ->setQuantityInformation(new QuantityInformation());
+
+        return $this;
+    }
+
+    /**
+     * @param LineItem $subjectContainerProductLineItem
+     * @return $this
+     */
+    private function enrichQuantityInformation(LineItem $subjectContainerProductLineItem): self
+    {
+        $quantityInformation = new QuantityInformation();
+
+        $quantityInformation->setMinPurchase(
+            1
+        );
+
+        $quantityInformation->setMaxPurchase(
+            99
+        );
+
+        $quantityInformation->setPurchaseSteps(
+            1
+        );
+
+        $subjectContainerProductLineItem->setQuantityInformation($quantityInformation);
 
         return $this;
     }

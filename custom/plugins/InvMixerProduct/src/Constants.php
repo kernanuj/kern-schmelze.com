@@ -39,6 +39,8 @@ final class Constants
 
     public const PRODUCT_CUSTOM_FIELD_KEY_DATA_INGREDIENTS = 'custom_product_data_ingredients';
     public const PRODUCT_CUSTOM_FIELD_KEY_DATA_ALLERGENS = 'custom_product_data_allergens';
+
+    public const DEFAULT_MIX_CONTAINER_LABEL = 'Meine Schokoladentafel';
     /**
      *
      */
