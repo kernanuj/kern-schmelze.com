@@ -73,7 +73,7 @@ class SetLabelController extends MixController
                 new Constraints\NotNull(),
                 new Constraints\Length(
                     [
-                        'max' => 125,
+                        'max' => 104,
                         'min' => 3
                     ]
                 ),
