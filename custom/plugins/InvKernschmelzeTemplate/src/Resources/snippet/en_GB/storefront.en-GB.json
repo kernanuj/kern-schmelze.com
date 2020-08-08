@@ -5,6 +5,9 @@
         "cartLinkText": "Warenkorb",
         "allProductsLink": "/all-products/",
         "allProductsLinkText": "All Products",
+        "buttons": {
+            "viewProduct": "View product"
+        },
         "checkout": {
             "addPromotionLabel": "Insert Voucher-Code here:",
             "continueShopping": "Continue shopping",
