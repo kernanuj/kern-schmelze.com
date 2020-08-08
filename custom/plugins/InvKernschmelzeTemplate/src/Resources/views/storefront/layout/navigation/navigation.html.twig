@@ -1,13 +1,13 @@
 {% sw_extends '@Storefront/storefront/layout/navigation/navigation.html.twig' %}
 
 {% block layout_main_navigation_menu_home %}
+    {% set allProductsUrl = "InvKernschmelzeTemplate.allProductsLinkText"|trans|striptags %}
     <a class="nav-link main-navigation-link home-link"
-       href="{{ path('frontend.home.page') }}"
+       href="{{ "InvKernschmelzeTemplate.allProductsLink"|trans|striptags }}"
        itemprop="url"
-       title="{{ "InvKernschmelzeTemplate.allProductsLink"|trans|striptags }}">
+       title="{{ "InvKernschmelzeTemplate.allProductsLinkText"|trans|striptags }}">
         <div class="main-navigation-link-text">
-            {% sw_icon "stack" %}
-            <span itemprop="name">{{ "InvKernschmelzeTemplate.allProductsLink"|trans|sw_sanitize }}</span>
+            <span itemprop="name">{{ "InvKernschmelzeTemplate.allProductsLinkText"|trans|sw_sanitize }}</span>
         </div>
     </a>
 

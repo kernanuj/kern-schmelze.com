@@ -3,7 +3,8 @@
         "searchLinkText": "Suche",
         "accountLinkText": "Account",
         "cartLinkText": "Warenkorb",
-        "allProductsLink": "All Products",
+        "allProductsLink": "/all-products/",
+        "allProductsLinkText": "All Products",
         "checkout": {
             "addPromotionLabel": "Insert Voucher-Code here:",
             "continueShopping": "Continue shopping",

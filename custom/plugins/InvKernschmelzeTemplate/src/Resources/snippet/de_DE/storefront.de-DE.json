@@ -3,7 +3,8 @@
         "searchLinkText": "Suche",
         "accountLinkText": "Mein Konto",
         "cartLinkText": "Warenkorb",
-        "allProductsLink": "Alle Produkte",
+        "allProductsLink": "/alle-produkte/",
+        "allProductsLinkText": "Alle Produkte",
         "checkout": {
             "addPromotionLabel": "Hier Rabattcode eingeben:",
             "continueShopping": "Weiter einkaufen",
