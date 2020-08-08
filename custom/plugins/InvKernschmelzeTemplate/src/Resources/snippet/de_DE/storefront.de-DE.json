@@ -8,7 +8,7 @@
         "checkout": {
             "addPromotionLabel": "Hier Rabattcode eingeben:",
             "continueShopping": "Weiter einkaufen",
-            "continueShoppingLink": "/sortiment-schokolade/"
+            "continueShoppingLink": "/alle-produkte/"
         },
         "benefits": {
             "benefit1": "Liebevolle Handarbeit",

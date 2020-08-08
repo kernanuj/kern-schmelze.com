@@ -228,6 +228,13 @@ ul.product-detail-benefits {
             &.active {
                 color: $ks-green;
             }
+
+            .product-detail-tab-preview {
+                font-size: 14px;
+                line-height: 16px;
+                text-transform: none;
+                color: $black;
+            }
         }
 
         .tab-pane {
