@@ -1,27 +1,10 @@
-{%  if page.product.translated.customFields.custom_product_data_benefits %}
+{%  if page.product.translated.customFields.custom_product_data_benefits is not empty %}
+    {% set benefits = page.product.translated.customFields.custom_product_data_benefits %}
+
     <ul class="product-detail-benefits d-flex flex-wrap align-items-center">
-        {% if page.product.translated.customFields.custom_product_data_benefits.0 %}
-            <li class="benefit benefit1"><span></span>{{ 'InvKernschmelzeTemplate.benefits.benefit1'|trans }}</li>
-        {% endif %}
-
-        {% if page.product.translated.customFields.custom_product_data_benefits.1 %}
-            <li class="benefit benefit2"><span></span>{{ 'InvKernschmelzeTemplate.benefits.benefit2'|trans }}</li>
-        {% endif %}
-
-        {% if page.product.translated.customFields.custom_product_data_benefits.2 %}
-            <li class="benefit benefit3"><span></span>{{ 'InvKernschmelzeTemplate.benefits.benefit3'|trans }}</li>
-        {% endif %}
-
-        {% if page.product.translated.customFields.custom_product_data_benefits.3 %}
-            <li class="benefit benefit4"><span></span>{{ 'InvKernschmelzeTemplate.benefits.benefit4'|trans }}</li>
-        {% endif %}
-
-        {% if page.product.translated.customFields.custom_product_data_benefits.4 %}
-            <li class="benefit benefit5"><span></span>{{ 'InvKernschmelzeTemplate.benefits.benefit5'|trans }}</li>
-        {% endif %}
-
-        {% if page.product.translated.customFields.custom_product_data_benefits.5 %}
-            <li class="benefit benefit6"><span></span>{{ 'InvKernschmelzeTemplate.benefits.benefit6'|trans }}</li>
-        {% endif %}
+        {% for benefit in benefits %}
+            {% set benefitText = "InvKernschmelzeTemplate.benefits."~benefit %}
+            <li class="benefit {{ benefit }}"><span></span>{{ benefitText|trans }}</li>
+        {% endfor %}
     </ul>
 {% endif %}
