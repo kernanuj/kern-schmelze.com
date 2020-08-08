@@ -16,6 +16,7 @@
     "@Storefront",
     "app/storefront/dist/storefront/js/inv-kernschmelze-template.js",
     "app/storefront/dist/storefront/js/sticky-header.js",
+    "app/storefront/dist/storefront/js/sticky-mixer-sidebar-desktop.js",
     "app/storefront/dist/storefront/js/mailchimp-signup-form.js"
   ],
   "asset": [

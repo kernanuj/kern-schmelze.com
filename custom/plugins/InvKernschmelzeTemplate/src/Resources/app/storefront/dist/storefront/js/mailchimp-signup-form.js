@@ -1,8 +1,8 @@
-$(document).ready(function(){
-    console.log('MC signup Script loaded.');
+$(document).ready(function() {
+    var mceEmailCust= $('#mce-EMAIL-cust');
 
-    if ($('#mce-EMAIL-cust').length) {
-        $('#mce-EMAIL-cust')
+    if (mceEmailCust.length) {
+        mceEmailCust
             .keyup(function() {
                 var href = $('#signupurl').val();
                 var value = $(this).val();
