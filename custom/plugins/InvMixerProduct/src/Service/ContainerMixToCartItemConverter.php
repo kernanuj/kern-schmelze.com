@@ -7,6 +7,7 @@ use InvMixerProduct\Entity\MixEntity as Subject;
 use InvMixerProduct\Repository\ProductRepository;
 use InvMixerProduct\Repository\SalesChannelProductRepository;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
+use Shopware\Core\Checkout\Cart\LineItem\QuantityInformation;
 use Shopware\Core\Content\Product\Cart\ProductLineItemFactory;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -28,6 +29,11 @@ class ContainerMixToCartItemConverter implements MixToCartItemConverterInterface
     private $productLineItemFactory;
 
     /**
+     * @var ContainerProductLineItemFactory
+     */
+    private $containerProductLineItemFactory;
+
+    /**
      * @var ProductRepository
      */
     private $productRepository;
@@ -40,15 +46,18 @@ class ContainerMixToCartItemConverter implements MixToCartItemConverterInterface
     /**
      * ContainerMixToCartItemConverter constructor.
      * @param ProductLineItemFactory $productLineItemFactory
+     * @param ContainerProductLineItemFactory $containerProductLineItemFactory
      * @param ProductRepository $productRepository
      * @param SalesChannelProductRepository $salesChannelProductRepository
      */
     public function __construct(
         ProductLineItemFactory $productLineItemFactory,
+        ContainerProductLineItemFactory $containerProductLineItemFactory,
         ProductRepository $productRepository,
         SalesChannelProductRepository $salesChannelProductRepository
     ) {
         $this->productLineItemFactory = $productLineItemFactory;
+        $this->containerProductLineItemFactory = $containerProductLineItemFactory;
         $this->productRepository = $productRepository;
         $this->salesChannelProductRepository = $salesChannelProductRepository;
     }
@@ -70,19 +79,34 @@ class ContainerMixToCartItemConverter implements MixToCartItemConverterInterface
         );
 
 
-        $lineItem = null;
-        $lineItem = new LineItem(
-            $subject->getId(),
-            Constants::LINE_ITEM_TYPE_IDENTIFIER,
-            null,
-            $quantity
+        $lineItem = $this->containerProductLineItemFactory->create(
+            [
+                'id' => $subject->getId(),
+                'quantity' => $quantity
+            ],
+            $salesChannelContext
         );
-        $lineItem->setRemovable(true);
-        $lineItem->setStackable(true);
+
+        $lineItem->setLabel(
+            empty($subject->getLabel()) ? Constants::DEFAULT_MIX_CONTAINER_LABEL : $subject->getLabel()
+        );
+
         $lineItem->setPayloadValue(Constants::KEY_MIX_LABEL_CART_ITEM, $subject->getLabel());
         $lineItem->setPayloadValue(Constants::KEY_IS_MIX_CONTAINER_PRODUCT, true);
         $lineItem->setPayloadValue(Constants::KEY_MIX_ENTITY_ID, $subject->getId());
         $lineItem->setPayloadValue(Constants::KEY_MIX_DISPLAY_ID, $subject->getDisplayId());
+
+        $quantityInformation = new QuantityInformation();
+        $quantityInformation->setMinPurchase(
+            1
+        );
+        $quantityInformation->setMaxPurchase(
+            99
+        );
+        $quantityInformation->setPurchaseSteps(
+            1
+        );
+        $lineItem->setQuantityInformation($quantityInformation);
 
 
         // add container product as first line item

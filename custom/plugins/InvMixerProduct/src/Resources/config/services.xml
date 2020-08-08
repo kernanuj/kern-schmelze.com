@@ -51,6 +51,7 @@
 
         <service id="InvMixerProduct\Service\ContainerMixToCartItemConverter">
             <argument type="service" id="Shopware\Core\Content\Product\Cart\ProductLineItemFactory"/>
+            <argument type="service" id="InvMixerProduct\Service\ContainerProductLineItemFactory"/>
             <argument type="service" id="InvMixerProduct\Repository\ProductRepository"/>
             <argument type="service" id="InvMixerProduct\Repository\SalesChannelProductRepository"/>
         </service>
@@ -110,6 +111,10 @@
             <argument type="service" id="Shopware\Core\Checkout\Cart\Price\QuantityPriceCalculator"/>
             <argument type="service" id="Shopware\Core\Checkout\Cart\Price\PercentagePriceCalculator"/>
             <tag name="shopware.cart.processor" priority="6000"/>
+        </service>
+
+        <service id="InvMixerProduct\Service\ContainerProductLineItemFactory">
+            <tag name="shopware.cart.line_item.factory" />
         </service>
     </services>
 </container>
