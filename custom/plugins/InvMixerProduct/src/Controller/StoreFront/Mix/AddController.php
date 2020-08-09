@@ -3,6 +3,7 @@
 namespace InvMixerProduct\Controller\StoreFront\Mix;
 
 use InvMixerProduct\Exception\EntityNotFoundException;
+use InvMixerProduct\Exception\NumberOfProductsExceededException;
 use InvMixerProduct\Repository\ProductRepository;
 use InvMixerProduct\Service\MixServiceInterface;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class AddController
@@ -40,19 +42,27 @@ class AddController extends MixController
     private $mixService;
 
     /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
      * AddController constructor.
      * @param ProductRepository $productRepository
      * @param SessionInterface $session
      * @param MixServiceInterface $mixService
+     * @param TranslatorInterface $translator
      */
     public function __construct(
         ProductRepository $productRepository,
         SessionInterface $session,
-        MixServiceInterface $mixService
+        MixServiceInterface $mixService,
+        TranslatorInterface $translator
     ) {
         $this->productRepository = $productRepository;
         $this->session = $session;
         $this->mixService = $mixService;
+        $this->translator = $translator;
     }
 
 
@@ -85,6 +95,14 @@ class AddController extends MixController
                 $mix,
                 $product,
                 $salesChannelContext
+            );
+        } catch (NumberOfProductsExceededException $e) {
+            $this->addFlash(
+                'alert',
+                $this->trans(
+                    $e->getMessageKey(),
+                    $e->getParameters()
+                )
             );
         } catch (\Throwable $e) {
             $this->addFlash(

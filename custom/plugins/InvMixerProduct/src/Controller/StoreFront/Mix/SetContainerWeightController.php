@@ -3,6 +3,7 @@
 namespace InvMixerProduct\Controller\StoreFront\Mix;
 
 use InvMixerProduct\Exception\EntityNotFoundException;
+use InvMixerProduct\Exception\NumberOfProductsExceededException;
 use InvMixerProduct\Service\MixContainerDefinitionProviderInterface;
 use InvMixerProduct\Service\MixServiceInterface;
 use InvMixerProduct\Value\Weight;
@@ -13,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class SetContainerWeightController
@@ -40,18 +42,27 @@ class SetContainerWeightController extends MixController
     private $containerDefinitionProvider;
 
     /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * SetContainerWeightController constructor.
      * @param SessionInterface $session
      * @param MixServiceInterface $mixService
      * @param MixContainerDefinitionProviderInterface $containerDefinitionProvider
+     * @param TranslatorInterface $translator
      */
     public function __construct(
         SessionInterface $session,
         MixServiceInterface $mixService,
-        MixContainerDefinitionProviderInterface $containerDefinitionProvider
+        MixContainerDefinitionProviderInterface $containerDefinitionProvider,
+        TranslatorInterface $translator
     ) {
         $this->session = $session;
         $this->mixService = $mixService;
         $this->containerDefinitionProvider = $containerDefinitionProvider;
+        $this->translator = $translator;
     }
 
 
@@ -85,6 +96,14 @@ class SetContainerWeightController extends MixController
                 $mix,
                 $containerDefinition,
                 $salesChannelContext
+            );
+        } catch (NumberOfProductsExceededException $e) {
+            $this->addFlash(
+                'alert',
+                $this->trans(
+                    $e->getMessageKey() ,
+                    $e->getParameters()
+                )
             );
         } catch (\Throwable $e) {
             $this->addFlash(

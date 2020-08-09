@@ -200,7 +200,7 @@ class MixService implements MixServiceInterface
         $currentProducts = $subject->getTotalItemQuantity();
 
         if ($currentProducts + $itemQuantityDifference > $maxAllowedProducts) {
-            throw NumberOfProductsExceededException::fromCountAndContainerDefinition(
+            throw NumberOfProductsExceededException::fromNoRoomLeftInContainer(
                 $subject->getContainerDefinition(),
                 $currentProducts + $itemQuantityDifference
             );
@@ -235,7 +235,7 @@ class MixService implements MixServiceInterface
         }
 
         if ($subject->getCountOfDifferentProducts() > $subject->getContainerDefinition()->getFillDelimiter()->getAmount()->getValue()) {
-            throw NumberOfProductsExceededException::fromCountAndContainerDefinition(
+            throw NumberOfProductsExceededException::fromNoRoomLeftInContainer(
                 $subject->getContainerDefinition(),
                 $subject->getCountOfDifferentProducts() + 1
             );
@@ -326,7 +326,7 @@ class MixService implements MixServiceInterface
 
         $currentProductCount = $subject->getTotalItemQuantity();
         if ($currentProductCount > $containerDefinition->getFillDelimiter()->getAmount()->getValue()) {
-            throw NumberOfProductsExceededException::fromCountAndContainerDefinition(
+            throw NumberOfProductsExceededException::fromContainerDefinitionIsInsufficientForContent(
                 $containerDefinition,
                 $currentProductCount
             );
