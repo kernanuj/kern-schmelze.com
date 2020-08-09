@@ -1,9 +1,19 @@
 {% sw_extends '@Storefront/storefront/layout/navigation/navigation.html.twig' %}
 
 {% block layout_main_navigation_menu_home %}
-    {% set allProductsUrl = "InvKernschmelzeTemplate.allProductsLinkText"|trans|striptags %}
+    {# B2C #}
+    {% if context.salesChannel.id == "117fc963b83e4318b040eac17bd8b70d" %}
+        {% set allProductsUrl = "InvKernschmelzeTemplate.allProductsLink"|trans|striptags %}
+    {# B2B #}
+    {% elseif context.salesChannel.id == "4a186f835877446aa29cd798f0e57437" %}
+        {% set allProductsUrl = "InvKernschmelzeTemplate.allProductsLinkB2b"|trans|striptags %}
+    {# Others #}
+    {% else %}
+        {% set allProductsUrl = "InvKernschmelzeTemplate.allProductsLink"|trans|striptags %}
+    {% endif %}
+
     <a class="nav-link main-navigation-link home-link"
-       href="{{ "InvKernschmelzeTemplate.allProductsLink"|trans|striptags }}"
+       href="{{ allProductsUrl }}"
        itemprop="url"
        title="{{ "InvKernschmelzeTemplate.allProductsLinkText"|trans|striptags }}">
         <div class="main-navigation-link-text">

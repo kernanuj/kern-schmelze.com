@@ -4,6 +4,7 @@
         "accountLinkText": "Account",
         "cartLinkText": "Warenkorb",
         "allProductsLink": "/all-products/",
+        "allProductsLinkB2b": "/b2b-shop/alle-produkte/",
         "allProductsLinkText": "All Products",
         "buttons": {
             "viewProduct": "View product"
