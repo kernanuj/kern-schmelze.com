@@ -77,7 +77,7 @@ class AddToCartController extends MixController
         } catch (InsufficientMixComponentsException $exception) {
             $this->addFlash(
                 'alert',
-                $this->trans('invMixerProduct.mix.addToCart.failed.insufficientComponents', ['%count%' => $mix->getCountOfDifferentProducts()])
+                $this->trans('InvMixerProduct.mix.addToCart.failed.insufficientComponents', ['%count%' => $mix->getCountOfDifferentProducts()])
             );
 
             return $this->redirectToRoute(
