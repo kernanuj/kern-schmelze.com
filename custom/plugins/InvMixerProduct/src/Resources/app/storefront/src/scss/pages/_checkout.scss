@@ -5,7 +5,9 @@
 .is-mix-child-product {
     .cart-item-img,
     .icon {
-       max-width: 30px;
+        width: 28px;
+        height: auto;
+        max-width: 30px;
     }
 
     .cart-item-label {
@@ -35,12 +37,47 @@
 
         .cart-item-label {
             font-weight: normal;
+
+            span {
+                display: inline;
+            }
         }
 
         .cart-item-img,
         .icon {
-            width: auto;
+            width: 28px;
             height: auto;
+            max-width: 30px;
+        }
+    }
+}
+
+.cart-item-label {
+    span {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .is-mix-child-product {
+        .is-child {
+            padding: 0;
+        }
+
+        .cart-item-info {
+            margin-bottom: 0;
+        }
+
+        .cart-item-label {
+            span {
+                display: inline;
+            }
+        }
+
+        .cart-item-quantity,
+        .cart-item-quantity-label,
+        .cart-item-total-price-label {
+           display: none;
         }
     }
 }

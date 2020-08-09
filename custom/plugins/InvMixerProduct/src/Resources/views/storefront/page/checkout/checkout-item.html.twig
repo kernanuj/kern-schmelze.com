@@ -90,6 +90,7 @@
                         </a>
                     {% else %}
                         <div class="cart-item-label">
+                            <span>{{ lineItem.quantity }} {{ "checkout.quantityTimes"|trans|sw_sanitize }} </span>
                             {{ lineItem.label|u.truncate(60) }}
                         </div>
                     {% endif %}
@@ -139,7 +140,6 @@
         {% endblock %}
     </div>
 {% endblock %}
-
 
 {% block page_checkout_item_quantity_form %}
     {% if lineItem.quantityInformation and lineItem.stackable %}
@@ -209,4 +209,3 @@
     {{ parent() }}
     {% endif %}
 {% endblock %}
-
