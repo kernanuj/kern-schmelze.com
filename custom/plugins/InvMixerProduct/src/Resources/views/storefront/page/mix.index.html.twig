@@ -11,15 +11,17 @@
 
     <div class="row mixer-product-list">
         <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 order-lg-12 is-left show" id="mixer-product-offcanvas">
-            {% set mixPluginOptions = {
-                urlMixState: path('invMixerProduct.storeFront.mix.state')
-            } %}
-            <div class="inner">
-                <h2>{{ "InvMixerProduct.sidebar.titles.main"|trans }}</h2>
-                <p class="description">{{ "InvMixerProduct.sidebar.description"|trans|raw }}</p>
+            <div class="sticky-wrapper">
+                {% set mixPluginOptions = {
+                    urlMixState: path('invMixerProduct.storeFront.mix.state')
+                } %}
+                <div class="inner">
+                    <h2>{{ "InvMixerProduct.sidebar.titles.main"|trans }}</h2>
+                    <p class="description">{{ "InvMixerProduct.sidebar.description"|trans|raw }}</p>
 
-                <div data-inv-mixer-product-mix="true"
-                     data-inv-mixer-product-mix-options='{{ mixPluginOptions|json_encode }}'></div>
+                    <div data-inv-mixer-product-mix="true"
+                         data-inv-mixer-product-mix-options='{{ mixPluginOptions|json_encode }}'></div>
+                </div>
             </div>
         </div>
 
