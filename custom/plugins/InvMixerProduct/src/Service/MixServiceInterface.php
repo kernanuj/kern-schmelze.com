@@ -5,6 +5,7 @@ namespace InvMixerProduct\Service;
 use Exception;
 use InvMixerProduct\Entity\MixEntity as Subject;
 use InvMixerProduct\Exception\EntityNotFoundException;
+use InvMixerProduct\Exception\NumberOfProductsExceededException;
 use InvMixerProduct\Struct\ContainerDefinition;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
@@ -24,6 +25,7 @@ interface MixServiceInterface
      * @param SalesChannelContext $context
      * @return Subject
      *
+     * @throws NumberOfProductsExceededException
      * @throws EntityNotFoundException
      * @throws Exception
      */
@@ -72,6 +74,7 @@ interface MixServiceInterface
      *
      * @return Subject
      *
+     * @throws NumberOfProductsExceededException
      * @throws Exception
      */
     public function applyContainerDefinition(

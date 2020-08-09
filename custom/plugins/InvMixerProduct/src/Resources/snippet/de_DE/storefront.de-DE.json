@@ -72,7 +72,11 @@
                     "insufficientComponents": "Bitte füge mindestens eine Zutat zu Deiner Schokolade hinzu."
                 }
             },
-            "from": "von"
+            "from": "von",
+            "error" : {
+                "containerDefinitionIsInsufficientForContent" : "Deine Schokoladentafel hat bereits die maximale Anzahl (newCount) an Zutaten.",
+                "noRoomLeftInContainer" : "Deine Schokoladentafel hat bereits die maximale Anzahl (newCount) an Zutaten. Du kannst jetzt bestellen."
+            }
         }
     }
 }

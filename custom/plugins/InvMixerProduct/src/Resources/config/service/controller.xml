@@ -10,6 +10,7 @@
             <argument type="service" id="InvMixerProduct\Repository\ProductRepository"/>
             <argument type="service" id="session"/>
             <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
+            <argument type="service" id="translator"/>
         </service>
         <service id="InvMixerProduct\Controller\StoreFront\Mix\SetQuantityController">
             <tag name="controller.service_arguments"/>
@@ -52,6 +53,7 @@
             <argument type="service" id="session"/>
             <argument type="service" id="InvMixerProduct\Service\MixServiceInterface"/>
             <argument type="service" id="InvMixerProduct\Service\MixContainerDefinitionProviderInterface"/>
+            <argument type="service" id="translator"/>
         </service>
 
         <service id="InvMixerProduct\Controller\StoreFront\Mix\InitController">
