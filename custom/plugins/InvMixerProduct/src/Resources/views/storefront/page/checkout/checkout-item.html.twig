@@ -21,7 +21,7 @@
         </div>
     {%  elseif lineItem.payload.inv_mixer_product__is_mix_container_product %}
         <img
-            src="{{ asset('storefront/img/mix-container-product.jpg', '@InvMixerProduct') }}"
+            src="{{ lineItem.cover.url }}"
             alt="{{ "InvMixerProduct.checkout.mixProductContainer.title|trans" }}"
             class="img-fluid cart-item-img"
         />
