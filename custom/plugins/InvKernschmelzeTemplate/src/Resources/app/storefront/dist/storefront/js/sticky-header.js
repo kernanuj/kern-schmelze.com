@@ -7,7 +7,7 @@ $(document).ready(function(){
         var stickyTop = sticky.top;
 
         $(window).scroll( function(event) {
-            if (!$(".mixer-product-list").length && stickyTop) {
+            if (!$(".mixer-product-list").length && header.length) {
                 invMakeDivSticky(stickyTop);
             }
         });
