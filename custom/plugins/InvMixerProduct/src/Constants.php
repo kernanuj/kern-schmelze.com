@@ -58,6 +58,7 @@ final class Constants
     public const CATALOG_PRODUCT_TAG_CATEGORY_NUTS = 'mixer-product-category-nuts';
     public const CATALOG_PRODUCT_TAG_CATEGORY_SWEETS = 'mixer-product-category-sweets';
     public const CATALOG_PRODUCT_TAG_CATEGORY_DRIEDFRUIT = 'mixer-product-category-driedfruit';
+    public const CATALOG_PRODUCT_TAG_CATEGORY_SPICES = 'mixer-product-category-spices';
 
     public const MIX_DISPLAY_ID_OFFSET = 100000;
 
@@ -82,6 +83,7 @@ final class Constants
             self::CATALOG_PRODUCT_TAG_CATEGORY_NUTS,
             self::CATALOG_PRODUCT_TAG_CATEGORY_SWEETS,
             self::CATALOG_PRODUCT_TAG_CATEGORY_DRIEDFRUIT,
+            self::CATALOG_PRODUCT_TAG_CATEGORY_SPICES
         ];
     }
     /**

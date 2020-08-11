@@ -46,18 +46,13 @@
     .mixer-product-list {
         .nav-tabs {
             li {
-                width: 33.333%;
+                width: 50%;
                 text-align: center;
+                margin-bottom: 5px;
 
                 a {
                     margin-right: 10px;
                     padding: 8px 5px;
-                }
-
-                &:last-child {
-                    a {
-                        margin-right: 0;
-                    }
                 }
 
                 img {

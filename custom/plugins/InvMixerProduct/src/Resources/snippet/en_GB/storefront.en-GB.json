@@ -6,7 +6,8 @@
         "tabs": {
             "mixer-product-category-nuts": "Nuts",
             "mixer-product-category-sweets": "Sweets",
-            "mixer-product-category-driedfruit": "Dried fruits"
+            "mixer-product-category-driedfruit": "Dried fruits",
+            "mixer-product-category-spices": "Spices"
         },
         "designs": {
             "design_1": "KERNschmelze",
