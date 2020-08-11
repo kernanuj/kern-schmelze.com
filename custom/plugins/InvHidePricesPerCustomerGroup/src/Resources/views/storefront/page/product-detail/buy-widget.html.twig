@@ -1,0 +1,24 @@
+{% sw_extends "@Storefront/storefront/page/product-detail/buy-widget.html.twig" %}
+
+{% block page_product_detail_buy_container %}
+    {% if shopware.config.InvHidePricesPerCustomerGroup.config.status == true %}
+        {% if shopware.config.InvHidePricesPerCustomerGroup.config.customerGroupIds %}
+
+            {% set configCustomerGroupIds = shopware.config.InvHidePricesPerCustomerGroup.config.customerGroupIds|split(',') %}
+            {% set currentCustomerGroupId = context.customer.groupId %}
+            {% set replacePriceWithText = shopware.config.InvHidePricesPerCustomerGroup.config.replacePriceWithText %}
+
+            {% if currentCustomerGroupId not in configCustomerGroupIds %}
+                {% if replacePriceWithText %}
+                    {{ replacePriceWithText|raw }}
+                {% else %}
+                    {{ "InvHidePricesPerCustomerGroup.placeholders.replacePriceWithText"|trans }}
+                {% endif %}
+            {% else %}
+                {{ parent() }}
+            {% endif %}
+        {% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

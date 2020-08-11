@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Status</title>
+        <title lang="de-DE">Status</title>
+        <title lang="es-ES">Estado</title>
+        <title lang="fr-FR">Statut</title>
+        <title lang="nl-NL">Status</title>
+
+        <input-field type="bool">
+            <name>status</name>
+            <label>Active</label>
+            <label lang="de-DE">Aktiv</label>
+            <label lang="es-ES">Activado</label>
+            <label lang="fr-FR">Actif</label>
+            <label lang="nl-NL">Actief</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Customer group id's (e.g. 1,2,3)</title>
+        <title lang="de-DE">Kundengruppen IDs (z.B. 1,2,3)</title>
+        <title lang="es-ES">IDs de grupos de clientes</title>
+        <title lang="fr-FR">IDs du groupe de clients (par exemple 1,2,3)</title>
+        <title lang="nl-NL">Klantengroep IDs (bijv. 1,2,3)</title>
+
+        <input-field type="text">
+            <name>customerGroupIds</name>
+            <label>Comma separated IDs of the customer groups you want to hide prices for</label>
+            <label lang="de-DE">Kommagetrennte IDs der Kundengruppen, für die Sie Preise ausblenden möchten</label>
+            <label lang="es-ES">IDs separadas por comas de los grupos de clientes para los que quieres ocultar los precios.</label>
+            <label lang="fr-FR">IDs séparées par des virgules des groupes de clients pour lesquels vous souhaitez masquer les prix</label>
+            <label lang="nl-NL">Kommagescheiden IDs van de klantgroepen waar u de prijzen voor wilt verbergen</label>
+            <defaultValue></defaultValue>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Text</title>
+        <title lang="de-DE">Text</title>
+        <title lang="es-ES">Texto</title>
+        <title lang="fr-FR">Texte</title>
+        <title lang="nl-NL">Tekst</title>
+
+        <input-field type="textarea">
+            <name>replacePriceWithText</name>
+            <label>Text to show instead of price</label>
+            <label lang="de-DE">Anstatt des Preises anzuzeigender Text</label>
+            <label lang="es-ES">El texto a mostrar en lugar del precio</label>
+            <label lang="fr-FR">Texte à afficher au lieu du prix</label>
+            <label lang="nl-NL">Te tonen tekst in plaats van prijs</label>
+            <defaultValue></defaultValue>
+        </input-field>
+    </card>
+</config>

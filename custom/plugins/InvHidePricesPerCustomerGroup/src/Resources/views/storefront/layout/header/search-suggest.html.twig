@@ -1,0 +1,19 @@
+{% sw_extends "@Storefront/storefront/layout/header/search-suggest.html.twig" %}
+
+{% block layout_search_suggest_result_price %}
+    {% if shopware.config.InvHidePricesPerCustomerGroup.config.status == true %}
+        {% if shopware.config.InvHidePricesPerCustomerGroup.config.customerGroupIds %}
+
+            {% set configCustomerGroupIds = shopware.config.InvHidePricesPerCustomerGroup.config.customerGroupIds|split(',') %}
+            {% set currentCustomerGroupId = context.customer.groupId %}
+
+            {% if currentCustomerGroupId not in configCustomerGroupIds %}
+
+            {% else %}
+                {{ parent() }}
+            {% endif %}
+        {% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
