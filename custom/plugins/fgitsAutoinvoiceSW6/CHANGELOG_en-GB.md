@@ -18,3 +18,9 @@
 
 # 5.2.3
 - Removes custom fields if the plugin is deactivated
+
+# 5.2.4
+- Updated fgits-autoinvoice-s-w6.js
+
+# 5.3.0
+- Compatibility with Shopware 6.3

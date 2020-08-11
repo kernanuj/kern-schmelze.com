@@ -7,7 +7,7 @@
                 <div class="order-item-detail-footer fgits-order-item-detail-footer-row">
                     <div class="row no-gutters">
                         <div class="col-12 col-md-12 col-xl-12">
-                            <a href="{{ path('api.action.download.document', { version: '1', documentId: order.invoice.id, deepLinkCode: order.invoice.deepLinkCode }) }}" target="_blank" class="btn btn-primary">
+                            <a href="{{ path('api.action.download.document', { version: '3', documentId: order.invoice.id, deepLinkCode: order.invoice.deepLinkCode }) }}" target="_blank" class="btn btn-primary">
                                 {{ 'fgits-autoinvoice.orderDetail.invoiceButtonText'|trans }}
                             </a>
                         </div>

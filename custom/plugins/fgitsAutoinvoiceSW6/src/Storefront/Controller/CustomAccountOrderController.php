@@ -7,7 +7,6 @@ use Shopware\Core\Checkout\Order\SalesChannel\AbstractCancelOrderRoute;
 use Shopware\Core\Checkout\Order\SalesChannel\AbstractOrderRoute;
 use Shopware\Core\Checkout\Order\SalesChannel\AbstractSetPaymentOrderRoute;
 use Shopware\Core\Checkout\Payment\SalesChannel\AbstractHandlePaymentMethodRoute;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\RequestCriteriaBuilder;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannel\ContextSwitchRoute;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -38,24 +37,9 @@ class CustomAccountOrderController extends AccountOrderController
      */
     private $document;
 
-    /**
-     * CustomAccountOrderController constructor.
-     *
-     * @param AccountOrderPageLoader $orderPageLoader
-     * @param AbstractOrderRoute $orderRoute
-     * @param RequestCriteriaBuilder $requestCriteriaBuilder
-     * @param AccountEditOrderPageLoader $accountEditOrderPageLoader
-     * @param ContextSwitchRoute $contextSwitchRoute
-     * @param AbstractCancelOrderRoute $orderStateChangeRoute
-     * @param AbstractSetPaymentOrderRoute $setPaymentOrderRoute
-     * @param AbstractHandlePaymentMethodRoute $handlePaymentMethodRoute
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param Document $document
-     */
     public function __construct(
         AccountOrderPageLoader $orderPageLoader,
         AbstractOrderRoute $orderRoute,
-        RequestCriteriaBuilder $requestCriteriaBuilder,
         AccountEditOrderPageLoader $accountEditOrderPageLoader,
         ContextSwitchRoute $contextSwitchRoute,
         AbstractCancelOrderRoute $orderStateChangeRoute,
@@ -67,7 +51,6 @@ class CustomAccountOrderController extends AccountOrderController
         parent::__construct(
             $orderPageLoader,
             $orderRoute,
-            $requestCriteriaBuilder,
             $accountEditOrderPageLoader,
             $contextSwitchRoute,
             $orderStateChangeRoute,

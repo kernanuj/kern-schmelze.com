@@ -3,7 +3,9 @@
 namespace Fgits\AutoInvoice\Storefront\Controller;
 
 use Fgits\AutoInvoice\Service\Document;
-use Shopware\Core\Checkout\Customer\SalesChannel\AccountService;
+use Shopware\Core\Checkout\Customer\SalesChannel\AbstractChangeCustomerProfileRoute;
+use Shopware\Core\Checkout\Customer\SalesChannel\AbstractChangeEmailRoute;
+use Shopware\Core\Checkout\Customer\SalesChannel\AbstractChangePasswordRoute;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -36,10 +38,18 @@ class CustomAccountProfileController extends AccountProfileController
     public function __construct(
         AccountOverviewPageLoader $overviewPageLoader,
         AccountProfilePageLoader $profilePageLoader,
-        AccountService $accountService,
+        AbstractChangeCustomerProfileRoute $changeCustomerProfileRoute,
+        AbstractChangePasswordRoute $changePasswordRoute,
+        AbstractChangeEmailRoute $changeEmailRoute,
         Document $document
     ) {
-        parent::__construct($overviewPageLoader, $profilePageLoader, $accountService);
+        parent::__construct(
+            $overviewPageLoader,
+            $profilePageLoader,
+            $changeCustomerProfileRoute,
+            $changePasswordRoute,
+            $changeEmailRoute
+        );
 
         $this->pageLoader = $overviewPageLoader;
         $this->document = $document;
