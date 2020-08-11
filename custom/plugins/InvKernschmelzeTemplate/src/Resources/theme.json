@@ -4,8 +4,8 @@
   "views": [
      "@Storefront",
      "@Plugins",
-     "@InvKernschmelzeTemplate"
-
+     "@InvKernschmelzeTemplate",
+      "@InvHidePricesPerCustomerGroup"
   ],
   "style": [
     "app/storefront/src/scss/overrides.scss",
