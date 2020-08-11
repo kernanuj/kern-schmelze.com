@@ -82,7 +82,6 @@
         <service id="Fgits\AutoInvoice\Storefront\Controller\CustomAccountOrderController" public="true">
             <argument type="service" id="Shopware\Storefront\Page\Account\Order\AccountOrderPageLoader" />
             <argument type="service" id="Shopware\Core\Checkout\Order\SalesChannel\OrderRoute" />
-            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Search\RequestCriteriaBuilder" />
             <argument type="service" id="Shopware\Storefront\Page\Account\Order\AccountEditOrderPageLoader" />
             <argument type="service" id="Shopware\Core\System\SalesChannel\SalesChannel\ContextSwitchRoute" />
             <argument type="service" id="Shopware\Core\Checkout\Order\SalesChannel\CancelOrderRoute" />
@@ -98,7 +97,9 @@
         <service id="Fgits\AutoInvoice\Storefront\Controller\CustomAccountProfileController" public="true">
             <argument type="service" id="Shopware\Storefront\Page\Account\Overview\AccountOverviewPageLoader" />
             <argument type="service" id="Shopware\Storefront\Page\Account\Profile\AccountProfilePageLoader" />
-            <argument type="service" id="Shopware\Core\Checkout\Customer\SalesChannel\AccountService" />
+            <argument type="service" id="Shopware\Core\Checkout\Customer\SalesChannel\ChangeCustomerProfileRoute" />
+            <argument type="service" id="Shopware\Core\Checkout\Customer\SalesChannel\ChangePasswordRoute"/>
+            <argument type="service" id="Shopware\Core\Checkout\Customer\SalesChannel\ChangeEmailRoute"/>
             <argument type="service" id="Fgits\AutoInvoice\Service\Document" />
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
