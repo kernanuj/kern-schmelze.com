@@ -1,3 +1,7 @@
+# 1.8.1
+- PPI-32, PPI-35 - Erweiterbarkeit für Dritt-Plugins verbessert
+- PPI-36 - Weitere PayPal API Elemente hinzugefügt
+
 # 1.8.0
 - PT-11912 - Die Storefront Übersetzungen werden jetzt automatisch registriert
 - PT-11920 - Shopware 6.3 Kompatibilität

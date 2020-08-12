@@ -1,3 +1,7 @@
+# 1.8.1
+- PPI-32, PPI-35 - Improve extensibility for third party plugins
+- PPI-36 - Add new PayPal API elements
+
 # 1.8.0
 - PT-11912 - Storefront snippets now get auto registered
 - PT-11920 - Shopware 6.3 compatibility
