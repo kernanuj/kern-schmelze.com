@@ -1,0 +1,37 @@
+{% if shopware.config.InvPromoBarPro.config.status == true and shopware.config.InvPromoBarPro.config.promoText %}
+    {% set nowDate = "now"|date("d.m.Y H:i", "Europe/Berlin") %}
+    {% set promoDateFrom = shopware.config.InvPromoBarPro.config.promoDateFrom|date("d.m.Y H:i", "Europe/Berlin") %}
+    {% set promoDateTo = shopware.config.InvPromoBarPro.config.promoDateTo|date("d.m.Y H:i", "Europe/Berlin") %}
+
+    {% if promoDateFrom and promoDateTo %}
+        {% set timing = 1 %}
+    {% endif %}
+
+    {% if timing == 1 %}
+        {% if nowDate >= promoDateFrom and nowDate <= promoDateTo %}
+            <div class="header-promo-top d-none d-md-block">
+                <div class="container">
+                    <div class="row d-flex top-row">
+                        <div class="">
+                            <div class="d-flex d-inline-flex align-items-center">
+                                {{ shopware.config.InvPromoBarPro.config.promoText|raw }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="header-promo-top d-none d-md-block">
+            <div class="container">
+                <div class="row d-flex top-row">
+                    <div class="">
+                        <div class="d-flex d-inline-flex align-items-center">
+                            {{ shopware.config.InvPromoBarPro.config.promoText|raw }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}

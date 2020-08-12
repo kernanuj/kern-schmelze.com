@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Status</title>
+        <title lang="de-DE">Status</title>
+        <title lang="es-ES">Estado</title>
+        <title lang="fr-FR">Statut</title>
+        <title lang="nl-NL">Status</title>
+
+        <input-field type="bool">
+            <name>status</name>
+            <label>Active</label>
+            <label lang="de-DE">Aktiv</label>
+            <label lang="es-ES">Activado</label>
+            <label lang="fr-FR">Actif</label>
+            <label lang="nl-NL">Actief</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Text</title>
+        <title lang="de-DE">Text</title>
+        <title lang="es-ES">Texto</title>
+        <title lang="fr-FR">Texte</title>
+        <title lang="nl-NL">Tekst</title>
+
+        <input-field type="textarea">
+            <name>promoText</name>
+            <label>Promotion text</label>
+            <label lang="de-DE">Promotions-Text</label>
+            <label lang="es-ES">Texto de promocíon</label>
+            <label lang="fr-FR">Texte de promotion</label>
+            <label lang="nl-NL">Promotietekst</label>
+            <defaultValue>Large selection</defaultValue>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Font size (compile theme if changed)</title>
+        <title lang="de-DE">Text-Größe (Theme kompilieren, wenn Werte geändert werden)</title>
+        <title lang="es-ES">Tamaño del texto (compilar theme si se cambia los valores)</title>
+        <title lang="fr-FR">Taille des icônes (compiler le thème si les valeurs sont modifiées)</title>
+        <title lang="nl-NL">Icoongrootte (Thema compileren als waarden worden gewijzigd)</title>
+
+        <input-field type="text">
+            <name>fontSize</name>
+            <label>Font size (incl. px)</label>
+            <label lang="de-DE">Schriftgröße (inkl. px angeben)</label>
+            <label lang="es-ES">Tamaño del texto (especificar px incl.)</label>
+            <label lang="fr-FR">Taille du texte (préciser px incl.)</label>
+            <label lang="nl-NL">Tekstgrootte (specificeer px incl.)</label>
+            <defaultValue>12px</defaultValue>
+        </input-field>
+
+        <input-field type="text">
+            <name>lineHeight</name>
+            <label>Line height (incl. px)</label>
+            <label lang="de-DE">Zeilenabstand (inkl. px angeben)</label>
+            <label lang="es-ES">Espaciado de las líneas (especificar px incl.)</label>
+            <label lang="fr-FR">Espacement des lignes (préciser px incl.)</label>
+            <label lang="nl-NL">Lijnafstand (opgeven px incl.)</label>
+            <defaultValue>19px</defaultValue>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Colors (compile theme if changed)</title>
+        <title lang="de-DE">Farben (Theme kompilieren, wenn Werte geändert werden)</title>
+        <title lang="es-ES">Colores (compilar theme si se cambia los valores)</title>
+        <title lang="fr-FR">Couleurs (compiler le thème si les valeurs sont modifiées)</title>
+        <title lang="nl-NL">Kleuren (Thema compileren als waarden worden gewijzigd)</title>
+
+        <component name="sw-colorpicker">
+            <name>backgroundColor</name>
+            <colorOutput>hex</colorOutput>
+            <label>Background color</label>
+            <label lang="de-DE">Hintergrundfarbe</label>
+            <label lang="es-ES">Color de fondo</label>
+            <label lang="fr-FR">Couleur de fond</label>
+            <label lang="nl-NL">Achtergrondkleur</label>
+            <defaultValue>#000000</defaultValue>
+        </component>
+
+        <component name="sw-colorpicker">
+            <name>textColor</name>
+            <colorOutput>hex</colorOutput>
+            <label>Text color</label>
+            <label lang="de-DE">Textfarbe</label>
+            <label lang="es-ES">Color del texto</label>
+            <label lang="fr-FR">Couleur du texte</label>
+            <label lang="nl-NL">Tekstkleur</label>
+            <defaultValue>#FFFFFF</defaultValue>
+        </component>
+    </card>
+
+    <card>
+        <title>Promotion period</title>
+        <title lang="de-DE">Promotions-Zeitraum (Theme kompilieren, wenn Werte geändert werden)</title>
+        <title lang="es-ES">Período de promoción (compilar theme si se cambia los valores)</title>
+        <title lang="fr-FR">Période de promotion (compiler le thème si les valeurs sont modifiées)</title>
+        <title lang="nl-NL">Promotieperiode (Thema compileren als waarden worden gewijzigd)</title>
+
+        <input-field type="datetime">
+            <name>promoDateFrom</name>
+            <label>Active from</label>
+            <label lang="de-DE">Aktiv von</label>
+            <label lang="es-ES">Activo desde</label>
+            <label lang="fr-FR">Actif à partir de</label>
+            <label lang="nl-NL">Actief van</label>
+        </input-field>
+
+        <input-field type="datetime">
+            <name>promoDateTo</name>
+            <label>Active to</label>
+            <label lang="de-DE">Aktiv bis</label>
+            <label lang="es-ES">Activo hasta</label>
+            <label lang="fr-FR">Actif à</label>
+            <label lang="nl-NL">Actief naar</label>
+        </input-field>
+    </card>
+</config>

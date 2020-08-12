@@ -1,0 +1,30 @@
+@import 'abstract/variables';
+
+.header-promo-top {
+    display: block;
+    background: $inv-promo-bar-pro-background-color;
+    color: $inv-promo-bar-pro-text-color;
+    padding: 5px 0;
+    font-size: $inv-promo-bar-pro-font-size;
+    line-height: $inv-promo-bar-pro-line-height;
+    text-align: center;
+
+    .d-flex {
+        &.row {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+
+        > div {
+            text-align: center;
+        }
+
+        .d-flex {
+            height: 100%;
+            text-align: center;
+
+            a, a:hover { color: $inv-promo-bar-pro-text-color; text-decoration: none; text-transform: none; }
+        }
+    }
+}

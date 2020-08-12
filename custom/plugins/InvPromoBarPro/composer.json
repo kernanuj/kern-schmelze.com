@@ -1,0 +1,46 @@
+{
+    "name": "inv/promo-bar-pro",
+    "version": "1.0.0",
+    "description": "Display a promobar at the top of each store page.",
+    "authors": [
+        {
+            "name": "Nils Harder | inventivo.de",
+            "homepage": "https://www.inventivo.de",
+            "email": "hallo@inventivo.de",
+            "role": "Manufacturer"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "shopware/core": ">=6.0.0"
+    },
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "InvPromoBarPro\\": "src/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "InvPromoBarPro\\InvPromoBarPro",
+        "copyright": "(c) by Nils Harder | inventivo.de",
+        "manufacturerLink": {
+            "de-DE": "https://www.inventivo.de",
+            "en-GB": "https://www.inventivo.de"
+        },
+        "supportLink": {
+            "de-DE": "https://www.inventivo.de/kontakt",
+            "en-GB": "https://www.inventivo.de/kontakt"
+        },
+        "label": {
+            "de-DE": "Promo Bar PRO Plugin für Shopware 6",
+            "en-GB": "Promo Bar PRO Plugin for Shopware 6"
+        },
+        "description": {
+            "de-DE": "Zeige einen Promo Bar am oberen Rand jeder Shop Seite an.",
+            "en-GB": "Display a promobar at the top of each store page."
+        }
+    },
+    "minimum-stability": "RC",
+    "prefer-stable": true
+}
