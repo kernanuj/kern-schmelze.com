@@ -10,12 +10,18 @@
         {% endblock %}
 
         {% block layout_footer_navigation_hotline %}
-            {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/pagelets/footer/kernenergie-group.html.twig' %}
-            {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/pagelets/footer/payment-and-delivery.html.twig' %}
             {{ parent() }}
-            {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/pagelets/footer/social-networks.html.twig' %}
+            {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/pagelets/footer/payment-and-delivery.html.twig' %}
+            {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/pagelets/footer/kernenergie-group.html.twig' %}
         {% endblock %}
     </div>
+{% endblock %}
+
+{% block layout_footer_payment_shipping_logos %}
+    <div class="footer-socials">
+        {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/pagelets/footer/social-networks.html.twig' %}
+    </div>
+    {{ parent() }}
 {% endblock %}
 
 {% block layout_footer_copyright %}

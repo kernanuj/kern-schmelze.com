@@ -1,37 +1,7 @@
-<div class="col-md-4 footer-column js-footer-column">
-    {% block inv_kernschmelze_template_layout_footer_navigation_social_networks %}
-        <div class="footer-column-headline footer-headline js-footer-column-headline js-collapse-footer-column-trigger"
-             id="collapseFooterSocialNetworks"
-             data-target="#collapseFooterSocialNetworks"
-             aria-expanded="true"
-             aria-controls="collapseFooterSocialNetworks">
-            {{ 'InvKernschmelzeTemplate.footer.headlines.socialNetworksHeadline'|trans|sw_sanitize }}
-            {% block inv_kernschmelze_template_layout_footer_navigation_social_networks_icons %}
-                <div class="footer-column-toggle">
-                                    <span class="footer-plus-icon">
-                                        {% sw_icon 'plus' %}
-                                    </span>
-                    <span class="footer-minus-icon">
-                                        {% sw_icon 'minus' %}
-                                    </span>
-                </div>
-            {% endblock %}
-        </div>
-    {% endblock %}
-
-    {% block layout_footer_navigation_social_networks_content %}
-        <div id="collapseFooterSocialNetworks"
-             class="footer-column-content collapse js-footer-column-content footer-contact"
-             aria-labelledby="collapseFooterSocialNetworksTitle">
-            <div class="footer-column-content-inner">
-                <p class="footer-social-networks">
-                    {{ 'InvKernschmelzeTemplate.footer.contents.socialnetworks'|trans|sw_sanitize }}
-                </p>
-                <p>
-                    <a href="https://www.facebook.com/kernschmelze.kernenergie" target="_blank"><img src="../../bundles/invkernschmelzetemplate/storefront/images/icon-facebook.svg" alt="Facebook" class="icon-network" /></a>
-                    <a href="https://instagram.com/kernschmelze" target="_blank"><img src="../../bundles/invkernschmelzetemplate/storefront/images/icon-instagram.svg" alt="Instagram" class="icon-network" /></a>
-                </p>
-            </div>
-        </div>
-    {% endblock %}
-</div>
+{% block layout_footer_socials %}
+    <p class="footer-social-networks">
+        {{ 'InvKernschmelzeTemplate.footer.contents.socialnetworks'|trans|sw_sanitize }}
+        <a href="https://www.facebook.com/kernschmelze.kernenergie" target="_blank"><img src="../../bundles/invkernschmelzetemplate/storefront/images/icon-facebook.svg" alt="Facebook" class="icon-network" /></a>
+        <a href="https://instagram.com/kernschmelze" target="_blank"><img src="../../bundles/invkernschmelzetemplate/storefront/images/icon-instagram.svg" alt="Instagram" class="icon-network" /></a>
+    </p>
+{% endblock %}
