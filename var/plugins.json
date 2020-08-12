@@ -147,24 +147,6 @@
             "styleFiles": []
         }
     },
-    "InvHidePricesPerCustomerGroup": {
-        "basePath": "custom\/plugins\/InvHidePricesPerCustomerGroup\/src\/",
-        "views": [
-            "Resources\/views"
-        ],
-        "technicalName": "inv-hide-prices-per-customer-group",
-        "administration": {
-            "path": "Resources\/app\/administration\/src",
-            "entryFilePath": null,
-            "webpack": null
-        },
-        "storefront": {
-            "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": null,
-            "webpack": null,
-            "styleFiles": []
-        }
-    },
     "InvKernschmelzeTemplate": {
         "basePath": "custom\/plugins\/InvKernschmelzeTemplate\/src\/",
         "views": [
@@ -455,6 +437,45 @@
             "webpack": null,
             "styleFiles": [
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/MwoelkCookieAccept\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
+            ]
+        }
+    },
+    "InvHidePricesPerCustomerGroup": {
+        "basePath": "custom\/plugins\/InvHidePricesPerCustomerGroup\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-hide-prices-per-customer-group",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
+        }
+    },
+    "InvPromoBarPro": {
+        "basePath": "custom\/plugins\/InvPromoBarPro\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-promo-bar-pro",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": [
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvPromoBarPro\/src\/Resources\/app\/storefront\/src\/scss\/abstract\/_variables.scss",
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvPromoBarPro\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
             ]
         }
     }
