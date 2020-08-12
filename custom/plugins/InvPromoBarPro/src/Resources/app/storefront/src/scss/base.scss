@@ -24,7 +24,20 @@
             height: 100%;
             text-align: center;
 
-            a, a:hover { color: $inv-promo-bar-pro-text-color; text-decoration: none; text-transform: none; }
+            p {
+                padding: 0;
+                margin: 0;
+                font-size: $inv-promo-bar-pro-font-size;
+                line-height: $inv-promo-bar-pro-line-height;
+            }
+
+            a, a:hover {
+                color: $inv-promo-bar-pro-text-color;
+                text-decoration: none;
+                text-transform: none;
+                font-size: $inv-promo-bar-pro-font-size;
+                line-height: $inv-promo-bar-pro-line-height;
+            }
         }
     }
 }
