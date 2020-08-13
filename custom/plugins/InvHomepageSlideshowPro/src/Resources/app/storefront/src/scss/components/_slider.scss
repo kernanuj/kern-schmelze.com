@@ -206,6 +206,14 @@
                 display: block;
             }
         }
+
+        &.desktop {
+            display: flex;
+        }
+
+        &.mobile {
+            display: none;
+        }
     }
 }
 
@@ -221,6 +229,14 @@
         .col-lg-6 {
             &.hidden-md {
                 display: none;
+            }
+
+            &.desktop {
+                display: none;
+            }
+
+            &.mobile {
+                display: flex;
             }
         }
     }

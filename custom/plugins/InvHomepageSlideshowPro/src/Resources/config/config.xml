@@ -92,6 +92,20 @@
             <helpText lang="nl-NL">Idealiter is het een .jpg bestand met de afmetingen 384 x 500px.</helpText>
         </component>
 
+        <component name="sw-media-field">
+            <name>image11m</name>
+            <label>Background image for mobile view (384 x 500px, .png, .jpg)</label>
+            <label lang="de-DE">Hintergrundbild für mobile Ansicht (384 x 500px, .png, .jpg)</label>
+            <label lang="es-ES">Imagen de fondo para la vista del móvil (384 x 500px, .png, .jpg)</label>
+            <label lang="fr-FR">Image de fond pour la vue mobile (384 x 500px, .png, .jpg)</label>
+            <label lang="nl-NL">Achtergrondbeeld voor mobiele weergave (384 x 500px, .png, .jpg)</label>
+            <helpText>Ideally this is a .jpg-file with the measures 384 x 500px.</helpText>
+            <helpText lang="de-DE">Idealerweise ist dies eine .jpg-Datei mit den Maßen 384 x 500px.</helpText>
+            <helpText lang="es-ES">Idealmente este es un archivo .jpg con las dimensiones 384 x 500px.</helpText>
+            <helpText lang="fr-FR">Idéalement, il s'agit d'un fichier .jpg de dimensions 384 x 500px.</helpText>
+            <helpText lang="nl-NL">Idealiter is het een .jpg bestand met de afmetingen 384 x 500px.</helpText>
+        </component>
+
         <component name="sw-colorpicker">
             <name>leftbackgroundcolor1</name>
             <colorOutput>hex</colorOutput>
@@ -153,6 +167,20 @@
             <label lang="es-ES">Imagen (384 x 500px, .png, .jpg)</label>
             <label lang="fr-FR">Photo (384 x 500px, .png, .jpg)</label>
             <label lang="nl-NL">Afbeelding (384 x 500px, .png, .jpg)</label>
+            <helpText>Ideally this is a .jpg-file with the measures 384 x 500px.</helpText>
+            <helpText lang="de-DE">Idealerweise ist dies eine .jpg-Datei mit den Maßen 384 x 500px.</helpText>
+            <helpText lang="es-ES">Idealmente este es un archivo .jpg con las dimensiones 384 x 500px.</helpText>
+            <helpText lang="fr-FR">Idéalement, il s'agit d'un fichier .jpg de dimensions 384 x 500px.</helpText>
+            <helpText lang="nl-NL">Idealiter is het een .jpg bestand met de afmetingen 384 x 500px.</helpText>
+        </component>
+
+        <component name="sw-media-field">
+            <name>image22m</name>
+            <label>Background image for mobile view (384 x 500px, .png, .jpg)</label>
+            <label lang="de-DE">Hintergrundbild für mobile Ansicht (384 x 500px, .png, .jpg)</label>
+            <label lang="es-ES">Imagen de fondo para la vista del móvil (384 x 500px, .png, .jpg)</label>
+            <label lang="fr-FR">Image de fond pour la vue mobile (384 x 500px, .png, .jpg)</label>
+            <label lang="nl-NL">Achtergrondbeeld voor mobiele weergave (384 x 500px, .png, .jpg)</label>
             <helpText>Ideally this is a .jpg-file with the measures 384 x 500px.</helpText>
             <helpText lang="de-DE">Idealerweise ist dies eine .jpg-Datei mit den Maßen 384 x 500px.</helpText>
             <helpText lang="es-ES">Idealmente este es un archivo .jpg con las dimensiones 384 x 500px.</helpText>
@@ -228,6 +256,20 @@
             <helpText lang="nl-NL">Idealiter is het een .jpg bestand met de afmetingen 384 x 500px.</helpText>
         </component>
 
+        <component name="sw-media-field">
+            <name>image33m</name>
+            <label>Background image for mobile view (384 x 500px, .png, .jpg)</label>
+            <label lang="de-DE">Hintergrundbild für mobile Ansicht (384 x 500px, .png, .jpg)</label>
+            <label lang="es-ES">Imagen de fondo para la vista del móvil (384 x 500px, .png, .jpg)</label>
+            <label lang="fr-FR">Image de fond pour la vue mobile (384 x 500px, .png, .jpg)</label>
+            <label lang="nl-NL">Achtergrondbeeld voor mobiele weergave (384 x 500px, .png, .jpg)</label>
+            <helpText>Ideally this is a .jpg-file with the measures 384 x 500px.</helpText>
+            <helpText lang="de-DE">Idealerweise ist dies eine .jpg-Datei mit den Maßen 384 x 500px.</helpText>
+            <helpText lang="es-ES">Idealmente este es un archivo .jpg con las dimensiones 384 x 500px.</helpText>
+            <helpText lang="fr-FR">Idéalement, il s'agit d'un fichier .jpg de dimensions 384 x 500px.</helpText>
+            <helpText lang="nl-NL">Idealiter is het een .jpg bestand met de afmetingen 384 x 500px.</helpText>
+        </component>
+
         <component name="sw-colorpicker">
             <name>leftbackgroundcolor3</name>
             <colorOutput>hex</colorOutput>
@@ -296,6 +338,20 @@
             <helpText lang="nl-NL">Idealiter is het een .jpg bestand met de afmetingen 384 x 500px.</helpText>
         </component>
 
+        <component name="sw-media-field">
+            <name>image44m</name>
+            <label>Background image for mobile view (384 x 500px, .png, .jpg)</label>
+            <label lang="de-DE">Hintergrundbild für mobile Ansicht (384 x 500px, .png, .jpg)</label>
+            <label lang="es-ES">Imagen de fondo para la vista del móvil (384 x 500px, .png, .jpg)</label>
+            <label lang="fr-FR">Image de fond pour la vue mobile (384 x 500px, .png, .jpg)</label>
+            <label lang="nl-NL">Achtergrondbeeld voor mobiele weergave (384 x 500px, .png, .jpg)</label>
+            <helpText>Ideally this is a .jpg-file with the measures 384 x 500px.</helpText>
+            <helpText lang="de-DE">Idealerweise ist dies eine .jpg-Datei mit den Maßen 384 x 500px.</helpText>
+            <helpText lang="es-ES">Idealmente este es un archivo .jpg con las dimensiones 384 x 500px.</helpText>
+            <helpText lang="fr-FR">Idéalement, il s'agit d'un fichier .jpg de dimensions 384 x 500px.</helpText>
+            <helpText lang="nl-NL">Idealiter is het een .jpg bestand met de afmetingen 384 x 500px.</helpText>
+        </component>
+
         <component name="sw-colorpicker">
             <name>leftbackgroundcolor4</name>
             <colorOutput>hex</colorOutput>
@@ -357,6 +413,20 @@
             <label lang="es-ES">Imagen (384 x 500px, .png, .jpg)</label>
             <label lang="fr-FR">Photo (384 x 500px, .png, .jpg)</label>
             <label lang="nl-NL">Afbeelding (384 x 500px, .png, .jpg)</label>
+            <helpText>Ideally this is a .jpg-file with the measures 384 x 500px.</helpText>
+            <helpText lang="de-DE">Idealerweise ist dies eine .jpg-Datei mit den Maßen 384 x 500px.</helpText>
+            <helpText lang="es-ES">Idealmente este es un archivo .jpg con las dimensiones 384 x 500px.</helpText>
+            <helpText lang="fr-FR">Idéalement, il s'agit d'un fichier .jpg de dimensions 384 x 500px.</helpText>
+            <helpText lang="nl-NL">Idealiter is het een .jpg bestand met de afmetingen 384 x 500px.</helpText>
+        </component>
+
+        <component name="sw-media-field">
+            <name>image55m</name>
+            <label>Background image for mobile view (384 x 500px, .png, .jpg)</label>
+            <label lang="de-DE">Hintergrundbild für mobile Ansicht (384 x 500px, .png, .jpg)</label>
+            <label lang="es-ES">Imagen de fondo para la vista del móvil (384 x 500px, .png, .jpg)</label>
+            <label lang="fr-FR">Image de fond pour la vue mobile (384 x 500px, .png, .jpg)</label>
+            <label lang="nl-NL">Achtergrondbeeld voor mobiele weergave (384 x 500px, .png, .jpg)</label>
             <helpText>Ideally this is a .jpg-file with the measures 384 x 500px.</helpText>
             <helpText lang="de-DE">Idealerweise ist dies eine .jpg-Datei mit den Maßen 384 x 500px.</helpText>
             <helpText lang="es-ES">Idealmente este es un archivo .jpg con las dimensiones 384 x 500px.</helpText>

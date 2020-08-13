@@ -6,9 +6,22 @@
             {% set media = searchMedia([shopware.config.InvHomepageSlideshowPro.config.image11], context.context) %}
             {% set image11Entity = media.get(shopware.config.InvHomepageSlideshowPro.config.image11) %}
 
+            {% if shopware.config.InvHomepageSlideshowPro.config.image11m %}
+                {% set media = searchMedia([shopware.config.InvHomepageSlideshowPro.config.image11m], context.context) %}
+                {% set image11mEntity = media.get(shopware.config.InvHomepageSlideshowPro.config.image11m) %}
+                {% set image11mStyle = "background-image: url("~image11mEntity.url~");" %}
+            {% else %}
+                {% set image11mStyle = "background-image: url("~image1Entity.url~");" %}
+            {% endif %}
+
             <div class="inv-slider-item inv-slider-item-1">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 left-slide" style="background-image: url({{ image1Entity.url }});">
+                    <div class="col-lg-6 col-md-6 left-slide desktop" style="background-image: url({{ image1Entity.url }});">
+                        <div class="inv-slider-item-content-holder">
+                            {{ shopware.config.InvHomepageSlideshowPro.config.slide1|raw }}
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 left-slide mobile" style="background-image: url({{ image11mEntity.url }});">
                         <div class="inv-slider-item-content-holder">
                             {{ shopware.config.InvHomepageSlideshowPro.config.slide1|raw }}
                         </div>
@@ -24,11 +37,24 @@
             {% set media = searchMedia([shopware.config.InvHomepageSlideshowPro.config.image22], context.context) %}
             {% set image22Entity = media.get(shopware.config.InvHomepageSlideshowPro.config.image22) %}
 
+            {% if shopware.config.InvHomepageSlideshowPro.config.image22m %}
+                {% set media = searchMedia([shopware.config.InvHomepageSlideshowPro.config.image22m], context.context) %}
+                {% set image22mEntity = media.get(shopware.config.InvHomepageSlideshowPro.config.image22m) %}
+                {% set image22mStyle = "background-image: url("~image22mEntity.url~");" %}
+            {% else %}
+                {% set image22mStyle = "background-image: url("~image2Entity.url~");" %}
+            {% endif %}
+
             <div class="inv-slider-item inv-slider-item-2">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 left-slide" style="background-image: url({{ image2Entity.url }});">
+                    <div class="col-lg-6 col-md-6 left-slide desktop" style="background-image: url({{ image2Entity.url }});">
                         <div class="inv-slider-item-content-holder">
                             {{ shopware.config.InvHomepageSlideshowPro.config.slide2|raw }}
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 left-slide mobile" style="{{ image22mStyle }}">
+                        <div class="inv-slider-item-content-holder">
+                            {{ shopware.config.InvHomepageSlideshowPro.config.slide1|raw }}
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 right-slide hidden-md hidden-sm hidden-xs" style="background-image: url({{ image22Entity.url }});"></div>
@@ -42,11 +68,24 @@
             {% set media = searchMedia([shopware.config.InvHomepageSlideshowPro.config.image33], context.context) %}
             {% set image33Entity = media.get(shopware.config.InvHomepageSlideshowPro.config.image33) %}
 
+            {% if shopware.config.InvHomepageSlideshowPro.config.image33m %}
+                {% set media = searchMedia([shopware.config.InvHomepageSlideshowPro.config.image33m], context.context) %}
+                {% set image33mEntity = media.get(shopware.config.InvHomepageSlideshowPro.config.image33m) %}
+                {% set image33mStyle = "background-image: url("~image33mEntity.url~");" %}
+            {% else %}
+                {% set image33mStyle = "background-image: url("~image3Entity.url~");" %}
+            {% endif %}
+
             <div class="inv-slider-item inv-slider-item-3">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 left-slide" style="background-image: url({{ image3Entity.url }});">
+                    <div class="col-lg-6 col-md-6 left-slide desktop" style="background-image: url({{ image3Entity.url }});">
                         <div class="inv-slider-item-content-holder">
                             {{ shopware.config.InvHomepageSlideshowPro.config.slide3|raw }}
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 left-slide mobile" style="{{ image33mStyle }}">
+                        <div class="inv-slider-item-content-holder">
+                            {{ shopware.config.InvHomepageSlideshowPro.config.slide1|raw }}
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 right-slide hidden-md hidden-sm hidden-xs" style="background-image: url({{ image33Entity.url }});"></div>
@@ -60,11 +99,24 @@
             {% set media = searchMedia([shopware.config.InvHomepageSlideshowPro.config.image44], context.context) %}
             {% set image44Entity = media.get(shopware.config.InvHomepageSlideshowPro.config.image44) %}
 
+            {% if shopware.config.InvHomepageSlideshowPro.config.image44m %}
+                {% set media = searchMedia([shopware.config.InvHomepageSlideshowPro.config.image44m], context.context) %}
+                {% set image44mEntity = media.get(shopware.config.InvHomepageSlideshowPro.config.image44m) %}
+                {% set image44mStyle = "background-image: url("~image44mEntity.url~");" %}
+            {% else %}
+                {% set image44mStyle = "background-image: url("~image4Entity.url~");" %}
+            {% endif %}
+
             <div class="inv-slider-item inv-slider-item-4">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 left-slide" style="background-image: url({{ image4Entity.url }});">
+                    <div class="col-lg-6 col-md-6 left-slide desktop" style="background-image: url({{ image4Entity.url }});">
                         <div class="inv-slider-item-content-holder">
                             {{ shopware.config.InvHomepageSlideshowPro.config.slide4|raw }}
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 left-slide mobile" style="{{ image44mStyle }}">
+                        <div class="inv-slider-item-content-holder">
+                            {{ shopware.config.InvHomepageSlideshowPro.config.slide1|raw }}
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 right-slide hidden-md hidden-sm hidden-xs" style="background-image: url({{ image44Entity.url }});"></div>
@@ -78,11 +130,24 @@
             {% set media = searchMedia([shopware.config.InvHomepageSlideshowPro.config.image55], context.context) %}
             {% set image55Entity = media.get(shopware.config.InvHomepageSlideshowPro.config.image55) %}
 
+            {% if shopware.config.InvHomepageSlideshowPro.config.image55m %}
+                {% set media = searchMedia([shopware.config.InvHomepageSlideshowPro.config.image55m], context.context) %}
+                {% set image55mEntity = media.get(shopware.config.InvHomepageSlideshowPro.config.image55m) %}
+                {% set image55mStyle = "background-image: url("~image55mEntity.url~");" %}
+            {% else %}
+                {% set image55mStyle = "background-image: url("~image5Entity.url~");" %}
+            {% endif %}
+
             <div class="inv-slider-item inv-slider-item-5">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 left-slide" style="background-image: url({{ image5Entity.url }});">
+                    <div class="col-lg-6 col-md-6 left-slide desktop" style="background-image: url({{ image5Entity.url }});">
                         <div class="inv-slider-item-content-holder">
                             {{ shopware.config.InvHomepageSlideshowPro.config.slide5|raw }}
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 left-slide mobile" style="{{ image55mStyle }}">
+                        <div class="inv-slider-item-content-holder">
+                            {{ shopware.config.InvHomepageSlideshowPro.config.slide1|raw }}
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 right-slide hidden-md hidden-sm hidden-xs" style="background-image: url({{ image55Entity.url }});"></div>

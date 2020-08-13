@@ -1,3 +1,6 @@
+# 1.0.5
+- Optionales Hintergrundbild für die mobile Ansicht hinzufügen
+
 # 1.0.4
 - Konfiguration pro Verkaufskanal verbessern
 
