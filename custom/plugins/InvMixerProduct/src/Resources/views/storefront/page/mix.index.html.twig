@@ -69,6 +69,7 @@
                         {% for product in productListing.elements %}
 
                         {% set name = product.translated.name %}
+                        {% set description = product.translated.description %}
                         {% set id = product.id %}
                         {% set cover = product.cover.media %}
 
@@ -82,6 +83,14 @@
                                           data-inv-mixer-product-listing-action="true">
                                         {% block inv_product_mixer_product_image %}
                                             <div class="product-image-wrapper">
+
+
+                                                {% if description %}
+                                                    <div class="mixer-product-item-description">
+                                                        {{ description|raw }}
+                                                    </div>
+                                                {% endif %}
+
                                                 {% if cover.url %}
                                                     {% set attributes = {
                                                         'class': 'product-image',
