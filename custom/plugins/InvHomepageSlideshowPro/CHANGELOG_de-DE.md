@@ -1,3 +1,6 @@
+# 1.0.6
+- Optionales Hintergrundbild für die mobile Ansicht verbessern
+
 # 1.0.5
 - Optionales Hintergrundbild für die mobile Ansicht hinzufügen
 
