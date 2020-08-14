@@ -1,7 +1,8 @@
 {
     "InvHidePricesPerCustomerGroup": {
         "placeholders": {
-            "replacePriceWithText": "Bitte loggen Sie sich ein, um den Preis zu sehen."
+            "replacePriceWithText": "Bitte loggen Sie sich ein, um den Preis zu sehen.",
+            "replacePriceWithTextLoggedIn": "Please let yourself be unlocked to see the price."
         }
     }
 }
