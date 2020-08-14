@@ -76,6 +76,14 @@
                         <div class="cms-listing-col col-6 col-sm-6 col-lg-4 col-xl-4">
                             <div class="card product-box box-standard">
                                 <div class="card-body">
+                                    {% block inv_product_mixer_product_info_text %}
+                                        {% if description %}
+                                            <div class="mix-item-info-holder">
+                                                <img src="{{ asset('storefront/img/mixer-product-product-info.svg', '@InvMixerProduct') }}" alt="Info" />
+                                            </div>
+                                        {% endif %}
+                                    {% endblock %}
+
                                     <form method="post"
                                           action="{{ path('invMixerProduct.storeFront.mix.session.add') }}"
                                           class="inv-mixer-product-listing-product"
@@ -83,8 +91,6 @@
                                           data-inv-mixer-product-listing-action="true">
                                         {% block inv_product_mixer_product_image %}
                                             <div class="product-image-wrapper">
-
-
                                                 {% if description %}
                                                     <div class="mixer-product-item-description">
                                                         {{ description|raw }}
@@ -138,13 +144,8 @@
                                             {% endblock %}
 
                                             {% block inv_product_mixer_product_action %}
-                                                {% if description %}
-                                                    {% set class = "col-lg-10 col-md-10 col-sm-10 col-10" %}
-                                                {% else %}
-                                                    {% set class = "col-lg-12 col-md-12 col-sm-12 col-12" %}
-                                                {% endif %}
                                                 <div class="row product-action">
-                                                    <div class="{{ class }}">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                                                         <input type="hidden" name="product_id"
                                                                value="{{ product.id }}">
                                                         <input type="hidden" name="quantity" value="1">
@@ -166,14 +167,6 @@
                                                         </button>
 
                                                     </div>
-
-                                                    {% block inv_product_mixer_product_info_text %}
-                                                        {% if description %}
-                                                            <div class="col-lg-2 col-md-2 col-sm-2 col-2">
-                                                                <img src="{{ asset('storefront/img/mixer-product-product-info.svg', '@InvMixerProduct') }}" alt="Info" />
-                                                            </div>
-                                                        {% endif %}
-                                                    {% endblock %}
                                                 </div>
                                             {% endblock %}
                                         </div>

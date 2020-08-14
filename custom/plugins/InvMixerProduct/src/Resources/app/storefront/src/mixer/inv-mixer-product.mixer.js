@@ -79,16 +79,16 @@ export default class InvMixerProductMixer extends Plugin {
             }
         }
 
-        var overlayTrigger = $('.mixer-product-list .col-lg-8 .col-lg-4 .product-box .product-action .col-lg-2');
+        var overlayTrigger = $('.mixer-product-list .col-lg-8 .mix-item-info-holder');
 
         overlayTrigger.each( function() {
             $(this).hover(function() {
-                if($(this).closest('.inv-mixer-product-listing-product').find('.mixer-product-item-description').length) {
-                    $(this).closest('.inv-mixer-product-listing-product').find('.mixer-product-item-description').show();
+                if($(this).closest('.card-body').find('.mixer-product-item-description').length) {
+                    $(this).closest('.card-body').find('.mixer-product-item-description').show();
                 }
             },function() {
-                if($(this).closest('.inv-mixer-product-listing-product').find('.mixer-product-item-description').length) {
-                    $(this).closest('.inv-mixer-product-listing-product').find('.mixer-product-item-description').hide();
+                if($(this).closest('.card-body').find('.mixer-product-item-description').length) {
+                    $(this).closest('.card-body').find('.mixer-product-item-description').hide();
                 }
             });
         });
