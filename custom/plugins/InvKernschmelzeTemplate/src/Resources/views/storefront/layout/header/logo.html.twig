@@ -1,0 +1,11 @@
+{% sw_extends "@Storefront/storefront/layout/header/logo.html.twig" %}
+
+{% block layout_header_logo_link %}
+    <a class="header-logo-main-link"
+       href="https://kern-schmelze.com"
+       title="{{ "header.logoLink"|trans|striptags }}">
+        {% block layout_header_logo_image %}
+            {{ parent() }}
+        {% endblock %}
+    </a>
+{% endblock %}
