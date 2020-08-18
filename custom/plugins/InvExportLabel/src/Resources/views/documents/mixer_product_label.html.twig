@@ -21,6 +21,12 @@
             justify-content: center;
         }
 
+        .wrapper {
+            align-self: center;
+            display: flex;
+            justify-self: center;
+        }
+
         @page {
             page-break-after: always;
             margin: 0;
@@ -99,29 +105,31 @@
 {% for item in sourceCollection.items %}
     {# @var item \InvExportLabel\Value\SourceItemType\MixerProductSourceItem #}
     <div class="container">
-        <p class="mix-name">
-            {{ item.mixName }}
-        </p>
-        <p>
-            Zutaten: {{ item.ingredients|join(', ') }}
-        </p>
-        <p class="disclaimer">
-            <strong>
-                Kann Spuren enthalten von anderen Nüssen, Ei,
-                glutenhaltigem Getreide, Sesam, Sulfit.
-            </strong> Vor Wärme schützen und trocken lagern.
-        </p>
-        <p class="mix-id">
-            Mix-ID: {{ item.displayId }} <span>Bestell-ID: {{ item.OrderNumber }}</span>
-        </p>
-        <p class="best-and-weight">
-            <span class="best-before">Mindestens haltbar bis: {{ item.bestBeforeDate | date("d.m.Y") }}</span>
-            <span class="weight">&nbsp;&nbsp;&nbsp;&nbsp;{{ item.weight }}</span>
-        </p>
-        <p class="address">
-            KERNenergie GmbH · Grundtalring 23 · D-63868 Großwallstadt <br/>
-            www.kern-energie.com www.kern-schmelze.com
-        </p>
+        <div class="wrapper">
+            <p class="mix-name">
+                {{ item.mixName }}
+            </p>
+            <p>
+                Zutaten: {{ item.ingredients|join(', ') }}
+            </p>
+            <p class="disclaimer">
+                <strong>
+                    Kann Spuren enthalten von anderen Nüssen, Ei,
+                    glutenhaltigem Getreide, Sesam, Sulfit.
+                </strong> Vor Wärme schützen und trocken lagern.
+            </p>
+            <p class="mix-id">
+                Mix-ID: {{ item.displayId }} <span>Bestell-ID: {{ item.OrderNumber }}</span>
+            </p>
+            <p class="best-and-weight">
+                <span class="best-before">Mindestens haltbar bis: {{ item.bestBeforeDate | date("d.m.Y") }}</span>
+                <span class="weight">&nbsp;&nbsp;&nbsp;&nbsp;{{ item.weight }}</span>
+            </p>
+            <p class="address">
+                KERNenergie GmbH · Grundtalring 23 · D-63868 Großwallstadt <br/>
+                www.kern-energie.com www.kern-schmelze.com
+            </p>
+        </div>
     </div>
     {% if false == (loop.last) %}
         <div class="break"></div>
