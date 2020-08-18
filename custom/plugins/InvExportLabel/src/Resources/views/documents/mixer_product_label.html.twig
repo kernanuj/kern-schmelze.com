@@ -48,7 +48,7 @@
             font-family: Arial, sans-serif;
             text-align: center;
             font-size: 6.6pt;
-            margin: 0 0 5px 0;
+            margin: 0 0 2px 0;
             padding: 0;
         }
 
@@ -59,7 +59,7 @@
         .mix-name {
             font-size: 8pt;
             font-weight: bold;
-            margin-top: 18mm;
+            margin-top: 5mm;
         }
 
         .mix-id {
@@ -68,7 +68,6 @@
         }
 
         .mix-id span {
-            display: block;
             font-size: 5pt;
         }
 
@@ -98,11 +97,6 @@
 {% for item in sourceCollection.items %}
     {# @var item \InvExportLabel\Value\SourceItemType\MixerProductSourceItem #}
     <div class="container">
-
-        <div class="logo-image">
-            <img src="https://kern-schmelze.com/bundles/invexportlabel/img/logo.svg" />
-        </div>
-
         <p class="mix-name">
             {{ item.mixName }}
         </p>
@@ -116,8 +110,7 @@
             </strong> Vor Wärme schützen und trocken lagern.
         </p>
         <p class="mix-id">
-            Mix-ID: {{ item.displayId }}
-            <span>Bestell-ID: {{ item.OrderNumber }}</span>
+            Mix-ID: {{ item.displayId }} <span>Bestell-ID: {{ item.OrderNumber }}</span>
         </p>
         <p class="best-and-weight">
             <span class="best-before">Mindestens haltbar bis: {{ item.bestBeforeDate | date("d.m.Y") }}</span>
