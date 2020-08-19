@@ -1,0 +1,39 @@
+@import '../abstract/variables';
+
+.product-detail-promo-box {
+    border: 2px solid $inv-product-detail-promo-box-border-color;
+    background: none;
+    padding: 10px;
+    margin-bottom: 20px;
+
+    .product-name {
+        height: auto;
+    }
+
+    .card {
+        margin: 0;
+    }
+
+    .ks-product-image-wrapper {
+        padding: 0;
+    }
+
+    .product-image-link {
+        align-items: flex-start;
+    }
+
+    .product-name {
+        padding: 0;
+    }
+
+    .product-image {
+        width: 100%;
+        height: auto;
+        vertical-align: top;
+    }
+
+    .btn-buy {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}

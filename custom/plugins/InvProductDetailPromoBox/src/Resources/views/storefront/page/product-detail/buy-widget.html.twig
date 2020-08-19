@@ -1,0 +1,14 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/buy-widget.html.twig' %}
+
+{% block page_product_detail_buy_inner %}
+    {{ parent() }}
+
+    {% set status = shopware.config.InvProductDetailPromoBox.config.status %}
+    {% set htmlCode = shopware.config.InvProductDetailPromoBox.config.htmlCode %}
+
+    {% if status == true and htmlCode %}
+        <div class="product-detail-promo-box">
+            {{ htmlCode|raw }}
+        </div>
+    {% endif %}
+{% endblock %}

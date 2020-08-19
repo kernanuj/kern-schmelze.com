@@ -312,10 +312,42 @@ ul.product-detail-benefits {
 
 // Cross Selling
 .product-detail-cross-selling {
-    background: $ks-lightergray;
-    padding-top: 80px;
-    padding-bottom: 80px;
-    margin-bottom: 80px;
+    //background: $ks-lightergray;
+    border: 2px solid $ks-lightergray;
+    background: none;
+    padding: 10px;
+    margin-bottom: 20px;
+
+    .product-name {
+        height: auto;
+    }
+
+    .card {
+        margin: 0;
+    }
+
+    .ks-product-image-wrapper {
+        padding: 0;
+    }
+
+    .product-image-link {
+        align-items: flex-start;
+    }
+
+    .product-name {
+        padding: 0;
+    }
+
+    .product-image {
+        width: 100%;
+        height: auto;
+        vertical-align: top;
+    }
+
+    .btn-buy {
+        margin-left: 0;
+        margin-right: 0;
+    }
 
     .card-tabs {
         margin-top: 0;

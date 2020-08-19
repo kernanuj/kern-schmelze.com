@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Status</title>
+        <title lang="de-DE">Status</title>
+        <title lang="es-ES">Estado</title>
+        <title lang="fr-FR">Statut</title>
+        <title lang="nl-NL">Status</title>
+
+        <input-field type="bool">
+            <name>status</name>
+            <label>Active</label>
+            <label lang="de-DE">Aktiv</label>
+            <label lang="es-ES">Activado</label>
+            <label lang="fr-FR">Actif</label>
+            <label lang="nl-NL">Actief</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>HTML</title>
+        <title lang="de-DE">HTML</title>
+        <title lang="es-ES">HTML</title>
+        <title lang="fr-FR">HTML</title>
+        <title lang="nl-NL">HTML</title>
+
+        <input-field type="textarea">
+            <name>htmlCode</name>
+            <label>Custom HTML to show below product detail buy box</label>
+            <label lang="de-DE">Benutzerdefiniertes HTML zur Anzeige der untenstehenden Produktdetail-Kaufbox</label>
+            <label lang="es-ES">HTML personalizado para mostrar a continuación el detalle de la caja de compra del producto</label>
+            <label lang="fr-FR">HTML personnalisé pour afficher ci-dessous le détail du produit acheter la boîte</label>
+            <label lang="nl-NL">Aangepaste HTML om te laten zien onder product detail kopen doos</label>
+            <defaultValue></defaultValue>
+        </input-field>
+    </card>
+</config>
