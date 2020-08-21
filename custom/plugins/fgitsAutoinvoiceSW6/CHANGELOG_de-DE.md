@@ -24,3 +24,7 @@
 
 # 5.3.0
 - Kompatibilität mit Shopware 6.3
+
+# 5.3.1
+- Die Seite mit den Bestelldetails wurde standardisiert, um die Gruppierung der Buttons zu vereinfachen
+- Es wurde die Möglichkeit hinzugefügt, Rechnungen zu senden, auch wenn kein Zahlungs- oder Bestellstatus ausgewählt ist

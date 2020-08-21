@@ -24,3 +24,7 @@
 
 # 5.3.0
 - Compatibility with Shopware 6.3
+
+# 5.3.1
+- Order details page has been standardized to make it easier to group the buttons together
+- Added capability to send invoices even if no payment or order status is selected
