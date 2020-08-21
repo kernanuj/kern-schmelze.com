@@ -101,7 +101,7 @@ class OrderSubscriber implements EventSubscriberInterface
     /**
      * @inheritDoc
      *
-     * @return array
+     * @return string[]
      */
     public static function getSubscribedEvents(): array
     {
@@ -163,9 +163,9 @@ class OrderSubscriber implements EventSubscriberInterface
     {
         $ids = $event->getIds();
         foreach ($ids as $id) {
-            if (array_key_exists($id, self::$orderNumberMap)) {
+            if (in_array($id, self::$orderNumberMap)) {
                 Logger::logInfo("Order delete event detected. Deleted order id: {$id}", 'Integration');
-                $this->enqueueTask(new OrderCancelTask(self::$orderNumberMap[$id]));
+                $this->enqueueTask(new OrderCancelTask($id));
             }
         }
     }
@@ -248,7 +248,7 @@ class OrderSubscriber implements EventSubscriberInterface
     {
         $order = $this->orderRepository->getOrderById($orderId);
         if ($order) {
-            self::$orderNumberMap[$orderId] = $order->getOrderNumber();
+            self::$orderNumberMap[] = $orderId;
         }
     }
 

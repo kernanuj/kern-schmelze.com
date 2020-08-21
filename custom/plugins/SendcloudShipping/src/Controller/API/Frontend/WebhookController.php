@@ -40,7 +40,7 @@ class WebhookController extends AbstractController
      * Handles webhook request from SendCloud
      *
      * @RouteScope(scopes={"api"})
-     * @Route(path="/api/v1/sendcloud/webhook/{token}", name="api.sendcloud.webhook", defaults={"auth_required"=false}, methods={"GET", "POST"})
+     * @Route(path="/api/sendcloud/webhook/{token}", name="api.sendcloud.webhook", defaults={"auth_required"=false}, methods={"GET", "POST"})
      *
      * @param Request $request
      * @param string $token endpoint token

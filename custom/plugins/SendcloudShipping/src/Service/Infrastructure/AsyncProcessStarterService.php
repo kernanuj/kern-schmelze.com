@@ -10,6 +10,7 @@ use Sendcloud\Shipping\Core\Infrastructure\TaskExecution\Exceptions\ProcessStart
 use Sendcloud\Shipping\Core\Infrastructure\Utility\Exceptions\HttpRequestException;
 use Sendcloud\Shipping\Core\Infrastructure\Utility\GuidProvider;
 use Sendcloud\Shipping\Entity\Process\ProcessEntityRepository;
+use Shopware\Core\PlatformRequest;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -110,6 +111,13 @@ class AsyncProcessStarterService implements AsyncProcessStarter
      */
     private function formatAsyncProcessStartUrl(string $guid): string
     {
-        return $this->urlGenerator->generate('api.sendcloud.async', ['guid' => $guid], UrlGeneratorInterface::ABSOLUTE_URL);
+        return $this->urlGenerator->generate(
+            'api.sendcloud.async',
+            [
+                'version' => PlatformRequest::API_VERSION,
+                'guid' => $guid
+            ],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
     }
 }

@@ -37,7 +37,7 @@ class CheckStatusController extends AbstractController
      * Returns connection status
      *
      * @RouteScope(scopes={"api"})
-     * @Route(path="/api/v1/sendcloud/connectionStatus", name="api.sendcloud.connectionStatus", methods={"GET", "POST"})
+     * @Route(path="/api/v{version}/sendcloud/connectionStatus", name="api.sendcloud.connectionStatus", methods={"GET", "POST"})
      *
      * @return JsonApiResponse
      **/

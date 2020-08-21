@@ -40,7 +40,7 @@ class AsyncProcessController extends AbstractController
      * Async process starter endpoint
      *
      * @RouteScope(scopes={"api"})
-     * @Route(path="/api/v1/sendcloud/async/{guid}", name="api.sendcloud.async", defaults={"auth_required"=false}, methods={"GET", "POST"})
+     * @Route(path="/api/v{version}/sendcloud/async/{guid}", name="api.sendcloud.async", defaults={"auth_required"=false}, methods={"GET", "POST"})
      * @param string $guid
      *
      * @return JsonResponse

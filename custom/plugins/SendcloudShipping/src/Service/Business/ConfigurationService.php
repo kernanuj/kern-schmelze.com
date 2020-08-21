@@ -3,6 +3,7 @@
 namespace Sendcloud\Shipping\Service\Business;
 
 use Doctrine\DBAL\DBALException;
+use Sendcloud\Shipping\Core\BusinessLogic\DTO\IntegrationDTO;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\Configuration;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\Proxy;
 use Sendcloud\Shipping\Core\Infrastructure\Logger\Logger;
@@ -622,6 +623,36 @@ class ConfigurationService implements Configuration
     public function getSendCloudServicePointDeliveryMethodId(): ?string
     {
         return $this->configRepository->getValue('SENDCLOUD_SERVICE_POINT_DELIVERY_METHOD_ID');
+    }
+
+    /**
+     * @throws DBALException
+     * @throws \Sendcloud\Shipping\Core\Infrastructure\Utility\Exceptions\HttpAuthenticationException
+     * @throws \Sendcloud\Shipping\Core\Infrastructure\Utility\Exceptions\HttpCommunicationException
+     * @throws \Sendcloud\Shipping\Core\Infrastructure\Utility\Exceptions\HttpRequestException
+     */
+    public function updateWebhookUrl(): void
+    {
+        $integrationId = $this->getIntegrationId();
+        if (empty($integrationId)) {
+            return;
+        }
+
+        /** @var \Sendcloud\Shipping\Core\BusinessLogic\Proxy $proxy */
+        $proxy = ServiceRegister::getService(Proxy::CLASS_NAME);
+        $integrationData = new IntegrationDTO(
+            $integrationId,
+            $this->getShopName(),
+            $this->getIntegrationName(),
+            $this->isServicePointEnabled(),
+            $this->getCarriers(),
+            null,
+            null,
+            true,
+            $this->getWebHookEndpoint(true)
+        );
+
+        $proxy->updateIntegration($integrationData);
     }
 
     /**

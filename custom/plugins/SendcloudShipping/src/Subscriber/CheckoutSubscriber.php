@@ -19,6 +19,7 @@ use Shopware\Core\Checkout\Customer\Event\CustomerLogoutEvent;
 use Shopware\Core\Checkout\Shipping\ShippingMethodEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
+use Shopware\Core\PlatformRequest;
 use Shopware\Storefront\Page\Checkout\Confirm\CheckoutConfirmPageLoadedEvent;
 use Shopware\Storefront\Page\Checkout\Finish\CheckoutFinishPageLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -256,7 +257,11 @@ class CheckoutSubscriber implements EventSubscriberInterface
                 $shippingMethod->addExtension('sendcloud', new ServicePointConfig([
                     'isServicePointDelivery' => true,
                     'servicePointDeliveryId' => $servicePointDeliveryId,
-                    'servicePointEndpointUrl' => $this->urlGenerator->generate('api.sendcloud.servicepoint', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                    'servicePointEndpointUrl' => $this->urlGenerator->generate(
+                        'api.sendcloud.servicepoint',
+                        ['version' => PlatformRequest::API_VERSION],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    ),
                     'apiKey' => $this->configService->getPublicKey(),
                     'carriers' => implode(',', $this->configService->getCarriers()),
                     'weight' => $this->orderService->calculateTotalWeight($event->getPage()->getCart()->getLineItems()),

@@ -37,7 +37,7 @@ class WelcomeController extends AbstractController
      * Returns redirect url for SendCloud connection screen
      *
      * @RouteScope(scopes={"api"})
-     * @Route(path="/api/v1/sendcloud/redirectUrl", name="api.sendcloud.redirectUrl", methods={"GET", "POST"})
+     * @Route(path="/api/v{version}/sendcloud/redirectUrl", name="api.sendcloud.redirectUrl", methods={"GET", "POST"})
      *
      * @return JsonApiResponse
      **/
