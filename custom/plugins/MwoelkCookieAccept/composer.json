@@ -2,7 +2,7 @@
     "name": "mwoelk/cookie-accept",
     "type": "shopware-platform-plugin",
     "description": "Add option to accept all cookies in Shopware 6",
-    "version": "v1.2.1",
+    "version": "v1.2.2",
     "license": "proprietary",
     "authors": [
         {
@@ -17,8 +17,8 @@
         }
     },
     "require": {
-        "shopware/core": "<=6.3",
-        "shopware/storefront": "<=6.3" 
+        "shopware/core": "6.*",
+        "shopware/storefront": "6.*" 
     },
     "extra": {
         "shopware-plugin-class": "Mwoelk\\CookieAccept\\MwoelkCookieAccept",
@@ -26,6 +26,18 @@
         "label": {
             "de-DE": "Button um alle Cookies zu akzeptieren",
             "en-GB": "Button to accept all cookies"
+        },
+        "description": {
+            "de-DE": "Button um alle Cookies zu akzeptieren",
+            "en-GB": "Button to accept all cookies"
+        },
+        "manufacturerLink": {
+            "de-DE": "https://store.shopware.com/m.woelk.html",
+            "en-GB": "https://store.shopware.com/en/m.woelk.html"
+        },
+        "supportLink": {
+            "de-DE": "https://store.shopware.com/mwoel69493586830/button-to-accept-all-cookies.html",
+            "en-GB": "https://store.shopware.com/en/mwoel69493586830/button-to-accept-all-cookies.html"
         }
     }
 }
