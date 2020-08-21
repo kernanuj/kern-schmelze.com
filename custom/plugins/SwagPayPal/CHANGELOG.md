@@ -1,3 +1,7 @@
+# 1.8.2
+- PPI-46 - Fixes issue on refund without amount
+- PPI-47, PPI-48 - Enhancement of the PayPal API elements
+
 # 1.8.1
 - PPI-32, PPI-35 - Improve extensibility for third party plugins
 - PPI-36 - Add new PayPal API elements

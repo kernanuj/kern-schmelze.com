@@ -1,3 +1,7 @@
+# 1.8.2
+- PPI-46 - Behebt Fehler beim Erstatten ohne Betrag
+- PPI-47, PPI-48 - Erweiterung der PayPal API Elemente
+
 # 1.8.1
 - PPI-32, PPI-35 - Erweiterbarkeit für Dritt-Plugins verbessert
 - PPI-36 - Weitere PayPal API Elemente hinzugefügt
