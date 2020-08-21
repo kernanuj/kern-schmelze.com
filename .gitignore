@@ -81,3 +81,5 @@ _dev/*
 !/var/plugins.json
 !.gitkeep
 
+/custom/plugins/InvKernschmelzeTemplate/src/Resources/public/storefront/videos/
+/custom/plugins/InvKernschmelzeTemplate/src/Resources/public/storefront/videos/*
