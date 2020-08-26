@@ -28,3 +28,6 @@
 # 5.3.1
 - Die Seite mit den Bestelldetails wurde standardisiert, um die Gruppierung der Buttons zu vereinfachen
 - Es wurde die Möglichkeit hinzugefügt, Rechnungen zu senden, auch wenn kein Zahlungs- oder Bestellstatus ausgewählt ist
+
+# 5.3.2
+- Gefixt Download-Button für Rechnung
