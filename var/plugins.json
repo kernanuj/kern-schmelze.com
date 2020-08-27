@@ -147,24 +147,6 @@
             "styleFiles": []
         }
     },
-    "SendcloudShipping": {
-        "basePath": "custom\/plugins\/SendcloudShipping\/src\/",
-        "views": [
-            "Resources\/views"
-        ],
-        "technicalName": "sendcloud-shipping",
-        "administration": {
-            "path": "Resources\/app\/administration\/src",
-            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
-            "webpack": null
-        },
-        "storefront": {
-            "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": null,
-            "webpack": null,
-            "styleFiles": []
-        }
-    },
     "InvKernschmelzeTemplate": {
         "basePath": "custom\/plugins\/InvKernschmelzeTemplate\/src\/",
         "views": [
@@ -499,6 +481,24 @@
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvProductDetailPromoBox\/src\/Resources\/app\/storefront\/src\/scss\/base.scss",
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/InvProductDetailPromoBox\/src\/Resources\/app\/storefront\/src\/scss\/pagelets\/_promo-box.scss"
             ]
+        }
+    },
+    "SendcloudShipping": {
+        "basePath": "custom\/plugins\/SendcloudShipping\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "sendcloud-shipping",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
         }
     }
 }

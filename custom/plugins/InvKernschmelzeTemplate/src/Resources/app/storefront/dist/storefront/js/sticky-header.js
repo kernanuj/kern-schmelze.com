@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function() {
     var header = $('.header-wrapper');
     var padder = $('.sticky-padder');
 

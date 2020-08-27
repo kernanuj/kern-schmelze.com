@@ -4,7 +4,7 @@
     <ul class="product-detail-benefits d-flex flex-wrap align-items-center">
         {% for benefit in benefits %}
             {% set benefitText = "InvKernschmelzeTemplate.benefits."~benefit %}
-            <li class="benefit {{ benefit }}"><span></span>{{ benefitText|trans }}</li>
+            <li class="benefit {{ benefit }} equal"><span></span>{{ benefitText|trans }}</li>
         {% endfor %}
     </ul>
 {% endif %}
