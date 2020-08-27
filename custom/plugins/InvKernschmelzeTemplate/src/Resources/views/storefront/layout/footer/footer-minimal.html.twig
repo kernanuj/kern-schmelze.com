@@ -1,0 +1,6 @@
+{% sw_extends "@Storefront/storefront/layout/footer/footer-minimal.html.twig" %}
+
+{% block layout_footer_inner_container %}
+    {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/pagelets/newsletter/newsletter-signup.html.twig' %}
+    {{ parent() }}
+{% endblock %}
