@@ -48,6 +48,21 @@
         font-size: 11px;
         line-height: 14px;
     }
+
+    ul {
+        list-style: none;
+        max-width: 600px;
+        margin: 20px auto;
+
+        li {
+            color: $ks-brown;
+            font-size: 16px;
+            text-align: left;
+            background: url(../../../bundles/invkernschmelzetemplate/storefront/images/icon-tick-pink.svg) no-repeat;
+            background-size: 29px 22px;
+            padding-left: 35px;
+        }
+    }
 }
 
 @media (max-width: 768px) {
