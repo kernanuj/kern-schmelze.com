@@ -75,12 +75,12 @@ class LabelDocumentCreator implements DocumentCreatorInterface
         $dompdf->loadHtml($renderer->render($collection)->getHtml());
         $dompdf->render();
 
-        file_put_contents($configuration->getStoragePathName(), $dompdf->output());
+        file_put_contents($configuration->getLabelStoragePathName(), $dompdf->output());
         $exportResult->addCreatedFile(
-            new SplFileObject($configuration->getStoragePathName())
+            new SplFileObject($configuration->getLabelStoragePathName())
         );
         $exportResult->addCreatedFileForSendout(
-            new SplFileObject($configuration->getStoragePathName())
+            new SplFileObject($configuration->getLabelStoragePathName())
         );
         return $this;
     }

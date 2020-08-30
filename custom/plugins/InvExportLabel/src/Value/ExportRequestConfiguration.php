@@ -164,9 +164,17 @@ class ExportRequestConfiguration
     /**
      * @return string
      */
-    public function getStoragePathName(): string
+    public function getLabelStoragePathName(): string
     {
         return $this->storagePath . DIRECTORY_SEPARATOR . $this->storageFileNameLabel;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInvoiceStoragePathName(): string
+    {
+        return $this->storagePath . DIRECTORY_SEPARATOR . $this->storageFileNameInvoice;
     }
 
     /**
