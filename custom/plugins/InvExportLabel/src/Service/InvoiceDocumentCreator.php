@@ -44,6 +44,10 @@ class InvoiceDocumentCreator implements DocumentCreatorInterface
         ExportResult $exportResult
     ): void {
 
+        if(true !== $configuration->isIncludeInvoice()){
+            $exportResult->addLog('Invoice creation skipped');
+            return;
+        }
         $context = new Context(new SystemSource());
         $generatedDocuments = $this->generateDocuments($sourceCollection, $context);
         $generatedPdf = $this->generatePdf($generatedDocuments, $configuration);
