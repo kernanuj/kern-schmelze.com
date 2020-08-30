@@ -10,11 +10,7 @@ use InvExportLabel\Value\ExportResult;
 use InvExportLabel\Value\SourceCollection;
 use SplFileObject;
 
-/**
- * Class LabelCreator
- * @package InvExportLabel\Service
- */
-class DocumentCreator
+class LabelDocumentCreator implements DocumentCreatorInterface
 {
 
     /**
@@ -32,25 +28,21 @@ class DocumentCreator
     }
 
     /**
-     * @param ExportRequestConfiguration $configuration
-     * @param SourceCollection $sourceCollection
-     * @return ExportResult
+     * @inheritDoc
      */
     public function run(
         ExportRequestConfiguration $configuration,
-        SourceCollection $sourceCollection
-    ): ExportResult {
-
-        $result = new ExportResult();
+        SourceCollection $sourceCollection,
+        ExportResult $exportResult
+    ): void {
 
         if (true !== $sourceCollection->hasItems()) {
-            return $result->addLog('There are no items to create labels for.');
+            $exportResult->addLog('There are no items to create labels for.');
         }
 
-        $this->generateFileForAllMatchingOrders($configuration, $sourceCollection, $result);
-        $this->generateSeparateFilesForEachOrder($configuration, $sourceCollection, $result);
+        $this->generateFileForAllMatchingOrders($configuration, $sourceCollection, $exportResult);
+        $this->generateSeparateFilesForEachOrder($configuration, $sourceCollection, $exportResult);
 
-        return $result;
     }
 
     /**

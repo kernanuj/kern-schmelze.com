@@ -9,8 +9,11 @@
     </imports>
     <services>
         <service id="InvExportLabel\Command\ExportCommand">
-            <call method="setCreator">
-                <argument type="service" id="InvExportLabel\Service\DocumentCreator"/>
+            <call method="addDocumentCreator">
+                <argument type="service" id="InvExportLabel\Service\LabelDocumentCreator"/>
+            </call>
+            <call method="addDocumentCreator">
+                <argument type="service" id="InvExportLabel\Service\InvoiceDocumentCreator"/>
             </call>
             <call method="setConfigurationProvider">
                 <argument type="service" id="InvExportLabel\Service\ConfigurationProvider"/>
@@ -28,7 +31,10 @@
             <argument type="service" id="Shopware\Core\Content\MailTemplate\Service\MessageFactory"/>
             <argument type="service" id="Shopware\Core\Content\MailTemplate\Service\MailSender"/>
         </service>
-        <service id="InvExportLabel\Service\DocumentCreator">
+        <service id="InvExportLabel\Service\LabelDocumentCreator">
+            <argument type="service" id="InvExportLabel\Service\TypeInstanceRegistry"/>
+        </service>
+        <service id="InvExportLabel\Service\InvoiceDocumentCreator">
             <argument type="service" id="InvExportLabel\Service\TypeInstanceRegistry"/>
         </service>
 

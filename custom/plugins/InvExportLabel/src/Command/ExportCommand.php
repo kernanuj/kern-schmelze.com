@@ -4,10 +4,11 @@ namespace InvExportLabel\Command;
 
 use InvExportLabel\Constants;
 use InvExportLabel\Service\ConfigurationProvider;
-use InvExportLabel\Service\DocumentCreator;
+use InvExportLabel\Service\DocumentCreatorInterface;
 use InvExportLabel\Service\DocumentSender;
 use InvExportLabel\Service\SourceProviderInterface;
 use InvExportLabel\Value\ExportRequestConfiguration;
+use InvExportLabel\Value\ExportResult;
 use InvExportLabel\Value\MixerProductCreateConfiguration;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,9 +34,9 @@ class ExportCommand extends Command
     protected static $defaultName = 'inv:export-label:export';
 
     /**
-     * @var DocumentCreator
+     * @var DocumentCreatorInterface[]
      */
-    private $creator;
+    private $documentCreators = [];
 
     /**
      * @var ConfigurationProvider
@@ -63,12 +64,12 @@ class ExportCommand extends Command
     }
 
     /**
-     * @param DocumentCreator $creator
+     * @param DocumentCreatorInterface $documentCreator
      * @return ExportCommand
      */
-    public function setCreator(DocumentCreator $creator): ExportCommand
+    public function addDocumentCreator(DocumentCreatorInterface $documentCreator): ExportCommand
     {
-        $this->creator = $creator;
+        $this->documentCreators[] = $documentCreator;
         return $this;
     }
 
@@ -151,26 +152,30 @@ class ExportCommand extends Command
         }
 
         $configuration = $this->buildConfigurationFromInput($input);
-
         $sourceCollection = $this->sourceProvider->fetchSourceCollection($configuration);
+        $exportResult = new ExportResult();
 
-        $result = $this->creator->run(
-            $configuration,
-            $sourceCollection
-        );
+        foreach ($this->documentCreators as $documentCreator) {
+            $output->writeln(get_class($documentCreator) . ' BEGIN');
+            $documentCreator->run(
+                $configuration,
+                $sourceCollection,
+                $exportResult
+            );
+            $output->writeln(get_class($documentCreator) . ' END');
+        }
 
         $this->sender->run(
             $configuration,
-            $result
+            $exportResult
         );
 
 
-
-        foreach ($result->getLog() as $log) {
+        foreach ($exportResult->getLog() as $log) {
             $output->writeln($log);
         }
 
-        foreach($result->getCreatedFiles() as $createdFile) {
+        foreach ($exportResult->getCreatedFiles() as $createdFile) {
             $output->writeln('Generated file:' . $createdFile->getPathname());
         }
     }
