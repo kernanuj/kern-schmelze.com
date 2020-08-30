@@ -4,8 +4,9 @@ namespace InvExportLabel\Command;
 
 use InvExportLabel\Constants;
 use InvExportLabel\Service\ConfigurationProvider;
-use InvExportLabel\Service\LabelCreator;
-use InvExportLabel\Service\LabelSender;
+use InvExportLabel\Service\DocumentCreator;
+use InvExportLabel\Service\DocumentSender;
+use InvExportLabel\Service\SourceProviderInterface;
 use InvExportLabel\Value\ExportRequestConfiguration;
 use InvExportLabel\Value\MixerProductCreateConfiguration;
 use Symfony\Component\Console\Command\Command;
@@ -32,7 +33,7 @@ class ExportCommand extends Command
     protected static $defaultName = 'inv:export-label:export';
 
     /**
-     * @var LabelCreator
+     * @var DocumentCreator
      */
     private $creator;
 
@@ -42,25 +43,30 @@ class ExportCommand extends Command
     private $configurationProvider;
 
     /**
-     * @var LabelSender
+     * @var SourceProviderInterface
+     */
+    private $sourceProvider;
+
+    /**
+     * @var DocumentSender
      */
     private $sender;
 
     /**
-     * @param LabelSender $sender
+     * @param DocumentSender $sender
      * @return ExportCommand
      */
-    public function setSender(LabelSender $sender): ExportCommand
+    public function setSender(DocumentSender $sender): ExportCommand
     {
         $this->sender = $sender;
         return $this;
     }
 
     /**
-     * @param LabelCreator $creator
+     * @param DocumentCreator $creator
      * @return ExportCommand
      */
-    public function setCreator(LabelCreator $creator): ExportCommand
+    public function setCreator(DocumentCreator $creator): ExportCommand
     {
         $this->creator = $creator;
         return $this;
@@ -73,6 +79,16 @@ class ExportCommand extends Command
     public function setConfigurationProvider(ConfigurationProvider $configurationProvider): ExportCommand
     {
         $this->configurationProvider = $configurationProvider;
+        return $this;
+    }
+
+    /**
+     * @param SourceProviderInterface $sourceProvider
+     * @return ExportCommand
+     */
+    public function setSourceProvider(SourceProviderInterface $sourceProvider): ExportCommand
+    {
+        $this->sourceProvider = $sourceProvider;
         return $this;
     }
 
@@ -136,8 +152,11 @@ class ExportCommand extends Command
 
         $configuration = $this->buildConfigurationFromInput($input);
 
+        $sourceCollection = $this->sourceProvider->fetchSourceCollection($configuration);
+
         $result = $this->creator->run(
-            $configuration
+            $configuration,
+            $sourceCollection
         );
 
         $this->sender->run(

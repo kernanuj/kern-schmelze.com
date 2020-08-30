@@ -4,6 +4,7 @@
 namespace InvExportLabel\Value;
 
 use InvExportLabel\Value\SourceItemType\MixerProductSourceItem;
+use Shopware\Core\Checkout\Order\OrderCollection;
 
 /**
  * Class SourceCollection
@@ -16,6 +17,12 @@ class SourceCollection
      * @var SourceItemInterface[]
      */
     private $items = [];
+
+    /**
+     * @var OrderCollection
+     */
+    private $orderCollection;
+
 
     /**
      * @return SourceItemInterface[]|MixerProductSourceItem[]
@@ -42,8 +49,22 @@ class SourceCollection
         return count($this->items) > 0;
     }
 
+    /**
+     * @return OrderCollection
+     */
+    public function getOrderCollection(): OrderCollection
+    {
+        return $this->orderCollection;
+    }
 
-
-
+    /**
+     * @param OrderCollection $orderCollection
+     * @return SourceCollection
+     */
+    public function setOrderCollection(OrderCollection $orderCollection): SourceCollection
+    {
+        $this->orderCollection = $orderCollection;
+        return $this;
+    }
 
 }

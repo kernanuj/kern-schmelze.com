@@ -14,13 +14,8 @@ use SplFileObject;
  * Class LabelCreator
  * @package InvExportLabel\Service
  */
-class LabelCreator
+class DocumentCreator
 {
-
-    /**
-     * @var SourceProviderInterface
-     */
-    private $sourceProvider;
 
     /**
      * @var TypeInstanceRegistry
@@ -29,26 +24,24 @@ class LabelCreator
 
     /**
      * LabelCreator constructor.
-     * @param SourceProviderInterface $sourceProvider
      * @param TypeInstanceRegistry $typeInstanceRegistry
      */
-    public function __construct(SourceProviderInterface $sourceProvider, TypeInstanceRegistry $typeInstanceRegistry)
+    public function __construct(TypeInstanceRegistry $typeInstanceRegistry)
     {
-        $this->sourceProvider = $sourceProvider;
         $this->typeInstanceRegistry = $typeInstanceRegistry;
     }
 
     /**
      * @param ExportRequestConfiguration $configuration
-     * @return $this|ExportResult
+     * @param SourceCollection $sourceCollection
+     * @return ExportResult
      */
     public function run(
-        ExportRequestConfiguration $configuration
+        ExportRequestConfiguration $configuration,
+        SourceCollection $sourceCollection
     ): ExportResult {
 
         $result = new ExportResult();
-
-        $sourceCollection = $this->sourceProvider->fetchSourceCollection($configuration);
 
         if (true !== $sourceCollection->hasItems()) {
             return $result->addLog('There are no items to create labels for.');
@@ -80,9 +73,9 @@ class LabelCreator
         $dompdf = new Dompdf($options);
         $contxt = stream_context_create([
             'ssl' => [
-                'verify_peer' => FALSE,
-                'verify_peer_name' => FALSE,
-                'allow_self_signed'=> TRUE
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
             ]
         ]);
         $dompdf->setHttpContext($contxt);
@@ -110,13 +103,13 @@ class LabelCreator
         ExportResult $exportResult
     ): self {
 
-        foreach($collection->getItems() as $index => $item) {
+        foreach ($collection->getItems() as $index => $item) {
 
             $singleItemCollection = new SourceCollection();
             $singleItemCollection->addItem($item);
 
             $storagePathName = $configuration->getStoragePerOrderPathNameBuilder()(
-                $item->getOrderNumber().'_'.$item->getDisplayId().'_'.$index
+                $item->getOrderNumber() . '_' . $item->getDisplayId() . '_' . $index
             );
             $renderer = $this->typeInstanceRegistry->forType($configuration->getType())->getRenderer();
 

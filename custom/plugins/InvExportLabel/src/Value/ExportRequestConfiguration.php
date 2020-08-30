@@ -31,7 +31,12 @@ class ExportRequestConfiguration
     /**
      * @var string
      */
-    private $storageFileName;
+    private $storageFileNameLabel;
+
+    /**
+     * @var string
+     */
+    private $storageFileNameInvoice;
 
     /**
      * @var string[]
@@ -141,18 +146,18 @@ class ExportRequestConfiguration
     /**
      * @return string
      */
-    public function getStorageFileName(): string
+    public function getStorageFileNameLabel(): string
     {
-        return $this->storageFileName;
+        return $this->storageFileNameLabel;
     }
 
     /**
-     * @param string $storageFileName
+     * @param string $storageFileNameLabel
      * @return ExportRequestConfiguration
      */
-    public function setStorageFileName(string $storageFileName): ExportRequestConfiguration
+    public function setStorageFileNameLabel(string $storageFileNameLabel): ExportRequestConfiguration
     {
-        $this->storageFileName = $storageFileName;
+        $this->storageFileNameLabel = $storageFileNameLabel;
         return $this;
     }
 
@@ -161,7 +166,7 @@ class ExportRequestConfiguration
      */
     public function getStoragePathName(): string
     {
-        return $this->storagePath . DIRECTORY_SEPARATOR . $this->storageFileName;
+        return $this->storagePath . DIRECTORY_SEPARATOR . $this->storageFileNameLabel;
     }
 
     /**
@@ -346,6 +351,25 @@ class ExportRequestConfiguration
         $this->isUpdateStatusAfter = $isUpdateStatusAfter;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getStorageFileNameInvoice(): string
+    {
+        return $this->storageFileNameInvoice;
+    }
+
+    /**
+     * @param string $storageFileNameInvoice
+     * @return ExportRequestConfiguration
+     */
+    public function setStorageFileNameInvoice(string $storageFileNameInvoice): ExportRequestConfiguration
+    {
+        $this->storageFileNameInvoice = $storageFileNameInvoice;
+        return $this;
+    }
+
 
 
 

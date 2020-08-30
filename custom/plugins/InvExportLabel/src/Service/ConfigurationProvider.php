@@ -66,7 +66,8 @@ class ConfigurationProvider
                     )
             )
             ->setStoragePath($this->getBaseStorageDirectory())
-            ->setStorageFileName(date('Y-m-d') . '.Etiketten.pdf')
+            ->setStorageFileNameLabel(date('Y-m-d') . '.Etiketten.pdf')
+            ->setStorageFileNameInvoice(date('Y-m-d') . '.Rechnungen.pdf')
             ->setRecipientEmailAddresses(
                 $this->fromConfigurationReadEmailRecipientAddresses()
             )

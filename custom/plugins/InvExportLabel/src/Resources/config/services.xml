@@ -10,23 +10,25 @@
     <services>
         <service id="InvExportLabel\Command\ExportCommand">
             <call method="setCreator">
-                <argument type="service" id="InvExportLabel\Service\LabelCreator"/>
+                <argument type="service" id="InvExportLabel\Service\DocumentCreator"/>
             </call>
             <call method="setConfigurationProvider">
                 <argument type="service" id="InvExportLabel\Service\ConfigurationProvider"/>
             </call>
             <call method="setSender">
-                <argument type="service" id="InvExportLabel\Service\LabelSender"/>
+                <argument type="service" id="InvExportLabel\Service\DocumentSender"/>
+            </call>
+            <call method="setSourceProvider">
+                <argument type="service" id="InvExportLabel\Service\OrderSourceProvider"/>
             </call>
             <tag name="console.command"/>
         </service>
 
-        <service id="InvExportLabel\Service\LabelSender">
+        <service id="InvExportLabel\Service\DocumentSender">
             <argument type="service" id="Shopware\Core\Content\MailTemplate\Service\MessageFactory"/>
             <argument type="service" id="Shopware\Core\Content\MailTemplate\Service\MailSender"/>
         </service>
-        <service id="InvExportLabel\Service\LabelCreator">
-            <argument type="service" id="InvExportLabel\Service\OrderSourceProvider"/>
+        <service id="InvExportLabel\Service\DocumentCreator">
             <argument type="service" id="InvExportLabel\Service\TypeInstanceRegistry"/>
         </service>
 

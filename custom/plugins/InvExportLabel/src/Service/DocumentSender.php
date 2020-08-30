@@ -11,7 +11,7 @@ use Shopware\Core\Content\MailTemplate\Service\MessageFactoryInterface;
  * Class LabelExporter
  * @package InvExportLabel\Service
  */
-class LabelSender
+class DocumentSender
 {
     /**
      * @var MessageFactoryInterface
