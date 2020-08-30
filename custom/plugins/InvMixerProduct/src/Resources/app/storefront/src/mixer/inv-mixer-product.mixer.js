@@ -18,7 +18,6 @@ export default class InvMixerProductMixer extends Plugin {
     init() {
         this._client = new HttpClient()
         this.attachListingEvents()
-        this.attachMixStateEvents()
         this.loadState()
     }
 
@@ -79,6 +78,20 @@ export default class InvMixerProductMixer extends Plugin {
                 })
             }
         }
+
+        var overlayTrigger = $('.mixer-product-list .col-lg-8 .mix-item-info-holder');
+
+        overlayTrigger.each( function() {
+            $(this).hover(function() {
+                if($(this).closest('.card-body').find('.mixer-product-item-description').length) {
+                    $(this).closest('.card-body').find('.mixer-product-item-description').show();
+                }
+            },function() {
+                if($(this).closest('.card-body').find('.mixer-product-item-description').length) {
+                    $(this).closest('.card-body').find('.mixer-product-item-description').hide();
+                }
+            });
+        });
     }
 
     displayState(stateInnerHtml) {

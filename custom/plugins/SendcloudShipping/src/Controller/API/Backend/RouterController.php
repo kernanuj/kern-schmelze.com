@@ -60,7 +60,7 @@ class RouterController extends AbstractController
      * Returns page for display
      *
      * @RouteScope(scopes={"api"})
-     * @Route(path="/api/v1/sendcloud/router", name="api.sendcloud.router", methods={"GET", "POST"})
+     * @Route(path="/api/v{version}/sendcloud/router", name="api.sendcloud.router", methods={"GET", "POST"})
      *
      * @return JsonApiResponse
      *

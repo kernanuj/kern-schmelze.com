@@ -20,10 +20,10 @@
     <button id="confirmFormSubmit"
             class="btn btn-primary btn-block btn-lg"
             form="confirmOrderForm"
-            {% if page.cart.errors|length > 0 or page.extensions.sendcloud.disableSubmitButton %}
-                disabled="disabled"
+            {% if page.cart.errors.blockOrder > 0 or page.extensions.sendcloud.disableSubmitButton %}
+                disabled
             {% endif %}
             type="submit">
-        {{ "checkout.confirmSubmit"|trans }}
+        {{ "checkout.confirmSubmit"|trans|sw_sanitize }}
     </button>
 {% endblock %}

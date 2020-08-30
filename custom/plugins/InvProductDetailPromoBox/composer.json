@@ -1,0 +1,46 @@
+{
+    "name": "inv/product-detail-promo-box",
+    "version": "1.0.0",
+    "description": "Display a promo box with own html code below the product detail buy box.",
+    "authors": [
+        {
+            "name": "Nils Harder | inventivo.de",
+            "homepage": "https://www.inventivo.de",
+            "email": "hallo@inventivo.de",
+            "role": "Manufacturer"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "shopware/core": ">=6.0.0"
+    },
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "InvProductDetailPromoBox\\": "src/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "InvProductDetailPromoBox\\InvProductDetailPromoBox",
+        "copyright": "(c) by Nils Harder | inventivo.de",
+        "manufacturerLink": {
+            "de-DE": "https://www.inventivo.de",
+            "en-GB": "https://www.inventivo.de"
+        },
+        "supportLink": {
+            "de-DE": "https://www.inventivo.de/kontakt",
+            "en-GB": "https://www.inventivo.de/kontakt"
+        },
+        "label": {
+            "de-DE": "Promo Box PRO auf Produkt-Detailseite für Shopware 6",
+            "en-GB": "Promo Box PRO on product detail page for Shopware 6"
+        },
+        "description": {
+            "de-DE": "Zeige  eine Promo-Box mit eigenem HTML-Code unterhalb der Produktdetail-Kauf-Box an.",
+            "en-GB": "Display a promo box with own html code below the product detail buy box."
+        }
+    },
+    "minimum-stability": "RC",
+    "prefer-stable": true
+}

@@ -43,7 +43,6 @@ class ThemeVariablesSubscriber implements EventSubscriberInterface
             $event->addVariable('inv-homepage-slideshow-pro-autoplay', $configAutplay);
         }
 
-
         /** @var string $configRightBackgroundColor1 */
         $configRightBackgroundColor1 = $this->systemConfigService->get('InvHomepageSlideshowPro.config.leftbackgroundcolor1', $event->getSalesChannelId());
         if ($configRightBackgroundColor1) {

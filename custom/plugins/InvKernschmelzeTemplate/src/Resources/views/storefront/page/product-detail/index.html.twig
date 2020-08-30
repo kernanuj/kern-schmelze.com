@@ -28,6 +28,24 @@
         {% endif %}
 
         {% sw_include '@InvKernschmelzeTemplate/InvKernschmelzeTemplate/page/product-detail/benefits.html.twig' %}
+
+        <div class="d-none d-sm-none d-md-none d-lg-block">
+            {% block ks_page_product_detail_tabs %}
+                <div class="product-detail-tabs">
+                    {% sw_include '@Storefront/storefront/page/product-detail/tabs.html.twig' %}
+                </div>
+            {% endblock %}
+
+            {% block ks_page_product_detail_story %}
+                {% if page.product.translated.customFields.custom_product_data_story %}
+                    <div class="custom-product-data-story">
+                        {{ page.product.translated.customFields.custom_product_data_story|raw }}
+                    </div>
+                {% endif %}
+            {% endblock %}
+        </div>
+
+        <div class="clearfix"></div>
     </div>
 {% endblock %}
 
@@ -38,19 +56,18 @@
 {% endblock %}
 
 {% block page_product_detail_tabs %}
-    <div class="row">
-        <div class="col-lg-8">
-            {{ parent() }}
-
-            {% if page.product.translated.customFields.custom_product_data_story %}
-                <div class="custom-product-data-story">
-                    {{ page.product.translated.customFields.custom_product_data_story|raw }}
-                </div>
-            {% endif %}
+    <div class="d-block d-sm-block d-md-block d-lg-none">
+        <div class="product-detail-tabs">
+            {% sw_include '@Storefront/storefront/page/product-detail/tabs.html.twig' %}
         </div>
 
-        <div class="clearfix"></div>
+        {% if page.product.translated.customFields.custom_product_data_story %}
+            <div class="custom-product-data-story">
+                {{ page.product.translated.customFields.custom_product_data_story|raw }}
+            </div>
+        {% endif %}
     </div>
+
 {% endblock %}
 
 {% block page_product_detail_cross_selling %}

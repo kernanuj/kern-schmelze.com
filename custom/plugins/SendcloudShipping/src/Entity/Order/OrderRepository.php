@@ -116,6 +116,7 @@ class OrderRepository
             'deliveries.shippingMethod',
             'deliveries.shippingOrderAddress.country',
             'deliveries.shippingOrderAddress.state',
+            'deliveries.shippingOrderAddress.countryState',
             'transactions.paymentMethod'
         ];
     }

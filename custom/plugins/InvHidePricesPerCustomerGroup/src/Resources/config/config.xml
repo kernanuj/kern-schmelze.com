@@ -53,5 +53,15 @@
             <label lang="nl-NL">Te tonen tekst in plaats van prijs</label>
             <defaultValue></defaultValue>
         </input-field>
+
+        <input-field type="textarea">
+            <name>replacePriceWithTextLoggedIn</name>
+            <label>Text to show instead of price when customer is logged in</label>
+            <label lang="de-DE">Anstatt des Preises anzuzeigender Text, wenn der Kunde eingeloggt ist</label>
+            <label lang="es-ES">El texto que se muestra en lugar del precio cuando el cliente está conectado.</label>
+            <label lang="fr-FR">Texte à afficher au lieu du prix lorsque le client est connecté</label>
+            <label lang="nl-NL">Tekst om te tonen in plaats van prijs wanneer de klant is ingelogd</label>
+            <defaultValue></defaultValue>
+        </input-field>
     </card>
 </config>

@@ -1,19 +1,29 @@
 {% sw_extends '@Storefront/storefront/page/account/order-history/order-detail.html.twig' %}
 
+{% if order.invoice %}
+    {% set content = block('fgits_page_account_order_item_detail_buttons_content') %}
+
+    {% set button %}
+        <a href="{{ path('api.action.download.document', { version: '3', documentId: order.invoice.id, deepLinkCode: order.invoice.deepLinkCode }) }}" target="_blank" class="btn btn-primary">
+            {% sw_icon "cloud-download" %} {{ 'fgits-autoinvoice.orderDetail.invoiceButtonText'|trans }}
+        </a>
+    {% endset %}
+{% endif %}
+
 {% block page_account_order_item_detail_table_footer %}
     <div class="order-detail-content-footer">
         {% block fgits_page_account_order_item_detail_buttons %}
-            {% if order.invoice %}
-                <div class="order-item-detail-footer fgits-order-item-detail-footer-row">
-                    <div class="row no-gutters">
-                        <div class="col-12 col-md-12 col-xl-12">
-                            <a href="{{ path('api.action.download.document', { version: '3', documentId: order.invoice.id, deepLinkCode: order.invoice.deepLinkCode }) }}" target="_blank" class="btn btn-primary">
-                                {{ 'fgits-autoinvoice.orderDetail.invoiceButtonText'|trans }}
-                            </a>
-                        </div>
+            <div class="order-item-detail-footer fgits-order-item-detail-footer-row">
+                <div class="row no-gutters">
+                    <div class="col-12 col-md-12 col-xl-12">
+                        {% block fgits_page_account_order_item_detail_buttons_content %}
+                            {{ content|raw }}
+
+                            {{ button }}
+                        {% endblock %}
                     </div>
                 </div>
-            {% endif %}
+            </div>
         {% endblock %}
 
         {% block page_account_order_item_detail_table_labels_summary %}

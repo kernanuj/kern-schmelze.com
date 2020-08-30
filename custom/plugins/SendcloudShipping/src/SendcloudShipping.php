@@ -44,7 +44,10 @@ class SendcloudShipping extends Plugin
     public function uninstall(UninstallContext $uninstallContext): void
     {
         parent::uninstall($uninstallContext);
-        $this->removeAllSendCloudTables();
+
+        if (!$uninstallContext->keepUserData()) {
+            $this->removeAllSendCloudTables();
+        }
     }
 
     /**

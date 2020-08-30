@@ -354,7 +354,14 @@ class OrderService implements OrderServiceInterface
 
         $state = $shippingAddress->getCountryState();
         if ($state) {
-            $order->setToState($state->getShortCode());
+            $toStateParts = explode('-', (string)$state->getShortCode());
+            // Remove country code from state code if it exist
+            if (count($toStateParts) > 1) {
+                array_shift($toStateParts);
+            }
+            $toState = implode('-', $toStateParts);
+
+            $order->setToState($toState);
         }
 
         $address = $shippingAddress->getStreet();

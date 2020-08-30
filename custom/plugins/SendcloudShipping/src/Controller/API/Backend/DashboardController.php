@@ -57,7 +57,7 @@ class DashboardController extends AbstractController
      * Returns dashboard configuration
      *
      * @RouteScope(scopes={"api"})
-     * @Route(path="/api/v1/sendcloud/dashboard", name="api.sendcloud.dashboard", methods={"GET", "POST"})
+     * @Route(path="/api/v{version}/sendcloud/dashboard", name="api.sendcloud.dashboard", methods={"GET", "POST"})
      *
      * @return JsonApiResponse
      *

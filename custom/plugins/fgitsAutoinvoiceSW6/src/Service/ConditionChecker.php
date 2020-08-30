@@ -92,11 +92,6 @@ class ConditionChecker
     {
         $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config');
 
-        if (!isset($config['conditionPaymentStatus'])
-            || !isset($config['conditionOrderStatus'])) {
-            return false;
-        }
-
         $invoiceDocumentExists = $this->document->orderHasDocument($order, InvoiceGenerator::INVOICE);
 
         $orderStatus = $order->getStateId();
@@ -143,11 +138,11 @@ class ConditionChecker
             return true;
         }
 
-        if (is_array($configPaymentStatus) && !in_array($paymentStatus, $configPaymentStatus)) {
+        if (!empty($configPaymentStatus) && (is_array($configPaymentStatus) && !in_array($paymentStatus, $configPaymentStatus))) {
             return false;
         }
 
-        if (is_array($configOrderStatus) && !in_array($orderStatus, $configOrderStatus)) {
+        if (!empty($configOrderStatus) && (is_array($configOrderStatus) && !in_array($orderStatus, $configOrderStatus))) {
             return false;
         }
 

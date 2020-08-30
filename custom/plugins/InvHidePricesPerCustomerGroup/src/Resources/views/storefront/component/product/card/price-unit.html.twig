@@ -7,12 +7,23 @@
             {% set configCustomerGroupIds = shopware.config.InvHidePricesPerCustomerGroup.config.customerGroupIds|split(',') %}
             {% set currentCustomerGroupId = context.customer.groupId %}
             {% set replacePriceWithText = shopware.config.InvHidePricesPerCustomerGroup.config.replacePriceWithText %}
+            {% set replacePriceWithTextLoggedIn = shopware.config.InvHidePricesPerCustomerGroup.config.replacePriceWithTextLoggedIn %}
 
             {% if currentCustomerGroupId not in configCustomerGroupIds %}
-                {% if replacePriceWithText %}
-                    {{ replacePriceWithText|raw }}
+                {# Customer is logged in #}
+                {% if context.customer is not null %}
+                    {% if replacePriceWithTextLoggedIn %}
+                        {{ replacePriceWithTextLoggedIn|raw }}
+                    {% else %}
+                        {{ "InvHidePricesPerCustomerGroup.placeholders.replacePriceWithTextLoggedIn"|trans }}
+                    {% endif %}
+                {# Customer is not logged in #}
                 {% else %}
-                    {{ "InvHidePricesPerCustomerGroup.placeholders.replacePriceWithText"|trans }}
+                    {% if replacePriceWithText %}
+                        {{ replacePriceWithText|raw }}
+                    {% else %}
+                        {{ "InvHidePricesPerCustomerGroup.placeholders.replacePriceWithText"|trans }}
+                    {% endif %}
                 {% endif %}
             {% else %}
                 {{ parent() }}

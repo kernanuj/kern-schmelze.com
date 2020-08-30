@@ -94,7 +94,7 @@ class SourceItemConverter
                 return !empty($item);
             }
         );
-        $ingredients = array_unique($ingredients);
+        //$ingredients = array_unique($ingredients);
 
         return $ingredients;
     }

@@ -1,0 +1,57 @@
+.video-section {
+    position: relative;
+    height: 700px;
+    margin-top: 30px;
+
+    .row {
+        margin: 0;
+    }
+
+    .col-12 {
+        height: 700px;
+    }
+}
+
+.video-wrapper {
+    height: 700px;
+    overflow: hidden;
+    display: block;
+    transform: translate3d(0,0,0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    background: $ks-brown;
+
+    #video-container {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        min-width: 100%;
+        overflow: hidden;
+    }
+
+    .video-overlay-text {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        min-width: 100%;
+        z-index: 100;
+        overflow: hidden;
+        text-align: center;
+
+        h2 {
+            color: $white;
+            font-size: 36px;
+            line-height: 40px;
+        }
+
+        p {
+            color: $white;
+            font-size: 14px;
+        }
+    }
+}

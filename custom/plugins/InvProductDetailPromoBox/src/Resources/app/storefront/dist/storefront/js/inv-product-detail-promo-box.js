@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([["inv-product-detail-promo-box"],{fl7B:function(o,n){}},[["fl7B","runtime"]]]);

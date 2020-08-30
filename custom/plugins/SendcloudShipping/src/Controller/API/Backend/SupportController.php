@@ -12,6 +12,7 @@ use Sendcloud\Shipping\Service\Utility\Initializer;
 use Shopware\Core\Framework\Api\Response\JsonApiResponse;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
+use Shopware\Core\PlatformRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -68,7 +69,7 @@ class SupportController extends AbstractController
      * Returns all configuration parameters for diagnostics purposes.
      *
      * @RouteScope(scopes={"api"})
-     * @Route(path="/api/v1/sendcloud/support", name="api.sendcloud.support", methods={"GET"})
+     * @Route(path="/api/v{version}/sendcloud/support", name="api.sendcloud.support", methods={"GET"})
      */
     public function getConfigParameters(): JsonApiResponse
     {
@@ -94,7 +95,14 @@ class SupportController extends AbstractController
                 'SENDCLOUD_COMPLETED_TASKS_RETENTION_PERIOD' => $this->configService->getCompletedTasksRetentionPeriod(),
                 'SENDCLOUD_FAILED_TASKS_RETENTION_PERIOD' => $this->configService->getFailedTasksRetentionPeriod(),
                 'SENDCLOUD_OLD_TASKS_CLEANUP_THRESHOLD' => $this->configService->getOldTaskCleanupTimeThreshold(),
-                'SENDCLOUD_ASYNC_PROCESS_STARTER_URL' => $this->urlGenerator->generate('api.sendcloud.async', ['guid' => 'guid'], UrlGeneratorInterface::ABSOLUTE_URL),
+                'SENDCLOUD_ASYNC_PROCESS_STARTER_URL' => $this->urlGenerator->generate(
+                    'api.sendcloud.async',
+                    [
+                        'version' => PlatformRequest::API_VERSION,
+                        'guid' => 'guid',
+                    ],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
                 'SERVER_SOFTWARE' => $_SERVER['SERVER_SOFTWARE'],
                 'PHP_VERSION' => PHP_VERSION,
                 'PHP_TIME_LIMIT' => ini_get('max_execution_time'),
@@ -114,7 +122,7 @@ class SupportController extends AbstractController
      * Updates configuration from POST request.
      *
      * @RouteScope(scopes={"api"})
-     * @Route(path="/api/v1/sendcloud/support/update", name="api.sendcloud.support.update", methods={"POST"})
+     * @Route(path="/api/v{version}/sendcloud/support/update", name="api.sendcloud.support.update", methods={"POST"})
      *
      * @param Request $request
      *

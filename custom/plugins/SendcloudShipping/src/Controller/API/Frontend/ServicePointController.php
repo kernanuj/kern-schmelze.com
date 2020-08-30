@@ -34,7 +34,7 @@ class ServicePointController extends AbstractController
 
     /**
      * @RouteScope(scopes={"api"})
-     * @Route(path="/api/v1/sendcloud/servicepoint/save", name="api.sendcloud.servicepoint.save",
+     * @Route(path="/api/v{version}/sendcloud/servicepoint/save", name="api.sendcloud.servicepoint.save",
      *     defaults={"auth_required"=false}, methods={"POST"})
      *
      * @param Request $request
@@ -57,7 +57,7 @@ class ServicePointController extends AbstractController
 
     /**
      * @RouteScope(scopes={"api"})
-     * @Route(path="/api/v1/sendcloud/servicepoint", name="api.sendcloud.servicepoint",
+     * @Route(path="/api/v{version}/sendcloud/servicepoint", name="api.sendcloud.servicepoint",
      *     defaults={"auth_required"=false}, methods={"GET"})
      *
      * @param Request $request

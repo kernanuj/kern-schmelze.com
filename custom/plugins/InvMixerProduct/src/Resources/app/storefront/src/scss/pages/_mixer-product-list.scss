@@ -2,8 +2,33 @@
 
 .mixer-product-list {
     .col-lg-8 {
+        .card {
+            .mix-item-info-holder {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                z-index: 20;
+                width: 40px;
+                height: 40px;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+                img {
+                    display: block;
+                    width: 18px;
+                    height: 18px;
+                    text-align: center;
+                    margin: 0 auto;
+                }
+            }
+        }
+
         .product-image-wrapper {
             height: auto;
+            position: relative;
+            display: flex;
 
             &:hover {
                 cursor: pointer;
@@ -54,21 +79,20 @@
                             }
                         }
                     }
-
-                    .col-lg-2 {
-                        text-align: center;
-                        padding: 0;
-
-                        img {
-                            display: block;
-                            width: 18px;
-                            height: 18px;
-                            text-align: center;
-                            margin: 0 auto;
-                        }
-                    }
                 }
             }
+        }
+
+        .mixer-product-item-description {
+            display: none;
+            position: absolute;
+            z-index: 10;
+            padding: 10px;
+            background: $white;
+            text-align: center;
+            justify-self: center;
+            align-self: center;
+            border: 1px solid $black;
         }
     }
 

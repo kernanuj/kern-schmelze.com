@@ -8,7 +8,7 @@
             {% set currentCustomerGroupId = context.customer.groupId %}
 
             {% if currentCustomerGroupId not in configCustomerGroupIds %}
-
+                {# Do not show anything #}
             {% else %}
                 {{ parent() }}
             {% endif %}

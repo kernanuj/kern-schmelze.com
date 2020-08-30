@@ -7,7 +7,7 @@
         />
 
         <sendcloud-content-window>
-            <sendcloud-logo sendcloud-logo-url="/bundles/sendcloudshipping/administration/img/sendcloud_with_name.svg"/>
+            <sendcloud-logo :sendcloud-logo-url="'/sendcloudshipping/administration/img/sendcloud_with_name.svg' | asset"/>
             <sendcloud-main-text :sendcloud-main-text="$tc('send-cloud.dashboard.mainText')"/>
             <sendcloud-button :sendcloud-button-label="$tc('send-cloud.dashboard.buttonLabel')" :on-click="goToSendCloud"/>
         </sendcloud-content-window>

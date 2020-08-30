@@ -1,3 +1,6 @@
+# 1.0.6
+- Enhance optional background image for mobile view
+
 # 1.0.5
 - Add optional background image for mobile view
 
