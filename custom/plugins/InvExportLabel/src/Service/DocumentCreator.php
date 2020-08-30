@@ -87,6 +87,9 @@ class DocumentCreator
         $exportResult->addCreatedFile(
             new SplFileObject($configuration->getStoragePathName())
         );
+        $exportResult->addCreatedFileForSendout(
+            new SplFileObject($configuration->getStoragePathName())
+        );
         return $this;
     }
 

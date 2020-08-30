@@ -61,7 +61,7 @@ class DocumentSender
         );
 
         // have to attach files manually since factory uses flysystem with public as root
-        foreach ($exportResult->getCreatedFiles() as $file) {
+        foreach ($exportResult->getCreatedFilesForSendout() as $file) {
             $attachment = new \Swift_Attachment(
                 file_get_contents($file->getPathname()),
                 basename($file->getPathname()),
