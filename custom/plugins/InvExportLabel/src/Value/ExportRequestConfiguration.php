@@ -3,6 +3,9 @@
 
 namespace InvExportLabel\Value;
 
+use InvExportLabel\Constants;
+use Shopware\Core\Checkout\Order\OrderEntity;
+
 /**
  * Class ExportRequestConfiguration
  * @package InvExportLabel\Value
@@ -59,6 +62,16 @@ class ExportRequestConfiguration
      * @var string
      */
     private $senderEmailAddress;
+
+    /**
+     * @var OrderEntity
+     */
+    private $order;
+
+    /**
+     * @var string[]
+     */
+    private $selectedTypes;
 
     /**
      * @return string
@@ -248,4 +261,45 @@ class ExportRequestConfiguration
         $this->senderEmailAddress = $senderEmailAddress;
         return $this;
     }
+
+    /**
+     * @return OrderEntity
+     */
+    public function getOrder(): OrderEntity
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param OrderEntity $order
+     * @return ExportRequestConfiguration
+     */
+    public function setOrder(OrderEntity $order): ExportRequestConfiguration
+    {
+        $this->order = $order;
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getSelectedTypes(): array
+    {
+        return $this->selectedTypes;
+    }
+
+    /**
+     * @param string[] $selectedTypes
+     * @return ExportRequestConfiguration
+     */
+    public function setSelectedTypes(array $selectedTypes): ExportRequestConfiguration
+    {
+        foreach ($selectedTypes as $selectedType) {
+            \assert(in_array($selectedType, Constants::allAvailableLabelTypes()));
+        }
+        $this->selectedTypes = $selectedTypes;
+        return $this;
+    }
+
+
 }

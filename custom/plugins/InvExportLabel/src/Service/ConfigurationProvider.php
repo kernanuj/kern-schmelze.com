@@ -7,6 +7,7 @@ use InvExportLabel\Value\ExportRequestConfiguration;
 use InvExportLabel\Value\OrderStateCombination;
 use InvExportLabel\Value\OrderStateCombinationCollection;
 use InvExportLabel\Value\SourceFilterDefinition;
+use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Webmozart\Assert\Assert;
 
@@ -144,6 +145,16 @@ class ConfigurationProvider
     }
 
     /**
+     * @return string
+     */
+    private function fromConfigurationReadEmailBody(): string
+    {
+        $string = $this->systemConfigService->get(Constants::SYSTEM_CONFIG_Mixer_PRODUCT_EMAIL_BODY);
+        return trim($string);
+
+    }
+
+    /**
      * @param string $type
      * @return string
      */
@@ -161,12 +172,30 @@ class ConfigurationProvider
     }
 
     /**
-     * @return string
+     * @param OrderEntity $orderEntity
+     * @return ExportRequestConfiguration
+     * @throws \Exception
      */
-    private function fromConfigurationReadEmailBody(): string
+    public function buildConfigurationForSingleOrderInBackend(OrderEntity $orderEntity): ExportRequestConfiguration
     {
-        $string = $this->systemConfigService->get(Constants::SYSTEM_CONFIG_Mixer_PRODUCT_EMAIL_BODY);
-        return trim($string);
+
+        $orderDate = new \DateTime($orderEntity->getOrderDate()->format(\DateTime::ATOM));
+
+        $configuration = (new ExportRequestConfiguration())
+            ->setOrder($orderEntity)
+            ->setBestBeforeDate(
+                $orderDate->add(
+                    new \DateInterval(
+                        sprintf(
+                            'P%dM',
+                            $this->systemConfigService->get(Constants::SYSTEM_CONFIG_MIXER_PRODUCT_BEST_BEFORE_MONTHS)
+                        )
+                    )
+                )
+            )
+            ->setSelectedTypes(Constants::allAvailableLabelTypes());
+
+        return $configuration;
 
     }
 }
