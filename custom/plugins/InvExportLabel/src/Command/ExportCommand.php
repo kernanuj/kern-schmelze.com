@@ -24,6 +24,8 @@ class ExportCommand extends Command
     const INPUT_NAME_DAYS_BACK = 'daysBack';
     const INPUT_NAME_DAYS_FORWARD = 'daysForward';
     const INPUT_NAME_TYPE = 'type';
+    const INPUT_NAME_INCLUDE_INVOICE = 'includeInvoice';
+    const INPUT_NAME_UPDATE_STATUS = 'updateStatus';
     /**
      * @var string
      */
@@ -101,6 +103,20 @@ class ExportCommand extends Command
             InputOption::VALUE_REQUIRED,
             'The type to be created ("inv_mixer_product" only for now )',
             Constants::LABEL_TYPE_MIXER_PRODUCT
+        );
+        $this->addOption(
+            self::INPUT_NAME_INCLUDE_INVOICE,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Include invoices in creation',
+            false
+        );
+        $this->addOption(
+            self::INPUT_NAME_UPDATE_STATUS,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Update status after sendout',
+            false
         );
     }
 
@@ -187,8 +203,14 @@ XML;
         $daysBack = $input->getOption(self::INPUT_NAME_DAYS_BACK);
         $daysForward = $input->getOption(self::INPUT_NAME_DAYS_FORWARD);
         $type = $input->getOption(self::INPUT_NAME_TYPE);
+        $isIncludeInvoice = (bool)$input->getOption(self::INPUT_NAME_INCLUDE_INVOICE);
+        $isUpdateStatus = (bool)$input->getOption(self::INPUT_NAME_UPDATE_STATUS);
 
-        $configuration->setType($type);
+        $configuration
+            ->setType($type)
+            ->setIsIncludeInvoice($isIncludeInvoice)
+            ->setIsUpdateStatusAfter($isUpdateStatus);
+
         $configuration->getSourceFilterDefinition()
             ->setOrderedAtFrom(
                 (new \DateTime())->sub(new \DateInterval('P' . $daysBack . 'D'))->setTime(0, 0, 0)

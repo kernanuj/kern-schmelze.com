@@ -74,6 +74,16 @@ class ExportRequestConfiguration
     private $selectedTypes;
 
     /**
+     * @var bool
+     */
+    private $isIncludeInvoice = false;
+
+    /**
+     * @var bool
+     */
+    private $isUpdateStatusAfter = false;
+
+    /**
      * @return string
      */
     public function getType(): string
@@ -300,6 +310,43 @@ class ExportRequestConfiguration
         $this->selectedTypes = $selectedTypes;
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isIncludeInvoice(): bool
+    {
+        return $this->isIncludeInvoice;
+    }
+
+    /**
+     * @param bool $isIncludeInvoice
+     * @return ExportRequestConfiguration
+     */
+    public function setIsIncludeInvoice(bool $isIncludeInvoice): ExportRequestConfiguration
+    {
+        $this->isIncludeInvoice = $isIncludeInvoice;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUpdateStatusAfter(): bool
+    {
+        return $this->isUpdateStatusAfter;
+    }
+
+    /**
+     * @param bool $isUpdateStatusAfter
+     * @return ExportRequestConfiguration
+     */
+    public function setIsUpdateStatusAfter(bool $isUpdateStatusAfter): ExportRequestConfiguration
+    {
+        $this->isUpdateStatusAfter = $isUpdateStatusAfter;
+        return $this;
+    }
+
 
 
 }

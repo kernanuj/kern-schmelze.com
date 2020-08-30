@@ -5,7 +5,7 @@
 ### 
 
 1. Create cron job running once a day to export labels, example
->bin/console inv:export-label:export --daysBack=1 --daysForward=0 --type=inv_mixer_product
+>bin/console inv:export-label:export --daysBack=1 --daysForward=0 --type=inv_mixer_product --includeInvoice=1 --updateStatus=1
 >bin/console inv:export-label:export --daysBack=10 --daysForward=1 --type=inv_mixer_product
 
 
