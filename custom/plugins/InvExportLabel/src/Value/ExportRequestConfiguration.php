@@ -89,6 +89,11 @@ class ExportRequestConfiguration
     private $isUpdateStatusAfter = false;
 
     /**
+     * @var string
+     */
+    private $transitionAfterSendout;
+
+    /**
      * @return string
      */
     public function getType(): string
@@ -375,6 +380,24 @@ class ExportRequestConfiguration
     public function setStorageFileNameInvoice(string $storageFileNameInvoice): ExportRequestConfiguration
     {
         $this->storageFileNameInvoice = $storageFileNameInvoice;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransitionAfterSendout(): string
+    {
+        return $this->transitionAfterSendout;
+    }
+
+    /**
+     * @param string $transitionAfterSendout
+     * @return ExportRequestConfiguration
+     */
+    public function setTransitionAfterSendout(string $transitionAfterSendout): ExportRequestConfiguration
+    {
+        $this->transitionAfterSendout = $transitionAfterSendout;
         return $this;
     }
 

@@ -9,9 +9,9 @@
     </imports>
     <services>
         <service id="InvExportLabel\Command\ExportCommand">
-            <!--<call method="addDocumentCreator">
+            <call method="addDocumentCreator">
                 <argument type="service" id="InvExportLabel\Service\LabelDocumentCreator"/>
-            </call>-->
+            </call>
             <call method="addDocumentCreator">
                 <argument type="service" id="InvExportLabel\Service\InvoiceDocumentCreator"/>
             </call>
@@ -20,6 +20,9 @@
             </call>
             <call method="setSender">
                 <argument type="service" id="InvExportLabel\Service\DocumentSender"/>
+            </call>
+            <call method="addOrderAction">
+                <argument type="service" id="InvExportLabel\Service\OrderStateUpdater"/>
             </call>
             <call method="setSourceProvider">
                 <argument type="service" id="InvExportLabel\Service\OrderSourceProvider"/>
@@ -36,6 +39,9 @@
         </service>
         <service id="InvExportLabel\Service\InvoiceDocumentCreator">
             <argument type="service" id="Shopware\Core\Checkout\Document\DocumentService"/>
+        </service>
+        <service id="InvExportLabel\Service\OrderStateUpdater">
+            <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry"/>
         </service>
 
         <service id="InvExportLabel\Service\SourceProviderInterface"

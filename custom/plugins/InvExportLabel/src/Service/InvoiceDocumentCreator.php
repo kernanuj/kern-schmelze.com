@@ -48,6 +48,12 @@ class InvoiceDocumentCreator implements DocumentCreatorInterface
             $exportResult->addLog('Invoice creation skipped');
             return;
         }
+
+        if($sourceCollection->getOrderCollection()->count() <= 0){
+            $exportResult->addLog('There are no items to create invoices for');
+            return;
+        }
+
         $context = new Context(new SystemSource());
         $generatedDocuments = $this->generateDocuments($sourceCollection, $context);
         $generatedPdf = $this->generatePdf($generatedDocuments, $configuration);

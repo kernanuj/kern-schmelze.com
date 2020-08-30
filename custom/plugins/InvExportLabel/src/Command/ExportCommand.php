@@ -6,10 +6,11 @@ use InvExportLabel\Constants;
 use InvExportLabel\Service\ConfigurationProvider;
 use InvExportLabel\Service\DocumentCreatorInterface;
 use InvExportLabel\Service\DocumentSender;
+use InvExportLabel\Service\OrderActionInterface;
 use InvExportLabel\Service\SourceProviderInterface;
 use InvExportLabel\Value\ExportRequestConfiguration;
 use InvExportLabel\Value\ExportResult;
-use InvExportLabel\Value\MixerProductCreateConfiguration;
+use Shopware\Core\System\StateMachine\Aggregation\StateMachineTransition\StateMachineTransitionActions;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -37,6 +38,11 @@ class ExportCommand extends Command
      * @var DocumentCreatorInterface[]
      */
     private $documentCreators = [];
+
+    /**
+     * @var OrderActionInterface[]
+     */
+    private $orderActions = [];
 
     /**
      * @var ConfigurationProvider
@@ -70,6 +76,16 @@ class ExportCommand extends Command
     public function addDocumentCreator(DocumentCreatorInterface $documentCreator): ExportCommand
     {
         $this->documentCreators[] = $documentCreator;
+        return $this;
+    }
+
+    /**
+     * @param OrderActionInterface $orderAction
+     * @return $this
+     */
+    public function addOrderAction(OrderActionInterface $orderAction): ExportCommand
+    {
+        $this->orderActions[] = $orderAction;
         return $this;
     }
 
@@ -165,11 +181,20 @@ class ExportCommand extends Command
             $output->writeln(get_class($documentCreator) . ' END');
         }
 
+        foreach ($this->orderActions as $orderAction) {
+            $output->writeln(get_class($orderAction) . ' BEGIN');
+            $orderAction->run(
+                $configuration,
+                $sourceCollection,
+                $exportResult
+            );
+            $output->writeln(get_class($orderAction) . ' END');
+        }
+
         $this->sender->run(
             $configuration,
             $exportResult
         );
-
 
         foreach ($exportResult->getLog() as $log) {
             $output->writeln($log);
@@ -233,7 +258,8 @@ XML;
         $configuration
             ->setType($type)
             ->setIsIncludeInvoice($isIncludeInvoice)
-            ->setIsUpdateStatusAfter($isUpdateStatus);
+            ->setIsUpdateStatusAfter($isUpdateStatus)
+            ->setTransitionAfterSendout(StateMachineTransitionActions::ACTION_PROCESS);
 
         $configuration->getSourceFilterDefinition()
             ->setOrderedAtFrom(

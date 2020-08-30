@@ -38,6 +38,7 @@ class LabelDocumentCreator implements DocumentCreatorInterface
 
         if (true !== $sourceCollection->hasItems()) {
             $exportResult->addLog('There are no items to create labels for.');
+            return;
         }
 
         $this->generateFileForAllMatchingOrders($configuration, $sourceCollection, $exportResult);

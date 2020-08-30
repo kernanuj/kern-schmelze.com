@@ -18,7 +18,7 @@ class ExportResult
     /**
      * @var \SplFileObject[]
      */
-    private $createdFilesForSendout;
+    private $createdFilesForSendout = [];
 
     /**
      * @var array
