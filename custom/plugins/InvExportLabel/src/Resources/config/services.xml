@@ -9,9 +9,9 @@
     </imports>
     <services>
         <service id="InvExportLabel\Command\ExportCommand">
-            <call method="addDocumentCreator">
+            <!--<call method="addDocumentCreator">
                 <argument type="service" id="InvExportLabel\Service\LabelDocumentCreator"/>
-            </call>
+            </call>-->
             <call method="addDocumentCreator">
                 <argument type="service" id="InvExportLabel\Service\InvoiceDocumentCreator"/>
             </call>

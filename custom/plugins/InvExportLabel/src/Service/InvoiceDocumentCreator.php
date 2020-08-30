@@ -5,14 +5,16 @@ namespace InvExportLabel\Service;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use InvExportLabel\Constants;
+use InvExportLabel\Helper\Dom;
 use InvExportLabel\Value\ExportRequestConfiguration;
 use InvExportLabel\Value\ExportResult;
 use InvExportLabel\Value\SourceCollection;
 use Shopware\Core\Checkout\Document\DocumentConfigurationFactory;
 use Shopware\Core\Checkout\Document\DocumentService;
+use Shopware\Core\Checkout\Document\GeneratedDocument;
 use Shopware\Core\Framework\Api\Context\SystemSource;
 use Shopware\Core\Framework\Context;
-use\SplFileObject;
+use SplFileObject;
 
 class InvoiceDocumentCreator implements DocumentCreatorInterface
 {
@@ -43,9 +45,27 @@ class InvoiceDocumentCreator implements DocumentCreatorInterface
     ): void {
 
         $context = new Context(new SystemSource());
-        $documentStrings = [];
+        $generatedDocuments = $this->generateDocuments($sourceCollection, $context);
+        $generatedPdf = $this->generatePdf($generatedDocuments, $configuration);
+
+        $exportResult->addCreatedFile(
+            $generatedPdf
+        );
+        $exportResult->addCreatedFileForSendout(
+            $generatedPdf
+        );
+
+    }
+
+    /**
+     * @param SourceCollection $sourceCollection
+     * @param Context $context
+     * @return GeneratedDocument[]
+     */
+    private function generateDocuments(SourceCollection $sourceCollection, Context $context): array
+    {
         $generatedDocuments = [];
-        foreach ($sourceCollection->getOrderCollection() as $order) {
+        foreach ($sourceCollection->getOrderCollection() as $index => $order) {
             $generatedDocument = $this->documentService->preview(
                 $order->getId(),
                 '',
@@ -55,11 +75,31 @@ class InvoiceDocumentCreator implements DocumentCreatorInterface
                 $context
             );
 
-            $documentStrings[] = $generatedDocument->getHtml();
             $generatedDocuments[] = $generatedDocument;
+
+            if(count($generatedDocuments) > 2) {
+                break;
+            }
         }
 
+        return $generatedDocuments;
+    }
 
+    /**
+     * @param array $generatedDocuments
+     * @param ExportRequestConfiguration $configuration
+     * @return SplFileObject
+     */
+    private function generatePdf(
+        array $generatedDocuments,
+        ExportRequestConfiguration $configuration): \SplFileObject
+    {
+        $documentStrings = [];
+        foreach ($generatedDocuments as $generatedDocument) {
+            $documentStrings[] = $generatedDocument->getHtml();
+        }
+
+        $mergedDocumentAsString = Dom::mergeHtmlStrings($documentStrings);
         $options = new Options();
         $options->set('isRemoteEnabled', true);
         $options->setIsHtml5ParserEnabled(true);
@@ -73,19 +113,13 @@ class InvoiceDocumentCreator implements DocumentCreatorInterface
         ]);
         $dompdf->setHttpContext($contxt);
         $dompdf->setPaper(Constants::LABEL_PDF_PAPER_SIZE, 'portrait');
-        $dompdf->loadHtml(join('', $documentStrings));
+        $dompdf->loadHtml($mergedDocumentAsString);
         $dompdf->render();
 
         file_put_contents($configuration->getInvoiceStoragePathName(), $dompdf->output());
-        $exportResult->addCreatedFile(
-            new SplFileObject($configuration->getInvoiceStoragePathName())
-        );
-        $exportResult->addCreatedFileForSendout(
-            new SplFileObject($configuration->getInvoiceStoragePathName())
-        );
 
+        return new SplFileObject($configuration->getInvoiceStoragePathName());
     }
-
 
 
 }
