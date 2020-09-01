@@ -116,5 +116,10 @@
         <service id="InvMixerProduct\Service\ContainerProductLineItemFactory">
             <tag name="shopware.cart.line_item.factory" />
         </service>
+
+        <service id="InvMixerProduct\Service\Checkout\CartScopeDiscountPackagerDecorator"
+                 decorates="Shopware\Core\Checkout\Promotion\Cart\Discount\ScopePackager\CartScopeDiscountPackager">
+            <argument type="service" id="InvMixerProduct\Service\Checkout\CartScopeDiscountPackagerDecorator.inner"/>
+        </service>
     </services>
 </container>
