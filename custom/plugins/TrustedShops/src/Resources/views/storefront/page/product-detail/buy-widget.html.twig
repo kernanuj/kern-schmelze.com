@@ -1,0 +1,52 @@
+{% sw_extends '@Storefront/storefront/page/product-detail/buy-widget.html.twig' %}
+
+{% block page_product_detail_reviews %}
+    {{ parent() }}
+
+    {% if shopware.config.TrustedShops.config.tsId and shopware.config.TrustedShops.config.tsProductReviewsActive and shopware.config.TrustedShops.config.tsProductRatingStarsDetailsActive %}
+
+        {# Trusted Shops Product Stars - Start #}
+
+        <div class="product-detail-trustedshops-reviews" id="ts_product_widget_position" style="clear: both; margin-bottom: 1rem;"></div>
+
+        {% if shopware.config.TrustedShops.config.tsProductRatingStarsExpertMode %}
+
+            {% set ratingStarsCode = shopware.config.TrustedShops.config.tsExpertProductRatingStarsCode %}
+            {% set ratingStarsCode = ratingStarsCode|replace({'%tsid%': shopware.config.TrustedShops.config.tsId}) %}
+            {% set ratingStarsCode = ratingStarsCode|replace({'%sku%': page.product.productNumber}) %}
+
+            {{ ratingStarsCode|raw }}
+
+        {% else %}
+
+            <script type="text/javascript" src="//widgets.trustedshops.com/reviews/tsSticker/tsProductStickerSummary.js"></script>
+            <script type="text/javascript">
+                (function() {
+                    var summaryBadge = new productStickerSummary();
+                    summaryBadge.showSummary(
+                        {
+                            'tsId': "{{ shopware.config.TrustedShops.config.tsId|escape('js') }}",
+                            'sku': '{{ page.product.productNumber|escape('js') }}',
+                            'element': '#ts_product_widget_position',
+                            'starColor' : '{{ shopware.config.TrustedShops.config.tsProductRatingStarsStarColor|escape('js') }}',
+                            'starSize' : '{{ shopware.config.TrustedShops.config.tsProductRatingStarsStarSize|escape('js') }}px',
+                            'fontSize' : '{{ shopware.config.TrustedShops.config.tsProductRatingStarsFontSize|escape('js') }}px',
+                            'showRating' : 'true' ,
+                            {% if shopware.config.TrustedShops.config.tsProductRatingStarsHideEmptyRatings %}
+                            'enablePlaceholder': 'false',
+                            {% else %}
+                            'enablePlaceholder': 'true',
+                            {% endif %}
+                            'scrollToReviews' : 'false'
+                        }
+                    );
+                })();
+            </script>
+
+        {% endif %}
+
+        {# Trusted Shops Product Stars - End #}
+
+    {% endif %}
+
+{% endblock %}

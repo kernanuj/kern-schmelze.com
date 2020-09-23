@@ -1,0 +1,51 @@
+<div class="ts-settings-index-reviewrequests">
+
+    <sw-card :title="$tc('ts-settings.config.titleDeliveryTimesCard')" :isLoading="isLoading">
+        <template v-if="!isLoading">
+
+            <div v-html="$tc('ts-settings.config.descriptionDeliveryTimes')" style="margin-bottom: 24px;"></div>
+
+            <sw-radio-field
+                    :label="$tc('ts-settings.config.labelAvailableProductDeliveryTime')"
+                    :bordered="true"
+                    :options="[
+                        {'value':'default','name':$tc('ts-settings.config.labelProductDeliveryTimeDefault')},
+                        {'value':'custom','name':$tc('ts-settings.config.labelProductDeliveryTimeCustom')}
+                    ]"
+                    v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsAvailableProductDeliveryTime']">
+            </sw-radio-field>
+
+            <template v-if="actualConfigData[currentSalesChannelId] && actualConfigData[currentSalesChannelId]['TrustedShops.config.tsAvailableProductDeliveryTime'] == 'custom'">
+                <sw-field
+                        type="number"
+                        :label="$tc('ts-settings.config.labelAvailableProductDeliveryTimeDays')"
+                        :helpText="$tc('ts-settings.config.helpTextAvailableProductDeliveryTimeDays')"
+                        :placeholder="actualConfigData[null] ? String(actualConfigData[null]['TrustedShops.config.tsAvailableProductDeliveryTimeDays']) : ''"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsAvailableProductDeliveryTimeDays']">
+                </sw-field>
+            </template>
+
+            <sw-radio-field
+                    :label="$tc('ts-settings.config.labelNotAvailableProductDeliveryTime')"
+                    :bordered="true"
+                    :options="[
+                        {'value':'default','name':$tc('ts-settings.config.labelProductDeliveryTimeDefault')},
+                        {'value':'custom','name':$tc('ts-settings.config.labelProductDeliveryTimeCustom')}
+                    ]"
+                    v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsNotAvailableProductDeliveryTime']">
+            </sw-radio-field>
+
+            <template v-if="actualConfigData[currentSalesChannelId] && actualConfigData[currentSalesChannelId]['TrustedShops.config.tsNotAvailableProductDeliveryTime'] == 'custom'">
+                <sw-field
+                        type="number"
+                        :label="$tc('ts-settings.config.labelNotAvailableProductDeliveryTimeDays')"
+                        :helpText="$tc('ts-settings.config.helpTextNotAvailableProductDeliveryTimeDays')"
+                        :placeholder="actualConfigData[null] ? String(actualConfigData[null]['TrustedShops.config.tsNotAvailableProductDeliveryTimeDays']) : ''"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsNotAvailableProductDeliveryTimeDays']">
+                </sw-field>
+            </template>
+
+        </template>
+    </sw-card>
+
+</div>

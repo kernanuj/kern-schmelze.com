@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="TrustedShops\Subscriber\FrontendSubscriber">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+            <argument type="service" id="product.repository" />
+            <argument type="service" id="trustedshops_product_rating.repository" />
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="TrustedShops\Product\Aggregate\ProductTrustedShopsRating\ProductTrustedShopsRatingDefinition">
+            <tag name="shopware.entity.definition" entity="trustedshops_product_rating" />
+        </service>
+
+        <service id="TrustedShops\Extension\Content\Product\TrustedShopsProductRatingExtension">
+            <tag name="shopware.entity.extension"/>
+        </service>
+
+        <!--<service id="TrustedShops\ScheduledTask\ProductReviewsTask">
+            <tag name="shopware.scheduled.task" />
+        </service>
+        <service id="TrustedShops\ScheduledTask\ProductReviewsTaskHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="product.repository" />
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+            <tag name="messenger.message_handler" />
+        </service>-->
+    </services>
+</container>

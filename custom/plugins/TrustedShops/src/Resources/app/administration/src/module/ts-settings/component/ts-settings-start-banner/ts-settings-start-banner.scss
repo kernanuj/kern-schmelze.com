@@ -1,0 +1,77 @@
+.ts-settings-start-banner {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+    color: #000;
+
+    .ts-settings-start-banner__body {
+        background: #fff;
+        min-height: 200px;
+        padding: 30px 30px 60px;
+
+        h1 {
+            margin-bottom: 30px;
+            color: #000;
+
+            small {
+                float: right;
+                padding: 6px 0;
+                font-size: 70%;
+                color: #666;
+            }
+        }
+
+        .ts-settings-start-banner__body-keyfacts {
+            list-style: none;
+
+            li {
+                position: relative;
+                padding-left: 40px;
+                margin-bottom: 30px;
+
+                .sw-icon {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    margin-top: 3px;
+                }
+            }
+
+            h2 {
+                margin-bottom: 5px;
+                color: #000;
+            }
+        }
+    }
+
+    .ts-settings-start-banner__footer {
+        position: relative;
+        background: #FFDC0F;
+        min-height: 80px;
+        padding: 0 30px 20px;
+        text-align: right;
+
+        .ts-settings-start-banner__footer-logo {
+            width: 200px;
+            position: relative;
+            z-index: 2;
+            margin-top: -20px;
+        }
+
+        &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 110%;
+            background: #FFDC0F;
+            transform: rotate(-3deg);
+            height: 100%;
+            margin-top: -40px;
+            z-index: 1;
+        }
+    }
+
+}

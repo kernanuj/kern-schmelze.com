@@ -147,6 +147,24 @@
             "styleFiles": []
         }
     },
+    "TrustedShops": {
+        "basePath": "custom\/plugins\/TrustedShops\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "trusted-shops",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
+        }
+    },
     "InvKernschmelzeTemplate": {
         "basePath": "custom\/plugins\/InvKernschmelzeTemplate\/src\/",
         "views": [

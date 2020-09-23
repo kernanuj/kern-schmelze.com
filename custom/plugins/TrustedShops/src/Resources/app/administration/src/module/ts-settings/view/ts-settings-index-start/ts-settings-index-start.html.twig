@@ -1,0 +1,20 @@
+<div class="ts-settings-index-start">
+
+    <sw-card :isLoading="isLoading">
+        <template v-if="!isLoading">
+
+            <sw-field type="text"
+                      :label="$tc('ts-settings.config.labelTsId')"
+                      :helpText="$tc('ts-settings.config.helpTextTsId')"
+                      :placeholder="actualConfigData[null] ? actualConfigData[null]['TrustedShops.config.tsId'] : ''"
+                      validation="required"
+                      required
+                      v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsId']">
+            </sw-field>
+
+        </template>
+    </sw-card>
+
+    <ts-settings-start-banner :plugin-version="plugin.version" />
+
+</div>

@@ -1,0 +1,207 @@
+<div class="ts-settings-index-shopreviews">
+
+    <sw-card :title="$tc('ts-settings.config.titleTrustbadgeCard')" :isLoading="isLoading">
+        <template v-if="!isLoading">
+
+            <sw-switch-field
+                    style="margin-top: 0;"
+                    :bordered="true"
+                    :label="$tc('ts-settings.config.labelExpertMode')"
+                    v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsTrustbadgeExpertMode']">
+            </sw-switch-field>
+
+            <template v-if="!actualConfigData[currentSalesChannelId] || !actualConfigData[currentSalesChannelId]['TrustedShops.config.tsTrustbadgeExpertMode']">
+
+                <sw-select-field
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsTrustbadgeVariant']"
+                        :label="$tc('ts-settings.config.labelTrustbadgeVariant')">
+                    <option value="default">{{ $tc('ts-settings.config.labelTrustbadgeVariantSimple') }}</option>
+                    <option value="reviews">{{ $tc('ts-settings.config.labelTrustbadgeVariantFull') }}</option>
+                    <option value="hide">{{ $tc('ts-settings.config.labelTrustbadgeVariantHide') }}</option>
+                </sw-select-field>
+
+                <sw-field
+                        type="number"
+                        :label="$tc('ts-settings.config.labelTrustbadgeOffsetY')"
+                        :placeholder="actualConfigData[null] ? String(actualConfigData[null]['TrustedShops.config.tsTrustbadgeOffsetY']) : ''"
+                        :helpText="$tc('ts-settings.config.helpTextTrustbadgeOffsetY')"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsTrustbadgeOffsetY']">
+                    <template #suffix>
+                        <span>px</span>
+                    </template>
+                </sw-field>
+
+            </template>
+
+            <template v-if="actualConfigData[currentSalesChannelId] && actualConfigData[currentSalesChannelId]['TrustedShops.config.tsTrustbadgeExpertMode']">
+
+                <sw-base-field
+                        :label="$tc('ts-settings.config.labelTrustbadgeExpertCode')"
+                        :helpText="$tc('ts-settings.config.helpTextTrustbadgeExpertCode')">
+                    <template #sw-field-input>
+                        <sw-code-editor v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsExpertTrustbadeCode']">
+                        </sw-code-editor>
+                    </template>
+                </sw-base-field>
+
+            </template>
+
+        </template>
+    </sw-card>
+
+    <sw-card :title="$tc('ts-settings.config.titleReviewStickerCard')" :isLoading="isLoading">
+        <template v-if="!isLoading">
+
+            <div v-html="$tc('ts-settings.config.descriptionReviewSticker')"></div>
+
+            <sw-switch-field
+                    :bordered="true"
+                    :label="$tc('ts-settings.config.labelReviewStickerActive')"
+                    v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsReviewStickerActive']">
+            </sw-switch-field>
+
+            <template v-if="actualConfigData[currentSalesChannelId] && actualConfigData[currentSalesChannelId]['TrustedShops.config.tsReviewStickerActive']">
+
+                <sw-switch-field
+                        :bordered="true"
+                        :label="$tc('ts-settings.config.labelExpertMode')"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsReviewStickerExpertMode']">
+                </sw-switch-field>
+
+                <sw-container columns="1fr 1fr" gap="0px 30px" v-if="!actualConfigData[currentSalesChannelId]['TrustedShops.config.tsReviewStickerExpertMode']">
+
+                    <sw-select-field
+                            v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsReviewStickerFontType']"
+                            :label="$tc('ts-settings.config.labelReviewStickerFontType')">
+                        <option value="Arial">Arial</option>
+                        <option value="Geneva">Geneva</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Sans-serif">Sans-serif</option>
+                        <option value="Serif">Serif</option>
+                        <option value="Trebuchet MS">Trebuchet MS</option>
+                        <option value="Verdana">Verdana</option>
+                    </sw-select-field>
+
+                    <sw-field
+                            type="number"
+                            min="1"
+                            max="5"
+                            :label="$tc('ts-settings.config.labelReviewStickerReviewCount')"
+                            :placeholder="actualConfigData[null] ? String(actualConfigData[null]['TrustedShops.config.tsReviewStickerReviewCount']) : ''"
+                            v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsReviewStickerReviewCount']">
+                    </sw-field>
+
+                    <sw-field
+                            type="number"
+                            min="0"
+                            max="4.5"
+                            :label="$tc('ts-settings.config.labelReviewStickerMinRating')"
+                            :placeholder="actualConfigData[null] ? String(actualConfigData[null]['TrustedShops.config.tsReviewStickerMinRating']) : ''"
+                            v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsReviewStickerMinRating']">
+                    </sw-field>
+
+                    <sw-colorpicker
+                            :label="$tc('ts-settings.config.labelReviewStickerBackgroundColor')"
+                            :placeholder="actualConfigData[null] ? actualConfigData[null]['TrustedShops.config.tsReviewStickerBackgroundColor'] : ''"
+                            v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsReviewStickerBackgroundColor']">
+                    </sw-colorpicker>
+
+                </sw-container>
+
+                <template v-if="actualConfigData[currentSalesChannelId] && actualConfigData[currentSalesChannelId]['TrustedShops.config.tsReviewStickerExpertMode']">
+
+                    <sw-base-field
+                            :label="$tc('ts-settings.config.labelReviewStickerExpertCode')"
+                            :helpText="$tc('ts-settings.config.helpTextReviewStickerExpertCode')">
+                        <template #sw-field-input>
+                            <sw-code-editor v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsExpertReviewStickerCode']">
+                            </sw-code-editor>
+                        </template>
+                    </sw-base-field>
+
+                    <sw-field
+                            type="text"
+                            :label="$tc('ts-settings.config.labelJquerySelector')"
+                            :placeholder="actualConfigData[null] ? actualConfigData[null]['TrustedShops.config.tsExpertReviewStickerJquerySelector'] : ''"
+                            :helpText="$tc('ts-settings.config.helpTextExpertReviewStickerJquerySelector')"
+                            v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsExpertReviewStickerJquerySelector']">
+                    </sw-field>
+
+                </template>
+
+            </template>
+
+        </template>
+
+    </sw-card>
+
+    {#<sw-card :title="$tc('ts-settings.config.titleRichSnippetsCard')" :isLoading="isLoading">
+
+        <template v-if="!isLoading">
+
+            <sw-switch-field
+                    style="margin-top: 0;"
+                    :bordered="true"
+                    :label="$tc('ts-settings.config.labelRichSnippetsActive')"
+                    :helpText="$tc('ts-settings.config.helpTextRichSnippetsActive')"
+                    v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsRichSnippetsActive']">
+            </sw-switch-field>
+
+            <template v-if="actualConfigData[currentSalesChannelId] && actualConfigData[currentSalesChannelId]['TrustedShops.config.tsRichSnippetsActive']">
+
+                <div class="sw-field">
+
+                    <div class="sw-field__label">
+                        <label>{{ $tc('ts-settings.config.labelRichSnippetsPageTypes') }}:</label>
+                    </div>
+
+                </div>
+
+                <sw-container columns="1fr 1fr 1fr" gap="0px 30px">
+
+                    <sw-field
+                            type="checkbox"
+                            :label="$tc('ts-settings.config.labelRichSnippetsPageTypeCategory')"
+                            v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsRichSnippetsPageTypeCategory']">
+                    </sw-field>
+
+                    <sw-field
+                            type="checkbox"
+                            :label="$tc('ts-settings.config.labelRichSnippetsPageTypeProduct')"
+                            v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsRichSnippetsPageTypeProduct']">
+                    </sw-field>
+
+                    <sw-field
+                            type="checkbox"
+                            :label="$tc('ts-settings.config.labelRichSnippetsPageTypeStart')"
+                            v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsRichSnippetsPageTypeStart']">
+                    </sw-field>
+
+                </sw-container>
+
+                <sw-switch-field
+                        :bordered="true"
+                        :label="$tc('ts-settings.config.labelExpertMode')"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsRichSnippetsExpertMode']">
+                </sw-switch-field>
+
+                <template v-if="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsRichSnippetsExpertMode']">
+
+                    <sw-base-field
+                            :label="$tc('ts-settings.config.labelRichSnippetsExpertCode')">
+                        <template #sw-field-input>
+                            <sw-code-editor v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsExpertRichSnippetsCode']">
+                            </sw-code-editor>
+                        </template>
+                    </sw-base-field>
+
+                </template>
+
+            </template>
+
+        </template>
+
+    </sw-card>#}
+
+</div>

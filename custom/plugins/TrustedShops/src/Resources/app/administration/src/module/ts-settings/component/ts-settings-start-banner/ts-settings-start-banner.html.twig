@@ -1,0 +1,29 @@
+<div class="ts-settings-start-banner">
+
+    <div class="ts-settings-start-banner__body">
+        <h1>{{ $tc('ts-settings.start.titleWelcomeMsg') }}
+            <small v-if="pluginVersion">Vers. {{ pluginVersion }}</small>
+        </h1>
+        <ul class="ts-settings-start-banner__body-keyfacts">
+            <li>
+                <sw-icon name="default-review-star-full"></sw-icon>
+                <h2>{{ $tc('ts-settings.start.labelCustomerReviews') }}</h2>
+                <span v-html="$tc('ts-settings.start.descriptionCustomerReviews')"></span>
+            </li>
+            <li>
+                <sw-icon name="default-chart-line"></sw-icon>
+                <h2>{{ $tc('ts-settings.start.labelProductReviews') }}</h2>
+                <span v-html="$tc('ts-settings.start.descriptionProductReviews')"></span>
+            </li>
+            <li>
+                <sw-icon name="default-lock-closed"></sw-icon>
+                <h2>{{ $tc('ts-settings.start.labelTrustbadge') }}</h2>
+                <span v-html="$tc('ts-settings.start.descriptionTrustbadge')"></span>
+            </li>
+        </ul>
+    </div>
+    <div class="ts-settings-start-banner__footer">
+        <img src="ts-logo.svg" class="ts-settings-start-banner__footer-logo" />
+    </div>
+
+</div>

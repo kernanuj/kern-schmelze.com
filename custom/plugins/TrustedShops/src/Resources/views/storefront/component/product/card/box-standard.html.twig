@@ -1,0 +1,24 @@
+{% sw_extends '@Storefront/storefront/component/product/card/box-standard.html.twig' %}
+
+{% block component_product_box_rating %}
+
+    {{ parent() }}
+
+    {% if shopware.config.TrustedShops.config.tsId and shopware.config.TrustedShops.config.tsProductReviewsActive and shopware.config.TrustedShops.config.tsProductRatingStarsCategoryActive %}
+
+        <div class="product-trustedshops-rating" id="ts_product_widget_position" style="clear: both; margin-bottom: 1rem;">
+
+            {% if product.extensions.trustedshopsRatings.first %}
+
+                {% sw_include '@Storefront/storefront/component/review/rating.html.twig' with {
+                    points: product.extensions.trustedshopsRatings.first.overallMark,
+                    style: 'text-primary'
+                } %}
+
+            {% endif %}
+
+        </div>
+
+    {% endif %}
+
+{% endblock %}

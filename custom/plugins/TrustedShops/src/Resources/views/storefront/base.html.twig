@@ -1,0 +1,158 @@
+{% sw_extends '@Storefront/storefront/base.html.twig' %}
+
+{% block base_body_inner %}
+    {{ parent() }}
+
+    {% if shopware.config.TrustedShops.config.tsId %}
+
+        {# Trusted Shops Trustbadge - Start #}
+
+        {% if shopware.config.TrustedShops.config.tsTrustbadgeExpertMode %}
+
+            {{ shopware.config.TrustedShops.config.tsExpertTrustbadeCode|replace({'%tsid%': shopware.config.TrustedShops.config.tsId})|raw }}
+
+        {% else %}
+
+            <script type="text/javascript">
+                (function () {
+                    var _tsid = '{{ shopware.config.TrustedShops.config.tsId|escape('js') }}';
+                    _tsConfig = {
+                        'yOffset': '{{ shopware.config.TrustedShops.config.tsTrustbadgeOffsetY|escape('js')|default('0') }}', /* offset from page bottom */
+                        'variant': '{{ shopware.config.TrustedShops.config.tsTrustbadgeVariant|escape('js')|default('default') }}', /* reviews, default, custom, custom_reviews */
+                        'customElementId': '', /* required for variants custom and custom_reviews */
+                        'trustcardDirection': '', /* for custom variants: topRight, topLeft, bottomRight, bottomLeft */
+                        'customBadgeWidth': '', /* for custom variants: 40 - 90 (in pixels) */
+                        'customBadgeHeight': '', /* for custom variants: 40 - 90 (in pixels) */
+                        'disableResponsive': 'false', /* deactivate responsive behaviour */
+                        {% if shopware.config.TrustedShops.config.tsTrustbadgeVariant == 'hide' %}
+                        'disableTrustbadge': 'true', /* deactivate Trustbadge® */
+                        {% else %}
+                        'disableTrustbadge': 'false', /* deactivate Trustbadge® */
+                        {% endif %}
+                        'responsive': {
+                            'variant': '', /* floating, custom */
+                            'customElementId': '' /* required for variant custom */
+                        }
+                    };
+                    var _ts = document.createElement('script');
+                    _ts.type = 'text/javascript';
+                    _ts.charset = 'utf-8';
+                    _ts.async = true;
+                    _ts.src = '//widgets.trustedshops.com/js/' + _tsid + '.js';
+                    var __ts = document.getElementsByTagName('script')[0];
+                    __ts.parentNode.insertBefore(_ts, __ts);
+                })();
+            </script>
+
+        {% endif %}
+
+        {# Trusted Shops Trustbadge - End #}
+
+        {# Trusted Shops Rich Snippets - Start #}
+
+        {#{% if shopware.config.TrustedShops.config.tsRichSnippetsActive %}
+
+            {% if
+                ( controllerName|lower == 'navigation' and controllerAction|lower == 'home' and shopware.config.TrustedShops.config.tsRichSnippetsPageTypeStart ) or
+                ( controllerName|lower == 'navigation' and controllerAction|lower == 'index' and shopware.config.TrustedShops.config.tsRichSnippetsPageTypeCategory ) or
+                ( controllerName|lower == 'product' and shopware.config.TrustedShops.config.tsRichSnippetsPageTypeProduct )
+            %}
+
+                {% if shopware.config.TrustedShops.config.tsRichSnippetsExpertMode %}
+
+                    {% set richSnippetCode = shopware.config.TrustedShops.config.tsExpertRichSnippetsCode %}
+                    {% set richSnippetCode = richSnippetCode|replace({'%shopname%': shopware.config.core.basicInformation.shopName}) %}
+                    {% set richSnippetCode = richSnippetCode|replace({'%result%': shopware.config.TrustedShops.config.tsShopAvgRating}) %}
+                    {% set richSnippetCode = richSnippetCode|replace({'%count%': shopware.config.TrustedShops.config.tsShopRatingCount}) %}
+                    {% set richSnippetCode = richSnippetCode|replace({'%max%': '5'}) %}
+
+                    {{ richSnippetCode|raw }}
+
+                {% else %}
+
+                    <script type="application/ld+json">
+                        {
+                            "@context": "http://schema.org",
+                            "@type": "Organization",
+                            "name": "{{ shopware.config.core.basicInformation.shopName|escape('js') }}",
+                            "aggregateRating" : {
+                                "@type": "AggregateRating",
+                                "ratingValue" : "{{ shopware.config.TrustedShops.config.tsShopAvgRating|escape('js') }}",
+                                "bestRating" : "5",
+                                "ratingCount" : "{{ shopware.config.TrustedShops.config.tsShopRatingCount|escape('js') }}"
+                            }
+                        }
+                    </script>
+
+                {% endif %}
+
+            {% endif %}
+
+        {% endif %}#}
+
+        {# Trusted Shops Trustbadge - End #}
+
+    {% endif %}
+
+{% endblock %}
+
+{% block base_body_script %}
+    {{ parent() }}
+
+    {# Trusted Shops jQuery Selector - Start #}
+    <script type="text/javascript">
+        (function() {
+
+            const reviewStickerElementSelector = ".ts-rating.testimonial";
+            const productRatingStarsElementSelector = ".ts-rating.productreviewsSummary";
+            const productReviewsElementSelector = ".ts-rating.productreviews";
+            const reviewStickerParentSelector = "{% if shopware.config.TrustedShops.config.tsReviewStickerExpertMode %}{{ shopware.config.TrustedShops.config.tsExpertReviewStickerJquerySelector|escape('js') }}{% endif %}";
+            const productRatingStarsParentSelector = "{% if shopware.config.TrustedShops.config.tsProductRatingStarsExpertMode %}{{ shopware.config.TrustedShops.config.tsExpertProductRatingStarsJquerySelector|escape('js') }}{% endif %}";
+            const productReviewsParentSelector = "{% if shopware.config.TrustedShops.config.tsProductReviewsTabExpertMode %}{{ shopware.config.TrustedShops.config.tsExpertProductReviewsTabJquerySelector|escape('js') }}{% endif %}";
+
+            const onJqueryLoaded = function( $ ) {
+
+                const waitForElement = function( selector, callback ) {
+                    const elementChecker = window.setInterval( function() {
+                        if( $( selector ).length ) {
+                            window.clearInterval( elementChecker );
+                            callback.call( $( selector ) );
+                        }
+                    }, 10 );
+                };
+
+                if( reviewStickerParentSelector ) {
+                    waitForElement( reviewStickerElementSelector, function() {
+                        $( reviewStickerParentSelector ).append( this );
+                    });
+                }
+
+                if( productRatingStarsParentSelector ) {
+                    waitForElement( productRatingStarsElementSelector, function() {
+                        $( productRatingStarsParentSelector ).append( this );
+                    });
+                }
+
+                if( productReviewsParentSelector ) {
+                    waitForElement( productReviewsElementSelector, function() {
+                        $( productReviewsParentSelector ).append( this );
+                    });
+                }
+
+            };
+
+            window.onload = function() {
+                const jqueryChecker = window.setInterval( function() {
+                    if( window.jQuery )
+                    {
+                        window.clearInterval( jqueryChecker );
+                        onJqueryLoaded( window.jQuery );
+                    }
+                }, 100 );
+            };
+
+        })();
+    </script>
+    {# Trusted Shops jQuery Selector - End #}
+
+{% endblock %}

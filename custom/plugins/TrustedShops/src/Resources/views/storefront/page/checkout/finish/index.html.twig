@@ -1,0 +1,53 @@
+{% sw_extends '@Storefront/storefront/page/checkout/finish/index.html.twig' %}
+
+{% block page_checkout_finish %}
+    {{ parent() }}
+
+    {% if shopware.config.TrustedShops.config.tsId %}
+
+        {# Trusted Shops Finish - Start #}
+
+        <div id="trustedShopsCheckout" style="display: none;">
+
+            <span id="tsCheckoutOrderNr">{{ page.order.orderNumber }}</span>
+            <span id="tsCheckoutBuyerEmail">{{ context.customer.email }}</span>
+            <span id="tsCheckoutOrderAmount">{{ page.order.price.totalPrice }}</span>
+            <span id="tsCheckoutOrderCurrency">{{ context.currency.isoCode }}</span>
+            <span id="tsCheckoutOrderPaymentType">{{ context.paymentMethod.translated.name }}</span>
+            <span id="tsCheckoutOrderEstDeliveryDate">{{ page.tsDeliveryTime|date('Y-m-d') }}</span>
+
+            {% if shopware.config.TrustedShops.config.tsProductReviewsActive %}
+                <div id="basket_item_list">
+
+                    {% for lineItem in page.order.nestedLineItems %}
+                        {% if lineItem.type == 'product' %}
+                            {% if lineItem.payload.parent and lineItem.payload.parent.productId %}
+                                {% set parentProductItem = lineItem.payload.parent  %}
+                                <span class="tsCheckoutProductItem">
+                                    <span class="tsCheckoutProductUrl">{{ seoUrl('frontend.detail.page', {'productId': parentProductItem.productId}) }}</span>
+                                    <span class="tsCheckoutProductImageUrl">{% if parentProductItem.cover %}{{ parentProductItem.cover.url }}{% endif %}</span>
+                                    <span class="tsCheckoutProductName">{{ parentProductItem.label }}</span>
+                                    <span class="tsCheckoutProductSKU">{{ parentProductItem.productNumber }}</span>
+                                </span>
+                            {% else %}
+                                <span class="tsCheckoutProductItem">
+                                <span class="tsCheckoutProductUrl">{{ seoUrl('frontend.detail.page', {'productId': lineItem.productId}) }}</span>
+                                <span class="tsCheckoutProductImageUrl">{% if lineItem.cover %}{{ lineItem.cover.url }}{% endif %}</span>
+                                <span class="tsCheckoutProductName">{{ lineItem.label }}</span>
+                                <span class="tsCheckoutProductSKU">{{ lineItem.payload.productNumber }}</span>
+                            </span>
+                            {% endif %}
+
+                        {% endif %}
+                    {% endfor %}
+
+                </div>
+            {% endif %}
+
+        </div>
+
+        {# Trusted Shops Finish - End #}
+
+    {% endif %}
+
+{% endblock %}

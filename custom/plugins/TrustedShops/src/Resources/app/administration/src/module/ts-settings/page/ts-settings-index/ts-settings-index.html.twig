@@ -1,0 +1,72 @@
+{% block ts_settings_index %}
+    <sw-page class="ts-settings-index">
+
+        {% block ts_settings_index_header %}
+            <template slot="smart-bar-header">
+                <h2>{{ $tc('ts-settings.general.title') }}</h2>
+            </template>
+        {% endblock %}
+
+        {% block ts_settings_index_actions %}
+            <template slot="smart-bar-actions">
+
+                <sw-button variant="ghost" link="https://support.trustedshops.com/de/apps/shopware6" v-if="currentLocale == 'de-DE'">
+                    <sw-icon name="default-badge-help" color="#189EFF"></sw-icon> {{ $tc('ts-settings.config.buttonHelp') }}
+                </sw-button>
+
+                {% block ts_settings_index_actions_abort %}
+                <sw-button :routerLink="{ name: 'sw.plugin.index' }">
+                    {{ $tc('global.default.cancel') }}
+                </sw-button>
+                {% endblock %}
+
+                {% block ts_settings_index_actions_save %}
+                <sw-button variant="primary" class="sw-plugin-config__save-action" @click.prevent="onSave">
+                    {{ $tc('global.default.save') }}
+                </sw-button>
+                {% endblock %}
+            </template>
+        {% endblock %}
+
+        {% block ts_settings_index_content %}
+            <sw-card-view slot="content">
+
+                {#<sw-loader size="50px" v-if="isLoading"></sw-loader>#}
+
+                <div class="sw-system-config__global-sales-channel-switch">
+                    <sw-sales-channel-switch
+                            :label="$tc('sw-settings.system-config.labelSalesChannelSelect')"
+                            @change-sales-channel-id="onSalesChannelChanged">
+                    </sw-sales-channel-switch>
+                </div>
+
+                <sw-tabs class="ts-settings-index-page__tabs">
+                    <sw-tabs-item class="ts-settings-index__tab-start"
+                                  :route="{ name: 'ts.settings.index.start' }"
+                                  :title="$tc('ts-settings.config.tabStart')">
+                        {{ $tc('ts-settings.config.tabStart') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item class="ts-settings-index__tab-shopreviews"
+                                  :route="{ name: 'ts.settings.index.shopreviews' }"
+                                  :title="$tc('ts-settings.config.tabShopReviews')">
+                        {{ $tc('ts-settings.config.tabShopReviews') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item class="ts-settings-index__tab-productreviews"
+                                  :route="{ name: 'ts.settings.index.productreviews' }"
+                                  :title="$tc('ts-settings.config.tabProductReviews')">
+                        {{ $tc('ts-settings.config.tabProductReviews') }}
+                    </sw-tabs-item>
+                    <sw-tabs-item class="ts-settings-index__tab-reviewrequests"
+                                  :route="{ name: 'ts.settings.index.reviewrequests' }"
+                                  :title="$tc('ts-settings.config.tabReviewRequests')">
+                        {{ $tc('ts-settings.config.tabReviewRequests') }}
+                    </sw-tabs-item>
+                </sw-tabs>
+
+                <router-view></router-view>
+
+            </sw-card-view>
+        {% endblock %}
+
+    </sw-page>
+{% endblock %}

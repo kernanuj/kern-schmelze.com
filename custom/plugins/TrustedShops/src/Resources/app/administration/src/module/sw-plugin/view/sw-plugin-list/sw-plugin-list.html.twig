@@ -1,0 +1,8 @@
+{% block sw_plugin_list_grid_columns_actions_settings %}
+    <sw-context-menu-item v-if="item.customFields.configAvailable && item.name == 'TrustedShops'" :routerLink="{ name: 'ts.settings.index'}">
+        {{ $tc('sw-plugin.list.config') }}
+    </sw-context-menu-item>
+    <sw-context-menu-item v-if="item.customFields.configAvailable && item.name != 'TrustedShops'" @click="onPluginSettings(item)">
+        {{ $tc('sw-plugin.list.config') }}
+    </sw-context-menu-item>
+{% endblock %}

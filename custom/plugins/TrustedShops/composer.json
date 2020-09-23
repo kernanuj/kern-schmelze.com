@@ -1,0 +1,44 @@
+{
+  "name": "trustedshops/shopware",
+  "description": "Trusted Shops integration for Shopware 6",
+  "type": "shopware-platform-plugin",
+  "version": "1.0.4",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Trusted Shops GmbH",
+      "email": "info@trustedshops.de"
+    }
+  ],
+  "require": {
+    "php": "~7.2",
+    "ext-curl": "*",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "TrustedShops\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "TrustedShops\\TrustedShops",
+    "plugin-icon": "src/Resources/public/plugin.png",
+    "copyright": "(c) by Trusted Shops GmbH",
+    "label": {
+      "de-DE": "Trusted Shops Integration",
+      "en-GB": "Trusted Shops Integration"
+    },
+    "description": {
+      "de-DE": "Trusted Shops Integration",
+      "en-GB": "Trusted Shops Integration"
+    },
+    "manufacturerLink": {
+      "de-DE": "https://www.trustedshops.de/",
+      "en-GB": "https://www.trustedshops.de/"
+    },
+    "supportLink": {
+      "de-DE": "https://www.trustedshops.de/",
+      "en-GB": "https://www.trustedshops.de/"
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{% sw_extends '@Storefront/storefront/utilities/offcanvas.html.twig' %}
+
+{% block utilities_offcanvas_content %}
+
+    <div class="product-detail-trustedshops-review tab-pane-container">
+
+        <div class="product-detail-trustedshops-review-content" id="ts_product_sticker"></div>
+
+        {% set tsLocale = app.request.locale|replace({'-':'_'}) %}
+
+        {% if shopware.config.TrustedShops.config.tsProductReviewsTabExpertMode %}
+
+            {% set reviewsTabCode = shopware.config.TrustedShops.config.tsExpertProductReviewsTabCode %}
+            {% set reviewsTabCode = reviewsTabCode|replace({'%tsid%': shopware.config.TrustedShops.config.tsId}) %}
+            {% set reviewsTabCode = reviewsTabCode|replace({'%sku%': page.product.productNumber}) %}
+            {% set reviewsTabCode = reviewsTabCode|replace({'%locale%': tsLocale}) %}
+
+            {{ reviewsTabCode|raw }}
+
+        {% else %}
+
+            <script type="text/javascript">
+                (function () {
+                    _tsProductReviewsConfig = {
+                        tsid: '{{ shopware.config.TrustedShops.config.tsId|escape('js') }}',
+                        sku: '{{ page.product.productNumber|escape('js') }}',
+                        variant: 'productreviews',
+                        borderColor: '{{ shopware.config.TrustedShops.config.tsProductReviewsTabBorderColor|escape('js') }}',
+                        backgroundColor: '{{ shopware.config.TrustedShops.config.tsProductReviewsTabBackgroundColor|escape('js') }}',
+                        element: '#ts_product_sticker',
+                        locale: '{{ tsLocale }}',
+                        starColor: '{{ shopware.config.TrustedShops.config.tsProductReviewsTabStarColor|escape('js') }}',
+                        starSize: '{{ shopware.config.TrustedShops.config.tsProductReviewsTabStarSize|escape('js') }}px',
+                        richSnippets: 'off',
+                        ratingSummary: 'false',
+                        maxHeight: '1200px',
+                        hideEmptySticker: 'false',
+                        introtext: '' /* optional */
+                    };
+                    var scripts = document.getElementsByTagName('SCRIPT'),
+                        me = scripts[scripts.length - 1];
+                    var _ts = document.createElement('SCRIPT');
+                    _ts.type = 'text/javascript';
+                    _ts.async = true;
+                    _ts.charset = 'utf-8';
+                    _ts.src ='//widgets.trustedshops.com/reviews/tsSticker/tsProductSticker.js';
+                    me.parentNode.insertBefore(_ts, me);
+                    _tsProductReviewsConfig.script = _ts;
+                })();
+            </script>
+
+        {% endif %}
+
+    </div>
+
+{% endblock %}

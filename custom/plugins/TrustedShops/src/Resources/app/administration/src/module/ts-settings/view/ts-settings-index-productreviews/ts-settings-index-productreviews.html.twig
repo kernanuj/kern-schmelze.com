@@ -1,0 +1,188 @@
+<div class="ts-settings-index-productreviews">
+
+    <sw-card :isLoading="isLoading">
+        <template v-if="!isLoading">
+
+            <sw-switch-field
+                    style="margin-top: 0;"
+                    :bordered="true"
+                    :label="$tc('ts-settings.config.labelProductReviewsActive')"
+                    v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductReviewsActive']">
+            </sw-switch-field>
+
+            <div v-html="$tc('ts-settings.config.descriptionProductReviews')"></div>
+
+        </template>
+    </sw-card>
+
+    <sw-card :title="$tc('ts-settings.config.titleProductReviewsCard')" :isLoading="isLoading" v-if="actualConfigData[currentSalesChannelId] && actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductReviewsActive']">
+
+        <sw-switch-field
+                style="margin-top: 0;"
+                :bordered="true"
+                :label="$tc('ts-settings.config.labelProductReviewsTabActive')"
+                v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductReviewsTabActive']">
+        </sw-switch-field>
+
+        <template v-if="actualConfigData[currentSalesChannelId] && actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductReviewsTabActive']">
+
+            <sw-field
+                    type="text"
+                    :label="$tc('ts-settings.config.labelProductReviewsTabName')"
+                    :placeholder="actualConfigData[null] ? actualConfigData[null]['TrustedShops.config.tsProductReviewsTabName'] : ''"
+                    :helpText="$tc('ts-settings.config.helpTextProductReviewsTabName')"
+                    v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductReviewsTabName']">
+            </sw-field>
+
+            <sw-switch-field
+                    :bordered="true"
+                    :label="$tc('ts-settings.config.labelExpertMode')"
+                    v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductReviewsTabExpertMode']">
+            </sw-switch-field>
+
+            <sw-container columns="1fr 1fr" gap="0px 30px" v-if="!actualConfigData[currentSalesChannelId] || !actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductReviewsTabExpertMode']">
+
+                <sw-colorpicker
+                        :label="$tc('ts-settings.config.labelProductReviewsTabBorderColor')"
+                        :placeholder="actualConfigData[null] ? actualConfigData[null]['TrustedShops.config.tsProductReviewsTabBorderColor'] : ''"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductReviewsTabBorderColor']">
+                </sw-colorpicker>
+
+                <sw-colorpicker
+                        :label="$tc('ts-settings.config.labelProductReviewsTabStarColor')"
+                        :placeholder="actualConfigData[null] ? actualConfigData[null]['TrustedShops.config.tsProductReviewsTabStarColor'] : ''"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductReviewsTabStarColor']">
+                </sw-colorpicker>
+
+                <sw-colorpicker
+                        :label="$tc('ts-settings.config.labelProductReviewsTabBackgroundColor')"
+                        :placeholder="actualConfigData[null] ? actualConfigData[null]['TrustedShops.config.tsProductReviewsTabBackgroundColor'] : ''"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductReviewsTabBackgroundColor']">
+                </sw-colorpicker>
+
+                <sw-field
+                        type="number"
+                        :label="$tc('ts-settings.config.labelProductReviewsTabStarSize')"
+                        :placeholder="actualConfigData[null] ? String(actualConfigData[null]['TrustedShops.config.tsProductReviewsTabStarSize']) : ''"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductReviewsTabStarSize']">
+                    <template #suffix>
+                        <span>px</span>
+                    </template>
+                </sw-field>
+
+            </sw-container>
+
+            <template v-if="actualConfigData[currentSalesChannelId] && actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductReviewsTabExpertMode']">
+
+                <sw-base-field
+                        :label="$tc('ts-settings.config.labelProductReviewsTabExpertCode')"
+                        :helpText="$tc('ts-settings.config.helpTextProductReviewsTabExpertCode')">
+                    <template #sw-field-input>
+                        <sw-code-editor v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsExpertProductReviewsTabCode']">
+                        </sw-code-editor>
+                    </template>
+                </sw-base-field>
+
+                <sw-field
+                        type="text"
+                        :label="$tc('ts-settings.config.labelJquerySelector')"
+                        :placeholder="actualConfigData[null] ? actualConfigData[null]['TrustedShops.config.tsExpertProductReviewsTabJquerySelector'] : ''"
+                        :helpText="$tc('ts-settings.config.helpTextExpertProductReviewsTabJquerySelector')"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsExpertProductReviewsTabJquerySelector']">
+                </sw-field>
+
+            </template>
+
+        </template>
+
+    </sw-card>
+
+    <sw-card :title="$tc('ts-settings.config.titleProductRatingStarsCard')" :isLoading="isLoading" v-if="actualConfigData[currentSalesChannelId] && actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductReviewsActive']">
+
+        <sw-switch-field
+                style="margin-top: 0;"
+                :bordered="true"
+                :label="$tc('ts-settings.config.labelProductRatingStarsDetailsActive')"
+                v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductRatingStarsDetailsActive']">
+        </sw-switch-field>
+
+        <template v-if="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductRatingStarsDetailsActive']">
+
+            <sw-switch-field
+                    :bordered="true"
+                    :label="$tc('ts-settings.config.labelExpertMode')"
+                    v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductRatingStarsExpertMode']">
+            </sw-switch-field>
+
+            <sw-container columns="1fr 1fr" gap="0px 30px" v-if="!actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductRatingStarsExpertMode']">
+
+                <sw-switch-field
+                        :bordered="true"
+                        :label="$tc('ts-settings.config.labelProductRatingStarsHideEmptyRatings')"
+                        :helpText="$tc('ts-settings.config.helpTextProductRatingStarsHideEmptyRatings')"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductRatingStarsHideEmptyRatings']">
+                </sw-switch-field>
+
+                <sw-colorpicker
+                        :label="$tc('ts-settings.config.labelProductRatingStarsStarColor')"
+                        :placeholder="actualConfigData[null] ? actualConfigData[null]['TrustedShops.config.tsProductRatingStarsStarColor'] : ''"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductRatingStarsStarColor']">
+                </sw-colorpicker>
+
+                <sw-field
+                        type="number"
+                        :label="$tc('ts-settings.config.labelProductRatingStarsStarSize')"
+                        :placeholder="actualConfigData[null] ? String(actualConfigData[null]['TrustedShops.config.tsProductRatingStarsStarSize']) : ''"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductRatingStarsStarSize']">
+                    <template #suffix>
+                        <span>px</span>
+                    </template>
+                </sw-field>
+
+                <sw-field
+                        type="number"
+                        :label="$tc('ts-settings.config.labelProductRatingStarsFontSize')"
+                        :placeholder="actualConfigData[null] ? String(actualConfigData[null]['TrustedShops.config.tsProductRatingStarsFontSize']) : ''"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductRatingStarsFontSize']">
+                    <template #suffix>
+                        <span>px</span>
+                    </template>
+                </sw-field>
+
+            </sw-container>
+
+            <template v-if="actualConfigData[currentSalesChannelId] && actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductRatingStarsExpertMode']">
+
+                <sw-base-field
+                        :label="$tc('ts-settings.config.labelProductRatingStarsExpertCode')"
+                        :helpText="$tc('ts-settings.config.helpTextProductRatingStarsExpertCode')">
+                    <template #sw-field-input>
+                        <sw-code-editor v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsExpertProductRatingStarsCode']">
+                        </sw-code-editor>
+                    </template>
+                </sw-base-field>
+
+                <sw-field
+                        type="text"
+                        :label="$tc('ts-settings.config.labelJquerySelector')"
+                        :placeholder="actualConfigData[null] ? actualConfigData[null]['TrustedShops.config.tsExpertProductRatingStarsJquerySelector'] : ''"
+                        :helpText="$tc('ts-settings.config.helpTextExpertProductReviewsTabJquerySelector')"
+                        v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsExpertProductRatingStarsJquerySelector']">
+                </sw-field>
+
+            </template>
+
+        </template>
+
+        {#<div class="seperator" style="border-top: 1px solid #D1D9E0; clear: both;"></div>
+
+        <sw-switch-field
+                style="margin-bottom: 0;"
+                :bordered="true"
+                :label="$tc('ts-settings.config.labelProductRatingStarsCategoryActive')"
+                v-model="actualConfigData[currentSalesChannelId]['TrustedShops.config.tsProductRatingStarsCategoryActive']">
+        </sw-switch-field>#}
+
+    </sw-card>
+
+</div>

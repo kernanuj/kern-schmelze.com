@@ -1,0 +1,53 @@
+{% sw_extends '@Storefront/storefront/section/cms-section-sidebar.html.twig' %}
+
+{% block section_sidebar_content_block %}
+
+    {{ parent() }}
+
+    {% if loop.last %}
+
+        {# Trusted Shops Review Sticker - Start #}
+
+        {% if shopware.config.TrustedShops.config.tsId and shopware.config.TrustedShops.config.tsReviewStickerActive %}
+
+            {% if shopware.config.TrustedShops.config.tsReviewStickerExpertMode %}
+
+                {{ shopware.config.TrustedShops.config.tsExpertReviewStickerCode|replace({'%tsid%': shopware.config.TrustedShops.config.tsId})|raw }}
+
+            {% else %}
+
+                <script type="text/javascript">
+                    (function() {
+                        _tsRatingConfig = {
+                            tsid: '{{ shopware.config.TrustedShops.config.tsId|escape('js') }}',
+                            variant: 'testimonial',
+                            theme: 'light',
+                            reviews: '{{ shopware.config.TrustedShops.config.tsReviewStickerReviewCount|escape('js') }}',
+                            betterThan: '{{ shopware.config.TrustedShops.config.tsReviewStickerMinRating|escape('js') }}',
+                            richSnippets: 'off',
+                            backgroundColor: '{{ shopware.config.TrustedShops.config.tsReviewStickerBackgroundColor|escape('js') }}',
+                            linkColor: '#000000',
+                            quotationMarkColor: '#FFFFFF',
+                            fontFamily: '{{ shopware.config.TrustedShops.config.tsReviewStickerFontType|escape('js') }}',
+                            reviewMinLength: '10'
+                        };
+                        var scripts = document.getElementsByTagName('SCRIPT'),
+                            me = scripts[scripts.length - 1];
+                        var _ts = document.createElement('SCRIPT');
+                        _ts.type = 'text/javascript';
+                        _ts.async = true;
+                        _ts.src = '//widgets.trustedshops.com/reviews/tsSticker/tsSticker.js';
+                        me.parentNode.insertBefore(_ts, me);
+                        _tsRatingConfig.script = _ts;
+                    })();
+                </script>
+
+            {% endif %}
+
+        {% endif %}
+
+        {# Trusted Shops Review Sticker - End #}
+
+    {% endif %}
+
+{% endblock %}
