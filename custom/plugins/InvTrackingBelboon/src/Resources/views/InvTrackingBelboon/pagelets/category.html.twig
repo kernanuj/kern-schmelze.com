@@ -1,4 +1,5 @@
 {% set categoryId = page.header.navigation.active.id %}
+{% set publisherId = shopware.config.InvTrackingBelboon.config.publisherId %}
 
 {%  if categoryId %}
     <script type="text/javascript">
@@ -10,7 +11,7 @@
         (function(d) {
             var s = d.createElement("script");
             s.async = true;
-            s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//containertags.belboon.de/belboonTag.js.php?pId=24098&page=category&type=dynamic";
+            s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//containertags.belboon.de/belboonTag.js.php?pId={{ publisherId }}&page=category&type=dynamic";
             var a = d.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s, a);
         }(document));
     </script>

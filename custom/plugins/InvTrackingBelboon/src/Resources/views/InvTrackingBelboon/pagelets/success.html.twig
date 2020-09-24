@@ -1,6 +1,7 @@
 {% set orderNumber = page.order.orderNumber %}
 {% set amountNet = page.order.amountNet %}
 {% set lineItems = page.order.lineItems.elements %}
+{% set publisherId = shopware.config.InvTrackingBelboon.config.publisherId %}
 
 {% if orderNumber %}
     <script type="text/javascript">
@@ -24,7 +25,7 @@
             var s = d.createElement("script");
             s.async = true;
             s.src = (d.location.protocol == "https:" ? "https:" : "http:") +
-                "//containertags.belboon.de/belboonTag.js.php?pId=24098&page=checkout&type=dynamic";
+                "//containertags.belboon.de/belboonTag.js.php?pId={{ publisherId }}&page=checkout&type=dynamic";
             var a = d.getElementsByTagName("script")[0];
             a.parentNode.insertBefore(s, a);
         }(document));

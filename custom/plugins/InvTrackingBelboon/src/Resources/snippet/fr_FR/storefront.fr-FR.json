@@ -1,0 +1,13 @@
+{
+    "InvTrackingBelboon": {
+        "cookie": {
+            "titles": {
+                "belboon": "Belboon"
+            },
+            "group": {
+                "name": "Marketing",
+                "description": "Ces technologies sont utilisées par les annonceurs pour diffuser des publicités qui correspondent à vos intérêts."
+            }
+        }
+    }
+}
