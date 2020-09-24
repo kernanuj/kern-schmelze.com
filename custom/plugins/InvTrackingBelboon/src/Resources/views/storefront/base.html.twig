@@ -3,7 +3,7 @@
 {% block base_body_inner %}
     {{ parent() }}
     {% if shopware.config.InvTrackingBelboon.config.status == true and shopware.config.InvTrackingBelboon.config.publisherId %}
-        {# if app.request.cookies.get('belboon-enabled') == 1 #}
+        {% if app.request.cookies.get('belboon-enabled') == 1 %}
             {# Startseite #}
             {% if activeRoute == "frontend.home.page" %}
                 {% sw_include '@InvTrackingBelboon/InvTrackingBelboon/pagelets/homepage.html.twig' %}
@@ -30,5 +30,5 @@
                 {% sw_include '@InvTrackingBelboon/InvTrackingBelboon/pagelets/success.html.twig' %}
             {% endif %}
         {% endif %}
-    {# endif #}
+    {% endif %}
 {% endblock %}
