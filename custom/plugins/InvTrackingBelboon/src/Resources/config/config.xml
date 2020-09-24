@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Status</title>
+        <title lang="de-DE">Status</title>
+        <title lang="es-ES">Estado</title>
+        <title lang="fr-FR">Statut</title>
+        <title lang="nl-NL">Status</title>
+
+        <input-field type="bool">
+            <name>status</name>
+            <label>Active</label>
+            <label lang="de-DE">Aktiv</label>
+            <label lang="es-ES">Activado</label>
+            <label lang="fr-FR">Actif</label>
+            <label lang="nl-NL">Actief</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Configuration</title>
+        <title lang="de-DE">Konfiguration</title>
+        <title lang="es-ES">Configuracion</title>
+        <title lang="fr-FR">Configuration</title>
+        <title lang="nl-NL">Configuratie</title>
+
+        <input-field type="text">
+            <name>publisherId</name>
+            <label>Publisher ID</label>
+            <label lang="de-DE">Publisher ID</label>
+            <label lang="es-ES">Publisher ID</label>
+            <label lang="fr-FR">Publisher ID</label>
+            <label lang="nl-NL">Publisher ID</label>
+            <defaultValue></defaultValue>
+        </input-field>
+    </card>
+</config>

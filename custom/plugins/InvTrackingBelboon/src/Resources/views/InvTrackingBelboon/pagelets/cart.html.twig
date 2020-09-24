@@ -1,0 +1,27 @@
+{% set lineItems = page.cart.lineItems.elements %}
+
+{% if lineItems is not empty %}
+    <script type="text/javascript">
+        belboonTag = {
+            "orderProducts": [
+                {% for lineItem in lineItems %}
+                    {% if lineItem.payLoad.parent.productNumber %}
+                        { "id": "{{ lineItem.payLoad.parent.productNumber }}" },
+                    {% else %}
+                        { "id": "{{ lineItem.payLoad.productNumber }}" },
+                    {% endif %}
+                {% endfor %}
+            ]
+        };
+    </script>
+    <script type="text/javascript">
+        (function(d) {
+            var s = d.createElement("script");
+            s.async = true;
+            s.src = (d.location.protocol == "https:" ? "https:" : "http:") +
+                "//containertags.belboon.de/belboonTag.js.php?pId=24098&page=basket&type=dynamic";
+            var a = d.getElementsByTagName("script")[0];
+            a.parentNode.insertBefore(s, a);
+        }(document));
+    </script>
+{% endif %}

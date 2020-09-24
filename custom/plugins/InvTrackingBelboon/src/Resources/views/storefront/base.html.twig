@@ -1,0 +1,34 @@
+{% sw_extends '@Storefront/storefront/base.html.twig' %}
+
+{% block base_body_inner %}
+    {{ parent() }}
+    {% if shopware.config.InvTrackingBelboon.config.status == true and shopware.config.InvTrackingBelboon.config.publisherId %}
+        {% if app.request.cookies.get('belboon-enabled') == 1 %}
+            {# Startseite #}
+            {% if activeRoute == "frontend.home.page" %}
+                {% sw_include '@InvTrackingBelboon/InvTrackingBelboon/pagelets/homepage.html.twig' %}
+            {% endif %}
+
+            {# Kategorieseite #}
+            {% set pageType = page.cmsPage.type %}
+            {% if pageType == "product_list" %}
+                {% sw_include '@InvTrackingBelboon/InvTrackingBelboon/pagelets/category.html.twig' %}
+            {% endif %}
+
+            {# Produktseite #}
+            {% if activeRoute == "frontend.detail.page" %}
+                {% sw_include '@InvTrackingBelboon/InvTrackingBelboon/pagelets/product.html.twig' %}
+            {% endif %}
+
+            {# Warenkorb-Seite #}
+            {% if activeRoute == "frontend.checkout.cart.page" %}
+                {% sw_include '@InvTrackingBelboon/InvTrackingBelboon/pagelets/cart.html.twig' %}
+            {% endif %}
+
+            {# Success-Seite #}
+            {% if activeRoute == "frontend.checkout.finish.page" %}
+                {% sw_include '@InvTrackingBelboon/InvTrackingBelboon/pagelets/success.html.twig' %}
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

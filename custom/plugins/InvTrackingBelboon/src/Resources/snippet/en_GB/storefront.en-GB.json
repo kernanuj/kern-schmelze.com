@@ -1,0 +1,13 @@
+{
+    "InvTrackingBelboon": {
+        "cookie": {
+            "titles": {
+                "belboon": "Belboon"
+            },
+            "group": {
+                "name": "Marketing",
+                "description": "These technologies are used by advertisers to serve ads that are relevant to your interests."
+            }
+        }
+    }
+}

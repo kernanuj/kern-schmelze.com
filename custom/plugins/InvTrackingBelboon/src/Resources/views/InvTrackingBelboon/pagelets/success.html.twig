@@ -1,0 +1,32 @@
+{% set orderNumber = page.order.orderNumber %}
+{% set amountNet = page.order.amountNet %}
+{% set lineItems = page.order.lineItems.elements %}
+
+{% if orderNumber %}
+    <script type="text/javascript">
+        belboonTag = {
+            "orderId": "{{ orderNumber }}",
+            "orderProducts": [
+                {% for lineItem in lineItems %}
+                    {% set productId = lineItem.payLoad.productId %}
+                    {% set productType = lineItem.payLoad.type %}
+
+                    {% if productType == "product" %}
+                        { "id": "{{ productId }}" },
+                    {% endif %}
+                {% endfor %}
+            ],
+            "orderTransactionAmount": "{{ amountNet }}"
+        };
+    </script>
+    <script type="text/javascript">
+        (function(d) {
+            var s = d.createElement("script");
+            s.async = true;
+            s.src = (d.location.protocol == "https:" ? "https:" : "http:") +
+                "//containertags.belboon.de/belboonTag.js.php?pId=24098&page=checkout&type=dynamic";
+            var a = d.getElementsByTagName("script")[0];
+            a.parentNode.insertBefore(s, a);
+        }(document));
+    </script>
+{% endif %}

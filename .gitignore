@@ -28,6 +28,10 @@ phpunit.inv.xml
 !custom/plugins/InvExportInvoice/*
 !custom/plugins/InvExportLabel/
 !custom/plugins/InvExportLabel/*
+!custom/plugins/InvTrackingBelboon/
+!custom/plugins/InvTrackingBelboon/*
+!custom/plugins/TrustedShops/
+!custom/plugins/TrustedShops/*
 !.gitkeep
 
 _dev/*

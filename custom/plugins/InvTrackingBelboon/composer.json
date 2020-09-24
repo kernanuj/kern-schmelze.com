@@ -1,0 +1,45 @@
+{
+    "name": "inv/tracking-belboon",
+    "version": "1.0.0",
+    "description": "Integration of the Belboon Tracking Pixels on the required columns of your store.",
+    "authors": [
+        {
+            "name": "Nils Harder | inventivo.de",
+            "homepage": "https://www.inventivo.de",
+            "email": "hallo@inventivo.de"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "shopware/core": ">=6.0.0"
+    },
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "InvTrackingBelboon\\": "src/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "InvTrackingBelboon\\InvTrackingBelboon",
+        "copyright": "(c) by Nils Harder | inventivo.de",
+        "manufacturerLink": {
+            "de-DE": "https://www.inventivo.de",
+            "en-GB": "https://www.inventivo.de"
+        },
+        "supportLink": {
+            "de-DE": "https://www.inventivo.de/kontakt",
+            "en-GB": "https://www.inventivo.de/kontakt"
+        },
+        "label": {
+            "de-DE": "Belboon Affiliate Tracking Pixel Integration für Shopware 6",
+            "en-GB": "Belboon Affiliate Tracking Pixel Integration for Shopware 6"
+        },
+        "description": {
+            "de-DE": "Integration der Belboon Tracking Pixel an den erforderlichen Stelen Deines Shops.",
+            "en-GB": "Integration of the Belboon Tracking Pixels on the required columns of your store."
+        }
+    },
+    "minimum-stability": "RC",
+    "prefer-stable": true
+}
