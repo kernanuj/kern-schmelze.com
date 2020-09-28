@@ -3,6 +3,9 @@
 
 namespace InvExportLabel\Value;
 
+use InvExportLabel\Constants;
+use Shopware\Core\Checkout\Order\OrderEntity;
+
 /**
  * Class ExportRequestConfiguration
  * @package InvExportLabel\Value
@@ -28,7 +31,12 @@ class ExportRequestConfiguration
     /**
      * @var string
      */
-    private $storageFileName;
+    private $storageFileNameLabel;
+
+    /**
+     * @var string
+     */
+    private $storageFileNameInvoice;
 
     /**
      * @var string[]
@@ -59,6 +67,31 @@ class ExportRequestConfiguration
      * @var string
      */
     private $senderEmailAddress;
+
+    /**
+     * @var OrderEntity
+     */
+    private $order;
+
+    /**
+     * @var string[]
+     */
+    private $selectedTypes;
+
+    /**
+     * @var bool
+     */
+    private $isIncludeInvoice = false;
+
+    /**
+     * @var bool
+     */
+    private $isUpdateStatusAfter = false;
+
+    /**
+     * @var string
+     */
+    private $transitionAfterSendout;
 
     /**
      * @return string
@@ -118,27 +151,35 @@ class ExportRequestConfiguration
     /**
      * @return string
      */
-    public function getStorageFileName(): string
+    public function getStorageFileNameLabel(): string
     {
-        return $this->storageFileName;
+        return $this->storageFileNameLabel;
     }
 
     /**
-     * @param string $storageFileName
+     * @param string $storageFileNameLabel
      * @return ExportRequestConfiguration
      */
-    public function setStorageFileName(string $storageFileName): ExportRequestConfiguration
+    public function setStorageFileNameLabel(string $storageFileNameLabel): ExportRequestConfiguration
     {
-        $this->storageFileName = $storageFileName;
+        $this->storageFileNameLabel = $storageFileNameLabel;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getStoragePathName(): string
+    public function getLabelStoragePathName(): string
     {
-        return $this->storagePath . DIRECTORY_SEPARATOR . $this->storageFileName;
+        return $this->storagePath . DIRECTORY_SEPARATOR . $this->storageFileNameLabel;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInvoiceStoragePathName(): string
+    {
+        return $this->storagePath . DIRECTORY_SEPARATOR . $this->storageFileNameInvoice;
     }
 
     /**
@@ -248,4 +289,119 @@ class ExportRequestConfiguration
         $this->senderEmailAddress = $senderEmailAddress;
         return $this;
     }
+
+    /**
+     * @return OrderEntity
+     */
+    public function getOrder(): OrderEntity
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param OrderEntity $order
+     * @return ExportRequestConfiguration
+     */
+    public function setOrder(OrderEntity $order): ExportRequestConfiguration
+    {
+        $this->order = $order;
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getSelectedTypes(): array
+    {
+        return $this->selectedTypes;
+    }
+
+    /**
+     * @param string[] $selectedTypes
+     * @return ExportRequestConfiguration
+     */
+    public function setSelectedTypes(array $selectedTypes): ExportRequestConfiguration
+    {
+        foreach ($selectedTypes as $selectedType) {
+            \assert(in_array($selectedType, Constants::allAvailableLabelTypes()));
+        }
+        $this->selectedTypes = $selectedTypes;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isIncludeInvoice(): bool
+    {
+        return $this->isIncludeInvoice;
+    }
+
+    /**
+     * @param bool $isIncludeInvoice
+     * @return ExportRequestConfiguration
+     */
+    public function setIsIncludeInvoice(bool $isIncludeInvoice): ExportRequestConfiguration
+    {
+        $this->isIncludeInvoice = $isIncludeInvoice;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUpdateStatusAfter(): bool
+    {
+        return $this->isUpdateStatusAfter;
+    }
+
+    /**
+     * @param bool $isUpdateStatusAfter
+     * @return ExportRequestConfiguration
+     */
+    public function setIsUpdateStatusAfter(bool $isUpdateStatusAfter): ExportRequestConfiguration
+    {
+        $this->isUpdateStatusAfter = $isUpdateStatusAfter;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStorageFileNameInvoice(): string
+    {
+        return $this->storageFileNameInvoice;
+    }
+
+    /**
+     * @param string $storageFileNameInvoice
+     * @return ExportRequestConfiguration
+     */
+    public function setStorageFileNameInvoice(string $storageFileNameInvoice): ExportRequestConfiguration
+    {
+        $this->storageFileNameInvoice = $storageFileNameInvoice;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransitionAfterSendout(): string
+    {
+        return $this->transitionAfterSendout;
+    }
+
+    /**
+     * @param string $transitionAfterSendout
+     * @return ExportRequestConfiguration
+     */
+    public function setTransitionAfterSendout(string $transitionAfterSendout): ExportRequestConfiguration
+    {
+        $this->transitionAfterSendout = $transitionAfterSendout;
+        return $this;
+    }
+
+
+
+
 }

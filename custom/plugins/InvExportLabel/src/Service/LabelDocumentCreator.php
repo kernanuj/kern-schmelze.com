@@ -10,17 +10,8 @@ use InvExportLabel\Value\ExportResult;
 use InvExportLabel\Value\SourceCollection;
 use SplFileObject;
 
-/**
- * Class LabelCreator
- * @package InvExportLabel\Service
- */
-class LabelCreator
+class LabelDocumentCreator implements DocumentCreatorInterface
 {
-
-    /**
-     * @var SourceProviderInterface
-     */
-    private $sourceProvider;
 
     /**
      * @var TypeInstanceRegistry
@@ -29,35 +20,30 @@ class LabelCreator
 
     /**
      * LabelCreator constructor.
-     * @param SourceProviderInterface $sourceProvider
      * @param TypeInstanceRegistry $typeInstanceRegistry
      */
-    public function __construct(SourceProviderInterface $sourceProvider, TypeInstanceRegistry $typeInstanceRegistry)
+    public function __construct(TypeInstanceRegistry $typeInstanceRegistry)
     {
-        $this->sourceProvider = $sourceProvider;
         $this->typeInstanceRegistry = $typeInstanceRegistry;
     }
 
     /**
-     * @param ExportRequestConfiguration $configuration
-     * @return $this|ExportResult
+     * @inheritDoc
      */
     public function run(
-        ExportRequestConfiguration $configuration
-    ): ExportResult {
-
-        $result = new ExportResult();
-
-        $sourceCollection = $this->sourceProvider->fetchSourceCollection($configuration);
+        ExportRequestConfiguration $configuration,
+        SourceCollection $sourceCollection,
+        ExportResult $exportResult
+    ): void {
 
         if (true !== $sourceCollection->hasItems()) {
-            return $result->addLog('There are no items to create labels for.');
+            $exportResult->addLog('There are no items to create labels for.');
+            return;
         }
 
-        $this->generateFileForAllMatchingOrders($configuration, $sourceCollection, $result);
-        $this->generateSeparateFilesForEachOrder($configuration, $sourceCollection, $result);
+        $this->generateFileForAllMatchingOrders($configuration, $sourceCollection, $exportResult);
+        $this->generateSeparateFilesForEachOrder($configuration, $sourceCollection, $exportResult);
 
-        return $result;
     }
 
     /**
@@ -80,9 +66,9 @@ class LabelCreator
         $dompdf = new Dompdf($options);
         $contxt = stream_context_create([
             'ssl' => [
-                'verify_peer' => FALSE,
-                'verify_peer_name' => FALSE,
-                'allow_self_signed'=> TRUE
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
             ]
         ]);
         $dompdf->setHttpContext($contxt);
@@ -90,9 +76,12 @@ class LabelCreator
         $dompdf->loadHtml($renderer->render($collection)->getHtml());
         $dompdf->render();
 
-        file_put_contents($configuration->getStoragePathName(), $dompdf->output());
+        file_put_contents($configuration->getLabelStoragePathName(), $dompdf->output());
         $exportResult->addCreatedFile(
-            new SplFileObject($configuration->getStoragePathName())
+            new SplFileObject($configuration->getLabelStoragePathName())
+        );
+        $exportResult->addCreatedFileForSendout(
+            new SplFileObject($configuration->getLabelStoragePathName())
         );
         return $this;
     }
@@ -110,13 +99,13 @@ class LabelCreator
         ExportResult $exportResult
     ): self {
 
-        foreach($collection->getItems() as $index => $item) {
+        foreach ($collection->getItems() as $index => $item) {
 
             $singleItemCollection = new SourceCollection();
             $singleItemCollection->addItem($item);
 
             $storagePathName = $configuration->getStoragePerOrderPathNameBuilder()(
-                $item->getOrderNumber().'_'.$item->getDisplayId().'_'.$index
+                $item->getOrderNumber() . '_' . $item->getDisplayId() . '_' . $index
             );
             $renderer = $this->typeInstanceRegistry->forType($configuration->getType())->getRenderer();
 

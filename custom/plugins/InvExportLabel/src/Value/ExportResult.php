@@ -13,7 +13,12 @@ class ExportResult
     /**
      * @var \SplFileObject[]
      */
-    private $createdFiles =[];
+    private $createdFiles = [];
+
+    /**
+     * @var \SplFileObject[]
+     */
+    private $createdFilesForSendout = [];
 
     /**
      * @var array
@@ -39,6 +44,25 @@ class ExportResult
     }
 
     /**
+     * @param \SplFileObject $createdFile
+     * @return ExportResult
+     */
+    public function addCreatedFileForSendout(\SplFileObject $createdFile): ExportResult
+    {
+        $this->createdFilesForSendout[] = $createdFile;
+        return $this;
+    }
+
+    /**
+     * @return \SplFileObject[]
+     */
+    public function getCreatedFilesForSendout(): array
+    {
+        return $this->createdFilesForSendout;
+    }
+
+
+    /**
      * @return array
      */
     public function getLog(): array
@@ -55,7 +79,6 @@ class ExportResult
         $this->log[] = $log;
         return $this;
     }
-
 
 
 }

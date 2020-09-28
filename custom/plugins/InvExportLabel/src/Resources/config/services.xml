@@ -9,25 +9,39 @@
     </imports>
     <services>
         <service id="InvExportLabel\Command\ExportCommand">
-            <call method="setCreator">
-                <argument type="service" id="InvExportLabel\Service\LabelCreator"/>
+            <call method="addDocumentCreator">
+                <argument type="service" id="InvExportLabel\Service\LabelDocumentCreator"/>
+            </call>
+            <call method="addDocumentCreator">
+                <argument type="service" id="InvExportLabel\Service\InvoiceDocumentCreator"/>
             </call>
             <call method="setConfigurationProvider">
                 <argument type="service" id="InvExportLabel\Service\ConfigurationProvider"/>
             </call>
             <call method="setSender">
-                <argument type="service" id="InvExportLabel\Service\LabelSender"/>
+                <argument type="service" id="InvExportLabel\Service\DocumentSender"/>
+            </call>
+            <call method="addOrderAction">
+                <argument type="service" id="InvExportLabel\Service\OrderStateUpdater"/>
+            </call>
+            <call method="setSourceProvider">
+                <argument type="service" id="InvExportLabel\Service\OrderSourceProvider"/>
             </call>
             <tag name="console.command"/>
         </service>
 
-        <service id="InvExportLabel\Service\LabelSender">
+        <service id="InvExportLabel\Service\DocumentSender">
             <argument type="service" id="Shopware\Core\Content\MailTemplate\Service\MessageFactory"/>
             <argument type="service" id="Shopware\Core\Content\MailTemplate\Service\MailSender"/>
         </service>
-        <service id="InvExportLabel\Service\LabelCreator">
-            <argument type="service" id="InvExportLabel\Service\OrderSourceProvider"/>
+        <service id="InvExportLabel\Service\LabelDocumentCreator">
             <argument type="service" id="InvExportLabel\Service\TypeInstanceRegistry"/>
+        </service>
+        <service id="InvExportLabel\Service\InvoiceDocumentCreator">
+            <argument type="service" id="Shopware\Core\Checkout\Document\DocumentService"/>
+        </service>
+        <service id="InvExportLabel\Service\OrderStateUpdater">
+            <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry"/>
         </service>
 
         <service id="InvExportLabel\Service\SourceProviderInterface"
@@ -47,6 +61,15 @@
         <service id="InvExportLabel\Service\ConfigurationProvider">
             <argument type="string">%kernel.project_dir%/var/InvExportLabel</argument>
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+        </service>
+
+        <service id="InvExportLabel\Service\Core\LabelGenerator">
+            <argument type="string">%kernel.project_dir%</argument>
+            <argument type="service" id="Shopware\Core\Checkout\Document\Twig\DocumentTemplateRenderer"/>
+            <tag name="document.generator"/>
+            <argument type="service" id="InvExportLabel\Service\TypeInstanceRegistry"/>
+            <argument type="service" id="InvExportLabel\Service\ConfigurationProvider"/>
+            <argument type="service" id="InvExportLabel\Repository\OrderRepository"/>
         </service>
     </services>
 </container>

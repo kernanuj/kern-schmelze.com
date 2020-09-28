@@ -53,6 +53,8 @@ class  OrderSourceProvider implements SourceProviderInterface
             Context::createDefaultContext()
         );
 
+        $collection->setOrderCollection($orderEntityCollection);
+
         $matchingOrderLineItems = $typeInstance->extractOrderLineItems($orderEntityCollection);
 
         foreach ($matchingOrderLineItems as $matchingOrderLineItem) {

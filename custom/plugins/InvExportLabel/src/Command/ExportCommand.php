@@ -4,10 +4,13 @@ namespace InvExportLabel\Command;
 
 use InvExportLabel\Constants;
 use InvExportLabel\Service\ConfigurationProvider;
-use InvExportLabel\Service\LabelCreator;
-use InvExportLabel\Service\LabelSender;
+use InvExportLabel\Service\DocumentCreatorInterface;
+use InvExportLabel\Service\DocumentSender;
+use InvExportLabel\Service\OrderActionInterface;
+use InvExportLabel\Service\SourceProviderInterface;
 use InvExportLabel\Value\ExportRequestConfiguration;
-use InvExportLabel\Value\MixerProductCreateConfiguration;
+use InvExportLabel\Value\ExportResult;
+use Shopware\Core\System\StateMachine\Aggregation\StateMachineTransition\StateMachineTransitionActions;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,15 +27,22 @@ class ExportCommand extends Command
     const INPUT_NAME_DAYS_BACK = 'daysBack';
     const INPUT_NAME_DAYS_FORWARD = 'daysForward';
     const INPUT_NAME_TYPE = 'type';
+    const INPUT_NAME_INCLUDE_INVOICE = 'includeInvoice';
+    const INPUT_NAME_UPDATE_STATUS = 'updateStatus';
     /**
      * @var string
      */
     protected static $defaultName = 'inv:export-label:export';
 
     /**
-     * @var LabelCreator
+     * @var DocumentCreatorInterface[]
      */
-    private $creator;
+    private $documentCreators = [];
+
+    /**
+     * @var OrderActionInterface[]
+     */
+    private $orderActions = [];
 
     /**
      * @var ConfigurationProvider
@@ -40,27 +50,42 @@ class ExportCommand extends Command
     private $configurationProvider;
 
     /**
-     * @var LabelSender
+     * @var SourceProviderInterface
+     */
+    private $sourceProvider;
+
+    /**
+     * @var DocumentSender
      */
     private $sender;
 
     /**
-     * @param LabelSender $sender
+     * @param DocumentSender $sender
      * @return ExportCommand
      */
-    public function setSender(LabelSender $sender): ExportCommand
+    public function setSender(DocumentSender $sender): ExportCommand
     {
         $this->sender = $sender;
         return $this;
     }
 
     /**
-     * @param LabelCreator $creator
+     * @param DocumentCreatorInterface $documentCreator
      * @return ExportCommand
      */
-    public function setCreator(LabelCreator $creator): ExportCommand
+    public function addDocumentCreator(DocumentCreatorInterface $documentCreator): ExportCommand
     {
-        $this->creator = $creator;
+        $this->documentCreators[] = $documentCreator;
+        return $this;
+    }
+
+    /**
+     * @param OrderActionInterface $orderAction
+     * @return $this
+     */
+    public function addOrderAction(OrderActionInterface $orderAction): ExportCommand
+    {
+        $this->orderActions[] = $orderAction;
         return $this;
     }
 
@@ -71,6 +96,16 @@ class ExportCommand extends Command
     public function setConfigurationProvider(ConfigurationProvider $configurationProvider): ExportCommand
     {
         $this->configurationProvider = $configurationProvider;
+        return $this;
+    }
+
+    /**
+     * @param SourceProviderInterface $sourceProvider
+     * @return ExportCommand
+     */
+    public function setSourceProvider(SourceProviderInterface $sourceProvider): ExportCommand
+    {
+        $this->sourceProvider = $sourceProvider;
         return $this;
     }
 
@@ -102,6 +137,20 @@ class ExportCommand extends Command
             'The type to be created ("inv_mixer_product" only for now )',
             Constants::LABEL_TYPE_MIXER_PRODUCT
         );
+        $this->addOption(
+            self::INPUT_NAME_INCLUDE_INVOICE,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Include invoices in creation',
+            false
+        );
+        $this->addOption(
+            self::INPUT_NAME_UPDATE_STATUS,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Update status after sendout',
+            false
+        );
     }
 
     /**
@@ -119,23 +168,39 @@ class ExportCommand extends Command
         }
 
         $configuration = $this->buildConfigurationFromInput($input);
+        $sourceCollection = $this->sourceProvider->fetchSourceCollection($configuration);
+        $exportResult = new ExportResult();
 
-        $result = $this->creator->run(
-            $configuration
-        );
+        foreach ($this->documentCreators as $documentCreator) {
+            $output->writeln(get_class($documentCreator) . ' BEGIN');
+            $documentCreator->run(
+                $configuration,
+                $sourceCollection,
+                $exportResult
+            );
+            $output->writeln(get_class($documentCreator) . ' END');
+        }
+
+        foreach ($this->orderActions as $orderAction) {
+            $output->writeln(get_class($orderAction) . ' BEGIN');
+            $orderAction->run(
+                $configuration,
+                $sourceCollection,
+                $exportResult
+            );
+            $output->writeln(get_class($orderAction) . ' END');
+        }
 
         $this->sender->run(
             $configuration,
-            $result
+            $exportResult
         );
 
-
-
-        foreach ($result->getLog() as $log) {
+        foreach ($exportResult->getLog() as $log) {
             $output->writeln($log);
         }
 
-        foreach($result->getCreatedFiles() as $createdFile) {
+        foreach ($exportResult->getCreatedFiles() as $createdFile) {
             $output->writeln('Generated file:' . $createdFile->getPathname());
         }
     }
@@ -187,8 +252,15 @@ XML;
         $daysBack = $input->getOption(self::INPUT_NAME_DAYS_BACK);
         $daysForward = $input->getOption(self::INPUT_NAME_DAYS_FORWARD);
         $type = $input->getOption(self::INPUT_NAME_TYPE);
+        $isIncludeInvoice = (bool)$input->getOption(self::INPUT_NAME_INCLUDE_INVOICE);
+        $isUpdateStatus = (bool)$input->getOption(self::INPUT_NAME_UPDATE_STATUS);
 
-        $configuration->setType($type);
+        $configuration
+            ->setType($type)
+            ->setIsIncludeInvoice($isIncludeInvoice)
+            ->setIsUpdateStatusAfter($isUpdateStatus)
+            ->setTransitionAfterSendout(StateMachineTransitionActions::ACTION_PROCESS);
+
         $configuration->getSourceFilterDefinition()
             ->setOrderedAtFrom(
                 (new \DateTime())->sub(new \DateInterval('P' . $daysBack . 'D'))->setTime(0, 0, 0)
