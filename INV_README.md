@@ -8,6 +8,8 @@
 >bin/console inv:export-label:export --daysBack=1 --daysForward=0 --type=inv_mixer_product --includeInvoice=1 --updateStatus=1
 >bin/console inv:export-label:export --daysBack=10 --daysForward=1 --type=inv_mixer_product
 
+Aktuell Live: 
+cd kern-schmelze.com/kern-schmelze.com; "$(ls -td release-* | head -1)"/bin/console inv:export-label:export --daysBack=365 --daysForward=1 --type=inv_mixer_product --includeInvoice=1 --updateStatus=1
 
 #### orders considered in cron job
 
