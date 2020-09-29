@@ -39,12 +39,12 @@
             "orderId": "{{ orderNumber }}",
             "orderProducts": [
                 {% for lineItem in lineItems %}
-                {% set productId = lineItem.payLoad.productId %}
-                {% set productType = lineItem.payLoad.type %}
+                    {% set productNumber = lineItem.payLoad.productNumber %}
+                    {% set productType = lineItem.type %}
 
-                {% if productType == "product" %}
-                { "id": "{{ productId }}" },
-                {% endif %}
+                    {% if productType == "product" %}
+                    { "id": "{{ productNumber }}" },
+                    {% endif %}
                 {% endfor %}
             ],
             "orderTransactionAmount": "{{ amountNet }}"
