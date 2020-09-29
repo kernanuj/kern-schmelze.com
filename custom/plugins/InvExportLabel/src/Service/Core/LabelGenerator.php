@@ -170,7 +170,12 @@ class LabelGenerator implements DocumentGeneratorInterface
      */
     public function getFileName(DocumentConfiguration $config): string
     {
-        return $config->getFilenamePrefix() . $config->getDocumentNumber() . $config->getFilenameSuffix();
+        try {
+            $documentNumber = $config->getDocumentNumber();
+        } catch (\Throwable $e) {
+            $documentNumber = 'xxx';
+        }
+        return $config->getFilenamePrefix() . $documentNumber . $config->getFilenameSuffix();
     }
 
 }
