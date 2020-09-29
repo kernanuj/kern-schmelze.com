@@ -159,7 +159,6 @@
                     <name>Order:completed, Transaction:in_progress, Delivery:shipped</name>
                 </option>
             </options>
-            <defaultValue>paid</defaultValue>
             <label>Order state filter</label>
             <label lang="de-DE">Order-Status</label>
         </input-field>
