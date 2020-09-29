@@ -1,7 +1,37 @@
 {% set orderNumber = page.order.orderNumber %}
-{% set amountNet = page.order.amountNet %}
 {% set lineItems = page.order.lineItems.elements %}
 {% set publisherId = shopware.config.InvTrackingBelboon.config.publisherId %}
+{% set advertiserId = shopware.config.InvTrackingBelboon.config.advertiserId %}
+{% set trcDomain = shopware.config.InvTrackingBelboon.config.trcDomain %}
+{% set currency = shopware.config.InvTrackingBelboon.config.currency %}
+
+{% set timeStamp = 'now'|date('U') %}
+{% set discCode = "" %} {# Optional parameter #}
+{% set clickId = "" %} {# Optional parameter #}
+
+{# Net price calculation ex shipping costs #}
+{% set amountTotalExclShipping = page.order.positionPrice %}
+
+{# Tax amount total for order #}
+{% set taxAmountTotal = 0.00 %}
+{% for calculatedTax in page.order.price.calculatedTaxes %}
+    {% set taxAmountTotal = taxAmountTotal + calculatedTax.tax %}
+{% endfor %}
+
+{# Tax amount for shipping #}
+{% set taxAmountShipping = 0.00 %}
+{% for calculatedTax in page.order.shippingCosts.calculatedTaxes %}
+    {% set taxAmountShipping = taxAmountShipping + calculatedTax.tax %}
+{% endfor %}
+
+{# Calculate order total net excluding shipping costs #}
+{% set amountNet = amountTotalExclShipping - taxAmountTotal + taxAmountShipping %}
+
+{# Debugging
+{{ taxAmountTotal }}
+{{ taxAmountShipping }}
+{{ amountNet }}
+#}
 
 {% if orderNumber %}
     <script type="text/javascript">
@@ -9,11 +39,11 @@
             "orderId": "{{ orderNumber }}",
             "orderProducts": [
                 {% for lineItem in lineItems %}
-                    {% set productId = lineItem.payLoad.productId %}
-                    {% set productType = lineItem.payLoad.type %}
+                    {% set productNumber = lineItem.payLoad.productNumber %}
+                    {% set productType = lineItem.type %}
 
                     {% if productType == "product" %}
-                        { "id": "{{ productId }}" },
+                    { "id": "{{ productNumber }}" },
                     {% endif %}
                 {% endfor %}
             ],
@@ -30,4 +60,65 @@
             a.parentNode.insertBefore(s, a);
         }(document));
     </script>
+
+
+    <!-- BEGIN BELBOON - PERFORMANCE MARKETING NETWORK TRACKING CODE -->
+    <script type="text/javascript">
+        var itsConv = {
+
+            // MANDATORY FIELD: This is the product category for this conversion target.
+            // Important: The value for this product category needs to be set in your network configuration beforehand.
+            // Your possible product categories are: 'default',
+            trcCat : 'default',
+            // MANDATORY FIELD: This is the name of the conversion target.
+            // Important: The value for this conversion target needs to be set in your network configuration beforehand.
+            // Your possible conversion targets are: 'sale',
+            convTarget : 'sale',
+
+            // MANDATORY FIELD: This is a short description of the conversion page.
+            // Examples: Check-Out, Registration Complete, Valentines Day Promotion.
+            siteId : 'checkout',
+
+            // MANDATORY FIELD: This the unique conversion identifier from your system. Examples: OrderID, CustomerID, LeadID.
+            // If you can't provide a correct unique conversion identifier you can use 'auto' and our system will generate it automatically.
+            // This could lead to validation problems due to the fact that an exact matching from your system to ours will not exist.
+            convId : '{{ orderNumber }}',
+
+            // MANDATORY FIELD: This is the net order value (without shipping and handling costs). Use a value of '0.00' for conversion targets without net order value.
+            ordValue : '{{ amountNet }}',
+
+            // OPTIONAL FIELDS: These are session tracking parameters
+            clickId  : '', // OPTIONAL FIELD. A click ID.
+            // MANDATORY FIELD: This is the ISO currency code (ISO 4217).
+            // Examples: 'EUR', 'GBP', 'CHF'.
+            ordCurr : '{{ currency }}',
+
+            // OPTIONAL FIELDS: These are additional conversion parameters.
+            discCode : '', // This is the applied discount code.
+
+            // DO NOT CHANGE. The following parameters are used to identify the advertiser in the network.
+            advId : '{{ advertiserId }}',
+            trcDomain : '{{ trcDomain }}'
+
+        };
+        // DO NOT CHANGE. The following lines assure tracking functionality.
+        en=function(v){if(v){if(typeof(encodeURIComponent)=='function'){return(encodeURIComponent(v));}return(escape(v));}};ts=function(){var d=new Date();var t=d.getTime();return(t);};im=function(s){if(document.images){if(typeof(ia)!="object"){
+            var ia=new Array();};var i=ia.length;ia[i]=new Image();ia[i].src=s;ia[i].onload=function(){};}else{document.write('<img src="'+s+'" height="1" width="1" border="0" alt="" style="display:none;">');}};var pr='https:';
+        fr=function(s){var d=document;var i=d.createElement("iframe");i.src=s;i.frameBorder=0;i.width=0;i.height=0;i.vspace=0;i.hspace=0;i.marginWidth=0;i.marginHeight=0;i.scrolling="no";i.allowTransparency=true;i.style.display="none";try{d.body.insertBefore(i,d.body.firstChild);}catch(e){
+            d.write('<ifr'+'ame'+' src="'+s+'" width="0" height="0" frameborder="0" vspace="0" hspace="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="true" style="display:none;"></ifr'+'ame>');}};ap=function(o){var v='tst='+ts();if(o.trcCat){v+='&trc='+en(o.trcCat);}
+            v+='&ctg='+en(o.convTarget);v+='&cid='+en(o.convId);if(o.ordValue){v+='&orv='+en(o.ordValue);}if(o.ordCurr){v+='&orc='+en(o.ordCurr);}if(o.discValue){v+='&dsv='+en(o.discValue);}if(o.discOrdValue){v+='&ovd='+en(o.discOrdValue);}if(o.discCode){v+='&dsc='+en(o.discCode);}
+            if(o.invValue){v+='&inv='+en(o.invValue);}if(o.confStat){v+='&cfs='+en(o.confStat);}if(o.admCode){v+='&amc='+en(o.admCode);}if(o.payMethod){v+='&pmt='+en(o.payMethod);}if(o.subCode){v+='&smc='+en(o.subCode);}if(o.userVal1){v+='&uv1='+en(o.userVal1);}if(o.userVal2){v+='&uv2='+en(o.userVal2);}if(o.userVal3){
+                v+='&uv3='+en(o.userVal3);}if(o.userVal4){v+='&uv4='+en(o.userVal4);}if(o.isCustNew){var n=o.isCustNew.toLowerCase();v+='&csn=';v+=(n=="true"||n=="false")?n:"null";}if(o.custId){v+='&csi='+en(o.custId);}if(o.custGend){var g=o.custGend.toLowerCase();v+='&csg=';
+                v+=(g=="m"||g=="f")?g:"null";}if(o.custAge){v+='&csa='+en(o.custAge);}if(o.basket){v+='&bsk='+en(o.basket);}if(o.addData){v+='&adt='+en(o.addData);}if(o.uniqid){v+='&uniqid='+en(o.uniqid);}if(o.clickIds && o.clickIds.length > 0){v+='&cli='+en(o.clickIds.join(','));}else if(o.clickId){v+='&cli='+en(o.clickId);}if(o.custSurv){v+='&csr='+en(o.custSurv);}if(o.siteId){v+='&sid='+en(o.siteId);}var s=(screen.width)?screen.width:"0";
+            s+="X";s+=(screen.height)?screen.height:"0";s+="X";s+=(screen.colorDepth)?screen.colorDepth:"0";v+='&scr='+s;v+='&nck=';v+=(navigator.cookieEnabled)?navigator.cookieEnabled:"null";v+='&njv=';v+=(navigator.javaEnabled())?navigator.javaEnabled():"null";return(v);};
+        itsStartConv=function(o){var s=pr+'//'+o.trcDomain+'/ts/'+o.advId+'/tsa?typ=f&'+ap(o);fr(s);};itsStartConv(itsConv);
+
+        var a = document.createElement('script'); a.type = 'text/javascript'; a.async = true; a.src = 'https://'+itsConv.trcDomain+'/scripts/ts/'+itsConv.advId+'contA.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(a, s);
+    </script>
+    <noscript>
+        <!-- ------------ SET THE PARAMETERS FOR NOSCRIPT PART HERE ---------------- -->
+        <!-- The parameter values have to be set in realtime. Every special characters have to be URL-encoded. -->
+        <img src="https://{{ trcDomain }}/ts/{{ advertiserId }}/tsa?typ=i&tst={{ timeStamp }}&trc=default&ctg=sale&sid=checkout&cid={{ orderNumber }}&orv={{ amountNet }}&orc={{ currency }}&dsc={{ discCode }}&cli={{ clickId }}" width="1" height="1" border="0" style="display:none;">
+    </noscript>
+    <!-- END BELBOON - PERFORMANCE MARKETING NETWORK TRACKING CODE -->
 {% endif %}

@@ -20,11 +20,11 @@
     </card>
 
     <card>
-        <title>Configuration</title>
-        <title lang="de-DE">Konfiguration</title>
-        <title lang="es-ES">Configuracion</title>
-        <title lang="fr-FR">Configuration</title>
-        <title lang="nl-NL">Configuratie</title>
+        <title>Configuration (values retrieved by Belboon)</title>
+        <title lang="de-DE">Konfiguration (von Belboon abgerufene Werte)</title>
+        <title lang="es-ES">Configuracion (valores recuperados por Belboon)</title>
+        <title lang="fr-FR">Configuration (valeurs récupérées par Belboon)</title>
+        <title lang="nl-NL">Configuratie (waarden opgehaald door Belboon)</title>
 
         <input-field type="text">
             <name>publisherId</name>
@@ -34,6 +34,36 @@
             <label lang="fr-FR">Publisher ID</label>
             <label lang="nl-NL">Publisher ID</label>
             <defaultValue></defaultValue>
+        </input-field>
+
+        <input-field type="text">
+            <name>advertiserId</name>
+            <label>Advertiser ID</label>
+            <label lang="de-DE">Advertiser ID</label>
+            <label lang="es-ES">Advertiser ID</label>
+            <label lang="fr-FR">Advertiser ID</label>
+            <label lang="nl-NL">Advertiser ID</label>
+            <defaultValue></defaultValue>
+        </input-field>
+
+        <input-field type="text">
+            <name>trcDomain</name>
+            <label>Tracking domain</label>
+            <label lang="de-DE">Tracking domain</label>
+            <label lang="es-ES">Tracking domain</label>
+            <label lang="fr-FR">Tracking domain</label>
+            <label lang="nl-NL">Tracking domain</label>
+            <defaultValue>luna.r.lafamo.com</defaultValue>
+        </input-field>
+
+        <input-field type="text">
+            <name>currency</name>
+            <label>Currency (EUR, GBP, CHF, ...)</label>
+            <label lang="de-DE">Währung (EUR, GBP, CHF, ...)</label>
+            <label lang="es-ES">Moneda (EUR, GBP, CHF, ...)</label>
+            <label lang="fr-FR">Monnaie (EUR, GBP, CHF, ...)</label>
+            <label lang="nl-NL">Valuta (EUR, GBP, CHF, ...)</label>
+            <defaultValue>EUR</defaultValue>
         </input-field>
     </card>
 </config>
