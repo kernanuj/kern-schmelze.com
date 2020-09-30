@@ -87,9 +87,6 @@ class InvoiceDocumentCreator implements DocumentCreatorInterface
 
             $generatedDocuments[] = $generatedDocument;
 
-            if(count($generatedDocuments) > 2) {
-                break;
-            }
         }
 
         return $generatedDocuments;
