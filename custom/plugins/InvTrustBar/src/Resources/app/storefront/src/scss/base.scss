@@ -21,11 +21,17 @@
         .d-flex {
             height: 100%;
 
-            .icon, img {
+            .icon:not(.icon-trustedshops), img {
                 margin: 0 5px;
                 width: $inv-trust-bar-icon-width;
                 height: $inv-trust-bar-icon-height;
                 color: $inv-trust-bar-icon-color;
+
+                &.icon-trustedshops {
+                    margin: 0 5px 0 15px;
+                    width: $inv-trust-bar-icon-width-trustedshops;
+                    height: $inv-trust-bar-icon-height-trustedshops;
+                }
             }
 
             .icon {

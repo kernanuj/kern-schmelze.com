@@ -68,6 +68,18 @@ class ThemeVariablesSubscriber implements EventSubscriberInterface
             $event->addVariable('inv-trust-bar-line-height', $configLineHeightField);
         }
 
+        /** @var string $configIconWidthTrustedshopsField */
+        $configIconWidthTrustedshopsField = $this->systemConfigService->get('InvTrustBar.config.iconWidthTrustedshops', $event->getSalesChannelId());
+        if ($configIconWidthTrustedshopsField) {
+            $event->addVariable('inv-trust-bar-icon-width-trustedshops', $configIconWidthTrustedshopsField);
+        }
+
+        /** @var string $configIconHeightTrustedshopsField */
+        $configIconHeightTrustedshopsField = $this->systemConfigService->get('InvTrustBar.config.iconHeightTrustedshops', $event->getSalesChannelId());
+        if ($configIconHeightTrustedshopsField) {
+            $event->addVariable('inv-trust-bar-icon-height-trustedshops', $configIconHeightTrustedshopsField);
+        }
+
         /*$configFields = $this->systemConfigService->get('InvTrustBar.config', $event->getSalesChannelId());
 
         foreach($configFields as $key => $value) {

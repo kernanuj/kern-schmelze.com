@@ -161,7 +161,7 @@
 
         <input-field type="text">
             <name>iconHeight</name>
-            <label>Icon width (incl. px)</label>
+            <label>Icon height (incl. px)</label>
             <label lang="de-DE">Icon-Höhe (inkl. px angeben)</label>
             <label lang="es-ES">Altura del icono (especificar px incl.)</label>
             <label lang="fr-FR">Hauteur de l'icône (préciser px incl.)</label>
@@ -226,5 +226,42 @@
             <label lang="nl-NL">Tekstkleur</label>
             <defaultValue>#FFFFFF</defaultValue>
         </component>
+    </card>
+
+    <card>
+        <title>Display Trusted Shops Icon</title>
+        <title lang="de-DE">Trusted Shops Icon anzeigen</title>
+        <title lang="es-ES">Mostrar Trusted Shops Icon</title>
+        <title lang="fr-FR">Afficher Trusted Shops Icon</title>
+        <title lang="nl-NL">Toon Trusted Shops Icoon</title>
+
+        <input-field type="bool">
+            <name>displayTrustedshopsIcon</name>
+            <label>Yes</label>
+            <label lang="de-DE">Ja</label>
+            <label lang="es-ES">Si</label>
+            <label lang="fr-FR">Oui</label>
+            <label lang="nl-NL">Ja</label>
+        </input-field>
+
+        <input-field type="text">
+            <name>iconWidthTrustedshops</name>
+            <label>Icon width (incl. px)</label>
+            <label lang="de-DE">Icon-Breite (inkl. px angeben)</label>
+            <label lang="es-ES">Ancho del icono (especificar px incl.)</label>
+            <label lang="fr-FR">Largeur de l'icône (préciser px incl.)</label>
+            <label lang="nl-NL">Icoonbreedte (specificeer px incl.)</label>
+            <defaultValue>20px</defaultValue>
+        </input-field>
+
+        <input-field type="text">
+            <name>iconHeightTrustedshops</name>
+            <label>Icon height (incl. px)</label>
+            <label lang="de-DE">Icon-Höhe (inkl. px angeben)</label>
+            <label lang="es-ES">Altura del icono (especificar px incl.)</label>
+            <label lang="fr-FR">Hauteur de l'icône (préciser px incl.)</label>
+            <label lang="nl-NL">Icoonhoogte (specificeer px incl.)</label>
+            <defaultValue>20px</defaultValue>
+        </input-field>
     </card>
 </config>

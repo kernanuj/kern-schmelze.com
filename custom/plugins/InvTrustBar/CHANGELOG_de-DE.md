@@ -9,3 +9,6 @@
 
 # 1.0.3
 - SCSS-Struktur angepasst, _variables.scss nicht kompilieren.
+
+# 1.0.4
+- Möglichkeit, das Trusted Shops Icon anzuzeigen
