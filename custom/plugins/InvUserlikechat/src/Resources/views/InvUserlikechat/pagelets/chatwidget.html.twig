@@ -1,0 +1,5 @@
+{% set secret = shopware.config.InvUserlikechat.config.secret %}
+
+{% if secret %}
+    <script async type="text/javascript" src="https://userlike-cdn-widgets.s3-eu-west-1.amazonaws.com/{{ secret }}.js"></script>
+{% endif %}

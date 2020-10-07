@@ -147,6 +147,24 @@
             "styleFiles": []
         }
     },
+    "InvUserlikechat": {
+        "basePath": "custom\/plugins\/InvUserlikechat\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-userlikechat",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
+        }
+    },
     "InvKernschmelzeTemplate": {
         "basePath": "custom\/plugins\/InvKernschmelzeTemplate\/src\/",
         "views": [

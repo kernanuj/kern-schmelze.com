@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Status</title>
+        <title lang="de-DE">Status</title>
+        <title lang="es-ES">Estado</title>
+        <title lang="fr-FR">Statut</title>
+        <title lang="nl-NL">Status</title>
+
+        <input-field type="bool">
+            <name>status</name>
+            <label>Active</label>
+            <label lang="de-DE">Aktiv</label>
+            <label lang="es-ES">Activado</label>
+            <label lang="fr-FR">Actif</label>
+            <label lang="nl-NL">Actief</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Configuration (values retrieved by Userlike)</title>
+        <title lang="de-DE">Konfiguration (von Userlike abgerufene Werte)</title>
+        <title lang="es-ES">Configuracion (valores recuperados por Userlike)</title>
+        <title lang="fr-FR">Configuration (valeurs récupérées par Userlike)</title>
+        <title lang="nl-NL">Configuratie (waarden opgehaald door Userlike)</title>
+
+        <input-field type="text">
+            <name>secret</name>
+            <label>Secret</label>
+            <label lang="de-DE">Secret</label>
+            <label lang="es-ES">Secret</label>
+            <label lang="fr-FR">Secret</label>
+            <label lang="nl-NL">Secret</label>
+            <defaultValue></defaultValue>
+        </input-field>
+    </card>
+</config>

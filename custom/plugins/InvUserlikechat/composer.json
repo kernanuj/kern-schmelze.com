@@ -1,0 +1,45 @@
+{
+    "name": "inv/userlike-chat",
+    "version": "1.0.0",
+    "description": "Multilanguage Integration of the Userlike Chat Widget in your store.",
+    "authors": [
+        {
+            "name": "Nils Harder | inventivo.de",
+            "homepage": "https://www.inventivo.de",
+            "email": "hallo@inventivo.de"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "shopware/core": ">=6.0.0"
+    },
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "InvUserlikechat\\": "src/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "InvUserlikechat\\InvUserlikechat",
+        "copyright": "(c) by Nils Harder | inventivo.de",
+        "manufacturerLink": {
+            "de-DE": "https://www.inventivo.de",
+            "en-GB": "https://www.inventivo.de"
+        },
+        "supportLink": {
+            "de-DE": "https://www.inventivo.de/kontakt",
+            "en-GB": "https://www.inventivo.de/kontakt"
+        },
+        "label": {
+            "de-DE": "Userlike Chat Widget Integration (mehrsprachig) für Shopware 6",
+            "en-GB": "Userlike Chat Widget Integration (multilanguage) for Shopware 6"
+        },
+        "description": {
+            "de-DE": "Mehrsprachige Integration des Userlike Chat Widgets in Deinem Shops.",
+            "en-GB": "Multilanguage Integration of the Userlike Chat Widget in your store."
+        }
+    },
+    "minimum-stability": "RC",
+    "prefer-stable": true
+}
