@@ -1,0 +1,174 @@
+[
+    {
+        "name": "bamarni\/composer-bin-plugin",
+        "version": "1.4.1",
+        "version_normalized": "1.4.1.0",
+        "source": {
+            "type": "git",
+            "url": "https:\/\/github.com\/bamarni\/composer-bin-plugin.git",
+            "reference": "9329fb0fbe29e0e1b2db8f4639a193e4f5406225"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https:\/\/api.github.com\/repos\/bamarni\/composer-bin-plugin\/zipball\/9329fb0fbe29e0e1b2db8f4639a193e4f5406225",
+            "reference": "9329fb0fbe29e0e1b2db8f4639a193e4f5406225",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0 || ^2.0",
+            "php": "^5.5.9 || ^7.0 || ^8.0"
+        },
+        "require-dev": {
+            "composer\/composer": "^1.0 || ^2.0",
+            "symfony\/console": "^2.5 || ^3.0 || ^4.0"
+        },
+        "time": "2020-05-03T08:27:20+00:00",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "Bamarni\\Composer\\Bin\\Plugin"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "_PhpScoper833c86d6963f\\Bamarni\\Composer\\Bin\\": "src"
+            }
+        },
+        "notification-url": "https:\/\/packagist.org\/downloads\/",
+        "license": [
+            "MIT"
+        ],
+        "description": "No conflicts for your bin dependencies",
+        "keywords": [
+            "composer",
+            "conflict",
+            "dependency",
+            "executable",
+            "isolation",
+            "tool"
+        ]
+    },
+    {
+        "name": "masterminds\/html5",
+        "version": "2.7.3",
+        "version_normalized": "2.7.3.0",
+        "source": {
+            "type": "git",
+            "url": "https:\/\/github.com\/Masterminds\/html5-php.git",
+            "reference": "aad73dbfefd71d46072138109ce1288d96c329cc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https:\/\/api.github.com\/repos\/Masterminds\/html5-php\/zipball\/aad73dbfefd71d46072138109ce1288d96c329cc",
+            "reference": "aad73dbfefd71d46072138109ce1288d96c329cc",
+            "shasum": ""
+        },
+        "require": {
+            "ext-ctype": "*",
+            "ext-dom": "*",
+            "ext-libxml": "*",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpunit\/phpunit": "^4.8.35",
+            "sami\/sami": "~2.0",
+            "satooshi\/php-coveralls": "1.0.*"
+        },
+        "time": "2020-07-05T07:53:37+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.7-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "_PhpScoper833c86d6963f\\Masterminds\\": "src"
+            }
+        },
+        "notification-url": "https:\/\/packagist.org\/downloads\/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Matt Butcher",
+                "email": "technosophos@gmail.com"
+            },
+            {
+                "name": "Matt Farina",
+                "email": "matt@mattfarina.com"
+            },
+            {
+                "name": "Asmir Mustafic",
+                "email": "goetas@gmail.com"
+            }
+        ],
+        "description": "An HTML5 parser and serializer.",
+        "homepage": "http:\/\/masterminds.github.io\/html5-php",
+        "keywords": [
+            "HTML5",
+            "dom",
+            "html",
+            "parser",
+            "querypath",
+            "serializer",
+            "xml"
+        ]
+    },
+    {
+        "name": "symfony\/css-selector",
+        "version": "v5.1.5",
+        "version_normalized": "5.1.5.0",
+        "source": {
+            "type": "git",
+            "url": "https:\/\/github.com\/symfony\/css-selector.git",
+            "reference": "e544e24472d4c97b2d11ade7caacd446727c6bf9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https:\/\/api.github.com\/repos\/symfony\/css-selector\/zipball\/e544e24472d4c97b2d11ade7caacd446727c6bf9",
+            "reference": "e544e24472d4c97b2d11ade7caacd446727c6bf9",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.2.5"
+        },
+        "time": "2020-05-20T17:43:50+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "5.1-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "_PhpScoper833c86d6963f\\Symfony\\Component\\CssSelector\\": ""
+            },
+            "exclude-from-classmap": [
+                "\/Tests\/"
+            ]
+        },
+        "notification-url": "https:\/\/packagist.org\/downloads\/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Jean-Fran\u00e7ois Simon",
+                "email": "jeanfrancois.simon@sensiolabs.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https:\/\/symfony.com\/contributors"
+            }
+        ],
+        "description": "Symfony CssSelector Component",
+        "homepage": "https:\/\/symfony.com"
+    }
+]

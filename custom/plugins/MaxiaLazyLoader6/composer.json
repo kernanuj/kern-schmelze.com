@@ -1,0 +1,49 @@
+{
+    "name": "maxia\/maxia-lazy-loader-6",
+    "description": "Shopware 6 Lazy-Loading Plugin",
+    "version": "v1.0.3",
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Maxi Arnicke",
+            "email": "info@metaroom.net"
+        }
+    ],
+    "require": {
+        "shopware\/core": "^6.1|6.2.9999999.9999999-dev",
+        "shopware\/storefront": "^6.1|6.2.9999999.9999999-dev",
+        "ext-dom": "*",
+        "masterminds\/html5": "^2.7.3",
+        "symfony\/css-selector": "^5.1.5"
+    },
+    "extra": {
+        "shopware-plugin-class": "Maxia\\MaxiaLazyLoader6\\MaxiaLazyLoader6",
+        "plugin-icon": "src\/Resources\/config\/plugin.png",
+        "copyright": "(c) 2020 Maxi Arnicke",
+        "label": {
+            "de-DE": "Nicht sichtbare Bilder aufschieben \/ Lazy-Loading",
+            "en-GB": "Lazy-load offscreen images"
+        },
+        "description": {
+            "de-DE": "Durch Lazy-Loading werden Bilder erst dann geladen, wenn diese wirklich ben\u00f6tigt werden. Dadurch kann die Seiten-Ladegeschwindigkeit verbessert werden.",
+            "en-GB": "Lazy loading will not load images until they are really needed. This avoids unnecessary network activity and improves the page speed."
+        },
+        "manufacturerLink": {
+            "de-DE": "https:\/\/store.shopware.com\/maxi-arnicke.html",
+            "en-GB": "https:\/\/store.shopware.com\/en\/maxi-arnicke.html"
+        },
+        "supportLink": {
+            "de-DE": "https:\/\/store.shopware.com\/maxia27731017972\/nicht-sichtbare-bilder-aufschieben\/lazy-loading.html",
+            "en-GB": "https:\/\/store.shopware.com\/en\/maxia27731017972\/lazy-load-offscreen-images.html"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Maxia\\MaxiaLazyLoader6\\": "src\/"
+        }
+    },
+    "require-dev": {
+        "bamarni\/composer-bin-plugin": "^1.3"
+    }
+}

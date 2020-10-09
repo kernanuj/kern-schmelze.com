@@ -147,12 +147,12 @@
             "styleFiles": []
         }
     },
-    "InvUserlikechat": {
-        "basePath": "custom\/plugins\/InvUserlikechat\/src\/",
+    "MaxiaLazyLoader6": {
+        "basePath": "custom\/plugins\/MaxiaLazyLoader6\/src\/",
         "views": [
             "Resources\/views"
         ],
-        "technicalName": "inv-userlikechat",
+        "technicalName": "maxia-lazy-loader6",
         "administration": {
             "path": "Resources\/app\/administration\/src",
             "entryFilePath": null,
@@ -160,9 +160,11 @@
         },
         "storefront": {
             "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": null,
+            "entryFilePath": "Resources\/app\/storefront\/src\/main.js",
             "webpack": null,
-            "styleFiles": []
+            "styleFiles": [
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/MaxiaLazyLoader6\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
+            ]
         }
     },
     "InvKernschmelzeTemplate": {
@@ -551,6 +553,24 @@
         "storefront": {
             "path": "Resources\/app\/storefront\/src",
             "entryFilePath": "Resources\/app\/storefront\/src\/main.js",
+            "webpack": null,
+            "styleFiles": []
+        }
+    },
+    "InvUserlikechat": {
+        "basePath": "custom\/plugins\/InvUserlikechat\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-userlikechat",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
             "webpack": null,
             "styleFiles": []
         }

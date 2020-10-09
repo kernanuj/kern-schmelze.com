@@ -1,0 +1,25 @@
+{% sw_extends '@Storefront/storefront/base.html.twig' %}
+
+{% block base_script_csrf %}
+    {{ parent() }}
+
+    {% block base_script_maxia_lazy_loader %}
+        {% if context.extensions.maxiaLazyLoader.active %}
+            <script>
+                window.maxiaLazyActive = true;
+                window.lazySizesConfig = window.lazySizesConfig || {
+                    init: false,
+                    expand: {{ context.extensions.maxiaLazyLoader.expand }},
+                    loadMode: 2,
+                    expFactor: 1,
+                    loadHidden: false,
+                    lazyClass: 'maxia-lazy-image',
+                    preloadClass: 'maxia-lazy-preload',
+                    loadingClass: 'maxia-lazy-loading',
+                    loadedClass: 'maxia-lazy-loaded'
+                };
+            </script>
+            <script type="text/javascript" src="{{ asset('bundles/maxialazyloader6/all.js') }}"></script>
+        {% endif %}
+    {% endblock %}
+{% endblock %}

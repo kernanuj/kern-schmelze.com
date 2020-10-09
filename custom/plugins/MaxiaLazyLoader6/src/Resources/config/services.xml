@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="Maxia\MaxiaLazyLoader6\Subscriber\Storefront">
+            <argument type="service" id="Shopware\Core\Content\Seo\SeoResolver" />
+            <argument type="service" id="maxia.maxia_lazy_loader_6.logger" />
+            <argument type="service" id="maxia.maxia_lazy_loader_6.components.config" />
+            <argument type="service" id="maxia.maxia_lazy_loader_6.components.dom_filter" />
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="maxia.maxia_lazy_loader_6.components.dom_filter"
+                 class="Maxia\MaxiaLazyLoader6\Components\Dom\DomFilter">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="maxia.maxia_lazy_loader_6.components.config"
+                 class="Maxia\MaxiaLazyLoader6\Components\Config">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+            <argument type="string">MaxiaLazyLoader6.config</argument>
+        </service>
+
+        <service id="maxia.maxia_lazy_loader_6.logger" class="Monolog\Logger">
+            <factory service="Shopware\Core\Framework\Log\LoggerFactory" method="createRotating"/>
+            <argument type="string">maxia_lazy_loader_6</argument>
+        </service>
+    </services>
+</container>

@@ -1,0 +1,25 @@
+{
+  "name": "MaxiaLazyLoader6",
+  "version": "1.0.2",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update": "./update.sh",
+    "build": "./build.sh",
+    "webpack": "node ./node_modules/webpack/bin/webpack.js --mode=development",
+    "webpack-prod": "node ./node_modules/webpack/bin/webpack.js --mode=production"
+  },
+  "author": "Maxi Arnicke <info@metaroom.net>",
+  "license": "proprietary",
+  "dependencies": {
+    "lazysizes": "^5.2.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-es2015": "^6.24.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
+}

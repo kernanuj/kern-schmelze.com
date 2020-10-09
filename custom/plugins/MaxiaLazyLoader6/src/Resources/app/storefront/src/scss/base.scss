@@ -1,0 +1,46 @@
+/**
+ * Product box loading animation
+ */
+.maxia-lazy .product-image-wrapper {
+  position: relative;
+
+  img {
+    transition: opacity .2s ease-in-out;
+    opacity: 0;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -$spacer;
+    margin-top: -$spacer;
+    pointer-events: none;
+    opacity: 1;
+    @extend .spinner-border;
+  }
+
+  &.maxia-lazy-loaded {
+    img {
+      opacity: 1;
+    }
+
+    &:before {
+      z-index: -1;
+      opacity: 0;
+    }
+  }
+}
+
+/**
+ * Flyout menus:
+ * Add visiblity property to support visiblilty detection.
+ */
+.navigation-flyout {
+  visibility: hidden;
+
+  &.is-open {
+    visibility: visible;
+  }
+}

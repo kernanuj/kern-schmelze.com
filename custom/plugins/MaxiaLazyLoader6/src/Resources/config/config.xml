@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Basic settings</title>
+        <title lang="de-DE">Grundeinstellungen</title>
+
+        <input-field type="int">
+            <name>expand</name>
+            <label>Expand value</label>
+            <label lang="de-DE">Expand-Wert</label>
+            <defaultValue>250</defaultValue>
+            <helpText>This value can be used to specify how early pictures are loaded (distance to the current scroll position).</helpText>
+            <helpText lang="de-DE">Dieser Wert legt fest, wie früh die Bilder nachgeladen werden (Abstand zur aktuellen Scroll-Position; Je höher der Wert, desto früher werden die Bilder geladen).</helpText>
+        </input-field>
+
+        <input-field type="textarea">
+            <name>blacklistSelectors</name>
+            <label>Blacklist: CSS classes</label>
+            <label lang="de-DE">Blacklist: CSS-Selektoren</label>
+            <defaultValue>.header-main
+.product--details .product--image-container
+.product-detail-media</defaultValue>
+            <helpText>Disables lazy loading for certain HTML elements. Enter any CSS selectors here (one selector per line).</helpText>
+            <helpText lang="de-DE">Deaktiviert das Lazy-Loading für bestimmte HTML-Elemente. Tragen Sie hier beliebige CSS-Selektoren ein (ein Selektor pro Zeile).</helpText>
+        </input-field>
+
+        <input-field type="textarea">
+            <name>blacklistUrls</name>
+            <label>Blacklist URLs</label>
+            <label lang="de-DE">Blacklist: URLs</label>
+            <defaultValue># Example: /checkout/*</defaultValue>
+            <helpText>Enter here the URLs for which the plugin should be deactivated (one selector per line, wildcards (*) possible).</helpText>
+            <helpText lang="de-DE">Tragen Sie hier die URLs ein, unter welchen das Plugin deaktiviert werden soll (eine URL pro Zeile, Wildcard (*) möglich).</helpText>
+        </input-field>
+
+        <input-field type="bool">
+            <name>outputFallback</name>
+            <label>Noscript-Fallback</label>
+            <label lang="de-DE">Noscript-Fallback</label>
+            <defaultValue>1</defaultValue>
+            <helpText>When active, a Noscript tag is output for each image to support browsers without JavaScript.</helpText>
+            <helpText lang="de-DE">Wenn aktiv, wird für jedes Bild ein Noscript-Tag ausgegeben, um Browser ohne JavaScript zu unterstützten.</helpText>
+        </input-field>
+
+        <input-field type="bool">
+            <name>minifyHtml</name>
+            <label>HTML Minifier</label>
+            <label lang="de-DE">HTML Minifier</label>
+            <defaultValue>1</defaultValue>
+            <helpText>Reduces the file size of the document by removing all whitespaces. Can slightly improve the loading speed.</helpText>
+            <helpText lang="de-DE">Verringert die Dateigröße des HTML-Dokuments durch Entfernen aller Whitespaces. Kann die Ladegeschwindigkeit leicht verbessern.</helpText>
+        </input-field>
+
+        <input-field type="bool">
+            <name>debugLogging</name>
+            <label>Extended error logging</label>
+            <label lang="de-DE">Erweitertes Fehler-Logging</label>
+            <defaultValue>0</defaultValue>
+        </input-field>
+    </card>
+</config>
