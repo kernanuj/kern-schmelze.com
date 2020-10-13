@@ -202,7 +202,7 @@ class MixService implements MixServiceInterface
         if ($currentProducts + $itemQuantityDifference > $maxAllowedProducts) {
             throw NumberOfProductsExceededException::fromNoRoomLeftInContainer(
                 $subject->getContainerDefinition(),
-                $currentProducts + $itemQuantityDifference
+                $subject->getContainerDefinition()->getFillDelimiter()->getAmount()->getValue()
             );
         }
 
