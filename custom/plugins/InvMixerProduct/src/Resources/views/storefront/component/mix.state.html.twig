@@ -46,6 +46,11 @@
                                             src="{{ asset('storefront/img/size-'~availableContainerWeight|replace({' ':''})~'.jpg', '@InvMixerProduct') }}"
                                             alt="{{ availableContainerWeight }}"/>
                                         {{ availableContainerWeight }}
+                                        {% if mixView.containerDefinition.fillDelimiter.weight == availableContainerWeight %}
+                                            <span class="active-container-option-indicator on-bright">
+                                                {% sw_icon 'checkmark-circle' style { 'color': 'white' } %}
+                                            </span>
+                                        {% endif %}
                                     </button>
                                 </form>
                             </li>
@@ -85,6 +90,12 @@
                                         src="{{ asset('storefront/img/'~availableContainerBaseProduct~'.jpg', '@InvMixerProduct') }}"
                                         alt="{{ ("InvMixerProduct.types." ~ availableContainerBaseProduct)|trans }}"/>
                                     {{ ("InvMixerProduct.types." ~ availableContainerBaseProduct)|trans }}
+{{  loop.index }}
+                                    {% if mixView.containerDefinition.baseProduct.identifier == availableContainerBaseProduct.identifier %}
+                                        <span class="active-container-option-indicator {{ loop.index == 2 ? 'on-bright' : 'on-dark' }} %}">
+                                                {% sw_icon 'checkmark-circle' style { 'color': 'white' } %}
+                                            </span>
+                                    {% endif %}
                                 </button>
                             </form>
                         </li>
@@ -125,6 +136,11 @@
                                             src="{{ asset('storefront/img/'~availableContainerDesign~'.jpg', '@InvMixerProduct') }}"
                                             alt="{{ ("InvMixerProduct.designs." ~ availableContainerDesign)|trans }}"/>
                                         {{ ("InvMixerProduct.designs." ~ availableContainerDesign)|trans }}
+                                        {% if mixView.containerDefinition.design == availableContainerDesign %}
+                                            <span class="active-container-option-indicator">
+                                                {% sw_icon 'checkmark-circle' style { 'color': 'white' } %}
+                                            </span>
+                                        {% endif %}
                                     </button>
                                 </form>
                             </li>
