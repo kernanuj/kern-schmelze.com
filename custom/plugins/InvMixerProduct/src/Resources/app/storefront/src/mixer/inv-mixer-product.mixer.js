@@ -176,12 +176,16 @@ export default class InvMixerProductMixer extends Plugin {
         this._client.get(that.options.urlMixState, content => {
             this.displayState(content);
             this.reloadMixState();
-            this.mixStateRepresentation.applyMixState()
+            if(this.mixStateRepresentation) {
+                this.mixStateRepresentation.applyMixState()
+            }
         });
         this._client.get(that.options.urlMixStateMobile, content => {
             this.displayStateMobile(content)
             this.reloadMixState();
-            this.mixStateRepresentation.applyMixState()
+            if(this.mixStateRepresentation) {
+                this.mixStateRepresentation.applyMixState()
+            }
         });
     }
 
