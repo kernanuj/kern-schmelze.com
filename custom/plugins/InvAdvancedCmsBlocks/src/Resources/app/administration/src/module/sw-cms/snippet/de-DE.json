@@ -3,19 +3,27 @@
         "blocks": {
             "textImage": {
                 "textOnImageTwoColumns": {
-                    "label": "Zwei  Spalten Text auf Bild"
+                    "label": "EXTRA: Zwei  Spalten Text auf Bild"
                 },
                 "imageTextGalleryFourColumns": {
-                    "label": "Vier Spalten, Bild/Text-Karten"
+                    "label": "EXTRA: Vier Spalten, Bild/Text-Karten"
                 },
                 "imageTextGallerySixColumns": {
-                    "label": "Sechs Spalten, Bild/Text-Karten"
+                    "label": "EXTRA: Sechs Spalten, Bild/Text-Karten"
                 },
                 "imageTextRowFourColumns": {
-                    "label": "Vier Spalten Bild und Text"
+                    "label": "EXTRA: Vier Spalten Bild und Text"
                 },
                 "imageTextRowTwoColumns": {
-                    "label": "Zwei Spalten Bild und Text"
+                    "label": "EXTRA: Zwei Spalten Bild und Text"
+                }
+            },
+            "commerce": {
+                "productFourColumn": {
+                    "label": "EXTRA: Vier Spalten, Produktboxen"
+                },
+                "productTwoColumn": {
+                    "label": "EXTRA: Zwei Spalten, Produktboxen"
                 }
             }
         }

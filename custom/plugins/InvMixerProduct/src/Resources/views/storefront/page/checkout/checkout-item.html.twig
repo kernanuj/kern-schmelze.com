@@ -22,7 +22,7 @@
     {%  elseif lineItem.payload.inv_mixer_product__is_mix_container_product %}
         <img
             src="{{ lineItem.cover.url }}"
-            alt="{{ "InvMixerProduct.checkout.mixProductContainer.title|trans" }}"
+            alt="{{ "InvMixerProduct.checkout.mixProductContainer.title"|trans }}"
             class="img-fluid cart-item-img"
         />
     {% elseif isNested %}

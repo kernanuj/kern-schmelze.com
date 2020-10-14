@@ -3,19 +3,27 @@
         "blocks": {
             "textImage": {
                 "imageTextRowSixColumns": {
-                    "label": "Six columns, Image/Text Cards"
+                    "label": "EXTRA: Six columns, Image/Text Cards"
                 },
                 "imageTextGalleryFourColumns": {
-                    "label": "Four Columns, Image/Text-Cards"
+                    "label": "EXTRA: Four Columns, Image/Text-Cards"
                 },
                 "imageTextGallerySixColumns": {
-                    "label": "Six Columns, Cards with Image and Text"
+                    "label": "EXTRA: Six Columns, Cards with Image and Text"
                 },
                 "imageTextRowFourColumns": {
-                    "label": "Four columns, Image and Text"
+                    "label": "EXTRA: Four columns, Image and Text"
                 },
                 "imageTextRowFourColumns": {
-                    "label": "Two columns, Image and Text"
+                    "label": "EXTRA: Two columns, Image and Text"
+                }
+            },
+            "commerce": {
+                "productFourColumn": {
+                    "label": "EXTRA: Two columns, Product Boxes"
+                },
+                "productTwoColumn": {
+                    "label": "EXTRA: Four columns, Product Boxes"
                 }
             }
         }
