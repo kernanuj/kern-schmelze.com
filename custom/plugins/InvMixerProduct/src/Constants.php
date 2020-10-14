@@ -71,7 +71,9 @@ final class Constants
             self::KS_PACKAGE_DESIGN_1(),
             self::KS_PACKAGE_DESIGN_2(),
             self::KS_PACKAGE_DESIGN_3(),
-            self::KS_PACKAGE_DESIGN_4()
+            self::KS_PACKAGE_DESIGN_4(),
+            self::KS_PACKAGE_DESIGN_5(),
+            self::KS_PACKAGE_DESIGN_6()
         ];
     }
 
@@ -116,6 +118,22 @@ final class Constants
     public static function KS_PACKAGE_DESIGN_4(): Design
     {
         return Design::fromString('design_4');
+    }
+
+    /**
+     * @return Design
+     */
+    public static function KS_PACKAGE_DESIGN_5(): Design
+    {
+        return Design::fromString('design_5');
+    }
+
+    /**
+     * @return Design
+     */
+    public static function KS_PACKAGE_DESIGN_6(): Design
+    {
+        return Design::fromString('design_6');
     }
 
     /**
