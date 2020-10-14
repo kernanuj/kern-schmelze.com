@@ -15,6 +15,9 @@ export default class InvMixerProductMixer extends Plugin {
     };
 
     animated = [];
+    /**
+     * @type InvMixerProductStateRepresentation
+     */
     mixStateRepresentation;
 
     init() {
@@ -40,6 +43,7 @@ export default class InvMixerProductMixer extends Plugin {
             //@todo decide if request was successful
             this.reloadMixState();
             InvMixerProductAnimation.buttonAnimationResultInForm(form, false, this.mixStateRepresentation)
+            this.mixStateRepresentation.applyMixState();
 
         })
     }
@@ -172,10 +176,12 @@ export default class InvMixerProductMixer extends Plugin {
         this._client.get(that.options.urlMixState, content => {
             this.displayState(content);
             this.reloadMixState();
+            this.mixStateRepresentation.applyMixState()
         });
         this._client.get(that.options.urlMixStateMobile, content => {
             this.displayStateMobile(content)
             this.reloadMixState();
+            this.mixStateRepresentation.applyMixState()
         });
     }
 
@@ -183,7 +189,6 @@ export default class InvMixerProductMixer extends Plugin {
         const that = this;
         this._client.get(that.options.urlMixStateMobile, content => {
             this.displayStateMobile(content)
-            this.reloadMixState();
         });
     }
 }

@@ -43,6 +43,15 @@ export default class InvMixerProductStateRepresentation {
         return quantity;
     }
 
+    applyMixState() {
+        var self = this;
+        $('form.inv-mixer-product-listing-product').each(
+            function(index) {
+                self.applyStateToListingButtonsInForm($(this));
+            }
+        )
+    }
+
     applyStateToListingButtonsInForm(form) {
         let self = this;
         $(form).find('button.inv-mixerProduct-button-animated-loading').each(
@@ -66,7 +75,7 @@ export default class InvMixerProductStateRepresentation {
                 } else {
                     $(this)
                         .addClass('state-initial')
-                        .removeClass('state-result-contained')
+                        .removeClass('state-contained')
                         .removeClass('state-result-success')
                         .removeClass('state-result-failure')
                         .removeClass('state-progress');

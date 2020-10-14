@@ -7,6 +7,7 @@ export default class InvMixerProductAnimation {
             }
             $(form).find('button.inv-mixerProduct-button-animated-loading')
                 .removeClass('state-initial')
+                .removeClass('state-contained')
                 .removeClass('state-result-success')
                 .removeClass('state-result-failure')
                 .addClass('state-progress')
