@@ -2,7 +2,8 @@
 {# @var containerDefinitionCollection \InvMixerProduct\Struct\ContainerDefinitionCollection #}
 
 {% block inv_product_mixer_sidebar %}
-    <div id="mix-state-container" data-mix-state-is-complete="{{ mixView.complete }}" data-mix-state-is-filled="{{ mixView.filled }}">
+    <div id="mix-state-container" data-mix-state-is-complete="{{ mixView.complete }}"
+         data-mix-state-is-filled="{{ mixView.filled }}">
         {% block inv_product_mixer_sidebar_messages %}
             <div class="flashbags">
                 {% for type, messages in app.flashes %}
@@ -17,8 +18,10 @@
         {% block inv_product_mixer_sidebar_mixer_product_size %}
             <div class="mixer-product-row">
                 {% block inv_product_mixer_sidebar_mixer_product_size_title %}
-                    <hr class="hr-desktop" />
-                    <span class="title"><img src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-tick-green.svg') }}" width="30" height="" alt="21" class="mobile" /> {{ "InvMixerProduct.sidebar.titles.size"|trans }}</span>
+                    <hr class="hr-desktop"/>
+                    <span class="title"><img
+                            src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-tick-green.svg') }}" width="30"
+                            height="" alt="21" class="mobile"/> {{ "InvMixerProduct.sidebar.titles.size"|trans }}</span>
                 {% endblock %}
 
                 {% block inv_product_mixer_sidebar_mixer_product_size_items %}
@@ -56,7 +59,9 @@
             <div class="mixer-product-row">
                 {% block inv_product_mixer_sidebar_mixer_product_base_title %}
                     <hr/>
-                    <span class="title"><img src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-tick-green.svg') }}" width="30" height="" alt="21" class="mobile" /> {{ "InvMixerProduct.sidebar.titles.base"|trans }}</span>
+                    <span class="title"><img
+                            src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-tick-green.svg') }}" width="30"
+                            height="" alt="21" class="mobile"/> {{ "InvMixerProduct.sidebar.titles.base"|trans }}</span>
                 {% endblock %}
 
                 <ul class="mixer-product-base-product row clearfix">
@@ -92,7 +97,10 @@
             <div class="mixer-product-row">
                 {% block inv_product_mixer_sidebar_mixer_product_design_title %}
                     <hr/>
-                    <span class="title"><img src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-tick-green.svg') }}" width="30" height="" alt="21" class="mobile" /> {{ "InvMixerProduct.sidebar.titles.design"|trans }}</span>
+                    <span class="title"><img
+                            src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-tick-green.svg') }}" width="30"
+                            height="" alt="21"
+                            class="mobile"/> {{ "InvMixerProduct.sidebar.titles.design"|trans }}</span>
                 {% endblock %}
 
                 {% block inv_product_mixer_sidebar_mixer_product_design_items %}
@@ -133,7 +141,7 @@
             <div class="clear"></div>
 
             {% if mixView.filled or mixView.isComplete %}
-                <hr />
+                <hr/>
             {% endif %}
 
             <div class="ingredients-mobile-wrapper mixer-product-row {{ borderClass }}">
@@ -141,9 +149,11 @@
 
                     <span class="title ingredients-mobile-title">
                         {% if mixView.filled or mixView.isComplete %}
-                            <img src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-tick-green.svg') }}" width="30" height="" alt="21" class="mobile" />
+                            <img src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-tick-green.svg') }}"
+                                 width="30" height="" alt="21" class="mobile"/>
                         {% else %}
-                            <img src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-arrow-right-brown.svg') }}" width="30" height="" alt="21" class="mobile" />
+                            <img src="{{ asset('/bundles/invmixerproduct/storefront/img/icon-arrow-right-brown.svg') }}"
+                                 width="30" height="" alt="21" class="mobile"/>
                         {% endif %}
 
                         {{ "InvMixerProduct.sidebar.titles.ingredientsCount"|trans }} <span>({{ mixView.totalItemQuantity }} {{ "InvMixerProduct.mix.from"|trans }} {{ mixView.FillDelimiter }})</span></span>
@@ -161,7 +171,8 @@
 
                                     {% for mixViewItem in mixView.itemCollection.items|slice(0, 1) %}
                                         {% set name = mixViewItem.referencedMixItem.product.translated.name %}
-                                        {{ name }} <span class='mixer-product-itemlist-more-link'>{{ moreLink }}</span> <span class='mixer-product-itemlist-less-link hidden'>{{ lessLink }}</span>
+                                        {{ name }} <span class='mixer-product-itemlist-more-link'>{{ moreLink }}</span>
+                                        <span class='mixer-product-itemlist-less-link hidden'>{{ lessLink }}</span>
                                     {% endfor %}
                                 {% endif %}
                             </button>
@@ -175,14 +186,16 @@
         {% block inv_product_mixer_sidebar_mixer_product_items %}
             <div class="ingredients-desktop-wrapper ingredients-desktop-wrapper-hidden">
                 <hr/>
-                <span class="title title-ingredients">{{ "InvMixerProduct.sidebar.titles.ingredients"|trans }} <span class="">({{ mixView.totalItemQuantity }} {{ "InvMixerProduct.mix.from"|trans }} {{ mixView.FillDelimiter }})</span></span>
+                <span class="title title-ingredients">{{ "InvMixerProduct.sidebar.titles.ingredients"|trans }} <span
+                        class="">({{ mixView.totalItemQuantity }} {{ "InvMixerProduct.mix.from"|trans }} {{ mixView.FillDelimiter }})</span></span>
 
                 {% if mixView.itemCollection.items is empty %}
                     <p>{{ "InvMixerProduct.placeholders.noItems"|trans|raw }}</p>
                 {% endif %}
 
                 {% if not mixView.filled %}
-                    <div class="mix-product-offcanvas-close">{{ "InvMixerProduct.buttons.offcanvasSidebarClose"|trans }}</div>
+                    <div
+                        class="mix-product-offcanvas-close">{{ "InvMixerProduct.buttons.offcanvasSidebarClose"|trans }}</div>
                 {% endif %}
 
                 <div class="mixer-product-items">
@@ -254,7 +267,8 @@
                                                   data-inv-mixer-mix-state-action="true"
                                             >
                                                 {% set newQuantity = mixViewItem.quantity  + 1 %}
-                                                <input type="hidden" name="product_id" value="{{ mixViewItem.productId }}">
+                                                <input type="hidden" name="product_id"
+                                                       value="{{ mixViewItem.productId }}">
                                                 <input type="hidden" name="_csrf_token"
                                                        value="{{ csrf_token('invMixerProduct.storeFront.mix.session.item.quantity.set') }}">
                                                 <input type="hidden" name="quantity" value="{{ newQuantity }}">
@@ -267,7 +281,8 @@
                                                   data-inv-mixer-mix-state-action="true"
                                             >
                                                 {% set newQuantity = mixViewItem.quantity  - 1 %}
-                                                <input type="hidden" name="product_id" value="{{ mixViewItem.productId }}">
+                                                <input type="hidden" name="product_id"
+                                                       value="{{ mixViewItem.productId }}">
                                                 <input type="hidden" name="_csrf_token"
                                                        value="{{ csrf_token('invMixerProduct.storeFront.mix.session.item.quantity.set') }}">
                                                 <input type="hidden" name="quantity" value="{{ newQuantity }}">
@@ -279,7 +294,8 @@
                                                   action="{{ path('invMixerProduct.storeFront.mix.session.item.quantity.set') }}"
                                                   data-inv-mixer-mix-state-action="true"
                                             >
-                                                <input type="hidden" name="product_id" value="{{ mixViewItem.productId }}">
+                                                <input type="hidden" name="product_id"
+                                                       value="{{ mixViewItem.productId }}">
                                                 <input type="hidden" name="_csrf_token"
                                                        value="{{ csrf_token('invMixerProduct.storeFront.mix.session.item.quantity.set') }}">
                                                 <input type="hidden" name="quantity" value="0">
@@ -317,18 +333,19 @@
             {% block inv_product_mixer_sidebar_mixer_product_label_title %}
                 <div class="mix-state-set-label {{ classIsComplete }}">
                     {% if mixView.filled or mixView.isComplete %}
-                        <hr class="hr" />
+                        <hr class="hr"/>
                     {% endif %}
 
                     {% if mixView.IsFilled and mixView.MixLabel is empty %}
-                    <div class="flashbags">
-                        <div class="message alert-content-container">
-                            {{ "InvMixerProduct.alerts.mixIsFilled"|trans }}
+                        <div class="flashbags">
+                            <div class="message alert-content-container">
+                                {{ "InvMixerProduct.alerts.mixIsFilled"|trans }}
+                            </div>
                         </div>
-                    </div>
                     {% endif %}
 
-                    <span id="mix-state-set-label-anchor" class="title {{ classIsComplete }}">{{ "InvMixerProduct.sidebar.titles.label"|trans }}</span>
+                    <span id="mix-state-set-label-anchor"
+                          class="title {{ classIsComplete }}">{{ "InvMixerProduct.sidebar.titles.label"|trans }}</span>
                 </div>
             {% endblock %}
 
@@ -341,7 +358,8 @@
                         <input type="hidden" name="_csrf_token"
                                value="{{ csrf_token('invMixerProduct.storeFront.mix.session.label.set') }}">
                         <input type="text" name="label" value="{{ mixView.mixLabel }}"
-                               placeholder="{{ "InvMixerProduct.placeholders.mixLabel"|trans }}" onchange="this.form.getElementsByTagName('button').item(0).click()"/>
+                               placeholder="{{ "InvMixerProduct.placeholders.mixLabel"|trans }}"
+                               onchange="this.form.getElementsByTagName('button').item(0).click()"/>
                         <button type="submit" style="display:none">set label</button>
                     </form>
                 </div>
@@ -380,7 +398,7 @@
                      <a class="mixer-product-tax-link"
                         href="/Service/Versand-und-Lieferung/"
                         title="{{ taxText }}"
-                     target="_blank"
+                        target="_blank"
                      >
                         {{ taxText }}
                     </a>
@@ -408,7 +426,8 @@
 
                 {% block inv_product_mixer_sidebar_action_add_to_cart %}
                     <form method="post"
-                          action="{{ path('invMixerProduct.storeFront.mix.session.addToCart') }}" id="mix-state-add-to-cart-form">
+                          action="{{ path('invMixerProduct.storeFront.mix.session.addToCart') }}"
+                          id="mix-state-add-to-cart-form">
                         <input type="hidden" name="_csrf_token"
                                value="{{ csrf_token('invMixerProduct.storeFront.mix.session.addToCart') }}">
 
@@ -418,7 +437,8 @@
                             </div>
 
                             <div class="col-lg-8 col-md-8 col-sm-10 col-8">
-                                <button type="submit" class="btn button btn-block btn-buy" {{ mixView.totalItemQuantity <= 0 ? 'disabled' : '' }}>
+                                <button type="submit"
+                                        class="btn button btn-block btn-buy" {{ mixView.totalItemQuantity <= 0 ? 'disabled' : '' }}>
                                     {{ "InvMixerProduct.buttons.addToCart"|trans }}
                                 </button>
                             </div>
@@ -428,7 +448,7 @@
             </div>
         {% endblock %}
 
-        {%  block inv_product_mixer_sidebar_mobile_switch %}
+        {% block inv_product_mixer_sidebar_mobile_switch %}
             {% if mixView.filled %}
                 {% set classIsComplete = "mixiscomplete" %}
             {% endif %}
@@ -448,7 +468,7 @@
             {% endif %}
 
             <div class="delivery-note-wrapper {{ classIsComplete }}">
-                <hr />
+                <hr/>
                 <p class="delivery-note">{{ "InvMixerProduct.information.deliveryTime"|trans }}</p>
             </div>
         {% endblock %}
@@ -484,4 +504,7 @@
         Total Price: {{ mixView.mixTotalPrice.value }}
     </p>
     #}
+
+    <span id="mix-state-representation-object"
+          data-mix-state-representation-object='{{ mixView.mixState|json_encode|raw }}'></span>
 {% endblock %}

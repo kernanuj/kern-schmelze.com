@@ -36,6 +36,7 @@
         "buttons": {
             "add": {
                 "add": "hinzufügen",
+                "contained": "({{count}} x) Mehr hinzufügen",
                 "progress": "wird hinzugefügt...",
                 "success": "Hinzugefügt"
             },

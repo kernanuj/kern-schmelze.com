@@ -15,7 +15,13 @@ export default class InvMixerProductAnimation {
         }
     }
 
-    static buttonAnimationResultInForm(form, isFailure) {
+    /**
+     *
+     * @param form
+     * @param isFailure
+     * @param mixStateRepresentation InvMixerProductStateRepresentation
+     */
+    static buttonAnimationResultInForm(form, isFailure, mixStateRepresentation) {
         try {
             if (form.tagName !== 'FORM') {
                 return
@@ -25,19 +31,21 @@ export default class InvMixerProductAnimation {
             if(isFailure) {
                 $(form).find('button.inv-mixerProduct-button-animated-loading')
                     .removeClass('state-initial')
+                    .removeClass('state-result-contained')
                     .removeClass('state-result-success')
                     .addClass('state-result-failure')
                     .removeClass('state-progress')
             }else {
                 $(form).find('button.inv-mixerProduct-button-animated-loading')
                     .removeClass('state-initial')
+                    .removeClass('state-result-contained')
                     .addClass('state-result-success')
                     .removeClass('state-result-failure')
                     .removeClass('state-progress')
             }
             window.setTimeout(
                 function () {
-                    self.buttonAnimationStopInForm(form)
+                    self.buttonAnimationStopInForm(form, mixStateRepresentation)
                 },
                 3000
             )
@@ -46,18 +54,24 @@ export default class InvMixerProductAnimation {
         }
     }
 
-    static buttonAnimationStopInForm(form) {
+    /**
+     *
+     * @param form
+     * @param mixStateRepresentation InvMixerProductStateRepresentation
+     */
+    static buttonAnimationStopInForm(form, mixStateRepresentation) {
         try {
             if (form.tagName !== 'FORM') {
                 return
             }
-            $(form).find('button.inv-mixerProduct-button-animated-loading')
-                .addClass('state-initial')
-                .removeClass('state-result-success')
-                .removeClass('state-result-failure')
-                .removeClass('state-progress')
+            this.applyStateToListingButtons(form, mixStateRepresentation);
+
         } catch (e) {
-            //ignore
+            //ignore;
         }
+    }
+
+    static applyStateToListingButtons(form, mixStateRepresentation) {
+        mixStateRepresentation.applyStateToListingButtonsInForm(form);
     }
 }

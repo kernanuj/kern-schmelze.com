@@ -59,6 +59,11 @@ class MixView
     private $isComplete = false;
 
     /**
+     * @var array
+     */
+    private $mixState = [];
+
+    /**
      * MixView constructor.
      * @param Identifier $mixId
      * @param Label $mixLabel
@@ -200,4 +205,23 @@ class MixView
 
         return $fillDelimiter;
     }
+
+    /**
+     * @return array
+     */
+    public function getMixState(): array
+    {
+        return $this->mixState;
+    }
+
+    /**
+     * @param array $mixState
+     * @return MixView
+     */
+    public function setMixState(array $mixState): MixView
+    {
+        $this->mixState = $mixState;
+        return $this;
+    }
+
 }

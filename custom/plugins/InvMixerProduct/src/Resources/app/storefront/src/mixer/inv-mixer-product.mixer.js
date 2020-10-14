@@ -2,6 +2,7 @@ import Plugin from 'src/plugin-system/plugin.class';
 import HttpClient from 'src/service/http-client.service'
 
 import InvMixerProductAnimation from './animation';
+import InvMixerProductStateRepresentation from './stateRepresentation';
 //import DomAccess from 'src/plugin-system/dom-access.helper';
 export default class InvMixerProductMixer extends Plugin {
 
@@ -14,6 +15,7 @@ export default class InvMixerProductMixer extends Plugin {
     };
 
     animated = [];
+    mixStateRepresentation;
 
     init() {
         this._client = new HttpClient()
@@ -36,11 +38,25 @@ export default class InvMixerProductMixer extends Plugin {
             this.displayState(response)
             this.updateStateMobile()
             //@todo decide if request was successful
-            InvMixerProductAnimation.buttonAnimationResultInForm(form)
+            this.reloadMixState();
+            InvMixerProductAnimation.buttonAnimationResultInForm(form, false, this.mixStateRepresentation)
+
         })
     }
 
-
+    reloadMixState() {
+        try {
+            let dataStorageTag = document.getElementById('mix-state-representation-object');
+            if(!dataStorageTag){
+                return;
+            }
+            this.mixStateRepresentation = InvMixerProductStateRepresentation.fromString(
+                dataStorageTag.dataset.mixStateRepresentationObject
+            );
+        }catch(e){
+            //ignore
+        }
+    }
 
     attachMixStateEvents() {
         const listingProducts = document.querySelectorAll('[data-inv-mixer-mix-state-action]');
@@ -81,13 +97,13 @@ export default class InvMixerProductMixer extends Plugin {
 
         var overlayTrigger = $('.mixer-product-list .col-lg-8 .mix-item-info-holder');
 
-        overlayTrigger.each( function() {
-            $(this).hover(function() {
-                if($(this).closest('.card-body').find('.mixer-product-item-description').length) {
+        overlayTrigger.each(function () {
+            $(this).hover(function () {
+                if ($(this).closest('.card-body').find('.mixer-product-item-description').length) {
                     $(this).closest('.card-body').find('.mixer-product-item-description').show();
                 }
-            },function() {
-                if($(this).closest('.card-body').find('.mixer-product-item-description').length) {
+            }, function () {
+                if ($(this).closest('.card-body').find('.mixer-product-item-description').length) {
                     $(this).closest('.card-body').find('.mixer-product-item-description').hide();
                 }
             });
@@ -132,13 +148,12 @@ export default class InvMixerProductMixer extends Plugin {
         });
 
         if ($('.ingredients-mobile-wrapper').length > 0) {
-            $('.ingredients-mobile-wrapper').click(function() {
+            $('.ingredients-mobile-wrapper').click(function () {
                 $('.ingredients-desktop-wrapper').toggleClass('ingredients-desktop-wrapper-hidden');
                 $('.mixer-product-itemlist-more-link').toggleClass('hidden');
                 $('.mixer-product-itemlist-less-link').toggleClass('hidden');
             });
         }
-
 
 
         this.attachMixStateEvents()
@@ -154,12 +169,21 @@ export default class InvMixerProductMixer extends Plugin {
 
     loadState() {
         const that = this;
-        this._client.get(that.options.urlMixState, content => this.displayState(content));
-        this._client.get(that.options.urlMixStateMobile, content => this.displayStateMobile(content));
+        this._client.get(that.options.urlMixState, content => {
+            this.displayState(content);
+            this.reloadMixState();
+        });
+        this._client.get(that.options.urlMixStateMobile, content => {
+            this.displayStateMobile(content)
+            this.reloadMixState();
+        });
     }
 
     updateStateMobile() {
         const that = this;
-        this._client.get(that.options.urlMixStateMobile, content => this.displayStateMobile(content));
+        this._client.get(that.options.urlMixStateMobile, content => {
+            this.displayStateMobile(content)
+            this.reloadMixState();
+        });
     }
 }
