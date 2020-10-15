@@ -152,8 +152,9 @@
                                                         <input type="hidden" name="_csrf_token"
                                                                value="{{ csrf_token('invMixerProduct.storeFront.mix.session.add') }}">
                                                         <button class="btn button btn-block btn-buy inv-mixerProduct-button-animated-loading state-initial"
-                                                                type="submit">
+                                                                type="submit" data-inv-mixer-product-listing-product-id="{{ product.id }}">
                                                             <span class="label-state-initial">{{ "InvMixerProduct.buttons.add.add"|trans }}</span>
+                                                            <span class="label-state-contained" data-text-original="{{ "InvMixerProduct.buttons.add.contained"|trans }}">{{ "InvMixerProduct.buttons.add.contained"|trans }}</span>
                                                             <span class="label-state-progress">
                                                                                     <div class="spinner-border" role="status">
                                                                                       <span class="sr-only">{{ "InvMixerProduct.buttons.add.progress"|trans }}</span>

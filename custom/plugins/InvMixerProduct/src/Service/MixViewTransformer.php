@@ -93,6 +93,8 @@ class MixViewTransformer
             $mixView->isFilled() && !empty($mixView->getMixLabel())
         );
 
+        $this->attachMixState($mix, $mixView);
+
         return $mixView;
     }
 
@@ -214,6 +216,24 @@ class MixViewTransformer
          *
          * return $weight;
          * **/
+    }
+
+    /**
+     * @param Subject $mix
+     * @param MixView $mixView
+     */
+    private function attachMixState(Subject $mix, MixView $mixView): void
+    {
+        $mixStateAsArray = [];
+        $mixStateAsArray['items'] = [];
+        foreach ($mix->getItems() as $item) {
+            $mixStateAsArray['items'][] = [
+                'itemId' => $item->getId(),
+                'quantity' => $item->getQuantity(),
+                'productId' => $item->getProductId()
+            ];
+        }
+        $mixView->setMixState($mixStateAsArray);
     }
 
 }
