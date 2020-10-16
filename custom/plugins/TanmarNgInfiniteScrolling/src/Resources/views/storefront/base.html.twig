@@ -1,0 +1,37 @@
+{% sw_extends '@Storefront/storefront/base.html.twig' %}
+
+{% block base_body_classes %}{{ parent() }}{% set TanmarNgInfiniteScrollingData = context.context.extensions.TanmarNgInfiniteScrolling %}{% if TanmarNgInfiniteScrollingData.active %} is-tanmar-infinite-scrolling {% endif %}{% endblock %}
+
+{% block base_body_script %}
+    {{ parent() }}
+        
+    {% set TanmarNgInfiniteScrollingData = context.context.extensions.TanmarNgInfiniteScrolling %}
+    {% if TanmarNgInfiniteScrollingData.active %}
+        <style>
+            .is-tanmar-infinite-scrolling .pagination-nav{
+                display: none;
+            }
+        </style>
+        <script>
+            ;(function(){
+                var _pages = parseInt('{{ TanmarNgInfiniteScrollingData.pages }}',10);
+                
+                window._tanmarInfiniteScrolling = {
+                    pages: isNaN(_pages) ? 0 : _pages,
+                    snippets: {
+                        prev: {
+                            btn: '{{ "tanmar-infinite-scrolling.prev.btn"|trans }}',
+                            navi: '{{ "tanmar-infinite-scrolling.prev.navi"|trans }}'
+                        },
+                        next: {
+                            btn: '{{ "tanmar-infinite-scrolling.next.btn"|trans }}',
+                            navi: '{{ "tanmar-infinite-scrolling.next.navi"|trans }}'
+                        }
+                    }
+                };
+            })();
+            
+        </script>
+    {% endif %}
+    
+{% endblock %}

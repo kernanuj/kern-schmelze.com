@@ -1,0 +1,12 @@
+{
+    "tanmar-infinite-scrolling": {
+        "prev": {
+            "btn": "Load previous products",
+            "navi": "Load page {x} of {y}"
+        },
+        "next": {
+            "btn": "Load more products",
+            "navi": "Load page {x} of {y}"
+        }
+    }
+}
