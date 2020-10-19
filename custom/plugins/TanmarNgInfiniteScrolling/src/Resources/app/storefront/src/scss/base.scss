@@ -1,0 +1,49 @@
+/*
+    Created on : 16.04.2020, 13:05:27
+    Author     : Nico
+*/
+
+.is-tanmar-infinite-scrolling{
+    
+    .pagination-nav{
+        display: none;
+    }
+    
+    .infinite-scrolling-button-prev,
+    .infinite-scrolling-button-more{
+        width: 250px;
+        margin: 0 auto;
+        border: 0px solid #fff;
+        padding: 10px;
+    }
+
+    .tanmar-infinity-scrolling-button-text{
+        margin-top: 15px;
+        display: block;
+    }
+
+    .tanmar-infinity-scrolling-button-bar{
+        display: block;
+        width: 100%;
+        margin: 5px auto;
+        background: #9e9e9e;
+        height: 6px;
+        position: relative;
+      	border-radius:3px;
+
+        span{
+            display: block;
+            position: absolute;
+            height: 6px;
+            background: $buy-btn-bg;
+          	border-radius:3px;
+            top: 0;
+            left: 0;
+        }
+    }
+
+    .infinite-scrolling-loading{
+        display: block;
+        margin: 0 auto;
+    }
+}

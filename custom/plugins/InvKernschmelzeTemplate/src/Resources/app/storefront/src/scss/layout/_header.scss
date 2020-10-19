@@ -41,6 +41,13 @@
             margin-right: 0;
             padding-right: 0;
         }
+
+        &.active {
+            span {
+                border-bottom: 1px solid $black;
+                padding-bottom: 2px;
+            }
+        }
     }
 }
 

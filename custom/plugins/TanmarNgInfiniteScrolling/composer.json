@@ -1,0 +1,46 @@
+{
+    "name": "tanmar/infinite-scrolling",
+    "description": "Infinite Scrolling",
+    "version": "v1.0.8",
+    "type": "shopware-platform-plugin",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Tanmar Webentwicklung"
+        }
+    ],
+    "require": {
+        "shopware/core": "*",
+        "shopware/storefront": "*"
+    },
+    "extra": {
+        "shopware-plugin-class": "Tanmar\\NgInfiniteScrolling\\TanmarNgInfiniteScrolling",
+        "copyright": "(c) by Tanmar Webentwicklung",
+        "label": {
+            "de-DE": "Infinite Scrolling für Shopware 6",
+            "en-GB": "Infinite Scrolling for Shopware 6"
+        },
+        "description": {
+            "de-DE": "Mit diesem Plugin rüsten Sie eine Infinite Scrolling Funktion für die Produktlisten in Ihrem Shopware 6 Shop nach, um Kunden das Stöbern in großen Kategorien zu erleichtern.",
+            "en-GB": "The plugin implements an Infinite Scrolling feature for all product lists in your shop. Thereby browsing large categories becomes more customer-friendly."
+        },
+        "manufacturerLink": {
+            "de-DE": "https://www.tanmar.de",
+            "en-GB": "https://www.tanmar.de"
+        },
+        "supportLink": {
+            "de-DE": "https://www.tanmar.de/kontakt/",
+            "en-GB": "https://www.tanmar.de/kontakt/"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Tanmar\\NgInfiniteScrolling\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tanmar\\NgInfiniteScrolling\\Test\\": "tests/"
+        }
+    }
+}
