@@ -50,9 +50,6 @@
                                             <span class="active-container-option-indicator on-bright">
                                                 {% sw_icon 'checkmark-circle' style { 'color': 'white' } %}
                                             </span>
-                                            <span class="active-container-option-indicator-animated">
-                                                {% sw_icon 'checkmark-circle' style { 'color': 'white' } %}
-                                            </span>
                                         {% endif %}
                                     </button>
                                 </form>
@@ -95,9 +92,6 @@
                                     {{ ("InvMixerProduct.types." ~ availableContainerBaseProduct)|trans }}
                                     {% if mixView.containerDefinition.baseProduct.identifier == availableContainerBaseProduct.identifier %}
                                         <span class="active-container-option-indicator {{ loop.index == 2 ? 'on-bright' : 'on-dark' }} %}">
-                                                {% sw_icon 'checkmark-circle' style { 'color': 'white' } %}
-                                            </span>
-                                        <span class="active-container-option-indicator-animated">
                                                 {% sw_icon 'checkmark-circle' style { 'color': 'white' } %}
                                             </span>
                                     {% endif %}
@@ -143,9 +137,6 @@
                                         {{ ("InvMixerProduct.designs." ~ availableContainerDesign)|trans }}
                                         {% if mixView.containerDefinition.design == availableContainerDesign %}
                                             <span class="active-container-option-indicator">
-                                                {% sw_icon 'checkmark-circle' style { 'color': 'white' } %}
-                                            </span>
-                                            <span class="active-container-option-indicator-animated">
                                                 {% sw_icon 'checkmark-circle' style { 'color': 'white' } %}
                                             </span>
                                         {% endif %}
