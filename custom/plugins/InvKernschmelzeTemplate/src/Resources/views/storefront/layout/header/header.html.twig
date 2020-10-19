@@ -1,12 +1,22 @@
 {% sw_extends '@Storefront/storefront/layout/header/header.html.twig' %}
 
 {% block layout_header_logo %}
+    {# Shop #}
+    {% if context.salesChannel.id == "117fc963b83e4318b040eac17bd8b70d" %}
+        {% set menuClass1 = "active" %}
+    {% endif %}
+    {# B2B Shop #}
+    {% if context.salesChannel.id == "4a186f835877446aa29cd798f0e57437" %}
+        {% set menuClass3 = "active" %}
+    {% endif %}
     <div class="col-3 col-lg-2 col-md-2 col-sm-2 header-logo-col">
         {% sw_include '@Storefront/storefront/layout/header/logo.html.twig' %}
     </div>
 
     <div class="col-12 order-12 col-sm-3 col-md-3 col-lg-4 order-sm-2 order-md-2 order-lg-2 header-top-menu-col">
-        <a href="https://kern-schmelze.com" title="Shop">Shop</a> <a href="https://magazin.kern-schmelze.com" target="_blank" title="Magazin">Magazin</a> <a href="https://b2b.kern-schmelze.com" title="B2B Shop">B2B</a>
+        <a href="https://kern-schmelze.com" title="Shop" class="{{ menuClass1 }}"><span>Shop</span></a>
+        <a href="https://magazin.kern-schmelze.com" target="_blank" title="Magazin"><span>Magazin</span></a>
+        <a href="https://b2b.kern-schmelze.com" title="B2B Shop" class="{{ menuClass3 }}"><span>B2B</span></a>
     </div>
 {% endblock %}
 
