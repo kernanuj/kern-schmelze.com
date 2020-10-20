@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+    <card>
+        <title>Status</title>
+        <title lang="de-DE">Status</title>
+        <title lang="es-ES">Estado</title>
+        <title lang="fr-FR">Statut</title>
+        <title lang="nl-NL">Status</title>
+
+        <input-field type="bool">
+            <name>status</name>
+            <label>Active</label>
+            <label lang="de-DE">Aktiv</label>
+            <label lang="es-ES">Activado</label>
+            <label lang="fr-FR">Actif</label>
+            <label lang="nl-NL">Actief</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Configuration</title>
+        <title lang="de-DE">Konfiguration</title>
+        <title lang="es-ES">Configuracion</title>
+        <title lang="fr-FR">Configuration</title>
+        <title lang="nl-NL">Configuratie</title>
+
+        <input-field type="single-select">
+            <name>productSortOrder</name>
+            <placeholder>Product default sort order</placeholder>
+            <label>Product default sort order</label>
+            <label lang="de-DE">Standard-Sortierung der Produkte</label>
+            <label lang="es-ES">Orden por defecto de productos</label>
+            <label lang="fr-FR">Ordre de tri par défaut des produits</label>
+            <label lang="nl-NL">Product standaard sorteervolgorde</label>
+            <options>
+                <option>
+                    <id>null</id>
+                    <name>Shopware default</name>
+                    <name lang="de-DE">Shopware Standard</name>
+                    <name lang="es-ES">Shopware por defecto</name>
+                    <name lang="fr-FR">Shopware par défaut</name>
+                    <name lang="nl-NL">Shopware standaardinstelling</name>
+                </option>
+                <option>
+                    <id>price-asc</id>
+                    <name>Price ascending</name>
+                    <name lang="de-DE">Preis aufsteigend</name>
+                    <name lang="es-ES">Precio ascendente</name>
+                    <name lang="fr-FR">Prix croissant</name>
+                    <name lang="nl-NL">Prijs oplopend</name>
+                </option>
+                <option>
+                    <id>price-desc</id>
+                    <name>Price descending</name>
+                    <name lang="de-DE">Preis absteigend</name>
+                    <name lang="es-ES">Precio descendente</name>
+                    <name lang="fr-FR">Prix décroissant</name>
+                    <name lang="nl-NL">Prijs dalend</name>
+                </option>
+                <option>
+                    <id>name-asc</id>
+                    <name>Name ascending</name>
+                    <name lang="de-DE">Name aufsteigend</name>
+                    <name lang="es-ES">Nombre ascendente</name>
+                    <name lang="fr-FR">Nom croissant</name>
+                    <name lang="nl-NL">Naam in oplopende volgorde</name>
+                </option>
+                <option>
+                    <id>name-desc</id>
+                    <name>Name descending</name>
+                    <name lang="de-DE">Name absteigend</name>
+                    <name lang="es-ES">Nombre descendente</name>
+                    <name lang="fr-FR">Nom décroissant</name>
+                    <name lang="nl-NL">Naam dalend</name>
+                </option>
+            </options>
+        </input-field>
+    </card>
+</config>

@@ -594,5 +594,23 @@
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/TanmarNgInfiniteScrolling\/src\/Resources\/app\/storefront\/src\/scss\/base.scss"
             ]
         }
+    },
+    "InvProductSortOrder": {
+        "basePath": "custom\/plugins\/InvProductSortOrder\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-product-sort-order",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
+        }
     }
 }

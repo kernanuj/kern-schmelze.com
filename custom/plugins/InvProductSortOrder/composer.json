@@ -1,0 +1,45 @@
+{
+    "name": "inv/product-sort-order",
+    "version": "1.0.0",
+    "description": "Define the default sorting of products in your store categories by price and name, ascending or descending. Configuration per sales channel.",
+    "authors": [
+        {
+            "name": "Nils Harder | inventivo.de",
+            "homepage": "https://www.inventivo.de",
+            "email": "hallo@inventivo.de"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "shopware/core": ">=6.0.0"
+    },
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "InvProductSortOrder\\": "src/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "InvProductSortOrder\\InvProductSortOrder",
+        "copyright": "(c) by Nils Harder | inventivo.de",
+        "manufacturerLink": {
+            "de-DE": "https://www.inventivo.de",
+            "en-GB": "https://www.inventivo.de"
+        },
+        "supportLink": {
+            "de-DE": "https://www.inventivo.de/kontakt",
+            "en-GB": "https://www.inventivo.de/kontakt"
+        },
+        "label": {
+            "de-DE": "Eigene Standard-Produktsortierung für Shopware 6",
+            "en-GB": "Custom default product sort order for Shopware 6"
+        },
+        "description": {
+            "de-DE": "Definiere die Standard-Sortierung der Produkte in Deinen Shop Kategorien nach Preis und Name, aufsteigend oder absteigend. Konfiguration pro Verkaufskanal.",
+            "en-GB": "Define the default sorting of products in your store categories by price and name, ascending or descending. Configuration per sales channel."
+        }
+    },
+    "minimum-stability": "RC",
+    "prefer-stable": true
+}
