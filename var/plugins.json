@@ -612,5 +612,23 @@
             "webpack": null,
             "styleFiles": []
         }
+    },
+    "InvTrackingLinkedin": {
+        "basePath": "custom\/plugins\/InvTrackingLinkedin\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-tracking-linkedin",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": "Resources\/app\/storefront\/src\/main.js",
+            "webpack": null,
+            "styleFiles": []
+        }
     }
 }

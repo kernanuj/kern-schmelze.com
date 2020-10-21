@@ -1,13 +1,12 @@
 {
-    "InvTrackingBelboon": {
-        "cookie": {
-            "titles": {
-                "belboon": "Belboon"
-            },
-            "group": {
-                "name": "Marketing",
-                "description": "Estas tecnologías son utilizadas por los anunciantes para servir anuncios que son relevantes para sus intereses."
-            }
+    "cookie": {
+        "titles": {
+            "linkedin": "LinkedIn",
+            "belboon": "Belboon"
+        },
+        "groupMarketing": {
+            "name": "Marketing",
+            "description": "Estas tecnologías son utilizadas por los anunciantes para servir anuncios que son relevantes para sus intereses."
         }
     }
 }

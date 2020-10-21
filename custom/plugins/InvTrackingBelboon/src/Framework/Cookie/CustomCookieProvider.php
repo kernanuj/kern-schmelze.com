@@ -23,32 +23,62 @@ class CustomCookieProvider implements CookieProviderInterface {
 
     // cookies can also be provided as a group
     private const cookieGroup = [
-        'snippet_name' => 'InvTrackingBelboon.cookie.group.name',
-        'snippet_description' => 'InvTrackingBelboon.cookie.group.description',
+        'snippet_name' => 'cookie.groupMarketing.name',
+        'snippet_description' => 'cookie.groupMarketing.description',
         'entries' => [
-            [
-                'snippet_name' => 'InvTrackingBelboon.cookie.titles.belboon',
-                'cookie' => 'belboon-enabled',
-                'value'=> '1',
-                'expiration' => '30'
-            ]/*,
-            [
-                'snippet_name' => 'cookie.second_child_name',
-                'cookie' => 'cookie-key-2',
-                'value'=> 'cookie value',
-                'expiration' => '60'
-            ]*/
-        ],
+            'snippet_name' => 'cookie.titles.belboon',
+            'cookie' => 'belboon-enabled',
+            'value'=> '1',
+            'expiration' => '30'
+        ]
     ];
 
     public function getCookieGroups(): array
     {
-        return array_merge(
-            $this->originalService->getCookieGroups(),
-            [
-                self::cookieGroup/*,
-                self::singleCookie*/
-            ]
-        );
+        $cookies = $this->originalService->getCookieGroups();
+        $marketingGroupExists = 0;
+
+        foreach ($cookies as &$cookie) {
+            if ($this->isMarketingCookieGroup($cookie)) {
+                $marketingGroupExists = 1;
+            }
+        }
+
+        if ($marketingGroupExists == 0) {
+            $cookies = array_merge(
+                $this->originalService->getCookieGroups(),
+                [
+                    self::cookieGroup
+                ]
+            );
+        }
+
+        foreach ($cookies as &$cookie) {
+            if (!\is_array($cookie)) {
+                continue;
+            }
+
+            if (!$this->isMarketingCookieGroup($cookie)) {
+                continue;
+            }
+
+            if (!\array_key_exists('entries', $cookie)) {
+                continue;
+            }
+
+            $cookie['entries'][] = [
+                'snippet_name' => 'cookie.titles.belboon',
+                'cookie' => 'belboon-enabled',
+                'value'=> '1',
+                'expiration' => '30'
+            ];
+        }
+
+        return $cookies;
+    }
+
+    private function isMarketingCookieGroup(array $cookie): bool
+    {
+        return (\array_key_exists('snippet_name', $cookie) && $cookie['snippet_name'] === 'cookie.groupMarketing.name');
     }
 }
