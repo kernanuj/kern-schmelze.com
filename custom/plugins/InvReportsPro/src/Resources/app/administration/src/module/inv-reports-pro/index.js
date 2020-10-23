@@ -1,9 +1,10 @@
 import './page/inv-reports-pro-index';
+import './component/inventivo-banner';
 
 const { Module } = Shopware;
 
 Module.register('inv-reports-pro', {
-    type: 'core',
+    type: 'plugin',
     name: 'inv-reports-pro',
     title: 'inv-reports-pro.general.mainMenuItemGeneral',
     description: 'inv-reports-pro.general.descriptionTextModule',
