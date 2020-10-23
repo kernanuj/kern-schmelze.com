@@ -1,0 +1,58 @@
+{% block inv_reports_pro_index %}
+    <sw-page class="inv-reports-pro-index" :showSmartBar="false">
+        {% block inv_reports_pro_index_content %}
+            <sw-card-view slot="content" class="inv-reports-pro-index__content">
+
+                {% block inv_reports_pro_index_content_intro_card %}
+                    <sw-card>
+                        {% block inv_reports_pro_index_content_intro %}
+                            <div class="inv-reports-pro-index__intro">
+                                {% block inv_reports_pro_index_content_intro_content %}
+                                    <div class="inv-reports-pro-index__intro-content">
+                                        {% block inv_reports_pro_index_content_intro_content_headline %}
+                                            <h1>{{ $tc('inv-reports-pro.introduction.headline') }}</h1>
+                                        {% endblock %}
+
+                                        {% block inv_reports_pro_index_content_intro_content_external_link_intro_buttons %}
+                                            <sw-container columns="1fr 1fr" gap="16px" justify="start" class="inv-reports-pro-index__intro-buttons">
+                                                {% block inv_reports_pro_index_content_intro_content_external_link_intro_buttons_feedback %}
+                                                    <sw-button variant="ghost"
+                                                               :link="$tc('inv-reports-pro.introduction.feedbackLink')">
+                                                        {{ $tc('inv-reports-pro.introduction.feedback') }}
+                                                    </sw-button>
+                                                {% endblock %}
+                                            </sw-container>
+                                        {% endblock %}
+                                    </div>
+                                {% endblock %}
+
+                                {% block inv_reports_pro_index_content_intro_image %}
+                                    <div class="inv-reports-pro-index__intro-image">
+                                        <img :src="'administration/static/img/dashboard-logo.svg' | asset">
+                                    </div>
+                                {% endblock %}
+                            </div>
+                        {% endblock %}
+                    </sw-card>
+                {% endblock %}
+
+                <template v-if="">
+                    {% block inv_reports_pro_index_content_sales_products_quarter_headline %}
+                        <div class="inv-reports-pro-index__card-headline">
+                            {% block inv_reports_pro_index_content_statistics_headline_title %}
+                                <h1>{{ $tc('inv-reports-pro.salesProductsQuarter.headline') }}</h1>
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+
+                    {% block inv_reports_pro_index_content_statistics_count %}
+                        <sw-card>
+
+                        </sw-card>
+                    {% endblock %}
+                </template>
+
+            </sw-card-view>
+        {% endblock %}
+    </sw-page>
+{% endblock %}

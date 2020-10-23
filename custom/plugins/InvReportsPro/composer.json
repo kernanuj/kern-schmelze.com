@@ -1,0 +1,45 @@
+{
+    "name": "inv/reports-pro",
+    "version": "1.0.0",
+    "description": "This plugin adds various sales reports to your shopware administration including an export function for your reports.",
+    "authors": [
+        {
+            "name": "Nils Harder | inventivo.de",
+            "homepage": "https://www.inventivo.de",
+            "email": "hallo@inventivo.de"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "shopware/core": ">=6.0.0"
+    },
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "InvReportsPro\\": "src/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "InvReportsPro\\InvReportsPro",
+        "copyright": "(c) by Nils Harder | inventivo.de",
+        "manufacturerLink": {
+            "de-DE": "https://www.inventivo.de",
+            "en-GB": "https://www.inventivo.de"
+        },
+        "supportLink": {
+            "de-DE": "https://www.inventivo.de/kontakt",
+            "en-GB": "https://www.inventivo.de/kontakt"
+        },
+        "label": {
+            "de-DE": "Verkaufs-Reports für Shopware 6",
+            "en-GB": "Sales Reportings for Shopware 6"
+        },
+        "description": {
+            "de-DE": "Dieses Plugin fügt verschiedene Verkaufsberichte zu Deiner Shopware-Verwaltung hinzu, einschließlich einer Exportfunktion für Deine Berichte.",
+            "en-GB": "This plugin adds various sales reports to your shopware administration including an export function for your reports."
+        }
+    },
+    "minimum-stability": "RC",
+    "prefer-stable": true
+}

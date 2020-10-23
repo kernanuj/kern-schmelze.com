@@ -613,20 +613,20 @@
             "styleFiles": []
         }
     },
-    "InvTrackingLinkedin": {
-        "basePath": "custom\/plugins\/InvTrackingLinkedin\/src\/",
+    "InvReportsPro": {
+        "basePath": "custom\/plugins\/InvReportsPro\/src\/",
         "views": [
             "Resources\/views"
         ],
-        "technicalName": "inv-tracking-linkedin",
+        "technicalName": "inv-reports-pro",
         "administration": {
             "path": "Resources\/app\/administration\/src",
-            "entryFilePath": null,
+            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
             "webpack": null
         },
         "storefront": {
             "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": "Resources\/app\/storefront\/src\/main.js",
+            "entryFilePath": null,
             "webpack": null,
             "styleFiles": []
         }

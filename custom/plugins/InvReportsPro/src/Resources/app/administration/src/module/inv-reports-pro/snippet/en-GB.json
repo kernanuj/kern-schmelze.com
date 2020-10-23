@@ -1,0 +1,16 @@
+{
+    "inv-reports-pro": {
+        "general": {
+            "mainMenuItemGeneral": "Reports PRO",
+            "descriptionTextModule": "Erweitere Reportings für Shopware 6"
+        },
+        "introduction": {
+            "headline": "Erweitere Reportings für Shopware 6",
+            "feedback": "Feedback",
+            "feedbackLink": "mailto:hallo@inventivo.de"
+        },
+        "salesProductsQuarter": {
+            "headline": "Produktverkäufe pro Quartal"
+        }
+    }
+}
