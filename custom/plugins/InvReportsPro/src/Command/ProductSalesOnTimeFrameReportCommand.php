@@ -93,7 +93,6 @@ class ProductSalesOnTimeFrameReportCommand extends Command
         $rows = $this->fetchData($dateFrom, $dateTo);
         $generatedFile = $this->writeCsv($dateFrom, $dateTo, $rows, $output);
         $output->writeln('Generated file ' . $generatedFile->getPathname());
-
     }
 
     /**
@@ -122,18 +121,25 @@ FROM `order` as o
          LEFT JOIN state_machine_state sms on o.state_id = sms.id;
 SQL
         );
+
+        // Varianten
         $statement = $this->dbConnection->prepare(
             <<<SQL
-
-
-
-SELECT HEX(p.id),
+        SELECT HEX(p.id),
+       order_line_item.type as type,
        order_line_item.label as name,
        p.product_number,
        SUM(quantity) as sum_quantity,
-       JSON_EXTRACT(p.price ->> '$.*.net', '$[0]')                                         as net_price,
-       CAST(JSON_EXTRACT(p.price ->> '$.*.net', '$[0]') AS decimal(7, 2)) *
+
+       JSON_EXTRACT(order_line_item.price ->> '$.unitPrice', '$[0]') as gross_price,
+       JSON_EXTRACT(order_line_item.price ->> '$.calculatedTaxes[0]', '$.taxRate') as tax_rate,
+
+       CAST(JSON_EXTRACT(order_line_item.price ->> '$.unitPrice', '$[0]') AS decimal(7, 2)) / (JSON_EXTRACT(order_line_item.price ->> '$.calculatedTaxes[0]', '$.taxRate') / 100 + 1) as net_price,
+
+       CAST(JSON_EXTRACT(order_line_item.price ->> '$.unitPrice', '$[0]') AS decimal(7, 2)) / (JSON_EXTRACT(order_line_item.price ->> '$.calculatedTaxes[0]', '$.taxRate') / 100 + 1) *
        SUM(quantity) as net_price_total,
+
+
        p.purchase_unit as weight_single,
       SUM(quantity) * p.purchase_unit as weight_sum
 
@@ -142,14 +148,16 @@ FROM order_line_item
          LEFT JOIN product_translation pt on p.id = pt.product_id
          LEFT join inv_report_order_state_view on order_line_item.order_id = inv_report_order_state_view.id AND
                                                   order_line_item.order_version_id =
-                                                  inv_report_order_state_view.version_id
+                                                      inv_report_order_state_view.version_id
 WHERE p.id IS NOT NULL
-  AND order_line_item.product_id IS NOT NULL
-  AND order_line_item.type = 'product'
-  AND inv_report_order_state_view.state_technical_name = 'in_progress'
-  AND (inv_report_order_state_view.paid_at > :date_gt AND
-       inv_report_order_state_view.paid_at < :date_lt)
-GROUP BY p.product_number, order_line_item.label, HEX(p.id), p.purchase_unit;
+        AND order_line_item.product_id IS NOT NULL
+        AND order_line_item.type = 'product'
+        AND inv_report_order_state_view.state_technical_name = 'in_progress'
+        AND (inv_report_order_state_view.paid_at > :date_gt AND
+        inv_report_order_state_view.paid_at < :date_lt)
+GROUP BY p.product_number, order_line_item.label, HEX(p.id), p.purchase_unit
+ORDER BY net_price_total DESC;
+
 SQL
 
         );
@@ -165,11 +173,13 @@ SQL
         return array_map(
             function ($row) {
                 return [
-                    'SKU' => $row['product_number'],
                     'Name' => $row['name'],
+                    'SKU' => $row['product_number'],
+                    'Steuersatz' => $row['tax_rate'],
+                    'Einzelpreis (brutto)' => $row['gross_price'],
+                    'Einzelpreis (netto)' => $row['net_price'],
                     'Bestellungen' => $row['sum_quantity'],
-                    'Gewicht einzeln' => $row['weight_single'],
-                    'Gewicht gesamt' => $row['weight_sum']
+                    'Umsatz (netto) gesamt' => $row['net_price_total']
                 ];
             }, $rows
         );
@@ -209,3 +219,7 @@ SQL
 
 
 }
+
+
+
+
