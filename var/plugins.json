@@ -147,24 +147,6 @@
             "styleFiles": []
         }
     },
-    "InvReportsPro": {
-        "basePath": "custom\/plugins\/InvReportsPro\/src\/",
-        "views": [
-            "Resources\/views"
-        ],
-        "technicalName": "inv-reports-pro",
-        "administration": {
-            "path": "Resources\/app\/administration\/src",
-            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
-            "webpack": null
-        },
-        "storefront": {
-            "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": null,
-            "webpack": null,
-            "styleFiles": []
-        }
-    },
     "InvKernschmelzeTemplate": {
         "basePath": "custom\/plugins\/InvKernschmelzeTemplate\/src\/",
         "views": [
@@ -622,6 +604,24 @@
         "administration": {
             "path": "Resources\/app\/administration\/src",
             "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
+        }
+    },
+    "InvReportsPro": {
+        "basePath": "custom\/plugins\/InvReportsPro\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "inv-reports-pro",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": "Resources\/app\/administration\/src\/main.js",
             "webpack": null
         },
         "storefront": {
