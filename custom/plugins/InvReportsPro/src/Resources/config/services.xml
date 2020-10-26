@@ -5,6 +5,14 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-
+        <service id="InvReportsPro\Command\ProductSalesOnTimeFrameReportCommand">
+            <call method="setDbConnection">
+                <argument type="service" id="Doctrine\DBAL\Connection"/>
+            </call>
+            <call method="setStorageDirectory">
+                <argument type="string">%kernel.project_dir%/var/InvReportsPro</argument>
+            </call>
+            <tag name="console.command"/>
+        </service>
     </services>
 </container>
