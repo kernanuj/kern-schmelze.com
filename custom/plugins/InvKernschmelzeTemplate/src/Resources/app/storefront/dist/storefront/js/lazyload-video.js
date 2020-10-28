@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    console.log('Video Lazyload script loaded.');
     $("video.lazy source").each(function() {
         var sourceFile = $(this).attr("data-src");
         $(this).attr("src", sourceFile);
