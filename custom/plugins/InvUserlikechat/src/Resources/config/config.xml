@@ -36,4 +36,27 @@
             <defaultValue></defaultValue>
         </input-field>
     </card>
+
+    <card>
+        <title>Do not display on the following URLs</title>
+        <title lang="de-DE">Nicht anzeigen auf folgenden URLs</title>
+        <title lang="es-ES">No mostrar en los siguientes URLs</title>
+        <title lang="fr-FR">Ne pas afficher sur les URL suivants</title>
+        <title lang="nl-NL">Niet weergeven op de volgende URL's</title>
+
+        <input-field type="textarea">
+            <name>noDisplayUrls</name>
+            <label>URLs</label>
+            <label lang="de-DE">URLs</label>
+            <label lang="es-ES">URLs</label>
+            <label lang="fr-FR">URLs</label>
+            <label lang="nl-NL">URLs</label>
+            <defaultValue># Example: /checkout/*</defaultValue>
+            <helpText>Enter here the URLs for which the chat should not be displayed (one selector per line, wildcards (*) possible).</helpText>
+            <helpText lang="de-DE">Gib hier die URLs ein, für die der Chat nicht angezeigt werden soll (ein Selektor pro Zeile, Wildcards (*) möglich).</helpText>
+            <helpText lang="es-ES">Introduzca aquí las URL para las que no debe mostrarse el chat (un selector por línea, es posible utilizar comodines (*)).</helpText>
+            <helpText lang="fr-FR">Saisissez ici les URL pour lesquelles le chat ne doit pas être affiché (un sélecteur par ligne, jokers (*) possibles).</helpText>
+            <helpText lang="nl-NL">Voer hier de URL's in waarvoor de chat niet mag worden weergegeven (één selector per regel, jokertekens (*) mogelijk).</helpText>
+        </input-field>
+    </card>
 </config>

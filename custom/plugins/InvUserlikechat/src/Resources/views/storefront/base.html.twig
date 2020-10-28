@@ -2,9 +2,11 @@
 
 {% block base_body_inner %}
     {{ parent() }}
-    {% if shopware.config.InvUserlikechat.config.status == true and shopware.config.InvUserlikechat.config.secret %}
-        {% if app.request.cookies.get('userlike-enabled') == 1 %}
-            {% sw_include '@InvUserlikechat/InvUserlikechat/pagelets/chatwidget.html.twig' %}
+    {% if context.extensions.invUserlikechat.status == true %}
+        {% if shopware.config.InvUserlikechat.config.status == true and shopware.config.InvUserlikechat.config.secret %}
+            {% if app.request.cookies.get('userlike-enabled') == 1 %}
+                {% sw_include '@InvUserlikechat/InvUserlikechat/pagelets/chatwidget.html.twig' %}
+            {% endif %}
         {% endif %}
     {% endif %}
 {% endblock %}

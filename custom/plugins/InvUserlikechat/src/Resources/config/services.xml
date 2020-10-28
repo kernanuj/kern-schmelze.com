@@ -1,14 +1,24 @@
 <?xml version="1.0" ?>
-
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
     <services>
         <service id="InvUserlikechat\Framework\Cookie\CustomCookieProvider"
                  decorates="Shopware\Storefront\Framework\Cookie\CookieProviderInterface">
             <argument type="service"
                       id="InvUserlikechat\Framework\Cookie\CustomCookieProvider.inner" />
+        </service>
+
+        <service id="InvUserlikechat\Subscriber\Storefront">
+            <argument type="service" id="Shopware\Core\Content\Seo\SeoResolver" />
+            <argument type="service" id="inv_userlikechat.components.config" />
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="inv_userlikechat.components.config"
+                 class="InvUserlikechat\Components\Config">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+            <argument type="string">InvUserlikechat.config</argument>
         </service>
     </services>
 </container>
