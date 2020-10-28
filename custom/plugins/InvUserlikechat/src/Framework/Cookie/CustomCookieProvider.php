@@ -8,8 +8,7 @@ class CustomCookieProvider implements CookieProviderInterface {
 
     private $originalService;
 
-    function __construct(CookieProviderInterface $service)
-    {
+    function __construct( CookieProviderInterface $service ) {
         $this->originalService = $service;
     }
 
@@ -23,32 +22,67 @@ class CustomCookieProvider implements CookieProviderInterface {
 
     // cookies can also be provided as a group
     private const cookieGroup = [
-        'snippet_name' => 'InvUserlikechat.cookie.group.name',
-        'snippet_description' => 'InvUserlikechat.cookie.group.description',
-        'entries' => [
-            [
-                'snippet_name' => 'InvUserlikechat.cookie.titles.userlike',
-                'cookie' => 'userlike-enabled',
-                'value'=> '1',
-                'expiration' => '365'
-            ]/*,
-            [
-                'snippet_name' => 'cookie.second_child_name',
-                'cookie' => 'cookie-key-2',
-                'value'=> 'cookie value',
-                'expiration' => '60'
-            ]*/
-        ],
+        'snippet_name'        => 'cookie.groupFunctional.name',
+        'snippet_description' => 'cookie.groupFunctional.description',
+        'entries'             => [
+            'snippet_name' => 'cookie.titles.userlike',
+            'cookie'       => 'userlike-enabled',
+            'value'        => '1',
+            'expiration'   => '30'
+        ]
     ];
 
-    public function getCookieGroups(): array
-    {
-        return array_merge(
-            $this->originalService->getCookieGroups(),
-            [
-                self::cookieGroup/*,
-                self::singleCookie*/
-            ]
-        );
+    public function getCookieGroups(): array {
+        $cookies              = $this->originalService->getCookieGroups();
+        $functionalGroupExists = 0;
+
+        foreach ( $cookies as &$cookie )
+        {
+            if ( $this->isFunctionalCookieGroup( $cookie ) )
+            {
+                $functionalGroupExists = 1;
+            }
+        }
+
+        if ( $functionalGroupExists == 0 )
+        {
+            $cookies = array_merge(
+                $this->originalService->getCookieGroups(),
+                [
+                    self::cookieGroup
+                ]
+            );
+        }
+
+        foreach ( $cookies as &$cookie )
+        {
+            if ( ! \is_array( $cookie ) )
+            {
+                continue;
+            }
+
+            if ( ! $this->isFunctionalCookieGroup( $cookie ) )
+            {
+                continue;
+            }
+
+            if ( ! \array_key_exists( 'entries', $cookie ) )
+            {
+                continue;
+            }
+
+            $cookie['entries'][] = [
+                'snippet_name' => 'cookie.titles.userlike',
+                'cookie'       => 'userlike-enabled',
+                'value'        => '1',
+                'expiration'   => '30'
+            ];
+        }
+
+        return $cookies;
+    }
+
+    private function isFunctionalCookieGroup( array $cookie ): bool {
+        return ( \array_key_exists( 'snippet_name', $cookie ) && $cookie['snippet_name'] === 'cookie.groupFunctional.name' );
     }
 }

@@ -1,13 +1,11 @@
 {
-    "InvUserlikechat": {
-        "cookie": {
-            "titles": {
-                "userlike": "Userlike"
-            },
-            "group": {
-                "name": "Functional",
-                "description": "Functional cookies are used, for example, to provide you with a support chat on our website."
-            }
+    "cookie": {
+        "titles": {
+            "userlike": "Userlike"
+        },
+        "groupFunctional": {
+            "name": "Functional",
+            "description": "Functional cookies are used, for example, to provide you with a support chat on our website."
         }
     }
 }
