@@ -19,6 +19,7 @@
     "app/storefront/dist/storefront/js/sticky-mixer-sidebar-desktop.js",
     "app/storefront/dist/storefront/js/mailchimp-signup-form.js",
     "app/storefront/dist/storefront/js/jquery.matchHeight.js",
+    "app/storefront/dist/storefront/js/lazyload-video.js",
     "app/storefront/dist/storefront/js/equal-height.js"
   ],
   "asset": [
