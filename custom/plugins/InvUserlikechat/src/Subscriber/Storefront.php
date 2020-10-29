@@ -58,10 +58,12 @@ class Storefront implements \Symfony\Component\EventDispatcher\EventSubscriberIn
         $url = $this->getSeoUrl($event->getRequest(), $this->salesChannelContext);
 
         // exclude URLs
-        foreach ($this->config['noDisplayUrls'] as $pattern) {
-            if (\preg_match('#' . $pattern . '$#', $url)) {
-                $this->config['status'] = \false;
-                break;
+        if (!empty($this->config['noDisplayUrls'])) {
+            foreach ($this->config['noDisplayUrls'] as $pattern) {
+                if (\preg_match('#' . $pattern . '$#', $url)) {
+                    $this->config['status'] = \false;
+                    break;
+                }
             }
         }
 
