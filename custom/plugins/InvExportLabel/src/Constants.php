@@ -14,6 +14,7 @@ final class Constants
 {
 
     public const LABEL_TYPE_MIXER_PRODUCT = 'inv_mixer_product';
+    public const LABEL_TYPE_SIMPLE_PRODUCT = 'simple_product';
 
     public const SYSTEM_CONFIG_Mixer_PRODUCT_EMAIL_RECIPIENTS = 'InvExportLabel.config.mixerProductEmailRecipients';
     public const SYSTEM_CONFIG_Mixer_PRODUCT_EMAIL_BODY = 'InvExportLabel.config.mixerProductEmailBody';
@@ -40,7 +41,8 @@ final class Constants
     public static function allAvailableLabelTypes(): array
     {
         return [
-            self::LABEL_TYPE_MIXER_PRODUCT
+            self::LABEL_TYPE_MIXER_PRODUCT,
+            self::LABEL_TYPE_SIMPLE_PRODUCT
         ];
     }
 

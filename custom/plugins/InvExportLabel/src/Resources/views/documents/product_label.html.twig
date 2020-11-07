@@ -1,0 +1,119 @@
+{# @var sourceCollection \InvExportLabel\Value\SourceCollection #}
+<html>
+
+<head>
+    <style>
+        body {
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 66mm;
+            height: auto;
+            padding: 0;
+            margin: 2mm 2mm 2mm 2mm;
+            top: 50%;
+            transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);
+            -moz-transform: translateY(-50%);
+            -o-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            position: absolute;
+        }
+
+        .wrapper {
+        }
+
+        @page {
+            page-break-after: always;
+            margin: 0;
+            padding: 0;
+            size: 71mm 71mm landscape;
+        }
+
+        .logo-image {
+            text-align: center;
+            position: absolute;
+            top: 2mm;
+            left: 52%;
+            transform: translate(-52%, 0);
+            width: 12mm;
+        }
+
+        img {
+            text-align: center;
+            margin: 0 auto 5px auto;
+            width: 13mm;
+            height: 14mm;
+            display: block;
+            border: 0;
+        }
+
+        p {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            font-size: 6.6pt;
+            margin: 0 0 2px 0;
+            padding: 0;
+            display: block;
+        }
+
+        .break {
+            page-break-after: always;
+        }
+
+        .mix-name {
+            font-size: 8pt;
+            font-weight: bold;
+            margin-top: 0;
+        }
+
+        .mix-id {
+            text-align: center;
+            font-size: 5pt;
+        }
+
+        .mix-id span {
+            font-size: 5pt;
+        }
+
+        .best-and-weight {
+            text-align: center;
+            font-size: 6.6pt;
+        }
+
+        .best-before {
+            font-size: 6.6pt;
+            font-weight: bold;
+        }
+
+        .weight {
+            font-size: 10pt;
+            font-weight: bold;
+        }
+
+        .address {
+            font-size: 4.5pt;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+{# @var item \InvExportLabel\Value\SourceItemType\MixerProductSourceItem #}
+{% for item in sourceCollection.items %}
+    {% if item.type == 'inv_mixer_product' %}
+        {% include '@InvExportLabel/documents/mixer_product_label.html.twig' %}
+    {% elseif item.type == 'simple_product' %}
+        {% include '@InvExportLabel/documents/simple_product_label.html.twig' %}
+    {% endif %}
+    {% if false == (loop.last) %}
+        <div class="break"></div>
+    {% endif %}
+{% endfor %}
+</body>
+</html>
