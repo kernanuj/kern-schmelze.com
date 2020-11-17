@@ -1,0 +1,13 @@
+{% sw_extends '@Storefront/storefront/layout/footer/footer.html.twig' %}
+
+{% block layout_footer_copyright %}
+    {{ parent() }}
+
+    {% if coeFacebookPixel.trackingId and coeFacebookPixel.isDebugMode and coeFacebookPixel.isCookieAccepted%}
+<pre>
+fbq('init', '{{ coeFacebookPixel.trackingId}}');
+fbq('track', 'PageView');
+{{ coeFacebookPixel.pixel|raw }}
+</pre>
+    {% endif %}
+{% endblock %}

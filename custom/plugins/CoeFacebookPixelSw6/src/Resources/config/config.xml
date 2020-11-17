@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+    <card>
+        <title>Settings</title>
+
+        <input-field type="text">
+            <name>coeFacebookPixelId</name>
+            <required>true</required>
+            <label>Facebook tracking ID</label>
+            <label lang="de-DE">Facebook tracking ID</label>
+        </input-field>
+
+        <input-field type="bool">
+            <name>coeFacebookPixelDebug</name>
+            <defaultValue>false</defaultValue>
+            <label>Debug Modus</label>
+            <label lang="de-DE">Debug Modus</label>
+            <helpText>When debug mode is activated, the generated pixel will be shown in the footer of the shop. Tracking is disabled.</helpText>
+            <helpText lang="de-DE">Bei aktivierten Debug-Modus wird der generierte Pixel im Footer des Shops ausgegeben. Es findet kein tracking statt.</helpText>
+        </input-field>
+
+    </card>
+</config>
