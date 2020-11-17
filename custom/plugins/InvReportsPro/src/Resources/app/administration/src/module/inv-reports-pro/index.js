@@ -1,6 +1,6 @@
 import './page/inv-reports-pro-index';
 import './component/inventivo-banner';
-import './page/inv-reports-pro-product-stream-list';
+//import './page/inv-reports-pro-product-stream-list';
 
 const { Module } = Shopware;
 
