@@ -147,12 +147,12 @@
             "styleFiles": []
         }
     },
-    "CoeFacebookPixelSw6": {
-        "basePath": "custom\/plugins\/CoeFacebookPixelSw6\/src\/",
+    "WeloAddressDocument6": {
+        "basePath": "custom\/plugins\/WeloAddressDocument6\/src\/",
         "views": [
             "Resources\/views"
         ],
-        "technicalName": "coe-facebook-pixel-sw6",
+        "technicalName": "welo-address-document6",
         "administration": {
             "path": "Resources\/app\/administration\/src",
             "entryFilePath": null,
@@ -667,6 +667,24 @@
             "styleFiles": [
                 "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SisiDetailVideo6\/src\/Resources\/app\/storefront\/src\/scss\/all.scss"
             ]
+        }
+    },
+    "CoeFacebookPixelSw6": {
+        "basePath": "custom\/plugins\/CoeFacebookPixelSw6\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "coe-facebook-pixel-sw6",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
         }
     }
 }

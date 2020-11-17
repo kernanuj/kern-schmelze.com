@@ -1,0 +1,8 @@
+{
+    "WeloAddressDocuments": {
+        "documents": {
+            "billingAddress": "Adresse de facturation",
+            "shippingAddress": "Adresse de livraison"
+        }
+    }
+}

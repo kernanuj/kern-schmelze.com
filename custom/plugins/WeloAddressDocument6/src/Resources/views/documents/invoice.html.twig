@@ -1,0 +1,12 @@
+{% sw_extends '@Framework/documents/invoice.html.twig' %}
+
+{% block document_recipient %}
+    {% if config.weloIsInvoiceActive %}
+        {# @var shippingAddress \Shopware\Core\Checkout\Order\Aggregate\OrderAddress\OrderAddressEntity #}
+        {% set shippingAddress = order.shippingAddress %}
+        {% sw_include '@Storefront/welo_address_documents/base/document_recipient.html.twig'with { shippingAddress: shippingAddress } %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+

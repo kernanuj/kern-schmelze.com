@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="welo.address_documents.service.decorator.invoice_generator_decorated"
+                 class="Welo\AddressDocuments\Service\Decorator\InvoiceGeneratorDecorated"
+                 decorates="Shopware\Core\Checkout\Document\DocumentGenerator\InvoiceGenerator"
+                 public="false"
+        >
+            <argument type="service" id="welo.address_documents.service.decorator.invoice_generator_decorated.inner"/>
+            <argument type="service" id="Welo\AddressDocuments\Service\Configuration"/>
+            <tag name="document.generator" />
+        </service>
+
+        <service id="welo.address_documents.service.decorator.delivery_note_generator_decorated"
+                 class="Welo\AddressDocuments\Service\Decorator\DeliveryNoteGeneratorDecorated"
+                 decorates="Shopware\Core\Checkout\Document\DocumentGenerator\DeliveryNoteGenerator"
+                 public="false"
+        >
+            <argument type="service" id="welo.address_documents.service.decorator.delivery_note_generator_decorated.inner"/>
+            <argument type="service" id="Welo\AddressDocuments\Service\Configuration"/>
+            <tag name="document.generator" />
+        </service>
+
+        <service id="welo.address_documents.service.decorator.credit_note_generator_decorated"
+                 class="Welo\AddressDocuments\Service\Decorator\CreditNoteGeneratorDecorated"
+                 decorates="Shopware\Core\Checkout\Document\DocumentGenerator\CreditNoteGenerator"
+                 public="false"
+        >
+            <argument type="service" id="welo.address_documents.service.decorator.credit_note_generator_decorated.inner"/>
+            <argument type="service" id="Welo\AddressDocuments\Service\Configuration"/>
+            <tag name="document.generator" />
+        </service>
+
+        <service id="welo.address_documents.service.decorator.storno_generator_decorated"
+                 class="Welo\AddressDocuments\Service\Decorator\StornoGeneratorDecorated"
+                 decorates="Shopware\Core\Checkout\Document\DocumentGenerator\StornoGenerator"
+                 public="false"
+        >
+            <argument type="service" id="welo.address_documents.service.decorator.storno_generator_decorated.inner"/>
+            <argument type="service" id="Welo\AddressDocuments\Service\Configuration"/>
+            <tag name="document.generator" />
+        </service>
+
+    </services>
+</container>

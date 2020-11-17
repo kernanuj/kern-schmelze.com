@@ -1,0 +1,54 @@
+<span class="sender-address-small">
+            {% block document_recipient_sender %}
+                {{ config.companyAddress }}<br><br>
+            {% endblock %}
+        </span>
+
+<table style="width:80%">
+    <tr>
+        {% block document_index_address_base_welo_billing_header %}
+            <th id="billing" class="top">{{ "WeloAddressDocuments.documents.billingAddress"|trans }}</th>
+        {% endblock %}
+        {% block document_index_address_base_welo_shipping_header %}
+            <th id="shipping" class="top">{{ "WeloAddressDocuments.documents.shippingAddress"|trans }}</th>
+        {% endblock %}
+    </tr>
+    <tr>
+        {% block document_index_address_base_welo_billing %}
+            <td id="billing">
+                {% if billingAddress.company %}<strong>{{ billingAddress.company }}</strong><br />{% endif %}
+                {% if billingAddress.department %}{{ billingAddress.department }}<br />{% endif %}
+                {% if billingAddress.salutation.displayName %}{{ billingAddress.salutation.displayName }} {% endif %}
+                {% if billingAddress.title %}{{ billingAddress.title }}<br /> {% endif %}
+
+                {{ billingAddress.firstName }} {{ billingAddress.lastName }}<br>
+                {{ billingAddress.street }}<br>
+
+                {% if billingAddress.additionalAddressLine1 %}{{ billingAddress.additionalAddressLine1 }}<br /> {% endif %}
+                {% if billingAddress.additionalAddressLine2 %}{{ billingAddress.additionalAddressLine2 }}<br /> {% endif %}
+
+                {{ billingAddress.zipcode }} {{ billingAddress.city }}<br>
+
+                {% if billingAddress.country %}{{ billingAddress.country.name }}{% endif %}
+            </td>
+        {% endblock %}
+        {% block document_index_address_base_welo_shipping %}
+            <td id="shipping">
+                {% if shippingAddress.company %}<strong>{{ shippingAddress.company }}</strong><br />{% endif %}
+                {% if shippingAddress.department %}{{ shippingAddress.department }}<br />{% endif %}
+                {% if shippingAddress.salutation.displayName %}{{ shippingAddress.salutation.displayName }} {% endif %}
+                {% if shippingAddress.title %}{{ shippingAddress.title }}<br /> {% endif %}
+
+                {{ shippingAddress.firstName }} {{ shippingAddress.lastName }}<br>
+                {{ shippingAddress.street }}<br>
+
+                {% if shippingAddress.additionalAddressLine1 %}{{ shippingAddress.additionalAddressLine1 }}<br /> {% endif %}
+                {% if shippingAddress.additionalAddressLine2 %}{{ shippingAddress.additionalAddressLine2 }}<br /> {% endif %}
+
+                {{ shippingAddress.zipcode }} {{ shippingAddress.city }}<br>
+
+                {% if shippingAddress.country %}{{ shippingAddress.country.name }}{% endif %}
+            </td>
+        {% endblock %}
+    </tr>
+</table>

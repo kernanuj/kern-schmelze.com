@@ -1,0 +1,45 @@
+{
+    "name": "welo/address-documents",
+    "description": "Billing and shipping addresses on the documents",
+    "version": "v1.0.4",
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Web Loupe",
+            "homepage": "https://www.webloupe.de"
+        }
+    ],
+    "require": {
+        "shopware/core": "*",
+        "shopware/storefront": "*"
+    },
+    "extra": {
+        "shopware-plugin-class":"Welo\\AddressDocuments\\WeloAddressDocument6",
+        "plugin-icon": "src/Resources/config/plugin.png",
+        "copyright": "(c) by Web Loupe",
+        "label": {
+            "de-DE": "Rechnungs- und Lieferadresse auf Dokumente",
+            "en-GB": "Billing and shipping addresses on the documents",
+            "fr-FR": "Adresse de livraison et de facturation sur les documents"
+        },
+        "description": {
+            "de-DE": "Rechnungs- und Lieferadresse auf Dokumente",
+            "en-GB": "Billing and shipping addresses on the documents",
+            "fr-FR": "Adresse de livraison et de facturation sur les documents"
+        },
+        "manufacturerLink": {
+            "de-DE": "https://www.webloupe.de",
+            "en-GB": "https://www.webloupe.de"
+        },
+        "supportLink": {
+            "de-DE": "https://www.webloupe.de",
+            "en-GB": "https://www.webloupe.de"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Welo\\AddressDocuments\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{% sw_extends '@Framework/documents/base.html.twig' %}
+
+{% block document_head %}
+    {{ parent() }}
+    {% if config.weloIsCreditActive or config.weloIsDeliveryActive or config.weloIsInvoiceActive or config.weloIsStornoCancellationActive %}
+        {%  block welo_address_documents_style %}
+            {% sw_include '@Storefront/welo_address_documents/base/document_head.html.twig' %}
+        {% endblock %}
+    {% endif %}
+{% endblock %}
+
