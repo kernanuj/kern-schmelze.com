@@ -1,5 +1,5 @@
-import template from './inv-reports-pro.product-stream-list.html.twig';
-import './inv-reports-pro.product-stream-list.scss';
+import template from './inv-reports-pro-product-stream-list.html.twig';
+import './inv-reports-pro-product-stream-list.scss';
 
 const { Component, Mixin } = Shopware;
 const { Criteria } = Shopware.Data;
