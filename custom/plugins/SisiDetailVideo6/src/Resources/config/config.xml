@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Select placeholder image for video</title>
+        <title lang="de-DE">Platzhalter-Bild für Video auswählen</title>
+
+        <input-field type="text">
+            <name>imgLink</name>
+            <label>Image URL:</label>
+            <label lang="de-DE">URL-Bild:</label>
+            <placeholder>bundles/sisidetailvideo6/storefront/logo/signundsinn.png</placeholder>
+            <helpText>Specify the url of the image that will be displayed in the slider thumbnails on the detail page as a placeholder for the video</helpText>
+            <helpText lang="de-DE">Geben Sie die URL des Bildes an, dass auf der Detailseite bei den Vorschau-Bildern des Sliders anstelle des Videos angezeigt wird.</helpText>
+        </input-field>
+    </card>
+</config>

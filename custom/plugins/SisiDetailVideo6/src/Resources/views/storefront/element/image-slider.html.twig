@@ -1,0 +1,74 @@
+{% block element_image_gallery_inner_multiple_slides %}
+    {% block element_image_gallery_inner_container %}
+        <div class="gallery-slider-container"
+             data-gallery-slider-container="true">
+            {% block element_image_gallery_inner_items %}
+                {% if page.product.translated.customFields.sisi_video_id %}
+                    <div class="gallery-slider-item-container">
+                        <div class="gallery-slider-item is-{{ displayMode }} js-magnifier-container"{% if minHeight and  (displayMode == "cover" or displayMode == "contain" ) %} style="min-height: {{ minHeight }}"{% endif %}>
+                            <iframe class="img-fluid gallery-slider-image magnifier-image js-magnifier-image video-element"
+                                    src="https://www.youtube-nocookie.com/embed/{{page.product.translated.customFields.sisi_video_id}}"
+                                    frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+                                    data-full-image="https://www.youtube-nocookie.com/embed/{{page.product.translated.customFields.sisi_video_id}}">
+                            </iframe>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% for image in mediaItems %}
+                    {% block element_image_gallery_inner_item %}
+                        <div class="gallery-slider-item-container">
+                            <div class="gallery-slider-item is-{{ displayMode }} js-magnifier-container"{% if minHeight and  (displayMode == "cover" or displayMode == "contain" ) %} style="min-height: {{ minHeight }}"{% endif %}>
+                                {% set attributes = {
+                                    'class': 'img-fluid gallery-slider-image magnifier-image js-magnifier-image',
+                                    'alt': (image.translated.alt ?: fallbackImageTitle),
+                                    'title': (image.translated.title ?: fallbackImageTitle),
+                                    'data-full-image': image.url
+                                } %}
+
+                                {% if displayMode == 'cover' or displayMode == 'contain' %}
+                                    {% set attributes = attributes|merge({ 'data-object-fit': displayMode }) %}
+                                {% endif %}
+
+                                {% if isProduct %}
+                                    {% set attributes = attributes|merge({ 'itemprop': 'image' }) %}
+                                {% endif %}
+
+                                {% sw_thumbnails 'gallery-slider-image-thumbnails' with {
+                                    media: image
+                                } %}
+                            </div>
+                        </div>
+                    {% endblock %}
+                {% endfor %}
+            {% endblock %}
+        </div>
+    {% endblock %}
+
+    {% block element_image_gallery_inner_controls %}
+        {% if navigationArrows %}
+            <div class="gallery-slider-controls"
+                 data-gallery-slider-controls="{% if navigationArrows %}true{% else %}false{% endif %}">
+                {% block element_image_gallery_inner_control_items %}
+                    {% block element_image_gallery_inner_control_prev %}
+                        <button class="base-slider-controls-prev gallery-slider-controls-prev{% if navigationArrows == "outside" %} is-nav-prev-outside{% elseif navigationArrows == "inside" %} is-nav-prev-inside{% endif %}"
+                                aria-label="{{ 'general.previous'|trans|striptags }}">
+                            {% block element_image_gallery_inner_control_prev_icon %}
+                                {% sw_icon 'arrow-head-left' %}
+                            {% endblock %}
+                        </button>
+                    {% endblock %}
+
+                    {% block element_image_gallery_inner_control_next %}
+                        <button class="base-slider-controls-next gallery-slider-controls-next{% if navigationArrows == "outside" %} is-nav-next-outside{% elseif navigationArrows == "inside" %} is-nav-next-inside{% endif %}"
+                                aria-label="{{ 'general.next'|trans|striptags }}">
+                            {% block element_image_gallery_inner_control_next_icon %}
+                                {% sw_icon 'arrow-head-right' %}
+                            {% endblock %}
+                        </button>
+                    {% endblock %}
+                {% endblock %}
+            </div>
+        {% endif %}
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,58 @@
+{% sw_extends '@Storefront/storefront/component/product/card/box-image.html.twig' %}
+
+{% block component_product_box_image %}
+    <div class="product-image-wrapper">
+        {# fallback if display mode is not set #}
+        {% set displayMode = displayMode ?: 'standard' %}
+
+        {# set display mode 'cover' for box-image with standard display mode #}
+        {% if layout == 'image' and displayMode == 'standard' %}
+            {% set displayMode = 'cover' %}
+        {% endif %}
+
+        <a href="{{ seoUrl('frontend.detail.page', {'productId': id}) }}"
+           title="{{ name }}"
+           class="product-image-link is-{{ displayMode }}">
+
+            {% if product.customFields.sisi_video_id and product.customFields.sisi_show_listing %}
+                <iframe class="product-image is-{{displayMode}}"
+                        src="https://www.youtube-nocookie.com/embed/{{product.customFields.sisi_video_id}}"
+                        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+                        data-full-image="https://www.youtube-nocookie.com/embed/{{page.product.translated.customFields.sisi_video_id}}">
+                </iframe>
+            {% else %}
+                {% if cover.url %}
+                    {% set attributes = {
+                        'class': 'product-image is-'~displayMode,
+                        'alt': (cover.translated.alt ?: name),
+                        'title': (cover.translated.title ?: name)
+                    } %}
+
+                    {% if displayMode == 'cover' or displayMode == 'contain' %}
+                        {% set attributes = attributes|merge({ 'data-object-fit': displayMode }) %}
+                    {% endif %}
+
+                    {% sw_thumbnails 'product-image-thumbnails' with {
+                        media: cover,
+                        sizes: {
+                            'xs': '501px',
+                            'sm': '315px',
+                            'md': '427px',
+                            'lg': '333px',
+                            'xl': '284px'
+                        }
+                    } %}
+                {% else %}
+                    <div class="product-image-placeholder">
+                        {% sw_icon 'placeholder' style {
+                            'size': 'fluid'
+                        } %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        </a>
+    </div>
+{% endblock %}
+
+
+{% block component_product_box_description %}{% endblock %}

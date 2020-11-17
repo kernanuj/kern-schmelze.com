@@ -1,0 +1,51 @@
+{
+    "name": "sisi/sisi-detail-video",
+    "description": "Insert Youtube video in product detail page with custom thumbnail",
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "version": "1.0.1",
+    "authors": [
+        {
+            "name": "signundsinn GmbH",
+            "homepage": "https://www.signundsinn.de",
+            "role": "Manufacturer"
+        }
+    ],
+    "require": {
+        "shopware/core": ">=6.2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.1"
+    },
+    "extra": {
+        "shopware-plugin-class": "Sisi\\SisiDetailVideo6\\SisiDetailVideo6",
+        "plugin-icon": "src/Resources/config/plugin.png",
+        "copyright": "(c) by signundsinn GmbH",
+        "label": {
+            "de-DE": "Produkt-Video mit Vorschaubild",
+            "en-GB": "Product-video with preview image"
+        },
+        "description": {
+            "de-DE": "Ergänzen sie ihre Produkte um Youtube-Videos mit Vorschaubild. Die Videos werden in auf der Detailseite und in der Kategorieansicht angezeigt.",
+            "en-GB": "Add youtube-videos with preview image to your products. The videos are shown on the detail page and in the category view."
+        },
+        "manufacturerLink": {
+            "de-DE": "https://store.shopware.com/signundsinn.html",
+            "en-GB": "https://store.shopware.com/en/signundsinn.html"
+        },
+        "supportLink": {
+            "de-DE": "https://signundsinn.de/kontakt/",
+            "en-GB": "https://signundsinn.de/kontakt/"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Sisi\\SisiDetailVideo6\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sisi\\SisiDetailVideo6\\Tests\\": "tests/"
+        }
+    }
+}
