@@ -23,7 +23,12 @@ class CoeSwUtil
      */
     public static function extractControllerNameAndAction(string $controllerString) : ControllerDataStruct
     {
-        list($controller, $action) = explode("::", $controllerString);
+
+        if (strpos($controllerString, '::' === true)) {
+            list($controller, $action) = explode("::", $controllerString);
+        } else {
+            list($controller, $action) = explode("\\", $controllerString);
+        }
 
         $controllerParts = explode("\\", $controller);
 
