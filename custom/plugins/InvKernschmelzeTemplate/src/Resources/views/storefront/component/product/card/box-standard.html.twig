@@ -2,3 +2,45 @@
 
 {% block component_product_box_description %}
 {% endblock %}
+
+{% block component_product_box_rating %}
+    {% if shopware.config.core.listing.showReview %}
+        {% if product.ratingAverage %}
+            <div class="product-rating">
+                {% sw_include '@Storefront/storefront/component/review/rating.html.twig' with {
+                    points: product.ratingAverage,
+                    style: 'text-primary'
+                } %}
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block component_product_box_variant_characteristics %}
+    {% if not product.isGrouped %}
+        {% if product.variation is not empty %}
+            <div class="product-variant-characteristics">
+                <div class="product-variant-characteristics-text">
+                    {% for variation in product.variation %}
+                        {{ variation.group }}:
+                        <span class="product-variant-characteristics-option">
+                                                        {{ variation.option }}
+                                                    </span>
+
+                        {% if product.variation|last != variation %}
+                            {{ " | " }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block component_product_box_name %}
+    <a href="{{ seoUrl('frontend.detail.page', {'productId': id}) }}"
+       class="product-name equal"
+       title="{{ name }}">
+        {{ name }}
+    </a>
+{% endblock %}
