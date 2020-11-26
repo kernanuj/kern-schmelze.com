@@ -9,6 +9,12 @@
         "buttons": {
             "viewProduct": "View product"
         },
+        "listing": {
+            "labels": {
+                "deluxe_edition": "Deluxe Edition",
+                "single_origin": "Single Origin"
+            }
+        },
         "checkout": {
             "addPromotionLabel": "Insert Voucher-Code here:",
             "continueShopping": "Continue shopping",

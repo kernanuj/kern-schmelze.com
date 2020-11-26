@@ -1,0 +1,15 @@
+{% sw_extends "@Storefront/storefront/component/product/card/badges.html.twig" %}
+
+{% block component_product_badges_new %}
+    {{ parent() }}
+    {%  if product.translated.customFields.custom_product_data_label is not empty %}
+        {% set labels = [] %}
+        {% set labels = product.translated.customFields.custom_product_data_label %}
+        {% for label in labels %}
+            <div>
+                <span class="badge badge-{{ label }} badge-{{ label }}"> {{ ("InvKernschmelzeTemplate.listing.labels." ~ label)|trans }}</span>
+
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

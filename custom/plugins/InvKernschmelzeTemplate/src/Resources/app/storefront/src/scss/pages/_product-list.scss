@@ -45,3 +45,13 @@
         }
     }
 }
+
+.badge {
+    &.badge-deluxe_edition {
+        background: $magenta;
+    }
+
+    &.badge-simgle_origin {
+        background: $orange;
+    }
+}

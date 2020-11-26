@@ -9,6 +9,12 @@
         "buttons": {
             "viewProduct": "Zum Produkt"
         },
+        "listing": {
+            "labels": {
+                "deluxe_edition": "Deluxe Edition",
+                "single_origin": "Single Origin"
+            }
+        },
         "checkout": {
             "addPromotionLabel": "Hier Rabattcode eingeben:",
             "continueShopping": "Weiter einkaufen",
