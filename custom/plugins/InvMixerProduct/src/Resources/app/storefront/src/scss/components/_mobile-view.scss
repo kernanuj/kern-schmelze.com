@@ -369,10 +369,14 @@
 }
 
 @media (max-width: 768px) {
+    .is-act- {
+        padding-bottom: 100vh !important;
+    }
+
     .mixer-product-list {
         .col-lg-4 {
             &#mixer-product-offcanvas {
-                top: 146px;
+                bottom: 0;
                 height: calc(100% - 146px);
 
                 &.minimal {
@@ -384,10 +388,14 @@
 }
 
 @media (max-width: 576px) {
+    .is-act- {
+        padding-bottom: 100vh !important;
+    }
+
     .mixer-product-list {
         .col-lg-4 {
             &#mixer-product-offcanvas {
-                top: 56px;
+                bottom: 0;
                 height: calc(100% - 56px);
 
                 &.minimal {
