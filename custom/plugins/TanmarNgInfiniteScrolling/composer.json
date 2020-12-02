@@ -1,7 +1,7 @@
 {
     "name": "tanmar/infinite-scrolling",
     "description": "Infinite Scrolling",
-    "version": "v1.0.8",
+    "version": "v1.0.9",
     "type": "shopware-platform-plugin",
     "license": "GPL-3.0-or-later",
     "authors": [

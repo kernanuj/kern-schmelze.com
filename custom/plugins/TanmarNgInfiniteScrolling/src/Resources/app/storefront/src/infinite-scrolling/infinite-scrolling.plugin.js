@@ -5,7 +5,7 @@ import LoadingIndicatorUtil from 'src/utility/loading-indicator/loading-indicato
 
 /**
  * @author Tanmar Webentwicklung <info@tanmar.de>
- * @version 1.0.8
+ * @version 1.0.9
  */
 export default class TanmarInfiniteScrolling extends ListingPlugin {
     
@@ -13,7 +13,7 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
         var me = this;
         
         //
-        me._tmisVersion = '1.0.8';
+        me._tmisVersion = '1.0.9';
         
         // debug for logs
         me._tmisDebug = false;
@@ -44,6 +44,9 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
         me._listingRowSelector = '.cms-element-product-listing-wrapper .cms-listing-row';
         
         me._paginationSelector = '.cms-element-product-listing-wrapper .pagination-nav';
+        
+        // disable scroll top for infinite scrolling
+        me.options.scrollTopListingWrapper = false;
         
         // super init
         super.init();
@@ -421,7 +424,7 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
                 // get the last page, changed maybe by filter
                 me.lastPage = parseInt(pagination.querySelector('.page-item.page-last input').value,10);
             }else{
-                // no products
+                // no pagination found in ajax, means only on page
                 me.currentPage = 1;
                 me.lastPage = 1;
             }
@@ -509,8 +512,11 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
 
                     window.PluginManager.initializePlugins();
                     
-                    // register new oberve
-                    me._tmisObserveLastProductBox();
+                    // only register new oberver if we arent on the last page
+                    if(me.lastPage > me.currentPage){
+                        me._tmisLog('register new oberver');
+                        me._tmisObserveLastProductBox();
+                    }
                     
                     // image fix
                     me._tmisAfterContentChange(content);

@@ -26,3 +26,8 @@
 
 # 1.0.8
 - Fixed a bug in the plugin configuration for each sales channel
+
+# 1.0.9
+- Fixed a bug where the browser scrolles to the top of the listing as soon as a new page is loaded
+- Fixed a bug where the product boxes append to the listing after sorting
+- Fixed a bug where listing ajax was called twice after sorting

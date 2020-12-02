@@ -8,6 +8,7 @@ export default class TanmarInfiniteScrollingListingSortingPlugin extends Listing
         
         if (l._tmisActive) {
             me.options.sorting = event.target.value;
+            l._tmisListingOption = 'override';
             l._tmisVisitedPages = [];
             l._tmisNewPageRequestCounter = 0;
             l._tmisIsLoading = true;
