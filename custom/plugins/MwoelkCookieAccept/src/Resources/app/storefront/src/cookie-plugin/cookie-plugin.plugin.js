@@ -2,6 +2,7 @@ import Plugin from 'src/plugin-system/plugin.class';
 import CookieStorage from 'src/helper/storage/cookie-storage.helper';
 import DeviceDetection from 'src/helper/device-detection.helper';
 import HttpClient from 'src/service/http-client.service';
+import {COOKIE_CONFIGURATION_UPDATE} from 'src/plugin/cookie/cookie-configuration.plugin';
 
 let xhr = null;
 
@@ -84,10 +85,10 @@ export default class CookiePlugin extends Plugin {
         const { cookiePreference } = cookieConfigurationPlugin.options;
 
         this._getCookies(cookies => {
-            const cookieNames = [];
+            const updatedCookies = {};
 
             cookies.forEach(({ cookie, value, expiration }) => {
-                cookieNames.push(cookie);
+                updatedCookies[cookie] = true;
 
                 if (cookie && value) {
                     CookieStorage.setItem(cookie, value, expiration);
@@ -96,7 +97,8 @@ export default class CookiePlugin extends Plugin {
 
             CookieStorage.setItem(cookiePreference, '1', '30');
 
-            cookieConfigurationPlugin._handleUpdateListener(cookieNames, []);
+            document.$emitter.publish(COOKIE_CONFIGURATION_UPDATE, updatedCookies);
+
             cookieConfigurationPlugin._hideCookieBar();
 
             if(this.options.reloadPage) {

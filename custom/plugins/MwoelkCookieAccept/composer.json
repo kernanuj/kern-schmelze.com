@@ -2,7 +2,7 @@
     "name": "mwoelk/cookie-accept",
     "type": "shopware-platform-plugin",
     "description": "Add option to accept all cookies in Shopware 6",
-    "version": "v1.2.2",
+    "version": "v1.2.4",
     "license": "proprietary",
     "authors": [
         {
