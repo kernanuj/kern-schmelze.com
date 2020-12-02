@@ -15,11 +15,29 @@
             class="product-image-link is-{{ displayMode }}">
 
              {% if product.customFields.sisi_video_id and product.customFields.sisi_show_listing %}
-                 <iframe class="product-image is-{{displayMode}}"
-                         src="https://www.youtube-nocookie.com/embed/{{product.customFields.sisi_video_id}}"
-                         frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
-                         data-full-image="https://www.youtube-nocookie.com/embed/{{page.product.translated.customFields.sisi_video_id}}">
-                 </iframe>
+                 {% set sisiIsVimeo  = 'vimeo' in product.customFields.sisi_video_id %}
+                 {% set sisiIsYt  = 'youtube' in product.customFields.sisi_video_id %}
+
+                 {% if sisiIsVimeo %}
+                     {% set sisiVimeoId = product.customFields.sisi_video_id|split('m/', 2)|last %}
+                     <iframe class="product-image is-{{displayMode}}"
+                             src="https://player.vimeo.com/video/{{sisiVimeoId}}"
+                             frameborder="0" style="width: 100%; height:100%;" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+                     </iframe>
+                 {% elseif sisiIsYt %}
+                     {% set sisiYtId = product.customFields.sisi_video_id|split('=', 2)|last %}
+                     <iframe class="product-image is-{{displayMode}}"
+                             src="https://www.youtube-nocookie.com/embed/{{sisiYtId}}"
+                             frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+                             data-full-image="https://www.youtube-nocookie.com/embed/{{page.product.translated.customFields.sisi_video_id}}">
+                     </iframe>
+                 {% else %}
+                     <iframe class="product-image is-{{displayMode}}"
+                             src="https://www.youtube-nocookie.com/embed/{{product.customFields.sisi_video_id}}"
+                             frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+                             data-full-image="https://www.youtube-nocookie.com/embed/{{page.product.translated.customFields.sisi_video_id}}">
+                     </iframe>
+                 {% endif %}
              {% else %}
                  {% if cover.url %}
                      {% set attributes = {

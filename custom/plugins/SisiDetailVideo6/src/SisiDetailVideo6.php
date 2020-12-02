@@ -30,25 +30,30 @@ class SisiDetailVideo6 extends Plugin
         /** @var EntityRepositoryInterface $repository */
         $repository = $this->container->get('custom_field_set.repository');
 
-        $repository->create(
+        $repository->upsert(
             [
                 [
                     'name' => 'YoutubeLink',
-                    'config' => ['label' => 'Youtube Link'],
+                    'config' => ['label' => 'Sisi Video Link (Vimeo or Youtube)'],
                     'customFields' => [
                         [
                             'name' => 'sisi_video_id',
-                            'label' => 'Youtube Video ID',
-                            'config' => ['label' => 'Youtube Video ID'],
+                            'label' => 'Put youtube or vimeo link',
+                            'config' => ['label' => 'Put youtube or vimeo link'],
                             'type' => CustomFieldTypes::TEXT
                         ],
-
+                        [
+                            'name' => 'sisi_video_position_gallery',
+                            'label' => 'Video position in gallery',
+                            'config' => ['label' => 'Video position in gallery'],
+                            'type' => CustomFieldTypes::INT
+                        ],
                         [
                             'name' => 'sisi_show_listing',
                             'label' => 'Show video in listing',
                             'config' => ['label' => 'Show video in listing'],
                             'type' => CustomFieldTypes::BOOL
-                        ]
+                        ],
                     ],
                     'relations' => [
                         [

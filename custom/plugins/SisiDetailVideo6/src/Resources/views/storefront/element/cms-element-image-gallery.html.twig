@@ -66,8 +66,6 @@
         {% endif %}>
 
 
-
-
         {% block element_image_gallery_inner_col %}
             <div class="gallery-slider-col{% if galleryPosition == "left" %} col order-1 order-md-2{% elseif galleryPosition == "underneath" %} col-12 order-1{% endif %}"
                  {% if zoomModal %}data-zoom-modal="true"{% endif %}>
@@ -151,12 +149,12 @@
                                  data-gallery-slider-thumbnails="true">
                                 {% block element_image_gallery_inner_thumbnails_items %}
 
-                                    {% if page.product.translated.customFields.sisi_video_id %}
+                                    {% if page.product.translated.customFields.sisi_video_id and page.product.translated.customFields.sisi_video_position_gallery <= 1 %}
                                         <div class="gallery-slider-thumbnails-item">
                                             <div class="gallery-slider-thumbnails-item-inner">
-                                                {% if shopware.config.SisiDetailVideo6.config.imgLink  %}
-                                                    <img class="gallery-slider-thumbnails-image" src="{{ shopware.config.SisiDetailVideo6.config.imgLink }} "
-                                                                 data-full-image="{{ shopware.config.SisiDetailVideo6.config.imgLink }}">
+                                                {% if sisiDetailVideoPreview  %}
+                                                    <img class="gallery-slider-thumbnails-image" src="{{ sisiDetailVideoPreview }} "
+                                                         data-full-image="{{ sisiDetailVideoPreview }}">
 
                                                 {% else %}
                                                     <img class="gallery-slider-thumbnails-image" src="{{ asset('bundles/sisidetailvideo6/storefront/logo/signundsinn.png') }} "
@@ -166,8 +164,24 @@
                                         </div>
                                     {% endif %}
 
-
+                                    {% set positionCount = 0 %}
                                     {% for image in mediaItems %}
+                                        {% set positionCount = positionCount + 1 %}
+                                        {% if page.product.translated.customFields.sisi_video_id and page.product.translated.customFields.sisi_video_position_gallery > 1 and  page.product.translated.customFields.sisi_video_position_gallery == positionCount %}
+                                            <div class="gallery-slider-thumbnails-item">
+                                                <div class="gallery-slider-thumbnails-item-inner">
+                                                    {% if sisiDetailVideoPreview  %}
+                                                        <img class="gallery-slider-thumbnails-image" src="{{ sisiDetailVideoPreview }} "
+                                                             data-full-image="{{ sisiDetailVideoPreview }}">
+
+                                                    {% else %}
+                                                        <img class="gallery-slider-thumbnails-image" src="{{ asset('bundles/sisidetailvideo6/storefront/logo/signundsinn.png') }} "
+                                                             data-full-image="{{ asset('bundles/sisidetailvideo6/storefront/logo/signundsinn.png') }}">
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endif %}
+
                                         {% block element_image_gallery_inner_thumbnails_item %}
                                             <div class="gallery-slider-thumbnails-item">
                                                 {% block element_image_gallery_inner_thumbnails_item_inner %}
@@ -193,6 +207,21 @@
                                             </div>
                                         {% endblock %}
                                     {% endfor %}
+
+                                    {% if page.product.translated.customFields.sisi_video_id and page.product.translated.customFields.sisi_video_position_gallery > 1 and  page.product.translated.customFields.sisi_video_position_gallery >= positionCount %}
+                                        <div class="gallery-slider-thumbnails-item">
+                                            <div class="gallery-slider-thumbnails-item-inner">
+                                                {% if sisiDetailVideoPreview  %}
+                                                    <img class="gallery-slider-thumbnails-image" src="{{ sisiDetailVideoPreview }} "
+                                                         data-full-image="{{ sisiDetailVideoPreview }}">
+
+                                                {% else %}
+                                                    <img class="gallery-slider-thumbnails-image" src="{{ asset('bundles/sisidetailvideo6/storefront/logo/signundsinn.png') }} "
+                                                         data-full-image="{{ asset('bundles/sisidetailvideo6/storefront/logo/signundsinn.png') }}">
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
                                 {% endblock %}
                             </div>
                         {% endblock %}
@@ -282,11 +311,30 @@
                                                                 {% if page.product.translated.customFields.sisi_video_id %}
                                                                     <div class="gallery-slider-item">
                                                                         <div class="image-zoom-container">
-                                                                            <iframe class="gallery-slider-image js-image-zoom-element video-element-zoom"
-                                                                                    src="https://www.youtube-nocookie.com/embed/{{page.product.translated.customFields.sisi_video_id}}"
-                                                                                    frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
-                                                                                    data-full-image="https://www.youtube-nocookie.com/embed/{{page.product.translated.customFields.sisi_video_id}}">
-                                                                            </iframe>
+
+                                                                            {% set sisiIsVimeo  = 'vimeo' in page.product.translated.customFields.sisi_video_id %}
+                                                                            {% set sisiIsYt  = 'youtube' in page.product.translated.customFields.sisi_video_id %}
+
+                                                                            {% if sisiIsVimeo %}
+                                                                                {% set sisiVimeoId = page.product.translated.customFields.sisi_video_id|split('m/', 2)|last %}
+                                                                                <iframe class="gallery-slider-image js-image-zoom-element video-element-zoom"
+                                                                                        src="https://player.vimeo.com/video/{{sisiVimeoId}}"
+                                                                                        style="width: 100%; height:100%;" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+                                                                                </iframe>
+                                                                            {% elseif sisiIsYt %}
+                                                                                {% set sisiYtId = page.product.translated.customFields.sisi_video_id|split('=', 2)|last %}
+                                                                                <iframe class="gallery-slider-image js-image-zoom-element video-element-zoom"
+                                                                                        src="https://www.youtube-nocookie.com/embed/{{sisiYtId}}"
+                                                                                        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+                                                                                        data-full-image="https://www.youtube-nocookie.com/embed/{{sisiYtId}}">
+                                                                                </iframe>
+                                                                            {% else %}
+                                                                                <iframe class="gallery-slider-image js-image-zoom-element video-element-zoom"
+                                                                                        src="https://www.youtube-nocookie.com/embed/{{page.product.translated.customFields.sisi_video_id}}"
+                                                                                        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+                                                                                        data-full-image="https://www.youtube-nocookie.com/embed/{{page.product.translated.customFields.sisi_video_id}}">
+                                                                                </iframe>
+                                                                            {% endif %}
                                                                         </div>
                                                                     </div>
                                                                 {% endif %}
@@ -369,9 +417,9 @@
                                                                     <div class="gallery-slider-thumbnails-item">
                                                                         <div class="gallery-slider-thumbnails-item-inner">
 
-                                                                            {% if shopware.config.SisiDetailVideo6.config.imgLink  %}
-                                                                                <img class="gallery-slider-thumbnails-image" src="{{ shopware.config.SisiDetailVideo6.config.imgLink }} "
-                                                                                     data-full-image="{{ shopware.config.SisiDetailVideo6.config.imgLink }}">
+                                                                            {% if sisiDetailVideoPreview %}
+                                                                                <img class="gallery-slider-thumbnails-image" src="{{ sisiDetailVideoPreview }} "
+                                                                                     data-full-image="{{ sisiDetailVideoPreview }}">
 
                                                                             {% else %}
                                                                                 <img class="gallery-slider-thumbnails-image" src="{{ asset('bundles/sisidetailvideo6/storefront/logo/signundsinn.png') }} "

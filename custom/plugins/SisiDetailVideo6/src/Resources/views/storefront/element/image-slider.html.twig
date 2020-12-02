@@ -3,19 +3,41 @@
         <div class="gallery-slider-container"
              data-gallery-slider-container="true">
             {% block element_image_gallery_inner_items %}
-                {% if page.product.translated.customFields.sisi_video_id %}
+                {% if page.product.translated.customFields.sisi_video_id and page.product.translated.customFields.sisi_video_position_gallery <= 1%}
                     <div class="gallery-slider-item-container">
                         <div class="gallery-slider-item is-{{ displayMode }} js-magnifier-container"{% if minHeight and  (displayMode == "cover" or displayMode == "contain" ) %} style="min-height: {{ minHeight }}"{% endif %}>
-                            <iframe class="img-fluid gallery-slider-image magnifier-image js-magnifier-image video-element"
-                                    src="https://www.youtube-nocookie.com/embed/{{page.product.translated.customFields.sisi_video_id}}"
-                                    frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
-                                    data-full-image="https://www.youtube-nocookie.com/embed/{{page.product.translated.customFields.sisi_video_id}}">
-                            </iframe>
+
+                            {% set sisiIsVimeo  = 'vimeo' in page.product.translated.customFields.sisi_video_id %}
+                            {% set sisiIsYt  = 'youtube' in page.product.translated.customFields.sisi_video_id %}
+
+                            {% sw_include '@Storefront/storefront/element/sisi-video.html.twig'  with {
+                                sisiIsVimeo: sisiIsVimeo,
+                                sisiIsYt: sisiIsYt
+                            } %}
+
                         </div>
                     </div>
                 {% endif %}
 
+                {% set positionCount = 0 %}
                 {% for image in mediaItems %}
+                    {% set positionCount = positionCount + 1 %}
+                    {% if page.product.translated.customFields.sisi_video_id and page.product.translated.customFields.sisi_video_position_gallery > 1 and  page.product.translated.customFields.sisi_video_position_gallery == positionCount %}
+                        <div class="gallery-slider-item-container">
+                            <div class="gallery-slider-item is-{{ displayMode }} js-magnifier-container"{% if minHeight and  (displayMode == "cover" or displayMode == "contain" ) %} style="min-height: {{ minHeight }}"{% endif %}>
+
+                                {% set sisiIsVimeo  = 'vimeo' in page.product.translated.customFields.sisi_video_id %}
+                                {% set sisiIsYt  = 'youtube' in page.product.translated.customFields.sisi_video_id %}
+
+                                {% sw_include '@Storefront/storefront/element/sisi-video.html.twig'  with {
+                                    sisiIsVimeo: sisiIsVimeo,
+                                    sisiIsYt: sisiIsYt
+                                } %}
+
+                            </div>
+                        </div>
+                    {% endif %}
+
                     {% block element_image_gallery_inner_item %}
                         <div class="gallery-slider-item-container">
                             <div class="gallery-slider-item is-{{ displayMode }} js-magnifier-container"{% if minHeight and  (displayMode == "cover" or displayMode == "contain" ) %} style="min-height: {{ minHeight }}"{% endif %}>
@@ -41,6 +63,22 @@
                         </div>
                     {% endblock %}
                 {% endfor %}
+
+                {% if page.product.translated.customFields.sisi_video_id and page.product.translated.customFields.sisi_video_position_gallery > 1 and  page.product.translated.customFields.sisi_video_position_gallery >= positionCount %}
+                    <div class="gallery-slider-item-container">
+                        <div class="gallery-slider-item is-{{ displayMode }} js-magnifier-container"{% if minHeight and  (displayMode == "cover" or displayMode == "contain" ) %} style="min-height: {{ minHeight }}"{% endif %}>
+
+                            {% set sisiIsVimeo  = 'vimeo' in page.product.translated.customFields.sisi_video_id %}
+                            {% set sisiIsYt  = 'youtube' in page.product.translated.customFields.sisi_video_id %}
+
+                            {% sw_include '@Storefront/storefront/element/sisi-video.html.twig'  with {
+                                sisiIsVimeo: sisiIsVimeo,
+                                sisiIsYt: sisiIsYt
+                            } %}
+
+                        </div>
+                    </div>
+                {% endif %}
             {% endblock %}
         </div>
     {% endblock %}
