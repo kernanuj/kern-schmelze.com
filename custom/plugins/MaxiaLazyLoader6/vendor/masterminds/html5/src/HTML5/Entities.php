@@ -1,6 +1,6 @@
 <?php
 
-namespace _PhpScoper833c86d6963f\Masterminds\HTML5;
+namespace _PhpScoperfd240ab1f7e6\Masterminds\HTML5;
 
 /** Entity lookup tables. This class is automatically generated. */
 class Entities

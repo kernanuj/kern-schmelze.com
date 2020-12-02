@@ -36,6 +36,7 @@ class Config
      */
     public function getConfig() : array
     {
+        /** @var array $config */
         $config = $this->configService->get($this->namespace);
 
         $config['active'] = true;
@@ -47,11 +48,11 @@ class Config
 
             $selectors = explode("\n", $config['blacklistSelectors']);
 
-            foreach ($selectors as &$line) {
-                $line = trim($line);
+            foreach ($selectors as $index => $line) {
+                $line = trim($selectors[$index]);
 
                 if (empty($line)) {
-                    unset($line);
+                    unset($selectors[$index]);
                 }
             }
 
@@ -73,15 +74,15 @@ class Config
         if (isset($config['blacklistUrls']) && !empty($config['blacklistUrls'])) {
             $config['blacklistUrls'] = explode("\n", $config['blacklistUrls']);
 
-            foreach ($config['blacklistUrls'] as $index => &$url) {
-                $url = trim($url);
+            foreach ($config['blacklistUrls'] as $index => &$expr) {
+                $expr = trim($expr);
 
-                if (substr($url, 0, 1) == '#') {
+                if (empty($expr) || strpos($expr, '#') === 0) {
                     unset($config['blacklistUrls'][$index]);
                     continue;
                 }
 
-                $url = str_replace('*', '.*', $url);
+                $expr = str_replace("\\*", '.*', preg_quote($expr, '#'));
             }
         }
 

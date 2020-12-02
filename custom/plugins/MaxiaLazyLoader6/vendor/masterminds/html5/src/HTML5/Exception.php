@@ -1,6 +1,6 @@
 <?php
 
-namespace _PhpScoper833c86d6963f\Masterminds\HTML5;
+namespace _PhpScoperfd240ab1f7e6\Masterminds\HTML5;
 
 /**
  * The base exception for the HTML5 project.

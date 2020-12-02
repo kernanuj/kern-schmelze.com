@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath;
 
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\SelectorNode;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\SelectorNode;
 /**
  * XPath expression translator interface.
  *
@@ -30,5 +30,5 @@ interface TranslatorInterface
     /**
      * Translates a parsed selector node to an XPath expression.
      */
-    public function selectorToXPath(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\SelectorNode $selector, string $prefix = 'descendant-or-self::') : string;
+    public function selectorToXPath(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\SelectorNode $selector, string $prefix = 'descendant-or-self::') : string;
 }

@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Extension;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Extension;
 
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\ExpressionErrorException;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\FunctionNode;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Parser;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Translator;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\ExpressionErrorException;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\FunctionNode;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Parser;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Translator;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr;
 /**
  * XPath expression translator function extension.
  *
@@ -26,7 +26,7 @@ use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr;
  *
  * @internal
  */
-class FunctionExtension extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Extension\AbstractExtension
+class FunctionExtension extends \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Extension\AbstractExtension
 {
     /**
      * {@inheritdoc}
@@ -38,12 +38,12 @@ class FunctionExtension extends \_PhpScoper833c86d6963f\Symfony\Component\CssSel
     /**
      * @throws ExpressionErrorException
      */
-    public function translateNthChild(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\FunctionNode $function, bool $last = \false, bool $addNameTest = \true) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateNthChild(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\FunctionNode $function, bool $last = \false, bool $addNameTest = \true) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         try {
-            list($a, $b) = \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Parser::parseSeries($function->getArguments());
-        } catch (\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException $e) {
-            throw new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\ExpressionErrorException(\sprintf('Invalid series: "%s".', \implode('", "', $function->getArguments())), 0, $e);
+            list($a, $b) = \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Parser::parseSeries($function->getArguments());
+        } catch (\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException $e) {
+            throw new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\ExpressionErrorException(\sprintf('Invalid series: "%s".', \implode('", "', $function->getArguments())), 0, $e);
         }
         $xpath->addStarPrefix();
         if ($addNameTest) {
@@ -81,49 +81,49 @@ class FunctionExtension extends \_PhpScoper833c86d6963f\Symfony\Component\CssSel
         // -n means -1n
         // -1n+6 means elements 6 and previous
     }
-    public function translateNthLastChild(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\FunctionNode $function) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateNthLastChild(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\FunctionNode $function) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         return $this->translateNthChild($xpath, $function, \true);
     }
-    public function translateNthOfType(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\FunctionNode $function) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateNthOfType(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\FunctionNode $function) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         return $this->translateNthChild($xpath, $function, \false, \false);
     }
     /**
      * @throws ExpressionErrorException
      */
-    public function translateNthLastOfType(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\FunctionNode $function) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateNthLastOfType(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\FunctionNode $function) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         if ('*' === $xpath->getElement()) {
-            throw new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\ExpressionErrorException('"*:nth-of-type()" is not implemented.');
+            throw new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\ExpressionErrorException('"*:nth-of-type()" is not implemented.');
         }
         return $this->translateNthChild($xpath, $function, \true, \false);
     }
     /**
      * @throws ExpressionErrorException
      */
-    public function translateContains(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\FunctionNode $function) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateContains(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\FunctionNode $function) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         $arguments = $function->getArguments();
         foreach ($arguments as $token) {
             if (!($token->isString() || $token->isIdentifier())) {
-                throw new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\ExpressionErrorException('Expected a single string or identifier for :contains(), got ' . \implode(', ', $arguments));
+                throw new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\ExpressionErrorException('Expected a single string or identifier for :contains(), got ' . \implode(', ', $arguments));
             }
         }
-        return $xpath->addCondition(\sprintf('contains(string(.), %s)', \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Translator::getXpathLiteral($arguments[0]->getValue())));
+        return $xpath->addCondition(\sprintf('contains(string(.), %s)', \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Translator::getXpathLiteral($arguments[0]->getValue())));
     }
     /**
      * @throws ExpressionErrorException
      */
-    public function translateLang(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\FunctionNode $function) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateLang(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\FunctionNode $function) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         $arguments = $function->getArguments();
         foreach ($arguments as $token) {
             if (!($token->isString() || $token->isIdentifier())) {
-                throw new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\ExpressionErrorException('Expected a single string or identifier for :lang(), got ' . \implode(', ', $arguments));
+                throw new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\ExpressionErrorException('Expected a single string or identifier for :lang(), got ' . \implode(', ', $arguments));
             }
         }
-        return $xpath->addCondition(\sprintf('lang(%s)', \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Translator::getXpathLiteral($arguments[0]->getValue())));
+        return $xpath->addCondition(\sprintf('lang(%s)', \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Translator::getXpathLiteral($arguments[0]->getValue())));
     }
     /**
      * {@inheritdoc}

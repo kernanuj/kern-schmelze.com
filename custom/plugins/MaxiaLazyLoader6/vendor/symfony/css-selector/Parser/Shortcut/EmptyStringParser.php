@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Shortcut;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Shortcut;
 
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\ElementNode;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\SelectorNode;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\ParserInterface;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\ElementNode;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\SelectorNode;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\ParserInterface;
 /**
  * CSS selector class parser shortcut.
  *
@@ -27,7 +27,7 @@ use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\ParserInterface;
  *
  * @internal
  */
-class EmptyStringParser implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\ParserInterface
+class EmptyStringParser implements \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\ParserInterface
 {
     /**
      * {@inheritdoc}
@@ -36,7 +36,7 @@ class EmptyStringParser implements \_PhpScoper833c86d6963f\Symfony\Component\Css
     {
         // Matches an empty string
         if ('' == $source) {
-            return [new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\SelectorNode(new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\ElementNode(null, '*'))];
+            return [new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\SelectorNode(new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\ElementNode(null, '*'))];
         }
         return [];
     }

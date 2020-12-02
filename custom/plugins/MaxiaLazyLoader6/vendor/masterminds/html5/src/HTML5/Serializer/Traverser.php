@@ -1,6 +1,6 @@
 <?php
 
-namespace _PhpScoper833c86d6963f\Masterminds\HTML5\Serializer;
+namespace _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Serializer;
 
 /**
  * Traverser for walking a DOM tree.
@@ -33,7 +33,7 @@ class Traverser
      *                                       charachter references. Defaults to false which escapes &'<>".
      *                                       - output_rules: The path to the class handling the output rules.
      */
-    public function __construct($dom, $out, \_PhpScoper833c86d6963f\Masterminds\HTML5\Serializer\RulesInterface $rules, $options = array())
+    public function __construct($dom, $out, \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Serializer\RulesInterface $rules, $options = array())
     {
         $this->dom = $dom;
         $this->out = $out;

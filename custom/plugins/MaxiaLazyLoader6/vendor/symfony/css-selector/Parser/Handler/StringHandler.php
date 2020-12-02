@@ -8,15 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Handler;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Handler;
 
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\InternalErrorException;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Reader;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerEscaping;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\TokenStream;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\InternalErrorException;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Reader;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerEscaping;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\TokenStream;
 /**
  * CSS selector comment handler.
  *
@@ -27,11 +27,11 @@ use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\TokenStream;
  *
  * @internal
  */
-class StringHandler implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Handler\HandlerInterface
+class StringHandler implements \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Handler\HandlerInterface
 {
     private $patterns;
     private $escaping;
-    public function __construct(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns $patterns, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerEscaping $escaping)
+    public function __construct(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns $patterns, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerEscaping $escaping)
     {
         $this->patterns = $patterns;
         $this->escaping = $escaping;
@@ -39,7 +39,7 @@ class StringHandler implements \_PhpScoper833c86d6963f\Symfony\Component\CssSele
     /**
      * {@inheritdoc}
      */
-    public function handle(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Reader $reader, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\TokenStream $stream) : bool
+    public function handle(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Reader $reader, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\TokenStream $stream) : bool
     {
         $quote = $reader->getSubstring(1);
         if (!\in_array($quote, ["'", '"'])) {
@@ -48,18 +48,18 @@ class StringHandler implements \_PhpScoper833c86d6963f\Symfony\Component\CssSele
         $reader->moveForward(1);
         $match = $reader->findPattern($this->patterns->getQuotedStringPattern($quote));
         if (!$match) {
-            throw new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\InternalErrorException(\sprintf('Should have found at least an empty match at %d.', $reader->getPosition()));
+            throw new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\InternalErrorException(\sprintf('Should have found at least an empty match at %d.', $reader->getPosition()));
         }
         // check unclosed strings
         if (\strlen($match[0]) === $reader->getRemainingLength()) {
-            throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unclosedString($reader->getPosition() - 1);
+            throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unclosedString($reader->getPosition() - 1);
         }
         // check quotes pairs validity
         if ($quote !== $reader->getSubstring(1, \strlen($match[0]))) {
-            throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unclosedString($reader->getPosition() - 1);
+            throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unclosedString($reader->getPosition() - 1);
         }
         $string = $this->escaping->escapeUnicodeAndNewLine($match[0]);
-        $stream->push(new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token::TYPE_STRING, $string, $reader->getPosition()));
+        $stream->push(new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token::TYPE_STRING, $string, $reader->getPosition()));
         $reader->moveForward(\strlen($match[0]) + 1);
         return \true;
     }

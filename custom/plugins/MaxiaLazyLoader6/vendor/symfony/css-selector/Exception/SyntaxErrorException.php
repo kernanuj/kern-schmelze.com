@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception;
 
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token;
 /**
  * ParseException is thrown when a CSS selector syntax is not valid.
  *
@@ -19,12 +19,12 @@ use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token;
  *
  * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
  */
-class SyntaxErrorException extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\ParseException
+class SyntaxErrorException extends \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\ParseException
 {
     /**
      * @return self
      */
-    public static function unexpectedToken(string $expectedValue, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token $foundToken)
+    public static function unexpectedToken(string $expectedValue, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token $foundToken)
     {
         return new self(\sprintf('Expected %s, but %s found.', $expectedValue, $foundToken));
     }

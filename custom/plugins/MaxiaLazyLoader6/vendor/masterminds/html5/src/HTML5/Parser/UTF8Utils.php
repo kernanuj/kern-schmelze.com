@@ -1,6 +1,6 @@
 <?php
 
-namespace _PhpScoper833c86d6963f\Masterminds\HTML5\Parser;
+namespace _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser;
 
 /*
 Portions based on code from html5lib files with the following copyright:
@@ -26,7 +26,7 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-use _PhpScoper833c86d6963f\Masterminds\HTML5\Exception;
+use _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Exception;
 class UTF8Utils
 {
     /**
@@ -106,7 +106,7 @@ class UTF8Utils
             // - Incomplete sequences generate a warning.
             $data = @\iconv($encoding, 'UTF-8//IGNORE', $data);
         } else {
-            throw new \_PhpScoper833c86d6963f\Masterminds\HTML5\Exception('Not implemented, please install mbstring or iconv');
+            throw new \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Exception('Not implemented, please install mbstring or iconv');
         }
         /*
          * One leading U+FEFF BYTE ORDER MARK character must be ignored if any are present.

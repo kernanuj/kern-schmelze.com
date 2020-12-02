@@ -3,7 +3,7 @@
 /**
  * Provide general element functions.
  */
-namespace _PhpScoper833c86d6963f\Masterminds\HTML5;
+namespace _PhpScoperfd240ab1f7e6\Masterminds\HTML5;
 
 /**
  * This class provides general information about HTML5 elements,

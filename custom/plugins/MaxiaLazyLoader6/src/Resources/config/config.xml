@@ -10,7 +10,7 @@
             <name>expand</name>
             <label>Expand value</label>
             <label lang="de-DE">Expand-Wert</label>
-            <defaultValue>250</defaultValue>
+            <defaultValue>350</defaultValue>
             <helpText>This value can be used to specify how early pictures are loaded (distance to the current scroll position).</helpText>
             <helpText lang="de-DE">Dieser Wert legt fest, wie früh die Bilder nachgeladen werden (Abstand zur aktuellen Scroll-Position; Je höher der Wert, desto früher werden die Bilder geladen).</helpText>
         </input-field>
@@ -48,16 +48,18 @@
             <name>minifyHtml</name>
             <label>HTML Minifier</label>
             <label lang="de-DE">HTML Minifier</label>
-            <defaultValue>1</defaultValue>
+            <defaultValue>0</defaultValue>
             <helpText>Reduces the file size of the document by removing all whitespaces. Can slightly improve the loading speed.</helpText>
             <helpText lang="de-DE">Verringert die Dateigröße des HTML-Dokuments durch Entfernen aller Whitespaces. Kann die Ladegeschwindigkeit leicht verbessern.</helpText>
         </input-field>
 
         <input-field type="bool">
             <name>debugLogging</name>
-            <label>Extended error logging</label>
-            <label lang="de-DE">Erweitertes Fehler-Logging</label>
+            <label>Extended logging</label>
+            <label lang="de-DE">Erweitertes Logging</label>
             <defaultValue>0</defaultValue>
+            <helpText>If active, the runtime of the filter and any errors that occur when parsing the HTML document are written to the log.</helpText>
+            <helpText lang="de-DE">Wenn aktiv, wird die Laufzeit der Filter und auftretende Fehler beim Parsen des HTML-Dokuments in die Log geschrieben.</helpText>
         </input-field>
     </card>
 </config>

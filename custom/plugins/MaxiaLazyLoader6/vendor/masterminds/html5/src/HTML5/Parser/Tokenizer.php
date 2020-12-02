@@ -1,8 +1,8 @@
 <?php
 
-namespace _PhpScoper833c86d6963f\Masterminds\HTML5\Parser;
+namespace _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser;
 
-use _PhpScoper833c86d6963f\Masterminds\HTML5\Elements;
+use _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements;
 /**
  * The HTML5 tokenizer.
  *
@@ -95,7 +95,7 @@ class Tokenizer
      */
     public function setTextMode($textmode, $untilTag = null)
     {
-        $this->textMode = $textmode & (\_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::TEXT_RAW | \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::TEXT_RCDATA);
+        $this->textMode = $textmode & (\_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::TEXT_RAW | \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::TEXT_RCDATA);
         $this->untilTag = $untilTag;
     }
     /**
@@ -137,10 +137,10 @@ class Tokenizer
         } else {
             // Parse character
             switch ($this->textMode) {
-                case \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::TEXT_RAW:
+                case \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::TEXT_RAW:
                     $this->rawText($tok);
                     break;
-                case \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::TEXT_RCDATA:
+                case \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::TEXT_RCDATA:
                     $this->rcdata($tok);
                     break;
                 default:
@@ -173,9 +173,9 @@ class Tokenizer
             return \false;
         }
         switch ($this->textMode) {
-            case \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::TEXT_RAW:
+            case \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::TEXT_RAW:
                 return $this->rawText($tok);
-            case \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::TEXT_RCDATA:
+            case \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::TEXT_RCDATA:
                 return $this->rcdata($tok);
             default:
                 if ('<' === $tok || '&' === $tok) {
@@ -237,7 +237,7 @@ class Tokenizer
         }
         $sequence = '</' . $this->untilTag;
         $txt = '';
-        $caseSensitive = !\_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::isHtml5Element($this->untilTag);
+        $caseSensitive = !\_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::isHtml5Element($this->untilTag);
         while (\false !== $tok && !('<' == $tok && $this->scanner->sequenceMatches($sequence, $caseSensitive))) {
             if ('&' == $tok) {
                 $txt .= $this->decodeCharacterReference();
@@ -341,7 +341,7 @@ class Tokenizer
                 $this->scanner->whitespace();
                 $this->attribute($attributes);
             } while (!$this->isTagEnd($selfClose));
-        } catch (\_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\ParseError $e) {
+        } catch (\_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\ParseError $e) {
             $selfClose = \false;
         }
         $mode = $this->events->startTag($name, $attributes, $selfClose);
@@ -403,7 +403,7 @@ class Tokenizer
             // Push the < back onto the stack.
             $this->scanner->unconsume();
             // Let the caller figure out how to handle this.
-            throw new \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\ParseError('Start tag inside of attribute.');
+            throw new \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\ParseError('Start tag inside of attribute.');
         }
         $name = \strtolower($this->scanner->charsUntil("/>=\n\f\t "));
         if (0 == \strlen($name)) {
@@ -584,7 +584,7 @@ class Tokenizer
         }
         // Replace NULL with the replacement char.
         if ("\0" == $tok) {
-            $tok = \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\UTF8Utils::FFFD;
+            $tok = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\UTF8Utils::FFFD;
         }
         while (!$this->isCommentEnd()) {
             $comment .= $tok;
@@ -646,7 +646,7 @@ class Tokenizer
         $tok = $this->scanner->current();
         // EOF: die.
         if (\false === $tok) {
-            $this->events->doctype('html5', \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\EventHandler::DOCTYPE_NONE, '', \true);
+            $this->events->doctype('html5', \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\EventHandler::DOCTYPE_NONE, '', \true);
             $this->eof();
             return \true;
         }
@@ -657,12 +657,12 @@ class Tokenizer
         $stop = " \n\f>";
         $doctypeName = $this->scanner->charsUntil($stop);
         // Lowercase ASCII, replace \0 with FFFD
-        $doctypeName = \strtolower(\strtr($doctypeName, "\0", \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\UTF8Utils::FFFD));
+        $doctypeName = \strtolower(\strtr($doctypeName, "\0", \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\UTF8Utils::FFFD));
         $tok = $this->scanner->current();
         // If false, emit a parse error, DOCTYPE, and return.
         if (\false === $tok) {
             $this->parseError('Unexpected EOF in DOCTYPE declaration.');
-            $this->events->doctype($doctypeName, \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\EventHandler::DOCTYPE_NONE, null, \true);
+            $this->events->doctype($doctypeName, \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\EventHandler::DOCTYPE_NONE, null, \true);
             return \true;
         }
         // Short DOCTYPE, like <!DOCTYPE html>
@@ -684,7 +684,7 @@ class Tokenizer
         // Get ID, and flag it as pub or system.
         if (('PUBLIC' == $pub || 'SYSTEM' == $pub) && $white > 0) {
             // Get the sys ID.
-            $type = 'PUBLIC' == $pub ? \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\EventHandler::DOCTYPE_PUBLIC : \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\EventHandler::DOCTYPE_SYSTEM;
+            $type = 'PUBLIC' == $pub ? \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\EventHandler::DOCTYPE_PUBLIC : \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\EventHandler::DOCTYPE_SYSTEM;
             $id = $this->quotedString("\0>");
             if (\false === $id) {
                 $this->events->doctype($doctypeName, $type, $pub, \false);
@@ -964,7 +964,7 @@ class Tokenizer
                     $this->scanner->unconsume(2);
                     return '&';
                 }
-                $entity = \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\CharacterReference::lookupHex($hex);
+                $entity = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\CharacterReference::lookupHex($hex);
             } else {
                 // Convert from decimal to char.
                 $numeric = $this->scanner->getNumeric();
@@ -973,7 +973,7 @@ class Tokenizer
                     $this->scanner->unconsume(2);
                     return '&';
                 }
-                $entity = \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\CharacterReference::lookupDecimal($numeric);
+                $entity = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\CharacterReference::lookupDecimal($numeric);
             }
         } elseif ('=' === $tok && $inAttribute) {
             return '&';
@@ -982,7 +982,7 @@ class Tokenizer
             // Attempt to consume a string up to a ';'.
             // [a-zA-Z0-9]+;
             $cname = $this->scanner->getAsciiAlphaNum();
-            $entity = \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\CharacterReference::lookupName($cname);
+            $entity = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\CharacterReference::lookupName($cname);
             // When no entity is found provide the name of the unmatched string
             // and continue on as the & is not part of an entity. The & will
             // be converted to &amp; elsewhere.
@@ -1001,13 +1001,9 @@ class Tokenizer
             $this->scanner->consume();
             return $entity;
         }
-        // If in an attribute, then failing to match ; means unconsume the
-        // entire string. Otherwise, failure to match is an error.
-        if ($inAttribute) {
-            $this->scanner->unconsume($this->scanner->position() - $start);
-            return '&';
-        }
+        // Failing to match ; means unconsume the entire string.
+        $this->scanner->unconsume($this->scanner->position() - $start);
         $this->parseError('Expected &ENTITY;, got &ENTITY%s (no trailing ;) ', $tok);
-        return '&' . $entity;
+        return '&';
     }
 }

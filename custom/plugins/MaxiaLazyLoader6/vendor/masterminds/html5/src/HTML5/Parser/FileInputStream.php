@@ -1,6 +1,6 @@
 <?php
 
-namespace _PhpScoper833c86d6963f\Masterminds\HTML5\Parser;
+namespace _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser;
 
 /**
  * The FileInputStream loads a file to be parsed.
@@ -14,7 +14,7 @@ namespace _PhpScoper833c86d6963f\Masterminds\HTML5\Parser;
  *
  * @deprecated since 2.4, to remove in 3.0. Use a string in the scanner instead.
  */
-class FileInputStream extends \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\StringInputStream implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\InputStream
+class FileInputStream extends \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\StringInputStream implements \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\InputStream
 {
     /**
      * Load a file input stream.

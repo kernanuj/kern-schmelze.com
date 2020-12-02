@@ -24,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "_PhpScoper833c86d6963f\\Symfony\\Component\\CssSelector\\": ""
+            "_PhpScoperfd240ab1f7e6\\Symfony\\Component\\CssSelector\\": ""
         },
         "exclude-from-classmap": [
             "\/Tests\/"

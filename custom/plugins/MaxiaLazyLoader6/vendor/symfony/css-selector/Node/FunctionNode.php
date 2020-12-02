@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node;
 
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token;
 /**
  * Represents a "<selector>:<name>(<arguments>)" node.
  *
@@ -21,7 +21,7 @@ use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token;
  *
  * @internal
  */
-class FunctionNode extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\AbstractNode
+class FunctionNode extends \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\AbstractNode
 {
     private $selector;
     private $name;
@@ -29,13 +29,13 @@ class FunctionNode extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelector
     /**
      * @param Token[] $arguments
      */
-    public function __construct(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\NodeInterface $selector, string $name, array $arguments = [])
+    public function __construct(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\NodeInterface $selector, string $name, array $arguments = [])
     {
         $this->selector = $selector;
         $this->name = \strtolower($name);
         $this->arguments = $arguments;
     }
-    public function getSelector() : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\NodeInterface
+    public function getSelector() : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\NodeInterface
     {
         return $this->selector;
     }
@@ -53,16 +53,16 @@ class FunctionNode extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelector
     /**
      * {@inheritdoc}
      */
-    public function getSpecificity() : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\Specificity
+    public function getSpecificity() : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\Specificity
     {
-        return $this->selector->getSpecificity()->plus(new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\Specificity(0, 1, 0));
+        return $this->selector->getSpecificity()->plus(new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\Specificity(0, 1, 0));
     }
     /**
      * {@inheritdoc}
      */
     public function __toString() : string
     {
-        $arguments = \implode(', ', \array_map(function (\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token $token) {
+        $arguments = \implode(', ', \array_map(function (\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token $token) {
             return "'" . $token->getValue() . "'";
         }, $this->arguments));
         return \sprintf('%s[%s:%s(%s)]', $this->getNodeName(), $this->selector, $this->name, $arguments ? '[' . $arguments . ']' : '');

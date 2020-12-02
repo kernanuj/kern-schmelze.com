@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node;
 
 /**
  * Represents a "<selector>(::|:)<pseudoElement>" node.
@@ -20,16 +20,16 @@ namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node;
  *
  * @internal
  */
-class SelectorNode extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\AbstractNode
+class SelectorNode extends \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\AbstractNode
 {
     private $tree;
     private $pseudoElement;
-    public function __construct(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\NodeInterface $tree, string $pseudoElement = null)
+    public function __construct(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\NodeInterface $tree, string $pseudoElement = null)
     {
         $this->tree = $tree;
         $this->pseudoElement = $pseudoElement ? \strtolower($pseudoElement) : null;
     }
-    public function getTree() : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\NodeInterface
+    public function getTree() : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\NodeInterface
     {
         return $this->tree;
     }
@@ -40,9 +40,9 @@ class SelectorNode extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelector
     /**
      * {@inheritdoc}
      */
-    public function getSpecificity() : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\Specificity
+    public function getSpecificity() : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\Specificity
     {
-        return $this->tree->getSpecificity()->plus(new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\Specificity(0, 0, $this->pseudoElement ? 1 : 0));
+        return $this->tree->getSpecificity()->plus(new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\Specificity(0, 0, $this->pseudoElement ? 1 : 0));
     }
     /**
      * {@inheritdoc}

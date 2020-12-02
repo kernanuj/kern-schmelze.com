@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Extension;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Extension;
 
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Translator;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Translator;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr;
 /**
  * XPath expression translator node extension.
  *
@@ -23,7 +23,7 @@ use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr;
  *
  * @internal
  */
-class NodeExtension extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Extension\AbstractExtension
+class NodeExtension extends \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Extension\AbstractExtension
 {
     const ELEMENT_NAME_IN_LOWER_CASE = 1;
     const ATTRIBUTE_NAME_IN_LOWER_CASE = 2;
@@ -57,15 +57,15 @@ class NodeExtension extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelecto
     {
         return ['Selector' => [$this, 'translateSelector'], 'CombinedSelector' => [$this, 'translateCombinedSelector'], 'Negation' => [$this, 'translateNegation'], 'Function' => [$this, 'translateFunction'], 'Pseudo' => [$this, 'translatePseudo'], 'Attribute' => [$this, 'translateAttribute'], 'Class' => [$this, 'translateClass'], 'Hash' => [$this, 'translateHash'], 'Element' => [$this, 'translateElement']];
     }
-    public function translateSelector(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\SelectorNode $node, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateSelector(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\SelectorNode $node, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         return $translator->nodeToXPath($node->getTree());
     }
-    public function translateCombinedSelector(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\CombinedSelectorNode $node, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateCombinedSelector(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\CombinedSelectorNode $node, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         return $translator->addCombination($node->getCombinator(), $node->getSelector(), $node->getSubSelector());
     }
-    public function translateNegation(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\NegationNode $node, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateNegation(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\NegationNode $node, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         $xpath = $translator->nodeToXPath($node->getSelector());
         $subXpath = $translator->nodeToXPath($node->getSubSelector());
@@ -75,17 +75,17 @@ class NodeExtension extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelecto
         }
         return $xpath->addCondition('0');
     }
-    public function translateFunction(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\FunctionNode $node, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateFunction(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\FunctionNode $node, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         $xpath = $translator->nodeToXPath($node->getSelector());
         return $translator->addFunction($xpath, $node);
     }
-    public function translatePseudo(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\PseudoNode $node, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translatePseudo(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\PseudoNode $node, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         $xpath = $translator->nodeToXPath($node->getSelector());
         return $translator->addPseudoClass($xpath, $node->getIdentifier());
     }
-    public function translateAttribute(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\AttributeNode $node, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateAttribute(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\AttributeNode $node, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         $name = $node->getAttribute();
         $safe = $this->isSafeName($name);
@@ -96,7 +96,7 @@ class NodeExtension extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelecto
             $name = \sprintf('%s:%s', $node->getNamespace(), $name);
             $safe = $safe && $this->isSafeName($node->getNamespace());
         }
-        $attribute = $safe ? '@' . $name : \sprintf('attribute::*[name() = %s]', \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Translator::getXpathLiteral($name));
+        $attribute = $safe ? '@' . $name : \sprintf('attribute::*[name() = %s]', \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Translator::getXpathLiteral($name));
         $value = $node->getValue();
         $xpath = $translator->nodeToXPath($node->getSelector());
         if ($this->hasFlag(self::ATTRIBUTE_VALUE_IN_LOWER_CASE)) {
@@ -104,17 +104,17 @@ class NodeExtension extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelecto
         }
         return $translator->addAttributeMatching($xpath, $node->getOperator(), $attribute, $value);
     }
-    public function translateClass(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\ClassNode $node, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateClass(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\ClassNode $node, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         $xpath = $translator->nodeToXPath($node->getSelector());
         return $translator->addAttributeMatching($xpath, '~=', '@class', $node->getName());
     }
-    public function translateHash(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\HashNode $node, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateHash(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\HashNode $node, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Translator $translator) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         $xpath = $translator->nodeToXPath($node->getSelector());
         return $translator->addAttributeMatching($xpath, '=', '@id', $node->getId());
     }
-    public function translateElement(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\ElementNode $node) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateElement(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\ElementNode $node) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         $element = $node->getElement();
         if ($this->hasFlag(self::ELEMENT_NAME_IN_LOWER_CASE)) {
@@ -130,7 +130,7 @@ class NodeExtension extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelecto
             $element = \sprintf('%s:%s', $node->getNamespace(), $element);
             $safe = $safe && $this->isSafeName($node->getNamespace());
         }
-        $xpath = new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr('', $element);
+        $xpath = new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr('', $element);
         if (!$safe) {
             $xpath->addNameTest();
         }

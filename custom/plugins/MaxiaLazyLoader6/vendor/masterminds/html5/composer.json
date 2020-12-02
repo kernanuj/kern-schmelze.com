@@ -34,18 +34,16 @@
         "php": ">=5.3.0"
     },
     "require-dev": {
-        "satooshi\/php-coveralls": "1.0.*",
-        "phpunit\/phpunit": "^4.8.35",
-        "sami\/sami": "~2.0"
+        "phpunit\/phpunit": "^4.8.35"
     },
     "autoload": {
         "psr-4": {
-            "_PhpScoper833c86d6963f\\Masterminds\\": "src"
+            "_PhpScoperfd240ab1f7e6\\Masterminds\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "_PhpScoper833c86d6963f\\Masterminds\\HTML5\\Tests\\": "test\/HTML5"
+            "_PhpScoperfd240ab1f7e6\\Masterminds\\HTML5\\Tests\\": "test\/HTML5"
         }
     },
     "extra": {

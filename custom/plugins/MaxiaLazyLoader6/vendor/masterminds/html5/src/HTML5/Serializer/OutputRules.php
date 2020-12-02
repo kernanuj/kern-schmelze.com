@@ -7,13 +7,13 @@
  * These output rules are likely to generate output similar to the document that
  * was parsed. It is not intended to output exactly the document that was parsed.
  */
-namespace _PhpScoper833c86d6963f\Masterminds\HTML5\Serializer;
+namespace _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Serializer;
 
-use _PhpScoper833c86d6963f\Masterminds\HTML5\Elements;
+use _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements;
 /**
  * Generate the output html5 based on element rules.
  */
-class OutputRules implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Serializer\RulesInterface
+class OutputRules implements \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Serializer\RulesInterface
 {
     /**
      * Defined in http://www.w3.org/TR/html51/infrastructure.html#html-namespace-0.
@@ -71,7 +71,7 @@ class OutputRules implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Serialize
     {
         $this->nonBooleanAttributes[] = $rule;
     }
-    public function setTraverser(\_PhpScoper833c86d6963f\Masterminds\HTML5\Serializer\Traverser $traverser)
+    public function setTraverser(\_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Serializer\Traverser $traverser)
     {
         $this->traverser = $traverser;
         return $this;
@@ -109,12 +109,12 @@ class OutputRules implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Serialize
         // Using if/elseif instead of switch because it's faster in PHP.
         if ('svg' == $name) {
             $this->outputMode = static::IM_IN_SVG;
-            $name = \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::normalizeSvgElement($name);
+            $name = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::normalizeSvgElement($name);
         } elseif ('math' == $name) {
             $this->outputMode = static::IM_IN_MATHML;
         }
         $this->openTag($ele);
-        if (\_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::isA($name, \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::TEXT_RAW)) {
+        if (\_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::isA($name, \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::TEXT_RAW)) {
             foreach ($ele->childNodes as $child) {
                 if ($child instanceof \DOMCharacterData) {
                     $this->wr($child->data);
@@ -133,7 +133,7 @@ class OutputRules implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Serialize
             }
         }
         // If not unary, add a closing tag.
-        if (!\_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::isA($name, \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::VOID_TAG)) {
+        if (!\_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::isA($name, \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::VOID_TAG)) {
             $this->closeTag($ele);
         }
     }
@@ -144,7 +144,7 @@ class OutputRules implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Serialize
      */
     public function text($ele)
     {
-        if (isset($ele->parentNode) && isset($ele->parentNode->tagName) && \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::isA($ele->parentNode->localName, \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::TEXT_RAW)) {
+        if (isset($ele->parentNode) && isset($ele->parentNode->tagName) && \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::isA($ele->parentNode->localName, \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::TEXT_RAW)) {
             $this->wr($ele->data);
             return;
         }
@@ -226,9 +226,9 @@ class OutputRules implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Serialize
             // Special handling for attributes in SVG and MathML.
             // Using if/elseif instead of switch because it's faster in PHP.
             if ($this->outputMode == static::IM_IN_SVG) {
-                $name = \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::normalizeSvgAttribute($name);
+                $name = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::normalizeSvgAttribute($name);
             } elseif ($this->outputMode == static::IM_IN_MATHML) {
-                $name = \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::normalizeMathMlAttribute($name);
+                $name = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::normalizeMathMlAttribute($name);
             }
             $this->wr(' ')->wr($name);
             if (isset($val) && '' !== $val || $this->nonBooleanAttribute($node)) {
@@ -354,7 +354,7 @@ class OutputRules implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Serialize
         if ($this->hasHTML5) {
             return \htmlentities($text, \ENT_HTML5 | \ENT_SUBSTITUTE | \ENT_QUOTES, 'UTF-8', \false);
         } else {
-            return \strtr($text, \_PhpScoper833c86d6963f\Masterminds\HTML5\Serializer\HTML5Entities::$map);
+            return \strtr($text, \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Serializer\HTML5Entities::$map);
         }
     }
     /**

@@ -3,7 +3,7 @@
 /**
  * A handler for processor instructions.
  */
-namespace _PhpScoper833c86d6963f\Masterminds\HTML5;
+namespace _PhpScoperfd240ab1f7e6\Masterminds\HTML5;
 
 /**
  * Provide an processor to handle embedded instructions.

@@ -6,8 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    '_PhpScoper833c86d6963f\\Symfony\\Component\\CssSelector\\' => array($vendorDir . '/symfony/css-selector'),
-    '_PhpScoper833c86d6963f\\Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
-    '_PhpScoper833c86d6963f\\Bamarni\\Composer\\Bin\\' => array($vendorDir . '/bamarni/composer-bin-plugin/src'),
+    '_PhpScoperfd240ab1f7e6\\voku\\helper\\' => array($vendorDir . '/voku/simple_html_dom/src/voku/helper'),
+    '_PhpScoperfd240ab1f7e6\\voku\\' => array($vendorDir . '/voku/html-min/src/voku'),
+    '_PhpScoperfd240ab1f7e6\\Symfony\\Component\\CssSelector\\' => array($vendorDir . '/symfony/css-selector'),
+    '_PhpScoperfd240ab1f7e6\\Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
+    '_PhpScoperfd240ab1f7e6\\Bamarni\\Composer\\Bin\\' => array($vendorDir . '/bamarni/composer-bin-plugin/src'),
     'Maxia\\MaxiaLazyLoader6\\' => array($baseDir . '/src'),
 );

@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Handler;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Handler;
 
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Reader;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\TokenStream;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Reader;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\TokenStream;
 /**
  * CSS selector whitespace handler.
  *
@@ -23,18 +23,18 @@ use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\TokenStream;
  *
  * @internal
  */
-class WhitespaceHandler implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Handler\HandlerInterface
+class WhitespaceHandler implements \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Handler\HandlerInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function handle(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Reader $reader, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\TokenStream $stream) : bool
+    public function handle(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Reader $reader, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\TokenStream $stream) : bool
     {
         $match = $reader->findPattern('~^[ \\t\\r\\n\\f]+~');
         if (\false === $match) {
             return \false;
         }
-        $stream->push(new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token::TYPE_WHITESPACE, $match[0], $reader->getPosition()));
+        $stream->push(new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token::TYPE_WHITESPACE, $match[0], $reader->getPosition()));
         $reader->moveForward(\strlen($match[0]));
         return \true;
     }

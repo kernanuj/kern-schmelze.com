@@ -1,8 +1,8 @@
 <?php
 
-namespace _PhpScoper833c86d6963f\Masterminds\HTML5\Parser;
+namespace _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser;
 
-use _PhpScoper833c86d6963f\Masterminds\HTML5\Exception;
+use _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Exception;
 /**
  * The scanner scans over a given data input to react appropriately to characters.
  */
@@ -37,15 +37,15 @@ class Scanner
      */
     public function __construct($data, $encoding = 'UTF-8')
     {
-        if ($data instanceof \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\InputStream) {
+        if ($data instanceof \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\InputStream) {
             @\trigger_error('InputStream objects are deprecated since version 2.4 and will be removed in 3.0. Use strings instead.', \E_USER_DEPRECATED);
             $data = (string) $data;
         }
-        $data = \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\UTF8Utils::convertToUTF8($data, $encoding);
+        $data = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\UTF8Utils::convertToUTF8($data, $encoding);
         // There is good reason to question whether it makes sense to
         // do this here, since most of these checks are done during
         // parsing, and since this check doesn't actually *do* anything.
-        $this->errors = \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\UTF8Utils::checkForIllegalCodepoints($data);
+        $this->errors = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\UTF8Utils::checkForIllegalCodepoints($data);
         $data = $this->replaceLinefeeds($data);
         $this->data = $data;
         $this->char = 0;
@@ -266,7 +266,7 @@ class Scanner
             // After a newline.
             $findLengthOf = \substr($this->data, 0, $this->char);
         }
-        return \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\UTF8Utils::countChars($findLengthOf);
+        return \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\UTF8Utils::countChars($findLengthOf);
     }
     /**
      * Get all characters until EOF.

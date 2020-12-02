@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Extension;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Extension;
 
 /**
  * XPath expression translator extension interface.

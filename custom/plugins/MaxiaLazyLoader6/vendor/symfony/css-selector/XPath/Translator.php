@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath;
 
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\ExpressionErrorException;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\FunctionNode;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\NodeInterface;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\SelectorNode;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Parser;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\ParserInterface;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\ExpressionErrorException;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\FunctionNode;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\NodeInterface;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\SelectorNode;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Parser;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\ParserInterface;
 /**
  * XPath expression translator interface.
  *
@@ -26,7 +26,7 @@ use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\ParserInterface;
  *
  * @internal
  */
-class Translator implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\TranslatorInterface
+class Translator implements \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\TranslatorInterface
 {
     private $mainParser;
     /**
@@ -42,10 +42,10 @@ class Translator implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelecto
     private $functionTranslators = [];
     private $pseudoClassTranslators = [];
     private $attributeMatchingTranslators = [];
-    public function __construct(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\ParserInterface $parser = null)
+    public function __construct(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\ParserInterface $parser = null)
     {
-        $this->mainParser = $parser ?: new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Parser();
-        $this->registerExtension(new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Extension\NodeExtension())->registerExtension(new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Extension\CombinationExtension())->registerExtension(new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Extension\FunctionExtension())->registerExtension(new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Extension\PseudoClassExtension())->registerExtension(new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Extension\AttributeMatchingExtension());
+        $this->mainParser = $parser ?: new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Parser();
+        $this->registerExtension(new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Extension\NodeExtension())->registerExtension(new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Extension\CombinationExtension())->registerExtension(new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Extension\FunctionExtension())->registerExtension(new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Extension\PseudoClassExtension())->registerExtension(new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Extension\AttributeMatchingExtension());
     }
     public static function getXpathLiteral(string $element) : string
     {
@@ -78,7 +78,7 @@ class Translator implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelecto
         /** @var SelectorNode $selector */
         foreach ($selectors as $index => $selector) {
             if (null !== $selector->getPseudoElement()) {
-                throw new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\ExpressionErrorException('Pseudo-elements are not supported.');
+                throw new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\ExpressionErrorException('Pseudo-elements are not supported.');
             }
             $selectors[$index] = $this->selectorToXPath($selector, $prefix);
         }
@@ -87,14 +87,14 @@ class Translator implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelecto
     /**
      * {@inheritdoc}
      */
-    public function selectorToXPath(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\SelectorNode $selector, string $prefix = 'descendant-or-self::') : string
+    public function selectorToXPath(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\SelectorNode $selector, string $prefix = 'descendant-or-self::') : string
     {
         return ($prefix ?: '') . $this->nodeToXPath($selector);
     }
     /**
      * @return $this
      */
-    public function registerExtension(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Extension\ExtensionInterface $extension) : self
+    public function registerExtension(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Extension\ExtensionInterface $extension) : self
     {
         $this->extensions[$extension->getName()] = $extension;
         $this->nodeTranslators = \array_merge($this->nodeTranslators, $extension->getNodeTranslators());
@@ -107,17 +107,17 @@ class Translator implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelecto
     /**
      * @throws ExpressionErrorException
      */
-    public function getExtension(string $name) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Extension\ExtensionInterface
+    public function getExtension(string $name) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Extension\ExtensionInterface
     {
         if (!isset($this->extensions[$name])) {
-            throw new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\ExpressionErrorException(\sprintf('Extension "%s" not registered.', $name));
+            throw new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\ExpressionErrorException(\sprintf('Extension "%s" not registered.', $name));
         }
         return $this->extensions[$name];
     }
     /**
      * @return $this
      */
-    public function registerParserShortcut(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\ParserInterface $shortcut) : self
+    public function registerParserShortcut(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\ParserInterface $shortcut) : self
     {
         $this->shortcutParsers[] = $shortcut;
         return $this;
@@ -125,50 +125,50 @@ class Translator implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelecto
     /**
      * @throws ExpressionErrorException
      */
-    public function nodeToXPath(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\NodeInterface $node) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function nodeToXPath(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\NodeInterface $node) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         if (!isset($this->nodeTranslators[$node->getNodeName()])) {
-            throw new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\ExpressionErrorException(\sprintf('Node "%s" not supported.', $node->getNodeName()));
+            throw new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\ExpressionErrorException(\sprintf('Node "%s" not supported.', $node->getNodeName()));
         }
         return $this->nodeTranslators[$node->getNodeName()]($node, $this);
     }
     /**
      * @throws ExpressionErrorException
      */
-    public function addCombination(string $combiner, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\NodeInterface $xpath, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\NodeInterface $combinedXpath) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function addCombination(string $combiner, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\NodeInterface $xpath, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\NodeInterface $combinedXpath) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         if (!isset($this->combinationTranslators[$combiner])) {
-            throw new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\ExpressionErrorException(\sprintf('Combiner "%s" not supported.', $combiner));
+            throw new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\ExpressionErrorException(\sprintf('Combiner "%s" not supported.', $combiner));
         }
         return $this->combinationTranslators[$combiner]($this->nodeToXPath($xpath), $this->nodeToXPath($combinedXpath));
     }
     /**
      * @throws ExpressionErrorException
      */
-    public function addFunction(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\FunctionNode $function) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function addFunction(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\FunctionNode $function) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         if (!isset($this->functionTranslators[$function->getName()])) {
-            throw new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\ExpressionErrorException(\sprintf('Function "%s" not supported.', $function->getName()));
+            throw new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\ExpressionErrorException(\sprintf('Function "%s" not supported.', $function->getName()));
         }
         return $this->functionTranslators[$function->getName()]($xpath, $function);
     }
     /**
      * @throws ExpressionErrorException
      */
-    public function addPseudoClass(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, string $pseudoClass) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function addPseudoClass(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, string $pseudoClass) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         if (!isset($this->pseudoClassTranslators[$pseudoClass])) {
-            throw new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\ExpressionErrorException(\sprintf('Pseudo-class "%s" not supported.', $pseudoClass));
+            throw new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\ExpressionErrorException(\sprintf('Pseudo-class "%s" not supported.', $pseudoClass));
         }
         return $this->pseudoClassTranslators[$pseudoClass]($xpath);
     }
     /**
      * @throws ExpressionErrorException
      */
-    public function addAttributeMatching(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, string $operator, string $attribute, $value) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function addAttributeMatching(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, string $operator, string $attribute, $value) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         if (!isset($this->attributeMatchingTranslators[$operator])) {
-            throw new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\ExpressionErrorException(\sprintf('Attribute matcher operator "%s" not supported.', $operator));
+            throw new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\ExpressionErrorException(\sprintf('Attribute matcher operator "%s" not supported.', $operator));
         }
         return $this->attributeMatchingTranslators[$operator]($xpath, $attribute, $value);
     }

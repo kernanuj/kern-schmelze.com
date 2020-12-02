@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Shortcut;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Shortcut;
 
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\ElementNode;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\SelectorNode;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\ParserInterface;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\ElementNode;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\SelectorNode;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\ParserInterface;
 /**
  * CSS selector element parser shortcut.
  *
@@ -23,7 +23,7 @@ use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\ParserInterface;
  *
  * @internal
  */
-class ElementParser implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\ParserInterface
+class ElementParser implements \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\ParserInterface
 {
     /**
      * {@inheritdoc}
@@ -37,7 +37,7 @@ class ElementParser implements \_PhpScoper833c86d6963f\Symfony\Component\CssSele
         //     1 => string 'testns' (length=6)
         //     2 => string 'testel' (length=6)
         if (\preg_match('/^(?:([a-z]++)\\|)?([\\w-]++|\\*)$/i', \trim($source), $matches)) {
-            return [new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\SelectorNode(new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\ElementNode($matches[1] ?: null, $matches[2]))];
+            return [new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\SelectorNode(new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\ElementNode($matches[1] ?: null, $matches[2]))];
         }
         return [];
     }

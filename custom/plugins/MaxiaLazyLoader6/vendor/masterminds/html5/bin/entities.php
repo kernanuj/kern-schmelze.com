@@ -1,6 +1,6 @@
 <?php
 
-namespace _PhpScoper833c86d6963f;
+namespace _PhpScoperfd240ab1f7e6;
 
 /**
  * Fetch the entities.json file and convert to PHP datastructure.

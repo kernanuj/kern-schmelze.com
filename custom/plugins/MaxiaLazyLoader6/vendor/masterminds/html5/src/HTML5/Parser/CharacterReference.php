@@ -1,8 +1,8 @@
 <?php
 
-namespace _PhpScoper833c86d6963f\Masterminds\HTML5\Parser;
+namespace _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser;
 
-use _PhpScoper833c86d6963f\Masterminds\HTML5\Entities;
+use _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Entities;
 /**
  * Manage entity references.
  *
@@ -21,7 +21,7 @@ class CharacterReference
     public static function lookupName($name)
     {
         // Do we really want to return NULL here? or FFFD
-        return isset(\_PhpScoper833c86d6963f\Masterminds\HTML5\Entities::$byName[$name]) ? \_PhpScoper833c86d6963f\Masterminds\HTML5\Entities::$byName[$name] : null;
+        return isset(\_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Entities::$byName[$name]) ? \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Entities::$byName[$name] : null;
     }
     /**
      * Given a decimal number, return the UTF-8 character.

@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node;
 
 /**
  * Interface for nodes.
@@ -23,6 +23,6 @@ namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node;
 interface NodeInterface
 {
     public function getNodeName() : string;
-    public function getSpecificity() : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\Specificity;
+    public function getSpecificity() : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\Specificity;
     public function __toString() : string;
 }

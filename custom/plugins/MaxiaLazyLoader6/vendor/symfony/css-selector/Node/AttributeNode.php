@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node;
 
 /**
  * Represents a "<selector>[<namespace>|<attribute> <operator> <value>]" node.
@@ -20,14 +20,14 @@ namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node;
  *
  * @internal
  */
-class AttributeNode extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\AbstractNode
+class AttributeNode extends \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\AbstractNode
 {
     private $selector;
     private $namespace;
     private $attribute;
     private $operator;
     private $value;
-    public function __construct(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\NodeInterface $selector, ?string $namespace, string $attribute, string $operator, ?string $value)
+    public function __construct(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\NodeInterface $selector, ?string $namespace, string $attribute, string $operator, ?string $value)
     {
         $this->selector = $selector;
         $this->namespace = $namespace;
@@ -35,7 +35,7 @@ class AttributeNode extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelecto
         $this->operator = $operator;
         $this->value = $value;
     }
-    public function getSelector() : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\NodeInterface
+    public function getSelector() : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\NodeInterface
     {
         return $this->selector;
     }
@@ -58,9 +58,9 @@ class AttributeNode extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelecto
     /**
      * {@inheritdoc}
      */
-    public function getSpecificity() : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\Specificity
+    public function getSpecificity() : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\Specificity
     {
-        return $this->selector->getSpecificity()->plus(new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\Specificity(0, 1, 0));
+        return $this->selector->getSpecificity()->plus(new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\Specificity(0, 1, 0));
     }
     /**
      * {@inheritdoc}

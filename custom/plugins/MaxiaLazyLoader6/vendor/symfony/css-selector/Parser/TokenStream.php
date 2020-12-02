@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser;
 
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\InternalErrorException;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\InternalErrorException;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException;
 /**
  * CSS selector token stream.
  *
@@ -49,7 +49,7 @@ class TokenStream
      *
      * @return $this
      */
-    public function push(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token $token) : self
+    public function push(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token $token) : self
     {
         $this->tokens[] = $token;
         return $this;
@@ -68,7 +68,7 @@ class TokenStream
      *
      * @throws InternalErrorException If there is no more token
      */
-    public function getNext() : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token
+    public function getNext() : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token
     {
         if ($this->peeking) {
             $this->peeking = \false;
@@ -76,14 +76,14 @@ class TokenStream
             return $this->peeked;
         }
         if (!isset($this->tokens[$this->cursor])) {
-            throw new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\InternalErrorException('Unexpected token stream end.');
+            throw new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\InternalErrorException('Unexpected token stream end.');
         }
         return $this->tokens[$this->cursor++];
     }
     /**
      * Returns peeked token.
      */
-    public function getPeek() : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token
+    public function getPeek() : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token
     {
         if (!$this->peeking) {
             $this->peeked = $this->getNext();
@@ -111,7 +111,7 @@ class TokenStream
     {
         $next = $this->getNext();
         if (!$next->isIdentifier()) {
-            throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('identifier', $next);
+            throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('identifier', $next);
         }
         return $next->getValue();
     }
@@ -131,7 +131,7 @@ class TokenStream
         if ($next->isDelimiter(['*'])) {
             return null;
         }
-        throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('identifier or "*"', $next);
+        throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('identifier or "*"', $next);
     }
     /**
      * Skips next whitespace if any.

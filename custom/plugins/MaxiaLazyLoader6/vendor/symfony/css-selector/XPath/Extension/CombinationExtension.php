@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Extension;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Extension;
 
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr;
 /**
  * XPath expression translator combination extension.
  *
@@ -21,7 +21,7 @@ use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr;
  *
  * @internal
  */
-class CombinationExtension extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Extension\AbstractExtension
+class CombinationExtension extends \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Extension\AbstractExtension
 {
     /**
      * {@inheritdoc}
@@ -30,19 +30,19 @@ class CombinationExtension extends \_PhpScoper833c86d6963f\Symfony\Component\Css
     {
         return [' ' => [$this, 'translateDescendant'], '>' => [$this, 'translateChild'], '+' => [$this, 'translateDirectAdjacent'], '~' => [$this, 'translateIndirectAdjacent']];
     }
-    public function translateDescendant(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $combinedXpath) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateDescendant(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $combinedXpath) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         return $xpath->join('/descendant-or-self::*/', $combinedXpath);
     }
-    public function translateChild(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $combinedXpath) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateChild(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $combinedXpath) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         return $xpath->join('/', $combinedXpath);
     }
-    public function translateDirectAdjacent(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $combinedXpath) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateDirectAdjacent(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $combinedXpath) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         return $xpath->join('/following-sibling::', $combinedXpath)->addNameTest()->addCondition('position() = 1');
     }
-    public function translateIndirectAdjacent(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr $combinedXpath) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\XPathExpr
+    public function translateIndirectAdjacent(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $xpath, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr $combinedXpath) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\XPathExpr
     {
         return $xpath->join('/following-sibling::', $combinedXpath);
     }

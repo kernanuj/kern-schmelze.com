@@ -1,7 +1,7 @@
 {
     "name": "maxia\/maxia-lazy-loader-6",
     "description": "Shopware 6 Lazy-Loading Plugin",
-    "version": "v1.0.3",
+    "version": "v1.0.7",
     "type": "shopware-platform-plugin",
     "license": "proprietary",
     "authors": [
@@ -11,11 +11,12 @@
         }
     ],
     "require": {
-        "shopware\/core": "^6.1|6.2.9999999.9999999-dev",
+        "shopware\/core": "^6.1||6.2.9999999.9999999-dev",
         "shopware\/storefront": "^6.1|6.2.9999999.9999999-dev",
         "ext-dom": "*",
         "masterminds\/html5": "^2.7.3",
-        "symfony\/css-selector": "^5.1.5"
+        "symfony\/css-selector": "^5.1.5",
+        "voku\/html-min": "^4.4"
     },
     "extra": {
         "shopware-plugin-class": "Maxia\\MaxiaLazyLoader6\\MaxiaLazyLoader6",

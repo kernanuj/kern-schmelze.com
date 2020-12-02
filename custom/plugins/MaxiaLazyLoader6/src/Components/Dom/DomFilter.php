@@ -5,10 +5,10 @@ namespace Maxia\MaxiaLazyLoader6\Components\Dom;
 
 use DOMDocument;
 use DOMElement;
-use _PhpScoper833c86d6963f\Masterminds\HTML5;
+use _PhpScoperfd240ab1f7e6\Masterminds\HTML5;
 use Maxia\MaxiaLazyLoader6\Components\Dom\Filter\FilterInterface;
 use Psr\Container\ContainerInterface;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\CssSelectorConverter;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\CssSelectorConverter;
 /**
  * @package MaxiaLazyLoader\Components
  */
@@ -52,7 +52,7 @@ class DomFilter
     public function __construct(\Psr\Container\ContainerInterface $container)
     {
         $this->container = $container;
-        $this->html5 = new \_PhpScoper833c86d6963f\Masterminds\HTML5();
+        $this->html5 = new \_PhpScoperfd240ab1f7e6\Masterminds\HTML5();
     }
     /**
      * @param $selectors
@@ -160,7 +160,7 @@ class DomFilter
         }
         // query all blacklisted elements
         if (empty($this->blacklistElements)) {
-            $converter = new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\CssSelectorConverter();
+            $converter = new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\CssSelectorConverter();
             $xpath = new \DOMXPath($this->dom);
             $this->blacklistElements = [];
             foreach ($this->blacklist as $query) {

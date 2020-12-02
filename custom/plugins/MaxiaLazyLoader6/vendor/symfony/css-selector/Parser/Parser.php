@@ -8,11 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser;
 
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Tokenizer\Tokenizer;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Tokenizer\Tokenizer;
 /**
  * CSS selector parser.
  *
@@ -23,19 +23,19 @@ use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Tokenizer\Tokeni
  *
  * @internal
  */
-class Parser implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\ParserInterface
+class Parser implements \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\ParserInterface
 {
     private $tokenizer;
-    public function __construct(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Tokenizer\Tokenizer $tokenizer = null)
+    public function __construct(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Tokenizer\Tokenizer $tokenizer = null)
     {
-        $this->tokenizer = $tokenizer ?: new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Tokenizer\Tokenizer();
+        $this->tokenizer = $tokenizer ?: new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Tokenizer\Tokenizer();
     }
     /**
      * {@inheritdoc}
      */
     public function parse(string $source) : array
     {
-        $reader = new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Reader($source);
+        $reader = new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Reader($source);
         $stream = $this->tokenizer->tokenize($reader);
         return $this->parseSelectorList($stream);
     }
@@ -50,15 +50,15 @@ class Parser implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Pa
     {
         foreach ($tokens as $token) {
             if ($token->isString()) {
-                throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::stringAsFunctionArgument();
+                throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::stringAsFunctionArgument();
             }
         }
-        $joined = \trim(\implode('', \array_map(function (\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token $token) {
+        $joined = \trim(\implode('', \array_map(function (\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token $token) {
             return $token->getValue();
         }, $tokens)));
         $int = function ($string) {
             if (!\is_numeric($string)) {
-                throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::stringAsFunctionArgument();
+                throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::stringAsFunctionArgument();
             }
             return (int) $string;
         };
@@ -76,7 +76,7 @@ class Parser implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Pa
         $first = isset($split[0]) ? $split[0] : null;
         return [$first ? '-' === $first || '+' === $first ? $int($first . '1') : $int($first) : 1, isset($split[1]) && $split[1] ? $int($split[1]) : 0];
     }
-    private function parseSelectorList(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\TokenStream $stream) : array
+    private function parseSelectorList(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\TokenStream $stream) : array
     {
         $stream->skipWhitespace();
         $selectors = [];
@@ -91,7 +91,7 @@ class Parser implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Pa
         }
         return $selectors;
     }
-    private function parserSelectorNode(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\TokenStream $stream) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\SelectorNode
+    private function parserSelectorNode(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\TokenStream $stream) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\SelectorNode
     {
         list($result, $pseudoElement) = $this->parseSimpleSelector($stream);
         while (\true) {
@@ -101,7 +101,7 @@ class Parser implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Pa
                 break;
             }
             if (null !== $pseudoElement) {
-                throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::pseudoElementFound($pseudoElement, 'not at the end of a selector');
+                throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::pseudoElementFound($pseudoElement, 'not at the end of a selector');
             }
             if ($peek->isDelimiter(['+', '>', '~'])) {
                 $combinator = $stream->getNext()->getValue();
@@ -110,16 +110,16 @@ class Parser implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Pa
                 $combinator = ' ';
             }
             list($nextSelector, $pseudoElement) = $this->parseSimpleSelector($stream);
-            $result = new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\CombinedSelectorNode($result, $combinator, $nextSelector);
+            $result = new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\CombinedSelectorNode($result, $combinator, $nextSelector);
         }
-        return new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\SelectorNode($result, $pseudoElement);
+        return new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\SelectorNode($result, $pseudoElement);
     }
     /**
      * Parses next simple node (hash, class, pseudo, negation).
      *
      * @throws SyntaxErrorException
      */
-    private function parseSimpleSelector(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\TokenStream $stream, bool $insideNegation = \false) : array
+    private function parseSimpleSelector(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\TokenStream $stream, bool $insideNegation = \false) : array
     {
         $stream->skipWhitespace();
         $selectorStart = \count($stream->getUsed());
@@ -131,13 +131,13 @@ class Parser implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Pa
                 break;
             }
             if (null !== $pseudoElement) {
-                throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::pseudoElementFound($pseudoElement, 'not at the end of a selector');
+                throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::pseudoElementFound($pseudoElement, 'not at the end of a selector');
             }
             if ($peek->isHash()) {
-                $result = new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\HashNode($result, $stream->getNext()->getValue());
+                $result = new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\HashNode($result, $stream->getNext()->getValue());
             } elseif ($peek->isDelimiter(['.'])) {
                 $stream->getNext();
-                $result = new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\ClassNode($result, $stream->getNextIdentifier());
+                $result = new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\ClassNode($result, $stream->getNextIdentifier());
             } elseif ($peek->isDelimiter(['['])) {
                 $stream->getNext();
                 $result = $this->parseAttributeNode($result, $stream);
@@ -156,24 +156,24 @@ class Parser implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Pa
                     continue;
                 }
                 if (!$stream->getPeek()->isDelimiter(['('])) {
-                    $result = new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\PseudoNode($result, $identifier);
+                    $result = new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\PseudoNode($result, $identifier);
                     continue;
                 }
                 $stream->getNext();
                 $stream->skipWhitespace();
                 if ('not' === \strtolower($identifier)) {
                     if ($insideNegation) {
-                        throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::nestedNot();
+                        throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::nestedNot();
                     }
                     list($argument, $argumentPseudoElement) = $this->parseSimpleSelector($stream, \true);
                     $next = $stream->getNext();
                     if (null !== $argumentPseudoElement) {
-                        throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::pseudoElementFound($argumentPseudoElement, 'inside ::not()');
+                        throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::pseudoElementFound($argumentPseudoElement, 'inside ::not()');
                     }
                     if (!$next->isDelimiter([')'])) {
-                        throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('")"', $next);
+                        throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('")"', $next);
                     }
-                    $result = new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\NegationNode($result, $argument);
+                    $result = new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\NegationNode($result, $argument);
                 } else {
                     $arguments = [];
                     $next = null;
@@ -185,24 +185,24 @@ class Parser implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Pa
                         } elseif ($next->isDelimiter([')'])) {
                             break;
                         } else {
-                            throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('an argument', $next);
+                            throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('an argument', $next);
                         }
                     }
                     if (empty($arguments)) {
-                        throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('at least one argument', $next);
+                        throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('at least one argument', $next);
                     }
-                    $result = new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\FunctionNode($result, $identifier, $arguments);
+                    $result = new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\FunctionNode($result, $identifier, $arguments);
                 }
             } else {
-                throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('selector', $peek);
+                throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('selector', $peek);
             }
         }
         if (\count($stream->getUsed()) === $selectorStart) {
-            throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('selector', $stream->getPeek());
+            throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('selector', $stream->getPeek());
         }
         return [$result, $pseudoElement];
     }
-    private function parseElementNode(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\TokenStream $stream) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\ElementNode
+    private function parseElementNode(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\TokenStream $stream) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\ElementNode
     {
         $peek = $stream->getPeek();
         if ($peek->isIdentifier() || $peek->isDelimiter(['*'])) {
@@ -222,14 +222,14 @@ class Parser implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Pa
         } else {
             $element = $namespace = null;
         }
-        return new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\ElementNode($namespace, $element);
+        return new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\ElementNode($namespace, $element);
     }
-    private function parseAttributeNode(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\NodeInterface $selector, \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\TokenStream $stream) : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\AttributeNode
+    private function parseAttributeNode(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\NodeInterface $selector, \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\TokenStream $stream) : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\AttributeNode
     {
         $stream->skipWhitespace();
         $attribute = $stream->getNextIdentifierOrStar();
         if (null === $attribute && !$stream->getPeek()->isDelimiter(['|'])) {
-            throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('"|"', $stream->getPeek());
+            throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('"|"', $stream->getPeek());
         }
         if ($stream->getPeek()->isDelimiter(['|'])) {
             $stream->getNext();
@@ -249,30 +249,30 @@ class Parser implements \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Pa
             $stream->skipWhitespace();
             $next = $stream->getNext();
             if ($next->isDelimiter([']'])) {
-                return new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\AttributeNode($selector, $namespace, $attribute, 'exists', null);
+                return new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\AttributeNode($selector, $namespace, $attribute, 'exists', null);
             } elseif ($next->isDelimiter(['='])) {
                 $operator = '=';
             } elseif ($next->isDelimiter(['^', '$', '*', '~', '|', '!']) && $stream->getPeek()->isDelimiter(['='])) {
                 $operator = $next->getValue() . '=';
                 $stream->getNext();
             } else {
-                throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('operator', $next);
+                throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('operator', $next);
             }
         }
         $stream->skipWhitespace();
         $value = $stream->getNext();
         if ($value->isNumber()) {
             // if the value is a number, it's casted into a string
-            $value = new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Token::TYPE_STRING, (string) $value->getValue(), $value->getPosition());
+            $value = new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Token::TYPE_STRING, (string) $value->getValue(), $value->getPosition());
         }
         if (!($value->isIdentifier() || $value->isString())) {
-            throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('string or identifier', $value);
+            throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('string or identifier', $value);
         }
         $stream->skipWhitespace();
         $next = $stream->getNext();
         if (!$next->isDelimiter([']'])) {
-            throw \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('"]"', $next);
+            throw \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Exception\SyntaxErrorException::unexpectedToken('"]"', $next);
         }
-        return new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\AttributeNode($selector, $namespace, $attribute, $operator, $value->getValue());
+        return new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\AttributeNode($selector, $namespace, $attribute, $operator, $value->getValue());
     }
 }

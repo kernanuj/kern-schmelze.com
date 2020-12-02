@@ -1,12 +1,12 @@
 <?php
 
-namespace _PhpScoper833c86d6963f\Masterminds;
+namespace _PhpScoperfd240ab1f7e6\Masterminds;
 
-use _PhpScoper833c86d6963f\Masterminds\HTML5\Parser\DOMTreeBuilder;
-use _PhpScoper833c86d6963f\Masterminds\HTML5\Parser\Scanner;
-use _PhpScoper833c86d6963f\Masterminds\HTML5\Parser\Tokenizer;
-use _PhpScoper833c86d6963f\Masterminds\HTML5\Serializer\OutputRules;
-use _PhpScoper833c86d6963f\Masterminds\HTML5\Serializer\Traverser;
+use _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\DOMTreeBuilder;
+use _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\Scanner;
+use _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\Tokenizer;
+use _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Serializer\OutputRules;
+use _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Serializer\Traverser;
 /**
  * This class offers convenience methods for parsing and serializing HTML5.
  * It is roughly designed to mirror the \DOMDocument native class.
@@ -141,9 +141,9 @@ class HTML5
     {
         $this->errors = array();
         $options = \array_merge($this->defaultOptions, $options);
-        $events = new \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\DOMTreeBuilder(\false, $options);
-        $scanner = new \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\Scanner($input, !empty($options['encoding']) ? $options['encoding'] : 'UTF-8');
-        $parser = new \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\Tokenizer($scanner, $events, !empty($options['xmlNamespaces']) ? \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\Tokenizer::CONFORMANT_XML : \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\Tokenizer::CONFORMANT_HTML);
+        $events = new \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\DOMTreeBuilder(\false, $options);
+        $scanner = new \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\Scanner($input, !empty($options['encoding']) ? $options['encoding'] : 'UTF-8');
+        $parser = new \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\Tokenizer($scanner, $events, !empty($options['xmlNamespaces']) ? \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\Tokenizer::CONFORMANT_XML : \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\Tokenizer::CONFORMANT_HTML);
         $parser->parse();
         $this->errors = $events->getErrors();
         return $events->document();
@@ -162,9 +162,9 @@ class HTML5
     public function parseFragment($input, array $options = array())
     {
         $options = \array_merge($this->defaultOptions, $options);
-        $events = new \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\DOMTreeBuilder(\true, $options);
-        $scanner = new \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\Scanner($input, !empty($options['encoding']) ? $options['encoding'] : 'UTF-8');
-        $parser = new \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\Tokenizer($scanner, $events, !empty($options['xmlNamespaces']) ? \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\Tokenizer::CONFORMANT_XML : \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\Tokenizer::CONFORMANT_HTML);
+        $events = new \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\DOMTreeBuilder(\true, $options);
+        $scanner = new \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\Scanner($input, !empty($options['encoding']) ? $options['encoding'] : 'UTF-8');
+        $parser = new \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\Tokenizer($scanner, $events, !empty($options['xmlNamespaces']) ? \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\Tokenizer::CONFORMANT_XML : \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\Tokenizer::CONFORMANT_HTML);
         $parser->parse();
         $this->errors = $events->getErrors();
         return $events->fragment();
@@ -189,8 +189,8 @@ class HTML5
             $stream = \fopen($file, 'wb');
         }
         $options = \array_merge($this->defaultOptions, $options);
-        $rules = new \_PhpScoper833c86d6963f\Masterminds\HTML5\Serializer\OutputRules($stream, $options);
-        $trav = new \_PhpScoper833c86d6963f\Masterminds\HTML5\Serializer\Traverser($dom, $stream, $rules, $options);
+        $rules = new \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Serializer\OutputRules($stream, $options);
+        $trav = new \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Serializer\Traverser($dom, $stream, $rules, $options);
         $trav->walk();
         /*
          * release the traverser to avoid cyclic references and allow PHP to free memory without waiting for gc_collect_cycles

@@ -1,9 +1,9 @@
 <?php
 
-namespace _PhpScoper833c86d6963f\Masterminds\HTML5\Parser;
+namespace _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser;
 
-use _PhpScoper833c86d6963f\Masterminds\HTML5\Elements;
-use _PhpScoper833c86d6963f\Masterminds\HTML5\InstructionProcessor;
+use _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements;
+use _PhpScoperfd240ab1f7e6\Masterminds\HTML5\InstructionProcessor;
 /**
  * Create an HTML5 DOM tree from events.
  *
@@ -22,7 +22,7 @@ use _PhpScoper833c86d6963f\Masterminds\HTML5\InstructionProcessor;
  * re-written to accomodate this. See, for example, the Go language HTML5
  * parser.
  */
-class DOMTreeBuilder implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\EventHandler
+class DOMTreeBuilder implements \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\EventHandler
 {
     /**
      * Defined in http://www.w3.org/TR/html51/infrastructure.html#html-namespace-0.
@@ -127,7 +127,7 @@ class DOMTreeBuilder implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser
         $this->current = $this->doc;
         // ->documentElement;
         // Create a rules engine for tags.
-        $this->rules = new \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\TreeBuildingRules();
+        $this->rules = new \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\TreeBuildingRules();
         $implicitNS = array();
         if (isset($this->options[self::OPT_IMPLICIT_NS])) {
             $implicitNS = $this->options[self::OPT_IMPLICIT_NS];
@@ -171,7 +171,7 @@ class DOMTreeBuilder implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser
      *
      * @param InstructionProcessor $proc
      */
-    public function setInstructionProcessor(\_PhpScoper833c86d6963f\Masterminds\HTML5\InstructionProcessor $proc)
+    public function setInstructionProcessor(\_PhpScoperfd240ab1f7e6\Masterminds\HTML5\InstructionProcessor $proc)
     {
         $this->processor = $proc;
     }
@@ -218,7 +218,7 @@ class DOMTreeBuilder implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser
             $name = 'img';
         }
         // Autoclose p tags where appropriate.
-        if ($this->insertMode >= static::IM_IN_BODY && \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::isA($name, \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::AUTOCLOSE_P)) {
+        if ($this->insertMode >= static::IM_IN_BODY && \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::isA($name, \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::AUTOCLOSE_P)) {
             $this->autoclose('p');
         }
         // Set insert mode:
@@ -250,7 +250,7 @@ class DOMTreeBuilder implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser
         }
         // Special case handling for SVG.
         if ($this->insertMode === static::IM_IN_SVG) {
-            $lname = \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::normalizeSvgElement($lname);
+            $lname = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::normalizeSvgElement($lname);
         }
         $pushes = 0;
         // when we found a tag thats appears inside $nsRoots, we have to switch the defalut namespace
@@ -272,7 +272,7 @@ class DOMTreeBuilder implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser
                 }
             }
         }
-        if ($this->onlyInline && \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::isA($lname, \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::BLOCK_TAG)) {
+        if ($this->onlyInline && \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::isA($lname, \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::BLOCK_TAG)) {
             $this->autoclose($this->onlyInline);
             $this->onlyInline = null;
         }
@@ -294,12 +294,12 @@ class DOMTreeBuilder implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser
             $this->parseError("Illegal tag name: <{$lname}>. Replaced with <invalid>.");
             $ele = $this->doc->createElement('invalid');
         }
-        if (\_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::isA($lname, \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::BLOCK_ONLY_INLINE)) {
+        if (\_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::isA($lname, \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::BLOCK_ONLY_INLINE)) {
             $this->onlyInline = $lname;
         }
         // When we add some namespacess, we have to track them. Later, when "endElement" is invoked, we have to remove them.
         // When we are on a void tag, we do not need to care about namesapce nesting.
-        if ($pushes > 0 && !\_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::isA($name, \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::VOID_TAG)) {
+        if ($pushes > 0 && !\_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::isA($name, \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::VOID_TAG)) {
             // PHP tends to free the memory used by DOM,
             // to avoid spl_object_hash collisions whe have to avoid garbage collection of $ele storing it into $pushes
             // see https://bugs.php.net/bug.php?id=67459
@@ -311,9 +311,9 @@ class DOMTreeBuilder implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser
                 continue;
             }
             if ($this->insertMode === static::IM_IN_SVG) {
-                $aName = \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::normalizeSvgAttribute($aName);
+                $aName = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::normalizeSvgAttribute($aName);
             } elseif ($this->insertMode === static::IM_IN_MATHML) {
-                $aName = \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::normalizeMathMlAttribute($aName);
+                $aName = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::normalizeMathMlAttribute($aName);
             }
             try {
                 $prefix = ($pos = \strpos($aName, ':')) ? \substr($aName, 0, $pos) : \false;
@@ -339,13 +339,13 @@ class DOMTreeBuilder implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser
         } else {
             // Otherwise, it's a standard element.
             $this->current->appendChild($ele);
-            if (!\_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::isA($name, \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::VOID_TAG)) {
+            if (!\_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::isA($name, \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::VOID_TAG)) {
                 $this->current = $ele;
             }
             // Self-closing tags should only be respected on foreign elements
             // (and are implied on void elements)
             // See: https://www.w3.org/TR/html5/syntax.html#start-tags
-            if (\_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::isHtml5Element($name)) {
+            if (\_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::isHtml5Element($name)) {
                 $selfClosing = \false;
             }
         }
@@ -356,7 +356,7 @@ class DOMTreeBuilder implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser
         }
         // When we are on a void tag, we do not need to care about namesapce nesting,
         // but we have to remove the namespaces pushed to $nsStack.
-        if ($pushes > 0 && \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::isA($name, \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::VOID_TAG)) {
+        if ($pushes > 0 && \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::isA($name, \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::VOID_TAG)) {
             // remove the namespaced definded by current node
             for ($i = 0; $i < $pushes; ++$i) {
                 \array_shift($this->nsStack);
@@ -367,16 +367,16 @@ class DOMTreeBuilder implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser
         }
         // Return the element mask, which the tokenizer can then use to set
         // various processing rules.
-        return \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::element($name);
+        return \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::element($name);
     }
     public function endTag($name)
     {
         $lname = $this->normalizeTagName($name);
         // Special case within 12.2.6.4.7: An end tag whose tag name is "br" should be treated as an opening tag
-        if ($name === 'br') {
+        if ('br' === $name) {
             $this->parseError('Closing tag encountered for void element br.');
             $this->startTag('br');
-        } elseif (\_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::isA($name, \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::VOID_TAG)) {
+        } elseif (\_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::isA($name, \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::VOID_TAG)) {
             return;
         }
         if ($this->insertMode <= static::IM_BEFORE_HTML) {
@@ -393,7 +393,7 @@ class DOMTreeBuilder implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser
         }
         // Special case handling for SVG.
         if ($this->insertMode === static::IM_IN_SVG) {
-            $lname = \_PhpScoper833c86d6963f\Masterminds\HTML5\Elements::normalizeSvgElement($lname);
+            $lname = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Elements::normalizeSvgElement($lname);
         }
         $cid = \spl_object_hash($this->current);
         // XXX: HTML has no parent. What do we do, though,
@@ -473,7 +473,7 @@ class DOMTreeBuilder implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser
             return;
         }
         // Important: The processor may modify the current DOM tree however it sees fit.
-        if ($this->processor instanceof \_PhpScoper833c86d6963f\Masterminds\HTML5\InstructionProcessor) {
+        if ($this->processor instanceof \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\InstructionProcessor) {
             $res = $this->processor->process($this->current, $name, $data);
             if (!empty($res)) {
                 $this->current = $res;

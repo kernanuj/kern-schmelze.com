@@ -1,17 +1,17 @@
 <?php
 
-namespace _PhpScoper833c86d6963f\Bamarni\Composer\Bin;
+namespace _PhpScoperfd240ab1f7e6\Bamarni\Composer\Bin;
 
-use _PhpScoper833c86d6963f\Composer\Composer;
-use _PhpScoper833c86d6963f\Composer\IO\IOInterface;
-use _PhpScoper833c86d6963f\Composer\Plugin\PluginInterface;
-use _PhpScoper833c86d6963f\Composer\Plugin\Capable;
-class Plugin implements \_PhpScoper833c86d6963f\Composer\Plugin\PluginInterface, \_PhpScoper833c86d6963f\Composer\Plugin\Capable
+use _PhpScoperfd240ab1f7e6\Composer\Composer;
+use _PhpScoperfd240ab1f7e6\Composer\IO\IOInterface;
+use _PhpScoperfd240ab1f7e6\Composer\Plugin\PluginInterface;
+use _PhpScoperfd240ab1f7e6\Composer\Plugin\Capable;
+class Plugin implements \_PhpScoperfd240ab1f7e6\Composer\Plugin\PluginInterface, \_PhpScoperfd240ab1f7e6\Composer\Plugin\Capable
 {
     /**
      * {@inheritDoc}
      */
-    public function activate(\_PhpScoper833c86d6963f\Composer\Composer $composer, \_PhpScoper833c86d6963f\Composer\IO\IOInterface $io)
+    public function activate(\_PhpScoperfd240ab1f7e6\Composer\Composer $composer, \_PhpScoperfd240ab1f7e6\Composer\IO\IOInterface $io)
     {
     }
     /**
@@ -19,18 +19,18 @@ class Plugin implements \_PhpScoper833c86d6963f\Composer\Plugin\PluginInterface,
      */
     public function getCapabilities()
     {
-        return ['_PhpScoper833c86d6963f\\Composer\\Plugin\\Capability\\CommandProvider' => '_PhpScoper833c86d6963f\\Bamarni\\Composer\\Bin\\CommandProvider'];
+        return ['_PhpScoperfd240ab1f7e6\\Composer\\Plugin\\Capability\\CommandProvider' => '_PhpScoperfd240ab1f7e6\\Bamarni\\Composer\\Bin\\CommandProvider'];
     }
     /**
      * {@inheritDoc}
      */
-    public function deactivate(\_PhpScoper833c86d6963f\Composer\Composer $composer, \_PhpScoper833c86d6963f\Composer\IO\IOInterface $io)
+    public function deactivate(\_PhpScoperfd240ab1f7e6\Composer\Composer $composer, \_PhpScoperfd240ab1f7e6\Composer\IO\IOInterface $io)
     {
     }
     /**
      * {@inheritDoc}
      */
-    public function uninstall(\_PhpScoper833c86d6963f\Composer\Composer $composer, \_PhpScoper833c86d6963f\Composer\IO\IOInterface $io)
+    public function uninstall(\_PhpScoperfd240ab1f7e6\Composer\Composer $composer, \_PhpScoperfd240ab1f7e6\Composer\IO\IOInterface $io)
     {
     }
 }

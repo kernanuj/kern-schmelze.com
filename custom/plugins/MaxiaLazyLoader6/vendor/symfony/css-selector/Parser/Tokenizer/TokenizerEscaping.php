@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Tokenizer;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Tokenizer;
 
 /**
  * CSS selector tokenizer escaping applier.
@@ -23,7 +23,7 @@ namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Tokenizer;
 class TokenizerEscaping
 {
     private $patterns;
-    public function __construct(\_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns $patterns)
+    public function __construct(\_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerPatterns $patterns)
     {
         $this->patterns = $patterns;
     }

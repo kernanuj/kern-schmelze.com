@@ -5,7 +5,7 @@ namespace Maxia\MaxiaLazyLoader6\Components\Dom;
 
 use DOMDocument;
 use DOMElement;
-use _PhpScoper833c86d6963f\Symfony\Component\CssSelector\CssSelectorConverter;
+use _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\CssSelectorConverter;
 class DomHelper
 {
     /**
@@ -28,7 +28,7 @@ class DomHelper
     public static function querySelectorAll(\DOMDocument $dom, $selector, $iterator = \false)
     {
         $xpath = new \DOMXPath($dom);
-        $converter = new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\CssSelectorConverter();
+        $converter = new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\CssSelectorConverter();
         $result = $xpath->query($converter->toXPath($selector), $dom);
         return $iterator ? $result : \iterator_to_array($result);
     }

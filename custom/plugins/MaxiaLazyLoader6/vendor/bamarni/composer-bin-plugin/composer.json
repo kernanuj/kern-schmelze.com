@@ -27,12 +27,12 @@
     },
     "autoload": {
         "psr-4": {
-            "_PhpScoper833c86d6963f\\Bamarni\\Composer\\Bin\\": "src"
+            "_PhpScoperfd240ab1f7e6\\Bamarni\\Composer\\Bin\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "_PhpScoper833c86d6963f\\Bamarni\\Composer\\Bin\\Tests\\": "tests"
+            "_PhpScoperfd240ab1f7e6\\Bamarni\\Composer\\Bin\\Tests\\": "tests"
         }
     },
     "scripts": {

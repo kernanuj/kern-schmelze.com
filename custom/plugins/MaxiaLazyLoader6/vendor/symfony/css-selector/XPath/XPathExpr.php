@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath;
 
 /**
  * XPath expression translator interface.
@@ -50,7 +50,7 @@ class XPathExpr
     public function addNameTest() : self
     {
         if ('*' !== $this->element) {
-            $this->addCondition('name() = ' . \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\XPath\Translator::getXpathLiteral($this->element));
+            $this->addCondition('name() = ' . \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\XPath\Translator::getXpathLiteral($this->element));
             $this->element = '*';
         }
         return $this;

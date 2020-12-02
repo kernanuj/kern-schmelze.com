@@ -3,7 +3,7 @@
 /**
  * Loads a string to be parsed.
  */
-namespace _PhpScoper833c86d6963f\Masterminds\HTML5\Parser;
+namespace _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser;
 
 /*
  *
@@ -36,7 +36,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /**
  * @deprecated since 2.4, to remove in 3.0. Use a string in the scanner instead.
  */
-class StringInputStream implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\InputStream
+class StringInputStream implements \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\InputStream
 {
     /**
      * The string data we're parsing.
@@ -63,14 +63,14 @@ class StringInputStream implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Par
      */
     public function __construct($data, $encoding = 'UTF-8', $debug = '')
     {
-        $data = \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\UTF8Utils::convertToUTF8($data, $encoding);
+        $data = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\UTF8Utils::convertToUTF8($data, $encoding);
         if ($debug) {
             \fprintf(\STDOUT, $debug, $data, \strlen($data));
         }
         // There is good reason to question whether it makes sense to
         // do this here, since most of these checks are done during
         // parsing, and since this check doesn't actually *do* anything.
-        $this->errors = \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\UTF8Utils::checkForIllegalCodepoints($data);
+        $this->errors = \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\UTF8Utils::checkForIllegalCodepoints($data);
         $data = $this->replaceLinefeeds($data);
         $this->data = $data;
         $this->char = 0;
@@ -141,7 +141,7 @@ class StringInputStream implements \_PhpScoper833c86d6963f\Masterminds\HTML5\Par
             // After a newline.
             $findLengthOf = \substr($this->data, 0, $this->char);
         }
-        return \_PhpScoper833c86d6963f\Masterminds\HTML5\Parser\UTF8Utils::countChars($findLengthOf);
+        return \_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Parser\UTF8Utils::countChars($findLengthOf);
     }
     /**
      * @deprecated

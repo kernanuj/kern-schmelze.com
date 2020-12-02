@@ -4,7 +4,7 @@
  * @file
  * The interface definition for Rules to generate output.
  */
-namespace _PhpScoper833c86d6963f\Masterminds\HTML5\Serializer;
+namespace _PhpScoperfd240ab1f7e6\Masterminds\HTML5\Serializer;
 
 /**
  * To create a new rule set for writing output the RulesInterface needs to be implemented.
@@ -32,7 +32,7 @@ interface RulesInterface
      *
      * @return RulesInterface $this for the current object.
      */
-    public function setTraverser(\_PhpScoper833c86d6963f\Masterminds\HTML5\Serializer\Traverser $traverser);
+    public function setTraverser(\_PhpScoperfd240ab1f7e6\Masterminds\HTML5\Serializer\Traverser $traverser);
     /**
      * Write a document element (\DOMDocument).
      *

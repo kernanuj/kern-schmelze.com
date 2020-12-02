@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node;
+namespace _PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node;
 
 /**
  * Represents a "<namespace>|<element>" node.
@@ -20,7 +20,7 @@ namespace _PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node;
  *
  * @internal
  */
-class ElementNode extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\AbstractNode
+class ElementNode extends \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\AbstractNode
 {
     private $namespace;
     private $element;
@@ -40,9 +40,9 @@ class ElementNode extends \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\
     /**
      * {@inheritdoc}
      */
-    public function getSpecificity() : \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\Specificity
+    public function getSpecificity() : \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\Specificity
     {
-        return new \_PhpScoper833c86d6963f\Symfony\Component\CssSelector\Node\Specificity(0, 0, $this->element ? 1 : 0);
+        return new \_PhpScoperfd240ab1f7e6\Symfony\Component\CssSelector\Node\Specificity(0, 0, $this->element ? 1 : 0);
     }
     /**
      * {@inheritdoc}
