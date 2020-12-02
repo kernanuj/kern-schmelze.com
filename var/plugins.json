@@ -147,24 +147,6 @@
             "styleFiles": []
         }
     },
-    "WeloAddressDocument6": {
-        "basePath": "custom\/plugins\/WeloAddressDocument6\/src\/",
-        "views": [
-            "Resources\/views"
-        ],
-        "technicalName": "welo-address-document6",
-        "administration": {
-            "path": "Resources\/app\/administration\/src",
-            "entryFilePath": null,
-            "webpack": null
-        },
-        "storefront": {
-            "path": "Resources\/app\/storefront\/src",
-            "entryFilePath": null,
-            "webpack": null,
-            "styleFiles": []
-        }
-    },
     "InvKernschmelzeTemplate": {
         "basePath": "custom\/plugins\/InvKernschmelzeTemplate\/src\/",
         "views": [
@@ -675,6 +657,24 @@
             "Resources\/views"
         ],
         "technicalName": "coe-facebook-pixel-sw6",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": []
+        }
+    },
+    "WeloAddressDocument6": {
+        "basePath": "custom\/plugins\/WeloAddressDocument6\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "welo-address-document6",
         "administration": {
             "path": "Resources\/app\/administration\/src",
             "entryFilePath": null,
