@@ -1,34 +1,53 @@
-import SwagPayPalWebhookRegisterService
-    from '../core/service/api/swag-paypal-webhook-register.service';
 import SwagPayPalApiCredentialsService
     from '../core/service/api/swag-paypal-api-credentials.service';
+import SwagPayPalPosSettingApiService
+    from '../core/service/api/swag-paypal-pos-setting.api.service';
+import SwagPayPalPosApiService
+    from '../core/service/api/swag-paypal-pos.api.service';
+import SwagPayPalPosWebhookRegisterService
+    from '../core/service/api/swag-paypal-pos-webhook-register.service';
 import SwagPayPalPaymentService
     from '../core/service/api/swag-paypal-payment.service';
+import SwagPayPalOrderService
+    from '../core/service/api/swag-paypal-order.service';
 import SwagPaypalPaymentMethodServiceService
     from '../core/service/api/swag-paypal-payment-method.service';
 
 const { Application } = Shopware;
 
-Application.addServiceProvider('SwagPayPalWebhookRegisterService', (container) => {
-    const initContainer = Application.getContainer('init');
+const initContainer = Application.getContainer('init');
 
-    return new SwagPayPalWebhookRegisterService(initContainer.httpClient, container.loginService);
-});
+Application.addServiceProvider(
+    'SwagPayPalApiCredentialsService',
+    (container) => new SwagPayPalApiCredentialsService(initContainer.httpClient, container.loginService)
+);
 
-Application.addServiceProvider('SwagPayPalApiCredentialsService', (container) => {
-    const initContainer = Application.getContainer('init');
+Application.addServiceProvider(
+    'SwagPayPalPosSettingApiService',
+    (container) => new SwagPayPalPosSettingApiService(initContainer.httpClient, container.loginService)
+);
 
-    return new SwagPayPalApiCredentialsService(initContainer.httpClient, container.loginService);
-});
+Application.addServiceProvider(
+    'SwagPayPalPosApiService',
+    (container) => new SwagPayPalPosApiService(initContainer.httpClient, container.loginService)
+);
 
-Application.addServiceProvider('SwagPayPalPaymentService', (container) => {
-    const initContainer = Application.getContainer('init');
+Application.addServiceProvider(
+    'SwagPayPalPosWebhookRegisterService',
+    (container) => new SwagPayPalPosWebhookRegisterService(initContainer.httpClient, container.loginService)
+);
 
-    return new SwagPayPalPaymentService(initContainer.httpClient, container.loginService);
-});
+Application.addServiceProvider(
+    'SwagPayPalPaymentService',
+    (container) => new SwagPayPalPaymentService(initContainer.httpClient, container.loginService)
+);
 
-Application.addServiceProvider('SwagPaypalPaymentMethodServiceService', (container) => {
-    const initContainer = Application.getContainer('init');
+Application.addServiceProvider(
+    'SwagPayPalOrderService',
+    (container) => new SwagPayPalOrderService(initContainer.httpClient, container.loginService)
+);
 
-    return new SwagPaypalPaymentMethodServiceService(initContainer.httpClient, container.loginService);
-});
+Application.addServiceProvider(
+    'SwagPaypalPaymentMethodServiceService',
+    (container) => new SwagPaypalPaymentMethodServiceService(initContainer.httpClient, container.loginService)
+);

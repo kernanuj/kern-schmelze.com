@@ -8,8 +8,8 @@
 namespace Swag\PayPal\Test\Setting;
 
 use PHPUnit\Framework\TestCase;
-use Swag\PayPal\PayPal\Api\Payment\ApplicationContext;
-use Swag\PayPal\PayPal\PaymentIntent;
+use Swag\PayPal\RestApi\V2\Api\Order\ApplicationContext;
+use Swag\PayPal\RestApi\V2\PaymentIntentV2;
 use Swag\PayPal\Setting\SwagPayPalSettingStruct;
 use Swag\PayPal\Webhook\WebhookService;
 
@@ -36,8 +36,8 @@ class SwagPayPalSettingStructTest extends TestCase
             'clientIdSandbox' => self::CLIENT_ID_SANDBOX,
             'clientSecretSandbox' => self::CLIENT_SECRET_SANDBOX,
             'sandbox' => false,
-            'intent' => PaymentIntent::SALE,
-            'submitCart' => false,
+            'intent' => PaymentIntentV2::CAPTURE,
+            'submitCart' => true,
             'webhookId' => self::WEBHOOK_ID,
             WebhookService::WEBHOOK_TOKEN_CONFIG_KEY => self::WEBHOOK_EXECUTE_TOKEN,
             'brandName' => self::BRAND_NAME,
@@ -51,7 +51,7 @@ class SwagPayPalSettingStructTest extends TestCase
             'ecsListingEnabled' => false,
             'ecsButtonColor' => self::BUTTON_COLOR,
             'ecsButtonShape' => self::BUTTON_SHAPE,
-            'ecsSubmitCart' => false,
+            'ecsSubmitCart' => true,
             'ecsButtonLanguageIso' => self::BUTTON_LANGUAGE_ISO,
             'spbCheckoutEnabled' => false,
             'spbAlternativePaymentMethodsEnabled' => false,
@@ -68,8 +68,8 @@ class SwagPayPalSettingStructTest extends TestCase
         $settings->setClientIdSandbox(self::CLIENT_ID_SANDBOX);
         $settings->setClientSecretSandbox(self::CLIENT_SECRET_SANDBOX);
         $settings->setSandbox(false);
-        $settings->setIntent(PaymentIntent::SALE);
-        $settings->setSubmitCart(false);
+        $settings->setIntent(PaymentIntentV2::CAPTURE);
+        $settings->setSubmitCart(true);
         $settings->setWebhookId(self::WEBHOOK_ID);
         $settings->setWebhookExecuteToken(self::WEBHOOK_EXECUTE_TOKEN);
         $settings->setBrandName(self::BRAND_NAME);
@@ -83,7 +83,7 @@ class SwagPayPalSettingStructTest extends TestCase
         $settings->setEcsListingEnabled(false);
         $settings->setEcsButtonColor(self::BUTTON_COLOR);
         $settings->setEcsButtonShape(self::BUTTON_SHAPE);
-        $settings->setEcsSubmitCart(false);
+        $settings->setEcsSubmitCart(true);
         $settings->setEcsButtonLanguageIso(self::BUTTON_LANGUAGE_ISO);
         $settings->setSpbCheckoutEnabled(false);
         $settings->setSpbAlternativePaymentMethodsEnabled(false);
@@ -98,8 +98,8 @@ class SwagPayPalSettingStructTest extends TestCase
         static::assertSame(self::CLIENT_ID_SANDBOX, $settings->getClientIdSandbox());
         static::assertSame(self::CLIENT_SECRET_SANDBOX, $settings->getClientSecretSandbox());
         static::assertFalse($settings->getSandbox());
-        static::assertSame(PaymentIntent::SALE, $settings->getIntent());
-        static::assertFalse($settings->getSubmitCart());
+        static::assertSame(PaymentIntentV2::CAPTURE, $settings->getIntent());
+        static::assertTrue($settings->getSubmitCart());
         static::assertSame(self::WEBHOOK_ID, $settings->getWebhookId());
         static::assertSame(self::WEBHOOK_EXECUTE_TOKEN, $settings->getWebhookExecuteToken());
         static::assertSame(self::BRAND_NAME, $settings->getBrandName());
@@ -113,7 +113,7 @@ class SwagPayPalSettingStructTest extends TestCase
         static::assertFalse($settings->getEcsListingEnabled());
         static::assertSame(self::BUTTON_COLOR, $settings->getEcsButtonColor());
         static::assertSame(self::BUTTON_SHAPE, $settings->getEcsButtonShape());
-        static::assertFalse($settings->getEcsSubmitCart());
+        static::assertTrue($settings->getEcsSubmitCart());
         static::assertSame(self::BUTTON_LANGUAGE_ISO, $settings->getEcsButtonLanguageIso());
         static::assertFalse($settings->getSpbCheckoutEnabled());
         static::assertFalse($settings->getSpbAlternativePaymentMethodsEnabled());

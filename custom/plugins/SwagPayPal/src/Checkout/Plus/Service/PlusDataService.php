@@ -13,15 +13,15 @@ use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Checkout\Payment\Exception\InvalidOrderException;
 use Shopware\Core\Framework\Context;
+use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Swag\PayPal\Checkout\Payment\PayPalPaymentHandler;
 use Swag\PayPal\Checkout\Plus\PlusData;
-use Swag\PayPal\Payment\Builder\CartPaymentBuilderInterface;
-use Swag\PayPal\Payment\Builder\OrderPaymentBuilderInterface;
-use Swag\PayPal\Payment\PayPalPaymentHandler;
-use Swag\PayPal\PayPal\Api\Payment;
-use Swag\PayPal\PayPal\PartnerAttributionId;
-use Swag\PayPal\PayPal\PaymentIntent;
-use Swag\PayPal\PayPal\Resource\PaymentResource;
+use Swag\PayPal\PaymentsApi\Builder\CartPaymentBuilderInterface;
+use Swag\PayPal\PaymentsApi\Builder\OrderPaymentBuilderInterface;
+use Swag\PayPal\RestApi\PartnerAttributionId;
+use Swag\PayPal\RestApi\V1\Api\Payment;
+use Swag\PayPal\RestApi\V1\Resource\PaymentResource;
 use Swag\PayPal\Setting\SwagPayPalSettingStruct;
 use Swag\PayPal\Util\LocaleCodeProvider;
 use Swag\PayPal\Util\PaymentMethodUtil;
@@ -145,8 +145,6 @@ class PlusDataService
         CustomerEntity $customer,
         bool $useSandbox
     ): ?PlusData {
-        $payment->setIntent(PaymentIntent::SALE);
-
         try {
             $response = $this->paymentResource->create(
                 $payment,
@@ -166,8 +164,10 @@ class PlusDataService
             'paymentMethodId' => $this->paymentMethodUtil->getPayPalPaymentMethodId($context),
             'paypalPaymentId' => $response->getId(),
             'paypalToken' => PaymentTokenExtractor::extract($response),
-            'checkoutOrderUrl' => $this->router->generate('sales-channel-api.checkout.order.create', ['version' => 2]),
-            'setPaymentRouteUrl' => $this->router->generate('store-api.order.set-payment', ['version' => 2]),
+            'checkoutOrderUrl' => $this->router->generate('store-api.checkout.cart.order', ['version' => PlatformRequest::API_VERSION]),
+            'handlePaymentUrl' => $this->router->generate('store-api.payment.handle', ['version' => PlatformRequest::API_VERSION]),
+            'setPaymentRouteUrl' => $this->router->generate('store-api.order.set-payment', ['version' => PlatformRequest::API_VERSION]),
+            'contextSwitchUrl' => $this->router->generate('store-api.switch-context', ['version' => PlatformRequest::API_VERSION]),
             'isEnabledParameterName' => PayPalPaymentHandler::PAYPAL_PLUS_CHECKOUT_ID,
             'languageId' => $salesChannelContext->getContext()->getLanguageId(),
         ]);

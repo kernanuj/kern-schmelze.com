@@ -8,17 +8,18 @@
 namespace Swag\PayPal\Test\Mock\PayPal\Client;
 
 use Psr\Log\LoggerInterface;
-use Swag\PayPal\PayPal\Client\PayPalClient;
-use Swag\PayPal\PayPal\Client\PayPalClientFactory;
-use Swag\PayPal\PayPal\PartnerAttributionId;
-use Swag\PayPal\PayPal\Resource\TokenResource;
+use Swag\PayPal\RestApi\Client\PayPalClientFactoryInterface;
+use Swag\PayPal\RestApi\Client\PayPalClientInterface;
+use Swag\PayPal\RestApi\PartnerAttributionId;
+use Swag\PayPal\RestApi\V1\Resource\TokenResource;
+use Swag\PayPal\RestApi\V1\Service\TokenValidator;
 use Swag\PayPal\Setting\Service\SettingsServiceInterface;
 use Swag\PayPal\Test\Mock\CacheMock;
 
-class PayPalClientFactoryMock extends PayPalClientFactory
+class PayPalClientFactoryMock implements PayPalClientFactoryInterface
 {
     /**
-     * @var PayPalClientMock
+     * @var PayPalClientMock|null
      */
     private $client;
 
@@ -33,36 +34,40 @@ class PayPalClientFactoryMock extends PayPalClientFactory
     private $logger;
 
     public function __construct(
-        TokenResource $tokenResource,
         SettingsServiceInterface $settingsService,
         LoggerInterface $logger
     ) {
         $this->settingsService = $settingsService;
         $this->logger = $logger;
-        parent::__construct($tokenResource, $settingsService, $logger);
     }
 
-    public function createPaymentClient(
+    public function getPayPalClient(
         ?string $salesChannelId,
         string $partnerAttributionId = PartnerAttributionId::PAYPAL_CLASSIC
-    ): PayPalClient {
+    ): PayPalClientInterface {
         $settings = $this->settingsService->getSettings($salesChannelId);
 
-        $this->client = new PayPalClientMock(
-            new TokenResource(
-                new CacheMock(),
-                new TokenClientFactoryMock($this->logger),
-                new CredentialsClientFactoryMock($this->logger)
-            ),
-            $settings,
-            $this->logger
-        );
+        if ($this->client === null) {
+            $this->client = new PayPalClientMock(
+                new TokenResource(
+                    new CacheMock(),
+                    new TokenClientFactoryMock($this->logger),
+                    new TokenValidator()
+                ),
+                $settings,
+                $this->logger
+            );
+        }
 
         return $this->client;
     }
 
     public function getClient(): PayPalClientMock
     {
+        if ($this->client === null) {
+            throw new \RuntimeException('Something went wrong. There is no client');
+        }
+
         return $this->client;
     }
 }

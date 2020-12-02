@@ -43,6 +43,20 @@ export default class SwagPayPalSmartPaymentButtons extends SwagPaypalAbstractBut
         clientId: '',
 
         /**
+         * This options specifies the currency of the PayPal button
+         *
+         * @type string
+         */
+        currency: 'EUR',
+
+        /**
+         * This options defines the payment intent
+         *
+         * @type string
+         */
+        intent: 'capture',
+
+        /**
          * This option toggles the PayNow/Login text at PayPal
          *
          * @type boolean
@@ -57,11 +71,27 @@ export default class SwagPayPalSmartPaymentButtons extends SwagPaypalAbstractBut
         useAlternativePaymentMethods: true,
 
         /**
+         * This option specifies if selected APMs should be hidden
+         *
+         * @type string[]
+         */
+        disabledAlternativePaymentMethods: [],
+
+        /**
          * URL to create a new PayPal payment
+         *
+         * @deprecated tag:v3.0.0 - will be removed. Use createOrderUrl instead
          *
          * @type string
          */
         createPaymentUrl: '',
+
+        /**
+         * URL to create a new PayPal order
+         *
+         * @type string
+         */
+        createOrderUrl: '',
 
         /**
          * URL to the checkout confirm page
@@ -114,7 +144,6 @@ export default class SwagPayPalSmartPaymentButtons extends SwagPaypalAbstractBut
     };
 
     init() {
-        this.paypal = null;
         this._client = new StoreApiClient();
 
         this.createButton();
@@ -122,17 +151,17 @@ export default class SwagPayPalSmartPaymentButtons extends SwagPaypalAbstractBut
 
     createButton() {
         this.createScript(() => {
-            this.paypal = window.paypal;
-            this.renderButton();
+            const paypal = window.paypal;
+            this.renderButton(paypal);
         });
     }
 
-    renderButton() {
+    renderButton(paypal) {
         this.confirmOrderForm = DomAccess.querySelector(document, this.options.confirmOrderFormSelector);
 
         DomAccess.querySelector(this.confirmOrderForm, this.options.confirmOrderButtonSelector).classList.add('d-none');
 
-        return this.paypal.Buttons(this.getButtonConfig()).render(this.el);
+        return paypal.Buttons(this.getButtonConfig()).render(this.el);
     }
 
     getButtonConfig() {
@@ -174,7 +203,7 @@ export default class SwagPayPalSmartPaymentButtons extends SwagPaypalAbstractBut
 
         return new Promise(resolve => {
             this._client.post(
-                this.options.createPaymentUrl,
+                this.options.createOrderUrl,
                 formData,
                 responseText => {
                     const response = JSON.parse(responseText);
@@ -187,8 +216,7 @@ export default class SwagPayPalSmartPaymentButtons extends SwagPaypalAbstractBut
     onApprove(data, actions) {
         const params = new URLSearchParams();
         let url = this.options.checkoutConfirmUrl;
-        params.append('paypalPayerId', data.payerID);
-        params.append('paypalPaymentId', data.paymentID);
+        params.append('paypalOrderId', data.orderID);
 
         if (this.options.accountOrderEditUrl !== null) {
             url = this.options.accountOrderEditUrl;

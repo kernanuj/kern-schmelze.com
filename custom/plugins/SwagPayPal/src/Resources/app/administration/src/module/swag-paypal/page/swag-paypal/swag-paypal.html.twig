@@ -13,21 +13,17 @@
 
         {% block swag_paypal_actions %}
             <template #smart-bar-actions>
-
-                {% block swag_paypal_actions_test %}
-                    {# @deprecated tag:v2.0.0 will be removed without replacement #}
-                {% endblock %}
-
                 {% block swag_paypal_actions_save %}
                     <sw-button-process v-model="isSaveSuccessful"
                                        class="sw-settings-login-registration__save-action"
                                        variant="primary"
                                        :isLoading="isLoading"
-                                       :disabled="isLoading || savingDisabled"
+                                       :disabled="isLoading || savingDisabled || hasError || !acl.can('swag_paypal.editor')"
                                        @click="onSave">
                         {{ $tc('swag-paypal.settingForm.save') }}
                     </sw-button-process>
                 {% endblock %}
+
             </template>
         {% endblock %}
 
@@ -40,8 +36,7 @@
                         {% block swag_paypal_content_card_channel_config %}
                             <sw-sales-channel-config v-model="config"
                                                      ref="configComponent"
-                                                     domain="SwagPayPal.settings"
-                                                     @input.once="onInitialInput">
+                                                     domain="SwagPayPal.settings">
 
                                 {% block swag_paypal_content_card_channel_config_sales_channel %}
                                     <template #select="{ onInput, selectedSalesChannelId }">
@@ -55,6 +50,7 @@
                                                                       valueProperty="id"
                                                                       :isLoading="isLoading"
                                                                       :options="salesChannels"
+                                                                      :disabled="!acl.can('swag_paypal.editor')"
                                                                       @change="onInput">
                                                     </sw-single-select>
                                                 {% endblock %}
@@ -73,16 +69,21 @@
                                                             {% block swag_paypal_content_card_channel_config_sales_channel_card_footer_container_button %}
                                                                 <sw-button-process v-model="isSetDefaultPaymentSuccessful"
                                                                                    :isLoading="isSettingDefaultPaymentMethods"
+                                                                                   :disabled="!acl.can('swag_paypal.editor')"
                                                                                    @click="onSetPaymentMethodDefault">
                                                                     {{ $tc('swag-paypal.saleschannelCard.button.label') }}
                                                                 </sw-button-process>
                                                             {% endblock %}
+
                                                         </sw-container>
                                                         {% endblock %}
+
                                                     </template>
                                                 {% endblock %}
+
                                             </sw-card>
                                         {% endblock %}
+
                                     </template>
                                 {% endblock %}
 
@@ -91,7 +92,7 @@
                                         <div v-if="actualConfigData">
 
                                             {% block swag_paypal_content_card_channel_config_credentials_card %}
-                                                <sw-paypal-credentials :actualConfigData="actualConfigData"
+                                                <swag-paypal-credentials :actualConfigData="actualConfigData"
                                                                        :allConfigs="allConfigs"
                                                                        :selectedSalesChannelId="selectedSalesChannelId"
                                                                        :clientIdErrorState="clientIdErrorState"
@@ -103,59 +104,64 @@
                                                                        :clientIdSandboxFilled="clientIdSandboxFilled"
                                                                        :clientSecretSandboxFilled="clientSecretSandboxFilled"
                                                                        :isLoading="isLoading">
-                                                </sw-paypal-credentials>
+                                                </swag-paypal-credentials>
                                             {% endblock %}
 
-                                            {% block swag_paypal_content_card_channel_config_behaviour %}
-                                                <sw-paypal-behaviour :actualConfigData="actualConfigData"
+                                            {% block swag_paypal_content_card_channel_config_behavior %}
+                                                <swag-paypal-behavior :actualConfigData="actualConfigData"
                                                                      :allConfigs="allConfigs"
                                                                      :selectedSalesChannelId="selectedSalesChannelId">
-                                                </sw-paypal-behaviour>
+                                                </swag-paypal-behavior>
                                             {% endblock %}
 
                                             {% block swag_paypal_content_card_channel_config_express %}
-                                                <sw-paypal-express :actualConfigData="actualConfigData"
+                                                <swag-paypal-express :actualConfigData="actualConfigData"
                                                                    :allConfigs="allConfigs"
                                                                    :selectedSalesChannelId="selectedSalesChannelId"
                                                                    @preventSave="preventSave">
-                                                </sw-paypal-express>
+                                                </swag-paypal-express>
                                             {% endblock %}
 
                                             {% block swag_paypal_content_card_channel_config_installment %}
-                                                <sw-paypal-installment :actualConfigData="actualConfigData"
+                                                <swag-paypal-installment :actualConfigData="actualConfigData"
                                                                        :allConfigs="allConfigs"
                                                                        :selectedSalesChannelId="selectedSalesChannelId">
-                                                </sw-paypal-installment>
+                                                </swag-paypal-installment>
                                             {% endblock %}
 
                                             {% block swag_paypal_content_card_channel_config_spb %}
-                                                <sw-paypal-spb v-if="showSPBCard"
+                                                <swag-paypal-spb v-if="showSPBCard"
                                                                :actualConfigData="actualConfigData"
                                                                :allConfigs="allConfigs"
                                                                :selectedSalesChannelId="selectedSalesChannelId"
                                                                @preventSave="preventSave">
-                                                </sw-paypal-spb>
+                                                </swag-paypal-spb>
                                             {% endblock %}
 
                                             {% block swag_paypal_content_card_channel_config_plus %}
-                                                <sw-paypal-plus v-if="showPlusCard"
+                                                <swag-paypal-plus v-if="showPlusCard"
                                                                 :actualConfigData="actualConfigData"
                                                                 :allConfigs="allConfigs"
                                                                 :selectedSalesChannelId="selectedSalesChannelId">
-                                                </sw-paypal-plus>
+                                                </swag-paypal-plus>
                                             {% endblock %}
+
                                         </div>
                                     </template>
                                 {% endblock %}
+
                             </sw-sales-channel-config>
                         {% endblock %}
 
                         {% block swag_paypal_content_card_loading %}
                             <sw-loader v-if="isLoading"></sw-loader>
                         {% endblock %}
+
                     </sw-card-view>
                 {% endblock %}
+
             </template>
         {% endblock %}
+
     </sw-page>
 {% endblock %}

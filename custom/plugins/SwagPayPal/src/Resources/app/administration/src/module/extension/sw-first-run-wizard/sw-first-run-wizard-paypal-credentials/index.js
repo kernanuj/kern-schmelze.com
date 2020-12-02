@@ -1,5 +1,5 @@
 import template from './sw-first-run-wizard-paypal-credentials.html.twig';
-import './sw-first-run-wizard-paypal-credentials.html.scss';
+import './sw-first-run-wizard-paypal-credentials.scss';
 
 const { Component, Mixin } = Shopware;
 
@@ -16,6 +16,11 @@ Component.override('sw-first-run-wizard-paypal-credentials', {
     data() {
         return {
             config: {},
+            clientIdFilled: false,
+            clientSecretFilled: false,
+            clientIdSandboxFilled: false,
+            clientSecretSandboxFilled: false,
+            sandboxChecked: false,
             isLoading: false
         };
     },
@@ -24,12 +29,15 @@ Component.override('sw-first-run-wizard-paypal-credentials', {
         sandboxMode() {
             return this.config['SwagPayPal.settings.sandbox'] || false;
         },
+
         onboardingUrl() {
             return this.sandboxMode ? this.onboardingUrlSandbox : this.onboardingUrlLive;
         },
+
         onboardingCallback() {
             return this.sandboxMode ? 'onboardingCallbackSandbox' : 'onboardingCallbackLive';
         },
+
         buttonConfig() {
             const prev = this.$super('buttonConfig');
 
@@ -40,6 +48,33 @@ Component.override('sw-first-run-wizard-paypal-credentials', {
 
                 return [...acc, button];
             }, []);
+        },
+
+        credentialsProvided() {
+            return (!this.sandboxChecked && this.credentialsProvidedLive)
+                || (this.sandboxChecked && this.credentialsProvidedSandbox);
+        },
+
+        credentialsProvidedLive() {
+            return this.clientIdFilled && this.clientSecretFilled;
+        },
+
+        credentialsProvidedSandbox() {
+            return this.clientIdSandboxFilled && this.clientSecretSandboxFilled;
+        }
+    },
+
+    watch: {
+        config: {
+            handler() {
+                this.clientIdFilled = !!this.config['SwagPayPal.settings.clientId'];
+                this.clientSecretFilled = !!this.config['SwagPayPal.settings.clientSecret'];
+                this.clientIdSandboxFilled = !!this.config['SwagPayPal.settings.clientIdSandbox'];
+                this.clientSecretSandboxFilled = !!this.config['SwagPayPal.settings.clientSecretSandbox'];
+                this.sandboxChecked = !!this.config['SwagPayPal.settings.sandbox'];
+            },
+            deep: true,
+            immediately: true
         }
     },
 
@@ -60,7 +95,6 @@ Component.override('sw-first-run-wizard-paypal-credentials', {
         onPayPalCredentialsLoadFailed(sandbox) {
             this.setConfig('', '', sandbox);
             this.createNotificationError({
-                title: this.$tc('swag-paypal-frw-credentials.titleFetchedError'),
                 message: this.$tc('swag-paypal-frw-credentials.messageFetchedError'),
                 duration: 10000
             });
@@ -77,11 +111,8 @@ Component.override('sw-first-run-wizard-paypal-credentials', {
         },
 
         onClickNext() {
-            // Skip if no credentials have been provided
-            if ((!this.config['SwagPayPal.settings.sandbox'] && (!this.config['SwagPayPal.settings.clientId'] || !this.config['SwagPayPal.settings.clientSecret'])) ||
-                (this.config['SwagPayPal.settings.sandbox'] && (!this.config['SwagPayPal.settings.clientIdSandbox'] || !this.config['SwagPayPal.settings.clientSecretSandbox']))) {
+            if (!this.credentialsProvided) {
                 this.createNotificationError({
-                    title: this.$tc('swag-paypal-frw-credentials.titleNoCredentials'),
                     message: this.$tc('swag-paypal-frw-credentials.messageNoCredentials')
                 });
                 return Promise.resolve(true);
@@ -134,38 +165,38 @@ Component.override('sw-first-run-wizard-paypal-credentials', {
         testApiCredentials() {
             this.isLoading = true;
 
-            const clientId = this.config['SwagPayPal.settings.sandbox'] ? this.config['SwagPayPal.settings.clientIdSandbox'] : this.config['SwagPayPal.settings.clientId'];
-            const clientSecret = this.config['SwagPayPal.settings.sandbox'] ? this.config['SwagPayPal.settings.clientSecretSandbox'] : this.config['SwagPayPal.settings.clientSecret'];
+            const sandbox = this.config['SwagPayPal.settings.sandbox'];
+            const sandboxSetting = sandbox ? 'Sandbox' : '';
+            const clientId = this.config[`SwagPayPal.settings.clientId${sandboxSetting}`];
+            const clientSecret = this.config[`SwagPayPal.settings.clientSecret${sandboxSetting}`];
 
-            return this.SwagPayPalApiCredentialsService.validateApiCredentials(
-                clientId,
-                clientSecret,
-                this.config['SwagPayPal.settings.sandbox']
-            ).then((response) => {
-                const credentialsValid = response.credentialsValid;
+            return this.SwagPayPalApiCredentialsService.validateApiCredentials(clientId, clientSecret, sandbox)
+                .then((response) => {
+                    const credentialsValid = response.credentialsValid;
 
-                if (credentialsValid) {
-                    this.isLoading = false;
-                    return 'success';
-                }
+                    if (credentialsValid) {
+                        this.isLoading = false;
+                        return 'success';
+                    }
 
-                return 'error';
-            }).catch((errorResponse) => {
-                if (errorResponse.response.data && errorResponse.response.data.errors) {
-                    let message = '<ul>';
-                    errorResponse.response.data.errors.forEach((error) => {
-                        message = `${message}<li>${error.detail}</li>`;
-                    });
-                    message += '</ul>';
-                    this.createNotificationError({
-                        title: this.$tc('swag-paypal-frw-credentials.titleTestError'),
-                        message: message
-                    });
-                    this.isLoading = false;
-                }
+                    return 'error';
+                }).catch((errorResponse) => {
+                    if (errorResponse.response.data && errorResponse.response.data.errors) {
+                        const message = errorResponse.response.data.errors.map((error) => {
+                            return error.detail;
+                        }).join(' / ');
 
-                return 'error';
-            });
+                        this.createNotificationError({
+                            message: message
+                        });
+                        this.createNotificationError({
+                            message: message
+                        });
+                        this.isLoading = false;
+                    }
+
+                    return 'error';
+                });
         },
 
         onCredentialsChanged() {

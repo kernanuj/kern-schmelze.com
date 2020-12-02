@@ -12,8 +12,8 @@ use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionDefi
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Swag\PayPal\PayPal\Api\Webhook;
-use Swag\PayPal\PayPal\Resource\WebhookResource;
+use Swag\PayPal\RestApi\V1\Api\Webhook;
+use Swag\PayPal\RestApi\V1\Resource\WebhookResource;
 use Swag\PayPal\Setting\Service\SettingsServiceInterface;
 use Swag\PayPal\Setting\SwagPayPalSettingStruct;
 use Swag\PayPal\Test\Helper\ServicesTrait;
@@ -24,7 +24,7 @@ use Swag\PayPal\Test\Mock\Repositories\OrderTransactionRepoMock;
 use Swag\PayPal\Test\Mock\RouterMock;
 use Swag\PayPal\Test\Mock\Setting\Service\SettingsServiceMock;
 use Swag\PayPal\Test\Mock\Webhook\Handler\DummyWebhook;
-use Swag\PayPal\Test\PayPal\Resource\WebhookResourceTest;
+use Swag\PayPal\Test\RestApi\V1\Resource\WebhookResourceTest;
 use Swag\PayPal\Webhook\WebhookService;
 use Swag\PayPal\Webhook\WebhookServiceInterface;
 
@@ -90,6 +90,30 @@ class WebhookServiceTest extends TestCase
         static::assertSame(WebhookService::PAYPAL_WEBHOOK_TOKEN_LENGTH, \mb_strlen($settings->getWebhookExecuteToken() ?? ''));
     }
 
+    public function testDeregisterWebhookWithExistingId(): void
+    {
+        $settings = $this->createDefaultSettingStruct();
+        $settings->setWebhookId(self::ALREADY_EXISTING_WEBHOOK_ID);
+        $settings->setWebhookExecuteToken(self::ALREADY_EXISTING_WEBHOOK_EXECUTE_TOKEN);
+
+        $settingsService = $this->createSettingsService($settings);
+        $result = $this->createWebhookService($settingsService)->deregisterWebhook(Defaults::SALES_CHANNEL);
+
+        static::assertSame(WebhookService::WEBHOOK_DELETED, $result);
+        static::assertNull($settings->getWebhookId());
+        static::assertNull($settings->getWebhookExecuteToken());
+    }
+
+    public function testDeregisterWebhookWithoutExistingId(): void
+    {
+        $settings = $this->createDefaultSettingStruct();
+
+        $settingsService = $this->createSettingsService($settings);
+        $result = $this->createWebhookService($settingsService)->deregisterWebhook(Defaults::SALES_CHANNEL);
+
+        static::assertSame(WebhookService::NO_WEBHOOK_ACTION_REQUIRED, $result);
+    }
+
     public function testExecuteWebhook(): void
     {
         $settingsService = $this->createSettingsService();
@@ -128,6 +152,20 @@ class WebhookServiceTest extends TestCase
         $result = $this->createWebhookService($settingsService)->registerWebhook(Defaults::SALES_CHANNEL);
 
         static::assertSame(WebhookService::WEBHOOK_CREATED, $result);
+    }
+
+    public function testDeregisterWebhookWithInvalidIdThrowsException(): void
+    {
+        $settings = $this->createDefaultSettingStruct();
+        $settings->setWebhookId(WebhookResourceTest::THROW_EXCEPTION_INVALID_ID);
+        $settings->setWebhookExecuteToken(self::ALREADY_EXISTING_WEBHOOK_EXECUTE_TOKEN);
+
+        $settingsService = $this->createSettingsService($settings);
+        $result = $this->createWebhookService($settingsService)->deregisterWebhook(Defaults::SALES_CHANNEL);
+
+        static::assertSame(WebhookService::NO_WEBHOOK_ACTION_REQUIRED, $result);
+        static::assertNull($settings->getWebhookId());
+        static::assertNull($settings->getWebhookExecuteToken());
     }
 
     private function createSettingsService(?SwagPayPalSettingStruct $settings = null): SettingsServiceMock

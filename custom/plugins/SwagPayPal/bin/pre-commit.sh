@@ -31,10 +31,7 @@ then
         php -l -d display_errors=0 "$FILE" 1> /dev/null
     done
 
-    composer dump-autoload
-    php "`dirname \"$0\"`"/../../bin/phpstan-config-generator.php
-    php ../../../dev-ops/analyze/vendor/bin/phpstan analyze --no-progress --configuration phpstan.neon --autoload-file="$AUTOLOAD_FILE" ${PHP_FILES}
-    php ../../../dev-ops/analyze/vendor/bin/psalm --config=psalm.xml --show-info=false ${PHP_FILES}
+    ./bin/static-analyze.sh
 fi
 
 UNSTAGED_FILES="$(git diff --name-only -- ${PHP_FILES} ${JS_ADMIN_FILES} ${JS_STOREFRONT_FILES})"
@@ -53,18 +50,17 @@ fi
 if [[ -n "$PHP_FILES" ]]
 then
     # fix code style and update the commit
-    php ../../../dev-ops/analyze/vendor/bin/ecs check --fix --config=../../../vendor/shopware/platform/easy-coding-standard.yml --quiet -vv ${PHP_FILES}
-    php ../../../dev-ops/analyze/vendor/bin/php-cs-fixer fix --config=.php_cs.dist --quiet -vv ${PHP_FILES}
+    ./bin/fix-cs.sh
 fi
 
 if [[ -n "$JS_ADMIN_FILES" && -x ../../../vendor/shopware/platform/src/Administration/Resources/app/administration/node_modules/.bin/eslint ]]
 then
-    ../../../vendor/shopware/platform/src/Administration/Resources/app/administration/node_modules/.bin/eslint --config ../../../vendor/shopware/platform/src/Administration/Resources/app/administration/.eslintrc.js --ext .js,.vue --fix ${JS_ADMIN_FILES}
+    make administration-fix
 fi
 
 if [[ -n "$JS_STOREFRONT_FILES" && -x ../../../vendor/shopware/platform/src/Storefront/Resources/app/storefront/node_modules/.bin/eslint ]]
 then
-    ../../../vendor/shopware/platform/src/Storefront/Resources/app/storefront/node_modules/.bin/eslint --config ../../../vendor/shopware/platform/src/Storefront/Resources/app/storefront/.eslintrc.js --ext .js,.vue --fix ${JS_STOREFRONT_FILES}
+    make storefront-fix
 fi
 
 git add ${JS_ADMIN_FILES} ${JS_STOREFRONT_FILES} ${PHP_FILES}

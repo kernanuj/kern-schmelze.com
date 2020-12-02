@@ -24,7 +24,7 @@ class SettingsServiceMock implements SettingsServiceInterface
         $this->settings = $settings;
     }
 
-    public function getSettings(?string $salesChannelId = null): SwagPayPalSettingStruct
+    public function getSettings(?string $salesChannelId = null, bool $inherited = true): SwagPayPalSettingStruct
     {
         if ($this->settings === null) {
             throw new PayPalSettingsInvalidException('clientId');

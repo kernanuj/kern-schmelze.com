@@ -21,7 +21,7 @@ use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\Currency\CurrencyEntity;
-use Swag\PayPal\Test\Payment\Builder\OrderPaymentBuilderTest;
+use Swag\PayPal\Test\PaymentsApi\Builder\OrderPaymentBuilderTest;
 
 trait PaymentTransactionTrait
 {
@@ -36,7 +36,7 @@ trait PaymentTransactionTrait
         return new AsyncPaymentTransactionStruct(
             $orderTransaction,
             $order,
-            'http://www.test.de/'
+            ConstantsForTesting::PAYMENT_TRANSACTION_DOMAIN
         );
     }
 
@@ -58,7 +58,7 @@ trait PaymentTransactionTrait
 
     protected function createOrderEntity(string $orderId, ?string $orderNumber = null): OrderEntity
     {
-        $orderNumber = $orderNumber ?? OrderPaymentBuilderTest::TEST_ORDER_NUMBER;
+        $orderNumber = $orderNumber ?? OrderPaymentBuilderTest::TEST_ORDER_NUMBER_WITHOUT_PREFIX;
         $order = new OrderEntity();
         $order->setSalesChannelId(Defaults::SALES_CHANNEL);
         $order->setShippingCosts(new CalculatedPrice(4.99, 4.99, new CalculatedTaxCollection(), new TaxRuleCollection()));
@@ -85,6 +85,8 @@ trait PaymentTransactionTrait
             ]),
             CartPrice::TAX_STATE_NET
         ));
+        $order->setAmountNet(722.69);
+        $order->setAmountTotal(860.0);
 
         switch ($orderId) {
             case ConstantsForTesting::VALID_ORDER_ID:

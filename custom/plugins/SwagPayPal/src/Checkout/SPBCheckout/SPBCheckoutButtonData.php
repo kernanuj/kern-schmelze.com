@@ -52,9 +52,21 @@ class SPBCheckoutButtonData extends Struct
     protected $useAlternativePaymentMethods;
 
     /**
+     * @var string[]
+     */
+    protected $disabledAlternativePaymentMethods;
+
+    /**
+     * @deprecated tag:v3.0.0 - will be removed. Use createOrderUrl instead
+     *
      * @var string
      */
     protected $createPaymentUrl;
+
+    /**
+     * @var string
+     */
+    protected $createOrderUrl;
 
     /**
      * @var string
@@ -65,13 +77,6 @@ class SPBCheckoutButtonData extends Struct
      * @var string
      */
     protected $addErrorUrl;
-
-    /**
-     * @var string
-     *
-     * @deprecated tag:v2.0.0 - Will be removed without replacement
-     */
-    protected $errorParameter = SPBCheckoutSubscriber::PAYPAL_SMART_PAYMENT_BUTTONS_ERROR_PARAMETER;
 
     /**
      * @var string|null
@@ -123,9 +128,33 @@ class SPBCheckoutButtonData extends Struct
         return $this->useAlternativePaymentMethods;
     }
 
+    /**
+     * @return string[]
+     */
+    public function getDisabledAlternativePaymentMethods(): array
+    {
+        return $this->disabledAlternativePaymentMethods;
+    }
+
+    /**
+     * @param string[] $disabledAlternativePaymentMethods
+     */
+    public function setDisabledAlternativePaymentMethods(array $disabledAlternativePaymentMethods): void
+    {
+        $this->disabledAlternativePaymentMethods = $disabledAlternativePaymentMethods;
+    }
+
+    /**
+     * @deprecated tag:v3.0.0 - will be removed. Use getCreateOrderUrl instead
+     */
     public function getCreatePaymentUrl(): string
     {
         return $this->createPaymentUrl;
+    }
+
+    public function getCreateOrderUrl(): string
+    {
+        return $this->createOrderUrl;
     }
 
     public function getCheckoutConfirmUrl(): string
@@ -136,14 +165,6 @@ class SPBCheckoutButtonData extends Struct
     public function getAddErrorUrl(): string
     {
         return $this->addErrorUrl;
-    }
-
-    /**
-     * @deprecated tag:v2.0.0 - Will be removed without replacement
-     */
-    public function getErrorParameter(): string
-    {
-        return $this->errorParameter;
     }
 
     public function getOrderId(): ?string

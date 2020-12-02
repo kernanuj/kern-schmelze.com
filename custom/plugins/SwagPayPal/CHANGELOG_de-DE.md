@@ -1,3 +1,51 @@
+# 2.0.2
+- PPI-199 - Webhook-Log-Einträge verbessert
+- PPI-200 - Übertragen von Warenkörben mit Rabatten korrigiert
+
+# 2.0.1
+- PPI-171 - Message-Queue wird nun nur noch genutzt, wenn es iZettle Sales Channels gibt
+- PPI-172 - Einzugs- und Rückerstattungsprozess verbessert
+- PPI-177 - PayPal Express Checkout Buttons in Produkt-Listings korrigiert
+- PPI-185 - Fehlerbehandlung des PayPal-Tabs im Bestellmodul verbessert
+- PPI-194 - Deregistrierung von Webhooks beim Löschen von Sales Channel korrigiert
+- PPI-196 - PayPal Plus Checkout-Prozess verbessert
+- PPI-197 - "Warenkorb übertragen" Funktion korrigiert
+
+# 2.0.0
+- PPI-182 - Webhook-Registrierung verbessert
+- PT-11875 - Umstellung auf PayPal API v2 für folgende Features: PayPal, Express Checkout und Smart Payment Buttons
+
+# 1.10.0
+- PPI-159 - ACL-Privilegien zu den PayPal-Modulen hinzugefügt
+- PPI-161 - Korrigiert Fehler bei Eingabe von Zugangsdaten im First-Run-Wizard
+
+# 1.9.3
+- PPI-67 - Aktivierung der Webhooks überarbeitet
+- PPI-110 - Einschränkungen für Alternative Zahlungsarten, welche durch PayPal festgelegt sind, hinzugefügt
+- PPI-114 - Kleine Verbesserungen beim Onboarding-Prozess
+- PPI-145 - Kleine Verbesserungen der Einstellungsseite
+- PPI-151 - Korrigiert Fehler bei Zahlungen mit bereits vorhandenen Bestellnummern
+- PPI-158 - Korrigiert Fehler beim Update auf Versionen ab 1.7.0, wenn keine Konfiguration vorhanden ist
+
+# 1.9.2
+- PPI-149 - Korrigiert auftretende Fehler bei der Kommunikation mit iZettle
+
+# 1.9.1
+- PPI-141 - Performance der API zu PayPal verbessert
+
+# 1.9.0
+- PPI-1 - Korrigiert das mobile Layout der Bestellabschlussseite bei "Kauf auf Rechnung"
+- PPI-68, PPI-118, PPI-136 - API-Objekt-Nutzung für Dritt-Erweiterungen verbessert
+- PPI-69 - Der Express-Button wird nun ausgeblendet, wenn die PayPal-Zahlungsmethode deaktiviert ist
+- PPI-97 - Korrigiert Fehler beim Express Checkout, wenn erforderliche Felder nicht von PayPal gesendet werden
+- PPI-124 - Korrigiert Weitergabe von Fehlern während der Kommunikation mit PayPal 
+- PPI-128 - Korrigiert Problem beim Express Checkout bei Änderungen auf der Bestellbestätigungsseite
+- PPI-130 - Neues Event hinzugefügt, welches geworfen wird, wenn der Plus-iFrame geladen ist
+- PT-11048 - iZettle-Integration (Point of Sales) hinzugefügt
+
+# 1.8.4
+- PPI-125 - Shopware 6.3.2.0 Kompatibilität
+
 # 1.8.3
 - PPI-70 - Bestellnummer wird jetzt für Zahlungen mit Express Checkout, PLUS und Smart Payment Buttons korrekt übermittelt
 

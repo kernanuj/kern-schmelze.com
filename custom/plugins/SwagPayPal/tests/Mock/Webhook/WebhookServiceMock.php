@@ -8,7 +8,10 @@
 namespace Swag\PayPal\Test\Mock\Webhook;
 
 use Shopware\Core\Framework\Context;
-use Swag\PayPal\PayPal\Api\Webhook;
+use Swag\PayPal\RestApi\PayPalApiStruct;
+use Swag\PayPal\RestApi\V1\Api\Webhook as WebhookV1;
+use Swag\PayPal\RestApi\V2\Api\Webhook as WebhookV2;
+use Swag\PayPal\Setting\SwagPayPalSettingStruct;
 use Swag\PayPal\Test\Mock\Webhook\Handler\DummyWebhook;
 use Swag\PayPal\Test\Webhook\WebhookControllerTest;
 use Swag\PayPal\Webhook\Exception\WebhookException;
@@ -17,12 +20,42 @@ use Swag\PayPal\Webhook\WebhookServiceInterface;
 
 class WebhookServiceMock implements WebhookServiceInterface
 {
+    /**
+     * @var string[]
+     */
+    private $registrations = [];
+
+    /**
+     * @var string[]
+     */
+    private $deregistrations = [];
+
+    public function __construct()
+    {
+    }
+
     public function registerWebhook(?string $salesChannelId): string
     {
+        $this->registrations[] = $salesChannelId ?? 'null';
+
         return WebhookService::WEBHOOK_CREATED;
     }
 
-    public function executeWebhook(Webhook $webhook, Context $context): void
+    public function deregisterWebhook(?string $salesChannelId, ?SwagPayPalSettingStruct $settings = null): string
+    {
+        if ($settings === null || $settings->getWebhookId() === null) {
+            return WebhookService::NO_WEBHOOK_ACTION_REQUIRED;
+        }
+
+        $this->deregistrations[] = $salesChannelId ?? 'null';
+
+        return WebhookService::WEBHOOK_DELETED;
+    }
+
+    /**
+     * @param WebhookV1|WebhookV2 $webhook
+     */
+    public function executeWebhook(PayPalApiStruct $webhook, Context $context): void
     {
         if ($context->hasExtension(WebhookControllerTest::THROW_WEBHOOK_EXCEPTION)) {
             throw new WebhookException(DummyWebhook::EVENT_TYPE, 'testWebhookExceptionMessage');
@@ -31,5 +64,21 @@ class WebhookServiceMock implements WebhookServiceInterface
         if ($context->hasExtension(WebhookControllerTest::THROW_GENERAL_EXCEPTION)) {
             throw new \RuntimeException('testGeneralExceptionMessage');
         }
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getRegistrations(): array
+    {
+        return $this->registrations;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDeregistrations(): array
+    {
+        return $this->deregistrations;
     }
 }

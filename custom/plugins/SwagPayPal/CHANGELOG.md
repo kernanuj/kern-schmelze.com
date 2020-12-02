@@ -1,3 +1,51 @@
+# 2.0.2
+- PPI-199 - Improve webhook log messages
+- PPI-200 - Fix submitting of carts with discounts
+
+# 2.0.1
+- PPI-171 - Message queue is now only used if there are iZettle Sales Channels
+- PPI-172 - Improve capturing and refunding process
+- PPI-177 - Fix PayPal Express Checkout buttons in product listings
+- PPI-185 - Improve error handling of the PayPal tab in the order module
+- PPI-194 - Fix deregister of webhooks on Sales Channel deletion
+- PPI-196 - Improve PayPal Plus checkout process
+- PPI-197 - Fix "Submit cart" functionality
+
+# 2.0.0
+- PPI-182 - Improve webhook registration
+- PT-11875 - Migration to PayPal API v2 for the following features: PayPal, Express Checkout and Smart Payment Buttons
+
+# 1.10.0
+- PPI-159 - Added ACL privileges to the PayPal modules
+- PPI-161 - Fix credentials form in first run wizard
+
+# 1.9.3
+- PPI-67 - Reimplemented activation of webhooks
+- PPI-110 - Added restrictions set by PayPal for Alternative Payment Methods
+- PPI-114 - Minor onboarding process improvements
+- PPI-145 - Minor adjustments to settings page
+- PPI-151 - Fixes error with payments with already existing order numbers
+- PPI-158 - Fixes error during update to versions 1.7.0 or higher, if no configuration is available
+
+# 1.9.2
+- PPI-149 - Fixes error during communication with iZettle
+
+# 1.9.1
+- PPI-141 - Improve performance of API to PayPal
+
+# 1.9.0
+- PPI-1 - Fixes the mobile layout of checkout finish page for "Pay Upon Invoice"
+- PPI-68, PPI-118, PPI-136 - Improved API struct usage for third party extensions
+- PPI-69 - The Express button is now hidden, when the PayPal payment method is disabled
+- PPI-97 - Fixes error during Express Checkout, if required fields are not sent by PayPal
+- PPI-124 - Fixes error display during communication with PayPal
+- PPI-128 - Fixes issue during Express Checkout, if changes are made on confirm page
+- PPI-130 - Adds new event, which is emitted when the Plus iFrame is loaded
+- PT-11048 - Introduce iZettle integration (Point of Sales)
+
+# 1.8.4
+- PPI-125 - Shopware 6.3.2.0 compatibility
+
 # 1.8.3
 - PPI-70 - Order number is now correctly submitted to PayPal for payments with Express Checkout, PLUS and Smart Payment Buttons
 

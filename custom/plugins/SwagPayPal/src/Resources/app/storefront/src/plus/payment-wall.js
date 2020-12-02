@@ -120,11 +120,18 @@ export default class SwagPayPalPlusPaymentWall extends Plugin {
         showPuiOnSandbox: true,
 
         /**
-         * URL for creating and paying the Shopware order
+         * URL for creating the Shopware order
          *
          * @type string
          */
         checkoutOrderUrl: '',
+
+        /**
+         * URL for paying the Shopware order
+         *
+         * @type string
+         */
+        handlePaymentUrl: '',
 
         /**
          * URL for setting the payment method to the order
@@ -132,6 +139,13 @@ export default class SwagPayPalPlusPaymentWall extends Plugin {
          * @type string
          */
         setPaymentRouteUrl: '',
+
+        /**
+         * URL for updating the context, in this case setting the right language
+         *
+         * @type string
+         */
+        contextSwitchUrl: '',
 
         /**
          * Request parameter name which identifies a PLUS checkout
@@ -174,13 +188,14 @@ export default class SwagPayPalPlusPaymentWall extends Plugin {
             useraction: this.options.userAction,
             surcharging: this.options.surcharging,
             showLoadingIndicator: this.options.showLoadingIndicator,
-            showPuiOnSandbox: this.options.showPuiOnSandbox
+            showPuiOnSandbox: this.options.showPuiOnSandbox,
+            onLoad: this.onPaymentSelectionLoad
         });
     }
 
     /**
      * Will be triggered when the confirm form was submitted.
-     * In this case, the order will be patched and the PayPal
+     * In this case, the order will be created and the PayPal
      * checkout process will be triggered afterwards
      *
      * @param {Event} event
@@ -198,20 +213,17 @@ export default class SwagPayPalPlusPaymentWall extends Plugin {
         ElementLoadingIndicatorUtil.create(document.body);
 
         const orderId = this.options.orderId;
-        const request = new XMLHttpRequest();
-        let callback = null;
-        if (orderId !== null) {
-            formData.set('orderId', orderId);
-            request.open('POST', this.options.setPaymentRouteUrl);
-            callback = this.afterSetPayment.bind(this);
-        } else {
-            request.open('POST', this.options.checkoutOrderUrl);
-            callback = this.afterCreateOrder.bind(this);
-        }
-        request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        request.setRequestHeader('sw-language-id', this.options.languageId);
+        this._client.patch(this.options.contextSwitchUrl, JSON.stringify({ languageId: this.options.languageId }), () => {
+            if (orderId !== null) {
+                formData.set('orderId', orderId);
 
-        this._client._sendRequest(request, formData, callback);
+                this._client.post(this.options.setPaymentRouteUrl, formData, this.afterSetPayment.bind(this));
+
+                return;
+            }
+
+            this._client.post(this.options.checkoutOrderUrl, formData, this.afterCreateOrder.bind(this));
+        });
     }
 
     /**
@@ -219,32 +231,35 @@ export default class SwagPayPalPlusPaymentWall extends Plugin {
      */
     afterCreateOrder(response) {
         const order = JSON.parse(response);
-        const orderId = order.data.id;
         const params = {
+            orderId: order.id,
             paypalPaymentId: this.options.paypalPaymentId,
             paypalToken: this.options.paypalToken
         };
         params[this.options.isEnabledParameterName] = true;
 
-        this._client.post(
-            `${this.options.checkoutOrderUrl}/${orderId}/pay`,
-            JSON.stringify(params),
-            this.afterPayOrder.bind(this)
-        );
+        this._client.post(this.options.handlePaymentUrl, JSON.stringify(params), this.afterPayOrder.bind(this));
     }
 
     afterSetPayment(response) {
         const responseObject = JSON.parse(response);
         if (responseObject.success === true) {
-            this.afterCreateOrder(JSON.stringify({ data: { id: this.options.orderId } }));
+            this.afterCreateOrder(JSON.stringify({ id: this.options.orderId }));
         }
     }
 
     afterPayOrder(response) {
         const data = JSON.parse(response);
 
-        if (data.paymentUrl === 'plusPatched') {
+        if (data.redirectUrl === 'plusPatched') {
             this.paypal.apps.PPP.doCheckout();
         }
+    }
+
+    /**
+     * Will be emitted once the PayPal Plus iFrame is loaded
+     */
+    onPaymentSelectionLoad() {
+        document.$emitter.publish('paypalPlusSelectionLoaded');
     }
 }

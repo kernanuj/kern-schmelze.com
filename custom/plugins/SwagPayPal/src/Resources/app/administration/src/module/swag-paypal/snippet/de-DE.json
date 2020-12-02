@@ -1,9 +1,19 @@
 {
+    "sw-privileges": {
+        "permissions": {
+            "parents": {
+                "swag_paypal": "PayPal"
+            },
+            "swag_paypal": {
+                "label": "PayPal-Einstellungen"
+            }
+        }
+    },
     "swag-paypal": {
         "header": "PayPal",
         "saleschannelCard": {
             "button": {
-                "description": "Klicken, um PayPal im ausgewählten Saleschannel zu aktivieren und als Standardzahlungsart zu setzen",
+                "description": "Klicken, um PayPal im ausgewählten Sales Channel zu aktivieren und als Standardzahlungsart zu setzen",
                 "label": "Setze PayPal als Standard"
             }
         },
@@ -39,13 +49,12 @@
                     "tooltipText": "Aktiviere diese Option, um die Integration zu testen."
                 },
                 "button": {
-                    "title": "Hole API Zugangsdaten",
-                    "titleSandbox": "Hole Sandbox API Zugangsdaten",
-                    "messageFetchedError": " Bitte versuche es erneut oder gebe die Zugangsdaten manuell ein.",
-                    "titleFetchedError": "Es ist ein Fehler aufgetreten"
+                    "title": "Hole API-Zugangsdaten",
+                    "titleSandbox": "Hole Sandbox-API-Zugangsdaten",
+                    "messageFetchedError": " Bitte versuche es erneut oder gebe die Zugangsdaten manuell ein."
                 }
             },
-            "behaviour": {
+            "behavior": {
                 "cardTitle": "Verhalten",
                 "merchantLocation": {
                     "label": "Händlerstandort",
@@ -54,10 +63,11 @@
                 },
                 "intent": {
                     "label": "Zahlungsabschluss",
-                    "hint": "Hinweis: PayPal PLUS funktioniert nur mit dem Zahlungsabschluss \"Sale\". Dieser wird, unabhängig von der gewählten Option, automatisch gesetzt.",
                     "sale": "Zahlung sofort abschließen (Sale)",
                     "authorize": "Zeitverzögerter Zahlungseinzug (Auth-Capture)",
-                    "order": "Zeitverzögerter Zahlungseinzug (Order-Auth-Capture)"
+                    "order": "Zeitverzögerter Zahlungseinzug (Order-Auth-Capture)",
+                    "CAPTURE": "Zahlung sofort abschließen (CAPTURE)",
+                    "AUTHORIZE": "Zeitverzögerter Zahlungseinzug (AUTHORIZE)"
                 },
                 "submitCart": {
                     "label": "Warenkorb übertragen",
@@ -70,12 +80,14 @@
                 "landingPage": {
                     "label": "PayPal-Landingpage",
                     "helpText": {
-                        "Login": "Anmeldung: Auf der PayPal-Seite wird der Login als Landingpage angezeigt.",
-                        "Billing": "Registrierung: Auf der PayPal-Seite wird die Registrierung als Landingpage angezeigt."
+                        "login": "Anmeldung: Auf der PayPal-Seite wird der Login als Landingpage angezeigt.",
+                        "billing": "Registrierung: Auf der PayPal-Seite wird die Registrierung als Landingpage angezeigt.",
+                        "no_preference": "Keine Präferenz: PayPal entscheidet auf Grundlage früherer Interaktionen des Kunden mit PayPal welche Seite angezeigt wird."
                     },
                     "options": {
-                        "Login": "Anmeldung",
-                        "Billing": "Registrierung"
+                        "login": "Anmeldung",
+                        "billing": "Registrierung",
+                        "no_preference": "Keine Präferenz"
                     }
                 },
                 "sendOrderNumber": {
@@ -159,7 +171,8 @@
                 "introduction": "<strong>Die Komplettlösung mit PayPal, Lastschrift, Kreditkarte und Kauf auf Rechnung.</strong> PayPal PLUS bietet deinen Kunden durch die Vielzahl der Zahlarten mehr Zahlungsflexibilität. Deine Vorteile als Händler: Die vereinfachte Buchhaltung mit nur einem Vertragspartner, einem Konto und einer Transaktionsübersicht für alle Zahlungseingänge. Dein Geld erhältst du direkt nach Kaufabschluss.<br>Bitte PayPal PLUS <a href='https://www.paypal.com/de/webapps/mpp/paypal-plus' target='_blank'>hier</a> beantragen. Den Rechnungskauf kannst du <a href='https://www.paypal.com/de/webapps/mpp/pui-start' target='_blank'>hier</a> beantragen.",
                 "plusCheckoutEnabled": {
                     "label": "PayPal PLUS aktivieren"
-                }
+                },
+                "hint": "Hinweis: PayPal PLUS funktioniert nur mit dem Zahlungsabschluss \"Sale\". Dieser wird automatisch gesetzt."
             },
             "locale-field": {
                 "infobox": {
@@ -170,8 +183,6 @@
                     "detail": "Der von Ihnen angegebene Ländercode entspricht nicht dem von PayPal geforderten Format. Ein gültiges Format ist \"en_GB\"."
                 }
             },
-            "titleSuccess": "Erfolg",
-            "titleError": "Fehler",
             "messageSaveSuccess": "Die PayPal-Einstellungen wurden gespeichert.",
             "messageTestSuccess": "Die API-Zugangsdaten wurden validiert.",
             "messageTestError": "Die API-Zugangsdaten konnten nicht validiert werden.",

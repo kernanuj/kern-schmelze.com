@@ -7,6 +7,7 @@
 
 namespace Swag\PayPal\Checkout\SPBCheckout\Service;
 
+use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Swag\PayPal\Checkout\SPBCheckout\SPBCheckoutButtonData;
 use Swag\PayPal\Setting\SwagPayPalSettingStruct;
@@ -16,6 +17,12 @@ use Symfony\Component\Routing\RouterInterface;
 
 class SPBCheckoutDataService
 {
+    private const APM_BLIK = 'blik';
+    private const APM_EPS = 'eps';
+    private const APM_GIROPAY = 'giropay';
+    private const APM_P24 = 'p24';
+    private const APM_SOFORT = 'sofort';
+
     /**
      * @var PaymentMethodUtil
      */
@@ -52,12 +59,12 @@ class SPBCheckoutDataService
             'clientId' => $settings->getSandbox() ? $settings->getClientIdSandbox() : $settings->getClientId(),
             'languageIso' => $this->getButtonLanguage($settings, $context),
             'currency' => $context->getCurrency()->getIsoCode(),
-            'intent' => $settings->getIntent(),
+            'intent' => \strtolower($settings->getIntent()),
             'buttonShape' => $settings->getSpbButtonShape(),
             'buttonColor' => $settings->getSpbButtonColor(),
             'paymentMethodId' => $paymentMethodId,
             'useAlternativePaymentMethods' => $settings->getSpbAlternativePaymentMethodsEnabled(),
-            'createPaymentUrl' => $this->router->generate('sales-channel-api.action.paypal.spb.create_payment', ['version' => 2]),
+            'createOrderUrl' => $this->router->generate('store-api.paypal.spb.create_order', ['version' => PlatformRequest::API_VERSION]),
             'checkoutConfirmUrl' => $this->router->generate('frontend.checkout.confirm.page', [], RouterInterface::ABSOLUTE_URL),
             'addErrorUrl' => $this->router->generate('payment.paypal.add_error'),
         ]);
@@ -74,6 +81,30 @@ class SPBCheckoutDataService
         }
 
         return $spbCheckoutButtonData;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDisabledAlternativePaymentMethods(float $totalPrice, string $currencyIsoCode): array
+    {
+        $disabled = [];
+
+        if ($totalPrice < 1.0 && $currencyIsoCode === 'EUR') {
+            $disabled[] = self::APM_EPS;
+            $disabled[] = self::APM_GIROPAY;
+            $disabled[] = self::APM_SOFORT;
+        }
+
+        if ($totalPrice < 1.0 && $currencyIsoCode === 'PLN') {
+            $disabled[] = self::APM_BLIK;
+        }
+
+        if (($totalPrice < 1.0 || $totalPrice > 55000.0) && $currencyIsoCode === 'PLN') {
+            $disabled[] = self::APM_P24;
+        }
+
+        return $disabled;
     }
 
     private function getButtonLanguage(SwagPayPalSettingStruct $settings, SalesChannelContext $context): string

@@ -10,8 +10,6 @@ namespace Swag\PayPal\Test\Checkout\ExpressCheckout;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;
-use Shopware\Core\Checkout\Payment\PaymentMethodCollection;
-use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
 use Shopware\Core\Content\Cms\CmsPageCollection;
 use Shopware\Core\Content\Cms\CmsPageEntity;
 use Shopware\Core\Content\Cms\Events\CmsPageLoadedEvent;
@@ -45,11 +43,9 @@ use Swag\PayPal\Checkout\ExpressCheckout\ExpressCheckoutSubscriber;
 use Swag\PayPal\Checkout\ExpressCheckout\Service\PayPalExpressCheckoutDataService;
 use Swag\PayPal\Setting\SwagPayPalSettingStruct;
 use Swag\PayPal\Test\Helper\ServicesTrait;
-use Swag\PayPal\Test\Mock\Repositories\PaymentMethodRepoMock;
-use Swag\PayPal\Test\Mock\Repositories\SalesChannelRepoMock;
 use Swag\PayPal\Test\Mock\Setting\Service\SettingsServiceMock;
 use Swag\PayPal\Util\PaymentMethodUtil;
-use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -71,6 +67,9 @@ class ExpressCheckoutSubscriberTest extends TestCase
             CmsPageLoadedEvent::class => 'addExpressCheckoutDataToCmsPage',
 
             QuickviewPageletLoadedEvent::class => 'addExpressCheckoutDataToPagelet',
+
+            'framework.validation.address.create' => 'disableAddressValidation',
+            'framework.validation.customer.create' => 'disableCustomerValidation',
         ];
 
         static::assertSame($expectedEvents, $subscribedEvents);
@@ -193,6 +192,22 @@ class ExpressCheckoutSubscriberTest extends TestCase
         static::assertNull($actualExpressCheckoutButtonData);
     }
 
+    public function testAddExpressCheckoutDataToPageWithInactivePaymentMethod(): void
+    {
+        $salesChannelContext = $this->createSalesChannelContext(true, false);
+        $event = new CheckoutCartPageLoadedEvent(
+            new CheckoutCartPage(),
+            $salesChannelContext,
+            new Request()
+        );
+
+        $this->getExpressCheckoutSubscriber()->addExpressCheckoutDataToPage($event);
+
+        /** @var ExpressCheckoutButtonData|null $actualExpressCheckoutButtonData */
+        $actualExpressCheckoutButtonData = $event->getPage()->getExtension(ExpressCheckoutSubscriber::PAYPAL_EXPRESS_CHECKOUT_BUTTON_DATA_EXTENSION_ID);
+        static::assertNull($actualExpressCheckoutButtonData);
+    }
+
     public function testAddExpressCheckoutDataToPageWithInvalidSettings(): void
     {
         $salesChannelContext = $this->createSalesChannelContext();
@@ -276,6 +291,19 @@ class ExpressCheckoutSubscriberTest extends TestCase
         );
     }
 
+    public function testAddExpressCheckoutDataToCmsPageCmsWithInactivePaymentMethod(): void
+    {
+        $event = $this->createCmsPageLoadedEvent(true, false);
+
+        $this->getExpressCheckoutSubscriber()->addExpressCheckoutDataToCmsPage($event);
+
+        $cmsPage = $event->getResult()->first();
+        static::assertNotNull($cmsPage);
+        /** @var ExpressCheckoutButtonData|null $actualExpressCheckoutButtonData */
+        $actualExpressCheckoutButtonData = $cmsPage->getExtension(ExpressCheckoutSubscriber::PAYPAL_EXPRESS_CHECKOUT_BUTTON_DATA_EXTENSION_ID);
+        static::assertNull($actualExpressCheckoutButtonData);
+    }
+
     public function testAddExpressCheckoutDataToCmsPageCmsWithoutPayPalInSalesChannel(): void
     {
         $event = $this->createCmsPageLoadedEvent();
@@ -313,6 +341,17 @@ class ExpressCheckoutSubscriberTest extends TestCase
             $this->getExpectedExpressCheckoutButtonDataForAddProductEvents(),
             $actualExpressCheckoutButtonData
         );
+    }
+
+    public function testAddExpressCheckoutDataToPageletWithInactivePaymentMethod(): void
+    {
+        $event = $this->createQuickviewPageletLoadedEvent(false);
+
+        $this->getExpressCheckoutSubscriber()->addExpressCheckoutDataToPagelet($event);
+
+        /** @var ExpressCheckoutButtonData|null $actualExpressCheckoutButtonData */
+        $actualExpressCheckoutButtonData = $event->getPagelet()->getExtension(ExpressCheckoutSubscriber::PAYPAL_EXPRESS_CHECKOUT_BUTTON_DATA_EXTENSION_ID);
+        static::assertNull($actualExpressCheckoutButtonData);
     }
 
     public function testAddExpressCheckoutDataToPageletWithoutPayPalInSalesChannel(): void
@@ -381,7 +420,7 @@ class ExpressCheckoutSubscriberTest extends TestCase
             'cartEnabled' => true,
             'clientId' => 'someClientId',
             'currency' => 'EUR',
-            'intent' => 'sale',
+            'intent' => 'capture',
             'addProductToCart' => true,
         ]);
     }
@@ -400,6 +439,8 @@ class ExpressCheckoutSubscriberTest extends TestCase
         $cartService = $this->getContainer()->get(CartService::class);
         /** @var RouterInterface $router */
         $router = $this->getContainer()->get('router');
+        /** @var PaymentMethodUtil $paymentMethodUtil */
+        $paymentMethodUtil = $this->getContainer()->get(PaymentMethodUtil::class);
 
         return new ExpressCheckoutSubscriber(
             new PayPalExpressCheckoutDataService(
@@ -408,14 +449,11 @@ class ExpressCheckoutSubscriberTest extends TestCase
                 $router
             ),
             new SettingsServiceMock($settings ?? null),
-            new PaymentMethodUtil(
-                new PaymentMethodRepoMock(),
-                new SalesChannelRepoMock()
-            )
+            $paymentMethodUtil
         );
     }
 
-    private function createSalesChannelContext(bool $withItemList = false): SalesChannelContext
+    private function createSalesChannelContext(bool $withItemList = false, bool $paymentMethodActive = true): SalesChannelContext
     {
         $taxId = $this->createTaxId(Context::createDefaultContext());
         /** @var SalesChannelContextFactory $salesChannelContextFactory */
@@ -468,14 +506,34 @@ class ExpressCheckoutSubscriberTest extends TestCase
             $cartService->add($cart, $lineItem, $salesChannelContext);
         }
 
-        $paymentMethod = new PaymentMethodEntity();
-        $paymentMethod->setId(PaymentMethodRepoMock::PAYPAL_PAYMENT_METHOD_ID);
+        /** @var EntityRepositoryInterface $paymentMethodRepo */
+        $paymentMethodRepo = $this->getContainer()->get('payment_method.repository');
+        /** @var PaymentMethodUtil $paymentMethodUtil */
+        $paymentMethodUtil = $this->getContainer()->get(PaymentMethodUtil::class);
+        $paymentMethodId = $paymentMethodUtil->getPayPalPaymentMethodId($salesChannelContext->getContext());
+        static::assertNotNull($paymentMethodId);
 
-        $salesChannelEntity = $salesChannelContext->getSalesChannel();
-        $salesChannelEntity->setPaymentMethods(new PaymentMethodCollection([
-            $paymentMethod,
-        ]));
-        $salesChannelEntity->setId(Defaults::SALES_CHANNEL);
+        $paymentMethodRepo->update([[
+            'id' => $paymentMethodId,
+            'active' => $paymentMethodActive,
+        ]], $salesChannelContext->getContext());
+
+        /** @var EntityRepositoryInterface $salesChannelRepo */
+        $salesChannelRepo = $this->getContainer()->get('sales_channel.repository');
+
+        $paymentMethodIds = \array_unique(\array_merge(
+            $salesChannelContext->getSalesChannel()->getPaymentMethodIds() ?? [],
+            [$paymentMethodId]
+        ));
+
+        $salesChannelRepo->update([[
+            'id' => Defaults::SALES_CHANNEL,
+            'paymentMethods' => \array_map(static function (string $id) {
+                return ['id' => $id];
+            }, $paymentMethodIds),
+        ]], $salesChannelContext->getContext());
+
+        $salesChannelContext->getSalesChannel()->setPaymentMethodIds($paymentMethodIds);
 
         return $salesChannelContext;
     }
@@ -498,7 +556,7 @@ class ExpressCheckoutSubscriberTest extends TestCase
         return $taxId;
     }
 
-    private function createCmsPageLoadedEvent(bool $hasCmsPage = true): CmsPageLoadedEvent
+    private function createCmsPageLoadedEvent(bool $hasCmsPage = true, bool $paymentMethodActive = true): CmsPageLoadedEvent
     {
         $cmsPages = [];
         if ($hasCmsPage) {
@@ -512,13 +570,13 @@ class ExpressCheckoutSubscriberTest extends TestCase
         return new CmsPageLoadedEvent(
             new Request(),
             $result,
-            $this->createSalesChannelContext(true)
+            $this->createSalesChannelContext(true, $paymentMethodActive)
         );
     }
 
-    private function createQuickviewPageletLoadedEvent(): QuickviewPageletLoadedEvent
+    private function createQuickviewPageletLoadedEvent(bool $paymentMethodActive = true): QuickviewPageletLoadedEvent
     {
-        $salesChannelContext = $this->createSalesChannelContext(true);
+        $salesChannelContext = $this->createSalesChannelContext(true, $paymentMethodActive);
 
         /** @var EntityRepositoryInterface $productRepo */
         $productRepo = $this->getContainer()->get('product.repository');
@@ -526,13 +584,11 @@ class ExpressCheckoutSubscriberTest extends TestCase
 
         $request = new Request([], [], ['productId' => $product->getId()]);
 
-        $quickViewLoader = null;
-
-        try {
-            /** @var QuickviewPageletLoader $quickViewLoader */
-            $quickViewLoader = $this->getContainer()->get(QuickviewPageletLoader::class);
-        } catch (ServiceNotFoundException $e) {
-        }
+        /** @var QuickviewPageletLoader|null $quickViewLoader */
+        $quickViewLoader = $this->getContainer()->get(
+            QuickviewPageletLoader::class,
+            ContainerInterface::NULL_ON_INVALID_REFERENCE
+        );
 
         if ($quickViewLoader === null) {
             static::markTestSkipped('SwagCmsExtensions plugin is not installed');

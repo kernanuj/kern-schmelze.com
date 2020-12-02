@@ -77,13 +77,21 @@ export default class SwagPayPalInstallmentBanner extends SwagPaypalAbstractButto
          * Available values:
          *  - black
          *  - white
+         *
+         * @type string
          */
-        textColor: 'black'
+        textColor: 'black',
+
+        /**
+         * Data attribute name for identifying confirm page
+         *
+         * @type string
+         */
+        isConfirmPageKey: 'swag-paypal-installment-banner-is-confirm'
     };
 
     init() {
-        this.paypal = null;
-        const isConfirmPage = DomAccess.getDataAttribute(this.el, 'swag-paypal-installment-banner-is-confirm', false) === true;
+        const isConfirmPage = DomAccess.getDataAttribute(this.el, this.options.isConfirmPageKey, false) === true;
 
         if (isConfirmPage === false) {
             this.createInstallmentBanner();
@@ -102,9 +110,9 @@ export default class SwagPayPalInstallmentBanner extends SwagPaypalAbstractButto
 
     createInstallmentBanner() {
         this.createScript(() => {
-            this.paypal = window.paypal;
+            const paypal = window.paypal;
 
-            this.paypal.Messages(this.getBannerConfig()).render(this.el);
+            paypal.Messages(this.getBannerConfig()).render(this.el);
         });
     }
 
