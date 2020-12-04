@@ -1,3 +1,6 @@
+# 1.0.5
+- BugFix: The invoice number is now placed correctly
+
 # 1.0.4
 - BugFix: Instead of the standard delivery address, the correct one is now displayed
 - Shopware 6.3.0 compatibility
