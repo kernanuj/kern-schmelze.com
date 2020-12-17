@@ -6,7 +6,6 @@
     <imports>
         <import resource="services/repository.xml"/>
         <import resource="services/type.mixerProduct.xml"/>
-        <import resource="services/type.simpleProduct.xml"/>
     </imports>
     <services>
         <service id="InvExportLabel\Command\ExportCommand">
@@ -56,10 +55,6 @@
             <call method="addTypeInstance">
                 <argument type="string">inv_mixer_product</argument>
                 <argument type="service" id="InvExportLabel\Service\TypeInstance\MixerProduct\TypeInstance"/>
-            </call>
-            <call method="addTypeInstance">
-                <argument type="string">simple_product</argument>
-                <argument type="service" id="InvExportLabel\Service\TypeInstance\SimpleProduct\TypeInstance"/>
             </call>
         </service>
 

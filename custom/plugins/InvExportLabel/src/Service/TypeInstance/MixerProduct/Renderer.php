@@ -34,7 +34,7 @@ class Renderer implements RendererInterface
      */
     public function render(SourceCollection $sourceCollection): RenderedDocument
     {
-        $view = '@InvExportLabel/documents/product_label.html.twig';
+        $view = '@InvExportLabel/documents/mixer_product_label.html.twig';
 
         $html = $this->documentTemplateRenderer->render(
             $view,

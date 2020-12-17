@@ -21,9 +21,4 @@ interface SourceItemInterface {
      */
     public function setOrderNumber(string $orderNumber): SourceItemInterface;
 
-    /**
-     * @return string
-     */
-    public function getType():string;
-
 }

@@ -3,7 +3,6 @@
 
 namespace InvExportLabel\Value\SourceItemType;
 
-use InvExportLabel\Constants;
 use InvExportLabel\Value\SourceItemInterface;
 use InvMixerProduct\Value\Weight;
 
@@ -44,14 +43,6 @@ class MixerProductSourceItem implements SourceItemInterface
      * @var string
      */
     private $orderNumber;
-
-    /**
-     * @inheritDoc
-     */
-    public function getType(): string
-    {
-        return Constants::LABEL_TYPE_MIXER_PRODUCT;
-    }
 
     /**
      * @return string
