@@ -106,7 +106,7 @@ class LabelGenerator implements DocumentGeneratorInterface
         );
 
         return $this->documentTemplateRenderer->render(
-            '@InvExportLabel/documents/product_label.html.twig',
+            '@InvExportLabel/documents/mixer_product_label.html.twig',
             [
                 'order' => $order,
                 'config' => $documentConfig->jsonSerialize(),
