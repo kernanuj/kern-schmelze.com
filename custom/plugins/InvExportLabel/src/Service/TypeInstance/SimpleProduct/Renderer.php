@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace InvExportLabel\Service\TypeInstance\MixerProduct;
+namespace InvExportLabel\Service\TypeInstance\SimpleProduct;
 
 use InvExportLabel\Service\RendererInterface;
 use InvExportLabel\Value\RenderedDocument;
@@ -9,7 +9,7 @@ use Shopware\Core\Checkout\Document\Twig\DocumentTemplateRenderer;
 
 /**
  * Class Renderer
- * @package InvExportLabel\Service\TypeInstance\MixerProduct
+ * @package InvExportLabel\Service\TypeInstance\SimpleProduct
  */
 class Renderer implements RendererInterface
 {
@@ -20,7 +20,7 @@ class Renderer implements RendererInterface
     private $documentTemplateRenderer;
 
     /**
-     * MixerProductRenderer constructor.
+     * SimpleProductRenderer constructor.
      * @param DocumentTemplateRenderer $documentTemplateRenderer
      */
     public function __construct(DocumentTemplateRenderer $documentTemplateRenderer)
