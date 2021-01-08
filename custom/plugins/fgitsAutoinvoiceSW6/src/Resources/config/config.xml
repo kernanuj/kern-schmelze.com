@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Copyright (c) 2020. GOLLE IT.
-  ~ @author Fabian Golle <fabian@golle-it.de>
+  ~ @author Andrey Grigorkin <andrey@golle-it.de>
   -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
 
     <card>
-        <title>Configuration</title>
-        <title lang="de-DE">Einstellungen</title>
+        <title>Basics</title>
+        <title lang="de-DE">Grundeinstellungen</title>
 
         <input-field type="bool">
             <name>sendCustomerEmail</name>
@@ -30,17 +30,28 @@
             <required>true</required>
         </input-field>
 
-        <!-- to be implemented
         <input-field type="bool">
             <name>enableAccountDownload</name>
             <label>Allow downloading invoices in customer account</label>
             <label lang="de-DE">Rechnung im Kundenkonto bereitstellen</label>
             <defaultValue>true</defaultValue>
             <helpText>If ticked, customers are allowed to download their invoices.</helpText>
-            <helpText lang="de-DE">Falls aktiv, kann der Kunde die Rechnung im Kundenkonto herunterladen, sobald diese erstellt wurde.</helpText>
+            <helpText lang="de-DE">Falls aktiviert, kann der Kunde die Rechnung im Kundenkonto herunterladen, sobald diese erstellt wurde.</helpText>
             <required>true</required>
         </input-field>
-        -->
+
+        <component name="fgits-orderdetail-autoinvoice-attach">
+            <name>attachOrderEmail</name>
+        </component>
+
+        <component name="fgits-orderdetail-autoinvoice-cron">
+            <name>cronjobActive</name>
+        </component>
+    </card>
+
+    <card>
+        <title>Advanced</title>
+        <title lang="de-DE">Weitere einstellungen</title>
 
         <input-field>
             <name>adminEmail</name>
@@ -60,17 +71,25 @@
             <required>true</required>
         </input-field>
 
-        <!-- to be implemented
         <input-field>
             <name>exportDirectory</name>
             <label>Export directory</label>
             <label lang="de-DE">Export Verzeichnis</label>
             <defaultValue>/files/export</defaultValue>
             <helpText>This directory will contain exported invoices.</helpText>
-            <helpText lang="de-DE">In dieses Verzeichnis werden die Rechnungen exportiert. Bitte relativ zum Shopverzeichnis angeben. Rechnungen können über Kunden -> AutoInvoice -> Rechnungen oder per Cronjob exportiert werden.</helpText>
+            <helpText lang="de-DE">In dieses Verzeichnis werden die Rechnungen exportiert. Bitte relativ zum Shopverzeichnis angeben. Rechnungen können über Bestellungen -> FgitsAutoInvoice oder per Cronjob exportiert werden.</helpText>
             <required>true</required>
         </input-field>
-        -->
+
+        <input-field type="bool">
+            <name>exportDirectoryCron</name>
+            <label>Allow exporting invoices per cron</label>
+            <label lang="de-DE">Automatischen Export von Rechnungen via Cronjob erlauben</label>
+            <defaultValue>false</defaultValue>
+            <helpText>If ticked, invoices are allowed to be exported in the background by cron.</helpText>
+            <helpText lang="de-DE">Falls aktiviert, können Rechnungen im Hintergrund via Cronjob exportiert werden.</helpText>
+            <required>true</required>
+        </input-field>
 
         <input-field>
             <name>filenameInvoice</name>
@@ -150,10 +169,6 @@
             <required>true</required>
         </input-field>
 
-        <component name="fgits-orderdetail-autoinvoice-cron">
-            <name>cronjobActive</name>
-        </component>
-
         <component name="fgits-orderdetail-payment-select">
             <name>conditionPaymentStatus</name>
         </component>
@@ -168,24 +183,24 @@
 
         <component name="fgits-orderdetail-payment-exclude">
             <name>conditionExcludePaymentMethod</name>
-            <title>No invoice for these payment methods</title>
-            <title lang="de-DE">Keine Rechnung für diese Zahlarten</title>
+            <label>No invoice for these payment methods</label>
+            <label lang="de-DE">Keine Rechnung für diese Zahlarten</label>
             <helpText>Excludes selected payment methods. All conditions must be true at the same time.</helpText>
             <helpText lang="de-DE">Schließt die angegebenen Zahlungsarten aus. Die Bedingungen müssen immer alle gleichzeitig zutreffen.</helpText>
         </component>
 
         <component name="fgits-orderdetail-payment-exclude">
             <name>conditionExcludePaymentMethodFromEvents</name>
-            <title>Exclude payment methods from synchronous processing</title>
-            <title lang="de-DE">Zahlungsarten von synchroner Verarbeitung ausschließen</title>
+            <label>Exclude payment methods from synchronous processing</label>
+            <label lang="de-DE">Zahlungsarten von synchroner Verarbeitung ausschließen</label>
             <helpText>Orders with these payment methods will only be processed by cron.</helpText>
             <helpText lang="de-DE">Bestellungen mit diesen Zahlungsarten werden nur per Cronjob verarbeitet. Nützlich bei PayPal Rechnungskauf etc.</helpText>
         </component>
 
         <component name="fgits-orderdetail-payment-exclude">
             <name>paymentMethodInvoice</name>
-            <title>Payment by invoice</title>
-            <title lang="de-DE">Zahlungsarten für Kauf auf Rechnung</title>
+            <label>Payment by invoice</label>
+            <label lang="de-DE">Zahlungsarten für Kauf auf Rechnung</label>
             <helpText>Invoices for orders with these payment methods will be sent after the order is placed.</helpText>
             <helpText lang="de-DE">Die Rechnungen für Bestellungen mit diesen Zahlungsarten werden sofort nach Bestellabschluss versandt.</helpText>
         </component>

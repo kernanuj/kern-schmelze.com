@@ -2,7 +2,7 @@
   "fgits-autoinvoice": {
     "cron": {
       "switch": {
-        "label": "Cronjob aktiviert",
+        "label": "Cronjob aktivieren",
         "helpText": "Falls aktiviert, Bestellungen werden von Cronjob im Hintergrund verarbeitet."
       }
     }

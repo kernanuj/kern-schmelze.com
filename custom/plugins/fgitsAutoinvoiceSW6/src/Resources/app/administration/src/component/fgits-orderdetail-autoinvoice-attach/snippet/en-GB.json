@@ -1,0 +1,14 @@
+{
+  "fgits-autoinvoice": {
+    "attach": {
+      "notification": {
+        "title": "Attach invoice to order confirmation email",
+        "message": "The invoice will be sent as an attachment to the order confirmation email if the other conditions are satisfied. Otherwise, the invoice will be sent separately as long as the conditions are fulfilled."
+      },
+      "switch": {
+        "label": "Attach invoice to order confirmation email",
+        "helpText": "Send invoice as part of the order confirmation email if the other conditions are satisfied."
+      }
+    }
+  }
+}

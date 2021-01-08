@@ -2,6 +2,7 @@
 
 namespace Fgits\AutoInvoice\Service;
 
+use Fgits\AutoInvoice\Service\CustomFields\OrderCustomFields;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Document\DocumentGenerator\InvoiceGenerator;
@@ -20,7 +21,7 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 /**
  * Copyright (c) 2020. GOLLE IT.
  *
- * @author Fabian Golle <fabian@golle-it.de>
+ * @author Andrey Grigorkin <andrey@golle-it.de>
  */
 class ConditionChecker
 {
@@ -38,7 +39,7 @@ class ConditionChecker
     private $orderCustomFields;
 
     /**
-     * @var Document $document
+     * @var DB\Document $document
      */
     private $document;
 
@@ -58,7 +59,7 @@ class ConditionChecker
      * @param EntityRepositoryInterface $customerRepository
      * @param EntityRepositoryInterface $orderTransactionRepository
      * @param OrderCustomFields $orderCustomFields
-     * @param Document $document
+     * @param DB\Document $document
      * @param SystemConfigService $systemConfigService
      * @param LoggerInterface $logger
      */
@@ -66,7 +67,7 @@ class ConditionChecker
         EntityRepositoryInterface $customerRepository,
         EntityRepositoryInterface $orderTransactionRepository,
         OrderCustomFields $orderCustomFields,
-        Document $document,
+        DB\Document $document,
         SystemConfigService $systemConfigService,
         LoggerInterface $logger
     ) {
@@ -90,7 +91,7 @@ class ConditionChecker
      */
     public function shouldSendInvoice(OrderEntity $order, bool $isCronjob)
     {
-        $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config');
+        $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config', $order->getSalesChannelId());
 
         $invoiceDocumentExists = $this->document->orderHasDocument($order, InvoiceGenerator::INVOICE);
 
@@ -100,8 +101,13 @@ class ConditionChecker
         $paymentStatus = $transaction->getStateMachineState()->getId();
         $paymentMethodId = $transaction->getPaymentMethodId();
 
-        $configPaymentStatus = is_array($config['conditionPaymentStatus']) ? $config['conditionPaymentStatus'] : array($config['conditionPaymentStatus']);
-        $configOrderStatus   = is_array($config['conditionOrderStatus']) ? $config['conditionOrderStatus'] : array($config['conditionOrderStatus']);
+        if (isset($config['conditionPaymentStatus'])) {
+            $configPaymentStatus = is_array($config['conditionPaymentStatus']) ? $config['conditionPaymentStatus'] : array($config['conditionPaymentStatus']);
+        }
+
+        if (isset($config['conditionOrderStatus'])) {
+            $configOrderStatus = is_array($config['conditionOrderStatus']) ? $config['conditionOrderStatus'] : array($config['conditionOrderStatus']);
+        }
 
         if (!($order instanceof OrderEntity)) {
             return false;
@@ -138,11 +144,11 @@ class ConditionChecker
             return true;
         }
 
-        if (!empty($configPaymentStatus) && (is_array($configPaymentStatus) && !in_array($paymentStatus, $configPaymentStatus))) {
+        if (!empty($configPaymentStatus) && !in_array($paymentStatus, $configPaymentStatus)) {
             return false;
         }
 
-        if (!empty($configOrderStatus) && (is_array($configOrderStatus) && !in_array($orderStatus, $configOrderStatus))) {
+        if (!empty($configOrderStatus) && !in_array($orderStatus, $configOrderStatus)) {
             return false;
         }
 

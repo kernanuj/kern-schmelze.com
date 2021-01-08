@@ -1,0 +1,15 @@
+<sw-page class="fgits-autoinvoice-export">
+    <template slot="content">
+        <sw-card-view>
+            <sw-card :title="cardTitle">
+                <sw-button-process
+                        variant="primary"
+                        @click="fgitsAutoinvoiceExport"
+                        animationTimeout="1250"
+                        :isLoading="isLoading">
+                    {{ $tc('fgits-autoinvoice.export.button') }}
+                </sw-button-process>
+            </sw-card>
+        </sw-card-view>
+    </template>
+</sw-page>

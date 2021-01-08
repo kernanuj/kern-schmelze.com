@@ -2,7 +2,8 @@
 
 namespace Fgits\AutoInvoice\Subscriber;
 
-use Fgits\AutoInvoice\ScheduledTask\AutoInvoiceOrderScanTask;
+use Fgits\AutoInvoice\ScheduledTask\Export\AutoInvoiceExportTask;
+use Fgits\AutoInvoice\ScheduledTask\OrderScan\AutoInvoiceOrderScanTask;
 use Fgits\AutoInvoice\Service\FgitsLibrary\ScheduledTask;
 use Fgits\AutoInvoice\Service\OrderProcessor;
 use Psr\Log\LoggerInterface;
@@ -20,9 +21,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Copyright (c) 2020. GOLLE IT.
  *
- * @author Fabian Golle <fabian@golle-it.de>
+ * @author Andrey Grigorkin <andrey@golle-it.de>
  */
-class OrderEventSubscriber implements EventSubscriberInterface
+class OrderSubscriber implements EventSubscriberInterface
 {
     /**
      * @var ScheduledTask $scheduledTask
@@ -50,7 +51,7 @@ class OrderEventSubscriber implements EventSubscriberInterface
     private $logger;
 
     /**
-     * OrderEventSubscriber constructor.
+     * OrderSubscriber constructor.
      *
      * @param ScheduledTask $scheduledTask
      * @param OrderProcessor $orderProcessor
@@ -83,6 +84,7 @@ class OrderEventSubscriber implements EventSubscriberInterface
 
     public function scheduleScheduledTasks()
     {
+        $this->scheduledTask->schedule(AutoInvoiceExportTask::getTaskName());
         $this->scheduledTask->schedule(AutoInvoiceOrderScanTask::getTaskName());
     }
 

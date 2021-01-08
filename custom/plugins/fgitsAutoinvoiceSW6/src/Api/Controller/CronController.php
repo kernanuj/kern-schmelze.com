@@ -2,7 +2,8 @@
 
 namespace Fgits\AutoInvoice\Api\Controller;
 
-use Fgits\AutoInvoice\ScheduledTask\AutoInvoiceOrderScanTask;
+use Fgits\AutoInvoice\ScheduledTask\Export\AutoInvoiceExportTask;
+use Fgits\AutoInvoice\ScheduledTask\OrderScan\AutoInvoiceOrderScanTask;
 use Fgits\AutoInvoice\Service\FgitsLibrary\ScheduledTask as FgitsScheduledTask;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Copyright (c) 2020. GOLLE IT.
  *
- * @author Fabian Golle <fabian@golle-it.de>
+ * @author Andrey Grigorkin <andrey@golle-it.de>
  *
  * @RouteScope(scopes={"api"})
  */
@@ -55,6 +56,7 @@ class CronController extends AbstractController
      */
     public function activateCron(Request $request, Context $context): JsonResponse
     {
+        $this->scheduledTask->schedule(AutoInvoiceExportTask::getTaskName());
         $this->scheduledTask->schedule(AutoInvoiceOrderScanTask::getTaskName());
 
         return new JsonResponse(['status' => 'OK']);

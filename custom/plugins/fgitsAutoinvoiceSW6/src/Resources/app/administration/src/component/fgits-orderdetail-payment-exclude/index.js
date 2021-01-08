@@ -1,7 +1,7 @@
 import template from './fgits-orderdetail-payment-exclude.html.twig';
 
-const {Component} = Shopware;
-const {Criteria} = Shopware.Data;
+const { Component } = Shopware;
+const { Criteria } = Shopware.Data;
 
 Component.register('fgits-orderdetail-payment-exclude', {
     template,
@@ -45,7 +45,7 @@ Component.register('fgits-orderdetail-payment-exclude', {
             }
         },
         getTitle() {
-            return this.$attrs.title;
+            return this.$attrs.label;
         },
         getHelpText() {
             return this.$attrs.helpText;

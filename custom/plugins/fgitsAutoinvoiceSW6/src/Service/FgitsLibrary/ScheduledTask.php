@@ -15,8 +15,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Copyright (c) 2020. GOLLE IT.
  *
- * @author Fabian Golle <fabian@golle-it.de>
- * @version 1.0.0
+ * @author Andrey Grigorkin <andrey@golle-it.de>
+ * @version 1.0.1
  */
 class ScheduledTask
 {
@@ -31,7 +31,7 @@ class ScheduledTask
     private $logger;
 
     /**
-     * PluginPostActivate constructor.
+     * ScheduledTask constructor.
      *
      * @param ContainerInterface $container
      * @param LoggerInterface $logger

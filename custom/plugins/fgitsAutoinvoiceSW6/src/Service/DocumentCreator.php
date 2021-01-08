@@ -21,7 +21,7 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 /**
  * Copyright (c) 2020. GOLLE IT.
  *
- * @author Fabian Golle <fabian@golle-it.de>
+ * @author Andrey Grigorkin <andrey@golle-it.de>
  */
 class DocumentCreator
 {
@@ -36,7 +36,7 @@ class DocumentCreator
     private $documentService;
 
     /**
-     * @var Document $document
+     * @var DB\Document $document
      */
     private $document;
 
@@ -55,14 +55,14 @@ class DocumentCreator
      *
      * @param NumberRangeValueGeneratorInterface $valueGenerator
      * @param DocumentService $documentService
-     * @param Document $document
+     * @param DB\Document $document
      * @param SystemConfigService $systemConfigService
      * @param LoggerInterface $logger
      */
     public function __construct(
         NumberRangeValueGeneratorInterface $valueGenerator,
         DocumentService $documentService,
-        Document $document,
+        DB\Document $document,
         SystemConfigService $systemConfigService,
         LoggerInterface $logger
     ) {
@@ -79,10 +79,11 @@ class DocumentCreator
      * @param OrderEntity $order
      *
      * @throws InconsistentCriteriaIdsException
+     * @throws \Exception
      */
-    public function createInvoice(OrderEntity $order)
+    public function createInvoice(OrderEntity $order): void
     {
-        $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config');
+        $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config', $order->getSalesChannelId());
 
         if ($this->document->orderHasDocument($order, InvoiceGenerator::INVOICE)) {
             return;
@@ -94,6 +95,7 @@ class DocumentCreator
             'custom' => [
                 'invoiceNumber' => $documentNumber
             ],
+            'documentDate' => gmdate('Y-m-d\TH:i:s.v\Z', (new \DateTime())->getTimestamp()),
             'documentNumber' => $documentNumber
         ];
 
@@ -110,10 +112,11 @@ class DocumentCreator
      * @param OrderEntity $order
      *
      * @throws InconsistentCriteriaIdsException
+     * @throws \Exception
      */
-    public function createDeliveryNote(OrderEntity $order)
+    public function createDeliveryNote(OrderEntity $order): void
     {
-        $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config');
+        $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config', $order->getSalesChannelId());
 
         if ($this->document->orderHasDocument($order, DeliveryNoteGenerator::DELIVERY_NOTE)) {
             return;
@@ -125,6 +128,7 @@ class DocumentCreator
             'custom' => [
                 'deliveryNoteNumber' => $documentNumber
             ],
+            'documentDate' => gmdate('Y-m-d\TH:i:s.v\Z', (new \DateTime())->getTimestamp()),
             'documentNumber' => $documentNumber
         ];
 
@@ -141,13 +145,14 @@ class DocumentCreator
      * @param OrderEntity $order
      * @param string $documentTypeName
      * @param array $documentConfig
+     *
      * @return string
      *
      * @throws DocumentGenerationException
      * @throws InvalidDocumentGeneratorTypeException
      * @throws InvalidFileGeneratorTypeException
      */
-    private function createDocument(OrderEntity $order, string $documentTypeName, array $documentConfig = [])
+    private function createDocument(OrderEntity $order, string $documentTypeName, array $documentConfig = []): string
     {
         $context = new Context(new SystemSource());
 
@@ -170,7 +175,7 @@ class DocumentCreator
      *
      * @return string
      */
-    private function generateDocumentNumber(OrderEntity $order, string $type)
+    private function generateDocumentNumber(OrderEntity $order, string $type): string
     {
         $context = new Context(new SystemSource());
 

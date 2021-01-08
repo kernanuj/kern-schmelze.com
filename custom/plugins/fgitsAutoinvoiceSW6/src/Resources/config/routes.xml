@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
   ~ Copyright (c) 2020. GOLLE IT.
-  ~ @author Fabian Golle <fabian@golle-it.de>
+  ~ @author Andrey Grigorkin <andrey@golle-it.de>
   -->
 <routes xmlns="http://symfony.com/schema/routing"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -9,5 +9,4 @@
     http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <import resource="../../Api/Controller" type="annotation" />
-    <import resource="../../Storefront/Controller" type="annotation" />
 </routes>

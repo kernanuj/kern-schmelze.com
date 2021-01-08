@@ -1,0 +1,14 @@
+{
+  "fgits-autoinvoice": {
+    "attach": {
+      "notification": {
+        "title": "Rechnung an Bestätigungsemail anhängen",
+        "message": "Die Rechnung wird direkt bei Betelleingang im Anhang der Bestätigungsemail versendet, wenn andere Konditionen zutreffen. Sollten die konfigurierten Einstellungen nicht zutreffen, wird die Rechnung mit einer separaten E-Mail verschickt, sobald die Einstellungen zutreffen."
+      },
+      "switch": {
+        "label": "Rechnung an Bestätigungsemail anhängen",
+        "helpText": "Rechnung im Anhang der Bestätigungsemail versenden, sobald die unten konfigurierten Einstellungen zutreffen."
+      }
+    }
+  }
+}

@@ -4,6 +4,7 @@ namespace Fgits\AutoInvoice\Service\FgitsLibrary;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Content\MailTemplate\Aggregate\MailTemplateType\MailTemplateTypeEntity;
 use Shopware\Core\Content\MailTemplate\MailTemplateEntity;
@@ -13,24 +14,28 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\ContainsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Exception\InvalidUuidException;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\CustomField\Aggregate\CustomFieldSet\CustomFieldSetEntity;
-use Shopware\Core\System\CustomField\CustomFieldCollection;
 use Shopware\Core\System\Language\LanguageEntity;
+use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 /**
  * Copyright (c) 2020. GOLLE IT.
  *
- * @author Fabian Golle <fabian@golle-it.de>
- * @version 1.1.0
+ * @author Andrey Grigorkin <andrey@golle-it.de>
+ * @version 1.3.2
  */
 class PluginSetup
 {
+    /**
+     * @var SalesChannel $salesChannel
+     */
+    private $salesChannel;
+
     /**
      * @var ContainerInterface $container
      */
@@ -44,13 +49,84 @@ class PluginSetup
     /**
      * PluginSetup constructor.
      *
+     * @param SalesChannel $salesChannel
      * @param ContainerInterface $container
      * @param LoggerInterface $logger
      */
-    public function __construct(ContainerInterface $container, LoggerInterface $logger)
+    public function __construct(SalesChannel $salesChannel, ContainerInterface $container, LoggerInterface $logger)
     {
-        $this->container = $container;
-        $this->logger    = $logger;
+        $this->salesChannel = $salesChannel;
+        $this->container    = $container;
+        $this->logger       = $logger;
+    }
+
+    /**
+     * @param string $pointer
+     * @param array $options
+     * @param bool|null $reset
+     */
+    public function initSystemConfig(string $pointer, array $options, ?bool $reset = false): void
+    {
+        $params = [
+            'pointer' => $pointer,
+            'reset'   => $reset
+        ];
+
+        array_walk($options, function ($value, $key, $params) {
+            $this->setSystemConfigOption($key, $value, $params);
+        }, $params);
+    }
+
+    /**
+     * @param string $key
+     * @param $value
+     * @param array $params
+     */
+    private function setSystemConfigOption(string $key, $value, array $params): void
+    {
+        /** @var SystemConfigService $systemConfigService */
+        $systemConfigService = $this->container->get('Shopware\Core\System\SystemConfig\SystemConfigService');
+
+        foreach ($this->salesChannel->fetchAll() as $salesChannelId => $salesChannel) {
+            $config = $systemConfigService->get($params['pointer'], $salesChannelId);
+
+            if (!isset($config[$key]) || $params['reset']) {
+                $systemConfigService->set($params['pointer'] . '.' . $key, $value, $salesChannelId);
+            }
+        }
+
+        $config = $systemConfigService->get($params['pointer']);
+
+        if (!isset($config[$key]) || $params['reset']) {
+            $systemConfigService->set($params['pointer'] . '.' . $key, $value);
+        }
+    }
+
+    /**
+     * @param string $pointer
+     * @param array $options
+     */
+    public function destroySystemConfig(string $pointer, array $options): void
+    {
+        array_walk($options, function ($key, $placeholder, $pointer) {
+            $this->unsetSystemConfigOption($key, $pointer);
+        }, $pointer);
+    }
+
+    /**
+     * @param string $key
+     * @param string $pointer
+     */
+    private function unsetSystemConfigOption(string $key, string $pointer): void
+    {
+        /** @var SystemConfigService $systemConfigService */
+        $systemConfigService = $this->container->get('Shopware\Core\System\SystemConfig\SystemConfigService');
+
+        foreach ($this->salesChannel->fetchAll() as $salesChannelId => $salesChannel) {
+            $systemConfigService->delete($pointer . '.' . $key, $salesChannelId);
+        }
+
+        $systemConfigService->delete($pointer . '.' . $key);
     }
 
     /**
@@ -89,21 +165,25 @@ class PluginSetup
             'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT)
         ]);
 
-        $connection->insert('mail_template_type_translation', [
-            'mail_template_type_id' => Uuid::fromHexToBytes($mailTemplateTypeId),
-            'language_id' => Uuid::fromHexToBytes($this->getLanguageIdByLocale('en-GB')),
-            'name' => $data['enName'],
-            'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT)
-        ]);
-
-        $connection->insert('mail_template_type_translation', [
-            'mail_template_type_id' => Uuid::fromHexToBytes($mailTemplateTypeId),
-            'language_id' => Uuid::fromHexToBytes($this->getLanguageIdByLocale('de-DE')),
-            'name' => $data['deName'],
-            'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT)
-        ]);
+        $this->createMailTemplateTypeTranslations($connection, $mailTemplateTypeId, $data);
 
         return $mailTemplateTypeId;
+    }
+
+    private function createMailTemplateTypeTranslations(Connection $connection, string $mailTemplateTypeId, array $data): void
+    {
+        foreach ($this->getLocales() as $locale) {
+            try {
+                $connection->insert('mail_template_type_translation', [
+                    'mail_template_type_id' => Uuid::fromHexToBytes($mailTemplateTypeId),
+                    'language_id' => Uuid::fromHexToBytes($this->getLanguageIdByLocale($locale)),
+                    'name' => $data[$locale]['name'],
+                    'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT)
+                ]);
+            } catch (Exception $e) {
+                $this->logger->notice('[#fgits] fgitsAutoinvoiceSW6: ' . __CLASS__ . '::' . __FUNCTION__ . '(): ' . $e->getMessage());
+            }
+        }
     }
 
     /**
@@ -128,29 +208,36 @@ class PluginSetup
             'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT)
         ]);
 
-        $connection->insert('mail_template_translation', [
-            'mail_template_id' => Uuid::fromHexToBytes($mailTemplateId),
-            'language_id' => Uuid::fromHexToBytes($this->getLanguageIdByLocale('en-GB')),
-            'sender_name' => $data['en-GB']['senderName'],
-            'subject' => $data['en-GB']['subject'],
-            'description' => $data['en-GB']['description'],
-            'content_html' => $data['en-GB']['contentHtml'],
-            'content_plain' => $data['en-GB']['contentPlain'],
-            'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT)
-        ]);
-
-        $connection->insert('mail_template_translation', [
-            'mail_template_id' => Uuid::fromHexToBytes($mailTemplateId),
-            'language_id' => Uuid::fromHexToBytes($this->getLanguageIdByLocale('de-DE')),
-            'sender_name' => $data['de-DE']['senderName'],
-            'subject' => $data['de-DE']['subject'],
-            'description' => $data['de-DE']['description'],
-            'content_html' => $data['de-DE']['contentHtml'],
-            'content_plain' => $data['de-DE']['contentPlain'],
-            'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT)
-        ]);
+        $this->createMailTemplateTranslations($connection, $mailTemplateId, $data);
 
         $this->addMailTemplateToSalesChannels($connection, $mailTemplateTypeId, $mailTemplateId);
+    }
+
+    /**
+     * @param Connection $connection
+     * @param string $mailTemplateId
+     * @param array $data
+     *
+     * @throws DBALException
+     */
+    private function createMailTemplateTranslations(Connection $connection, string $mailTemplateId, array $data): void
+    {
+        foreach ($this->getLocales() as $locale) {
+            try {
+                $connection->insert('mail_template_translation', [
+                    'mail_template_id' => Uuid::fromHexToBytes($mailTemplateId),
+                    'language_id' => Uuid::fromHexToBytes($this->getLanguageIdByLocale($locale)),
+                    'sender_name' => $data[$locale]['senderName'],
+                    'subject' => $data[$locale]['subject'],
+                    'description' => $data[$locale]['description'],
+                    'content_html' => $data[$locale]['contentHtml'],
+                    'content_plain' => $data[$locale]['contentPlain'],
+                    'created_at' => (new \DateTime())->format(Defaults::STORAGE_DATE_TIME_FORMAT)
+                ]);
+            } catch (Exception $e) {
+                $this->logger->notice('[#fgits] fgitsAutoinvoiceSW6: ' . __CLASS__ . '::' . __FUNCTION__ . '(): ' . $e->getMessage());
+            }
+        }
     }
 
     /**
@@ -184,6 +271,7 @@ class PluginSetup
      * @return string
      *
      * @throws InconsistentCriteriaIdsException
+     * @throws Exception
      */
     private function getLanguageIdByLocale(string $locale): string
     {
@@ -198,6 +286,10 @@ class PluginSetup
 
         /** @var LanguageEntity $languageEntity */
         $languageEntity = $languageRepository->search($criteria, $context)->first();
+
+        if ($languageEntity === null) {
+            throw new Exception($locale);
+        }
 
         return $languageEntity->getId();
     }
@@ -238,28 +330,6 @@ class PluginSetup
      * @param Context $context
      * @param string $name
      */
-    public function deleteCustomFields(Context $context, string $name): void
-    {
-        /** @var EntityRepository $customFieldRepository */
-        $customFieldRepository = $this->container->get('custom_field.repository');
-
-        $criteria = new Criteria();
-        $criteria->addFilter(new ContainsFilter('name', $name));
-
-        /** @var CustomFieldCollection $customFields */
-        $customFields = $customFieldRepository->search($criteria, $context)->getElements();
-
-        foreach ($customFields as $customField) {
-            $customFieldRepository->delete([[
-                'id' => $customField->getId()
-            ]], $context);
-        }
-    }
-
-    /**
-     * @param Context $context
-     * @param string $name
-     */
     public function deleteCustomFieldSet(Context $context, string $name): void
     {
         /** @var EntityRepository $customFieldSetRepository */
@@ -271,9 +341,11 @@ class PluginSetup
         /** @var CustomFieldSetEntity $customFieldSetEntity */
         $customFieldSetEntity = $customFieldSetRepository->search($criteria, $context)->first();
 
-        $customFieldSetRepository->delete([[
-            'id' => $customFieldSetEntity->getId()
-        ]], $context);
+        if (!is_null($customFieldSetEntity)) {
+            $customFieldSetRepository->delete([[
+                'id' => $customFieldSetEntity->getId()
+            ]], $context);
+        }
     }
 
     /**
@@ -284,9 +356,17 @@ class PluginSetup
      */
     public function deleteMailTemplate(Context $context, string $technicalName): void
     {
-        $mailTemplateTypeId = $this->getMailTemplateTypeId($context, $technicalName);
+        try {
+            $mailTemplateTypeId = $this->getMailTemplateTypeId($context, $technicalName);
+        } catch (Exception $e) {
+            return;
+        }
 
-        $mailTemplateId = $this->getMailTemplateId($context, $mailTemplateTypeId);
+        try {
+            $mailTemplateId = $this->getMailTemplateId($context, $mailTemplateTypeId);
+        } catch (Exception $e) {
+            return;
+        }
 
         /** @var EntityRepository $mailTemplateRepository */
         $mailTemplateRepository = $this->container->get('mail_template.repository');
@@ -303,6 +383,7 @@ class PluginSetup
      * @return string
      *
      * @throws InconsistentCriteriaIdsException
+     * @throws Exception
      */
     private function getMailTemplateId(Context $context, string $mailTemplateTypeId): string
     {
@@ -315,6 +396,10 @@ class PluginSetup
         /** @var MailTemplateEntity $mailTemplateEntity */
         $mailTemplateEntity = $mailTemplateRepository->search($criteria, $context)->first();
 
+        if (is_null($mailTemplateEntity)) {
+            throw new Exception('[#fgits] fgitsAutoinvoiceSW6: ' . __CLASS__ . '::' . __FUNCTION__ . '()');
+        }
+
         return $mailTemplateEntity->getId();
     }
 
@@ -326,7 +411,11 @@ class PluginSetup
      */
     public function deleteMailTemplateType(Context $context, string $technicalName): void
     {
-        $mailTemplateTypeId = $this->getMailTemplateTypeId($context, $technicalName);
+        try {
+            $mailTemplateTypeId = $this->getMailTemplateTypeId($context, $technicalName);
+        } catch (Exception $e) {
+            return;
+        }
 
         /** @var EntityRepository $mailTemplateTypeRepository */
         $mailTemplateTypeRepository = $this->container->get('mail_template_type.repository');
@@ -343,6 +432,7 @@ class PluginSetup
      * @return string
      *
      * @throws InconsistentCriteriaIdsException
+     * @throws Exception
      */
     private function getMailTemplateTypeId(Context $context, string $technicalName): string
     {
@@ -355,6 +445,18 @@ class PluginSetup
         /** @var MailTemplateTypeEntity $mailTemplateTypeEntity */
         $mailTemplateTypeEntity = $mailTemplateTypeRepository->search($criteria, $context)->first();
 
+        if (is_null($mailTemplateTypeEntity)) {
+            throw new Exception('[#fgits] fgitsAutoinvoiceSW6: ' . __CLASS__ . '::' . __FUNCTION__ . '()');
+        }
+
         return $mailTemplateTypeEntity->getId();
+    }
+
+    /**
+     * @return array
+     */
+    private function getLocales(): array
+    {
+        return ['en-GB', 'de-DE'];
     }
 }

@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Fgits\AutoInvoice\ScheduledTask;
+namespace Fgits\AutoInvoice\ScheduledTask\OrderScan;
 
 use Shopware\Core\Framework\MessageQueue\ScheduledTask\ScheduledTask;
 
 /**
  * Copyright (c) 2020. GOLLE IT.
  *
- * @author Fabian Golle <fabian@golle-it.de>
+ * @author Andrey Grigorkin <andrey@golle-it.de>
  */
 class AutoInvoiceOrderScanTask extends ScheduledTask
 {

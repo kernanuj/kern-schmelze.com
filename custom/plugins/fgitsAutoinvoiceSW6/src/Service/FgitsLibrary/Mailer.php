@@ -5,11 +5,10 @@ namespace Fgits\AutoInvoice\Service\FgitsLibrary;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Content\MailTemplate\MailTemplateEntity;
-use Shopware\Core\Content\MailTemplate\Service\MailService;
+use Shopware\Core\Content\MailTemplate\Service\MailServiceInterface;
 use Shopware\Core\Framework\Api\Context\SystemSource;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Validation\DataBag\DataBag;
@@ -17,13 +16,13 @@ use Shopware\Core\Framework\Validation\DataBag\DataBag;
 /**
  * Copyright (c) 2020. GOLLE IT.
  *
- * @author Fabian Golle <fabian@golle-it.de>
- * @version 1.2.0
+ * @author Andrey Grigorkin <andrey@golle-it.de>
+ * @version 1.4.0
  */
 class Mailer
 {
     /**
-     * @var MailService $mailService
+     * @var MailServiceInterface $mailService
      */
     private $mailService;
 
@@ -40,12 +39,12 @@ class Mailer
     /**
      * Mailer constructor.
      *
-     * @param MailService $mailService
+     * @param MailServiceInterface $mailService
      * @param EntityRepositoryInterface $mailTemplateRepository
      * @param LoggerInterface $logger
      */
     public function __construct(
-        MailService $mailService,
+        MailServiceInterface $mailService,
         EntityRepositoryInterface $mailTemplateRepository,
         LoggerInterface $logger
     ) {
@@ -61,6 +60,8 @@ class Mailer
      * @param array $recipients
      * @param array $templateData
      * @param array $documents
+     *
+     * @return \Swift_Message|null
      */
     public function sendEmail(
         OrderEntity $order,
@@ -69,20 +70,23 @@ class Mailer
         array $recipients,
         array $templateData = array(),
         array $documents = array()
-    ) {
+    ): ?\Swift_Message {
         $data = new DataBag();
 
         $data->set('recipients', $recipients);
-        $data->set('senderName', $mailTemplate->getSenderName());
+        $data->set('senderName', $mailTemplate->getTranslation('senderName'));
         $data->set('salesChannelId', $order->getSalesChannelId());
 
-        $data->set('contentHtml', $mailTemplate->getContentHtml());
-        $data->set('contentPlain', $mailTemplate->getContentPlain());
-        $data->set('subject', $mailTemplate->getSubject());
+        $data->set('templateId', $mailTemplate->getId());
+        $data->set('customFields', $mailTemplate->getCustomFields());
+        $data->set('contentHtml', $mailTemplate->getTranslation('contentHtml'));
+        $data->set('contentPlain', $mailTemplate->getTranslation('contentPlain'));
+        $data->set('subject', $mailTemplate->getTranslation('subject'));
+        $data->set('mediaIds', []);
 
         $data->set('binAttachments', $documents);
 
-        $this->mailService->send(
+        return $this->mailService->send(
             $data->all(),
             $context,
             array_merge([
@@ -96,8 +100,6 @@ class Mailer
      * @param string $technicalName
      *
      * @return MailTemplateEntity|null
-     *
-     * @throws InconsistentCriteriaIdsException
      */
     public function getMailTemplate(OrderEntity $order, string $technicalName): ?MailTemplateEntity
     {
@@ -107,11 +109,33 @@ class Mailer
         $criteria->addFilter(new EqualsFilter('mailTemplateType.technicalName', $technicalName));
         $criteria->setLimit(1);
 
+        $criteriaNoSalesChannel = clone $criteria;
+
         if ($order->getSalesChannelId()) {
             $criteria->addFilter(
                 new EqualsFilter('mail_template.salesChannels.salesChannel.id', $order->getSalesChannelId())
             );
         }
+
+        /** @var MailTemplateEntity|null $mailTemplate */
+        if (!($mailTemplate = $this->mailTemplateRepository->search($criteria, $context)->first())) {
+            $mailTemplate = $this->mailTemplateRepository->search($criteriaNoSalesChannel, $context)->first();
+        }
+
+        return $mailTemplate;
+    }
+
+    /**
+     * @param string $templateId
+     *
+     * @return MailTemplateEntity|null
+     */
+    public function getMailTemplateById(string $templateId): ?MailTemplateEntity
+    {
+        $context = new Context(new SystemSource());
+
+        $criteria = new Criteria([$templateId]);
+        $criteria->addAssociation('mailTemplateType');
 
         /** @var MailTemplateEntity|null $mailTemplate */
         $mailTemplate = $this->mailTemplateRepository->search($criteria, $context)->first();

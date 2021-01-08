@@ -3,7 +3,6 @@
 namespace Fgits\AutoInvoice\Service;
 
 use Psr\Log\LoggerInterface;
-use Shopware\Core\Checkout\Document\DocumentEntity;
 use Shopware\Core\Checkout\Document\DocumentGenerator\DeliveryNoteGenerator;
 use Shopware\Core\Checkout\Document\DocumentGenerator\InvoiceGenerator;
 use Shopware\Core\Checkout\Document\DocumentService;
@@ -11,24 +10,20 @@ use Shopware\Core\Checkout\Document\Exception\InvalidDocumentException;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Api\Context\SystemSource;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 /**
  * Copyright (c) 2020. GOLLE IT.
  *
- * @author Fabian Golle <fabian@golle-it.de>
+ * @author Andrey Grigorkin <andrey@golle-it.de>
  */
 class Document
 {
     /**
-     * @var EntityRepository $documentRepository
+     * @var DB\Document $document
      */
-    private $documentRepository;
+    private $document;
 
     /**
      * @var DocumentService $documentService
@@ -48,18 +43,18 @@ class Document
     /**
      * Document constructor.
      *
-     * @param EntityRepository $documentRepository
+     * @param DB\Document $document
      * @param DocumentService $documentService
      * @param SystemConfigService $systemConfigService
      * @param LoggerInterface $logger
      */
     public function __construct(
-        EntityRepository $documentRepository,
+        DB\Document $document,
         DocumentService $documentService,
         SystemConfigService $systemConfigService,
         LoggerInterface $logger
     ) {
-        $this->documentRepository  = $documentRepository;
+        $this->document            = $document;
         $this->documentService     = $documentService;
         $this->systemConfigService = $systemConfigService;
         $this->logger              = $logger;
@@ -75,7 +70,7 @@ class Document
      */
     public function getInvoice(OrderEntity $order): array
     {
-        $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config');
+        $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config', $order->getSalesChannelId());
 
         return $this->getDocument(
             $order,
@@ -97,7 +92,7 @@ class Document
      */
     public function getDeliveryNote(OrderEntity $order): array
     {
-        $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config');
+        $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config', $order->getSalesChannelId());
 
         return $this->getDocument(
             $order,
@@ -123,7 +118,7 @@ class Document
     {
         $context = new Context(new SystemSource());
 
-        $documentEntity = $this->getDocumentEntity($order, $technicalName);
+        $documentEntity = $this->document->getDocumentEntity($order, $technicalName);
 
         $document = $this->documentService->getDocument($documentEntity, $context);
 
@@ -135,37 +130,6 @@ class Document
             'fileName'      => $fileName,
             'mimeType'      => $document->getContentType()
         ];
-    }
-
-    /**
-     * @param OrderEntity $order
-     * @param string $technicalName
-     *
-     * @return DocumentEntity|null
-     *
-     * @throws InconsistentCriteriaIdsException
-     * @throws InvalidDocumentException
-     */
-    private function getDocumentEntity(OrderEntity $order, string $technicalName): ?DocumentEntity
-    {
-        $context = new Context(new SystemSource());
-
-        $criteria = new Criteria();
-        $criteria->addSorting(new FieldSorting('createdAt', FieldSorting::DESCENDING));
-        $criteria->addAssociation('documentMediaFile');
-        $criteria->addAssociation('documentType');
-        $criteria->addFilter(new EqualsFilter('orderId', $order->getId()));
-        $criteria->addFilter(new EqualsFilter('document.documentType.technicalName', $technicalName));
-        $criteria->setLimit(1);
-
-        /** @var DocumentEntity|null $documentEntity */
-        $documentEntity = $this->documentRepository->search($criteria, $context)->first();
-
-        if ($documentEntity === null) {
-            throw new InvalidDocumentException($technicalName);
-        }
-
-        return $documentEntity;
     }
 
     /**
@@ -181,7 +145,7 @@ class Document
      */
     private function buildVariablesContext(OrderEntity $order, string $technicalName): array
     {
-        $documentEntity = $this->getDocumentEntity($order, $technicalName);
+        $documentEntity = $this->document->getDocumentEntity($order, $technicalName);
         $documentConfig = $documentEntity->getConfig();
 
         return array(
@@ -230,27 +194,5 @@ class Document
         }
 
         return $filename;
-    }
-
-    /**
-     * Checks if the given Order has existing document(s)
-     *
-     * @param OrderEntity $order
-     * @param string $technicalName
-     *
-     * @return bool
-     *
-     * @throws InconsistentCriteriaIdsException
-     */
-    public function orderHasDocument(OrderEntity $order, string $technicalName)
-    {
-        $context = new Context(new SystemSource());
-
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('orderId', $order->getId()));
-        $criteria->addFilter(new EqualsFilter('document.documentType.technicalName', $technicalName));
-        $criteria->setLimit(1);
-
-        return (bool) $this->documentRepository->search($criteria, $context)->getEntities()->count();
     }
 }

@@ -1,7 +1,7 @@
 import template from './fgits-orderdetail-payment-select.html.twig';
 
-const {Component} = Shopware;
-const {Criteria} = Shopware.Data;
+const { Component } = Shopware;
+const { Criteria } = Shopware.Data;
 
 Component.register('fgits-orderdetail-payment-select', {
     template,

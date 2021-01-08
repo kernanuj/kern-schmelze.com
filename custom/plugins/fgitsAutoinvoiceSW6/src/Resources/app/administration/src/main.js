@@ -1,3 +1,4 @@
+import './component/fgits-orderdetail-autoinvoice-attach';
 import './component/fgits-orderdetail-autoinvoice-cron';
 import './component/fgits-orderdetail-payment-select';
 import './component/fgits-orderdetail-state-select';
@@ -8,3 +9,4 @@ import './component/fgits-orderdetail-autoinvoice-processed';
 import './component/fgits-orderdetail-autoinvoice-send';
 import './component/sw-order-detail-base';
 import './init/autoinvoice-service.init';
+import './module/fgits-autoinvoice';

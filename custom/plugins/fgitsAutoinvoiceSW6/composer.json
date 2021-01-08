@@ -1,7 +1,7 @@
 {
     "name": "fgits/autoinvoice",
     "description": "Das Shopware Plugin AutoInvoice automatisiert die Rechnungsstellung nach Bestelleingang vollständig. Über die Einstellungen können Sie konfigurieren, unter welchen Bedingungen eine Rechnung an den Kunden und ein Lieferschein z.B. an die Buchhaltung oder den Shopbetreiber gesandt werden sollen.",
-    "version": "v5.3.2",
+    "version": "v5.4.6",
     "type": "shopware-platform-plugin",
     "license": "proprietary",
     "authors": [

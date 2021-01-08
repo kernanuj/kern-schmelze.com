@@ -3,6 +3,7 @@
 namespace Fgits\AutoInvoice\Service;
 
 use Fgits\AutoInvoice\fgitsAutoinvoiceSW6;
+use Fgits\AutoInvoice\Service\CustomFields\OrderCustomFields;
 use Fgits\AutoInvoice\Service\FgitsLibrary\Mailer as FgitsMailer;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\OrderEntity;
@@ -19,7 +20,7 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 /**
  * Copyright (c) 2020. GOLLE IT.
  *
- * @author Fabian Golle <fabian@golle-it.de>
+ * @author Andrey Grigorkin <andrey@golle-it.de>
  */
 class OrderProcessor
 {
@@ -110,9 +111,9 @@ class OrderProcessor
      * @throws InconsistentCriteriaIdsException
      * @throws SalesChannelNotFoundException
      */
-    public function processOrder(OrderEntity $order, $isFirstPersister = false, $isCronjob = false)
+    public function processOrder(OrderEntity $order, $isFirstPersister = false, $isCronjob = false): void
     {
-        $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config');
+        $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config', $order->getSalesChannelId());
 
         if (!$this->conditionChecker->shouldSendInvoice($order, $isCronjob)) {
             if ($isFirstPersister && $config['sendDeliveryNoteOnOrderCreation']) {
@@ -122,12 +123,13 @@ class OrderProcessor
             return;
         }
 
-        if ($config['sendCustomerEmail']) {
+        if ($config['sendCustomerEmail'] && ($this->orderCustomFields->isOrderConfirmationSent($order) || empty($config['attachOrderEmail']))) {
             $this->documentCreator->createInvoice($order);
 
             $this->sendCustomerEmail($order);
         } elseif ($config['alwaysCreateDocuments']) {
             $this->documentCreator->createInvoice($order);
+            $this->documentCreator->createDeliveryNote($order);
         }
 
         if (in_array($config['adminEmailType'], array(self::ADMIN_MODE_SEND_DELIVERY_NOTE_ONLY, self::ADMIN_MODE_SEND_BOTH))) {
@@ -147,7 +149,7 @@ class OrderProcessor
      * @throws SalesChannelNotFoundException
      * @throws InconsistentCriteriaIdsException
      */
-    public function forceCreationAndSendingOfDeliveryNote(OrderEntity $order)
+    public function forceCreationAndSendingOfDeliveryNote(OrderEntity $order): void
     {
         $this->documentCreator->createDeliveryNote($order);
         $this->sendAdminEmail($order, false);
@@ -161,9 +163,11 @@ class OrderProcessor
      * @throws SalesChannelNotFoundException
      * @throws InconsistentCriteriaIdsException
      */
-    public function sendCustomerEmail(OrderEntity $order)
+    public function sendCustomerEmail(OrderEntity $order): void
     {
         $context = new Context(new SystemSource());
+
+        $documents = array();
 
         try {
             $documents[] = $this->document->getInvoice($order);
@@ -173,13 +177,7 @@ class OrderProcessor
             return;
         }
 
-        try {
-            $mailTemplate = $this->mailer->getMailTemplate($order, fgitsAutoinvoiceSW6::MAIL_TEMPLATE_CUSTOMER);
-        } catch (InconsistentCriteriaIdsException $e) {
-            $this->logger->error(sprintf('No email template for order %s found. Cannot send customer email.', $order->getOrderNumber()));
-
-            return;
-        }
+        $mailTemplate = $this->mailer->getMailTemplate($order, fgitsAutoinvoiceSW6::MAIL_TEMPLATE_CUSTOMER);
 
         $customer = $order->getOrderCustomer();
 
@@ -195,9 +193,9 @@ class OrderProcessor
             $customer->getEmail() => $customer->getFirstName() . ' ' . $customer->getLastName()
         ];
 
-        $this->mailer->sendEmail($order, $mailTemplate, $context, $recipients, [], $documents);
-
-        $this->orderCustomFields->processInvoice($order);
+        if (!is_null($this->mailer->sendEmail($order, $mailTemplate, $context, $recipients, [], $documents))) {
+            $this->orderCustomFields->processInvoice($order, $documents);
+        }
     }
 
     /**
@@ -208,11 +206,11 @@ class OrderProcessor
      *
      * @throws SalesChannelNotFoundException
      */
-    private function sendAdminEmail(OrderEntity $order, $attachInvoice = true)
+    private function sendAdminEmail(OrderEntity $order, $attachInvoice = true): void
     {
         $context = new Context(new SystemSource());
 
-        $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config');
+        $config = $this->systemConfigService->get('fgitsAutoinvoiceSW6.config', $order->getSalesChannelId());
 
         if (!isset($config['adminEmail']) || empty(trim($config['adminEmail']))) {
             $this->logger->error('Plugin is configured to send email to admin, but no admin email is specified.');
@@ -244,13 +242,7 @@ class OrderProcessor
             return;
         }
 
-        try {
-            $mailTemplate = $this->mailer->getMailTemplate($order, fgitsAutoinvoiceSW6::MAIL_TEMPLATE_ADMIN);
-        } catch (InconsistentCriteriaIdsException $e) {
-            $this->logger->error(sprintf('No email template for order %s found. Cannot send admin email.', $order->getOrderNumber()));
-
-            return;
-        }
+        $mailTemplate = $this->mailer->getMailTemplate($order, fgitsAutoinvoiceSW6::MAIL_TEMPLATE_ADMIN);
 
         $recipients = array();
 
@@ -260,9 +252,9 @@ class OrderProcessor
             ];
         }
 
-        $this->mailer->sendEmail($order, $mailTemplate, $context, $recipients, [], $documents);
-
-        $this->orderCustomFields->processInvoice($order);
+        if (!is_null($this->mailer->sendEmail($order, $mailTemplate, $context, $recipients, [], $documents))) {
+            $this->orderCustomFields->processInvoice($order, $documents);
+        }
     }
 
     /**

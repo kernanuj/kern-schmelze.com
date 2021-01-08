@@ -1,0 +1,12 @@
+{
+  "fgits-autoinvoice": {
+    "export": {
+      "button": "Rechnungen exportieren",
+      "cardTitle": "Rechnungen exportieren",
+      "notificationSuccessTitle": "Rechnungen exportieren",
+      "notificationSuccessMessage": "Rechnungen wurden erfolgreich exportiert!",
+      "notificationErrorTitle": "Rechnungen exportieren",
+      "notificationErrorMessage": "Fehler beim Exportieren aufgetreten!"
+    }
+  }
+}

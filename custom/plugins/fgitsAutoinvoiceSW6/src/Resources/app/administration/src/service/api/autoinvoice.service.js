@@ -6,7 +6,7 @@ class AutoinvoiceService extends ApiService {
     }
 
     activateCron() {
-        const route = '/fgits/autoinvoice/cron/activate';
+        const route = `/fgits/autoinvoice/cron/activate`;
 
         return this.httpClient.get(
             route,
@@ -20,6 +20,19 @@ class AutoinvoiceService extends ApiService {
 
     sendInvoice(orderId) {
         const route = `/fgits/autoinvoice/order/${orderId}/invoice/send`;
+
+        return this.httpClient.get(
+            route,
+            {
+                headers: this.getBasicHeaders()
+            }
+        ).then((response) => {
+            return ApiService.handleResponse(response);
+        });
+    }
+
+    exportInvoices() {
+        const route = `/fgits/autoinvoice/order/invoices/export`;
 
         return this.httpClient.get(
             route,

@@ -2,15 +2,14 @@
 
 namespace Fgits\AutoInvoice\Api\Controller;
 
+use Fgits\AutoInvoice\Service\DB\Order;
 use Fgits\AutoInvoice\Service\DocumentCreator;
+use Fgits\AutoInvoice\Service\Export;
 use Fgits\AutoInvoice\Service\FgitsLibrary\ScheduledTask as FgitsScheduledTask;
 use Fgits\AutoInvoice\Service\OrderProcessor;
 use Psr\Log\LoggerInterface;
-use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,12 +19,22 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Copyright (c) 2020. GOLLE IT.
  *
- * @author Fabian Golle <fabian@golle-it.de>
+ * @author Andrey Grigorkin <andrey@golle-it.de>
  *
  * @RouteScope(scopes={"api"})
  */
 class OrderController extends AbstractController
 {
+    /**
+     * @var Order $order
+     */
+    private $order;
+
+    /**
+     * @var Export $export
+     */
+    private $export;
+
     /**
      * @var EntityRepositoryInterface $orderRepository
      */
@@ -54,6 +63,8 @@ class OrderController extends AbstractController
     /**
      * OrderController constructor.
      *
+     * @param Order $order
+     * @param Export $export
      * @param EntityRepositoryInterface $orderRepository
      * @param DocumentCreator $documentCreator
      * @param OrderProcessor $orderProcessor
@@ -61,12 +72,16 @@ class OrderController extends AbstractController
      * @param LoggerInterface $logger
      */
     public function __construct(
+        Order $order,
+        Export $export,
         EntityRepositoryInterface $orderRepository,
         DocumentCreator $documentCreator,
         OrderProcessor $orderProcessor,
         FgitsScheduledTask $scheduledTask,
         LoggerInterface $logger
     ) {
+        $this->order           = $order;
+        $this->export          = $export;
         $this->orderRepository = $orderRepository;
         $this->documentCreator = $documentCreator;
         $this->orderProcessor  = $orderProcessor;
@@ -86,7 +101,7 @@ class OrderController extends AbstractController
     public function sendInvoice(Request $request, Context $context, string $orderId): JsonResponse
     {
         try {
-            $order = $this->getOrderById($orderId, $context);
+            $order = $this->order->getOrderById($orderId, $context);
 
             $this->documentCreator->createInvoice($order);
 
@@ -99,17 +114,21 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @param string $orderId
+     * @Route("/api/v{version}/fgits/autoinvoice/order/invoices/export", name="api.action.fgits.autoinvoice.invoices.export", methods={"GET"})
+     *
+     * @param Request $request
      * @param Context $context
      *
-     * @return OrderEntity
-     *
-     * @throws InconsistentCriteriaIdsException
+     * @return JsonResponse
      */
-    private function getOrderById(string $orderId, Context $context): OrderEntity
+    public function exportInvoices(Request $request, Context $context): JsonResponse
     {
-        $criteria = new Criteria([$orderId]);
+        try {
+            $this->export->export();
+        } catch (\Exception $e) {
+            return new JsonResponse(['status' => $e->getMessage()]);
+        }
 
-        return $this->orderRepository->search($criteria, $context)->get($orderId);
+        return new JsonResponse(['status' => 'OK']);
     }
 }

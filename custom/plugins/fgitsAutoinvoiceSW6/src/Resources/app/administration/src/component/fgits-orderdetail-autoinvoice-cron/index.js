@@ -1,6 +1,6 @@
 import template from './fgits-orderdetail-autoinvoice-cron.html.twig';
 
-const {Component} = Shopware;
+const { Component } = Shopware;
 
 Component.register('fgits-orderdetail-autoinvoice-cron', {
     template,

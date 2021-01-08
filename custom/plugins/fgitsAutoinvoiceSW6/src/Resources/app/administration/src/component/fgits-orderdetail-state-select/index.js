@@ -1,7 +1,7 @@
 import template from './fgits-orderdetail-state-select.html.twig';
 
-const {Component} = Shopware;
-const {Criteria} = Shopware.Data;
+const { Component } = Shopware;
+const { Criteria } = Shopware.Data;
 
 Component.register('fgits-orderdetail-state-select', {
     template,

@@ -2,7 +2,7 @@
   "fgits-autoinvoice": {
     "cron": {
       "switch": {
-        "label": "Cron active",
+        "label": "Activate cron",
         "helpText": "If activated, orders are processed in the background by cron."
       }
     }

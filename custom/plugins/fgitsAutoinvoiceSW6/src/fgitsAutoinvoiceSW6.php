@@ -3,20 +3,25 @@
 namespace Fgits\AutoInvoice;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
 use Fgits\AutoInvoice\Service\FgitsLibrary\PluginSetup;
 use Psr\Log\LoggerInterface;
+use ReflectionClass;
+use ReflectionException;
 use Shopware\Core\Framework\Api\Context\SystemSource;
 use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\DeactivateContext;
+use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Plugin\Context\UpdateContext;
 use Shopware\Core\System\CustomField\CustomFieldTypes;
 
 /**
  * Copyright (c) 2020. GOLLE IT.
  *
- * @author Fabian Golle <fabian@golle-it.de>
+ * @author Andrey Grigorkin <andrey@golle-it.de>
  */
 class fgitsAutoinvoiceSW6 extends Plugin
 {
@@ -34,17 +39,58 @@ class fgitsAutoinvoiceSW6 extends Plugin
      */
     private $logger;
 
-    public function update(UpdateContext $context): void
+    public function update(UpdateContext $updateContext): void
     {
-        // your code you need to execute while your plugin gets updated
+        // Initialise attachOrderEmail for all channels
+        if (str_replace('.', '', $updateContext->getCurrentPluginVersion()) < 540) {
+            $salesChannelRepository = $this->container->get('sales_channel.repository');
+
+            foreach ($salesChannelRepository->search(new Criteria(), new Context(new SystemSource()))->getEntities() as $salesChannelId => $salesChannel) {
+                $this->container->get('Shopware\Core\System\SystemConfig\SystemConfigService')->set('fgitsAutoinvoiceSW6.config.attachOrderEmail', false, $salesChannelId);
+            }
+
+            $this->container->get('Shopware\Core\System\SystemConfig\SystemConfigService')->set('fgitsAutoinvoiceSW6.config.attachOrderEmail', false);
+        }
+
+        // Initialise exportDirectory and exportDirectoryCron for all channels
+        if (str_replace('.', '', $updateContext->getCurrentPluginVersion()) < 541) {
+            $salesChannelRepository = $this->container->get('sales_channel.repository');
+
+            foreach ($salesChannelRepository->search(new Criteria(), new Context(new SystemSource()))->getEntities() as $salesChannelId => $salesChannel) {
+                $this->container->get('Shopware\Core\System\SystemConfig\SystemConfigService')->set('fgitsAutoinvoiceSW6.config.exportDirectory', '/files/export', $salesChannelId);
+                $this->container->get('Shopware\Core\System\SystemConfig\SystemConfigService')->set('fgitsAutoinvoiceSW6.config.exportDirectoryCron', false, $salesChannelId);
+            }
+
+            $this->container->get('Shopware\Core\System\SystemConfig\SystemConfigService')->set('fgitsAutoinvoiceSW6.config.exportDirectory', '/files/export');
+            $this->container->get('Shopware\Core\System\SystemConfig\SystemConfigService')->set('fgitsAutoinvoiceSW6.config.exportDirectoryCron', false);
+        }
     }
 
     public function activate(ActivateContext $context): void
     {
+        $this->setup->initSystemConfig(
+            'fgitsAutoinvoiceSW6.config',
+            [
+                'attachOrderEmail'    => false,
+                'exportDirectory'     => '/files/export',
+                'exportDirectoryCron' => false
+            ]
+        );
+
+        $this->setup->initSystemConfig(
+            'fgitsAutoinvoiceSW6.config',
+            [
+                'cronjobActive' => false
+            ],
+            true
+        );
+
         $customFields = [
             ['name' => self::CUSTOM_FIELD_SET_NAME . '_cron_date', 'type' => CustomFieldTypes::DATETIME],
+            ['name' => self::CUSTOM_FIELD_SET_NAME . '_exported', 'type' => CustomFieldTypes::BOOL],
             ['name' => self::CUSTOM_FIELD_SET_NAME . '_processed', 'type' => CustomFieldTypes::BOOL],
-            ['name' => self::CUSTOM_FIELD_SET_NAME . '_processed_date', 'type' => CustomFieldTypes::DATETIME]
+            ['name' => self::CUSTOM_FIELD_SET_NAME . '_processed_date', 'type' => CustomFieldTypes::DATETIME],
+            ['name' => self::CUSTOM_FIELD_SET_NAME . '_order_confirmation_sent', 'type' => CustomFieldTypes::BOOL]
         ];
 
         $this->setup->createCustomFieldSet(self::CUSTOM_FIELD_SET_NAME, $customFields);
@@ -55,13 +101,18 @@ class fgitsAutoinvoiceSW6 extends Plugin
         try {
             $templateTypeData['technicalName'] = self::MAIL_TEMPLATE_CUSTOMER;
             $templateTypeData['availableEntities'] = [
-                'order' => 'order',
-                'previousState' => 'state_machine_state',
-                'newState' => 'state_machine_state',
-                'salesChannel' => 'sales_channel'
+                'customer'        => 'customer',
+                'customerAddress' => 'customer_address',
+                'customerGroup'   => 'customer_group',
+                'order'           => 'order',
+                'orderAddress'    => 'order_address',
+                'orderCustomer'   => 'order_customer',
+                'orderDelivery'   => 'order_delivery',
+                'product'         => 'product',
+                'salesChannel'    => 'sales_channel'
             ];
-            $templateTypeData['enName'] = 'AutoInvoice Customer E-Mail';
-            $templateTypeData['deName'] = 'AutoInvoice Kunden E-Mail';
+            $templateTypeData['en-GB']['name'] = 'AutoInvoice Customer E-Mail';
+            $templateTypeData['de-DE']['name'] = 'AutoInvoice Kunden E-Mail';
 
             $mailTemplateTypeId = $this->setup->createMailTemplateType($connection, $templateTypeData);
 
@@ -84,13 +135,18 @@ class fgitsAutoinvoiceSW6 extends Plugin
         try {
             $templateTypeData['technicalName'] = self::MAIL_TEMPLATE_ADMIN;
             $templateTypeData['availableEntities'] = [
-                'order' => 'order',
-                'previousState' => 'state_machine_state',
-                'newState' => 'state_machine_state',
-                'salesChannel' => 'sales_channel'
+                'customer'        => 'customer',
+                'customerAddress' => 'customer_address',
+                'customerGroup'   => 'customer_group',
+                'order'           => 'order',
+                'orderAddress'    => 'order_address',
+                'orderCustomer'   => 'order_customer',
+                'orderDelivery'   => 'order_delivery',
+                'product'         => 'product',
+                'salesChannel'    => 'sales_channel'
             ];
-            $templateTypeData['enName'] = 'AutoInvoice Admin E-Mail';
-            $templateTypeData['deName'] = 'AutoInvoice Admin E-Mail';
+            $templateTypeData['en-GB']['name'] = 'AutoInvoice Admin E-Mail';
+            $templateTypeData['de-DE']['name'] = 'AutoInvoice Admin E-Mail';
 
             $mailTemplateTypeId = $this->setup->createMailTemplateType($connection, $templateTypeData);
 
@@ -115,9 +171,10 @@ class fgitsAutoinvoiceSW6 extends Plugin
     {
         $context = new Context(new SystemSource());
 
-        $this->setup->deleteCustomFields($context, self::CUSTOM_FIELD_SET_NAME);
-
-        $this->setup->deleteCustomFieldSet($context, self::CUSTOM_FIELD_SET_NAME);
+        try {
+            $this->setup->deleteCustomFieldSet($context, self::CUSTOM_FIELD_SET_NAME);
+        } catch (\Exception $e) {
+        }
 
         try {
             $this->setup->deleteMailTemplate($context, self::MAIL_TEMPLATE_CUSTOMER);
@@ -132,8 +189,25 @@ class fgitsAutoinvoiceSW6 extends Plugin
             $this->setup->deleteMailTemplateType($context, self::MAIL_TEMPLATE_ADMIN);
         } catch (\Exception $e) {
         }
+    }
 
-        $this->container->get('Shopware\Core\System\SystemConfig\SystemConfigService')->delete('fgitsAutoinvoiceSW6.config.cronjobActive');
+    /**
+     * @param UninstallContext $context
+     *
+     * @throws DBALException
+     * @throws ReflectionException
+     */
+    public function uninstall(UninstallContext $context): void
+    {
+        parent::uninstall($context);
+
+        if ($context->keepUserData()) {
+            return;
+        }
+
+        $connection = $this->container->get(Connection::class);
+
+        $connection->executeUpdate('DELETE FROM system_config WHERE configuration_key LIKE :class', ['class' => (new ReflectionClass($this))->getShortName() . '%']);
     }
 
     /**
