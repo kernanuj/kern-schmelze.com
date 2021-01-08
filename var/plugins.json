@@ -666,5 +666,25 @@
             "webpack": null,
             "styleFiles": []
         }
+    },
+    "SisiDetailVideo6": {
+        "basePath": "custom\/plugins\/SisiDetailVideo6\/src\/",
+        "views": [
+            "Resources\/views"
+        ],
+        "technicalName": "sisi-detail-video6",
+        "administration": {
+            "path": "Resources\/app\/administration\/src",
+            "entryFilePath": null,
+            "webpack": null
+        },
+        "storefront": {
+            "path": "Resources\/app\/storefront\/src",
+            "entryFilePath": null,
+            "webpack": null,
+            "styleFiles": [
+                "\/Users\/nilsharder\/Documents\/PhpstormProjects\/kern-schmelze.com\/kern-schmelze.com\/shopware\/custom\/plugins\/SisiDetailVideo6\/src\/Resources\/app\/storefront\/src\/scss\/all.scss"
+            ]
+        }
     }
 }
