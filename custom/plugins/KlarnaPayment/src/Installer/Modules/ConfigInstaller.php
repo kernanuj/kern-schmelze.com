@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace KlarnaPayment\Installer;
+namespace KlarnaPayment\Installer\Modules;
 
 use KlarnaPayment\Components\ConfigReader\ConfigReaderInterface;
+use KlarnaPayment\Installer\InstallerInterface;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\DeactivateContext;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Plugin\Context\UpdateContext;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ConfigInstaller implements InstallerInterface
 {
@@ -36,9 +36,9 @@ class ConfigInstaller implements InstallerInterface
     /** @var SystemConfigService */
     private $systemConfigService;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(SystemConfigService $systemConfigService)
     {
-        $this->systemConfigService = $container->get(SystemConfigService::class);
+        $this->systemConfigService = $systemConfigService;
     }
 
     /**

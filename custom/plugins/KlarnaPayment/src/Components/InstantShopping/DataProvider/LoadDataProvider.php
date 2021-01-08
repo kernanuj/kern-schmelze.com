@@ -12,7 +12,7 @@ use KlarnaPayment\Components\Extension\TemplateData\InstantShoppingDataExtension
 use KlarnaPayment\Components\Helper\LocaleHelper\LocaleHelperInterface;
 use KlarnaPayment\Components\Helper\SalesChannelHelper\SalesChannelHelperInterface;
 use KlarnaPayment\Components\Struct\Configuration;
-use KlarnaPayment\Installer\RuleInstaller;
+use KlarnaPayment\Installer\Modules\RuleInstaller;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Framework\Context;
@@ -191,7 +191,7 @@ class LoadDataProvider implements LoadDataProviderInterface
         $salesChannelCountries = $salesChannel->getCountries() !== null ? $salesChannel->getCountries()->getElements() : [];
 
         foreach ($salesChannelCountries as $country) {
-            if (!in_array($country->getIso(), RuleInstaller::VALID_COUNTRIES, true)) {
+            if (!in_array($country->getIso(), array_keys(RuleInstaller::AVAIBILITY_CONDITIONS), true)) {
                 continue;
             }
 

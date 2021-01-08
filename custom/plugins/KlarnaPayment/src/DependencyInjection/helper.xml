@@ -76,5 +76,9 @@
         </service>
 
         <service id="KlarnaPayment\Components\Helper\OrderValidator\OrderValidator"/>
+
+        <service id="KlarnaPayment\Components\Helper\OrderDeliveryHelper\OrderDeliveryHelper">
+            <argument type="service" id="order_delivery.repository"/>
+        </service>
     </services>
 </container>

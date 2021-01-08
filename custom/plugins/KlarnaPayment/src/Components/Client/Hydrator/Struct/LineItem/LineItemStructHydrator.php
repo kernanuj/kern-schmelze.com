@@ -149,7 +149,10 @@ class LineItemStructHydrator implements LineItemStructHydratorInterface
             return new EntityCollection();
         }
 
-        $criteria = new Criteria();
+        $context = clone $context;
+        $context->setConsiderInheritance(true);
+
+        $criteria = new Criteria($products);
         $criteria->addAssociation('unit');
         $criteria->addAssociation('categories');
         $criteria->addAssociation('manufacturer');
@@ -166,11 +169,11 @@ class LineItemStructHydrator implements LineItemStructHydratorInterface
     private function getReferenceIds(Collection $lineItems): array
     {
         return $lineItems->fmap(static function (Struct $lineItem) {
-            if ($lineItem instanceof CartLineItem) {
+            if ($lineItem instanceof CartLineItem && $lineItem->getType() === CartLineItem::PRODUCT_LINE_ITEM_TYPE) {
                 return $lineItem->getReferencedId();
             }
 
-            if ($lineItem instanceof OrderLineItemEntity) {
+            if ($lineItem instanceof OrderLineItemEntity && $lineItem->getType() === CartLineItem::PRODUCT_LINE_ITEM_TYPE) {
                 return $lineItem->getReferencedId();
             }
 

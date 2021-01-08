@@ -127,7 +127,11 @@ class OrderController extends AbstractController
                     $this->stateHandler->process($dataBag->get('orderTransactionId'), $context);
                     $this->stateHandler->paid($dataBag->get('orderTransactionId'), $context);
                 } else {
-                    $this->stateHandler->pay($dataBag->get('orderTransactionId'), $context);
+                    if (method_exists($this->stateHandler, 'paid')) {
+                        $this->stateHandler->paid($dataBag->get('orderTransactionId'), $context);
+                    } else {
+                        $this->stateHandler->pay($dataBag->get('orderTransactionId'), $context);
+                    }
                 }
             } else {
                 $this->stateHandler->payPartially($dataBag->get('orderTransactionId'), $context);

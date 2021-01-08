@@ -5,13 +5,20 @@ declare(strict_types=1);
 namespace KlarnaPayment\Components\EventListener;
 
 use KlarnaPayment\Components\ConfigReader\ConfigReaderInterface;
-use KlarnaPayment\Installer\PaymentMethodInstaller;
+use KlarnaPayment\Installer\Modules\PaymentMethodInstaller;
+use KlarnaPayment\Installer\Modules\RuleInstaller;
 use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
 use Shopware\Core\Framework\Api\Context\SalesChannelApiSource;
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityIdSearchResultLoadedEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntitySearchResultLoadedEvent;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\IdSearchResult;
+use Shopware\Core\Framework\Event\GenericEvent;
+use Shopware\Core\System\Language\LanguageEntity;
+use Shopware\Core\System\Locale\LocaleEntity;
 use Shopware\Core\System\SalesChannel\Entity\SalesChannelEntityIdSearchResultLoadedEvent;
 use Shopware\Core\System\SalesChannel\Entity\SalesChannelEntitySearchResultLoadedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -21,9 +28,13 @@ class PaymentMethodEventListener implements EventSubscriberInterface
     /** @var ConfigReaderInterface */
     private $configReader;
 
-    public function __construct(ConfigReaderInterface $configReader)
+    /** @var EntityRepositoryInterface */
+    private $languageRepository;
+
+    public function __construct(ConfigReaderInterface $configReader, EntityRepositoryInterface $languageRepository)
     {
-        $this->configReader = $configReader;
+        $this->configReader       = $configReader;
+        $this->languageRepository = $languageRepository;
     }
 
     public static function getSubscribedEvents(): array
@@ -41,6 +52,10 @@ class PaymentMethodEventListener implements EventSubscriberInterface
         $source = $event->getContext()->getSource();
 
         if (!($source instanceof SalesChannelApiSource)) {
+            return;
+        }
+
+        if ($this->removeInvalidPaymentMethods($event)) {
             return;
         }
 
@@ -63,6 +78,10 @@ class PaymentMethodEventListener implements EventSubscriberInterface
         $source = $event->getContext()->getSource();
 
         if (!($source instanceof SalesChannelApiSource)) {
+            return;
+        }
+
+        if ($this->removeInvalidPaymentMethods($event)) {
             return;
         }
 
@@ -99,6 +118,83 @@ class PaymentMethodEventListener implements EventSubscriberInterface
             'total'    => count($filteredPaymentMethods),
             'entities' => $filteredPaymentMethods,
             'elements' => $filteredPaymentMethods->getElements(),
+        ]);
+    }
+
+    /**
+     * @param SalesChannelEntityIdSearchResultLoadedEvent|SalesChannelEntitySearchResultLoadedEvent $event
+     */
+    private function removeInvalidPaymentMethods(GenericEvent $event): bool
+    {
+        $salesChannelContext = $event->getSalesChannelContext();
+        $customer            = $salesChannelContext->getCustomer();
+        $currencyIsoCode     = $salesChannelContext->getCurrency()->getIsoCode();
+        $languageId          = $salesChannelContext->getSalesChannel()->getLanguageId();
+        $billingAddress      = $customer ? $customer->getDefaultBillingAddress() : null;
+        $language            = $this->getLanguageById($languageId, $salesChannelContext->getContext());
+
+        if (!$language || !$billingAddress || !($country = $billingAddress->getCountry()) || !($countryIso = $country->getIso())) {
+            return false;
+        }
+
+        /** @var LocaleEntity $locale */
+        $locale       = $language->getLocale();
+        $klarnaLocale = strtolower(substr($locale->getCode(), 0, 2)) . '-' . strtoupper($countryIso);
+        $rule         = RuleInstaller::AVAIBILITY_CONDITIONS[$countryIso] ?? null;
+
+        if ($rule === null || $rule['currency'] !== $currencyIsoCode || !in_array($klarnaLocale, $rule['locales'], true)) {
+            if ($event instanceof SalesChannelEntityIdSearchResultLoadedEvent) {
+                $this->removeAllKlarnaPaymentMethodsIds($event->getResult());
+            } else {
+                $this->removeAllKlarnaPaymentMethods($event->getResult());
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private function removeAllKlarnaPaymentMethods(EntitySearchResult $result): void
+    {
+        $allKlarnaPaymentMethods = $this->getAllKlarnaPaymentMethods();
+
+        $filter = static function (PaymentMethodEntity $entity) use ($allKlarnaPaymentMethods) {
+            if (in_array($entity->getId(), $allKlarnaPaymentMethods, true)) {
+                return false;
+            }
+
+            return true;
+        };
+
+        $filteredPaymentMethods = $result->getEntities()->filter($filter);
+
+        $result->assign([
+            'total'    => count($filteredPaymentMethods),
+            'entities' => $filteredPaymentMethods,
+            'elements' => $filteredPaymentMethods->getElements(),
+        ]);
+    }
+
+    private function removeAllKlarnaPaymentMethodsIds(IdSearchResult $result): void
+    {
+        $allKlarnaPaymentMethods = $this->getAllKlarnaPaymentMethods();
+
+        $filter = static function (string $paymentMethod) use ($allKlarnaPaymentMethods) {
+            if (in_array($paymentMethod, $allKlarnaPaymentMethods, true)) {
+                return false;
+            }
+
+            return true;
+        };
+
+        $filteredPaymentMethods = array_filter($result->getIds(), $filter);
+
+        $result->assign([
+            'total'    => count($filteredPaymentMethods),
+            'ids'      => $filteredPaymentMethods,
+            'entities' => $filteredPaymentMethods,
+            'elements' => $filteredPaymentMethods,
         ]);
     }
 
@@ -169,5 +265,13 @@ class PaymentMethodEventListener implements EventSubscriberInterface
         $allKlarnaPaymentMethods[] = PaymentMethodInstaller::KLARNA_INSTANT_SHOPPING;
 
         return $allKlarnaPaymentMethods;
+    }
+
+    private function getLanguageById(string $id, Context $context): ?LanguageEntity
+    {
+        $criteria = new Criteria([$id]);
+        $criteria->addAssociation('locale');
+
+        return $this->languageRepository->search($criteria, $context)->first();
     }
 }

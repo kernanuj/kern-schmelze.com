@@ -25,9 +25,9 @@ Component.override('sw-order-detail', {
         orderId: {
             deep: true,
             handler() {
-                if (!this.orderId) {
-                    this.klarnaTransactions = [];
+                this.klarnaTransactions = [];
 
+                if (!this.orderId) {
                     return;
                 }
 

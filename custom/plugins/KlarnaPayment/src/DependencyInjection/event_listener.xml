@@ -74,6 +74,7 @@
 
         <service id="KlarnaPayment\Components\EventListener\PaymentMethodEventListener">
             <argument type="service" id="KlarnaPayment\Components\ConfigReader\ConfigReader" />
+            <argument type="service" id="language.repository" />
 
             <tag name="kernel.event_subscriber"/>
         </service>
@@ -82,6 +83,17 @@
             <argument type="service" id="KlarnaPayment\Components\ButtonKeyHandler\ButtonKeyHandler" />
             <argument type="service" id="KlarnaPayment\Components\ConfigReader\ConfigReader" />
             <argument type="service" id="Doctrine\DBAL\Connection" />
+
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="KlarnaPayment\Components\EventListener\OrderDeliveriesWrittenEventListener">
+            <argument type="service" id="KlarnaPayment\Components\Helper\OrderDeliveryHelper\OrderDeliveryHelper"/>
+            <argument type="service" id="KlarnaPayment\Components\Logger" />
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\GetOrder\GetOrderRequestHydrator"/>
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Response\GetOrder\GetOrderResponseHydrator"/>
+            <argument type="service" id="KlarnaPayment\Components\Client\Client"/>
+            <argument type="service" id="KlarnaPayment\Components\Client\Hydrator\Request\AddShippingInfo\AddShippingInfoRequestHydrator"/>
 
             <tag name="kernel.event_subscriber"/>
         </service>

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace KlarnaPayment\Components\Validator;
 
 use KlarnaPayment\Components\ConfigReader\ConfigReaderInterface;
-use KlarnaPayment\Installer\PaymentMethodInstaller;
+use KlarnaPayment\Installer\Modules\PaymentMethodInstaller;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\CartValidatorInterface;
 use Shopware\Core\Checkout\Cart\Error\ErrorCollection;

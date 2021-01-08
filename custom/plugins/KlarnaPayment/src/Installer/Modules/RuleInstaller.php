@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace KlarnaPayment\Installer;
+namespace KlarnaPayment\Installer\Modules;
 
+use KlarnaPayment\Installer\InstallerInterface;
 use Shopware\Core\Checkout\Customer\Rule\BillingCountryRule;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -14,20 +15,66 @@ use Shopware\Core\Framework\Plugin\Context\DeactivateContext;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Plugin\Context\UpdateContext;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class RuleInstaller implements InstallerInterface
 {
-    public const VALID_COUNTRIES = [
-        'AT',
-        'CH',
-        'DE',
-        'DK',
-        'FI',
-        'NL',
-        'NO',
-        'SE',
-        'GB',
+    /**
+     * further information regarding the avaibility of klarna payment methods:
+     * https://developers.klarna.com/documentation/klarna-payments/in-depth-knowledge/puchase-countries-currencies-locales/
+     */
+    public const AVAIBILITY_CONDITIONS = [
+        'AT' => [
+            'currency' => 'EUR',
+            'locales'  => ['de-AT', 'en-AT'],
+        ],
+        'CH' => [
+            'currency' => 'CHF',
+            'locales'  => ['de-CH', 'fr-CH', 'it-CH', 'en-CH'],
+        ],
+        'DE' => [
+            'currency' => 'EUR',
+            'locales'  => ['de-DE', 'en-DE'],
+        ],
+        'DK' => [
+            'currency' => 'DKK',
+            'locales'  => ['da-DK', 'en-DK'],
+        ],
+        'FI' => [
+            'currency' => 'EUR',
+            'locales'  => ['fi-FI', 'sv-FI', 'en-FI'],
+        ],
+        'NL' => [
+            'currency' => 'EUR',
+            'locales'  => ['nl-NL', 'en-NL'],
+        ],
+        'NO' => [
+            'currency' => 'NOK',
+            'locales'  => ['nb-NO', 'en-NO'],
+        ],
+        'SE' => [
+            'currency' => 'SEK',
+            'locales'  => ['sv-SE', 'en-SE'],
+        ],
+        'GB' => [
+            'currency' => 'GBP',
+            'locales'  => ['en-GB'],
+        ],
+        'US' => [
+            'currency' => 'USD',
+            'locales'  => ['en-US'],
+        ],
+        'AU' => [
+            'currency' => 'AUD',
+            'locales'  => ['en-AU'],
+        ],
+        'BE' => [
+            'currency' => 'EUR',
+            'locales'  => ['nl-BE', 'fr-BE'],
+        ],
+        'ES' => [
+            'currency' => 'EUR',
+            'locales'  => ['es-ES'],
+        ],
     ];
 
     private const RULE_ID      = 'f3f95e9b4f7b446799aa22feae0c61aa';
@@ -39,10 +86,10 @@ class RuleInstaller implements InstallerInterface
     /** @var EntityRepositoryInterface */
     private $countryRepository;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(EntityRepositoryInterface $ruleRepository, EntityRepositoryInterface $countryRepository)
     {
-        $this->ruleRepository    = $container->get('rule.repository');
-        $this->countryRepository = $container->get('country.repository');
+        $this->ruleRepository    = $ruleRepository;
+        $this->countryRepository = $countryRepository;
     }
 
     public function install(InstallContext $context): void
@@ -76,7 +123,8 @@ class RuleInstaller implements InstallerInterface
             'id'          => self::RULE_ID,
             'name'        => 'Klarna Payments',
             'priority'    => 1,
-            'description' => 'Determines whether or not Klarna Payments is available.',
+            'description' => 'Determines whether or not Klarna Payments is available. Further Information: https://developers.klarna.com/documentation/klarna-payments/in-depth-knowledge/puchase-countries-currencies-locales/',
+            'moduleTypes' => ['types' => ['payment']],
             'conditions'  => [
                 [
                     'id'    => self::CONDITION_ID,
@@ -117,7 +165,7 @@ class RuleInstaller implements InstallerInterface
     {
         $criteria = new Criteria();
         $criteria->addFilter(
-            new EqualsAnyFilter('iso', self::VALID_COUNTRIES)
+            new EqualsAnyFilter('iso', array_keys(self::AVAIBILITY_CONDITIONS))
         );
 
         return $this->countryRepository->search($criteria, $context)->getIds();

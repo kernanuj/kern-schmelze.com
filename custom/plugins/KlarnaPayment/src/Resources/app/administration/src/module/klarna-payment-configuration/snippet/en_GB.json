@@ -14,7 +14,9 @@
         "messageTestErrorTest": "The test mode API credentials could not be validated.",
         "messageSaveSuccess": "The plugin settings have been saved.",
         "messageSaveError": "The plugin settings could not be saved.",
-        "messageButtonKeyCreateError": "An error \"{code}\" occurred during creation of the Instant Shopping button keys: {message}"
+        "messageButtonKeyCreateError": "An error \"{code}\" occurred during creation of the Instant Shopping button keys: {message}",
+        "messageMissingApiUsername": "No value has been provided for field \"API Username\" related to the active mode!",
+        "messageMissingApiPassword": "No value has been provided for field \"API Password\" related to the active mode!"
       },
       "buttons": {
         "save": "Save settings",
@@ -39,6 +41,10 @@
           "additional": "To use \"Pay Now\", you have to assign the payment methods \"Pay Now\", \"Credit Card\", \"Direct Debit\" and \"Online Bank Transfer\" to your sales channels.",
           "description": "Customers who want to pay in full at checkout can do it quickly and securely with Klarna's Pay Now-option - using credit/debit card or direct bank transfer: Klarna Direkt, Sofort, SEPA Direct Debit.",
           "title": "Pay Now"
+        },
+        "instantShopping": {
+          "domainsWithoutHttps": "The domain {domains} is not usable for Instant Shopping.|Following domains are not usable for Instant Shopping:",
+          "domainsWithoutHttpsRecommendation": "Please configure your shop to only be accessible by HTTPS and remove any HTTP domain from your sales channel(s)."
         }
       }
     },

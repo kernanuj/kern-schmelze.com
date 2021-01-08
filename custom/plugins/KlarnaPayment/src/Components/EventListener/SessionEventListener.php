@@ -17,7 +17,7 @@ use KlarnaPayment\Components\Extension\SessionDataExtension;
 use KlarnaPayment\Components\Factory\MerchantDataFactoryInterface;
 use KlarnaPayment\Components\Helper\OrderFetcherInterface;
 use KlarnaPayment\Components\Helper\PaymentHelper\PaymentHelperInterface;
-use KlarnaPayment\Installer\PaymentMethodInstaller;
+use KlarnaPayment\Installer\Modules\PaymentMethodInstaller;
 use LogicException;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\Order\OrderConverter;

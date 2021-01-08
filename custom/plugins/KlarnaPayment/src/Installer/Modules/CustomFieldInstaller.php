@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace KlarnaPayment\Installer;
+namespace KlarnaPayment\Installer\Modules;
 
+use KlarnaPayment\Installer\InstallerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
@@ -12,7 +13,6 @@ use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Plugin\Context\UpdateContext;
 use Shopware\Core\System\CustomField\CustomFieldTypes;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CustomFieldInstaller implements InstallerInterface
 {
@@ -112,9 +112,9 @@ class CustomFieldInstaller implements InstallerInterface
     /** @var EntityRepositoryInterface */
     private $customFieldSetRepository;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(EntityRepositoryInterface $customFieldSetRepository)
     {
-        $this->customFieldSetRepository = $container->get('custom_field_set.repository');
+        $this->customFieldSetRepository = $customFieldSetRepository;
     }
 
     /**

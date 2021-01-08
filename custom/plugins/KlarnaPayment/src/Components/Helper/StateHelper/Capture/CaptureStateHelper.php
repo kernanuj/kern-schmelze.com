@@ -103,7 +103,11 @@ class CaptureStateHelper implements CaptureStateHelperInterface
 
         try {
             $context->scope(ContextScope::INTERNAL_SCOPE, function (Context $context) use ($transaction): void {
-                $this->transactionStateHandler->pay($transaction->getId(), $context);
+                if (method_exists($this->transactionStateHandler, 'paid')) {
+                    $this->transactionStateHandler->paid($transaction->getId(), $context);
+                } else {
+                    $this->transactionStateHandler->pay($transaction->getId(), $context);
+                }
             });
         } catch (IllegalTransitionException $exception) {
             $this->logger->notice($exception->getMessage(), $exception->getParameters());

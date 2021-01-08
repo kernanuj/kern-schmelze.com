@@ -38,14 +38,13 @@ Module.register('klarna-payment-configuration', {
                 parentPath: 'sw.settings.index'
             }
         }
-    }
-
+    },
     // TODO: Enable once Shopware has fixed iconComponent.
     // settingsItem: [{
-    //    name:   'klarna-payment-configuration',
-    //    to:     'klarna.payment.configuration.settings',
-    //    label:  'klarna-payment-configuration.module.title',
-    //    group:  'plugins',
-    //    iconComponent: 'klarna-payment-plugin-icon'
-    // }],
+    //     name:   'klarna-payment-configuration',
+    //     to:     'klarna.payment.configuration.settings',
+    //     label:  'klarna-payment-configuration.module.title',
+    //     group:  'plugins',
+    //     iconComponent: 'klarna-payment-plugin-icon'
+    // }]
 });

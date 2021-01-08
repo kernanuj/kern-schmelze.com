@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace KlarnaPayment\Installer;
+namespace KlarnaPayment\Installer\Modules;
 
 use KlarnaPayment\Components\PaymentHandler\KlarnaInstantShoppingPaymentHandler;
 use KlarnaPayment\Components\PaymentHandler\KlarnaPaymentsPaymentHandler;
+use KlarnaPayment\Installer\InstallerInterface;
+use KlarnaPayment\Installer\Modules\Helper\LanguageProvider;
 use KlarnaPayment\KlarnaPayment;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -16,7 +18,6 @@ use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Plugin\Context\UpdateContext;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class PaymentMethodInstaller implements InstallerInterface
 {
@@ -82,6 +83,7 @@ class PaymentMethodInstaller implements InstallerInterface
             'id'                => self::KLARNA_PAY_LATER,
             'handlerIdentifier' => KlarnaPaymentsPaymentHandler::class,
             'afterOrderEnabled' => true,
+            'name'              => 'Klarna Pay Later',
             'translations'      => [
                 'de-DE' => [
                     'name' => 'Klarna Rechnung',
@@ -95,6 +97,7 @@ class PaymentMethodInstaller implements InstallerInterface
             'id'                => self::KLARNA_FINANCING,
             'handlerIdentifier' => KlarnaPaymentsPaymentHandler::class,
             'afterOrderEnabled' => true,
+            'name'              => 'Klarna Financing',
             'translations'      => [
                 'de-DE' => [
                     'name' => 'Klarna Ratenkauf',
@@ -108,6 +111,7 @@ class PaymentMethodInstaller implements InstallerInterface
             'id'                => self::KLARNA_DIRECT_DEBIT,
             'handlerIdentifier' => KlarnaPaymentsPaymentHandler::class,
             'afterOrderEnabled' => true,
+            'name'              => 'Klarna Direct Debit',
             'translations'      => [
                 'de-DE' => [
                     'name' => 'Klarna Lastschrift',
@@ -121,6 +125,7 @@ class PaymentMethodInstaller implements InstallerInterface
             'id'                => self::KLARNA_DIRECT_BANK_TRANSFER,
             'handlerIdentifier' => KlarnaPaymentsPaymentHandler::class,
             'afterOrderEnabled' => true,
+            'name'              => 'Klarna Online Bank Transfer',
             'translations'      => [
                 'de-DE' => [
                     'name' => 'Klarna Sofortüberweisung',
@@ -133,6 +138,7 @@ class PaymentMethodInstaller implements InstallerInterface
         self::KLARNA_INSTANT_SHOPPING => [
             'id'                => self::KLARNA_INSTANT_SHOPPING,
             'handlerIdentifier' => KlarnaInstantShoppingPaymentHandler::class,
+            'name'              => 'Klarna Instant Shopping',
             'translations'      => [
                 'de-DE' => [
                     'name' => 'Klarna Instant Shopping',
@@ -147,6 +153,7 @@ class PaymentMethodInstaller implements InstallerInterface
             'id'                => self::KLARNA_CREDIT_CARD,
             'handlerIdentifier' => KlarnaPaymentsPaymentHandler::class,
             'afterOrderEnabled' => true,
+            'name'              => 'Klarna Credit Card',
             'translations'      => [
                 'de-DE' => [
                     'name' => 'Klarna Kreditkarte',
@@ -160,6 +167,7 @@ class PaymentMethodInstaller implements InstallerInterface
             'id'                => self::KLARNA_PAY_NOW,
             'handlerIdentifier' => KlarnaPaymentsPaymentHandler::class,
             'afterOrderEnabled' => true,
+            'name'              => 'Klarna Pay Now',
             'translations'      => [
                 'de-DE' => [
                     'name' => 'Klarna Sofort bezahlen',
@@ -177,10 +185,20 @@ class PaymentMethodInstaller implements InstallerInterface
     /** @var PluginIdProvider */
     private $pluginIdProvider;
 
-    public function __construct(ContainerInterface $container)
-    {
-        $this->paymentMethodRepository = $container->get('payment_method.repository');
-        $this->pluginIdProvider        = $container->get(PluginIdProvider::class);
+    /** @var LanguageProvider */
+    private $languageProvider;
+
+    /** @var null|array */
+    private $availableLanguageCodes;
+
+    public function __construct(
+        EntityRepositoryInterface $paymentMethodRepository,
+        PluginIdProvider $pluginIdProvider,
+        LanguageProvider $languageProvider
+    ) {
+        $this->paymentMethodRepository = $paymentMethodRepository;
+        $this->languageProvider        = $languageProvider;
+        $this->pluginIdProvider        = $pluginIdProvider;
     }
 
     /**
@@ -188,10 +206,6 @@ class PaymentMethodInstaller implements InstallerInterface
      */
     public function install(InstallContext $context): void
     {
-        if (empty(self::PAYMENT_METHODS)) {
-            return;
-        }
-
         foreach (self::PAYMENT_METHODS as $paymentMethod) {
             $this->upsertPaymentMethod($paymentMethod, $context->getContext());
         }
@@ -202,10 +216,6 @@ class PaymentMethodInstaller implements InstallerInterface
      */
     public function update(UpdateContext $context): void
     {
-        if (empty(self::PAYMENT_METHODS)) {
-            return;
-        }
-
         foreach (self::PAYMENT_METHODS as $paymentMethod) {
             $this->upsertPaymentMethod($paymentMethod, $context->getContext());
         }
@@ -222,10 +232,6 @@ class PaymentMethodInstaller implements InstallerInterface
      */
     public function uninstall(UninstallContext $context): void
     {
-        if (empty(self::PAYMENT_METHODS)) {
-            return;
-        }
-
         foreach (self::PAYMENT_METHODS as $paymentMethod) {
             $this->setPaymentMethodStatus($paymentMethod, false, $context->getContext());
         }
@@ -244,10 +250,6 @@ class PaymentMethodInstaller implements InstallerInterface
      */
     public function deactivate(DeactivateContext $context): void
     {
-        if (empty(self::PAYMENT_METHODS)) {
-            return;
-        }
-
         foreach (self::PAYMENT_METHODS as $paymentMethod) {
             $this->setPaymentMethodStatus($paymentMethod, false, $context->getContext());
         }
@@ -255,10 +257,16 @@ class PaymentMethodInstaller implements InstallerInterface
 
     private function upsertPaymentMethod(array $paymentMethod, Context $context): void
     {
+        if ($this->availableLanguageCodes === null) {
+            $this->availableLanguageCodes = $this->languageProvider->getAvailableLanguageCodes($context);
+        }
+
         $pluginId                  = $this->pluginIdProvider->getPluginIdByBaseClass(KlarnaPayment::class, $context);
         $paymentMethod['pluginId'] = $pluginId;
 
         $context->scope(Context::SYSTEM_SCOPE, function (Context $context) use ($paymentMethod): void {
+            $paymentMethod = $this->removeUnsupportedLanguagesFromPaymentMethod($paymentMethod);
+
             $this->paymentMethodRepository->upsert([$paymentMethod], $context);
         });
     }
@@ -287,5 +295,20 @@ class PaymentMethodInstaller implements InstallerInterface
         $context->scope(Context::SYSTEM_SCOPE, function (Context $context): void {
             $this->paymentMethodRepository->delete([['id' => self::KLARNA_CHECKOUT]], $context);
         });
+    }
+
+    private function removeUnsupportedLanguagesFromPaymentMethod(array $paymentMethod): array
+    {
+        $availablePaymentMethodTranslations = array_filter($paymentMethod['translations'], function ($localeCode) {
+            if ($this->availableLanguageCodes === null || !in_array($localeCode, $this->availableLanguageCodes, true)) {
+                return null;
+            }
+
+            return true;
+        }, ARRAY_FILTER_USE_KEY);
+
+        $paymentMethod['translations'] = $availablePaymentMethodTranslations;
+
+        return $paymentMethod;
     }
 }

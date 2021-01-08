@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace KlarnaPayment\Core\System\SystemConfig;
 
-use KlarnaPayment\Installer\PaymentMethodInstaller;
+use KlarnaPayment\Installer\Modules\PaymentMethodInstaller;
 use Shopware\Core\Framework\Bundle;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;

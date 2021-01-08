@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace KlarnaPayment\Components\Helper\PaymentHelper;
 
-use KlarnaPayment\Installer\PaymentMethodInstaller;
+use KlarnaPayment\Installer\Modules\PaymentMethodInstaller;
 use LogicException;
 use Shopware\Core\Checkout\Payment\PaymentMethodEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;

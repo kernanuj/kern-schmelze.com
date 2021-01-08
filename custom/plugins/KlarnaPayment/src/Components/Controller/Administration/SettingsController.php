@@ -51,37 +51,28 @@ class SettingsController extends AbstractController
      */
     public function validateCredentials(RequestDataBag $dataBag, Context $context): JsonResponse
     {
-        $liveError = false;
-        $testError = false;
+        $testMode = $dataBag->get('testMode', false);
 
-        $liveCredentialsValid = $this->validate(
-            $dataBag->get('apiUsername', ''),
-            $dataBag->get('apiPassword', ''),
-            false,
-            $dataBag->get('salesChannel'),
-            $context
-        );
-
-        if (!$liveCredentialsValid) {
-            $liveError = true;
-        }
-
-        if ($dataBag->get('testMode', false)) {
-            $testCredentialsValid = $this->validate(
+        if ($testMode === false) {
+            $credentialsValid = $this->validate(
+                $dataBag->get('apiUsername', ''),
+                $dataBag->get('apiPassword', ''),
+                false,
+                $dataBag->get('salesChannel'),
+                $context
+            );
+        } else {
+            $credentialsValid = $this->validate(
                 $dataBag->get('testApiUsername', ''),
                 $dataBag->get('testApiPassword', ''),
                 true,
                 $dataBag->get('salesChannel'),
                 $context
             );
-
-            if (!$testCredentialsValid) {
-                $testError = true;
-            }
         }
 
-        if ($liveError || $testError) {
-            return new JsonResponse(['status' => 'error', 'live' => $liveError, 'test' => $testError], 400);
+        if (!$credentialsValid) {
+            return new JsonResponse(['status' => 'error', 'mode' => $testMode ? 'test' : 'live'], 400);
         }
 
         return new JsonResponse(['status' => 'success'], 200);

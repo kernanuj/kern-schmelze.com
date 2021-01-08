@@ -53,6 +53,7 @@
                         salesChannelSwitchable
                         inherit
                         @config-changed="onConfigChange"
+                        @saleschannel-changed="setSalesChannelDomainsWithoutHttps"
                         domain="KlarnaPayment.settings">
                         <template #card-element="{ element, config }">
                             <div v-show="displayField(element, config)">
@@ -66,17 +67,29 @@
                                             </li>
                                             <li>
                                                 <h3>{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.sliceIt.title') }}</h3>
-                                                <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.png" :title="$tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title')" :alt="$tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title')"/>
+                                                <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.png" :title="$tc('klarna-payment-configuration.settingsForm.klarnaPayments.sliceIt.title')" :alt="$tc('klarna-payment-configuration.settingsForm.klarnaPayments.sliceIt.title')"/>
                                                 <p>{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.sliceIt.description') }}</p>
                                             </li>
                                             <li>
                                                 <h3>{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.payNow.title') }}</h3>
-                                                <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.png" :title="$tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title')" :alt="$tc('klarna-payment-configuration.settingsForm.klarnaPayments.payLater.title')"/>
+                                                <img src="https://x.klarnacdn.net/payment-method/assets/badges/generic/klarna.png" :title="$tc('klarna-payment-configuration.settingsForm.klarnaPayments.payNow.title')" :alt="$tc('klarna-payment-configuration.settingsForm.klarnaPayments.payNow.title')"/>
                                                 <p>{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.payNow.description') }}</p>
                                                 <p><sw-icon name="default-badge-info" small color="#3498db"></sw-icon> {{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.payNow.additional') }}</p>
                                             </li>
                                         </ul>
                                     </div>
+                                </sw-container>
+
+                                <sw-container v-if="element.name.endsWith('termsCategory') && salesChannelDomainsWithoutHttps.length > 0">
+                                    <sw-alert variant="warning" appearance="default" :showIcon="true" :closable="false">
+                                        <p>{{ $tc('klarna-payment-configuration.settingsForm.klarnaPayments.instantShopping.domainsWithoutHttps', salesChannelDomainsWithoutHttps.length, { domains: salesChannelDomainsWithoutHttps }) }}</p>
+                                        <ul v-if="salesChannelDomainsWithoutHttps.length > 1">
+                                            <li v-for="domain in salesChannelDomainsWithoutHttps">
+                                                {{ domain }}
+                                            </li>
+                                        </ul>
+                                        <p>{{ $t('klarna-payment-configuration.settingsForm.klarnaPayments.instantShopping.domainsWithoutHttpsRecommendation') }}</p>
+                                    </sw-alert>
                                 </sw-container>
 
                                 <sw-form-field-renderer
@@ -149,6 +162,13 @@
                                     }"
                                     v-model="config[element.name]"
                                     v-else-if="element.name.endsWith('externalCheckouts')">
+                                </sw-form-field-renderer>
+
+                                <sw-form-field-renderer
+                                    v-bind="getBind(element, config)"
+                                    v-model.trim="config[element.name]"
+                                    :disabled="disableField(element)"
+                                    v-else-if="element.name.endsWith('Username') || element.name.endsWith('Password')">
                                 </sw-form-field-renderer>
 
                                 <sw-form-field-renderer

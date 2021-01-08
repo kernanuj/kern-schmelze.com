@@ -48,10 +48,22 @@ class GetOrderResponseHydrator implements GetOrderResponseHydratorInterface
             'remainingAmount'      => $order['remaining_authorized_amount'],
             'refundedAmount'       => $order['refunded_amount'],
             'orderLines'           => $this->hydrateOrderLines($order, $precision),
+            'lastCaptureId'        => $this->getLastCaptureId($order),
             'initialPaymentMethod' => $order['initial_payment_method']['description'],
         ]);
 
         return $response;
+    }
+
+    private function getLastCaptureId(array $order): ?string
+    {
+        if (!array_key_exists('captures', $order) || empty($order['captures'])) {
+            return null;
+        }
+
+        $lastCapture = end($order['captures']);
+
+        return $lastCapture['capture_id'];
     }
 
     private function getCurrencyPrecision(string $currency, Context $context): int

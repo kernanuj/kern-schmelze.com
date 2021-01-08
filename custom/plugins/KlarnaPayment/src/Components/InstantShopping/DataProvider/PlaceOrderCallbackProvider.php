@@ -12,7 +12,7 @@ use KlarnaPayment\Components\InstantShopping\ContextHandler\ContextHandlerInterf
 use KlarnaPayment\Components\InstantShopping\CustomerHandler\CustomerHandler;
 use KlarnaPayment\Components\InstantShopping\CustomerHandler\CustomerHandlerInterface;
 use KlarnaPayment\Components\InstantShopping\OrderHandler\OrderHandlerInterface;
-use KlarnaPayment\Installer\PaymentMethodInstaller;
+use KlarnaPayment\Installer\Modules\PaymentMethodInstaller;
 use LogicException;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\SalesChannel\CartService;

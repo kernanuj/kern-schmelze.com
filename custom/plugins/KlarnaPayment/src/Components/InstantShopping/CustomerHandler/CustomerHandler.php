@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace KlarnaPayment\Components\InstantShopping\CustomerHandler;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\Instantiator\Exception\UnexpectedValueException;
 use KlarnaPayment\Components\Extension\GuestCustomerRegistrationExtension;
 use KlarnaPayment\Components\Helper\CurrencyHelper\CurrencyHelperInterface;
 use KlarnaPayment\Components\InstantShopping\ContextHandler\ContextHandlerInterface;
+use LogicException;
 use Shopware\Core\Checkout\Customer\Aggregate\CustomerAddress\CustomerAddressEntity;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Customer\Exception\CustomerNotFoundException;
@@ -34,9 +34,12 @@ class CustomerHandler implements CustomerHandlerInterface
     public const KLARNA_INSTANT_SHOPPING_TEMPORARY_IDENTIFYING_VALUE = '0e9d7933f84244879a78acfc5b8a8d99';
     public const TEMPORARY_ZIP                                       = 'Example ZIP';
 
-    private const TEMPORARY_LAST_NAME = 'Klarna Guest Account';
-    private const TEMPORARY_STREET    = 'Examplestreet 314';
-    private const TEMPORARY_CITY      = 'Example City';
+    private const TEMPORARY_LAST_NAME         = 'Klarna Guest Account';
+    private const TEMPORARY_STREET            = 'Examplestreet 314';
+    private const TEMPORARY_CITY              = 'Example City';
+    private const TEMPORARY_PHONE_NUMBER      = '01234567890';
+    private const TEMPORARY_ADDITIONAL_LINE_1 = 'Additional 1';
+    private const TEMPORARY_ADDITIONAL_LINE_2 = 'Additional 2';
 
     /** @var EntityRepositoryInterface */
     private $countryRepository;
@@ -132,6 +135,8 @@ class CustomerHandler implements CustomerHandlerInterface
             $gender = $customerData['gender'];
         }
 
+        $this->setDefaultValuesForRequiredFields($billingAddress, $shippingAddress);
+
         // Caution: Addresses can be as little as just the country and postal code
         $data = [
             'salutationId'   => $this->getSalutationIdByGender($gender, $context),
@@ -152,7 +157,7 @@ class CustomerHandler implements CustomerHandlerInterface
                 'phoneNumber'            => array_key_exists('phone', $billingAddress) ? $billingAddress['phone'] : '',
                 'vatId'                  => '',
                 'additionalAddressLine1' => array_key_exists('street_address2', $billingAddress) ? $billingAddress['street_address2'] : '',
-                'additionalAddressLine2' => '',
+                'additionalAddressLine2' => array_key_exists('additional_address_line_2', $billingAddress) ? $billingAddress['additional_address_line_2'] : '',
             ]),
             'shippingAddress' => new DataBag([
                 'salutationId'           => $this->getSalutationIdByGender($gender, $context),
@@ -164,7 +169,7 @@ class CustomerHandler implements CustomerHandlerInterface
                 'city'                   => array_key_exists('city', $shippingAddress) ? $shippingAddress['city'] : self::TEMPORARY_CITY,
                 'phoneNumber'            => array_key_exists('phone', $shippingAddress) ? $shippingAddress['phone'] : '',
                 'additionalAddressLine1' => array_key_exists('street_address2', $shippingAddress) ? $shippingAddress['street_address2'] : '',
-                'additionalAddressLine2' => '',
+                'additionalAddressLine2' => array_key_exists('additional_address_line_2', $shippingAddress) ? $shippingAddress['additional_address_line_2'] : '',
             ]),
         ];
 
@@ -408,7 +413,7 @@ class CustomerHandler implements CustomerHandlerInterface
         $salutation = $this->salutationRepository->search($criteria, $context->getContext())->first();
 
         if (empty($salutation)) {
-            throw new UnexpectedValueException('Salutation not found');
+            throw new LogicException(sprintf('Salutation %s not found', $search));
         }
 
         return $salutation->getId();
@@ -436,5 +441,38 @@ class CustomerHandler implements CustomerHandlerInterface
     private function isGuestCustomer(CustomerEntity $customer): bool
     {
         return $customer->getFirstName() === self::KLARNA_INSTANT_SHOPPING_TEMPORARY_IDENTIFYING_VALUE;
+    }
+
+    private function setDefaultValuesForRequiredFields(array &$billingAddress, array &$shippingAddress): void
+    {
+        if ($this->systemConfigService->get('core.loginRegistration.phoneNumberFieldRequired')) {
+            if (!array_key_exists('phone', $billingAddress)) {
+                $billingAddress['phone'] = self::TEMPORARY_PHONE_NUMBER;
+            }
+
+            if (!array_key_exists('phone', $shippingAddress)) {
+                $shippingAddress['phone'] = self::TEMPORARY_PHONE_NUMBER;
+            }
+        }
+
+        if ($this->systemConfigService->get('core.loginRegistration.additionalAddressField1Required')) {
+            if (!array_key_exists('street_address2', $billingAddress)) {
+                $billingAddress['street_address2'] = self::TEMPORARY_ADDITIONAL_LINE_1;
+            }
+
+            if (!array_key_exists('street_address2', $shippingAddress)) {
+                $shippingAddress['street_address2'] = self::TEMPORARY_ADDITIONAL_LINE_1;
+            }
+        }
+
+        if ($this->systemConfigService->get('core.loginRegistration.additionalAddressField2Required')) {
+            if (!array_key_exists('additional_address_line_2', $billingAddress)) {
+                $billingAddress['additional_address_line_2'] = self::TEMPORARY_ADDITIONAL_LINE_2;
+            }
+
+            if (!array_key_exists('additional_address_line_2', $shippingAddress)) {
+                $shippingAddress['additional_address_line_2'] = self::TEMPORARY_ADDITIONAL_LINE_2;
+            }
+        }
     }
 }

@@ -26,7 +26,8 @@ Component.register('klarna-payment-settings', {
             config: {},
             paymentMethods: [],
             externalCheckoutPaymentMethods: [],
-            configDomain: 'KlarnaPayment.settings.'
+            configDomain: 'KlarnaPayment.settings.',
+            salesChannelDomainsWithoutHttps: []
         };
     },
 
@@ -43,12 +44,18 @@ Component.register('klarna-payment-settings', {
     computed: {
         paymentMethodRepository() {
             return this.repositoryFactory.create('payment_method');
+        },
+
+        salesChannelDomainRepository() {
+            return this.repositoryFactory.create('sales_channel_domain');
         }
     },
 
     methods: {
         createdComponent() {
             const me = this;
+
+            this.setSalesChannelDomainsWithoutHttps();
 
             this.paymentMethodRepository.search(new Criteria(), Context.api).then((searchResult) => {
                 searchResult.forEach(((paymentMethod) => {
@@ -63,6 +70,25 @@ Component.register('klarna-payment-settings', {
                             label: paymentMethod.name
                         });
                     }
+                }));
+            });
+        },
+
+        setSalesChannelDomainsWithoutHttps() {
+            const me = this;
+
+            let criteria = new Criteria();
+            criteria.addFilter(Criteria.not('AND', [Criteria.contains('url', 'https://')]));
+
+            if (this.$refs.systemConfig && this.$refs.systemConfig.currentSalesChannelId) {
+                criteria.addFilter(Criteria.equals('salesChannelId', this.$refs.systemConfig.currentSalesChannelId));
+            }
+
+            me.salesChannelDomainsWithoutHttps = [];
+
+            this.salesChannelDomainRepository.search(criteria, Context.api).then((searchResult) => {
+                searchResult.forEach(((salesChannelDomain) => {
+                    me.salesChannelDomainsWithoutHttps.push(salesChannelDomain.url);
                 }));
             });
         },
@@ -104,14 +130,12 @@ Component.register('klarna-payment-settings', {
 
                 this.isTestSuccessful = true;
             }).catch((errorResponse) => {
-                if (errorResponse.response.data.live) {
+                if (errorResponse.response.data.mode === 'live') {
                     this.createNotificationError({
                         title: this.$tc('klarna-payment-configuration.settingsForm.messages.titleError'),
                         message: this.$tc('klarna-payment-configuration.settingsForm.messages.messageTestErrorLive')
                     });
-                }
-
-                if (errorResponse.response.data.test) {
+                } else {
                     this.createNotificationError({
                         title: this.$tc('klarna-payment-configuration.settingsForm.messages.titleError'),
                         message: this.$tc('klarna-payment-configuration.settingsForm.messages.messageTestErrorTest')
@@ -125,6 +149,11 @@ Component.register('klarna-payment-settings', {
         onSave() {
             this.isSaveSuccessful = false;
             this.isLoading = true;
+
+            if(!this.validateCredentials()) {
+                this.isLoading = false;
+                return;
+            }
 
             this.$refs.systemConfig.saveAll().then(() => {
                 this.createNotificationSuccess({
@@ -156,6 +185,41 @@ Component.register('klarna-payment-settings', {
             }).finally(() => {
                 this.isLoading = false;
             });
+        },
+
+        validateCredentials() {
+            const testMode = this.getConfigValue('testMode');
+            let apiUsername = '';
+            let apiPassword = '';
+            let isValid = true;
+
+            if(testMode) {
+                apiUsername = this.getConfigValue('testApiUsername');
+                apiPassword = this.getConfigValue('testApiPassword');
+            } else {
+                apiUsername = this.getConfigValue('apiUsername');
+                apiPassword = this.getConfigValue('apiPassword');
+            }
+
+            if(!apiUsername) {
+                this.createNotificationError({
+                    title: this.$tc('klarna-payment-configuration.settingsForm.messages.titleError'),
+                    message: this.$tc('klarna-payment-configuration.settingsForm.messages.messageMissingApiUsername')
+                });
+
+                isValid = false;
+            }
+
+            if(!apiPassword) {
+                this.createNotificationError({
+                    title: this.$tc('klarna-payment-configuration.settingsForm.messages.titleError'),
+                    message: this.$tc('klarna-payment-configuration.settingsForm.messages.messageMissingApiPassword')
+                });
+
+                isValid = false;
+            }
+
+            return isValid;
         },
 
         onConfigChange(config) {

@@ -52,6 +52,9 @@ class GetOrderResponse extends GenericResponse
     /** @var string */
     protected $initialPaymentMethod;
 
+    /** @var string */
+    protected $lastCaptureId;
+
     public function getOrderId(): string
     {
         return $this->orderId;
@@ -120,6 +123,11 @@ class GetOrderResponse extends GenericResponse
     public function getInitialPaymentMethod(): string
     {
         return $this->initialPaymentMethod;
+    }
+
+    public function getLastCaptureId(): string
+    {
+        return $this->lastCaptureId;
     }
 
     public function jsonSerialize(): array

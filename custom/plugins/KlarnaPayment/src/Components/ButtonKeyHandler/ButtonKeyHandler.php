@@ -13,6 +13,7 @@ use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\ContainsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SalesChannel\Aggregate\SalesChannelDomain\SalesChannelDomainCollection;
@@ -133,7 +134,9 @@ class ButtonKeyHandler implements ButtonKeyHandlerInterface
     public function createButtonKeysBySalesChannelId(string $salesChannelId, Context $context): void
     {
         $salesChannelDomainCriteria = new Criteria();
-        $salesChannelDomainCriteria->addFilter(new EqualsFilter('salesChannelId', $salesChannelId));
+        $salesChannelDomainCriteria
+            ->addFilter(new EqualsFilter('salesChannelId', $salesChannelId))
+            ->addFilter(new ContainsFilter('url', 'https://'));
 
         $salesChannelDomains = $this->salesChannelDomainRepository->search($salesChannelDomainCriteria, $context);
 
@@ -174,8 +177,11 @@ class ButtonKeyHandler implements ButtonKeyHandlerInterface
 
     public function createButtonKeysForAllDomains(Context $context): void
     {
+        $criteria = new Criteria();
+        $criteria->addFilter(new ContainsFilter('url', 'https://'));
+
         /** @var SalesChannelDomainEntity $salesChannelDomain */
-        foreach ($this->salesChannelDomainRepository->search(new Criteria(), $context)->getElements() as $salesChannelDomain) {
+        foreach ($this->salesChannelDomainRepository->search($criteria, $context)->getElements() as $salesChannelDomain) {
             $this->createButtonKeysBySalesChannelDomainId($salesChannelDomain->getId(), $context);
         }
     }

@@ -1,3 +1,37 @@
+# 1.3.7
+- Fix plugin configuration value errors
+- Please note: There are known erroneous configuration behaviours with sales channel inheritance in the documentation
+
+# 1.3.6
+- Improve error handling for Instant Shopping
+- Fix missing labels in plugin configuration
+- Added note in documentation (https://klarna.pluginwerk.de/en/1-3/index.html#h-translation-of-the-payment-methods) about translation of payment methods.
+
+# 1.3.5
+- Add default name for payment methods for the installation with a different system language
+
+# 1.3.4
+- Fix handling of promotions in cart
+
+# 1.3.3
+- Fix automatic package of zip archive to include compiled files again
+- Fix use of wrong exception class
+
+# 1.3.2
+- Fix styling issues of the Instant Shopping button
+- Fix error on updating order when order has been captured
+- Improve performance in checkout and order update
+
+# 1.3.1
+- Fix error when selecting an order from the search results
+
+# 1.3.0
+- Add locale and currency to the rule for available Klarna payment methods in the checkout
+- Send shipping tracking information to the Klarna merchant portal  
+- Fix error during installation if a language could not be found
+- Fix Instant Shopping for guests with activated required registration settings
+- Optimize validation of API credentials
+
 # 1.2.1
 - Fix delivery information display on detail pages
 - Fix administration order updates for non-Klarna orders

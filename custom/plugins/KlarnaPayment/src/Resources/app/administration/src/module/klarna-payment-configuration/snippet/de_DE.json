@@ -14,7 +14,9 @@
         "messageTestErrorTest": "Die API-Zugangsdaten des Testmodus konnten nicht validiert werden.",
         "messageSaveSuccess": "Die Plugin-Einstellungen wurden gespeichert.",
         "messageSaveError": "Die Plugin-Einstellungen konnten nicht gespeichert werden.",
-        "messageButtonKeyCreateError": "Beim Erstellen der Instant Shopping Button-Keys ist ein Fehler \"{code}\" aufgetreten: {message}"
+        "messageButtonKeyCreateError": "Beim Erstellen der Instant Shopping Button-Keys ist ein Fehler \"{code}\" aufgetreten: {message}",
+        "messageMissingApiUsername": "Für den aktiven Modus wurde kein Wert für die Option \"Api-Benutzername\" angegeben!",
+        "messageMissingApiPassword": "Für den aktiven Modus wurde kein Wert für die Option \"Api-Password\" angegeben!"
       },
       "buttons": {
         "save": "Einstellungen speichern",
@@ -39,6 +41,10 @@
           "additional": "Für \"Sofort bezahlen\" müssen sowohl die kombinierte Zahlungsmethode \"Sofort bezahlen\" als auch die einzelnen Zahlungsmethoden \"Kreditkarte\", \"Lastschrift\" und \"Sofortüberweisung\" zu den Verkaufskanälen hinzugefügt werden.",
           "description": "Kunden, die Beträge sofort vollständig beim Bestellabschluss bezahlen möchten, können die Option \"Sofort bezahlen\" nutzen. Zur Auswahl stehen hierbei Kreditkarte, Lastschrift und die Sofortüberweisung.",
           "title": "Sofort bezahlen"
+        },
+        "instantShopping": {
+          "domainsWithoutHttps": "Die Domain {domains} kann nicht für Instant Shopping verwendet werden.|Folgende Domains können nicht für Instant Shopping verwendet werden:",
+          "domainsWithoutHttpsRecommendation": "Bitte konfigurieren Sie Ihren Shop so das dieser nur per HTTPS erreichbar ist und entfernen Sie alle HTTP-Domains von Ihren Verkaufskanälen."
         }
       }
     },

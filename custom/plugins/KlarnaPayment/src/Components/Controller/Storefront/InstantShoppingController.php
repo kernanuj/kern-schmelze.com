@@ -28,7 +28,7 @@ use KlarnaPayment\Components\InstantShopping\DataProvider\PlaceOrderCallbackProv
 use KlarnaPayment\Components\InstantShopping\DataProvider\UpdateCallbackProviderInterface;
 use KlarnaPayment\Components\InstantShopping\DataProvider\UpdateDataProviderInterface;
 use KlarnaPayment\Components\InstantShopping\MerchantDataProvider\MerchantDataProviderInterface;
-use KlarnaPayment\Installer\RuleInstaller;
+use KlarnaPayment\Installer\Modules\RuleInstaller;
 use LogicException;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\Cart;
@@ -652,7 +652,7 @@ class InstantShoppingController extends StorefrontController
         $salesChannelCountries = $salesChannel->getCountries() !== null ? $salesChannel->getCountries()->getElements() : [];
 
         foreach ($salesChannelCountries as $country) {
-            if (!in_array($country->getIso(), RuleInstaller::VALID_COUNTRIES, true)) {
+            if (!in_array($country->getIso(), array_keys(RuleInstaller::AVAIBILITY_CONDITIONS), true)) {
                 continue;
             }
 
