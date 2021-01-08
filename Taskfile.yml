@@ -88,6 +88,11 @@ tasks:
             - cp {{.PERMANENT_SOURCES_DIR}}/.htaccess {{.SOFTWARE_BASE_DIR}}public
             - echo '.htaccess copied from {{.PERMANENT_SOURCES_DIR}} to {{.SOFTWARE_BASE_DIR}}public'
 
+            - rm -rf {{.SOFTWARE_BASE_DIR}}files
+            - echo '{{.SOFTWARE_BASE_DIR}}files deleted.'
+            - ln -s {{.PERMANENT_SOURCES_DIR}}/files {{.SOFTWARE_BASE_DIR}};
+            - echo 'Symlink from {{.SOFTWARE_BASE_DIR}}files to {{.PERMANENT_SOURCES_DIR}}public/files created.'
+
             #- cp -r {{.PERMANENT_SOURCES_DIR}}/thumbnail/ "{{.SOFTWARE_BASE_DIR}}public/"
             #- echo "Copied /thumbnails to it's location."
         silent: true
@@ -150,3 +155,7 @@ tasks:
             - echo '-------------------------'
             - echo 'All tasks finished.'
         silent: true
+
+
+
+
