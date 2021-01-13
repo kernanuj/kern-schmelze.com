@@ -31,3 +31,6 @@
 - Fixed a bug where the browser scrolles to the top of the listing as soon as a new page is loaded
 - Fixed a bug where the product boxes append to the listing after sorting
 - Fixed a bug where listing ajax was called twice after sorting
+
+# 1.0.10
+- Fixed a bug where the navigation box to appear multiple times in mobile

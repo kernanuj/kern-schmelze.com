@@ -72,7 +72,7 @@ export default class SwagCmsExtensionsScrollNavigation extends Plugin {
          * @type {Object}
          */
         observerOptions: {
-            rootMargin: '-20% 0% -60% 0%'
+            rootMargin: '-10% 0% -60% 0%'
         },
 
         /**
@@ -93,25 +93,30 @@ export default class SwagCmsExtensionsScrollNavigation extends Plugin {
         const anchoredSections = DomAccess.querySelectorAll(document, this.options.anchoredSectionsSelector);
         this.anchoredSections = anchoredSections;
         this.navigationList = DomAccess.querySelector(this.sidebar, this.options.navigationListSelector);
+        this.smoothScrollingEnabled = this.options.pageSettings && this.options.pageSettings.active;
 
-        if (this.options.pageSettings.active === true) {
-            this.enableSmoothScrolling(this.navigationList);
-        }
+        this.enableSmoothScrolling(this.navigationList);
         this.registerObserver(anchoredSections);
     }
 
     /**
-     * Iterates through the provided navigationList entries and enabled smooth scrolling for them
+     * Iterates through the provided navigationList entries and enables smooth scrolling for them
      *
      * @param {Element} navigationList
      * @returns {void}
      */
     enableSmoothScrolling(navigationList) {
-        this.scrollHelper = new ScrollHelper(
-            this.options.pageSettings.easing,
-            this.options.pageSettings.easingDegree,
-            this.options.pageSettings.bouncy
-        );
+        if (!this.smoothScrollingEnabled) {
+            this.scrollHelper = new ScrollHelper(
+                'none'
+            );
+        } else {
+            this.scrollHelper = new ScrollHelper(
+                this.options.pageSettings.easing,
+                this.options.pageSettings.easingDegree,
+                this.options.pageSettings.bouncy
+            );
+        }
 
         const links = DomAccess.querySelectorAll(navigationList, this.options.entrySelector);
         links.forEach((entry) => {
@@ -171,8 +176,13 @@ export default class SwagCmsExtensionsScrollNavigation extends Plugin {
      */
     performSmoothScrolling(hash) {
         const target = DomAccess.querySelector(document, hash);
+        let duration = 1;
 
-        this.scrollHelper.scrollIntoView(target, this.options.pageSettings.duration).then((promiseIteration) => {
+        if (this.smoothScrollingEnabled) {
+            duration = this.options.pageSettings.duration;
+        }
+
+        this.scrollHelper.scrollIntoView(target, duration).then((promiseIteration) => {
             // Only set the location hash, if this promise is returned by the newest scrolling process
             if (promiseIteration === ScrollHelper.currentIteration) {
                 window.location.hash = hash;
@@ -192,6 +202,7 @@ export default class SwagCmsExtensionsScrollNavigation extends Plugin {
         if (!intersectingSection || !intersectingSection.target) {
             return false;
         }
+
         const target = intersectingSection.target;
 
         return this.setActiveNavigationItem(target);

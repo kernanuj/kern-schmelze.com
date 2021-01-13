@@ -7,6 +7,7 @@
 
 namespace Swag\CmsExtensions\Storefront\Pagelet\Quickview;
 
+use Shopware\Core\Content\Product\SalesChannel\Detail\ProductDetailRoute;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
@@ -14,7 +15,6 @@ use Shopware\Core\Framework\Routing\Exception\MissingRequestParameterException;
 use Shopware\Core\System\SalesChannel\Entity\SalesChannelRepositoryInterface;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Page\Product\Configurator\ProductPageConfiguratorLoader;
-use Shopware\Storefront\Page\Product\ProductLoader;
 use Shopware\Storefront\Page\Product\Review\ProductReviewLoader;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,9 +27,9 @@ class QuickviewPageletLoader implements QuickviewPageletLoaderInterface
     protected $eventDispatcher;
 
     /**
-     * @var ProductLoader
+     * @var ProductDetailRoute
      */
-    protected $productLoader;
+    protected $productDetailRoute;
 
     /**
      * @var ProductReviewLoader
@@ -48,13 +48,13 @@ class QuickviewPageletLoader implements QuickviewPageletLoaderInterface
 
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
-        ProductLoader $productLoader,
+        ProductDetailRoute $productDetailRoute,
         ProductReviewLoader $productReviewLoader,
         ProductPageConfiguratorLoader $productPageConfiguratorLoader,
         SalesChannelRepositoryInterface $productRepository
     ) {
         $this->eventDispatcher = $eventDispatcher;
-        $this->productLoader = $productLoader;
+        $this->productDetailRoute = $productDetailRoute;
         $this->productReviewLoader = $productReviewLoader;
         $this->productPageConfiguratorLoader = $productPageConfiguratorLoader;
         $this->productRepository = $productRepository;
@@ -62,7 +62,25 @@ class QuickviewPageletLoader implements QuickviewPageletLoaderInterface
 
     public function load(Request $request, SalesChannelContext $salesChannelContext): QuickviewPageletInterface
     {
-        $product = $this->productLoader->load($this->getProductId($request, $salesChannelContext), $salesChannelContext);
+        $criteria = (new Criteria())
+            ->addAssociation('manufacturer.media')
+            ->addAssociation('options.group')
+            ->addAssociation('properties.group')
+            ->addAssociation('mainCategories.category')
+            ->addAssociation('swagCustomizedProductsTemplate.options');
+
+        $criteria
+            ->getAssociation('media')
+            ->addSorting(new FieldSorting('position'));
+
+        $response = $this->productDetailRoute->load(
+            $this->getProductId($request, $salesChannelContext),
+            $request,
+            $salesChannelContext,
+            $criteria
+        );
+
+        $product = $response->getProduct();
 
         $listingProductId = $request->get('productId');
         $reviews = $this->productReviewLoader->load($request, $salesChannelContext);

@@ -6,6 +6,7 @@
                 v-model="swagCmsExtensionsScrollNavigation.active"
                 class="scroll-navigation__anchor-switch"
                 :label="$tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.anchorSwitch')"
+                :disabled="!acl.can('cms.editor')"
                 @change="scrollNavigationActiveChanged">
             </sw-switch-field>
         {% endblock %}
@@ -17,6 +18,7 @@
                 :label="$tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.anchorTitle')"
                 :helpText="$tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.anchorTitleHelpText')"
                 :error="swagCmsExtensionsScrollNavigationDisplayNameError"
+                :disabled="!acl.can('cms.editor')"
                 @change="scrollNavigationActiveChanged">
             </sw-text-field>
         {% endblock %}

@@ -2,7 +2,9 @@
 
 namespace Sendcloud\Shipping\Core\BusinessLogic\Webhook;
 
+use Exception;
 use Sendcloud\Shipping\Core\BusinessLogic\DTO\WebhookDTO;
+use Sendcloud\Shipping\Core\BusinessLogic\DTO\WebhookParcelDTO;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\Configuration;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\Configuration as BaseConfiguration;
 use Sendcloud\Shipping\Core\BusinessLogic\Interfaces\ConnectService;
@@ -10,6 +12,7 @@ use Sendcloud\Shipping\Core\BusinessLogic\Sync\ParcelUpdateTask;
 use Sendcloud\Shipping\Core\Infrastructure\Interfaces\Required\TaskQueueStorage;
 use Sendcloud\Shipping\Core\Infrastructure\Logger\Logger;
 use Sendcloud\Shipping\Core\Infrastructure\ServiceRegister;
+use Sendcloud\Shipping\Core\Infrastructure\TaskExecution\Exceptions\QueueStorageUnavailableException;
 use Sendcloud\Shipping\Core\Infrastructure\TaskExecution\Queue;
 
 /**
@@ -33,7 +36,7 @@ class WebhookEventHandler
      * @param WebhookDTO $webhookDTO SendCloud webhook DTO.
      *
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      * @see https://docs.sendcloud.sc/api/v2/shipping/#webhooks
      */
     public function handle(WebhookDTO $webhookDTO)
@@ -61,12 +64,26 @@ class WebhookEventHandler
     }
 
     /**
+     * Returns an instance of configuration service.
+     *
+     * @return Configuration
+     */
+    protected function getConfiguration()
+    {
+        if (!$this->configuration) {
+            $this->configuration = ServiceRegister::getService(BaseConfiguration::CLASS_NAME);
+        }
+
+        return $this->configuration;
+    }
+
+    /**
      * Queues order status update task.
      *
      * @param WebhookDTO $webhookDTO
      *
-     * @see https://docs.sendcloud.sc/api/v2/shipping/#parcel-status-change
      * @return bool
+     * @see https://docs.sendcloud.sc/api/v2/shipping/#parcel-status-change
      */
     protected function handleParcelStatusAction(WebhookDTO $webhookDTO)
     {
@@ -76,27 +93,52 @@ class WebhookEventHandler
             }
 
             $webhookParcel = $this->getWebhookHelper()->parseParcelPayload($webhookDTO->getBody());
+            $this->enqueueParcelUpdateTask($webhookParcel, $webhookDTO->getContext());
 
-            /** @var Queue $queue */
-            $queue = ServiceRegister::getService(Queue::CLASS_NAME);
-            $queue->enqueue(
-                $this->getConfiguration()->getQueueName(),
-                new ParcelUpdateTask(
-                    $webhookParcel->getShipmentUuid(),
-                    $webhookParcel->getOrderId(),
-                    $webhookParcel->getOrderNumber(),
-                    $webhookParcel->getParcelId(),
-                    $webhookParcel->getTimestamp()
-                ),
-                $webhookDTO->getContext()
-            );
-
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Logger::logError($e->getMessage(), 'Integration');
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * Returns an instance of webhook helper class.
+     *
+     * @return WebhookHelper
+     */
+    protected function getWebhookHelper()
+    {
+        if (!$this->webhookHelper) {
+            $this->webhookHelper = new WebhookHelper();
+        }
+
+        return $this->webhookHelper;
+    }
+
+    /**
+     * Enqueues task for parcel update.
+     *
+     * @param WebhookParcelDTO $webhookParcel
+     * @param string $context
+     * @throws QueueStorageUnavailableException
+     */
+    protected function enqueueParcelUpdateTask(WebhookParcelDTO $webhookParcel, $context)
+    {
+        /** @var Queue $queue */
+        $queue = ServiceRegister::getService(Queue::CLASS_NAME);
+        $queue->enqueue(
+            $this->getConfiguration()->getQueueName(),
+            new ParcelUpdateTask(
+                $webhookParcel->getShipmentUuid(),
+                $webhookParcel->getOrderId(),
+                $webhookParcel->getOrderNumber(),
+                $webhookParcel->getParcelId(),
+                $webhookParcel->getTimestamp()
+            ),
+            $context
+        );
     }
 
     /**
@@ -116,7 +158,7 @@ class WebhookEventHandler
             $webhookIntegration = $this->getWebhookHelper()->parseIntegrationPayload($webhookDTO->getBody());
             $this->getConfiguration()->setServicePointEnabled($webhookIntegration->isServicePointsEnabled());
             $this->getConfiguration()->setCarriers($webhookIntegration->getCarriers());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Logger::logError($e->getMessage(), 'Integration');
             return false;
         }
@@ -159,8 +201,8 @@ class WebhookEventHandler
      *
      * @param WebhookDTO $webhookDTO
      *
-     * @see https://docs.sendcloud.sc/api/v2/shipping/#integration-connected
      * @return bool
+     * @see https://docs.sendcloud.sc/api/v2/shipping/#integration-connected
      */
     protected function handleIntegrationCredentials(WebhookDTO $webhookDTO)
     {
@@ -174,7 +216,7 @@ class WebhookEventHandler
                 $connectService->initializeConnection($credentials);
             }
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Logger::logError($e->getMessage(), 'Integration');
             $this->getConfiguration()->resetAuthorizationCredentials();
             $success = false;
@@ -182,33 +224,4 @@ class WebhookEventHandler
 
         return $success;
     }
-
-    /**
-     * Returns an instance of configuration service.
-     *
-     * @return Configuration
-     */
-    protected function getConfiguration()
-    {
-        if (!$this->configuration) {
-            $this->configuration = ServiceRegister::getService(BaseConfiguration::CLASS_NAME);
-        }
-
-        return $this->configuration;
-    }
-
-    /**
-     * Returns an instance of webhook helper class.
-     *
-     * @return WebhookHelper
-     */
-    protected function getWebhookHelper()
-    {
-        if (!$this->webhookHelper) {
-            $this->webhookHelper = new WebhookHelper();
-        }
-
-        return $this->webhookHelper;
-    }
-
 }

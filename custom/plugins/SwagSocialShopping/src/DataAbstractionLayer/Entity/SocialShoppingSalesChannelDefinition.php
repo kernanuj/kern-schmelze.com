@@ -28,9 +28,11 @@ use Shopware\Core\System\SalesChannel\SalesChannelDefinition;
 
 class SocialShoppingSalesChannelDefinition extends EntityDefinition
 {
+    public const ENTITY_NAME = 'swag_social_shopping_sales_channel';
+
     public function getEntityName(): string
     {
-        return 'swag_social_shopping_sales_channel';
+        return self::ENTITY_NAME;
     }
 
     public function getEntityClass(): string

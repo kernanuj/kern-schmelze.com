@@ -77,7 +77,7 @@ class DataFeedEventListenerTest extends TestCase
 
         $this->createProductStream();
 
-        $socialShoppingSalesChannel = $this->createSalesChannel(
+        $salesChannel = $this->createSalesChannel(
             [
                 'typeId' => SwagSocialShopping::SALES_CHANNEL_TYPE_SOCIAL_SHOPPING,
                 'socialShoppingSalesChannel' => [
@@ -98,7 +98,7 @@ class DataFeedEventListenerTest extends TestCase
         );
 
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('salesChannelId', $socialShoppingSalesChannel['id']));
+        $criteria->addFilter(new EqualsFilter('salesChannelId', $salesChannel['id']));
 
         /** @var ProductExportEntity|null $productExportEntity */
         $productExportEntity = $this->productExportRepository->search($criteria, $this->context)->first();
@@ -106,7 +106,8 @@ class DataFeedEventListenerTest extends TestCase
         static::assertInstanceOf(ProductExportEntity::class, $productExportEntity);
         static::assertEquals($this->salesChannelDomainId, $productExportEntity->getSalesChannelDomainId());
         static::assertEquals($this->salesChannelId, $productExportEntity->getStorefrontSalesChannelId());
-        static::assertEquals(sprintf('facebook_%s.xml', $socialShoppingSalesChannel['id']), $productExportEntity->getFileName());
+        static::assertEquals(\sprintf('facebook_%s.xml', $salesChannel['id']), $productExportEntity->getFileName());
+        static::assertTrue($productExportEntity->isGenerateByCronjob());
     }
 
     public function testGoogleDataFeedWritten(): void
@@ -130,7 +131,7 @@ class DataFeedEventListenerTest extends TestCase
 
         $this->createProductStream();
 
-        $socialShoppingSalesChannel = $this->createSalesChannel(
+        $salesChannel = $this->createSalesChannel(
             [
                 'typeId' => SwagSocialShopping::SALES_CHANNEL_TYPE_SOCIAL_SHOPPING,
                 'socialShoppingSalesChannel' => [
@@ -142,6 +143,61 @@ class DataFeedEventListenerTest extends TestCase
                     'network' => GoogleShopping::class,
                     'configuration' => [
                         'interval' => 86400,
+                        'generateByCronjob' => false,
+                        'includeVariants' => true,
+                        'defaultGoogleProductCategory' => '12345',
+                    ],
+                ],
+            ]
+        );
+
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('salesChannelId', $salesChannel['id']));
+
+        /** @var ProductExportEntity|null $productExportEntity */
+        $productExportEntity = $this->productExportRepository->search($criteria, $this->context)->first();
+
+        static::assertInstanceOf(ProductExportEntity::class, $productExportEntity);
+        static::assertEquals($this->salesChannelDomainId, $productExportEntity->getSalesChannelDomainId());
+        static::assertEquals($this->salesChannelId, $productExportEntity->getStorefrontSalesChannelId());
+        static::assertEquals(\sprintf('google-shopping_%s.xml', $salesChannel['id']), $productExportEntity->getFileName());
+        static::assertFalse($productExportEntity->isGenerateByCronjob());
+    }
+
+    public function testInactive(): void
+    {
+        $storefrontSalesChannel = $this->createSalesChannel(
+            [
+                'typeId' => Defaults::SALES_CHANNEL_TYPE_STOREFRONT,
+                'domains' => [
+                    [
+                        'id' => $this->salesChannelDomainId,
+                        'currencyId' => Defaults::CURRENCY,
+                        'languageId' => Defaults::LANGUAGE_SYSTEM,
+                        'snippetSetId' => $this->getSnippetSetIdForLocale('en-GB'),
+                        'url' => 'http://test.foo',
+                    ],
+                ],
+            ]
+        );
+
+        $this->salesChannelId = $storefrontSalesChannel['id'];
+
+        $this->createProductStream();
+
+        $salesChannel = $this->createSalesChannel(
+            [
+                'active' => false,
+                'typeId' => SwagSocialShopping::SALES_CHANNEL_TYPE_SOCIAL_SHOPPING,
+                'socialShoppingSalesChannel' => [
+                    'id' => Uuid::randomHex(),
+                    'isValidating' => false,
+                    'productStreamId' => '137b079935714281ba80b40f83f8d7eb',
+                    'currencyId' => Defaults::CURRENCY,
+                    'salesChannelDomainId' => $this->salesChannelDomainId,
+                    'network' => Facebook::class,
+                    'configuration' => [
+                        'interval' => 86400,
                         'generateByCronjob' => true,
                         'includeVariants' => true,
                         'defaultGoogleProductCategory' => '12345',
@@ -151,15 +207,24 @@ class DataFeedEventListenerTest extends TestCase
         );
 
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('salesChannelId', $socialShoppingSalesChannel['id']));
+        $criteria->addFilter(new EqualsFilter('salesChannelId', $salesChannel['id']));
 
         /** @var ProductExportEntity|null $productExportEntity */
         $productExportEntity = $this->productExportRepository->search($criteria, $this->context)->first();
 
         static::assertInstanceOf(ProductExportEntity::class, $productExportEntity);
-        static::assertEquals($this->salesChannelDomainId, $productExportEntity->getSalesChannelDomainId());
-        static::assertEquals($this->salesChannelId, $productExportEntity->getStorefrontSalesChannelId());
-        static::assertEquals(sprintf('google-shopping_%s.xml', $socialShoppingSalesChannel['id']), $productExportEntity->getFileName());
+        static::assertFalse($productExportEntity->isGenerateByCronjob());
+
+        /** @var EntityRepositoryInterface $salesChannelRepository */
+        $salesChannelRepository = $this->getContainer()->get('sales_channel.repository');
+
+        $salesChannelRepository->update([['id' => $salesChannel['id'], 'active' => true]], $this->context);
+
+        /** @var ProductExportEntity|null $productExportEntity */
+        $productExportEntity = $this->productExportRepository->search($criteria, $this->context)->first();
+
+        static::assertInstanceOf(ProductExportEntity::class, $productExportEntity);
+        static::assertTrue($productExportEntity->isGenerateByCronjob());
     }
 
     private function createProductStream(): void
@@ -167,7 +232,7 @@ class DataFeedEventListenerTest extends TestCase
         /** @var Connection $connection */
         $connection = $this->getContainer()->get(Connection::class);
 
-        $randomProductIds = implode('|', \array_slice(array_column($this->createProducts(), 'id'), 0, 2));
+        $randomProductIds = \implode('|', \array_slice(\array_column($this->createProducts(), 'id'), 0, 2));
 
         $connection->exec("
             INSERT INTO `product_stream` (`id`, `api_filter`, `invalid`, `created_at`, `updated_at`)

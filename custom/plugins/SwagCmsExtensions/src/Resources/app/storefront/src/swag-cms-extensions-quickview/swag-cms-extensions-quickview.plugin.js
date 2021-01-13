@@ -146,6 +146,7 @@ export default class SwagCmsExtensionsQuickview extends Plugin {
         this._pseudoModal = null;
         this._scrollPos = 0;
         this._products = new Map();
+        this._isModalLoading = false;
 
         this._client = new HttpClient(window.accessKey, window.contextToken);
         this._carouselTemplateUtil = new CarouselTemplateUtil(
@@ -312,6 +313,11 @@ export default class SwagCmsExtensionsQuickview extends Plugin {
      * @param {object}
      */
     _openModal({ productId }) {
+        if (this._isModalLoading) {
+            return;
+        }
+
+        this._isModalLoading = true;
         this._firstLoad = true;
         this._currentProductId = productId;
         this._pseudoModal = new PseudoModalUtil(
@@ -465,6 +471,8 @@ export default class SwagCmsExtensionsQuickview extends Plugin {
             productId,
             variantId ? product.variants.get(variantId).quickview : product.quickview
         );
+
+        this._isModalLoading = false;
     }
 
     /**

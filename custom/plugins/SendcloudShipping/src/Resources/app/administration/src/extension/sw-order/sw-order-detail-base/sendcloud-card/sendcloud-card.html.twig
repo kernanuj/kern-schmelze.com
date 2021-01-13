@@ -6,7 +6,7 @@
 
             <dt>{{ $tc('send-cloud.shipment.trackingNumber') }}</dt>
             <dd>
-                <a v-if="showTrackingNumber" :href="trackingUrl" target="_blank">{{ trackingNumber }}</a>
+                <a v-if="showTrackingNumber" :href="trackingUrl" rel="noopener" target="_blank">{{ trackingNumber }}</a>
                 <span v-else>{{ $tc('send-cloud.shipment.emptyTrackingNumberMessage') }}</span>
             </dd>
 

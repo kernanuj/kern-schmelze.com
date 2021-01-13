@@ -23,8 +23,10 @@ use Swag\PayPal\Setting\Service\SettingsServiceInterface;
 use Swag\PayPal\Setting\SwagPayPalSettingStruct;
 use Swag\PayPal\Test\Mock\DIContainerMock;
 use Swag\PayPal\Test\Mock\DummyCollection;
+use Swag\PayPal\Test\Mock\EventDispatcherMock;
 use Swag\PayPal\Test\Mock\LoggerMock;
 use Swag\PayPal\Test\Mock\PayPal\Client\PayPalClientFactoryMock;
+use Swag\PayPal\Test\Mock\Repositories\CurrencyRepoMock;
 use Swag\PayPal\Test\Mock\Repositories\DefinitionInstanceRegistryMock;
 use Swag\PayPal\Test\Mock\Repositories\EntityRepositoryMock;
 use Swag\PayPal\Test\Mock\Repositories\LanguageRepoMock;
@@ -96,8 +98,10 @@ trait ServicesTrait
         return new OrderPaymentBuilder(
             $settingsService,
             new LocaleCodeProviderMock(new EntityRepositoryMock()),
-            new EntityRepositoryMock(),
-            new PriceFormatter()
+            new PriceFormatter(),
+            new EventDispatcherMock(),
+            new LoggerMock(),
+            new CurrencyRepoMock()
         );
     }
 
@@ -112,7 +116,7 @@ trait ServicesTrait
             $settingsService,
             $priceFormatter,
             new AmountProvider($priceFormatter),
-            new ItemListProvider($priceFormatter)
+            new ItemListProvider($priceFormatter, new EventDispatcherMock(), new LoggerMock())
         );
     }
 

@@ -22,34 +22,51 @@
             <tag name="shopware.entity.definition" entity="swag_cms_extensions_scroll_navigation_page_settings" />
         </service>
 
+        <service id="Swag\CmsExtensions\BlockRule\BlockRuleDefinition">
+            <tag name="shopware.entity.definition" entity="swag_cms_extensions_block_rule" />
+        </service>
+
         <!-- Extensions -->
         <service id="Swag\CmsExtensions\Extension\CmsBlockEntityExtension">
             <tag name="shopware.entity.extension" />
         </service>
 
         <service id="Swag\CmsExtensions\Extension\CmsPageEntityExtension">
-            <tag name="shopware.entity.extension"/>
+            <tag name="shopware.entity.extension" />
         </service>
 
         <service id="Swag\CmsExtensions\Extension\CmsSectionEntityExtension">
-            <tag name="shopware.entity.extension"/>
+            <tag name="shopware.entity.extension" />
         </service>
 
         <service id="Swag\CmsExtensions\Extension\LanguageExtension">
-            <tag name="shopware.entity.extension"/>
+            <tag name="shopware.entity.extension" />
+        </service>
+
+        <service id="Swag\CmsExtensions\Extension\RuleExtension">
+            <tag name="shopware.entity.extension" />
         </service>
 
         <!-- Decorators -->
         <service id="Swag\CmsExtensions\Service\Content\Cms\SalesChannel\SalesChannelCmsPageLoaderQuickviewDecorator"
-                 decorates="Shopware\Core\Content\Cms\SalesChannel\SalesChannelCmsPageLoader">
+                 decorates="Shopware\Core\Content\Cms\SalesChannel\SalesChannelCmsPageLoader"
+                 decoration-priority="100">
             <argument type="service"
                       id="Swag\CmsExtensions\Service\Content\Cms\SalesChannel\SalesChannelCmsPageLoaderQuickviewDecorator.inner" />
         </service>
 
         <service id="Swag\CmsExtensions\Service\Content\Cms\SalesChannel\SalesChannelCmsPageLoaderScrollNavigationDecorator"
-                 decorates="Shopware\Core\Content\Cms\SalesChannel\SalesChannelCmsPageLoader">
+                 decorates="Shopware\Core\Content\Cms\SalesChannel\SalesChannelCmsPageLoader"
+                 decoration-priority="90">
             <argument type="service"
                       id="Swag\CmsExtensions\Service\Content\Cms\SalesChannel\SalesChannelCmsPageLoaderScrollNavigationDecorator.inner" />
+        </service>
+
+        <service id="Swag\CmsExtensions\Service\Content\Cms\SalesChannel\SalesChannelCmsPageLoaderBlockRuleDecorator"
+                 decorates="Shopware\Core\Content\Cms\SalesChannel\SalesChannelCmsPageLoader"
+                 decoration-priority="80">
+            <argument type="service"
+                      id="Swag\CmsExtensions\Service\Content\Cms\SalesChannel\SalesChannelCmsPageLoaderBlockRuleDecorator.inner" />
         </service>
 
         <!-- Controller -->
@@ -64,7 +81,7 @@
         <!-- Services -->
         <service id="Swag\CmsExtensions\Storefront\Pagelet\Quickview\QuickviewPageletLoader">
             <argument type="service" id="event_dispatcher"/>
-            <argument type="service" id="Shopware\Storefront\Page\Product\ProductLoader"/>
+            <argument type="service" id="Shopware\Core\Content\Product\SalesChannel\Detail\ProductDetailRoute"/>
             <argument type="service" id="Shopware\Storefront\Page\Product\Review\ProductReviewLoader"/>
             <argument type="service" id="Shopware\Storefront\Page\Product\Configurator\ProductPageConfiguratorLoader"/>
             <argument type="service" id="sales_channel.product.repository"/>
@@ -72,7 +89,7 @@
 
         <service id="Swag\CmsExtensions\Storefront\Pagelet\Quickview\QuickviewVariantPageletLoader">
             <argument type="service" id="event_dispatcher"/>
-            <argument type="service" id="Shopware\Storefront\Page\Product\ProductLoader"/>
+            <argument type="service" id="Shopware\Core\Content\Product\SalesChannel\Detail\ProductDetailRoute"/>
             <argument type="service" id="Shopware\Storefront\Page\Product\Review\ProductReviewLoader"/>
             <argument type="service" id="Shopware\Storefront\Page\Product\Configurator\ProductPageConfiguratorLoader"/>
             <argument type="service" id="sales_channel.product.repository"/>

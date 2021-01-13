@@ -12,6 +12,12 @@
                     "showQuickviewHelpText": "Beim Klick auf produktbezogene Blöcke wird die Quickview statt der Detailseite angezeigt.",
                     "sidebarHeaderBlockBehaviorSettings": "Quickview"
                 },
+                "blockRule": {
+                    "sidebarHeaderBlockBehaviorSettings": "Sichtbarkeit",
+                    "invertedSwitchLabel": "Sichtbar, wenn Regel nicht zutrifft",
+                    "alwaysVisiblePlaceholder": "Immer sichtbar (Standard)",
+                    "ruleHelpText": "Definiere, unter welchen Bedingungen der Block angezeigt werden soll"
+                },
                 "scrollNavigation": {
                     "title": "Scroll-Navigation",
                     "anchorSwitch": "Setze Navigationspunkt",
@@ -41,7 +47,11 @@
                 }
             },
             "sidebar": {
-                "emptyAnchorName": "(Kein Name gesetzt)"
+                "emptyAnchorName": "(Kein Name gesetzt)",
+                "rulesOnAllBlocks": "Diese Sektion hat nur Inhalte mit eingeschränkter Sichtbarkeit. Beachte, dass manchen Kunden hier eine leere Sektion angezeigt werden könnte.",
+                "navElement": {
+                    "blockRuleTooltip": "Die Sichtbarkeit dieses Elements ist durch eine Regel eingeschränkt."
+                }
             },
             "section": {
                 "actions": {

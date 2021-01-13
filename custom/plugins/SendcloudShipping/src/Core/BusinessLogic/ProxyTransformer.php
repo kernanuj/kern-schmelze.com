@@ -158,15 +158,9 @@ class ProxyTransformer
                 'house_number' => $order->getHouseNumber(),
                 'name' => $order->getCustomerName(),
                 'order_number' => $order->getNumber(),
-                'order_status' => array(
-                    'id' => $order->getStatusId(),
-                    'message' => $order->getStatusName(),
-                ),
+                'order_status' => $this->getStatus($order->getStatusId(), $order->getStatusName()),
                 'parcel_items' => $this->formatParcelItems($order->getItems()),
-                'payment_status' => array(
-                    'id' => $order->getPaymentStatusId(),
-                    'message' => $order->getPaymentStatusName(),
-                ),
+                'payment_status' => $this->getStatus($order->getPaymentStatusId(), $order->getPaymentStatusName()),
                 'postal_code' => $order->getPostalCode(),
                 'shipping_method_checkout_name' => $order->getCheckoutShippingName(),
                 'telephone' => $order->getTelephone(),
@@ -218,6 +212,23 @@ class ProxyTransformer
         }
 
         return $result;
+    }
+
+    /**
+     * @param string|null $statusId
+     * @param string|null $statusMessage
+     * @return array|null
+     */
+    private function getStatus($statusId, $statusMessage)
+    {
+        if (empty($statusId) || empty($statusMessage)) {
+            return null;
+        }
+
+        return array(
+            'id' => $statusId,
+            'message' => $statusMessage,
+        );
     }
 
     /**

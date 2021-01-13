@@ -1,5 +1,6 @@
 coverage/
 vendor/
+var/
 
 src/Resources/app/storefront/dist/storefront/js/*
 src/Resources/public/administration/js/*

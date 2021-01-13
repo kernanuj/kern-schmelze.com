@@ -17,12 +17,22 @@
     <issueHandlers>
         <MoreSpecificImplementedParamType>
             <errorLevel type="info">
+                <file name="src/BlockRule/BlockRuleCollection.php"/>
                 <file name="src/Quickview/QuickviewCollection.php"/>
                 <file name="src/ScrollNavigation/ScrollNavigationCollection.php"/>
                 <file name="src/ScrollNavigation/Aggregate/ScrollNavigationTranslation/ScrollNavigationTranslationCollection.php"/>
                 <file name="src/ScrollNavigation/Aggregate/ScrollNavigationPageSettings/ScrollNavigationPageSettingsCollection.php"/>
             </errorLevel>
         </MoreSpecificImplementedParamType>
+
+        <DeprecatedMethod>
+            <errorLevel type="info">
+                <!-- Deprecated - Will be removed with Shopware 6.4 -->
+                <referencedMethod name="Shopware\Core\Framework\Plugin::addPrivileges"/>
+                <!-- Deprecated - Will be removed with Shopware 6.4 -->
+                <referencedMethod name="Shopware\Core\Framework\Plugin::removePrivileges"/>
+            </errorLevel>
+        </DeprecatedMethod>
 
         <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
         <PropertyNotSetInConstructor errorLevel="info"/>

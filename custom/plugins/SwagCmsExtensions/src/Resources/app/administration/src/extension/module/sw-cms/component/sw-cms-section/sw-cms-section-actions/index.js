@@ -11,6 +11,14 @@ Component.override('sw-cms-section-actions', {
             return this.section.extensions.swagCmsExtensionsScrollNavigation;
         },
 
+        hasRulesOnAllBlocks() {
+            return this.section.blocks.every((block) => {
+                const rule = block.extensions.swagCmsExtensionsBlockRule;
+
+                return rule && (rule.inverted || !!rule.visibilityRuleId);
+            });
+        },
+
         scrollNavigationPointTooltip() {
             const tooltipPrefix = this.$tc('swag-cms-extensions.sw-cms.section.actions.viewports.tooltipPrefix');
             const displayName = this.scrollNavigation && this.scrollNavigation.displayName ?
@@ -19,6 +27,13 @@ Component.override('sw-cms-section-actions', {
 
             return {
                 message: `${tooltipPrefix} ${displayName}`,
+                position: 'right'
+            };
+        },
+
+        rulesOnAllBlocksTooltip() {
+            return {
+                message: this.$tc('swag-cms-extensions.sw-cms.sidebar.rulesOnAllBlocks'),
                 position: 'right'
             };
         }

@@ -89,7 +89,7 @@ class DefaultGoogleCategoryEventListenerTest extends TestCase
 
     public function testPreValidateWithInvalidNetworkInPayload(): void
     {
-        $payload = ['configuration' => json_encode([]), 'network' => 'FooNetwork'];
+        $payload = ['configuration' => \json_encode([]), 'network' => 'FooNetwork'];
         $primaryKey = ['id' => Uuid::randomBytes()];
         $commands = $this->createCommandsArray($payload, $primaryKey);
 
@@ -101,7 +101,7 @@ class DefaultGoogleCategoryEventListenerTest extends TestCase
 
     public function testPreValidateWithNetworkInPayloadWithInvalidConfiguration(): void
     {
-        $payload = ['configuration' => json_encode([]), 'network' => Facebook::class];
+        $payload = ['configuration' => \json_encode([]), 'network' => Facebook::class];
         $primaryKey = ['id' => Uuid::randomBytes()];
         $commands = $this->createCommandsArray($payload, $primaryKey);
 
@@ -119,7 +119,7 @@ class DefaultGoogleCategoryEventListenerTest extends TestCase
     public function testPreValidateWithNetworkInPayloadWithValidConfiguration(): void
     {
         $payload = [
-            'configuration' => json_encode(['defaultGoogleProductCategory' => 123]),
+            'configuration' => \json_encode(['defaultGoogleProductCategory' => 123]),
             'network' => Facebook::class,
         ];
         $primaryKey = ['id' => Uuid::randomBytes()];

@@ -14,7 +14,7 @@
                     class="scroll-navigation__smooth-scrolling-active"
                     :label="$tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.pageSettings.activeLabel')"
                     :helpText="$tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.pageSettings.activeHelpText')"
-                    :disabled="!pageHasNavigationPoints"
+                    :disabled="!pageHasNavigationPoints  || !acl.can('cms.editor')"
                     @change="pageSettingsActiveChanged">
                 </sw-switch-field>
             {% endblock %}
@@ -24,7 +24,7 @@
                     v-model="scrollNavigationPageSettings.easing"
                     :label="$tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.pageSettings.easingLabel')"
                     :options="easingTypes"
-                    :disabled="!smoothScrollingActive"
+                    :disabled="!smoothScrollingActive  || !acl.can('cms.editor')"
                     @change="pageSettingsActiveChanged">
                 </sw-single-select>
             {% endblock %}
@@ -34,7 +34,7 @@
                     v-model="scrollNavigationPageSettings.duration"
                     class="scroll-navigation__smooth-scrolling-duration"
                     :label="$tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.pageSettings.durationLabel')"
-                    :disabled="!smoothScrollingActive"
+                    :disabled="!smoothScrollingActive || !acl.can('cms.editor')"
                     :digits="0"
                     @change="pageSettingsActiveChanged">
 
@@ -67,18 +67,18 @@
                                     v-model="scrollNavigationPageSettings.bouncy"
                                     class="scroll-navigation__smooth-scrolling-bouncy"
                                     :label="$tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.pageSettings.bouncyLabel')"
-                                    :disabled="!smoothScrollingActive || scrollNavigationPageSettings.easing === 'linear'"
+                                    :disabled="!smoothScrollingActive || scrollNavigationPageSettings.easing === 'linear' || !acl.can('cms.editor')"
                                     @change="pageSettingsActiveChanged">
                                 </sw-switch-field>
                             {% endblock %}
 
                             {% block swag_cms_extensions_sidebar_page_scroll_behavior_config_smooth_scrolling_easing_degree %}
-                                {# ToDo PT-11794 - Re-enable helptext and remove tooltip #}
+                                {# ToDo CMS-11 - Re-enable helptext and remove tooltip #}
                                 <sw-number-field
                                     v-model="scrollNavigationPageSettings.easingDegree"
                                     class="scroll-navigation__smooth-scrolling-easing-degree"
                                     :label="$tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.pageSettings.easingDegreeLabel')"
-                                    :disabled="easingDegreeDisabled"
+                                    :disabled="easingDegreeDisabled  || !acl.can('cms.editor')"
 {#                                    :helpText="$tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.pageSettings.easingDegreeHelpText')"#}
                                     v-tooltip="{
                                         message: $tc('swag-cms-extensions.sw-cms.detail.scrollNavigation.pageSettings.easingDegreeHelpText')

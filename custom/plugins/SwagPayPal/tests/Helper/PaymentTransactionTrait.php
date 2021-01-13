@@ -19,6 +19,10 @@ use Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionEnti
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
 use Shopware\Core\Defaults;
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\Currency\CurrencyEntity;
 use Swag\PayPal\Test\PaymentsApi\Builder\OrderPaymentBuilderTest;
@@ -87,11 +91,12 @@ trait PaymentTransactionTrait
         ));
         $order->setAmountNet(722.69);
         $order->setAmountTotal(860.0);
+        $order->setTaxStatus(CartPrice::TAX_STATE_GROSS);
 
         switch ($orderId) {
             case ConstantsForTesting::VALID_ORDER_ID:
                 $order->setId(ConstantsForTesting::VALID_ORDER_ID);
-                $order->setLineItems($this->getLineItems(true));
+                $order->setLineItems($this->getLineItems());
 
                 break;
             case ConstantsForTesting::ORDER_ID_MISSING_PRICE:
@@ -130,31 +135,31 @@ trait PaymentTransactionTrait
 
     private function createCurrencyEntity(): CurrencyEntity
     {
-        $currency = new CurrencyEntity();
-        $currency->setIsoCode(OrderPaymentBuilderTest::EXPECTED_ITEM_CURRENCY);
+        if (!\method_exists($this, 'getContainer')) {
+            $currency = new CurrencyEntity();
+            $currency->setIsoCode(OrderPaymentBuilderTest::EXPECTED_ITEM_CURRENCY);
+
+            return $currency;
+        }
+
+        /** @var EntityRepositoryInterface $currencyRepo */
+        $currencyRepo = $this->getContainer()->get('currency.repository');
+
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('isoCode', OrderPaymentBuilderTest::EXPECTED_ITEM_CURRENCY));
+        /** @var CurrencyEntity $currency */
+        $currency = $currencyRepo->search($criteria, Context::createDefaultContext())->first();
 
         return $currency;
     }
 
-    private function getLineItems(bool $setPrice = false): OrderLineItemCollection
+    private function getLineItems(): OrderLineItemCollection
     {
         $orderLineItem = new OrderLineItemEntity();
 
         $orderLineItem->setId('6198ff79c4144931919977829dbca3d6');
         $orderLineItem->setQuantity(OrderPaymentBuilderTest::EXPECTED_ITEM_QUANTITY);
-
-        if ($setPrice) {
-            $orderLineItem->setPrice(
-                new CalculatedPrice(
-                    855.01,
-                    855.01,
-                    new CalculatedTaxCollection([
-                        new CalculatedTax(OrderPaymentBuilderTest::EXPECTED_ITEM_TAX, 19, 722.69),
-                    ]),
-                    new TaxRuleCollection([19 => new TaxRule(19)])
-                )
-            );
-        }
+        $orderLineItem->setUnitPrice(855.01);
 
         $orderLineItem->setLabel(OrderPaymentBuilderTest::EXPECTED_ITEM_NAME);
         $orderLineItem->setPayload(['productNumber' => OrderPaymentBuilderTest::EXPECTED_PRODUCT_NUMBER]);

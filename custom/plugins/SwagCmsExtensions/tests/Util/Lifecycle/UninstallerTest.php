@@ -42,7 +42,7 @@ class UninstallerTest extends TestCase
             ->method('keepUserData')
             ->willReturn(false);
 
-        $connection->expects(static::atMost(4))
+        $connection->expects(static::atMost(6))
             ->method('executeUpdate');
 
         (new Uninstaller($context, $connection))->uninstall();

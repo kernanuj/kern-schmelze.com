@@ -59,7 +59,6 @@ const contexts = [
 let smoothScrolling;
 let categoryId = '';
 let cmsPageId = '';
-let defaultWaiting = 700;
 
 describe('Scroll Navigation', () => {
     before(() => {
@@ -195,83 +194,6 @@ describe('Scroll Navigation', () => {
                     .should('not.have.class', className.sidebar.entryActive);
                 cy.get('[href="#somewhat-pinkish"]')
                     .should('not.have.class', className.sidebar.entryActive);
-            });
-        });
-    });
-
-    context('shows the correct sections when navigation directly via the url', () => {
-        contexts.forEach((context) => {
-            it(`on ${context.deviceType}`, () => {
-                cy.viewport(context.viewport.width, context.viewport.height)
-                    .wait(defaultWaiting);
-
-                ['#beautiful-lavender', '#rose', '#somewhat-pinkish', '#rose'].forEach((anchorName) => {
-                    cy.visit(`/${anchorName}`)
-                        .wait(defaultWaiting);
-
-                    // Target section should be visible
-                    cy.get(anchorName)
-                        .parent()
-                        .isAtLeastPartiallyWithinViewport(context.viewport);
-                });
-            });
-        });
-    });
-
-    context('scrolls smoothly through multiple sections using the navigation list', () => {
-        contexts.forEach((context) => {
-            it(`on ${context.deviceType}`, () => {
-                cy.viewport(context.viewport.width, context.viewport.height)
-                    .wait(defaultWaiting);
-
-                ['#beautiful-lavender', '#rose', '#somewhat-pinkish', '#rose'].forEach((anchorName) => {
-                    // Open the list on mobile
-                    if (context.deviceType !== 'desktop') {
-                        cy.get(selector.mobile.menuOpenButton)
-                            .should('be.visible')
-                            .click();
-                    }
-
-                    // Check hover label for not active
-                    cy.get(`[href="${anchorName}"]`)
-                        .should('not.have.class', className.sidebar.entryActive)
-                        .children(selector.sidebar.entryLabel)
-                        .should('be.visible')
-                        .should('have.css', 'color')
-                        .and('eq', color.menuLabelInactive);
-
-                    // Target section shouldn't be visible
-                    cy.get(anchorName)
-                        .parent()
-                        .isNotAtLeastPartiallyWithinViewport(context.viewport);
-
-                    // Perform scrolling
-                    cy.get(`[href="${anchorName}"]`)
-                        .click()
-                        .wait(smoothScrolling.duration);
-
-                    // Check hover label for active
-                    cy.get(`[href="${anchorName}"]`)
-                        .should('have.class', className.sidebar.entryActive)
-                        .children(selector.sidebar.entryLabel)
-                        .should('be.visible')
-                        .should('have.css', 'color')
-                        .and('eq', color.menuLabelActive);
-
-                    // Close the list for checking on mobile
-                    if (context.deviceType !== 'desktop') {
-                        cy.get(selector.mobile.menuCloseButton)
-                            .should('be.visible')
-                            .click()
-                            .should('not.be.visible');
-                    }
-
-                    // Check visibility after scrolling
-                    cy.get(anchorName)
-                        .parent()
-                        .isAtLeastPartiallyWithinViewport(context.viewport)
-                        .wait(defaultWaiting);
-                });
             });
         });
     });

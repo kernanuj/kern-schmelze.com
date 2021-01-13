@@ -10,10 +10,10 @@ export default class TanmarInfiniteScrollingFilterMultiSelectPlugin extends Filt
         
         if (l._tmisActive) {
             l._tmisListingOption = 'override';
-            l._tmisVisitedPages = [];
+            l._visitedPagesClear();
             l._tmisNewPageRequestCounter = 0;
             l._tmisIsLoading = true;
-            l._tmisLog('reset _onChangeFilter');
+            l._tmisLog('  reset _onChangeFilter');
             l.changeListing();
         } else {
             super._onChangeFilter();

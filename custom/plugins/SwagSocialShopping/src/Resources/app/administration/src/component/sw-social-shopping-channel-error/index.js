@@ -16,7 +16,8 @@ Component.register('sw-social-shopping-channel-error', {
 
     inject: [
         'repositoryFactory',
-        'socialShoppingService'
+        'socialShoppingService',
+        'acl'
     ],
 
     data() {

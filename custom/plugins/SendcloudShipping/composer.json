@@ -1,7 +1,7 @@
 {
   "name": "sendcloud/shipping",
   "description": "Sendcloud Shopware 6 integration",
-  "version": "v1.1.8",
+  "version": "v1.1.14",
   "license": "proprietary",
   "type": "shopware-platform-plugin",
   "authors": [
@@ -18,7 +18,6 @@
   },
   "extra": {
     "shopware-plugin-class": "Sendcloud\\Shipping\\SendcloudShipping",
-    "plugin-icon": "sendcloud.png",
     "label": {
       "de-DE": "Sendcloud",
       "en-GB": "Sendcloud"

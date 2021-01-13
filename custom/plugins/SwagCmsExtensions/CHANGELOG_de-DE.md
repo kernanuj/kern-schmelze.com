@@ -1,3 +1,29 @@
+# 1.7.2
+- CMS-56 - Erläuterndes Tooltip zur BlockRule-Regelauswahl hinzugefügt
+- CMS-82 - Korrigiert Anzeige des Warenkorb-Button bei Custom Products mit Pflichtoptionen in der QuickView
+
+# 1.7.1
+- CMS-51 - Fehler behoben der das Löschen von Regeln verhindert hat
+
+# 1.7.0
+- CMS-8 - Regeln für CMS-Blocks wurden implementiert
+- CMS-16 - Laden der Produkte in der QuickView verbessert
+
+# 1.6.0
+- CMS-27 - ACL-Privilegien zum Erlebniswelten-Modul hinzugefügt
+
+# 1.5.3
+- CMS-38 - Fehlerhafte Storefront-Filterung behoben
+
+# 1.5.2
+- CMS-18 - Inhalte hinter einer konfigurierten, eingeklappten Scroll Navigation sind wieder zugänglich
+- CMS-20 - Die QuickView öffnet sich nicht mehr mehrfach bei mehrmaligen Klicken
+
+# 1.5.1
+- CMS-5 - Der Name eines Navigationselementes wird nun auch im Internet Explorer korrekt angezeigt
+- CMS-7 - Es wurde ein Problem behoben, bei dem die Scrollbuttons nicht ohne aktiviertes animiertes Scrolling funktionierten
+- CMS-13 - Scroll Navigation für Version Shopware 6.3.1.0 optimiert und Verbesserung der initialen Einstellungen ohne animiertes Scrollen
+
 # 1.5.0
 - PT-11676 - Fehler-Visualisierung für Sektionseinstellungen implementiert
 - PT-11919 - Kompatibilität für Shopware 6.3
@@ -6,7 +32,7 @@
 
 # 1.4.0
 - PT-11317 - Variantenwechsel in der QuickView korrigiert
-- PT-11462 - Automatisierte e2e Tests hinzugefügt
+- PT-11462 - Automatisierte e2e-Tests hinzugefügt
 - PT-11711 - Animiertes Scrollen implementiert
 
 # 1.3.1

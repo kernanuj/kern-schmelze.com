@@ -9,6 +9,7 @@ namespace Swag\CmsExtensions\Test\Storefront\Pagelet\Quickview;
 
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Content\Product\Exception\ProductNotFoundException;
+use Shopware\Core\Content\Property\PropertyGroupCollection;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Storefront\Pagelet\PageletLoadedEvent;
 use Shopware\Storefront\Test\Page\StorefrontPageTestBehaviour;
@@ -71,6 +72,14 @@ class QuickviewPageletLoaderTest extends TestCase
         static::assertSame($context->getContext(), $event->getContext());
         static::assertSame($request, $event->getRequest());
         static::assertSame($pagelet, $event->getPagelet());
+        static::assertSame($product->getId(), $event->getPagelet()->getListingProductId());
+
+        $reviews = $event->getPagelet()->getReviews();
+        static::assertIsObject($reviews);
+        static::assertEquals(0, $reviews->getMatrix()->getAverageRating());
+        static::assertEquals(0, $reviews->getMatrix()->getTotalReviewCount());
+        static::assertEquals(0, $event->getPagelet()->getTotalReviews());
+        static::assertInstanceOf(PropertyGroupCollection::class, $event->getPagelet()->getConfiguratorSettings());
     }
 
     protected function getPageLoader(): QuickviewPageletLoaderInterface

@@ -11,7 +11,8 @@ Component.register('sw-social-shopping-channel-network-base', {
     inject: [
         'salesChannelService',
         'socialShoppingService',
-        'repositoryFactory'
+        'repositoryFactory',
+        'acl'
     ],
 
     mixins: [

@@ -1,3 +1,29 @@
+# 1.7.2
+- CMS-56 - Adds explaining tooltip to BlockRule rule selection 
+- CMS-82 - Fixes "Add to Cart" button showing for Customized Products with required options in QuickView
+
+# 1.7.1
+- CMS-51 - Fixed error that rules could not be deleted
+
+# 1.7.0
+- CMS-8 - Implemented CMS Block rule functionality
+- CMS-16 - Improved QuickView product loading
+
+# 1.6.0
+- CMS-27 - Added ACL privileges to the shopping world experiences module
+
+# 1.5.3
+- CMS-38 - Fixes wrong storefront filtering behaviour
+
+# 1.5.2
+- CMS-18 - Content behind a configured, collapsed Scroll Navigation sidebar are accessible again 
+- CMS-20 - Multiple clicks do not open multiple QuickViews anymore
+
+# 1.5.1
+- CMS-5 - The navigation menu popup name is now displayed correctly in the Internet Explorer
+- CMS-7 - Fixed scroll buttons when animated scrolling is disabled
+- CMS-13 - Optimized scroll navigation for Shopware version 6.3.1.0 and improved behavior on initial set up without animated scrolling
+
 # 1.5.0
 - PT-11676 - Add error visualization for section settings
 - PT-11919 - Shopware 6.3 compatibility

@@ -2,23 +2,9 @@
     {% parent %}
 
     {% block swag_cms_extensions_sidebar_block_behavior_settings_content %}
-        <sw-sidebar-collapse :expandOnLoading="false">
-            {% block swag_cms_extensions_sidebar_block_behavior_settings_header %}
-                <template #header>
-                    <span>
-                        {{ $tc('swag-cms-extensions.sw-cms.detail.quickview.sidebarHeaderBlockBehaviorSettings') }}
-                    </span>
-                </template>
-            {% endblock %}
-
-            {% block swag_cms_extensions_sidebar_block_behavior_settings_form %}
-                <template #content>
-                    <swag-cms-extensions-block-behavior-config
-                        v-model="selectedBlock">
-                    </swag-cms-extensions-block-behavior-config>
-                </template>
-            {% endblock %}
-        </sw-sidebar-collapse>
+        <swag-cms-extensions-block-behavior-config
+                v-model="selectedBlock">
+        </swag-cms-extensions-block-behavior-config>
     {% endblock %}
 {% endblock %}
 

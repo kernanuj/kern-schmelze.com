@@ -6,6 +6,7 @@
                 <sw-switch-field
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.configuration.includeVariants"
                     bordered
+                    :disabled="!acl.can('sales_channel.editor')"
                     :label="$tc('swag-social-shopping.networks.instagram.includeVariants')">
                 </sw-switch-field>
             {% endblock %}
@@ -15,6 +16,7 @@
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.configuration.interval"
                     :label="$tc('swag-social-shopping.networks.instagram.interval')"
                     :options="intervalOptions"
+                    :disabled="!acl.can('sales_channel.editor')"
                     @change="changeInterval">
                 </sw-select-number-field>
             {% endblock %}
@@ -23,7 +25,7 @@
                 <sw-switch-field
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.configuration.generateByCronjob"
                     bordered
-                    :disabled="disableGenerateByCronjob"
+                    :disabled="disableGenerateByCronjob || !acl.can('sales_channel.editor')"
                     :label="$tc('swag-social-shopping.networks.instagram.generateByCronjob')">
                 </sw-switch-field>
             {% endblock %}
@@ -34,6 +36,7 @@
                     required
                     :label="$tc('swag-social-shopping.networks.instagram.googleProductDefaultCategory')"
                     :helpText="$tc('swag-social-shopping.networks.instagram.helpTextGoogleProductDefaultCategory')"
+                    :disabled="!acl.can('sales_channel.editor')"
                     @change="onGoogleProductCategoryChanged">
                 </sw-text-field>
                 <sw-container columns="1fr" justify="end" class="sw-sales-channel-detail-instagram__links">

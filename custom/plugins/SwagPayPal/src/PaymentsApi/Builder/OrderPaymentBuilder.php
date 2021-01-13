@@ -7,7 +7,7 @@
 
 namespace Swag\PayPal\PaymentsApi\Builder;
 
-use Shopware\Core\Checkout\Cart\Price\Struct\CalculatedPrice;
+use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity;
 use Shopware\Core\Checkout\Order\OrderEntity;
 use Shopware\Core\Checkout\Payment\Cart\AsyncPaymentTransactionStruct;
@@ -18,6 +18,7 @@ use Shopware\Core\System\Currency\CurrencyCollection;
 use Shopware\Core\System\Currency\CurrencyEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Swag\PayPal\Checkout\Exception\CurrencyNotFoundException;
+use Swag\PayPal\PaymentsApi\Builder\Event\PayPalV1ItemFromOrderEvent;
 use Swag\PayPal\PaymentsApi\Builder\Util\AmountProvider;
 use Swag\PayPal\PaymentsApi\Service\TransactionValidator;
 use Swag\PayPal\RestApi\V1\Api\Payment;
@@ -27,6 +28,7 @@ use Swag\PayPal\RestApi\V1\Api\Payment\Transaction\ItemList\Item;
 use Swag\PayPal\Setting\Service\SettingsServiceInterface;
 use Swag\PayPal\Util\LocaleCodeProvider;
 use Swag\PayPal\Util\PriceFormatter;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class OrderPaymentBuilder extends AbstractPaymentBuilder implements OrderPaymentBuilderInterface
 {
@@ -38,10 +40,12 @@ class OrderPaymentBuilder extends AbstractPaymentBuilder implements OrderPayment
     public function __construct(
         SettingsServiceInterface $settingsService,
         LocaleCodeProvider $localeCodeProvider,
-        EntityRepositoryInterface $currencyRepository,
-        PriceFormatter $priceFormatter
+        PriceFormatter $priceFormatter,
+        EventDispatcherInterface $eventDispatcher,
+        LoggerInterface $logger,
+        EntityRepositoryInterface $currencyRepository
     ) {
-        parent::__construct($settingsService, $localeCodeProvider, $priceFormatter);
+        parent::__construct($settingsService, $localeCodeProvider, $priceFormatter, $eventDispatcher, $logger);
         $this->currencyRepository = $currencyRepository;
     }
 
@@ -139,47 +143,65 @@ class OrderPaymentBuilder extends AbstractPaymentBuilder implements OrderPayment
     /**
      * @return Item[]
      */
-    private function getItemList(
-        OrderEntity $order,
-        string $currency
-    ): array {
+    private function getItemList(OrderEntity $order, string $currency): array
+    {
         $items = [];
-        $lineItems = $order->getLineItems();
+        $lineItems = $order->getNestedLineItems();
         if ($lineItems === null) {
             return [];
         }
 
         foreach ($lineItems->getElements() as $lineItem) {
-            $price = $lineItem->getPrice();
-
-            if ($price === null) {
-                return [];
-            }
-
-            $items[] = $this->createItemFromLineItem($lineItem, $currency, $price);
+            $items[] = $this->createItemFromLineItem($lineItem, $currency);
         }
 
         return $items;
     }
 
-    private function createItemFromLineItem(
-        OrderLineItemEntity $lineItem,
-        string $currency,
-        CalculatedPrice $price
-    ): Item {
+    private function createItemFromLineItem(OrderLineItemEntity $lineItem, string $currency): Item
+    {
         $item = new Item();
-        $item->setName($lineItem->getLabel());
 
-        $payload = $lineItem->getPayload();
-        if ($payload !== null && \array_key_exists('productNumber', $payload)) {
-            $item->setSku($payload['productNumber']);
-        }
+        $this->setName($lineItem, $item);
+        $this->setSku($lineItem, $item);
 
         $item->setCurrency($currency);
         $item->setQuantity($lineItem->getQuantity());
         $item->setTax($this->priceFormatter->formatPrice(0));
-        $item->setPrice($this->priceFormatter->formatPrice($price->getTotalPrice() / $lineItem->getQuantity()));
+        $item->setPrice($this->priceFormatter->formatPrice($lineItem->getUnitPrice()));
 
-        return $item;
+        $event = new PayPalV1ItemFromOrderEvent($item, $lineItem);
+        $this->eventDispatcher->dispatch($event);
+
+        return $event->getPayPalLineItem();
+    }
+
+    private function setName(OrderLineItemEntity $lineItem, Item $item): void
+    {
+        $label = $lineItem->getLabel();
+
+        try {
+            $item->setName($label);
+        } catch (\LengthException $e) {
+            $this->logger->warning($e->getMessage(), ['lineItem' => $lineItem]);
+            $item->setName(\substr($label, 0, Item::MAX_LENGTH_NAME));
+        }
+    }
+
+    private function setSku(OrderLineItemEntity $lineItem, Item $item): void
+    {
+        $payload = $lineItem->getPayload();
+        if ($payload === null || !\array_key_exists('productNumber', $payload)) {
+            return;
+        }
+
+        $productNumber = $payload['productNumber'];
+
+        try {
+            $item->setSku($productNumber);
+        } catch (\LengthException $e) {
+            $this->logger->warning($e->getMessage(), ['lineItem' => $lineItem]);
+            $item->setSku(\substr($productNumber, 0, Item::MAX_LENGTH_SKU));
+        }
     }
 }

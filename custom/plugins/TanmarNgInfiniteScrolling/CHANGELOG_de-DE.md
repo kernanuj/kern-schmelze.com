@@ -31,3 +31,6 @@
 - Es wurde ein Fehler behoben, wodurch der Browser an die oberste Stelle des Listings scrollt sobald eine neue Seite geladen wird
 - Es wurde ein Fehler behoben, wodurch die Produktboxen nach dem Sortieren an das Listing angehängt wurden
 - Es wurde ein Fehler behoben, wodurch das Listing-Ajax nach dem Sortieren doppelt aufgerufen wurde
+
+# 1.0.10
+- Es wurde ein Fehler behoben, wodurch das Navigationsfeld im Mobile mehrmals angezeigt wurde

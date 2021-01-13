@@ -14,12 +14,14 @@ use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Storefront\Test\Page\StorefrontPageTestBehaviour;
 use Swag\CmsExtensions\Storefront\Pagelet\Quickview\QuickviewPageletLoaderInterface;
 use Swag\CmsExtensions\Storefront\Pagelet\Quickview\QuickviewVariantPageletLoader;
+use Swag\CmsExtensions\Test\Helper\QuickviewHelperTrait;
 use Symfony\Component\HttpFoundation\Request;
 
 class QuickviewVariantPageletLoaderTest extends TestCase
 {
     use IntegrationTestBehaviour;
     use StorefrontPageTestBehaviour;
+    use QuickviewHelperTrait;
 
     /**
      * @var QuickviewPageletLoaderInterface
@@ -31,7 +33,7 @@ class QuickviewVariantPageletLoaderTest extends TestCase
         $this->quickviewVariantPageletLoader = $this->getContainer()->get(QuickviewVariantPageletLoader::class);
     }
 
-    public function testItRequiresAnExistingCombination(): void
+    public function testItRequiresAnExistingCombinationWithNoProduct(): void
     {
         $context = $this->createSalesChannelContext();
         $product = $this->getRandomProduct($context);
@@ -49,17 +51,19 @@ class QuickviewVariantPageletLoaderTest extends TestCase
         $this->getPageLoader()->load($request, $context);
     }
 
+    public function testItHasAnExistingCombinationAndFoundAProduct(): void
+    {
+        $salesChannelContext = $this->createSalesChannelContext();
+        $this->createProduct($salesChannelContext);
+        $options = $this->getVariantOptions();
+        $request = $this->getVariantRequest($options, $salesChannelContext);
+
+        $result = $this->getPageLoader()->load($request, $salesChannelContext);
+        static::assertNotNull($result);
+    }
+
     protected function getPageLoader(): QuickviewPageletLoaderInterface
     {
         return $this->quickviewVariantPageletLoader;
-    }
-
-    private function getRandomOptions(string $groupId): string
-    {
-        return json_encode([
-            $groupId => Uuid::randomHex(),
-            Uuid::randomHex() => Uuid::randomHex(),
-            Uuid::randomHex() => Uuid::randomHex(),
-        ]) ?: '';
     }
 }

@@ -126,6 +126,7 @@ class SocialShoppingValidationHandler extends AbstractMessageHandler
     public function handle($message): void
     {
         $contextToken = Uuid::randomHex();
+        $socialShoppingSalesChannel = null;
 
         try {
             $socialShoppingSalesChannel = $this->getSocialShoppingSalesChannel(
@@ -225,7 +226,11 @@ class SocialShoppingValidationHandler extends AbstractMessageHandler
         } finally {
             $this->translator->resetInjection();
 
-            $this->finishValidation($message->getSocialShoppingSalesChannelId(), $contextToken);
+            $this->connection->delete('sales_channel_api_context', ['token' => $contextToken]);
+
+            if ($socialShoppingSalesChannel !== null) {
+                $this->finishValidation($message->getSocialShoppingSalesChannelId());
+            }
         }
     }
 
@@ -264,7 +269,7 @@ class SocialShoppingValidationHandler extends AbstractMessageHandler
         );
     }
 
-    private function finishValidation(string $socialShoppingSalesChannelId, string $contextToken): void
+    private function finishValidation(string $socialShoppingSalesChannelId): void
     {
         $this->socialShoppingSalesChannelRepository->update(
             [
@@ -276,6 +281,5 @@ class SocialShoppingValidationHandler extends AbstractMessageHandler
             ],
             Context::createDefaultContext()
         );
-        $this->connection->delete('sales_channel_api_context', ['token' => $contextToken]);
     }
 }

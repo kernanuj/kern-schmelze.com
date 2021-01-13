@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 composer dump-autoload
-./../../../vendor/bin/phpunit --coverage-html coverage
+php -d pcov.enabled=1 -d pcov.directory=./.. ./../../../vendor/bin/phpunit --configuration phpunit.xml.dist --log-junit ./../../../build/artifacts/phpunit.junit.xml --coverage-clover ./../../../build/artifacts/phpunit.clover.xml --coverage-html ./../../../build/artifacts/coverage-cms-extensions --coverage-text

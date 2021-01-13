@@ -51,7 +51,7 @@ class ProductStreamEventListener implements EventSubscriberInterface
             }
 
             $byteId = $command->getPrimaryKey()['id'];
-            $hexId = mb_strtolower(Uuid::fromBytesToHex($byteId));
+            $hexId = \mb_strtolower(Uuid::fromBytesToHex($byteId));
 
             if (!$this->isProductStreamUsedBySocialShopping($hexId, $event->getContext())) {
                 continue;
@@ -82,7 +82,7 @@ class ProductStreamEventListener implements EventSubscriberInterface
     private function buildViolation(string $messageTemplate, array $parameters): ConstraintViolationInterface
     {
         return new ConstraintViolation(
-            str_replace(array_keys($parameters), array_values($parameters), $messageTemplate),
+            \str_replace(\array_keys($parameters), \array_values($parameters), $messageTemplate),
             $messageTemplate,
             $parameters,
             null,

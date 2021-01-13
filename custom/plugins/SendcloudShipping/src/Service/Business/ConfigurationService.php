@@ -12,6 +12,7 @@ use Sendcloud\Shipping\Core\Infrastructure\TaskExecution\Exceptions\TaskRunnerSt
 use Sendcloud\Shipping\Core\Infrastructure\Utility\GuidProvider;
 use Sendcloud\Shipping\Entity\Config\ConfigEntityRepository;
 use Sendcloud\Shipping\Entity\Config\SystemConfigurationRepository;
+use Sendcloud\Shipping\Interfaces\EntityQueueNameAware;
 use Shopware\Core\Framework\DataAbstractionLayer\Exception\InconsistentCriteriaIdsException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -20,11 +21,11 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  *
  * @package Sendcloud\Shipping\Service\Business
  */
-class ConfigurationService implements Configuration
+class ConfigurationService implements Configuration, EntityQueueNameAware
 {
     public const INTEGRATION_NAME = 'shopware6';
     public const DEFAULT_BATCH_SIZE = 100;
-    public const DEFAULT_MAX_STARTED_TASK_LIMIT = 8;
+    public const DEFAULT_MAX_STARTED_TASK_LIMIT = 4;
     public const TOKEN_VALID_FOR = 3600;
     public const CONFIG_VALID_FOR = 86400;
     public const ASYNC_PROCESS_TIMEOUT = 1000;
@@ -766,5 +767,18 @@ class ConfigurationService implements Configuration
     public function getOldTaskCleanupQueueName(): string
     {
         return 'oldTaskCleanup';
+    }
+    
+    /**
+     * Provides entity specific queue name.
+     *
+     * @param string $type
+     * @param string $id
+     *
+     * @return string
+     */
+    public function getEntityQueueName($type, $id)
+    {
+        return substr(hash('md5', $type . '-' . $id), 0, 16);
     }
 }

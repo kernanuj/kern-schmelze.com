@@ -1,13 +1,17 @@
-{% block swag_cms_extensions_block_config %}
-    <div class="sw-cms-block-config swag-cms-extensions-block-behavior-config">
+{% block swag_cms_extensions_block_behavior_config %}
+    <div class="swag-cms-extensions-block-behavior-config">
 
-        {% block swag_cms_extensions_block_config_show_quickview_field %}
-            <sw-switch-field v-model="quickview.active"
-                             :label="$tc('swag-cms-extensions.sw-cms.detail.quickview.showQuickviewLabel')"
-                             :helpText="$tc('swag-cms-extensions.sw-cms.detail.quickview.showQuickviewHelpText')"
-                             :disabled="!blockIsProductRelated"
-                             @change="quickviewActiveChanged">
-            </sw-switch-field>
+        {% block swag_cms_extensions_block_behavior_config_rule %}
+            <swag-cms-extensions-block-config-rule
+                    v-model="block">
+            </swag-cms-extensions-block-config-rule>
         {% endblock %}
+
+        {% block swag_cms_extensions_block_behavior_config_quickview %}
+            <swag-cms-extensions-block-config-quickview
+                    v-model="block">
+            </swag-cms-extensions-block-config-quickview>
+        {% endblock %}
+
     </div>
 {% endblock %}

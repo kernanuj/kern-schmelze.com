@@ -22,5 +22,12 @@
 
     <g:availability>in stock</g:availability>
 
-    <g:price>{{ product.calculatedListingPrice.from.unitPrice|number_format(2, '.', '') }} {{ context.currency.isoCode }}</g:price>
+    <g:price>
+        {%- if product.calculatedPrices is not empty -%}
+            {{ product.calculatedPrices.first.unitPrice|number_format(2, '.', '') }}
+        {%- else -%}
+            {{ product.calculatedPrice.unitPrice|number_format(2, '.', '') }}
+        {%- endif -%}
+        {{ context.currency.isoCode }}
+    </g:price>
 </item>

@@ -5,6 +5,7 @@
             {% block swag_social_shopping_channel_network_google_shopping_include_variants %}
                 <sw-switch-field
                     bordered
+                    :disabled="!acl.can('sales_channel.editor')"
                     :label="$tc('swag-social-shopping.networks.google-shopping.includeVariants')"
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.configuration.includeVariants"
                     >
@@ -15,6 +16,7 @@
                 <sw-select-number-field
                     :label="$tc('swag-social-shopping.networks.google-shopping.interval')"
                     :options="intervalOptions"
+                    :disabled="!acl.can('sales_channel.editor')"
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.configuration.interval"
                     @change="changeInterval">
                 </sw-select-number-field>
@@ -23,7 +25,7 @@
             {% block swag_social_shopping_channel_network_google_shopping_generate_by_cronjob %}
                 <sw-switch-field
                     bordered
-                    :disabled="disableGenerateByCronjob"
+                    :disabled="disableGenerateByCronjob || !acl.can('sales_channel.editor')"
                     :label="$tc('swag-social-shopping.networks.google-shopping.generateByCronjob')"
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.configuration.generateByCronjob">
                 </sw-switch-field>
@@ -33,6 +35,7 @@
                 <sw-text-field
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.configuration.defaultGoogleProductCategory"
                     required
+                    :disabled="!acl.can('sales_channel.editor')"
                     :label="$tc('swag-social-shopping.networks.google-shopping.googleProductDefaultCategory')"
                     :helpText="$tc('swag-social-shopping.networks.google-shopping.helpTextGoogleProductDefaultCategory')"
                     @change="onGoogleProductCategoryChanged">

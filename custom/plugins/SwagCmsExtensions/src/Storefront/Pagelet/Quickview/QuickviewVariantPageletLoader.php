@@ -7,11 +7,11 @@
 
 namespace Swag\CmsExtensions\Storefront\Pagelet\Quickview;
 
+use Shopware\Core\Content\Product\SalesChannel\Detail\ProductDetailRoute;
 use Shopware\Core\System\SalesChannel\Entity\SalesChannelRepositoryInterface;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Page\Product\Configurator\ProductCombinationFinder;
 use Shopware\Storefront\Page\Product\Configurator\ProductPageConfiguratorLoader;
-use Shopware\Storefront\Page\Product\ProductLoader;
 use Shopware\Storefront\Page\Product\Review\ProductReviewLoader;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,13 +25,13 @@ class QuickviewVariantPageletLoader extends QuickviewPageletLoader
 
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
-        ProductLoader $productLoader,
+        ProductDetailRoute $productDetailRoute,
         ProductReviewLoader $productReviewLoader,
         ProductPageConfiguratorLoader $productPageConfiguratorLoader,
         SalesChannelRepositoryInterface $productRepository,
         ProductCombinationFinder $productCombinationFinder
     ) {
-        parent::__construct($eventDispatcher, $productLoader, $productReviewLoader, $productPageConfiguratorLoader, $productRepository);
+        parent::__construct($eventDispatcher, $productDetailRoute, $productReviewLoader, $productPageConfiguratorLoader, $productRepository);
 
         $this->productCombinationFinder = $productCombinationFinder;
     }
@@ -40,7 +40,7 @@ class QuickviewVariantPageletLoader extends QuickviewPageletLoader
     {
         $parentId = $request->get('parentId');
         $switchedOption = $request->query->get('switched');
-        $newOptions = json_decode($request->query->get('options'), true);
+        $newOptions = \json_decode($request->query->get('options'), true);
 
         $combination = $this->productCombinationFinder->find($parentId, $switchedOption, $newOptions, $salesChannelContext);
 

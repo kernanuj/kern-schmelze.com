@@ -7,7 +7,8 @@ Component.extend('sw-social-shopping-channel-network-facebook', 'sw-social-shopp
     template,
 
     inject: [
-        'repositoryFactory'
+        'repositoryFactory',
+        'acl'
     ],
 
     data() {

@@ -7,7 +7,8 @@ Component.extend('sw-social-shopping-channel-network-google-shopping', 'sw-socia
     template,
 
     inject: [
-        'repositoryFactory'
+        'repositoryFactory',
+        'acl'
     ],
 
     data() {

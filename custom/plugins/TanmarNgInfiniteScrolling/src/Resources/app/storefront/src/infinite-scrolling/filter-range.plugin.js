@@ -20,10 +20,10 @@ export default class TanmarInfiniteScrollingFilterRangePlugin extends FilterRang
                     me._removeError();
                 }
                 l._tmisListingOption = 'override';
-                l._tmisVisitedPages = [];
+                l._visitedPagesClear();
                 l._tmisNewPageRequestCounter = 0;
                 l._tmisIsLoading = true;
-                l._tmisLog('reset _onChangeInput');
+                l._tmisLog('  reset _onChangeInput');
                 l.changeListing();
             }.bind(me), me.options.inputTimeout);
         }else{

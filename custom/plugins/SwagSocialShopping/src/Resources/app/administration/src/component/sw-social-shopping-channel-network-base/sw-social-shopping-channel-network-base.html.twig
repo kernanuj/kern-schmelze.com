@@ -14,6 +14,7 @@
                         validation="required"
                         required
                         :error="salesChannelNameError"
+                        :disabled="!acl.can('sales_channel.editor')"
                         :placeholder="placeholder(salesChannel, 'name', $tc('sw-sales-channel.detail.placeholderName'))"
                         :label="$tc('sw-sales-channel.detail.labelInputName')">
                     </sw-text-field>
@@ -23,6 +24,7 @@
                     <sw-switch-field
                         v-model="salesChannel.active"
                         bordered
+                        :disabled="!acl.can('sales_channel.editor')"
                         :label="$tc('sw-sales-channel.detail.labelInputActive')">
                     </sw-switch-field>
                 {% endblock %}
@@ -34,6 +36,7 @@
                     labelProperty="name"
                     entity="sales_channel"
                     required
+                    :disabled="!acl.can('sales_channel.editor')"
                     :criteria="storefrontSalesChannelCriteria"
                     :label="$tc('swag-social-shopping.networks.base.storefront')"
                     @change="onStorefrontSelectionChange">
@@ -47,7 +50,7 @@
                     labelProperty="url"
                     entity="sales_channel_domain"
                     :criteria="storefrontSalesChannelDomainCriteria"
-                    :disabled="!salesChannel.extensions.socialShoppingSalesChannel.salesChannelDomainId && !socialShoppingStorefrontSalesChannelId"
+                    :disabled="(!salesChannel.extensions.socialShoppingSalesChannel.salesChannelDomainId && !socialShoppingStorefrontSalesChannelId) || !acl.can('sales_channel.editor')"
                     :label="$tc('swag-social-shopping.networks.base.storefrontDomain')"
                     @change="forceUpdate">
                 </sw-entity-single-select>
@@ -60,7 +63,7 @@
                     labelProperty="name"
                     entity="currency"
                     :criteria="storefrontSalesChannelDomainCurrencyCriteria"
-                    :disabled="!salesChannel.extensions.socialShoppingSalesChannel.currencyId && !salesChannel.extensions.socialShoppingSalesChannel.salesChannelDomainId"
+                    :disabled="(!salesChannel.extensions.socialShoppingSalesChannel.currencyId && !salesChannel.extensions.socialShoppingSalesChannel.salesChannelDomainId) || !acl.can('sales_channel.editor')"
                     :label="$tc('swag-social-shopping.networks.base.storefrontDomainCurrency')"
                     @change="forceUpdate">
                 </sw-entity-single-select>
@@ -73,6 +76,7 @@
                     labelProperty="name"
                     required
                     entity="product_stream"
+                    :disabled="!acl.can('sales_channel.editor')"
                     :label="$tc('swag-social-shopping.networks.base.productStream')"
                     @change="forceUpdate"
                 >
@@ -93,6 +97,7 @@
                         <sw-button
                             variant="danger"
                             size="small"
+                            :disabled="!acl.can('sales_channel.deleter')"
                             @click="showDeleteModal = true">
                             {{ $tc('sw-sales-channel.detail.buttonDelete') }}
                         </sw-button>

@@ -21,7 +21,8 @@ Component.override('sw-cms-detail', {
                 .getAssociation('sections')
                 .addAssociation('swagCmsExtensionsScrollNavigation')
                 .getAssociation('blocks')
-                .addAssociation('swagCmsExtensionsQuickview');
+                .addAssociation('swagCmsExtensionsQuickview')
+                .addAssociation('swagCmsExtensionsBlockRule');
 
             return criteria;
         }

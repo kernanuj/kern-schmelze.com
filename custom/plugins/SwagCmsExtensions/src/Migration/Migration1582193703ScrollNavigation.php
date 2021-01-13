@@ -53,7 +53,7 @@ DEFAULT CHARSET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 SQL;
 
-        $connection->executeUpdate(str_replace(
+        $connection->executeUpdate(\str_replace(
             ['#table#'],
             [ScrollNavigationDefinition::ENTITY_NAME],
             $sql
@@ -86,7 +86,7 @@ DEFAULT CHARSET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 SQL;
 
-        $connection->executeUpdate(str_replace(
+        $connection->executeUpdate(\str_replace(
             ['#table#', '#referenceTable#'],
             [ScrollNavigationTranslationDefinition::ENTITY_NAME, ScrollNavigationDefinition::ENTITY_NAME],
             $sql

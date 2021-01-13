@@ -8,7 +8,8 @@ Component.register('swag-cms-extensions-section-scroll-behavior-config', {
     template,
 
     inject: [
-        'repositoryFactory'
+        'repositoryFactory',
+        'acl'
     ],
 
     model: {

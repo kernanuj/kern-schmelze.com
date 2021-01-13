@@ -75,7 +75,7 @@ class TypeInstallerTest extends TestCase
         $networkRegistry = $this->getContainer()->get(NetworkRegistry::class);
         /** @var array $networks */
         $networks = $networkRegistry->getNetworks();
-        $networkCount = count($networks);
+        $networkCount = \count($networks);
 
         /** @var EntityRepositoryInterface $salesChannelTypeRepository */
         $salesChannelTypeRepository = $this->getContainer()->get('sales_channel_type.repository');

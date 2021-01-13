@@ -23,9 +23,11 @@ use Shopware\Core\System\SalesChannel\SalesChannelDefinition;
 
 class SocialShoppingProductErrorDefinition extends EntityDefinition
 {
+    public const ENTITY_NAME = 'swag_social_shopping_product_error';
+
     public function getEntityName(): string
     {
-        return 'swag_social_shopping_product_error';
+        return self::ENTITY_NAME;
     }
 
     public function getCollectionClass(): string
@@ -49,7 +51,7 @@ class SocialShoppingProductErrorDefinition extends EntityDefinition
             (new JsonField('errors', 'errors'))->setFlags(new Required()),
 
             (new ManyToOneAssociationField('salesChannel', 'sales_channel_id', SalesChannelDefinition::class))->addFlags(new CascadeDelete()),
-            new ManyToOneAssociationField('product', 'product_id', ProductDefinition::class),
+            (new ManyToOneAssociationField('product', 'product_id', ProductDefinition::class))->addFlags(new CascadeDelete()),
         ]);
     }
 }

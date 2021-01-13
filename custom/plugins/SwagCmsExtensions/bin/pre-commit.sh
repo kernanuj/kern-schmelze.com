@@ -13,12 +13,13 @@ function onExit {
 trap onExit EXIT
 
 PHP_FILES="$(git diff --cached --name-only --diff-filter=ACMR HEAD | grep -E '\.(php)$')"
-JS_FILES="$(git diff --cached --name-only --diff-filter=ACMR HEAD | grep -E '\.(js)$')"
+JS_ADMIN_FILES="$(git diff --cached --name-only --diff-filter=ACMR HEAD | grep -E '^src/Resources/app/administration/.*\.(js)$')"
+JS_STOREFRONT_FILES="$(git diff --cached --name-only --diff-filter=ACMR HEAD | grep -E '^src/Resources/app/storefront/.*\.(js)$')"
 
 # exit on non-zero return code
 set -e
 
-if [[ -z "$PHP_FILES" && -z "$JS_FILES" ]]
+if [[ -z "$PHP_FILES" && -z "$JS_ADMIN_FILES" && -z "$JS_STOREFRONT_FILES" ]]
 then
     exit 0
 fi
@@ -30,11 +31,10 @@ then
         php -l -d display_errors=0 "$FILE" 1> /dev/null
     done
 
-    php "`dirname \"$0\"`"/../../bin/phpstan-config-generator.php
-    php ../../../dev-ops/analyze/vendor/bin/phpstan analyze --no-progress --configuration phpstan.neon --autoload-file="$AUTOLOAD_FILE" ${PHP_FILES}
+    ./bin/static-analyze.sh
 fi
 
-UNSTAGED_FILES="$(git diff --name-only -- ${PHP_FILES} ${JS_FILES})"
+UNSTAGED_FILES="$(git diff --name-only -- ${PHP_FILES} ${JS_ADMIN_FILES} ${JS_STOREFRONT_FILES})"
 
 if [[ -n "$UNSTAGED_FILES" ]]
 then
@@ -50,13 +50,18 @@ fi
 if [[ -n "$PHP_FILES" ]]
 then
     # fix code style and update the commit
-    php ../../../dev-ops/analyze/vendor/bin/php-cs-fixer fix --config=../../../vendor/shopware/platform/.php_cs.dist --quiet -vv ${PHP_FILES}
-    php ../../../dev-ops/analyze/vendor/bin/php-cs-fixer fix --config=.php_cs.dist --quiet -vv ${PHP_FILES}
+    php ../../../dev-ops/analyze/vendor/bin/ecs check --fix --config=../../../vendor/shopware/platform/easy-coding-standard.php ${PHP_FILES}
+    php ../../../dev-ops/analyze/vendor/bin/ecs check --fix --config=easy-coding-standard.php src tests ${PHP_FILES}
 fi
 
-if [[ -n "$JS_FILES" && -x ../../../vendor/shopware/platform/src/Administration/Resources/administration/node_modules/.bin/eslint ]]
+if [[ -n "$JS_ADMIN_FILES" ]]
 then
-    ../../../vendor/shopware/platform/src/Administration/Resources/administration/node_modules/.bin/eslint --config ../../../vendor/shopware/platform/src/Administration/Resources/administration/.eslintrc.js --ext .js,.vue --fix ${JS_FILES}
+    make administration-fix
 fi
 
-git add ${JS_FILES} ${PHP_FILES}
+if [[ -n "$JS_STOREFRONT_FILES" ]]
+then
+    make storefront-fix
+fi
+
+git add ${JS_ADMIN_FILES} ${JS_STOREFRONT_FILES} ${PHP_FILES}

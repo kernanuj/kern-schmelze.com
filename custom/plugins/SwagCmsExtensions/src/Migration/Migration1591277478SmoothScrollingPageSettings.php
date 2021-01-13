@@ -43,7 +43,7 @@ DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 SQL;
 
-        $connection->executeUpdate(str_replace(
+        $connection->executeUpdate(\str_replace(
             ['#table#'],
             [ScrollNavigationPageSettingsDefinition::ENTITY_NAME],
             $sql

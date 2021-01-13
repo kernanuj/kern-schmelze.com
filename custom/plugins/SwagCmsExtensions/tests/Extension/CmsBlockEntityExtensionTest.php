@@ -9,8 +9,10 @@ namespace Swag\CmsExtensions\Test\Extension;
 
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Content\Cms\Aggregate\CmsBlock\CmsBlockDefinition;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\CascadeDelete;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\OneToOneAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
+use Swag\CmsExtensions\BlockRule\BlockRuleDefinition;
 use Swag\CmsExtensions\Extension\CmsBlockEntityExtension;
 use Swag\CmsExtensions\Quickview\QuickviewDefinition;
 
@@ -24,16 +26,27 @@ class CmsBlockEntityExtensionTest extends TestCase
             ->getMock();
 
         $collection
-            ->expects(static::once())
+            ->expects(static::atLeastOnce())
             ->method('add')
-            ->with(
-                new OneToOneAssociationField(
-                    CmsBlockEntityExtension::QUICKVIEW_ASSOCIATION_PROPERTY_NAME,
-                    'id',
-                    QuickviewDefinition::CMS_BLOCK_FOREIGN_KEY_STORAGE_NAME,
-                    QuickviewDefinition::class,
-                    false
-                )
+            ->withConsecutive(
+                [
+                    (new OneToOneAssociationField(
+                        CmsBlockEntityExtension::QUICKVIEW_ASSOCIATION_PROPERTY_NAME,
+                        'id',
+                        QuickviewDefinition::CMS_BLOCK_FOREIGN_KEY_STORAGE_NAME,
+                        QuickviewDefinition::class,
+                        false
+                    ))->addFlags(new CascadeDelete()),
+                ],
+                [
+                    (new OneToOneAssociationField(
+                        CmsBlockEntityExtension::BLOCK_RULE_ASSOCIATION_PROPERTY_NAME,
+                        'id',
+                        BlockRuleDefinition::CMS_BLOCK_FOREIGN_KEY_STORAGE_NAME,
+                        BlockRuleDefinition::class,
+                        false
+                    ))->addFlags(new CascadeDelete()),
+                ]
             );
 
         (new CmsBlockEntityExtension())->extendFields($collection);

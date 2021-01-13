@@ -3,10 +3,22 @@
 
     {% block sw_cms_section_action_scroll_navigation_label %}
         <div v-if="scrollNavigation && scrollNavigation.active"
-             class="sw-cms-section__action sw-cms-section-scroll-navigation-label">
-            <sw-icon v-tooltip="scrollNavigationPointTooltip"
-                     name="default-action-tags"
-                     size="20">
+             class="sw-cms-section__action sw-cms-section__scroll-navigation-label">
+            <sw-icon
+                    v-tooltip="scrollNavigationPointTooltip"
+                    name="default-action-tags"
+                    size="20">
+            </sw-icon>
+        </div>
+    {% endblock %}
+
+    {% block sw_cms_section_action_block_rules_label %}
+        <div v-if="hasRulesOnAllBlocks"
+             class="sw-cms-section__action sw-cms-section__block-rules-label">
+            <sw-icon
+                    v-tooltip="rulesOnAllBlocksTooltip"
+                    name="default-badge-info"
+                    size="20">
             </sw-icon>
         </div>
     {% endblock %}

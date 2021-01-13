@@ -165,7 +165,7 @@ class OrderSubscriber implements EventSubscriberInterface
         foreach ($ids as $id) {
             if (in_array($id, self::$orderNumberMap)) {
                 Logger::logInfo("Order delete event detected. Deleted order id: {$id}", 'Integration');
-                $this->enqueueTask(new OrderCancelTask($id));
+                $this->enqueueTask($this->configService->getEntityQueueName('order', $id), new OrderCancelTask($id));
             }
         }
     }
@@ -187,7 +187,9 @@ class OrderSubscriber implements EventSubscriberInterface
             $jsonIds = json_encode($ids);
             Logger::logInfo("Order created event detected. Order id: {$jsonIds}", 'Integration');
             $this->saveServicePointInfo(reset($ids));
-            $this->enqueueTask(new OrderSyncTask($ids));
+            foreach ($ids as $id) {
+                $this->enqueueTask($this->configService->getEntityQueueName('order', $id), new OrderSyncTask([$id]));
+            }
         }
     }
 
@@ -208,6 +210,21 @@ class OrderSubscriber implements EventSubscriberInterface
             if (!strpos($path, '/')) {
                 $this->saveOrderNumber($path);
             }
+        }
+    }
+    
+    /**
+     * Enqueues given task
+     *
+     * @param string $queueName
+     * @param Task $task
+     *
+     * @throws QueueStorageUnavailableException
+     */
+    private function enqueueTask(string $queueName, Task $task): void
+    {
+        if ($this->connectService->isIntegrationConnected()) {
+            $this->queue->enqueue($queueName, $task);
         }
     }
 
@@ -252,17 +269,4 @@ class OrderSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * Enqueues given task
-     *
-     * @param Task $task
-     *
-     * @throws QueueStorageUnavailableException
-     */
-    private function enqueueTask(Task $task): void
-    {
-        if ($this->connectService->isIntegrationConnected()) {
-            $this->queue->enqueue($this->configService->getQueueName(), $task);
-        }
-    }
 }

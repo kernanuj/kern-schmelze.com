@@ -1,3 +1,5 @@
+const ProductFixture = global.ProductFixtureService;
+
 /* global cy */
 const selector = {
     productBox: {
@@ -24,12 +26,8 @@ const selector = {
 let product = {};
 
 describe('Quickview listing', () => {
-    beforeEach(() => {
-        return cy.createProductFixture().then(() => {
-            return cy.createDefaultFixture('category');
-        }).then(() => {
-            return cy.fixture('product');
-        }).then((result) => {
+    before(() => {
+        return cy.createQuickviewProductFixture().then((result) => {
             product = result;
             cy.visit('/');
         });

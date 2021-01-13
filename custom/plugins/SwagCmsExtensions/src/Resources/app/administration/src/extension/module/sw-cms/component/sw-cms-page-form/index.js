@@ -20,6 +20,14 @@ Component.override('sw-cms-page-form', {
                 this.$tc('swag-cms-extensions.sw-cms.section.actions.pageForm.emptyAnchorName');
 
             return `${prefix} - ${displayName}`;
+        },
+
+        sectionHasRulesOnAllBlocks(section) {
+            return section.blocks.every((block) => {
+                const rule = block.extensions.swagCmsExtensionsBlockRule;
+
+                return rule && (rule.inverted || !!rule.visibilityRuleId);
+            });
         }
     }
 });

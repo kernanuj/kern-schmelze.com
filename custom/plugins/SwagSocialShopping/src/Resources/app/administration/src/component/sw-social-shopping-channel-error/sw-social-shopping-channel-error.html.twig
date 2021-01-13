@@ -1,5 +1,5 @@
 {% block swag_social_shopping_channel_error %}
-    <sw-card :isLoading="isLoading" :title="$tc('swag-social-shopping.validation.titleValidation')">
+    <sw-card class="sw-social-shopping-error" :isLoading="isLoading" :title="$tc('swag-social-shopping.validation.titleValidation')">
         <div>
 
             {% block swag_social_shopping_channel_error_head %}
@@ -9,6 +9,7 @@
                         <sw-button
                                 variant="ghost"
                                 size="small"
+                                :disabled="!acl.can('sales_channel.editor')"
                                 :isLoading="isValidating"
                                 @click="onValidate">
                             {{ $tc('swag-social-shopping.validation.buttonStartValidation') }}

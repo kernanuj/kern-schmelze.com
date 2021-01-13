@@ -54,7 +54,7 @@
                         <sw-button
                             v-else
                             variant="ghost"
-                            :disabled="!salesChannel.active"
+                            :disabled="!salesChannel.active || !acl.can('sales_channel.editor')"
                             :isLoading="isLoading"
                             @click="openPinterestValidation">
                             {{ $tc('swag-social-shopping.networks.pinterest.validationButtonTitle') }}

@@ -67,7 +67,7 @@ class ShipmentController extends AbstractController
      *
      * @RouteScope(scopes={"api"})
      * @Route(path="/api/v{version}/sendcloud/shipment/{orderNumber}", name="api.sendcloud.shipment.get",
-     *     defaults={"auth_required"=false}, methods={"GET"})
+     *     methods={"GET"})
      *
      * @param string $orderNumber
      *
@@ -98,7 +98,7 @@ class ShipmentController extends AbstractController
      *
      * @RouteScope(scopes={"api"})
      * @Route(path="/api/v{version}/sendcloud/shipment/save/{orderNumber}", name="api.sendcloud.shipment.save",
-     *     defaults={"auth_required"=false}, methods={"POST"})
+     *     methods={"POST"})
      *
      * @param string $orderNumber
      * @param Request $request
@@ -134,6 +134,6 @@ class ShipmentController extends AbstractController
         /** @var Queue $queue */
         $queue = ServiceRegister::getService(Queue::CLASS_NAME);
         $task = new OrderSyncTask([$order->getId()]);
-        $queue->enqueue($this->configService->getQueueName(), $task);
+        $queue->enqueue($this->configService->getEntityQueueName('order', $order->getId()), $task);
     }
 }

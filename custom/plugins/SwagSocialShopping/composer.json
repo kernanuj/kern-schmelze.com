@@ -1,7 +1,7 @@
 {
     "name": "swag/social-shopping",
     "description": "Social shopping plugin",
-    "version": "1.2.0",
+    "version": "1.3.3",
     "type": "shopware-platform-plugin",
     "license": "proprietary",
     "authors": [
@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "shopware/core": "~6.2.0 || ~6.3.0"
+        "shopware/core": "~6.3.0"
     },
     "autoload": {
         "psr-4": {
@@ -30,7 +30,7 @@
             "en-GB": "Social Shopping"
         },
         "description": {
-            "de-DE": "Das Plugin ermöglicht die einfache Integration verschiedener Social Shopping Kanäle in Ihren Shopware Shop",
+            "de-DE": "Das Plugin ermöglicht die einfache Integration verschiedener Social-Shopping-Kanäle in Deinem Shopware Shop",
             "en-GB": "The plugin enables a simple integration of various social shopping channels into your Shopware shop."
         },
         "manufacturerLink": {

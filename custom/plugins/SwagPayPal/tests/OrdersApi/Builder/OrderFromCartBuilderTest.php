@@ -11,12 +11,14 @@ use PHPUnit\Framework\TestCase;
 use Shopware\Core\Checkout\Cart\Cart;
 use Shopware\Core\Checkout\Cart\LineItem\LineItem;
 use Shopware\Core\Checkout\Cart\Price\Struct\CalculatedPrice;
+use Shopware\Core\Checkout\Cart\Price\Struct\CartPrice;
+use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTax;
 use Shopware\Core\Checkout\Cart\Tax\Struct\CalculatedTaxCollection;
+use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRule;
 use Shopware\Core\Checkout\Cart\Tax\Struct\TaxRuleCollection;
 use Shopware\Core\Checkout\Payment\Exception\InvalidTransactionException;
 use Shopware\Core\Checkout\Test\Cart\Common\Generator;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Swag\PayPal\OrdersApi\Builder\OrderFromCartBuilder;
 use Swag\PayPal\OrdersApi\Builder\Util\AmountProvider;
@@ -24,6 +26,8 @@ use Swag\PayPal\Setting\Exception\PayPalSettingsInvalidException;
 use Swag\PayPal\Setting\SwagPayPalSettingStruct;
 use Swag\PayPal\Test\Helper\CartTrait;
 use Swag\PayPal\Test\Helper\ServicesTrait;
+use Swag\PayPal\Test\Mock\EventDispatcherMock;
+use Swag\PayPal\Test\Mock\LoggerMock;
 use Swag\PayPal\Test\Mock\Setting\Service\SettingsServiceMock;
 use Swag\PayPal\Util\PriceFormatter;
 
@@ -116,6 +120,84 @@ class OrderFromCartBuilderTest extends TestCase
         static::assertSame(0, \array_keys($paypalOrderItems)[0], 'First array key of the PayPal items array must be 0.');
     }
 
+    public function testLineItemLabelTooLongIsTruncated(): void
+    {
+        $settings = $this->createDefaultSettingStruct();
+        $salesChannelContext = $this->createSalesChannelContext();
+
+        $cart = $this->createCart('');
+        $productPrice = new CalculatedPrice(12.34, 12.34, new CalculatedTaxCollection(), new TaxRuleCollection());
+        $productName = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam volu';
+        $cartLineItem = $this->createLineItem($productPrice);
+        $cartLineItem->setLabel($productName);
+        $cart->add($cartLineItem);
+
+        $order = $this->createOrderFromCartBuilder($settings)->getOrder($cart, $salesChannelContext, null);
+        $paypalOrderItems = $order->getPurchaseUnits()[0]->getItems();
+        static::assertNotNull($paypalOrderItems);
+        static::assertNotEmpty($paypalOrderItems);
+        $expectedItemName = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliqu';
+        static::assertSame($expectedItemName, $paypalOrderItems[0]->getName());
+    }
+
+    public function testLineItemProductNumberTooLongIsTruncated(): void
+    {
+        $settings = $this->createDefaultSettingStruct();
+        $salesChannelContext = $this->createSalesChannelContext();
+
+        $cart = $this->createCart('');
+        $productPrice = new CalculatedPrice(12.34, 12.34, new CalculatedTaxCollection(), new TaxRuleCollection());
+        $productNumber = 'SW-100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
+        $cartLineItem = $this->createLineItem($productPrice);
+        $cartLineItem->setPayloadValue('productNumber', $productNumber);
+        $cart->add($cartLineItem);
+
+        $order = $this->createOrderFromCartBuilder($settings)->getOrder($cart, $salesChannelContext, null);
+        $paypalOrderItems = $order->getPurchaseUnits()[0]->getItems();
+        static::assertNotNull($paypalOrderItems);
+        static::assertNotEmpty($paypalOrderItems);
+        $expectedItemSku = 'SW-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
+        static::assertSame($expectedItemSku, $paypalOrderItems[0]->getSku());
+    }
+
+    public function testGetOrderFromNetCart(): void
+    {
+        $settings = $this->createDefaultSettingStruct();
+        $salesChannelContext = $this->createSalesChannelContext();
+        $productNetPrice = 168.07;
+        $productTax = 31.93;
+        $taxRate = 19.0;
+
+        $cart = $this->createCart('');
+        $cartPrice = new CartPrice(
+            $productNetPrice,
+            $productNetPrice + $productTax,
+            $productNetPrice,
+            new CalculatedTaxCollection([new CalculatedTax($productTax, $taxRate, $productNetPrice)]),
+            new TaxRuleCollection([new TaxRule($taxRate)]),
+            CartPrice::TAX_STATE_NET
+        );
+        $cart->setPrice($cartPrice);
+        $firstCartTransaction = $cart->getTransactions()->first();
+        static::assertNotNull($firstCartTransaction);
+        $firstCartTransaction->setAmount(
+            new CalculatedPrice(
+                $productNetPrice,
+                $productNetPrice + $productTax,
+                new CalculatedTaxCollection([new CalculatedTax($productTax, $taxRate, $productNetPrice)]),
+                new TaxRuleCollection([new TaxRule($taxRate)])
+            )
+        );
+
+        $order = $this->createOrderFromCartBuilder($settings)->getOrder($cart, $salesChannelContext, null);
+        $breakdown = $order->getPurchaseUnits()[0]->getAmount()->getBreakdown();
+        static::assertNotNull($breakdown);
+        $taxTotal = $breakdown->getTaxTotal();
+        static::assertNotNull($taxTotal);
+
+        static::assertSame((string) $productTax, $taxTotal->getValue());
+    }
+
     private function createOrderFromCartBuilder(?SwagPayPalSettingStruct $settings = null): OrderFromCartBuilder
     {
         $settings = $settings ?? $this->createDefaultSettingStruct();
@@ -125,7 +207,9 @@ class OrderFromCartBuilderTest extends TestCase
         return new OrderFromCartBuilder(
             $settingsService,
             $priceFormatter,
-            new AmountProvider($priceFormatter)
+            new AmountProvider($priceFormatter),
+            new EventDispatcherMock(),
+            new LoggerMock()
         );
     }
 
@@ -144,17 +228,5 @@ class OrderFromCartBuilderTest extends TestCase
         $cart->add($this->createLineItem($lineItemPrice));
 
         return $cart;
-    }
-
-    private function createLineItem(
-        ?CalculatedPrice $lineItemPrice,
-        string $lineItemType = LineItem::PRODUCT_LINE_ITEM_TYPE
-    ): LineItem {
-        $lineItem = new LineItem(Uuid::randomHex(), $lineItemType);
-        if ($lineItemPrice !== null) {
-            $lineItem->setPrice($lineItemPrice);
-        }
-
-        return $lineItem;
     }
 }

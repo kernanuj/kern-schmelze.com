@@ -170,16 +170,24 @@ class OrderService implements OrderServiceInterface
                 $order->getSendCloudTrackingUrl()
             );
 
-            $sourceOrder = $this->orderRepository->getOrderByNumber($order->getNumber());
-            if ($sourceOrder) {
-                $delivery = $sourceOrder->getDeliveries() ? $sourceOrder->getDeliveries()->first() : null;
-                if ($delivery) {
-                    $id = $delivery->getId();
-                    $this->orderDeliveryRepository->updateTrackingNumber($id, (string)$order->getSendCloudTrackingNumber(), Context::createDefaultContext());
-                    $stateId = $this->deliveryStateMapper->getDeliveryStatusStateId((int)$order->getSendCloudStatusId());
-                    $this->orderDeliveryRepository->updateDeliveryStatus($id, (string)$stateId, Context::createDefaultContext());
-                }
+            $sourceOrder = $this->orderRepository->getOrderByNumber((string)$order->getNumber());
+            if (!$sourceOrder) {
+                return;
             }
+
+            $deliveryCollection = $sourceOrder->getDeliveries();
+            $delivery = $deliveryCollection ? $deliveryCollection->first() : null;
+            if (!$delivery) {
+                return;
+            }
+
+            $id = $delivery->getId();
+            $this->orderDeliveryRepository->updateTrackingNumber(
+                $id,
+                (string)$order->getSendCloudTrackingNumber(),
+                Context::createDefaultContext()
+            );
+            $this->deliveryStateMapper->updateStatus($id, $order->getSendCloudStatusId());
         } catch (\Exception $exception) {
             Logger::logError("Failed to update order status: {$exception->getMessage()}", 'Integration');
         }
@@ -311,6 +319,17 @@ class OrderService implements OrderServiceInterface
                 $orderItem->setSku($productEntity->getProductNumber());
                 $totalWeight += $quantity * $weight;
                 $orderItem->setWeight(round($weight, 2));
+                
+                $orderItemProperties = [];
+                foreach ($productEntity->getOptions() as $option) {
+                    $group = $option->getGroup();
+
+                    if ($group) {
+                        $orderItemProperties[$group->getTranslation('name')] = $option->getTranslation('name');
+                    }
+                }
+
+                $orderItem->setProperties($orderItemProperties);
             }
 
             $orderItems[] = $orderItem;
@@ -373,6 +392,12 @@ class OrderService implements OrderServiceInterface
             $address .= ' ' . $shippingAddress->getAdditionalAddressLine2();
         }
 
+        $name = $shippingAddress->getFirstName();
+        if (!empty($shippingAddress->getLastName())) {
+            $name .= ' ' . $shippingAddress->getLastName();
+        }
+
+        $order->setCustomerName($name);
         $order->setAddress($address);
         $order->setPostalCode($shippingAddress->getZipcode());
         $order->setCity($shippingAddress->getCity());

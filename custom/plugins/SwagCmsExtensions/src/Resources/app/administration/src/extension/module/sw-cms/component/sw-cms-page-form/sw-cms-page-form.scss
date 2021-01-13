@@ -1,8 +1,13 @@
 @import "~scss/variables";
 
-.sw-cms-page-form__section-anchor {
-    &-icon,
-    &-label {
+.sw-cms-page-form {
+    &__section-anchor-icon,
+    &__section-anchor-label {
         color: $color-module-purple-900;
+    }
+
+    &__block-rules-icon,
+    &__block-rules-label {
+        color: $color-shopware-brand-500;
     }
 }

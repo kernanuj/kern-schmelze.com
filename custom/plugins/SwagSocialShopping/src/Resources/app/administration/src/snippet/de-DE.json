@@ -39,7 +39,7 @@
                 "manufacturer": "shopware AG",
                 "descriptionLong": "Erstelle einen Verkaufskanal um deine Produkte über Instagram zu verkaufen."
             },
-            "googleShopping": {
+            "google-shopping": {
                 "name": "Google Shopping",
                 "description": "Verkaufe deine Produkte via Google Shopping",
                 "titleGoogleShoppingSettings": "Weitere Einstellungen",

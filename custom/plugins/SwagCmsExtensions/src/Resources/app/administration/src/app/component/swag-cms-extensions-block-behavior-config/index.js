@@ -1,13 +1,16 @@
 import template from './swag-cms-extensions-block-behavior-config.html.twig';
-import './swag-cms-extensions-block-behavior-config.scss';
 
-const { Component, Application: { view: { setReactive } } } = Shopware;
+const { Component } = Shopware;
+// @deprecated tag:v2.0.0 - Functionality moved to `swag-cms-extensions-block-config-quickview`
+const { Application: { view: { setReactive } } } = Shopware;
 
 Component.register('swag-cms-extensions-block-behavior-config', {
     template,
 
+    // @deprecated tag:v2.0.0 - Functionality moved to `swag-cms-extensions-block-config-quickview`
     inject: [
-        'repositoryFactory'
+        'repositoryFactory',
+        'acl'
     ],
 
     model: {
@@ -26,6 +29,7 @@ Component.register('swag-cms-extensions-block-behavior-config', {
     },
 
     computed: {
+        // @deprecated tag:v2.0.0 - Functionality moved to `swag-cms-extensions-block-config-quickview`
         productRelatedBlocks() {
             return [
                 'product-listing',
@@ -34,6 +38,7 @@ Component.register('swag-cms-extensions-block-behavior-config', {
             ];
         },
 
+        // @deprecated tag:v2.0.0 - Functionality moved to `swag-cms-extensions-block-config-quickview`
         productRelatedSlots() {
             return [
                 'product-box',
@@ -41,6 +46,7 @@ Component.register('swag-cms-extensions-block-behavior-config', {
             ];
         },
 
+        // @deprecated tag:v2.0.0 - Functionality moved to `swag-cms-extensions-block-config-quickview`
         blockIsProductRelated() {
             // Check if one of the slots is a product related slot
             const productRelatedSlot = this.block.slots.reduce((accumulator, slot) => {
@@ -56,14 +62,17 @@ Component.register('swag-cms-extensions-block-behavior-config', {
             return (productRelatedSlot || this.productRelatedBlocks.includes(this.block.type));
         },
 
+        // @deprecated tag:v2.0.0 - Functionality moved to `swag-cms-extensions-block-config-quickview`
         quickviewRepository() {
             return this.repositoryFactory.create('swag_cms_extensions_quickview');
         },
 
+        // @deprecated tag:v2.0.0 - Functionality moved to `swag-cms-extensions-block-config-quickview`
         quickviewExtensionDefined() {
             return this.block.extensions.swagCmsExtensionsQuickview !== undefined;
         },
 
+        // @deprecated tag:v2.0.0 - Functionality moved to `swag-cms-extensions-block-config-quickview`
         quickview() {
             if (this.quickviewExtensionDefined) {
                 return this.block.extensions.swagCmsExtensionsQuickview;
@@ -74,6 +83,7 @@ Component.register('swag-cms-extensions-block-behavior-config', {
     },
 
     methods: {
+        // @deprecated tag:v2.0.0 - Functionality moved to `swag-cms-extensions-block-config-quickview`
         quickviewActiveChanged(state) {
             if (!this.quickviewExtensionDefined) {
                 /**

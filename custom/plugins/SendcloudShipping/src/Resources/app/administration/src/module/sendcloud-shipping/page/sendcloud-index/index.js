@@ -15,17 +15,25 @@ Component.register('sendcloud-index', {
     },
 
     mounted: function () {
-        this.getCurrentRoute();
+        this.getCurrentRoute({});
     },
 
     watch: {
         $route(to, from) {
-            this.getCurrentRoute();
+            let query = {};
+
+            if (to.hasOwnProperty('query') && Object.keys(to.query).length > 0) {
+                query = to.query;
+            } else if (from.hasOwnProperty('query') && Object.keys(from.query).length > 0) {
+                query = from.query;
+            }
+
+            this.getCurrentRoute(query);
         }
     },
 
     methods: {
-        getCurrentRoute: function () {
+        getCurrentRoute: function (query) {
             const headers = this.pluginService.getBasicHeaders();
 
             return this.pluginService.httpClient
@@ -38,7 +46,9 @@ Component.register('sendcloud-index', {
                         params: {
                             page: routeName
                         },
+                        query: query
                     };
+
                     this.$router.replace(route);
                 }).catch(error => {
 

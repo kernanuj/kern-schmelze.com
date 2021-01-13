@@ -11,6 +11,7 @@
         <directory name="tests"/>
         <ignoreFiles>
             <directory name="../../../platform"/> <!-- would otherwise inspect Shopware -->
+            <directory name="../../../vendor"/> <!-- prevents to check vendors -->
         </ignoreFiles>
     </projectFiles>
 
@@ -27,6 +28,13 @@
                 <directory name="tests/Mock"/>
             </errorLevel>
         </InvalidReturnType>
+
+        <DeprecatedMethod>
+            <errorLevel type="info">
+                <!-- ToDo SOC-16 - Adjust parameters for 6.4 -->
+                <referencedMethod name="Shopware\Core\System\SalesChannel\Context\SalesChannelContextServiceInterface::get"/>
+            </errorLevel>
+        </DeprecatedMethod>
 
         <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
 

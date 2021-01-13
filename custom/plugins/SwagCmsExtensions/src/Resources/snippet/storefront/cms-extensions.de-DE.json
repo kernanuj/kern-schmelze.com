@@ -2,6 +2,7 @@
     "swagCmsExtensions": {
         "quickview": {
             "detailPageLinkText": "Mehr Details anzeigen",
+            "detailPageLinkTextCustomizable": "Produkt konfigurieren",
             "detailPageBuyWidgetQuantityLabel": "Menge"
         }
     }

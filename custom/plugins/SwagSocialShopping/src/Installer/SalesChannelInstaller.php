@@ -74,6 +74,9 @@ class SalesChannelInstaller implements InstallerInterface
             [
                 'id' => SwagSocialShopping::SALES_CHANNEL_TYPE_SOCIAL_SHOPPING,
                 'iconName' => 'default-shopping-basket',
+                'name' => 'Social Shopping',
+                'manufacturer' => 'shopware AG',
+                'description' => 'Empty container for social shopping networks',
                 'translations' => [
                     'en-GB' => [
                         'name' => 'Social Shopping',

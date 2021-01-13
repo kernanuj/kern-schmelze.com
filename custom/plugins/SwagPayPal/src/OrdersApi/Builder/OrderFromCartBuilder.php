@@ -7,19 +7,49 @@
 
 namespace Swag\PayPal\OrdersApi\Builder;
 
+use Psr\Log\LoggerInterface;
 use Shopware\Core\Checkout\Cart\Cart;
+use Shopware\Core\Checkout\Cart\LineItem\LineItem;
+use Shopware\Core\Checkout\Cart\Price\Struct\CartPrice;
 use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Checkout\Payment\Exception\InvalidTransactionException;
 use Shopware\Core\System\Currency\CurrencyEntity;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Swag\PayPal\OrdersApi\Builder\Event\PayPalV2ItemFromCartEvent;
+use Swag\PayPal\OrdersApi\Builder\Util\AmountProvider;
 use Swag\PayPal\RestApi\V2\Api\Order;
 use Swag\PayPal\RestApi\V2\Api\Order\PurchaseUnit;
 use Swag\PayPal\RestApi\V2\Api\Order\PurchaseUnit\Item;
 use Swag\PayPal\RestApi\V2\Api\Order\PurchaseUnit\Item\UnitAmount;
+use Swag\PayPal\Setting\Service\SettingsServiceInterface;
 use Swag\PayPal\Setting\SwagPayPalSettingStruct;
+use Swag\PayPal\Util\PriceFormatter;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class OrderFromCartBuilder extends AbstractOrderBuilder
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(
+        SettingsServiceInterface $settingsService,
+        PriceFormatter $priceFormatter,
+        AmountProvider $amountProvider,
+        EventDispatcherInterface $eventDispatcher,
+        LoggerInterface $logger
+    ) {
+        parent::__construct($settingsService, $priceFormatter, $amountProvider);
+        $this->eventDispatcher = $eventDispatcher;
+        $this->logger = $logger;
+    }
+
     public function getOrder(
         Cart $cart,
         SalesChannelContext $salesChannelContext,
@@ -69,7 +99,8 @@ class OrderFromCartBuilder extends AbstractOrderBuilder
             $cartTransaction->getAmount(),
             $cart->getShippingCosts(),
             $currency,
-            $purchaseUnit
+            $purchaseUnit,
+            $cart->getPrice()->getTaxStatus() !== CartPrice::TAX_STATE_GROSS
         );
 
         if ($customer !== null) {
@@ -98,7 +129,8 @@ class OrderFromCartBuilder extends AbstractOrderBuilder
             }
 
             $item = new Item();
-            $item->setName((string) $lineItem->getLabel());
+            $this->setName($lineItem, $item);
+            $this->setSku($lineItem, $item);
 
             $unitAmount = new UnitAmount();
             $unitAmount->setCurrencyCode($currencyCode);
@@ -107,9 +139,36 @@ class OrderFromCartBuilder extends AbstractOrderBuilder
             $item->setUnitAmount($unitAmount);
             $item->setQuantity($lineItem->getQuantity());
 
-            $items[] = $item;
+            $event = new PayPalV2ItemFromCartEvent($item, $lineItem);
+            $this->eventDispatcher->dispatch($event);
+
+            $items[] = $event->getPayPalLineItem();
         }
 
         return $items;
+    }
+
+    private function setName(LineItem $lineItem, Item $item): void
+    {
+        $label = (string) $lineItem->getLabel();
+
+        try {
+            $item->setName($label);
+        } catch (\LengthException $e) {
+            $this->logger->warning($e->getMessage(), ['lineItem' => $lineItem]);
+            $item->setName(\substr($label, 0, Item::MAX_LENGTH_NAME));
+        }
+    }
+
+    private function setSku(LineItem $lineItem, Item $item): void
+    {
+        $productNumber = $lineItem->getPayloadValue('productNumber');
+
+        try {
+            $item->setSku($productNumber);
+        } catch (\LengthException $e) {
+            $this->logger->warning($e->getMessage(), ['lineItem' => $lineItem]);
+            $item->setSku(\substr($productNumber, 0, Item::MAX_LENGTH_SKU));
+        }
     }
 }

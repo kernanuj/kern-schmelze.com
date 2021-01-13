@@ -8,7 +8,9 @@
 namespace Swag\CmsExtensions\Util\Lifecycle;
 
 use Doctrine\DBAL\Connection;
+use Shopware\Core\Content\Cms\Aggregate\CmsBlock\CmsBlockDefinition;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
+use Swag\CmsExtensions\BlockRule\BlockRuleDefinition;
 use Swag\CmsExtensions\Quickview\QuickviewDefinition;
 use Swag\CmsExtensions\ScrollNavigation\Aggregate\ScrollNavigationPageSettings\ScrollNavigationPageSettingsDefinition;
 use Swag\CmsExtensions\ScrollNavigation\Aggregate\ScrollNavigationTranslation\ScrollNavigationTranslationDefinition;
@@ -38,15 +40,33 @@ class Uninstaller
             return;
         }
 
+        $this->dropCmsExtensionTables();
+        $this->dropCmsBlockColumn();
+    }
+
+    private function dropCmsExtensionTables(): void
+    {
         $classNames = [
             QuickviewDefinition::ENTITY_NAME,
             ScrollNavigationPageSettingsDefinition::ENTITY_NAME,
             ScrollNavigationTranslationDefinition::ENTITY_NAME,
             ScrollNavigationDefinition::ENTITY_NAME,
+            BlockRuleDefinition::ENTITY_NAME,
         ];
 
         foreach ($classNames as $className) {
-            $this->connection->executeUpdate(sprintf('DROP TABLE IF EXISTS `%s`', $className));
+            $this->connection->executeUpdate(\sprintf('DROP TABLE IF EXISTS `%s`', $className));
         }
+    }
+
+    private function dropCmsBlockColumn(): void
+    {
+        $sql = \str_replace(
+            ['#table#', '#column#'],
+            [CmsBlockDefinition::ENTITY_NAME, BlockRuleDefinition::RULE_FOREIGN_KEY_STORAGE_NAME],
+            'ALTER TABLE `#table#`
+                    DROP COLUMN `#column#`'
+        );
+        $this->connection->executeUpdate($sql);
     }
 }

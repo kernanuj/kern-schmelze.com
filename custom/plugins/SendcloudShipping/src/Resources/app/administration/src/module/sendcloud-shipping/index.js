@@ -12,6 +12,9 @@ import './page/sendcloud-dashboard';
 
 import deDE from './snippet/de-DE.json';
 import enGB from './snippet/en-GB.json';
+import nlNL from './snippet/nl-NL.json';
+import esES from './snippet/es-ES.json';
+import frFR from './snippet/fr-FR.json';
 
 Shopware.Module.register('sendcloud-shipping', {
     type: 'plugin',
@@ -23,7 +26,10 @@ Shopware.Module.register('sendcloud-shipping', {
 
     snippets: {
         'de-DE': deDE,
-        'en-GB': enGB
+        'en-GB': enGB,
+        'nl-NL': nlNL,
+        'es-ES': esES,
+        'fr-FR': frFR
     },
 
     routes: {
@@ -37,6 +43,7 @@ Shopware.Module.register('sendcloud-shipping', {
         label: 'send-cloud.basic.label',
         color: '#1D97FF',
         path: 'sendcloud.shipping.index',
-        icon: 'default-action-cloud-upload'
+        icon: 'default-action-cloud-upload',
+        parent: 'sw-order'
     }]
 });

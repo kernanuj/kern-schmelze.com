@@ -11,7 +11,9 @@ namespace SwagSocialShopping\Api;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\Routing\Annotation\Acl;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
+use Shopware\Core\Framework\Routing\Exception\MissingRequestParameterException;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use SwagSocialShopping\Component\MessageQueue\SocialShoppingValidation;
 use SwagSocialShopping\Component\Network\NetworkInterface;
@@ -64,6 +66,7 @@ class SocialShoppingController extends AbstractController
 
     /**
      * @Route("/api/v{version}/_action/social-shopping/networks", name="api.action.social_shopping.networks", methods={"GET"})
+     * @Acl({"sales_channel.viewer"})
      */
     public function getNetworks(): JsonResponse
     {
@@ -82,10 +85,14 @@ class SocialShoppingController extends AbstractController
 
     /**
      * @Route("/api/v{version}/_action/social-shopping/validate", name="api.action.social_shopping.validate", methods={"POST"})
+     * @Acl({"sales_channel.viewer"})
      */
     public function validate(RequestDataBag $dataBag, Context $context): Response
     {
         $socialShoppingSalesChannelId = $dataBag->get('social_shopping_sales_channel_id');
+        if ($socialShoppingSalesChannelId === null) {
+            throw new MissingRequestParameterException('social_shopping_sales_channel_id');
+        }
 
         $socialShoppingSalesChannel = $this->socialShoppingSalesChannelRepository->search(
             new Criteria([$socialShoppingSalesChannelId]),

@@ -119,6 +119,7 @@
 
         <service id="SwagSocialShopping\EventListener\DataFeedEventListener">
             <argument type="service" id="SwagSocialShopping\Component\DataFeed\DataFeedHandler"/>
+            <argument type="service" id="sales_channel.repository"/>
             <tag name="kernel.event_subscriber"/>
         </service>
 

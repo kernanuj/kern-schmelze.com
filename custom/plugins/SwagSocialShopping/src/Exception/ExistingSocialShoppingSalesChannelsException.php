@@ -22,12 +22,12 @@ class ExistingSocialShoppingSalesChannelsException extends ShopwareHttpException
             $amount === 1 ? 'channel' : 'channels',
         ];
 
-        parent::__construct(sprintf(
+        parent::__construct(\sprintf(
             'There %s still %d Social Shopping sales %s left. [%s]',
             $quantityWords[0],
             $amount,
             $quantityWords[1],
-            implode(', ', $names)
+            \implode(', ', $names)
         ));
     }
 

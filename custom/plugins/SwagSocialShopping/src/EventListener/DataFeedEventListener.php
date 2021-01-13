@@ -8,8 +8,12 @@
 
 namespace SwagSocialShopping\EventListener;
 
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityWriteResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\System\SalesChannel\SalesChannelEntity;
+use Shopware\Core\System\SalesChannel\SalesChannelEvents;
 use SwagSocialShopping\Component\DataFeed\DataFeedHandler;
 use SwagSocialShopping\SwagSocialShopping;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -21,15 +25,22 @@ class DataFeedEventListener implements EventSubscriberInterface
      */
     private $dataFeedHandler;
 
-    public function __construct(DataFeedHandler $dataFeedHandler)
+    /**
+     * @var EntityRepositoryInterface
+     */
+    private $salesChannelRepository;
+
+    public function __construct(DataFeedHandler $dataFeedHandler, EntityRepositoryInterface $salesChannelRepository)
     {
         $this->dataFeedHandler = $dataFeedHandler;
+        $this->salesChannelRepository = $salesChannelRepository;
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
             SwagSocialShopping::SOCIAL_SHOPPING_SALES_CHANNEL_WRITTEN_EVENT => 'afterWrite',
+            SalesChannelEvents::SALES_CHANNEL_WRITTEN => 'afterWriteSalesChannel',
         ];
     }
 
@@ -41,6 +52,37 @@ class DataFeedEventListener implements EventSubscriberInterface
             }
 
             $this->dataFeedHandler->createDataFeedForWriteResult($writeResult, $event);
+        }
+    }
+
+    public function afterWriteSalesChannel(EntityWrittenEvent $event): void
+    {
+        foreach ($event->getWriteResults() as $writeResult) {
+            if ($writeResult->getOperation() === EntityWriteResult::OPERATION_DELETE
+                || $writeResult->getOperation() === EntityWriteResult::OPERATION_INSERT) {
+                continue;
+            }
+
+            $payload = $writeResult->getPayload();
+
+            if (!empty($payload['typeId']) && $payload['typeId'] !== SwagSocialShopping::SALES_CHANNEL_TYPE_SOCIAL_SHOPPING) {
+                continue;
+            }
+
+            if (empty($payload['id'])) {
+                continue;
+            }
+
+            if (empty($payload['typeId'])) {
+                /** @var SalesChannelEntity|null $salesChannel */
+                $salesChannel = $this->salesChannelRepository->search(new Criteria([$payload['id']]), $event->getContext())->first();
+
+                if ($salesChannel === null || $salesChannel->getTypeId() !== SwagSocialShopping::SALES_CHANNEL_TYPE_SOCIAL_SHOPPING) {
+                    continue;
+                }
+            }
+
+            $this->dataFeedHandler->updateActiveStatus($writeResult, $event->getContext());
         }
     }
 

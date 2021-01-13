@@ -1,3 +1,23 @@
+const ProductFixture = global.ProductFixtureService;
+
+/**
+ * Create custom product fixture using Shopware API at the given endpoint
+ * @memberOf Cypress.Chainable#
+ * @name createQuickviewProductFixture
+ * @function
+ * @param {Object} [userData={}] - Options concerning creation
+ * @param [String] [templateFixtureName = 'product'] - Specifies the base fixture name
+ */
+Cypress.Commands.add('createQuickviewProductFixture', (userData = {}, templateFixtureName = 'product') => {
+    const fixture = ProductFixture;
+
+    return cy.fixture(templateFixtureName).then((result) => {
+        return Cypress._.merge(result, userData);
+    }).then((data) => {
+        return fixture.setProductFixture(data, 'Home');
+    });
+});
+
 /**
  * Assertion, which checks if the given element is visible within the given viewport
  *
@@ -57,10 +77,10 @@ function elementIsAtLeastPartiallyWithinViewport(element, viewport = {}, boundTo
     boundTolerance *= -1;
 
     const inBounds = {
-        top: elementBounds.top >= boundTolerance && elementBounds.top < screenBounds.bottom,
-        left: elementBounds.left >= boundTolerance && elementBounds.left < screenBounds.right,
-        bottom: elementBounds.bottom >= boundTolerance && elementBounds.bottom < screenBounds.bottom,
-        right: elementBounds.right >= boundTolerance && elementBounds.right < screenBounds.right
+        top: (elementBounds.top >= boundTolerance) && (elementBounds.top < screenBounds.bottom),
+        left: (elementBounds.left >= boundTolerance) && (elementBounds.left < screenBounds.right),
+        bottom: (elementBounds.bottom >= boundTolerance) && (elementBounds.bottom < screenBounds.bottom),
+        right: (elementBounds.right >= boundTolerance) && (elementBounds.right < screenBounds.right)
     };
 
     return (inBounds.top || inBounds.bottom) && (inBounds.left || inBounds.right);

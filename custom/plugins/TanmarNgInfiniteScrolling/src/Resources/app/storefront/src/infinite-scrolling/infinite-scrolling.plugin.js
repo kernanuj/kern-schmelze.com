@@ -5,7 +5,7 @@ import LoadingIndicatorUtil from 'src/utility/loading-indicator/loading-indicato
 
 /**
  * @author Tanmar Webentwicklung <info@tanmar.de>
- * @version 1.0.9
+ * @version 1.0.10
  */
 export default class TanmarInfiniteScrolling extends ListingPlugin {
     
@@ -13,7 +13,7 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
         var me = this;
         
         //
-        me._tmisVersion = '1.0.9';
+        me._tmisVersion = '1.0.10';
         
         // debug for logs
         me._tmisDebug = false;
@@ -26,9 +26,6 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
 
         // loading indicator
         me._tmisIsLoading = false;
-
-        // page history
-        me._tmisVisitedPages = [];
 
         // get listing html, append prev/next box
         me._tmisListingElement = null;
@@ -57,78 +54,104 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
     _tmisInit(){
         var me = this;
         
-        if(document.querySelector('body.is-tanmar-infinite-scrolling')){
+        if(!document.querySelector('body.is-tanmar-infinite-scrolling')){
+            return; // inactive
+        }
 
-            // hello world
-            me._tmisLog('welcome to TanmarInfiniteScrolling v' + me._tmisVersion);
-            
-            // load snippets
-            if(window._tanmarInfiniteScrolling){
-                me._tmisLog('config ', window._tanmarInfiniteScrolling);
-                
-                me._tmisNewPageRequestMax = parseInt(window._tanmarInfiniteScrolling.pages, 10);
-                me._tmisSnippets = window._tanmarInfiniteScrolling.snippets;
-                me._tmisLog('snippets success ', me._tmisSnippets);
-                
+        if(!window._tanmarInfiniteScrolling){
+            me._tmisLog('  TanmarInfiniteScrolling data error');
+            return;
+        }
+        
+        // hello world
+        me._tmisLog('Welcome to TanmarInfiniteScrolling v' + me._tmisVersion);
+
+        // load snippets
+        me._tmisLog('  config ', window._tanmarInfiniteScrolling);
+
+        me._tmisNewPageRequestMax = parseInt(window._tanmarInfiniteScrolling.pages, 10);
+        me._tmisSnippets = window._tanmarInfiniteScrolling.snippets;
+        me._tmisLog('  snippets success ', me._tmisSnippets);
+
+
+        // page history
+        if(!window._tanmarInfiniteScrolling.visitedPages){
+            window._tanmarInfiniteScrolling.visitedPages = [];
+        }
+
+        me._tmisActive = true;
+
+        // hide navigation
+        var paginations = document.querySelectorAll('.pagination-nav');
+        if(paginations.length <= 0){
+            me._tmisLog('  error ".pagination-nav" not found');
+            return;
+        }
+        paginations.forEach(nav => {
+            nav.style.display = 'none';
+        });
+
+        // register intersection observer
+        me._tmisRegisterIntersectionObserver();
+
+        // 
+        me.currentPage = 1;
+        me.lastPage = 1;
+
+        if(paginations && paginations[0]){
+            const currentPageInput = paginations[0].querySelector('.page-item.active input');
+            if(currentPageInput){
+                me.currentPage = parseInt(currentPageInput.value, 10);
             }else{
-                me._tmisLog('TanmarInfiniteScrolling data error');
-                return;
-            }
-            
-            me._tmisActive = true;
-
-            // hide navigation
-            var paginations = document.querySelectorAll('.pagination-nav');
-            if(paginations.length <= 0){
-                me._tmisLog('error ".pagination-nav" not found');
-                return;
-            }
-            paginations.forEach(nav => {
-                nav.style.display = 'none';
-            });
-
-            // register intersection observer
-            me._tmisRegisterIntersectionObserver();
-            me._tmisObserveLastProductBox();
-
-            // 
-            me.currentPage = 1;
-            me.lastPage = 1;
-            
-            if(paginations && paginations[0]){
-                const currentPageInput = paginations[0].querySelector('.page-item.active input');
-                if(currentPageInput){
-                    me.currentPage = parseInt(currentPageInput.value, 10);
-                }else{
-                    me._tmisLog('can\'t find \'page-item.active input\'');
-                }
-                
-                const lastPageInput = paginations[0].querySelector('.page-item.page-last input');
-                if(lastPageInput){
-                    me.lastPage = parseInt(lastPageInput.value, 10);
-                }else{
-                    me._tmisLog('can\'t find \'page-item.page-last input\'');
-                }
+                me._tmisLog('  can\'t find \'page-item.active input\'');
             }
 
-            // add current page to history
-            me._tmisVisitedPages.push(me.currentPage);
-            
-            // get listing html
-            me._tmisListingElement = document.querySelector(this.options.cmsProductListingSelector);
-
-            me._tmisLog('  currentPage: ' + me.currentPage + ' - lastPage: ' + me.lastPage);
-
-            // check for button on top
-            if(me.currentPage > 1){
-                me._tmisBuildPrevInfoBox();
-            }
-
-            // immediately show info box on max 0
-            if(me._tmisNewPageRequestMax == 0){
-                me._tmisBuildNextInfoBox();
+            const lastPageInput = paginations[0].querySelector('.page-item.page-last input');
+            if(lastPageInput){
+                me.lastPage = parseInt(lastPageInput.value, 10);
+            }else{
+                me._tmisLog('  can\'t find \'page-item.page-last input\'');
             }
         }
+        
+        if(me.lastPage > me.currentPage){
+            me._tmisLog('  register oberver on init');
+            me._tmisObserveLastProductBox();
+        }
+
+        // add current page to history
+        me._visitedPagesAdd(me.currentPage);
+
+        // get listing html
+        me._tmisListingElement = document.querySelector(this.options.cmsProductListingSelector);
+
+        me._tmisLog('  currentPage = ' + me.currentPage + ' - lastPage = ' + me.lastPage + ' - visitedPages:');
+        me._tmisLog(window._tanmarInfiniteScrolling.visitedPages);
+        
+        // check for button on top
+        if(me.currentPage > 1){
+            me._tmisBuildPrevInfoBox();
+        }
+
+        // immediately show info box on max 0
+        if(me._tmisNewPageRequestMax == 0){
+            me._tmisBuildNextInfoBox();
+        }
+        
+    }
+    
+    _visitedPagesAdd(page){
+        if(this._visitedPagesIndexOf(page) < 0){
+            window._tanmarInfiniteScrolling.visitedPages.push(page);
+        }
+    }
+    
+    _visitedPagesIndexOf(page){
+        return window._tanmarInfiniteScrolling.visitedPages.indexOf(page);
+    }
+    
+    _visitedPagesClear(){
+        window._tanmarInfiniteScrolling.visitedPages = [];
     }
     
     /**
@@ -161,10 +184,10 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
         
         var all = document.querySelectorAll('.card.product-box');
         if(all.length <= 0){
-            me._tmisLog('error "last product" not found');
+            me._tmisLog('  error "last product" not found');
             return;
         }
-        me._tmisLog('observe element');
+        me._tmisLog('  observe element');
         me._tmisLog(all[all.length-1]);
         
         me.iObserver.observe(all[all.length-1]);
@@ -186,21 +209,21 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
                 const next = document.querySelector('.pagination .page-next');
                 if(next){
                     
-                    me._tmisLog('on intersection');
+                    me._tmisLog('  on intersection');
                     
                     if(!next.classList.contains('disabled')){
                         if(me._tmisNewPageRequestCounter < me._tmisNewPageRequestMax){
                             
                             me._tmisRequestNewPage(next, 'append');
                             
-                            me._tmisLog('request new page, unobserve element');
+                            me._tmisLog('  request new page, unobserve element');
                             me._tmisLog(entry.target);
                             
                             observer.unobserve(entry.target);
                         }
                         
                     }else{
-                        me._tmisLog('no new page, unobserve element');
+                        me._tmisLog('  no new page, unobserve element');
                         me._tmisLog(entry.target);
                         
                         // no next page, remove observer
@@ -221,6 +244,8 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
         var me = this;
         
         me._tmisIsLoading = true;
+        
+        me._tmisLog('  Request new page');
         
         // set option
         switch (listingOption) {
@@ -293,6 +318,10 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
     _tmisBuildPrevInfoBox(){
         var me = this;
 
+        if(document.querySelector('.infinite-scrolling-button-prev') !== null){
+            return;
+        }
+        
         const div = document.createElement('div');
         div.classList.add('text-center');
         div.classList.add('infinite-scrolling-button-prev');
@@ -340,13 +369,17 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
     _tmisBuildNextInfoBox(){
         var me = this;
 
+        if(document.querySelector('.infinite-scrolling-button-more') !== null){
+            return;
+        }
+        
         var nextPage = parseInt(me.currentPage,10) + 1;
         
-        me._tmisLog('nextPage = ' + nextPage + ' lastPage = ' + me.lastPage);
+        me._tmisLog('  nextPage = ' + nextPage + ' lastPage = ' + me.lastPage);
         
         
         // only build if next page wasnt loaded
-        if(me._tmisVisitedPages.indexOf(nextPage) < 0 && nextPage <= me.lastPage){
+        if(me._visitedPagesIndexOf(nextPage) < 0 && nextPage <= me.lastPage){
 
             const div = document.createElement('div');
             div.classList.add('text-center');
@@ -408,7 +441,7 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
             // get response html
             var content = responseHtml.querySelector(me._listingRowSelector);
             if(!content){
-                me._tmisLog('content is null, responseHtml:');
+                me._tmisLog('  content is null, responseHtml:');
                 me._tmisLog(responseHtml);
             }
 
@@ -419,25 +452,31 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
                 ElementReplaceHelper.replaceElement(pagination, document.querySelectorAll('.pagination-nav'));
             
                 // get the current page
-                me.currentPage = parseInt(pagination.querySelector('.page-item.active input').value,10);
+                me.currentPage = parseInt(pagination.querySelector('.page-item.active input').value, 10);
 
                 // get the last page, changed maybe by filter
-                me.lastPage = parseInt(pagination.querySelector('.page-item.page-last input').value,10);
+                me.lastPage = parseInt(pagination.querySelector('.page-item.page-last input').value, 10);
             }else{
+                // remove shopware navi
+                document.querySelectorAll('.pagination-nav').forEach(nav => {
+                    nav.innerHTML = '';
+                });
+                me._tmisLog('  remove pagination-nav');
+                
                 // no pagination found in ajax, means only on page
                 me.currentPage = 1;
                 me.lastPage = 1;
             }
             
             // check if page already loaded
-            if(me._tmisVisitedPages.indexOf(me.currentPage) < 0){
+            if(me._visitedPagesIndexOf(me.currentPage) < 0){
 
                 // add the current page to history
-                me._tmisVisitedPages.push(me.currentPage);
+                me._visitedPagesAdd(me.currentPage);
 
                 // 
-                me._tmisLog('currentPage = ' + me.currentPage + ' - lastPage = ' + me.lastPage + ' - _tmisVisitedPages:');
-                me._tmisLog(me._tmisVisitedPages);
+                me._tmisLog('  currentPage = ' + me.currentPage + ' - lastPage = ' + me.lastPage + ' - visitedPages:');
+                me._tmisLog(window._tanmarInfiniteScrolling.visitedPages);
 
                 var listing = document.querySelectorAll(me._listingRowSelector);
                 if(listing.length > 0){
@@ -446,7 +485,7 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
                     const listingLast = listing[listing.length - 1];
                     let div = null;
 
-                    me._tmisLog('renderResponse "' + me._tmisListingOption + '"');
+                    me._tmisLog('  renderResponse "' + me._tmisListingOption + '"');
 
                     // check direction
                     switch (me._tmisListingOption) {
@@ -514,7 +553,7 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
                     
                     // only register new oberver if we arent on the last page
                     if(me.lastPage > me.currentPage){
-                        me._tmisLog('register new oberver');
+                        me._tmisLog('  register new oberver');
                         me._tmisObserveLastProductBox();
                     }
                     
@@ -526,7 +565,7 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
 
                 // check here for display block
             }else{
-                me._tmisLog('page ' + me.currentPage + ' already loaded');
+                me._tmisLog('  page ' + me.currentPage + ' already loaded');
             }
         }else{
             super.renderResponse(response);
@@ -553,10 +592,10 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
         var me = this;
         if(me._tmisActive){
             me._tmisListingOption = 'override';
-            me._tmisVisitedPages = [];
+            me._visitedPagesClear();
             me._tmisNewPageRequestCounter = 0;
             me._tmisIsLoading = true;
-            me._tmisLog('reset resetAllFilter');
+            me._tmisLog('  reset resetAllFilter');
         }
         super.resetAllFilter();
     }
@@ -568,10 +607,10 @@ export default class TanmarInfiniteScrolling extends ListingPlugin {
         var me = this;
         if(me._tmisActive){
             me._tmisListingOption = 'override';
-            me._tmisVisitedPages = [];
+            me._visitedPagesClear();
             me._tmisNewPageRequestCounter = 0;
             me._tmisIsLoading = true;
-            me._tmisLog('reset resetFilter');
+            me._tmisLog('  reset resetFilter');
         }
         super.resetFilter(label);
     }

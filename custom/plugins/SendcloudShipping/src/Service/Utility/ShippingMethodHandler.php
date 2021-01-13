@@ -21,11 +21,6 @@ use Shopware\Core\System\SystemConfig\SystemConfigEntity;
  */
 class ShippingMethodHandler
 {
-    public const SERVICE_POINT_NAME_EN = 'Service Point Delivery';
-    public const SERVICE_POINT_NAME_DE = 'Service Point Zustellung';
-    public const SERVICE_POINT_DESCRIPTION_EN = 'Please select a service point.';
-    public const SERVICE_POINT_DESCRIPTION_DE = 'Bitte Service Point auswählen.';
-
     public const SERVICE_POINT_SYSTEM_CONFIG_KEY = 'SendcloudSendCloudShipping.servicePointId';
 
     /**
@@ -133,16 +128,7 @@ class ShippingMethodHandler
         $deliveryTimeEntityId = $deliveryTimeEntity->getId();
 
         return [
-            'translations' => [
-                'de-DE' => [
-                    'name' => self::SERVICE_POINT_NAME_DE,
-                    'description' => self::SERVICE_POINT_DESCRIPTION_DE,
-                ],
-                'en-GB' => [
-                    'name' => self::SERVICE_POINT_NAME_EN,
-                    'description' => self::SERVICE_POINT_DESCRIPTION_EN,
-                ],
-            ],
+            'translations' => $this->getServicePointTranslations(),
             'active' => false,
             'availabilityRuleId' => $ruleId,
             'deliveryTimeId' => $deliveryTimeEntityId,
@@ -179,6 +165,37 @@ class ShippingMethodHandler
         $id = reset($writtenIds);
         $this->saveServicePointToSystemConfig($id);
         $this->saveServicePointMethodId($id);
+    }
+
+    /**
+     * Returns service point translations.
+     *
+     * @return string[]
+     */
+    private function getServicePointTranslations(): array
+    {
+        return [
+            'en-GB' => [
+                'name' => 'Service Point Delivery',
+                'description' => 'Please select a service point.'
+            ],
+            'de-DE' => [
+                'name' => 'Service Point Zustellung',
+                'description' => 'Bitte Service Point auswählen.'
+            ],
+            'nl-NL' => [
+                'name' => 'Afhaalpuntlevering',
+                'description' => 'Kies een afhaalpunt.'
+            ],
+            'es-ES' => [
+                'name' => 'Punto de servicio de entrega',
+                'description' => 'Por favor, selecciona un punto de servicio.'
+            ],
+            'fr-FR' => [
+                'name' => 'Livraison en Point Relais',
+                'description' => 'Selectionnez un point relais.'
+            ]
+        ];
     }
 
     /**

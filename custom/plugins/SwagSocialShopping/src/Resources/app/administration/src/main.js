@@ -1,3 +1,5 @@
+import './acl';
+
 import './component/sw-social-shopping-channel-network-base';
 import './component/sw-social-shopping-channel-network-facebook';
 import './component/sw-social-shopping-channel-network-instagram';
@@ -17,12 +19,6 @@ import './extension/sw-sales-channel-modal-grid';
 import './app/init/swag-social-shopping-svg-icons.init';
 
 import SocialShoppingService from './service/social-shopping.api.service';
-
-import enGb from './snippet/en-GB.json';
-import deDe from './snippet/de-DE.json';
-
-Shopware.Locale.extend('en-GB', enGb);
-Shopware.Locale.extend('de-DE', deDe);
 
 Shopware.Module.register('swag-social-shopping', {
     routeMiddleware(next, currentRoute) {

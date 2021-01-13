@@ -7,6 +7,7 @@ export default class AdvancedScrollingHelper {
 
     /** @type {Object} easing */
     static easing = {
+        none: null,
         linear: AdvancedScrollingHelper.easeInPower,
         in: AdvancedScrollingHelper.easeInPower,
         out: AdvancedScrollingHelper.easeOutPower,
@@ -47,8 +48,8 @@ export default class AdvancedScrollingHelper {
      * @returns {Promise}
      */
     scrollIntoView(targetElement, duration) {
-        if (duration <= 0) {
-            return new Promise();
+        if (!duration || duration <= 0) {
+            return new Promise((resolve) => { resolve(); });
         }
 
         const self = document.documentElement;
@@ -81,7 +82,7 @@ export default class AdvancedScrollingHelper {
      * @param {Number} time
      * @param {Number} speed
      * @param {Number} step
-     * @param {Function} easingFunction
+     * @param {Function|null} easingFunction
      * @param {Number} degree
      * @returns {void}
      */
@@ -92,10 +93,16 @@ export default class AdvancedScrollingHelper {
             return;
         }
 
+        window.clearTimeout(AdvancedScrollingHelper.currentTimeout);
+
+        if (!easingFunction) {
+            element.scrollTop = to;
+
+            return;
+        }
         element.scrollTop = from - ((from - to) * easingFunction(time, degree));
         time += speed * step;
 
-        window.clearTimeout(AdvancedScrollingHelper.currentTimeout);
 
         AdvancedScrollingHelper.currentTimeout = window.setTimeout(() => {
             this.scrollTo(element, from, to, time, speed, step, easingFunction, degree);
@@ -103,8 +110,8 @@ export default class AdvancedScrollingHelper {
     }
 
     /*
-     * A bunch of easing functions, used for smooth scrolling calculation with the possiblities of in, out, inOut easing,
-     * bouncy and linear behavior
+     * Some easing functions, used for smooth scrolling calculation with the possiblities of in, out and inOut easing,
+     * as well as bouncy and linear functions
      */
 
     /**

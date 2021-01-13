@@ -41,7 +41,7 @@ class SalesChannelTypeRepositoryDecoratorTest extends TestCase
         static::assertCount(1, $salesChannelTypes);
 
         $salesChannelTypes = $salesChannelTypes->filter(function (SalesChannelTypeEntity $salesChannelType) use ($facebookNetwork) {
-            return $salesChannelType->getName() === ucfirst($facebookNetwork->getName());
+            return $salesChannelType->getName() === \ucfirst($facebookNetwork->getName());
         });
 
         $facebookSalesChannelType = $salesChannelTypes->first();

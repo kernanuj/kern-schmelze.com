@@ -70,7 +70,7 @@ class DefaultGoogleCategoryEventListener implements EventSubscriberInterface
                 continue;
             }
 
-            $configuration = json_decode($payload['configuration'], true);
+            $configuration = \json_decode($payload['configuration'], true);
             if (!isset($configuration['defaultGoogleProductCategory'])
                 || $configuration['defaultGoogleProductCategory'] <= 0
             ) {
@@ -89,7 +89,7 @@ class DefaultGoogleCategoryEventListener implements EventSubscriberInterface
         }
     }
 
-    private function getNetwork(array $payload, ?string $primaryKey, Context $context): string
+    private function getNetwork(array $payload, string $primaryKey, Context $context): string
     {
         if (isset($payload['network'])) {
             return $payload['network'];
@@ -113,7 +113,7 @@ class DefaultGoogleCategoryEventListener implements EventSubscriberInterface
         ?string $root = null
     ): ConstraintViolationInterface {
         return new ConstraintViolation(
-            str_replace(array_keys($parameters), array_values($parameters), $messageTemplate),
+            \str_replace(\array_keys($parameters), \array_values($parameters), $messageTemplate),
             $messageTemplate,
             $parameters,
             $root,

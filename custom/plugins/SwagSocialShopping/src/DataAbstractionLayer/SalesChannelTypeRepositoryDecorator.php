@@ -98,16 +98,16 @@ class SalesChannelTypeRepositoryDecorator implements EntityRepositoryInterface
             }
 
             $salesChannelType = new SalesChannelTypeEntity();
-            $salesChannelType->setName(ucfirst($network->getName()));
+            $salesChannelType->setName(\ucfirst($network->getName()));
             $salesChannelType->setIconName($network->getIconName());
             $salesChannelType->setUniqueIdentifier(
-                sprintf('%s-%s', SwagSocialShopping::SALES_CHANNEL_TYPE_SOCIAL_SHOPPING, $network->getName())
+                \sprintf('%s-%s', SwagSocialShopping::SALES_CHANNEL_TYPE_SOCIAL_SHOPPING, $network->getName())
             );
             $salesChannelType->setTranslated([
-                'name' => sprintf('%s.%s', $network->getTranslationKey(), 'name'),
-                'description' => sprintf('%s.%s', $network->getTranslationKey(), 'description'),
-                'manufacturer' => sprintf('%s.%s', $network->getTranslationKey(), 'manufacturer'),
-                'descriptionLong' => sprintf('%s.%s', $network->getTranslationKey(), 'descriptionLong'),
+                'name' => \sprintf('%s.%s', $network->getTranslationKey(), 'name'),
+                'description' => \sprintf('%s.%s', $network->getTranslationKey(), 'description'),
+                'manufacturer' => \sprintf('%s.%s', $network->getTranslationKey(), 'manufacturer'),
+                'descriptionLong' => \sprintf('%s.%s', $network->getTranslationKey(), 'descriptionLong'),
             ]);
             $salesChannelType->setCustomFields(['isSocialShoppingType' => true]);
 

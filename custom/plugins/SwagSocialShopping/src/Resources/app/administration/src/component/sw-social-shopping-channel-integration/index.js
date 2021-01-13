@@ -9,7 +9,8 @@ Component.register('sw-social-shopping-channel-integration', {
 
     inject: [
         'socialShoppingService',
-        'repositoryFactory'
+        'repositoryFactory',
+        'acl'
     ],
 
     props: {

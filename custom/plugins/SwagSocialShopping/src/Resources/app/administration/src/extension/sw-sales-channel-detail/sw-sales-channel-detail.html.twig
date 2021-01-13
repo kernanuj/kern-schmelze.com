@@ -25,18 +25,33 @@
 
 {% endblock %}
 
-{% block sw_sales_channel_detail_content_tab_theme %}
-    <template v-if="isSocialShopping && !isLoading">
-        <sw-tabs-item v-if="socialShoppingType !== 'sw-social-shopping-channel-network-pinterest'"
-                      :route="{ name: 'sw.sales.channel.detail.socialShoppingErrors', params: { id: $route.params.id } }"
-                      :title="$tc('swag-social-shopping.networks.base.tabErrors')">
-            {{ $tc('swag-social-shopping.networks.base.tabErrors') }}
-        </sw-tabs-item>
+{% block sw_sales_channel_detail_content_tabs %}
+    <template v-if="isSocialShopping && !isLoading && !isNewEntity">
+        <sw-tabs class="sw-sales-channel-detail-__tabs">
 
-        <sw-tabs-item :route="{ name: 'sw.sales.channel.detail.socialShoppingIntegration', params: { id: $route.params.id } }"
-                      :title="$tc('swag-social-shopping.networks.base.tabIntegration')">
-            {{ $tc('swag-social-shopping.networks.base.tabIntegration') }}
-        </sw-tabs-item>
+            {% block sw_sales_channel_detail_content_tab_general %}
+                <sw-tabs-item :route="{ name: 'sw.sales.channel.detail.base', params: { id: $route.params.id } }"
+                              :title="$tc('sw-sales-channel.detail.tabBase')">
+                    {{ $tc('sw-sales-channel.detail.tabBase') }}
+                </sw-tabs-item>
+            {% endblock %}
+
+            {% block sw_sales_channel_detail_content_tab_social_shopping_errors %}
+                <sw-tabs-item v-if="socialShoppingType !== 'sw-social-shopping-channel-network-pinterest'"
+                              :route="{ name: 'sw.sales.channel.detail.socialShoppingErrors', params: { id: $route.params.id } }"
+                              :title="$tc('swag-social-shopping.networks.base.tabErrors')">
+                    {{ $tc('swag-social-shopping.networks.base.tabErrors') }}
+                </sw-tabs-item>
+            {% endblock %}
+
+            {% block sw_sales_channel_detail_content_tab_social_shopping_integration %}
+                <sw-tabs-item :route="{ name: 'sw.sales.channel.detail.socialShoppingIntegration', params: { id: $route.params.id } }"
+                              :title="$tc('swag-social-shopping.networks.base.tabIntegration')">
+                    {{ $tc('swag-social-shopping.networks.base.tabIntegration') }}
+                </sw-tabs-item>
+            {% endblock %}
+
+        </sw-tabs>
     </template>
     <template v-else>
         {% parent %}

@@ -25,6 +25,7 @@
         </service>
         <service id="Sendcloud\Shipping\Entity\Order\OrderRepository">
             <argument type="service" id="order.repository"/>
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
         </service>
 
         <service id="Sendcloud\Shipping\Entity\Order\OrderDeliveryRepository">
@@ -153,6 +154,7 @@
         <service id="Sendcloud\Shipping\Service\Utility\DeliveryStateMapper"
                  public="true">
             <argument type="service" id="Sendcloud\Shipping\Entity\StateMachine\StateMachineRepository"/>
+            <argument type="service" id="Shopware\Core\System\StateMachine\StateMachineRegistry"/>
         </service>
 
         <service id="Sendcloud\Shipping\Core\BusinessLogic\Interfaces\ConnectService"
@@ -172,6 +174,7 @@
         </service>
 
         <service id="Sendcloud\Shipping\Core\BusinessLogic\Webhook\WebhookEventHandler"
+        	  class="Sendcloud\Shipping\Handlers\WebhookHandler"
                  public="true">
         </service>
 

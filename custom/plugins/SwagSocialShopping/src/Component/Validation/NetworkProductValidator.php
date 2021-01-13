@@ -92,7 +92,7 @@ class NetworkProductValidator
             return;
         }
 
-        $this->socialShoppingErrorRepository->delete(array_values($ids->getData()), $context);
+        $this->socialShoppingErrorRepository->delete(\array_values($ids->getData()), $context);
     }
 
     private function writeError(NetworkProductValidationResult $result, ProductEntity $productEntity, SocialShoppingSalesChannelEntity $socialShoppingSalesChannelEntity, Context $context): void

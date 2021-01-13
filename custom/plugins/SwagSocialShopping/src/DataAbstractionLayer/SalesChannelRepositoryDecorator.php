@@ -65,6 +65,10 @@ class SalesChannelRepositoryDecorator implements EntityRepositoryInterface
     public function upsert(array $data, Context $context): EntityWrittenContainerEvent
     {
         foreach ($data as &$item) {
+            if (!\array_key_exists('typeId', $item)) {
+                continue;
+            }
+
             $item['typeId'] = $this->cleanTypeId($item['typeId']);
         }
 
@@ -74,6 +78,10 @@ class SalesChannelRepositoryDecorator implements EntityRepositoryInterface
     public function create(array $data, Context $context): EntityWrittenContainerEvent
     {
         foreach ($data as &$item) {
+            if (!\array_key_exists('typeId', $item)) {
+                continue;
+            }
+
             $item['typeId'] = $this->cleanTypeId($item['typeId']);
         }
         unset($item);
@@ -98,12 +106,12 @@ class SalesChannelRepositoryDecorator implements EntityRepositoryInterface
 
     private function cleanTypeId(string $typeId): string
     {
-        $cleanedTypeId = preg_replace('/-\w+/', '', $typeId);
+        $cleanedTypeId = \preg_replace('/-\w+/', '', $typeId);
 
         if ($cleanedTypeId !== null) {
             return $cleanedTypeId;
         }
 
-        throw new UnexpectedSalesChannelTypeException($typeId, preg_last_error());
+        throw new UnexpectedSalesChannelTypeException($typeId, \preg_last_error());
     }
 }

@@ -23,10 +23,10 @@ class Migration1575555505EnableQuickviewForDefaultLayouts extends MigrationStep
     public function update(Connection $connection): void
     {
         $productBlocks = $connection->fetchAll("SELECT `id` FROM `cms_block` WHERE `type` IN ('product-listing', 'product-slider', 'product-three-column')");
-        $quickviewSettingPresent = $connection->fetchAll(sprintf('SELECT `cms_block_id` AS `id` FROM `%s`', QuickviewDefinition::ENTITY_NAME));
+        $quickviewSettingPresent = $connection->fetchAll(\sprintf('SELECT `cms_block_id` AS `id` FROM `%s`', QuickviewDefinition::ENTITY_NAME));
 
         foreach ($productBlocks as $block) {
-            if (in_array($block, $quickviewSettingPresent, true)) {
+            if (\in_array($block, $quickviewSettingPresent, true)) {
                 continue;
             }
 

@@ -113,7 +113,7 @@ $swag-scroll-navigation-menu-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
         height: 20px;
         padding: 22px 9px;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
 
         &-line {
             position: relative;
@@ -132,6 +132,7 @@ $swag-scroll-navigation-menu-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
             display: block;
             height: 8px;
             width: 8px;
+            margin-left: 1px;
             transform: scale(1);
             transition: all 0.2s ease-out;
             border-radius: 50%;
@@ -223,8 +224,8 @@ $swag-scroll-navigation-menu-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
         &-list {
             position: relative;
             display: flex;
-            width: 600px;
             height: auto;
+            width: 77px;
             padding: 12px;
             margin-left: -4px;
 
@@ -236,6 +237,10 @@ $swag-scroll-navigation-menu-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
             width: 64px;
             padding-top: 14px;
             padding-bottom: 14px;
+
+            &-bullet {
+                margin-left: 0;
+            }
 
             &-label {
                 opacity: 0;

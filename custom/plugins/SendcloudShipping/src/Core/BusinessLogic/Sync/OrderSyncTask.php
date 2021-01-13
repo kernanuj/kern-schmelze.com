@@ -73,7 +73,7 @@ class OrderSyncTask extends BaseSyncTask
             $batchIdCount = count($batchIds);
             $providedOrdersCount = count($ordersPerBatch);
             if ($batchIdCount > $providedOrdersCount) {
-                Logger::logWarning("Requested [$batchIds] orders from integration; retrieved [$providedOrdersCount].");
+                Logger::logWarning("Requested [$batchIdCount] orders from integration; retrieved [$providedOrdersCount].");
             }
 
             $this->reportAlive();
@@ -252,7 +252,13 @@ class OrderSyncTask extends BaseSyncTask
         foreach ($errors as $field => $messages) {
             $field = $prefix ? "$prefix -> $field" : $field;
             if (isset($messages[0])) {
-                $this->logMessages($messages, $orderId, $field);
+                if (is_array($messages[0])) {
+                    foreach ($messages as $message) {
+                        $this->logFieldMessages($message, $orderId, $field);
+                    }
+                } else {
+                    $this->logMessages($messages, $orderId, $field);
+                }
             } else {
                 $this->logFieldMessages($messages, $orderId, $field);
             }

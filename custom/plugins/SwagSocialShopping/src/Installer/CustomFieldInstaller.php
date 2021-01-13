@@ -85,7 +85,7 @@ class CustomFieldInstaller implements InstallerInterface
                 return;
             }
 
-            $customFieldSetIds = array_map(static function ($id) {
+            $customFieldSetIds = \array_map(static function ($id) {
                 return ['id' => $id];
             }, $customFieldSetIds->getIds());
             $this->customFieldSetRepository->delete($customFieldSetIds, $context->getContext());

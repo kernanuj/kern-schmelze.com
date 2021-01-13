@@ -2,16 +2,17 @@
 
 {% block page_product_detail_reviews %}
     {% if page.reviews|length > 0 and shopware.config.detail.showReviews %}
-        <p class="product-detail-reviews">
+
+        <div class="product-detail-reviews">
             {% sw_include '@Storefront/storefront/component/review/rating.html.twig' with {
-                points: page.product.ratingAverage,
-                style: 'text-primary'
+                points: page.product.ratingAverage
             } %}
             <span class="product-detail-reviews-link">
-                {{ page.totalReviews}}
+                {{ page.totalReviews }}
                 {{ "detail.reviewLinkText"|trans({'%count%': page.totalReviews}) }}
             </span>
-        </p>
+        </div>
+
     {% endif %}
 {% endblock %}
 
@@ -23,11 +24,13 @@
 
 {% block page_product_detail_configurator_include %}
     <div class="swag-cms-extensions-quickview-detail-configurator">
+
         {% if page.product.parentId and page.configuratorSettings|length > 0 %}
             <div class="product-detail-configurator-container">
                 {% sw_include '@SwagCmsExtensions/storefront/component/quickview/configurator.html.twig' %}
             </div>
         {% endif %}
+
     </div>
 {% endblock %}
 

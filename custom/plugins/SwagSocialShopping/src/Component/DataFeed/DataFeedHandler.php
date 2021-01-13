@@ -22,6 +22,7 @@ use SwagSocialShopping\Component\Network\Facebook;
 use SwagSocialShopping\Component\Network\GoogleShopping;
 use SwagSocialShopping\Component\Network\Instagram;
 use SwagSocialShopping\Component\Network\NetworkRegistryInterface;
+use SwagSocialShopping\Component\Network\Pinterest;
 use SwagSocialShopping\DataAbstractionLayer\Entity\SocialShoppingSalesChannelEntity;
 use SwagSocialShopping\Exception\SocialShoppingSalesChannelNotFoundException;
 
@@ -69,17 +70,15 @@ class DataFeedHandler
     {
         $payload = $writeResult->getPayload();
         $primaryKey = $writeResult->getPrimaryKey();
-        $primaryKey = \is_array($primaryKey)
-            ? $primaryKey['id']
-            : $primaryKey;
+        $id = \is_array($primaryKey) ? $primaryKey['id'] : $primaryKey;
 
-        $socialShoppingSalesChannel = $this->getSocialShoppingSalesChannel(
-            $primaryKey,
-            $event->getContext()
-        );
+        $criteria = new Criteria([$id]);
+        $criteria->addAssociation('salesChannel');
 
-        if (!($socialShoppingSalesChannel instanceof SocialShoppingSalesChannelEntity)) {
-            throw new SocialShoppingSalesChannelNotFoundException($primaryKey);
+        $socialShoppingSalesChannel = $this->socialShoppingSalesChannelRepository->search($criteria, $event->getContext())->first();
+
+        if ($socialShoppingSalesChannel === null) {
+            throw new SocialShoppingSalesChannelNotFoundException($id);
         }
 
         $network = $payload['network'] ?? $socialShoppingSalesChannel->getNetwork();
@@ -96,6 +95,43 @@ class DataFeedHandler
         }
     }
 
+    public function updateActiveStatus(EntityWriteResult $writeResult, Context $context): void
+    {
+        $payload = $writeResult->getPayload();
+        $primaryKey = $writeResult->getPrimaryKey();
+        $id = \is_array($primaryKey) ? $primaryKey['id'] : $primaryKey;
+
+        if (!isset($payload['active'])) {
+            return;
+        }
+
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('salesChannelId', $id));
+
+        $socialShoppingSalesChannel = $this->socialShoppingSalesChannelRepository->search($criteria, $context)->first();
+
+        if ($socialShoppingSalesChannel === null) {
+            throw new SocialShoppingSalesChannelNotFoundException($id);
+        }
+
+        $network = $payload['network'] ?? $socialShoppingSalesChannel->getNetwork();
+
+        if ($network === Pinterest::class) {
+            return;
+        }
+
+        $dataFeedPayload = $this->mapPayloadToProductExport(
+            [
+                'active' => $payload['active'],
+                'salesChannelId' => $id,
+            ],
+            $context,
+            $socialShoppingSalesChannel
+        );
+
+        $this->upsertDataFeed($dataFeedPayload, $context);
+    }
+
     private function upsertGoogleShoppingDataFeed(
         array $socialShoppingPayload,
         Context $context,
@@ -104,12 +140,12 @@ class DataFeedHandler
         $dataFeedPayload = [
             'encoding' => ProductExportEntity::ENCODING_UTF8,
             'fileFormat' => ProductExportEntity::FILE_FORMAT_XML,
-            'headerTemplate' => file_get_contents(__DIR__ . '/../../Resources/templates/google-shopping/header.xml'),
-            'bodyTemplate' => file_get_contents(__DIR__ . '/../../Resources/templates/google-shopping/body.xml'),
-            'footerTemplate' => file_get_contents(__DIR__ . '/../../Resources/templates/google-shopping/footer.xml'),
+            'headerTemplate' => \file_get_contents(__DIR__ . '/../../Resources/templates/google-shopping/header.xml'),
+            'bodyTemplate' => \file_get_contents(__DIR__ . '/../../Resources/templates/google-shopping/body.xml'),
+            'footerTemplate' => \file_get_contents(__DIR__ . '/../../Resources/templates/google-shopping/footer.xml'),
         ];
 
-        $dataFeedPayload = array_merge(
+        $dataFeedPayload = \array_merge(
             $dataFeedPayload,
             $this->mapPayloadToProductExport($socialShoppingPayload, $context, $socialShoppingSalesChannelEntity)
         );
@@ -125,12 +161,12 @@ class DataFeedHandler
         $dataFeedPayload = [
             'encoding' => ProductExportEntity::ENCODING_UTF8,
             'fileFormat' => ProductExportEntity::FILE_FORMAT_XML,
-            'headerTemplate' => file_get_contents(__DIR__ . '/../../Resources/templates/facebook/header.xml'),
-            'bodyTemplate' => file_get_contents(__DIR__ . '/../../Resources/templates/facebook/body.xml'),
-            'footerTemplate' => file_get_contents(__DIR__ . '/../../Resources/templates/facebook/footer.xml'),
+            'headerTemplate' => \file_get_contents(__DIR__ . '/../../Resources/templates/facebook/header.xml'),
+            'bodyTemplate' => \file_get_contents(__DIR__ . '/../../Resources/templates/facebook/body.xml'),
+            'footerTemplate' => \file_get_contents(__DIR__ . '/../../Resources/templates/facebook/footer.xml'),
         ];
 
-        $dataFeedPayload = array_merge(
+        $dataFeedPayload = \array_merge(
             $dataFeedPayload,
             $this->mapPayloadToProductExport($socialShoppingPayload, $context, $socialShoppingSalesChannelEntity)
         );
@@ -142,7 +178,7 @@ class DataFeedHandler
     {
         $this->productExportRepository->upsert(
             [
-                array_filter(
+                \array_filter(
                     $payload,
                     static function ($item) {
                         return $item !== null;
@@ -160,10 +196,21 @@ class DataFeedHandler
     ): array {
         $dataFeedPayload = [];
 
+        $salesChannelEntity = $socialShoppingSalesChannelEntity->getSalesChannel();
+        $active = $salesChannelEntity !== null && $salesChannelEntity->getActive();
+
         if (isset($socialShoppingPayload['configuration'])) {
             $dataFeedPayload['includeVariants'] = $socialShoppingPayload['configuration']['includeVariants'];
-            $dataFeedPayload['generateByCronjob'] = $socialShoppingPayload['configuration']['generateByCronjob'];
+            $dataFeedPayload['generateByCronjob'] = $socialShoppingPayload['configuration']['generateByCronjob'] && $active;
             $dataFeedPayload['interval'] = $socialShoppingPayload['configuration']['interval'];
+        }
+
+        if (isset($socialShoppingPayload['active'])) {
+            $configuration = $socialShoppingSalesChannelEntity->getConfiguration();
+            if (\is_array($configuration)) {
+                $dataFeedPayload['generateByCronjob']
+                    = $socialShoppingPayload['active'] && $configuration['generateByCronjob'];
+            }
         }
 
         if (!isset($socialShoppingPayload['salesChannelId'])) {
@@ -179,7 +226,7 @@ class DataFeedHandler
                 $context
             );
             $dataFeedPayload['salesChannelId'] = $socialShoppingPayload['salesChannelId'];
-            $dataFeedPayload['fileName'] = sprintf(
+            $dataFeedPayload['fileName'] = \sprintf(
                 '%s_%s.xml',
                 $this->networkRegistry->getNetworkByName($socialShoppingSalesChannelEntity->getNetwork())->getName(),
                 $socialShoppingPayload['salesChannelId']
@@ -233,15 +280,5 @@ class DataFeedHandler
         }
 
         return $salesChannelDomain->getSalesChannelId();
-    }
-
-    private function getSocialShoppingSalesChannel(
-        string $socialShoppingSalesChannelId,
-        Context $context
-    ): ?SocialShoppingSalesChannelEntity {
-        return $this->socialShoppingSalesChannelRepository->search(
-            new Criteria([$socialShoppingSalesChannelId]),
-            $context
-        )->get($socialShoppingSalesChannelId);
     }
 }

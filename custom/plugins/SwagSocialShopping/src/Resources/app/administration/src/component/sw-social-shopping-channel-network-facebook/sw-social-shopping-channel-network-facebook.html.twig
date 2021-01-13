@@ -5,6 +5,7 @@
             {% block swag_social_shopping_channel_network_facebook_include_variants %}
                 <sw-switch-field
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.configuration.includeVariants"
+                    :disabled="!acl.can('sales_channel.editor')"
                     bordered
                     :label="$tc('swag-social-shopping.networks.facebook.includeVariants')">
                 </sw-switch-field>
@@ -13,6 +14,7 @@
             {% block swag_social_shopping_channel_network_facebook_interval %}
                 <sw-select-number-field
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.configuration.interval"
+                    :disabled="!acl.can('sales_channel.editor')"
                     :label="$tc('swag-social-shopping.networks.facebook.interval')"
                     :options="intervalOptions"
                     @change="changeInterval">
@@ -23,7 +25,7 @@
                  <sw-switch-field
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.configuration.generateByCronjob"
                     bordered
-                    :disabled="disableGenerateByCronjob"
+                    :disabled="disableGenerateByCronjob || !acl.can('sales_channel.editor')"
                     :label="$tc('swag-social-shopping.networks.facebook.generateByCronjob')">
                  </sw-switch-field>
             {% endblock %}
@@ -32,6 +34,7 @@
                 <sw-text-field
                     v-model="salesChannel.extensions.socialShoppingSalesChannel.configuration.defaultGoogleProductCategory"
                     required
+                    :disabled="!acl.can('sales_channel.editor')"
                     :label="$tc('swag-social-shopping.networks.facebook.googleProductDefaultCategory')"
                     :helpText="$tc('swag-social-shopping.networks.facebook.helpTextGoogleProductDefaultCategory')"
                     @change="onGoogleProductCategoryChanged">
