@@ -21,3 +21,12 @@ For an order to be considered in the export, the following must match
     - transaction state (payment)
     - delivery state
     - example : `order:open, transaction:paid, delivery:open`
+
+
+#Plugins 
+## InvReportsPro
+Die Version ist nur für den Gebrauch mit diesem Shop nutzbar; für eine Verbreitung per Plugin ist ein weitaus umfassenderer Ansatz notwendig
+Einige Produkte haben in der Datenbank keine Translation mehr verknüpft; daher wird das Label aus dem order_line_items verwendet; da nach diesem auch in der query gruppiert wird, ist es möglich dass eine Produktnummer 2 x aufgeführt wird
+Die meisten Produkte haben kein Gewicht definiert; daher wird genrell die purchase_unit verwendet und es wird davon ausgegangen, dass diese immer in g angegeben ist
+
+bin/console inv:reports-pro:product-sales-on-timeframe --dateFrom=2020-09-01 --dateTo=2020-12-31
